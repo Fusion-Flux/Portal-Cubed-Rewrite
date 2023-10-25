@@ -1,4 +1,4 @@
-package io.github.tropheusj.modid;
+package io.github.fusionflux.portalcubed;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -7,8 +7,8 @@ import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExampleMod implements ModInitializer {
-	public static final String ID = "modid";
+public class PortalCubed implements ModInitializer {
+	public static final String ID = "portalcubed";
 	public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
 	@Override

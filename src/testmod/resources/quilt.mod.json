@@ -1,26 +1,25 @@
 {
 	"schema_version": 1,
 	"quilt_loader": {
-		"group": "io.github.tropheusj",
-		"id": "modid_test",
+		"group": "io.github.fusionflux",
+		"id": "portalcubed_test",
 		"version": "1.0.0",
 		"metadata": {
-			"name": "Modid Test",
+			"name": "Portal Cubed Test",
 			"description": "A short description of your mod.",
 			"contributors": {
-				"Tropheus Jay": "Owner"
 			},
 			"contact": {
-				"issues": "https://github.com/TropheusJ/quilt-template-mod/issues",
-				"sources": "https://github.com/TropheusJ/quilt-template-mod"
+				"issues": "https://github.com/Fusion-Flux/Portal-Cubed-Rewrite/issues",
+				"sources": "https://github.com/Fusion-Flux/Portal-Cubed-Rewrite"
 			},
-			"icon": "assets/modid_test/icon.png"
+			"icon": "assets/portalcubed_test/icon.png"
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "io.github.tropheusj.modid_test.ExampleModTest",
-      "fabric-gametest": [
-        "io.github.tropheusj.modid_test.gametest.ExampleModGameTest"
+			"init": "io.github.fusionflux.portalcubed_test.PortalCubedTestmod",
+      "quilt:game_test": [
+        "io.github.fusionflux.portalcubed_test.gametest.ExampleModGameTest"
       ]
 		}
 	}
