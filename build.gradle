@@ -1,0 +1,137 @@
+plugins {
+	id "org.quiltmc.loom" version "1.1.+"
+	id "maven-publish"
+}
+
+archivesBaseName = archives_base_name
+group = maven_group
+
+String runNumber = System.getenv("GITHUB_RUN_NUMBER")
+String build = runNumber != null ? "build.$runNumber" : "local"
+version = "$mod_version-$build+mc$minecraft_version"
+
+repositories {
+	maven { url = "https://api.modrinth.com/maven" }
+	maven { url = "https://cursemaven.com" }
+	maven { url = "https://maven.terraformersmc.com/releases/" }
+	maven { url = "https://maven.shedaniel.me/" }
+}
+
+dependencies {
+	// setup
+	minecraft("com.mojang:minecraft:$minecraft_version")
+	mappings loom.layered {
+		it.mappings("org.quiltmc:quilt-mappings:$minecraft_version+build.$qm_build:intermediary-v2")
+		it.officialMojangMappings { nameSyntheticMembers = false }
+	}
+	modImplementation("org.quiltmc:quilt-loader:$loader_version")
+
+	// dependencies
+	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:$qfapi_version")
+
+	// dev env
+	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version")
+}
+
+tasks.register("buildOrPublish") {
+	group = "build"
+	String mavenUser = System.getenv("MAVEN_USER")
+	if (mavenUser != null && !mavenUser.isEmpty()) {
+		dependsOn(tasks.named("publish"))
+		println("prepared for publish")
+	} else {
+		dependsOn(tasks.named("build"))
+		println("prepared for build")
+	}
+}
+
+processResources {
+	Map<String, Object> properties = [
+		"version": version,
+		"minecraft_version": minecraft_version,
+		"loader_version": loader_version,
+		"qfapi_version": qfapi_version
+	]
+
+	properties.forEach(inputs::property)
+
+	filesMatching("quilt.mod.json") {
+		expand properties
+	}
+}
+
+sourceSets {
+	testmod {
+		compileClasspath += main.compileClasspath
+		compileClasspath += main.output
+		runtimeClasspath += main.runtimeClasspath
+		runtimeClasspath += main.output
+	}
+}
+
+loom {
+	runs {
+		testmodClient {
+			client()
+			name "Testmod Client"
+			source sourceSets.testmod
+			runDir "run/test"
+		}
+		testmodServer {
+			server()
+			name "Testmod Server"
+			source sourceSets.testmod
+			runDir "run/test_server"
+		}
+		gametest {
+			server()
+			name "Test"
+			source sourceSets.testmod
+			vmArg "-Dfabric-api.gametest"
+			vmArg "-Dfabric-api.gametest.report-file=${project.buildDir}/junit.xml"
+			runDir "run/gametest_server"
+		}
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = "UTF-8"
+	it.options.release.set(17)
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+
+	withSourcesJar()
+	withJavadocJar()
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${archivesBaseName}" }
+	}
+}
+
+publishing {
+	publications {
+		register("mavenJava", MavenPublication) {
+			artifactId = archivesBaseName + "_${project.name}"
+			//noinspection GroovyAssignabilityCheck
+			from(components.java)
+		}
+	}
+
+	repositories {
+		maven {
+			url = "https://mvn.devos.one/${System.getenv("PUBLISH_SUFFIX")}/"
+			credentials {
+				username = System.getenv("MAVEN_USER")
+				password = System.getenv("MAVEN_PASS")
+			}
+			authentication {
+				create("basic", BasicAuthentication)
+			}
+		}
+	}
+}
