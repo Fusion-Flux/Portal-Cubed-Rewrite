@@ -1,11 +1,8 @@
-package io.github.fusionflux.portalcubed.registration.block;
+package io.github.fusionflux.portalcubed.framework.registration.block;
 
-import io.github.fusionflux.portalcubed.registration.item.ItemBuilder;
-import net.minecraft.world.item.BlockItem;
+import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public interface BlockItemProvider<B extends Block> {
 	ItemBuilder<Item> create(B block, ItemBuilder<Item> builder);

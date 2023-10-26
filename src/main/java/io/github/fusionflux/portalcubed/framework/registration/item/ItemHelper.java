@@ -1,6 +1,6 @@
-package io.github.fusionflux.portalcubed.registration.item;
+package io.github.fusionflux.portalcubed.framework.registration.item;
 
-import io.github.fusionflux.portalcubed.registration.Registrar;
+import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.world.item.Item;
 
 public class ItemHelper {

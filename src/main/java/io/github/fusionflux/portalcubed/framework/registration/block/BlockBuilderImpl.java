@@ -1,8 +1,8 @@
-package io.github.fusionflux.portalcubed.registration.block;
+package io.github.fusionflux.portalcubed.framework.registration.block;
 
-import io.github.fusionflux.portalcubed.registration.Registrar;
-import io.github.fusionflux.portalcubed.registration.RenderTypes;
-import io.github.fusionflux.portalcubed.registration.item.ItemBuilder;
+import io.github.fusionflux.portalcubed.framework.registration.Registrar;
+import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
+import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.fabricmc.api.EnvType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

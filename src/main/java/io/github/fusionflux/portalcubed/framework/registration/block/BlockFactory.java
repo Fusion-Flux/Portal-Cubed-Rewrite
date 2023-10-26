@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.registration.block;
+package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import net.minecraft.world.level.block.Block;
 

@@ -1,7 +1,6 @@
-package io.github.fusionflux.portalcubed.registration.block;
+package io.github.fusionflux.portalcubed.framework.registration.block;
 
-import io.github.fusionflux.portalcubed.registration.RenderTypes;
-import net.minecraft.world.item.Item;
+import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import net.minecraft.world.level.block.Block;
 
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;

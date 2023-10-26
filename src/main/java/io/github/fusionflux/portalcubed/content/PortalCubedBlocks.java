@@ -7,7 +7,7 @@ import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
-import io.github.fusionflux.portalcubed.registration.block.BlockItemProvider;
+import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 
 public class PortalCubedBlocks {
 	public static final RotatedPillarBlock TEST_BLOCK = REGISTRAR.blocks.create("test_block", RotatedPillarBlock::new)

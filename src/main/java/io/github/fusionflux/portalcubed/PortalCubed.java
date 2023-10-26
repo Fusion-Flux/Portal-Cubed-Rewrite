@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
-import io.github.fusionflux.portalcubed.registration.Registrar;
+import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.resources.ResourceLocation;
 
 import org.quiltmc.loader.api.ModContainer;

@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.registration.item;
+package io.github.fusionflux.portalcubed.framework.registration.item;
 
 import java.util.function.Consumer;
 

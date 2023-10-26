@@ -1,7 +1,7 @@
-package io.github.fusionflux.portalcubed.registration.block;
+package io.github.fusionflux.portalcubed.framework.registration.block;
 
-import io.github.fusionflux.portalcubed.registration.Registrar;
-import io.github.fusionflux.portalcubed.registration.RenderTypes;
+import io.github.fusionflux.portalcubed.framework.registration.Registrar;
+import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;

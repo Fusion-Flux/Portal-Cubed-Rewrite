@@ -1,7 +1,7 @@
-package io.github.fusionflux.portalcubed.registration;
+package io.github.fusionflux.portalcubed.framework.registration;
 
-import io.github.fusionflux.portalcubed.registration.block.BlockHelper;
-import io.github.fusionflux.portalcubed.registration.item.ItemHelper;
+import io.github.fusionflux.portalcubed.framework.registration.block.BlockHelper;
+import io.github.fusionflux.portalcubed.framework.registration.item.ItemHelper;
 
 public class Registrar {
 	public final String modId;

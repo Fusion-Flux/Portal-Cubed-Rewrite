@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.registration;
+package io.github.fusionflux.portalcubed.framework.registration;
 
 import net.minecraft.client.renderer.RenderType;
 

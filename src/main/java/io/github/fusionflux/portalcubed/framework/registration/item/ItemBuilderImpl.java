@@ -1,9 +1,9 @@
-package io.github.fusionflux.portalcubed.registration.item;
+package io.github.fusionflux.portalcubed.framework.registration.item;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import io.github.fusionflux.portalcubed.registration.Registrar;
+import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
