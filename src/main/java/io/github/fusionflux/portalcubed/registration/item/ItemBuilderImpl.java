@@ -4,10 +4,14 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import io.github.fusionflux.portalcubed.registration.Registrar;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
@@ -20,6 +24,8 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	private QuiltItemSettings settings = new QuiltItemSettings();
 	// track the original settings for safety checking
 	private final QuiltItemSettings originalSettings = settings;
+
+	private ResourceKey<CreativeModeTab> itemGroup;
 
 	public ItemBuilderImpl(Registrar registrar, String name, ItemFactory<T> factory) {
 		this.registrar = registrar;
@@ -42,9 +48,22 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	}
 
 	@Override
+	public ItemBuilder<T> group(ResourceKey<CreativeModeTab> key) {
+		this.itemGroup = key;
+		return this;
+	}
+
+	@Override
 	public T build() {
 		T item = this.factory.create(this.settings);
 		ResourceLocation id = new ResourceLocation(registrar.modId, this.name);
-		return Registry.register(BuiltInRegistries.ITEM, id, item);
+		Registry.register(BuiltInRegistries.ITEM, id, item);
+
+		if (this.itemGroup != null) {
+			ItemStack stack = new ItemStack(item);
+			ItemGroupEvents.modifyEntriesEvent(this.itemGroup).register(entries -> entries.accept(stack));
+		}
+
+		return item;
 	}
 }

@@ -2,13 +2,13 @@ package io.github.fusionflux.portalcubed.registration.block;
 
 import io.github.fusionflux.portalcubed.registration.Registrar;
 import io.github.fusionflux.portalcubed.registration.RenderTypes;
+import io.github.fusionflux.portalcubed.registration.item.ItemBuilder;
 import net.fabricmc.api.EnvType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.block.Block;
 
 import org.jetbrains.annotations.Nullable;
@@ -16,11 +16,8 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
-import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private final Registrar registrar;
@@ -31,13 +28,8 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private QuiltBlockSettings settings;
 	@Nullable
 	private RenderTypes renderType;
-
-	// item stuff
-	private QuiltItemSettings itemSettings = new QuiltItemSettings();
-	// track the original settings instance for safety checking
-	private final QuiltItemSettings originalSettings = itemSettings;
 	@Nullable
-	private BlockItemFactory<T> itemFactory = BlockItem::new;
+	private BlockItemProvider<T> itemProvider = BlockBuilderImpl::defaultBlock;
 
 	public BlockBuilderImpl(Registrar registrar, String name, BlockFactory<T> factory) {
 		this.registrar = registrar;
@@ -72,29 +64,8 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	}
 
 	@Override
-	public BlockBuilder<T> item(BlockItemFactory<T> factory) {
-		this.itemFactory = factory;
-		return this;
-	}
-
-	@Override
-	public BlockBuilder<T> noItem() {
-		this.itemFactory = null;
-		return this;
-	}
-
-	@Override
-	public BlockBuilder<T> itemSettings(QuiltItemSettings settings) {
-		this.itemSettings = Objects.requireNonNull(settings);
-		return this;
-	}
-
-	@Override
-	public BlockBuilder<T> itemSettings(Consumer<QuiltItemSettings> consumer) {
-		if (this.originalSettings != this.itemSettings) {
-			throw new IllegalArgumentException("Cannot modify replaced item settings.");
-		}
-		consumer.accept(this.itemSettings);
+	public BlockBuilder<T> item(BlockItemProvider<T> provider) {
+		this.itemProvider = provider;
 		return this;
 	}
 
@@ -106,9 +77,13 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 		Registry.register(BuiltInRegistries.BLOCK, id, block);
 
 		Item item = null;
-		if (this.itemFactory != null) {
-			item = this.itemFactory.create(block, this.itemSettings);
-			Registry.register(BuiltInRegistries.ITEM, id, item);
+		if (this.itemProvider != null) {
+			ItemBuilder<Item> itemBuilder = registrar.items.create(this.name, settings -> new BlockItem(block, settings));
+			ItemBuilder<Item> modifiedBuilder = this.itemProvider.create(block, itemBuilder);
+			if (modifiedBuilder != null) {
+				item = modifiedBuilder.build();
+				Registry.register(BuiltInRegistries.ITEM, id, item);
+			}
 		}
 
 		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
@@ -135,5 +110,9 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 		if (this.settings == null) {
 			this.settings = QuiltBlockSettings.create();
 		}
+	}
+
+	private static ItemBuilder<Item> defaultBlock(Block block, ItemBuilder<Item> builder) {
+		return builder;
 	}
 }
