@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.registration.Registrar;
 import net.minecraft.resources.ResourceLocation;
 
@@ -16,7 +17,8 @@ public class PortalCubed implements ModInitializer {
 
 	@Override
 	public void onInitialize(ModContainer mod) {
-		LOGGER.info("hello from " + this.getClass().getName());
+		LOGGER.info("Portal Cubed (" + mod.metadata().version() + ") initializing...");
+		PortalCubedBlocks.init();
 	}
 
 	public static ResourceLocation id(String path) {
