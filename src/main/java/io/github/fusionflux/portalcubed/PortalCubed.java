@@ -1,7 +1,9 @@
 package io.github.fusionflux.portalcubed;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
+import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +25,8 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedBlocks.init();
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
+		PortalCubedEntities.init();
+		PortalCubedSerializers.init();
 	}
 
 	public static ResourceLocation id(String path) {

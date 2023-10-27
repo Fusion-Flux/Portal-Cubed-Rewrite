@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.content.portal.entity;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
+import io.github.fusionflux.portalcubed.content.portal.PortalShape;
+import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -10,7 +13,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -18,9 +23,13 @@ import java.util.UUID;
 public class Portal extends Entity {
 	public static final EntityDataAccessor<Optional<UUID>> LINKED = SynchedEntityData.defineId(Portal.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Quaternionf> ROTATION = SynchedEntityData.defineId(Portal.class, EntityDataSerializers.QUATERNION);
+	public static final EntityDataAccessor<PortalType> TYPE = SynchedEntityData.defineId(Portal.class, PortalCubedSerializers.PORTAL_TYPE);
+	public static final EntityDataAccessor<PortalShape> SHAPE = SynchedEntityData.defineId(Portal.class, PortalCubedSerializers.PORTAL_SHAPE);
 
 	private Portal linkedPortal;
 	private Quaternionf rotation;
+	private PortalType type;
+	private PortalShape shape;
 
 	public Portal(EntityType<?> variant, Level world) {
 		super(variant, world);
@@ -30,6 +39,8 @@ public class Portal extends Entity {
 	protected void defineSynchedData() {
 		entityData.define(LINKED, Optional.empty());
 		entityData.define(ROTATION, this.rotation = new Quaternionf());
+		entityData.define(TYPE, this.type = PortalType.PRIMARY);
+		entityData.define(SHAPE, this.shape = PortalShape.SQUARE);
 	}
 
 	@Override
@@ -49,5 +60,22 @@ public class Portal extends Entity {
 			UUID uuid = nbt.getUUID("linked_portal");
 			entityData.define(LINKED, Optional.of(uuid));
 		}
+	}
+
+	@Nullable
+	public Portal getLinkedPortal() {
+		return linkedPortal;
+	}
+
+	public Quaternionfc getRotation() {
+		return rotation;
+	}
+
+	public PortalType getPortalType() {
+		return type;
+	}
+
+	public PortalShape getPortalShape() {
+		return shape;
 	}
 }

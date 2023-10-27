@@ -1,5 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-public enum PortalType {
-	PRIMARY, SECONDARY
+public enum PortalShape {
+	SQUARE, ROUND
 }

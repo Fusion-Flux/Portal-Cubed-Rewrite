@@ -73,7 +73,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	public T build() {
 		checkSettings();
 		T block = this.factory.create(this.settings);
-		ResourceLocation id = new ResourceLocation(registrar.modId, this.name);
+		ResourceLocation id = registrar.id(this.name);
 		Registry.register(BuiltInRegistries.BLOCK, id, block);
 
 		Item item = null;

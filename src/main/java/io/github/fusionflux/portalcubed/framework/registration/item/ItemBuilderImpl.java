@@ -56,7 +56,7 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	@Override
 	public T build() {
 		T item = this.factory.create(this.settings);
-		ResourceLocation id = new ResourceLocation(registrar.modId, this.name);
+		ResourceLocation id = registrar.id(this.name);
 		Registry.register(BuiltInRegistries.ITEM, id, item);
 
 		if (this.itemGroup != null) {
