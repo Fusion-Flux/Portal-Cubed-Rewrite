@@ -32,7 +32,7 @@ public class PortalRenderer extends EntityRenderer<Portal> {
 		super.render(portal, yaw, tickDelta, matrices, vertexConsumers, light);
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.beaconBeam(getTextureLocation(portal), true));
 		matrices.pushPose();
-		matrices.mulPose(Axis.YP.rotationDegrees(portal.getYRot()));
+		matrices.mulPose(Axis.YP.rotationDegrees(-portal.getYRot()));
 		matrices.mulPose(Axis.XP.rotationDegrees(portal.getXRot()));
 		matrices.translate(-0.5f, -1, 0);
 		matrices.scale(2, 2, 2);
