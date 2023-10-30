@@ -40,10 +40,6 @@ public class PortalRenderer extends EntityRenderer<Portal> {
 		matrices.popPose();
 	}
 
-	private static float unwrapDegrees(float degrees) {
-		return degrees < 0 ? degrees + 360 : degrees;
-	}
-
 	@Override
 	public ResourceLocation getTextureLocation(Portal entity) {
 		return switch (entity.getPortalShape()) {

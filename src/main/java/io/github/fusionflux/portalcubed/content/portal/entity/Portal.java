@@ -38,10 +38,9 @@ public class Portal extends UnsavedEntity {
 		portal.setPos(pos);
 		if (verticalFacing != null) {
 			portal.setXRot(verticalFacing == Direction.UP ? -90 : 90);
-			portal.setYRot(verticalFacing == Direction.UP ? horizontalFacing.toYRot() : -horizontalFacing.toYRot());
-		} else {
-			portal.setYRot(horizontalFacing.toYRot());
 		}
+		int offset = verticalFacing == Direction.UP ? 180 : 0;
+		portal.setYRot(-horizontalFacing.toYRot() + offset);
 		portal.entityData.set(COLOR, color);
 		return portal;
 	}

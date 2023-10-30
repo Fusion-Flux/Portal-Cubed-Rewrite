@@ -39,9 +39,6 @@ public class PortalGunItem extends Item implements DirectClickItem {
 			Vec3 lookAngle = player.getLookAngle().normalize();
 			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
 			Direction horizontalFacing = Direction.getNearest(lookAngle.x, 0, lookAngle.z);
-			if (horizontalFacing == null) {
-				System.out.println("AAAAAAA!!!!!!!!!!");
-			}
 			PortalProjectile projectile = PortalProjectile.create(serverLevel, type.defaultColor, horizontalFacing);
 			projectile.setDeltaMovement(velocity);
 			projectile.moveTo(player.getEyePosition());
