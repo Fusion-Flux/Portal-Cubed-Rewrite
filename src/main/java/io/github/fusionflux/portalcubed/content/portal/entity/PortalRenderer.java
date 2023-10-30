@@ -4,13 +4,18 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import com.mojang.math.Axis;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 
 public class PortalRenderer extends EntityRenderer<Portal> {
 	public static final ResourceLocation ROUND_TEXTURE = PortalCubed.id("textures/entity/portal/round.png");
@@ -25,11 +30,18 @@ public class PortalRenderer extends EntityRenderer<Portal> {
 	@Override
 	public void render(Portal portal, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light) {
 		super.render(portal, yaw, tickDelta, matrices, vertexConsumers, light);
-		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.entityCutout(getTextureLocation(portal)));
+		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.beaconBeam(getTextureLocation(portal), true));
 		matrices.pushPose();
-		matrices.mulPose(portal.getRotation());
-		RenderingUtil.renderQuad(matrices, vertices, light, portal.getColor());
+		matrices.mulPose(Axis.YP.rotationDegrees(portal.getYRot()));
+		matrices.mulPose(Axis.XP.rotationDegrees(portal.getXRot()));
+		matrices.translate(-0.5f, -1, 0);
+		matrices.scale(2, 2, 2);
+		RenderingUtil.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.getColor());
 		matrices.popPose();
+	}
+
+	private static float unwrapDegrees(float degrees) {
+		return degrees < 0 ? degrees + 360 : degrees;
 	}
 
 	@Override

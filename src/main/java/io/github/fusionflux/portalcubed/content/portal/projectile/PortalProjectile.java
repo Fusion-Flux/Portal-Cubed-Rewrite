@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.projectile;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.portal.entity.Portal;
 import io.github.fusionflux.portalcubed.framework.UnsavedEntity;
+import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,29 +20,35 @@ public class PortalProjectile extends UnsavedEntity {
 	public static final double SPEED = (6 * 16) / 20f; // 6 chunks per second
 
 	public static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(PortalProjectile.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Direction> SHOOTER_FACING = SynchedEntityData.defineId(PortalProjectile.class, EntityDataSerializers.DIRECTION);
 
 	private int color;
+	private Direction shooterFacing;
 
 	public PortalProjectile(EntityType<?> variant, Level world) {
 		super(variant, world);
 		this.noPhysics = true;
 	}
 
-	public static PortalProjectile create(Level level, int color) {
+	public static PortalProjectile create(Level level, int color, Direction shooterFacing) {
 		PortalProjectile projectile = new PortalProjectile(PortalCubedEntities.PORTAL_PROJECTILE, level);
 		projectile.entityData.set(COLOR, color);
+		projectile.entityData.set(SHOOTER_FACING, shooterFacing);
 		return projectile;
 	}
 
 	@Override
 	protected void defineSynchedData() {
 		entityData.define(COLOR, 0);
+		entityData.define(SHOOTER_FACING, Direction.UP);
 	}
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
 		if (data == COLOR) {
 			this.color = entityData.get(COLOR);
+		} else if (data == SHOOTER_FACING) {
+			this.shooterFacing = entityData.get(SHOOTER_FACING);
 		}
 	}
 
@@ -57,7 +64,7 @@ public class PortalProjectile extends UnsavedEntity {
 		this.move(MoverType.SELF, getDeltaMovement());
 		Vec3 end = this.position();
 
-		Level level = level();
+		Level level = this.level();
 		BlockHitResult hit = level.clip(new ClipContext(
 				start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this
 		));
@@ -71,9 +78,11 @@ public class PortalProjectile extends UnsavedEntity {
 	}
 
 	private void spawnPortal(ServerLevel level, BlockHitResult hit) {
-		Portal portal = Portal.create(level, this.color);
-		portal.moveTo(hit.getLocation());
-		// todo: portals rotat e
+		Direction facing = hit.getDirection();
+		Direction horizontalFacing = facing.getAxis().isHorizontal() ? facing : this.shooterFacing;
+		Direction verticalFacing = facing.getAxis().isVertical() ? facing : null;
+		Vec3 pos = hit.getLocation().relative(facing, 0.01);
+		Portal portal = Portal.create(level, this.color, pos, horizontalFacing, verticalFacing);
 		level.addFreshEntity(portal);
 	}
 
