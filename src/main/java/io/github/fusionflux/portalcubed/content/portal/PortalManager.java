@@ -1,13 +1,14 @@
-package io.github.fusionflux.portalcubed.content.portal.manager;
+package io.github.fusionflux.portalcubed.content.portal;
 
+import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
+import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
+import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Objects;
 
 public class PortalManager {
@@ -17,6 +18,15 @@ public class PortalManager {
 	public PortalManager(Level level) {
 		this.level = level;
 		this.storage = new SectionPortalStorage();
+	}
+
+	public static PortalManager of(Level level) {
+		return ((LevelExt) level).pc$portalManager();
+	}
+
+	public void addPortal(Portal portal) {
+		this.storage.addPortal(portal);
+
 	}
 
 	@Nullable

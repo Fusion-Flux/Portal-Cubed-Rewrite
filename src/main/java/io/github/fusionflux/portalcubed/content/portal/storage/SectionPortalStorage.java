@@ -1,5 +1,6 @@
-package io.github.fusionflux.portalcubed.content.portal.manager;
+package io.github.fusionflux.portalcubed.content.portal.storage;
 
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.core.SectionPos;

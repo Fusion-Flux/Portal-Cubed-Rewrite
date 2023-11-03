@@ -1,7 +1,8 @@
-package io.github.fusionflux.portalcubed.content.portal.manager;
+package io.github.fusionflux.portalcubed.content.portal.storage;
 
 import java.util.stream.Stream;
 
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import net.minecraft.world.phys.AABB;
 
 public interface PortalStorage {
