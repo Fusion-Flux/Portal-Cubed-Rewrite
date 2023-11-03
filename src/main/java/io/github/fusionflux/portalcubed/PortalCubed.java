@@ -1,14 +1,19 @@
 package io.github.fusionflux.portalcubed;
 
+import java.util.List;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
+import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 
 import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.loader.api.ModMetadata;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +26,12 @@ public class PortalCubed implements ModInitializer {
 
 	@Override
 	public void onInitialize(ModContainer mod) {
-		LOGGER.info("Portal Cubed (" + mod.metadata().version() + ") initializing...");
+		ModMetadata metadata = mod.metadata();
+		LOGGER.info("Portal Cubed (" + metadata.version() + ") initializing...");
+		Util.getRandomSafe(List.copyOf(metadata.contributors()), RandomSource.create()).ifPresent(contributor -> {
+			LOGGER.info("I loved the part when " + contributor.name() + " said \"It's Portaln' time\" and portal'd all over the place");
+		});
+
 		PortalCubedBlocks.init();
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
