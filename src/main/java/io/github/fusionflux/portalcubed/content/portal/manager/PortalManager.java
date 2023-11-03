@@ -6,38 +6,30 @@ import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class PortalManager {
 	private final Level level;
-	private final PortalStorage storage;
+	public final PortalStorage storage;
 
 	public PortalManager(Level level) {
 		this.level = level;
-		this.storage = new PortalStorage();
-	}
-
-	public void addPortal(Portal portal) {
+		this.storage = new SectionPortalStorage();
 	}
 
 	@Nullable
 	public PortalPickResult pickPortal(Vec3 start, Vec3 end) {
-		Portal closestToStart = null;
-		double closestDist = Double.MAX_VALUE;
-		Vec3 closestHit = null;
-		for (Iterator<Portal> itr = storage.findPortalsInBox(start, end); itr.hasNext();) {
-			Portal portal = itr.next();
-			Vec3 hit = portal.plane().pick(start, end);
-			if (hit != null) {
-				double dist = hit.distanceTo(start);
-				if (dist < closestDist) {
-					closestToStart = portal;
-					closestDist = dist;
-					closestHit = hit;
-				}
-			}
-		}
+		return storage.findPortalsInBox(new AABB(start, end))
+				.map(portal -> this.pickPortal(portal, start, end))
+				.filter(Objects::nonNull)
+				.sorted().findFirst().orElse(null);
+	}
 
-		return closestToStart == null ? null : new PortalPickResult(start, end, closestHit, closestToStart);
+	@Nullable
+	private PortalPickResult pickPortal(Portal portal, Vec3 start, Vec3 end) {
+		Vec3 hit = portal.plane().pick(start, end);
+		return hit == null ? null : new PortalPickResult(start, end, hit, portal);
 	}
 }
