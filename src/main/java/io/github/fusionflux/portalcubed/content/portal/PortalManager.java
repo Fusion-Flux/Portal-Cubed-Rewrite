@@ -26,7 +26,6 @@ public class PortalManager {
 
 	public void addPortal(Portal portal) {
 		this.storage.addPortal(portal);
-
 	}
 
 	@Nullable

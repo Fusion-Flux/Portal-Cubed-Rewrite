@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalManager;
-import io.github.fusionflux.portalcubed.content.portal.collision.CollisionManager;
 import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import net.minecraft.world.level.Level;
 
@@ -15,22 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LevelMixin implements LevelExt {
 	@Unique
 	private PortalManager portalManager;
-	@Unique
-	private CollisionManager collisionManager;
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(CallbackInfo ci) {
 		this.portalManager = new PortalManager((Level) (Object) this);
-		this.collisionManager = new CollisionManager((Level) (Object) this);
 	}
 
 	@Override
 	public PortalManager pc$portalManager() {
 		return this.portalManager;
-	}
-
-	@Override
-	public CollisionManager pc$collisionManager() {
-		return this.collisionManager;
 	}
 }
