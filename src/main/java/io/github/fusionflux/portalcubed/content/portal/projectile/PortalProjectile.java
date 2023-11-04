@@ -1,9 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal.projectile;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
-import io.github.fusionflux.portalcubed.content.portal.entity.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalShape;
+import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.framework.UnsavedEntity;
 import net.minecraft.core.Direction;
+import net.minecraft.core.FrontAndTop;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,6 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Objects;
 
 public class PortalProjectile extends UnsavedEntity {
 	public static final double SPEED = (6 * 16) / 20f; // 6 chunks per second
@@ -79,11 +84,11 @@ public class PortalProjectile extends UnsavedEntity {
 
 	private void spawnPortal(ServerLevel level, BlockHitResult hit) {
 		Direction facing = hit.getDirection();
-		Direction horizontalFacing = facing.getAxis().isHorizontal() ? facing : this.shooterFacing;
-		Direction verticalFacing = facing.getAxis().isVertical() ? facing : null;
 		Vec3 pos = hit.getLocation().relative(facing, 0.01);
-		Portal portal = Portal.create(level, this.color, pos, horizontalFacing, verticalFacing);
-		level.addFreshEntity(portal);
+		Direction top = facing.getAxis().isHorizontal() ? Direction.UP : shooterFacing;
+		FrontAndTop orientation = Objects.requireNonNull(FrontAndTop.fromFrontAndTop(facing, top));
+		ServerPortalManager manager = ServerPortalManager.of(level);
+		manager.createPortal(pos, orientation, color, PortalShape.SQUARE, PortalType.PRIMARY);
 	}
 
 	public int getColor() {

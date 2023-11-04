@@ -1,31 +1,22 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.manager;
 
+import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalPickResult;
 import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
-import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
-public class PortalManager {
-	private final Level level;
-	public final PortalStorage storage;
+public abstract class PortalManager {
+	protected final PortalStorage storage = new SectionPortalStorage();
 
-	public PortalManager(Level level) {
-		this.level = level;
-		this.storage = new SectionPortalStorage();
-	}
-
-	public static PortalManager of(Level level) {
-		return ((LevelExt) level).pc$portalManager();
-	}
-
-	public void addPortal(Portal portal) {
-		this.storage.addPortal(portal);
+	public List<Portal> allPortals() {
+		return storage.all();
 	}
 
 	@Nullable
@@ -38,7 +29,8 @@ public class PortalManager {
 
 	@Nullable
 	private PortalPickResult pickPortal(Portal portal, Vec3 start, Vec3 end) {
-		Vec3 hit = portal.plane().pick(start, end);
-		return hit == null ? null : new PortalPickResult(start, end, hit, portal);
+//		Vec3 hit = portal.plane.pick(start, end);
+//		return hit == null ? null : new PortalPickResult(start, end, hit, portal);
+		return null;
 	}
 }

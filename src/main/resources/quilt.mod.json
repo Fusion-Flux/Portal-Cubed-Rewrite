@@ -21,8 +21,9 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "io.github.fusionflux.portalcubed.PortalCubed"
-		},
+			"init": "io.github.fusionflux.portalcubed.PortalCubed",
+      "client_init": "io.github.fusionflux.portalcubed.PortalCubedClient"
+    },
 		"depends": [
 			{
 				"id": "quilt_loader",

@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.packet;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -17,6 +18,9 @@ import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 import java.util.function.Function;
 
 public class PortalCubedPackets {
+	// clientbound
+	public static final PacketType<CreatePortalPacket> CREATE_PORTAL = clientbound("create_portal", CreatePortalPacket::new);
+	// serverbound
 	public static final PacketType<DirectClickItemPacket> DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);
 
 	public static void init() {
