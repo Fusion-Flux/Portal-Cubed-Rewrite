@@ -1,7 +1,8 @@
 package io.github.fusionflux.portalcubed.content.portal.projectile;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
-import io.github.fusionflux.portalcubed.content.portal.PortalShape;
+import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
+import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.framework.UnsavedEntity;
@@ -24,10 +25,10 @@ import java.util.Objects;
 public class PortalProjectile extends UnsavedEntity {
 	public static final double SPEED = (6 * 16) / 20f; // 6 chunks per second
 
-	public static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(PortalProjectile.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<PortalData> PORTAL_DATA = SynchedEntityData.defineId(PortalProjectile.class, PortalCubedSerializers.PORTAL_DATA);
 	public static final EntityDataAccessor<Direction> SHOOTER_FACING = SynchedEntityData.defineId(PortalProjectile.class, EntityDataSerializers.DIRECTION);
 
-	private int color;
+	private PortalData portalData;
 	private Direction shooterFacing;
 
 	public PortalProjectile(EntityType<?> variant, Level world) {
@@ -35,26 +36,27 @@ public class PortalProjectile extends UnsavedEntity {
 		this.noPhysics = true;
 	}
 
-	public static PortalProjectile create(Level level, int color, Direction shooterFacing) {
+	public static PortalProjectile create(Level level, PortalData data, Direction shooterFacing) {
 		PortalProjectile projectile = new PortalProjectile(PortalCubedEntities.PORTAL_PROJECTILE, level);
-		projectile.entityData.set(COLOR, color);
+		projectile.entityData.set(PORTAL_DATA, data);
 		projectile.entityData.set(SHOOTER_FACING, shooterFacing);
 		return projectile;
 	}
 
 	@Override
 	protected void defineSynchedData() {
-		entityData.define(COLOR, 0);
+		entityData.define(PORTAL_DATA, PortalData.INVALID);
 		entityData.define(SHOOTER_FACING, Direction.UP);
 	}
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
-		if (data == COLOR) {
-			this.color = entityData.get(COLOR);
+		if (data == PORTAL_DATA) {
+			this.portalData = entityData.get(PORTAL_DATA);
 		} else if (data == SHOOTER_FACING) {
 			this.shooterFacing = entityData.get(SHOOTER_FACING);
 		}
+		super.onSyncedDataUpdated(data);
 	}
 
 	@Override
@@ -88,10 +90,10 @@ public class PortalProjectile extends UnsavedEntity {
 		Direction top = facing.getAxis().isHorizontal() ? Direction.UP : shooterFacing;
 		FrontAndTop orientation = Objects.requireNonNull(FrontAndTop.fromFrontAndTop(facing, top));
 		ServerPortalManager manager = ServerPortalManager.of(level);
-		manager.createPortal(pos, orientation, color, PortalShape.SQUARE, PortalType.PRIMARY);
+		manager.createPortal(pos, orientation, portalData.color(), portalData.shape(), PortalType.PRIMARY);
 	}
 
 	public int getColor() {
-		return color;
+		return portalData.color();
 	}
 }
