@@ -47,6 +47,7 @@ public abstract class EntityMixin {
 			args.set(1, teleported.y);
 			args.set(2, teleported.z);
 			System.out.println("entity teleported");
+			// TODO: should we teleport the old position fields to behind the out portal?
 		}
 	}
 }
