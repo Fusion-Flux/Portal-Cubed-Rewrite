@@ -6,19 +6,20 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 
-import org.joml.Quaternionf;
+import net.minecraft.client.Minecraft;
+
+import net.minecraft.client.renderer.LevelRenderer;
+
+import net.minecraft.client.renderer.culling.Frustum;
 
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
-import net.minecraft.core.FrontAndTop;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -34,10 +35,17 @@ public class PortalRenderer {
 
 		PoseStack matrices = context.matrixStack();
 		Vec3 camPos = context.camera().getPosition();
+		Frustum frustum = context.frustum();
 		matrices.pushPose();
+		boolean renderDebug = Minecraft.getInstance().options.renderDebug;
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 		for (Portal portal : portals) {
-			renderPortal(portal, matrices, vertexConsumers);
+			if (frustum.isVisible(portal.plane)) {
+				renderPortal(portal, matrices, vertexConsumers);
+				if (renderDebug) {
+					renderPortalDebug(portal, matrices, vertexConsumers);
+				}
+			}
 		}
 
 		matrices.popPose();
@@ -68,6 +76,12 @@ public class PortalRenderer {
 		matrices.scale(2, 2, 2);
 		RenderingUtil.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.color);
 		matrices.popPose();
+	}
+
+	private static void renderPortalDebug(Portal portal, PoseStack matrices, MultiBufferSource vertexConsumers) {
+		// render a box around the portal's plane
+		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
+		LevelRenderer.renderLineBox(matrices, vertices, portal.plane, 1, 1, 1, 1);
 	}
 
 	public static void init() {
