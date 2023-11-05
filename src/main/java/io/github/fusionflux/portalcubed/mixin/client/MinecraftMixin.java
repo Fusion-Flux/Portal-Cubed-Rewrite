@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.mixin;
+package io.github.fusionflux.portalcubed.mixin.client;
 
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;

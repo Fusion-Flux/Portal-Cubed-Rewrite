@@ -4,11 +4,12 @@
   "package": "io.github.fusionflux.portalcubed.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EntityMixin",
     "ServerLevelMixin"
   ],
   "client": [
-    "MinecraftMixin",
-    "client.ClientLevelMixin"
+    "client.ClientLevelMixin",
+    "client.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1
