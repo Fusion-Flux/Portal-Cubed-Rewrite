@@ -6,7 +6,6 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +25,23 @@ public class SectionPortalStorage implements PortalStorage {
 	@Override
 	public void addPortal(Portal portal) {
 		this.portals.add(portal);
-		Vec3 pos = portal.origin;
-		long section = SectionPos.asLong(Mth.floor(pos.x), Mth.floor(pos.y), Mth.floor(pos.z));
-		sections.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal);
+		sectionsInBox(portal.plane).forEach(
+				section -> sections.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal)
+		);
 	}
 
 	@Override
 	public void removePortal(Portal portal) {
 		if (this.portals.remove(portal)) {
-			Vec3 pos = portal.origin;
-			long section = SectionPos.asLong(Mth.floor(pos.x), Mth.floor(pos.y), Mth.floor(pos.z));
-			List<Portal> portals = sections.get(section);
-			if (portals != null) {
-				portals.remove(portal);
-				if (portals.isEmpty()) {
-					sections.remove(section);
+			sectionsInBox(portal.plane).forEach(section -> {
+				List<Portal> portals = sections.get(section);
+				if (portals != null) {
+					portals.remove(portal);
+					if (portals.isEmpty()) {
+						sections.remove(section);
+					}
 				}
-			}
+			});
 		}
 	}
 
@@ -51,7 +50,8 @@ public class SectionPortalStorage implements PortalStorage {
 		return sectionsInBox(box)
 				.mapToObj(sections::get)
 				.filter(Objects::nonNull)
-				.flatMap(List::stream);
+				.flatMap(List::stream)
+				.filter(portal -> portal.plane.intersects(box));
 	}
 
 	@Override
