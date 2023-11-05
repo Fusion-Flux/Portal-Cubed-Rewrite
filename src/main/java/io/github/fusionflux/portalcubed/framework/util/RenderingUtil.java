@@ -14,14 +14,14 @@ public class RenderingUtil {
 		PoseStack.Pose pose = matrices.last();
 		Matrix4f matrix4f = pose.pose();
 		Matrix3f matrix3f = pose.normal();
-		vertex(vertices, matrix4f, matrix3f, light, 0, 0, color, 0, 1);
-		vertex(vertices, matrix4f, matrix3f, light, 1, 0, color, 1, 1);
-		vertex(vertices, matrix4f, matrix3f, light, 1, 1, color, 1, 0);
-		vertex(vertices, matrix4f, matrix3f, light, 0, 1, color, 0, 0);
+		vertex(vertices, matrix4f, matrix3f, light, 1, 1, color, 1, 1);
+		vertex(vertices, matrix4f, matrix3f, light, 1, 0, color, 1, 0);
+		vertex(vertices, matrix4f, matrix3f, light, 0, 0, color, 0, 0);
+		vertex(vertices, matrix4f, matrix3f, light, 0, 1, color, 0, 1);
 	}
 
 	private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix, Matrix3f normalMatrix, int light, float x, int y, int color, int textureU, int textureV) {
-		vertexConsumer.vertex(matrix, x, y, 0)
+		vertexConsumer.vertex(matrix, x, 0, y)
 				.color(color)
 				.uv(textureU, textureV)
 				.overlayCoords(OverlayTexture.NO_OVERLAY)

@@ -10,9 +10,15 @@ import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+
+import org.joml.Quaternionf;
+
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
+import net.minecraft.core.FrontAndTop;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -45,12 +51,20 @@ public class PortalRenderer {
 		// translate to portal pos
 		matrices.translate(portal.origin.x, portal.origin.y, portal.origin.z);
 		// apply rotations
-		matrices.mulPose(portal.orientation.front().getRotation());
-//		matrices.mulPose(portal.orientation.top().getRotation());
-		matrices.mulPose(Axis.XN.rotationDegrees(90));
+		Direction front = portal.orientation.front();
+		matrices.mulPose(front.getRotation()); // rotate towards facing direction
+		if (front.getAxis().isVertical()) {
+			// for floor / ceiling portals, rotate towards top
+			float rotation = portal.orientation.top().toYRot();
+			if (front == Direction.UP) {
+				// I don't know! This is needed because of some weirdness that I've debugged for too long across too many projects.
+				rotation = -rotation + 180;
+			}
+			matrices.mulPose(Axis.YP.rotationDegrees(rotation));
+		}
 		// slight offset so origin is center of portal
-		matrices.translate(-0.5f, -1f, 0f);
-		// scale quad
+		matrices.translate(-0.5f, 0, -1f);
+		// scale quad - 32x32 texture, half is used. scale the 1x1 to a 2x2.
 		matrices.scale(2, 2, 2);
 		RenderingUtil.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.color);
 		matrices.popPose();

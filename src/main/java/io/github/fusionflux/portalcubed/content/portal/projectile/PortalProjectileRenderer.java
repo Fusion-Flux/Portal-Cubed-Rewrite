@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
 public class PortalProjectileRenderer extends EntityRenderer<PortalProjectile> {
-	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/block/dirt.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/block/magenta_glazed_terracotta.png");
 
 	public PortalProjectileRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx);
@@ -27,6 +27,7 @@ public class PortalProjectileRenderer extends EntityRenderer<PortalProjectile> {
 		matrices.pushPose();
 		matrices.mulPose(entityRenderDispatcher.cameraOrientation());
 		matrices.mulPose(Axis.YP.rotationDegrees(180));
+		matrices.mulPose(Axis.XP.rotationDegrees(90));
 		RenderingUtil.renderQuad(matrices, vertices, light, entity.getColor());
 		matrices.popPose();
 	}
