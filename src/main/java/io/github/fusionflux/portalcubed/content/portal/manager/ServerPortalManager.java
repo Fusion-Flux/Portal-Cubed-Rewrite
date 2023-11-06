@@ -25,7 +25,7 @@ public class ServerPortalManager extends PortalManager {
 	}
 
 	public static ServerPortalManager of(ServerLevel level) {
-		return ((ServerLevelExt) level).pc$portalManager();
+		return ((ServerLevelExt) level).pc$serverPortalManager();
 	}
 
 	/**

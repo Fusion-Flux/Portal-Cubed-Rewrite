@@ -12,7 +12,7 @@ public class ClientPortalManager extends PortalManager {
 	}
 
 	public static ClientPortalManager of(ClientLevel level) {
-		return ((ClientLevelExt) level).pc$portalManager();
+		return ((ClientLevelExt) level).pc$clientPortalManager();
 	}
 
 	public void addPortal(Portal portal) {

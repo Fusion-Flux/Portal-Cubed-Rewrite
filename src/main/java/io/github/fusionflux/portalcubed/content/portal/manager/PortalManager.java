@@ -4,16 +4,13 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalPickResult;
 import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
-import net.fabricmc.api.EnvType;
-import net.minecraft.client.multiplayer.ClientLevel;
+import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,12 +25,7 @@ public abstract class PortalManager {
 	}
 
 	public static PortalManager of(Level level) {
-		if (level instanceof ServerLevel serverLevel) {
-			return ServerPortalManager.of(serverLevel);
-		} else if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT && level instanceof ClientLevel clientLevel) {
-			return ClientPortalManager.of(clientLevel);
-		}
-		throw new IllegalArgumentException(level + " is not ServerLevel or ClientLevel");
+		return ((LevelExt) level).pc$portalManager();
 	}
 
 	public Set<Portal> getPortalsAt(BlockPos pos) {

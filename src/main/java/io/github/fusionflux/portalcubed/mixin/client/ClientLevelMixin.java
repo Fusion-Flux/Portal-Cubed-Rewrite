@@ -21,7 +21,7 @@ public class ClientLevelMixin implements ClientLevelExt {
 	}
 
 	@Override
-	public ClientPortalManager pc$portalManager() {
+	public ClientPortalManager pc$clientPortalManager() {
 		return this.portalManager;
 	}
 }
