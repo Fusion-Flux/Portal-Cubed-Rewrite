@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import net.minecraft.core.BlockPos;
@@ -28,33 +30,32 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 	@Shadow
 	public abstract Block getBlock();
 
-	@Inject(
+	@ModifyReturnValue(
 			method = {
 					"getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
 					"getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
 					"getVisualShape"
 			},
-			at = @At("RETURN"),
-			cancellable = true
+			at = @At("RETURN")
 	)
-	private void quantumSpaceHole(BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
+	private VoxelShape quantumSpaceHole(VoxelShape shape, BlockGetter world, BlockPos pos, CollisionContext context) {
 		if (world instanceof Level level && context instanceof EntityCollisionContext entityCtx) {
 			Entity entity = entityCtx.getEntity();
 			if (entity != null) {
 				PortalManager manager = PortalManager.of(level);
 				Set<Portal> portals = manager.getPortalsAt(pos);
 				if (!portals.isEmpty()) {
-					VoxelShape shape = cir.getReturnValue();
 					// move shape to pos
 					shape = shape.move(pos.getX(), pos.getY(), pos.getZ());
+					// punch holes
 					for (Portal portal : portals) {
 						shape = Shapes.join(shape, portal.hole, BooleanOp.ONLY_FIRST);
 					}
 					// move shape back to relative coords
 					shape = shape.move(-pos.getX(), -pos.getY(), -pos.getZ());
-					cir.setReturnValue(shape);
 				}
 			}
 		}
+		return shape;
 	}
 }

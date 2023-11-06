@@ -34,6 +34,7 @@ public class ServerPortalManager extends PortalManager {
 	public Portal createPortal(Vec3 pos, FrontAndTop orientation, int color, PortalShape shape, PortalType type) {
 		int id = idGenerator.getAndIncrement();
 		Portal portal = new Portal(id, pos, orientation, shape, type, color);
+		this.storage.addPortal(portal);
 
 		CreatePortalPacket packet = new CreatePortalPacket(portal);
 		for (ServerPlayer player : PlayerLookup.all(level.getServer())) {
