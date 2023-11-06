@@ -1,11 +1,15 @@
 package io.github.fusionflux.portalcubed.content.portal.storage;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +20,18 @@ import java.util.stream.Stream;
 public class SectionPortalStorage implements PortalStorage {
 	private final List<Portal> portals;
 	private final Long2ObjectMap<List<Portal>> sections;
+	private final Int2ObjectMap<Portal> byNetId;
 
 	public SectionPortalStorage() {
 		this.portals = new ArrayList<>();
 		this.sections = new Long2ObjectOpenHashMap<>();
+		this.byNetId = new Int2ObjectOpenHashMap<>();
 	}
 
 	@Override
 	public void addPortal(Portal portal) {
 		this.portals.add(portal);
+		this.byNetId.put(portal.netId, portal);
 		sectionsInBox(portal.plane).forEach(
 				section -> sections.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal)
 		);
@@ -43,6 +50,12 @@ public class SectionPortalStorage implements PortalStorage {
 				}
 			});
 		}
+	}
+
+	@Override
+	@Nullable
+	public Portal getByNetId(int id) {
+		return byNetId.get(id);
 	}
 
 	@Override

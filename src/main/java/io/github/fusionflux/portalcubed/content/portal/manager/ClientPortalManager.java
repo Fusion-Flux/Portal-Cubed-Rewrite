@@ -16,6 +16,7 @@ public class ClientPortalManager extends PortalManager {
 	}
 
 	public void addPortal(Portal portal) {
+		portal.findLinkedPortal(this);
 		this.storage.addPortal(portal);
 	}
 }

@@ -5,12 +5,14 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPickResult;
 import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
 import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
+import io.github.fusionflux.portalcubed.packet.clientbound.LinkPortalsPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +28,11 @@ public abstract class PortalManager {
 
 	public static PortalManager of(Level level) {
 		return ((LevelExt) level).pc$portalManager();
+	}
+
+	@Nullable
+	public Portal getPortalByNetId(int id) {
+		return storage.getByNetId(id);
 	}
 
 	public Set<Portal> getPortalsAt(BlockPos pos) {
@@ -53,5 +60,20 @@ public abstract class PortalManager {
 			Vec3 hitOut = hit;
             return new PortalPickResult(start, end, hit, hit, portal);
         }).orElse(null);
+	}
+
+	public void linkPortals(Portal a, Portal b) {
+		unlinkPortal(a);
+		unlinkPortal(b);
+		a.setLinked(b);
+		b.setLinked(a);
+	}
+
+	public void unlinkPortal(Portal portal) {
+		Portal linked = portal.getLinked();
+		if (linked != null) {
+			portal.setLinked(null);
+			linked.setLinked(null);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.framework.util.PacketUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
@@ -8,6 +9,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public final class Portal {
 	// portal plane is 2 pixels short of full blocks on each axis, 1 on each side
@@ -28,6 +34,11 @@ public final class Portal {
     public final PortalType type;
 	public final int color;
 
+	private int linkedNetId;
+	@Nullable
+	private Portal linked;
+	private Optional<Portal> linkedOptional;
+
     public Portal(int netId, Vec3 origin, FrontAndTop orientation, PortalShape shape, PortalType type, int color) {
 		this.netId = netId;
         this.origin = origin;
@@ -36,6 +47,10 @@ public final class Portal {
         this.shape = shape;
         this.type = type;
 		this.color = color;
+
+		this.linkedNetId = -1;
+		this.linked = null;
+		this.linkedOptional = Optional.empty();
 
 		Direction.Axis frontAxis = orientation.front().getAxis();
 		Direction.Axis verticalAxis = orientation.top().getAxis();
@@ -49,6 +64,32 @@ public final class Portal {
 		this.hole = Shapes.create(this.holeBox);
     }
 
+	@Nullable
+	public Portal getLinked() {
+		return this.linked;
+	}
+
+	public Optional<Portal> maybeGetLinked() {
+		return linkedOptional;
+	}
+
+	/**
+	 * Do not use, use the portal manager
+	 */
+	@ApiStatus.Internal
+	public void setLinked(@Nullable Portal portal) {
+		this.linkedNetId = portal == null ? -1 : portal.netId;
+		this.linked =  portal;
+		this.linkedOptional = Optional.ofNullable(portal);
+	}
+
+	@ApiStatus.Internal
+	public void findLinkedPortal(PortalManager manager) {
+		if (this.linkedNetId != -1) {
+			this.setLinked(manager.getPortalByNetId(this.linkedNetId));
+		}
+	}
+
 	public void toNetwork(FriendlyByteBuf buf) {
 		buf.writeVarInt(netId);
 		PacketUtils.writeVec3(buf, origin);
@@ -56,6 +97,7 @@ public final class Portal {
 		buf.writeEnum(shape);
 		buf.writeEnum(type);
 		buf.writeVarInt(color);
+		buf.writeVarInt(linkedNetId);
 	}
 
 	public static Portal fromNetwork(FriendlyByteBuf buf) {
@@ -65,6 +107,9 @@ public final class Portal {
 		PortalShape shape = buf.readEnum(PortalShape.class);
 		PortalType type = buf.readEnum(PortalType.class);
 		int color = buf.readVarInt();
-		return new Portal(netId, origin, orientation, shape, type, color);
+		int linkedId = buf.readVarInt();
+		Portal portal = new Portal(netId, origin, orientation, shape, type, color);
+		portal.linkedNetId = linkedId; // the portal reference will be resolved later with findLinkedPortal
+		return portal;
 	}
 }
