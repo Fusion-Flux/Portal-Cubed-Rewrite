@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
@@ -32,6 +33,11 @@ public interface BlockBuilder<T extends Block> {
 	 * Modify the item for this block.
 	 */
 	BlockBuilder<T> item(BlockItemProvider<T> provider);
+
+	/**
+	 * Set the factory for this block's item.
+	 */
+	<I extends Item> BlockBuilder<T> item(BlockItemFactory<T> factory);
 
 	/**
 	 * Build this builder into a block.
