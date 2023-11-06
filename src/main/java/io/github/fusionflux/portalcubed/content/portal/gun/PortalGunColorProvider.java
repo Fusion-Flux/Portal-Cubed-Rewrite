@@ -14,7 +14,7 @@ public class PortalGunColorProvider implements ItemColor {
 
 	@Override
 	public int getColor(ItemStack stack, int tintIndex) {
-		PortalGunData data = PortalGunItem.getData(stack);
+		PortalGunSettings data = PortalGunItem.getData(stack);
 		return switch (tintIndex) {
 			case ACTIVE_COLOR -> data.activeData().color();
 			case SHELL_COLOR -> getDyedColor(stack);

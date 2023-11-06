@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
@@ -43,19 +43,19 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 
 	public void shoot(Level level, Player player, ItemStack stack, InteractionHand hand, PortalType type) {
 		if (level instanceof ServerLevel serverLevel) {
-			PortalGunData gunData = getData(stack);
-			PortalData portalData = gunData.portalDataOf(type);
+			PortalGunSettings gunData = getData(stack);
+			PortalSettings portalSettings = gunData.portalDataOf(type);
 			Vec3 lookAngle = player.getLookAngle().normalize();
 			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
 			Direction horizontalFacing = Direction.getNearest(lookAngle.x, 0, lookAngle.z);
 
-			PortalProjectile projectile = PortalProjectile.create(serverLevel, portalData, horizontalFacing);
+			PortalProjectile projectile = PortalProjectile.create(serverLevel, portalSettings, horizontalFacing);
 			projectile.setDeltaMovement(velocity);
 			projectile.moveTo(player.getEyePosition());
 			level.addFreshEntity(projectile);
 			level.playSound(null, player.blockPosition(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS);
 
-			PortalGunData modifiedData = gunData.withActive(type);
+			PortalGunSettings modifiedData = gunData.withActive(type);
 			ItemStack newStack = setData(stack, modifiedData);
 			player.setItemInHand(hand, newStack);
 		} else { // client-side
@@ -69,13 +69,13 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 		return color == DyeableLeatherItem.DEFAULT_LEATHER_COLOR ? DEFAULT_SHELL_COLOR : color;
 	}
 
-	public static PortalGunData getData(ItemStack stack) {
+	public static PortalGunSettings getData(ItemStack stack) {
 		CompoundTag tag = stack.getTagElement(DATA_KEY);
-		return PortalGunData.CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(PortalGunData.DEFAULT);
+		return PortalGunSettings.CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(PortalGunSettings.DEFAULT);
 	}
 
-	public static ItemStack setData(ItemStack stack, PortalGunData data) {
-		return PortalGunData.CODEC.encodeStart(NbtOps.INSTANCE, data).result().map(tag -> {
+	public static ItemStack setData(ItemStack stack, PortalGunSettings data) {
+		return PortalGunSettings.CODEC.encodeStart(NbtOps.INSTANCE, data).result().map(tag -> {
 			ItemStack copy = stack.copy();
 			copy.getOrCreateTag().put(DATA_KEY, tag);
 			return copy;
