@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -16,6 +17,8 @@ import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class PortalManager {
 	protected final PortalStorage storage = new SectionPortalStorage();
@@ -31,6 +34,10 @@ public abstract class PortalManager {
 			return ClientPortalManager.of(clientLevel);
 		}
 		throw new IllegalArgumentException(level + " is not ServerLevel or ClientLevel");
+	}
+
+	public Set<Portal> getPortalsAt(BlockPos pos) {
+		return storage.findPortalsInBox(new AABB(pos).inflate(0.1)).collect(Collectors.toSet());
 	}
 
 	@Nullable

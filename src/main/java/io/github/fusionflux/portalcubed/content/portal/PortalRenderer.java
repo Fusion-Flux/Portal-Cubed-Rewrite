@@ -82,6 +82,8 @@ public class PortalRenderer {
 		// render a box around the portal's plane
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
 		LevelRenderer.renderLineBox(matrices, vertices, portal.plane, 1, 1, 1, 1);
+		// and the portal's hole
+		LevelRenderer.renderLineBox(matrices, vertices, portal.holeBox, 1, 0.5f, 0.5f, 1);
 	}
 
 	public static void init() {

@@ -6,6 +6,8 @@ import net.minecraft.core.FrontAndTop;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public final class Portal {
 	// portal plane is 2 pixels short of full blocks on each axis, 1 on each side
@@ -13,10 +15,13 @@ public final class Portal {
 	public static final double HEIGHT = 2 - (2 * SIXTEENTH);
 	public static final double WIDTH = 1 - (2 * SIXTEENTH);
 	public static final double THICKNESS = 0.001;
+	public static final double HOLE_DEPTH = 5;
 
 	public final int netId;
     public final Vec3 origin;
 	public final AABB plane; // technically a box, but really thin on 1 axis
+	public final AABB holeBox;
+	public final VoxelShape hole; // the hole this portal punches in the world to allow walking through
 	public final Vec3 normal;
 	public final FrontAndTop orientation;
     public final PortalShape shape;
@@ -38,6 +43,10 @@ public final class Portal {
 		double x = frontAxis == Direction.Axis.X ? THICKNESS : (verticalAxis == Direction.Axis.X ? HEIGHT : WIDTH);
 		double z = frontAxis == Direction.Axis.Z ? THICKNESS : (verticalAxis == Direction.Axis.Z ? HEIGHT : WIDTH);
 		this.plane = AABB.ofSize(origin, x, y, z);
+
+		Vec3 holeOffset = this.normal.scale(-HOLE_DEPTH);
+		this.holeBox = this.plane.expandTowards(holeOffset);
+		this.hole = Shapes.create(this.holeBox);
     }
 
 	public void toNetwork(FriendlyByteBuf buf) {
