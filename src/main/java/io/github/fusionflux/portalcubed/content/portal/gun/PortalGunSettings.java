@@ -26,11 +26,11 @@ public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings>
 		return secondary.orElse(primary);
 	}
 
-	public PortalSettings activeData() {
-		return portalDataOf(active);
+	public PortalSettings activeSettings() {
+		return portalSettingsOf(active);
 	}
 
-	public PortalSettings portalDataOf(PortalType type) {
+	public PortalSettings portalSettingsOf(PortalType type) {
 		return type == PortalType.PRIMARY ? primary : effectiveSecondary();
 	}
 

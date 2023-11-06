@@ -43,8 +43,8 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 
 	public void shoot(Level level, Player player, ItemStack stack, InteractionHand hand, PortalType type) {
 		if (level instanceof ServerLevel serverLevel) {
-			PortalGunSettings gunData = getData(stack);
-			PortalSettings portalSettings = gunData.portalDataOf(type);
+			PortalGunSettings gunSettings = getGunSettings(stack);
+			PortalSettings portalSettings = gunSettings.portalSettingsOf(type);
 			Vec3 lookAngle = player.getLookAngle().normalize();
 			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
 			Direction horizontalFacing = Direction.getNearest(lookAngle.x, 0, lookAngle.z);
@@ -55,8 +55,8 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 			level.addFreshEntity(projectile);
 			level.playSound(null, player.blockPosition(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS);
 
-			PortalGunSettings modifiedData = gunData.withActive(type);
-			ItemStack newStack = setData(stack, modifiedData);
+			PortalGunSettings modifiedData = gunSettings.withActive(type);
+			ItemStack newStack = setGunSettings(stack, modifiedData);
 			player.setItemInHand(hand, newStack);
 		} else { // client-side
 			player.swing(hand);
@@ -69,12 +69,12 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 		return color == DyeableLeatherItem.DEFAULT_LEATHER_COLOR ? DEFAULT_SHELL_COLOR : color;
 	}
 
-	public static PortalGunSettings getData(ItemStack stack) {
+	public static PortalGunSettings getGunSettings(ItemStack stack) {
 		CompoundTag tag = stack.getTagElement(DATA_KEY);
 		return PortalGunSettings.CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(PortalGunSettings.DEFAULT);
 	}
 
-	public static ItemStack setData(ItemStack stack, PortalGunSettings data) {
+	public static ItemStack setGunSettings(ItemStack stack, PortalGunSettings data) {
 		return PortalGunSettings.CODEC.encodeStart(NbtOps.INSTANCE, data).result().map(tag -> {
 			ItemStack copy = stack.copy();
 			copy.getOrCreateTag().put(DATA_KEY, tag);
