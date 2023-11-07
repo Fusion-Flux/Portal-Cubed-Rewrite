@@ -82,7 +82,8 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 			ItemBuilder<Item> modifiedBuilder = this.itemProvider.create(block, itemBuilder);
 			if (modifiedBuilder != null) {
 				item = modifiedBuilder.build();
-				Registry.register(BuiltInRegistries.ITEM, id, item);
+				// TODO: JAY
+				// Registry.register(BuiltInRegistries.ITEM, id, item);
 			}
 		}
 
