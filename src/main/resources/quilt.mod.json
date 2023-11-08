@@ -22,7 +22,8 @@
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
 			"init": "io.github.fusionflux.portalcubed.PortalCubed",
-      "client_init": "io.github.fusionflux.portalcubed.PortalCubedClient"
+      "client_init": "io.github.fusionflux.portalcubed.PortalCubedClient",
+      "fabric-datagen": "io.github.fusionflux.portalcubed.PortalCubedDataGen"
     },
 		"depends": [
 			{
