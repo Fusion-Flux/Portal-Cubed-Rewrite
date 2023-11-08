@@ -23,7 +23,7 @@ import org.quiltmc.qsl.base.api.util.TriState;
 
 public class PortalGunItem extends Item implements DirectClickItem, DyeableLeatherItem {
 	public static final int DEFAULT_SHELL_COLOR = 0xFFFFFFFF;
-	public static final String DATA_KEY = "portal_gun_data";
+	public static final String DATA_KEY = "portal_gun_settings";
 
 	public PortalGunItem(Properties settings) {
 		super(settings);
