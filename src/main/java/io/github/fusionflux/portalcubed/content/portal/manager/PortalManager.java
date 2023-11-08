@@ -15,6 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 
 import java.util.List;
 import java.util.Objects;
@@ -65,13 +66,24 @@ public abstract class PortalManager {
 		if (linked == null) // this shouldn't happen
 			return null;
 		// portals cannot be interacted with from behind
-//		Vec3 delta = end.subtract(start);
-//		if (delta.dot(portal.normal) > 0)
-//			return null;
+		Vec3 delta = end.subtract(start);
+		if (delta.dot(portal.normal) > 0)
+			return null;
 		return portal.plane.clip(start, end).map(hit -> {
-			Vec3 teleportedHit = TransformUtils.applyDual(portal.rotation::transformInverse, linked.rotation::transform, hit);
+			Vec3 teleportedHit = TransformUtils.apply(hit,
+					portal::relativize,
+					portal.rotation::transformInverse,
+					linked.rotation::transform,
+					linked::derelativize
+			);
 			Vec3 remainder = end.subtract(hit);
-			Vec3 teleportedEnd = TransformUtils.applyDual(portal.rotation::transformInverse, linked.rotation::transform, remainder);
+			Vec3 teleportedEnd = TransformUtils.apply(remainder,
+					portal::relativize,
+					portal.rotation::transformInverse,
+					linked.rotation::transform,
+					linked::derelativize,
+					portal::derelativize
+			);
 
 			return new PortalHitResult(start, teleportedEnd, hit, teleportedHit, portal, linked);
         }).orElse(null);

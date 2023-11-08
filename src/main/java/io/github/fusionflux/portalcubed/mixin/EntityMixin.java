@@ -41,19 +41,20 @@ public abstract class EntityMixin {
 			)
 	)
 	private void moveThroughPortals(Args args) {
-		if (this.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST))
+		Level level = level();
+		if (level.isClientSide || this.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST))
 			return;
 
 		Vec3 oldPos = position();
 		Vec3 newPos = new Vec3(args.get(0), args.get(1), args.get(2));
-		PortalManager manager = PortalManager.of(level());
+		PortalManager manager = PortalManager.of(level);
 		PortalHitResult result = manager.clipPortal(oldPos, newPos);
 		if (result != null) {
 			Vec3 teleported = result.teleportedEnd();
 			args.set(0, teleported.x);
 			args.set(1, teleported.y);
 			args.set(2, teleported.z);
-			System.out.println("entity teleported");
+			System.out.println("entity teleported from " + newPos + " to " + teleported);
 			// TODO: should we teleport the old position fields to behind the out portal?
 		}
 	}

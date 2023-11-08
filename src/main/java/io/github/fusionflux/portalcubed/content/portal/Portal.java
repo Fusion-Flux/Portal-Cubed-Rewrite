@@ -14,6 +14,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
+import org.joml.Vector3d;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -103,6 +104,14 @@ public final class Portal {
 
 	public boolean isActive() {
 		return this.linked != null;
+	}
+
+	public Vector3d relativize(Vector3d pos) {
+		return pos.sub(origin.x, origin.y, origin.z);
+	}
+
+	public Vector3d derelativize(Vector3d pos) {
+		return pos.add(origin.x, origin.y, origin.z);
 	}
 
 	/**
