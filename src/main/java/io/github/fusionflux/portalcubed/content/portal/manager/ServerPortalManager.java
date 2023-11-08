@@ -44,10 +44,10 @@ public class ServerPortalManager extends PortalManager {
 		Portal portal = new Portal(id, pos, orientation, shape, type, color, player);
 		// store new portal
 		this.storage.addPortal(portal);
-		// (re-)link
-		this.linkPortals(playerPortals);
 		// notify clients
 		PortalCubedPackets.sendToClients(PlayerLookup.world(level), new CreatePortalPacket(portal));
+		// (re-)link
+		this.linkPortals(playerPortals.withPortal(portal));
 
 		return portal;
 	}

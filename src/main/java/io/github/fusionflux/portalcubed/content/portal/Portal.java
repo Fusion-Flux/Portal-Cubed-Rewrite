@@ -111,7 +111,7 @@ public final class Portal {
 	@ApiStatus.Internal
 	public void setLinked(@Nullable Portal portal) {
 		this.linkedNetId = portal == null ? -1 : portal.netId;
-		this.linked =  portal;
+		this.linked = portal;
 		this.linkedOptional = Optional.ofNullable(portal);
 	}
 
