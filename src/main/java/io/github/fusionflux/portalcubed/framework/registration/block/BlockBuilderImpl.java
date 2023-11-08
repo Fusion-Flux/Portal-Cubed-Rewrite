@@ -30,6 +30,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private RenderTypes renderType;
 	@Nullable
 	private BlockItemProvider<T> itemProvider = BlockBuilderImpl::defaultBlock;
+	private BlockItemFactory<T> itemFactory = BlockItem::new;
 
 	public BlockBuilderImpl(Registrar registrar, String name, BlockFactory<T> factory) {
 		this.registrar = registrar;
@@ -70,6 +71,12 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	}
 
 	@Override
+	public <I extends Item> BlockBuilder<T> item(BlockItemFactory<T> factory) {
+		this.itemFactory = factory;
+		return this;
+	}
+
+	@Override
 	public T build() {
 		checkSettings();
 		T block = this.factory.create(this.settings);
@@ -78,12 +85,12 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 
 		Item item = null;
 		if (this.itemProvider != null) {
-			ItemBuilder<Item> itemBuilder = registrar.items.create(this.name, settings -> new BlockItem(block, settings));
-			ItemBuilder<Item> modifiedBuilder = this.itemProvider.create(block, itemBuilder);
+			ItemBuilder<Item> itemBuilder = registrar.items.create(
+					this.name, settings -> this.itemFactory.create(block, settings)
+			);
+			ItemBuilder<Item> modifiedBuilder = this.itemProvider.create(this.name, block, itemBuilder);
 			if (modifiedBuilder != null) {
-				item = modifiedBuilder.build();
-				// TODO: JAY
-				// Registry.register(BuiltInRegistries.ITEM, id, item);
+				item = modifiedBuilder.build(); // registers the item
 			}
 		}
 
@@ -113,7 +120,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 		}
 	}
 
-	private static ItemBuilder<Item> defaultBlock(Block block, ItemBuilder<Item> builder) {
+	private static ItemBuilder<Item> defaultBlock(String name, Block block, ItemBuilder<Item> builder) {
 		return builder;
 	}
 }

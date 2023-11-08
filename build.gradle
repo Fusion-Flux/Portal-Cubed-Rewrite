@@ -28,9 +28,27 @@ dependencies {
 
 	// dependencies
 	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:$qfapi_version")
+	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version")))
 
 	// dev env
 	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version")
+}
+
+loom {
+	runs {
+		datagen {
+			client()
+
+			name "Minecraft Data"
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+			vmArg "-Dfabric-api.datagen.modid=portalcubed"
+		}
+
+		configureEach {
+			vmArg("-Dmixin.debug.export=true")
+		}
+	}
 }
 
 tasks.register("buildOrPublish") {

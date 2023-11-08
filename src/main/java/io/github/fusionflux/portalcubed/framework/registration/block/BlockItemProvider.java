@@ -5,9 +5,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public interface BlockItemProvider<B extends Block> {
-	ItemBuilder<Item> create(B block, ItemBuilder<Item> builder);
+	ItemBuilder<Item> create(String name, B block, ItemBuilder<Item> builder);
 
-	static ItemBuilder<Item> noItem(Block block, ItemBuilder<Item> builder) {
+	static ItemBuilder<Item> noItem(String name, Block block, ItemBuilder<Item> builder) {
 		return null;
 	}
 }
