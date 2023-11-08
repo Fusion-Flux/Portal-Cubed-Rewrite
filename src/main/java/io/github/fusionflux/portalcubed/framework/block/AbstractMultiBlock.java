@@ -3,14 +3,13 @@ package io.github.fusionflux.portalcubed.framework.block;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -32,10 +31,71 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 
 	public abstract SizeProperties sizeProperties();
 
+	public int getX(BlockState state) {
+		return sizeProperties().x.map(state::getValue).orElse(0);
+	}
+
+	public int getY(BlockState state) {
+		return sizeProperties().y.map(state::getValue).orElse(0);
+	}
+
+	public int getZ(BlockState state) {
+		return sizeProperties().z.map(state::getValue).orElse(0);
+	}
+
+	public BlockState setX(BlockState state, int x) {
+		return sizeProperties().x.map(prop -> state.setValue(prop, x)).orElse(state);
+	}
+
+	public BlockState setY(BlockState state, int y) {
+		return sizeProperties().y.map(prop -> state.setValue(prop, y)).orElse(state);
+	}
+
+	public BlockState setZ(BlockState state, int z) {
+		return sizeProperties().z.map(prop -> state.setValue(prop, z)).orElse(state);
+	}
+
+	public boolean isOrigin(BlockState state, Level level) {
+		return getX(state) == 0 && getY(state) == 0 && getZ(state) == 0;
+	}
+
+	public BlockPos getOriginPos(BlockPos pos, BlockState state, Level level) {
+		int x = getX(state);
+		int y = getY(state);
+		int z = getZ(state);
+		return switch (state.getValue(FACING)) {
+			case DOWN, UP ->   pos.subtract(new BlockPos(x, z, y));
+			case WEST, EAST -> pos.subtract(new BlockPos(z, y, x));
+			default ->         pos.subtract(new BlockPos(x, y, z));
+		};
+	}
+
+	public Iterable<BlockPos> quadrantIterator(BlockPos pos, BlockState state, Level level) {
+		var rotatedSize = size.rotated(state.getValue(FACING));
+		return BlockPos.betweenClosed(pos, pos.offset(rotatedSize.x() - 1, rotatedSize.y() - 1, rotatedSize.z() - 1));
+	}
+
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
-		sizeProperties().addToBuilder(builder);
+		var sizeProperties = sizeProperties();
+		sizeProperties.x.map(builder::add);
+		sizeProperties.y.map(builder::add);
+		sizeProperties.z.map(builder::add);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
+		if (!state.is(newState.getBlock())) {
+			if (isOrigin(state, level)) {
+				for (BlockPos quadrantPos : quadrantIterator(pos, state, level)) level.destroyBlock(quadrantPos, false);
+			} else {
+				var originPos = getOriginPos(pos, state, level);
+				level.getBlockState(originPos).onRemove(level, originPos, Blocks.AIR.defaultBlockState(), false);
+			}
+		}
+		super.onRemove(state, level, pos, newState, moved);
 	}
 
 	@Override
@@ -109,19 +169,13 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		}
 	}
 
-	public record SizeProperties(int xMax, int yMax, int zMax, @Nullable IntegerProperty x, @Nullable IntegerProperty y, @Nullable IntegerProperty z) {
-		public void addToBuilder(StateDefinition.Builder<Block, BlockState> builder) {
-			if (x != null) builder.add(x);
-			if (y != null) builder.add(y);
-			if (z != null) builder.add(z);
-		}
-
+	public record SizeProperties(int xMax, int yMax, int zMax, Optional<IntegerProperty> x, Optional<IntegerProperty> y, Optional<IntegerProperty> z) {
 		public static SizeProperties create(int x, int y, int z) {
 			return new SizeProperties(
 				x, y, z,
-				x > 1 ? IntegerProperty.create("x", 0, x - 1) : null,
-				y > 1 ? IntegerProperty.create("y", 0, y - 1) : null,
-				z > 1 ? IntegerProperty.create("z", 0, z - 1) : null
+				x > 1 ? Optional.of(IntegerProperty.create("x", 0, x - 1)) : Optional.empty(),
+				y > 1 ? Optional.of(IntegerProperty.create("y", 0, y - 1)) : Optional.empty(),
+				z > 1 ? Optional.of(IntegerProperty.create("z", 0, z - 1)) : Optional.empty()
 			);
 		}
 	}

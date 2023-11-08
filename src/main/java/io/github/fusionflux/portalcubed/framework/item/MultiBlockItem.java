@@ -45,17 +45,10 @@ public class MultiBlockItem extends BlockItem {
 			placePredicate
 		).orElse(null);
 		if (origin != null) {
-			var sizeProperties = block.sizeProperties();
-			var xProperty = sizeProperties.x();
-			var yProperty = sizeProperties.y();
-			var zProperty = sizeProperties.z();
 			for (BlockPos pos : BlockPos.betweenClosed(origin, origin.offset(rotatedSize.x() - 1, rotatedSize.y() - 1, rotatedSize.z() - 1))) {
 				var relativePos = rotatedSize.relative(origin, pos);
-				var subState = state;
-				if (xProperty != null) subState = subState.setValue(xProperty, relativePos.getX());
-				if (yProperty != null) subState = subState.setValue(yProperty, relativePos.getY());
-				if (zProperty != null) subState = subState.setValue(zProperty, relativePos.getZ());
-				level.setBlock(pos, subState, Block.UPDATE_ALL_IMMEDIATE);
+				var quadrantState = block.setX(block.setY(block.setZ(state, relativePos.getZ()), relativePos.getY()), relativePos.getX());
+				level.setBlock(pos, quadrantState, Block.UPDATE_ALL_IMMEDIATE);
 			}
 			return true;
 		}
