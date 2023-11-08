@@ -66,15 +66,7 @@ public class PortalRenderer {
 		matrices.translate(portal.origin.x, portal.origin.y, portal.origin.z);
 		// apply rotations
 		matrices.mulPose(portal.rotation); // rotate towards facing direction
-//		if (front.getAxis().isVertical()) {
-//			// for floor / ceiling portals, rotate towards top
-//			float rotation = portal.orientation.top().toYRot();
-//			if (front == Direction.UP) {
-//				// I don't know! This is needed because of some weirdness that I've debugged for too long across too many projects.
-//				rotation = -rotation + 180;
-//			}
-//			matrices.mulPose(Axis.YP.rotationDegrees(rotation));
-//		}
+		matrices.mulPose(Axis.ZP.rotationDegrees(180));
 		// slight offset so origin is center of portal
 		matrices.translate(-0.5f, -1, 0);
 		// scale quad - 32x32 texture, half is used. scale the 1x1 to a 2x2.

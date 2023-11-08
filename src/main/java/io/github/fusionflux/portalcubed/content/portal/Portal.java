@@ -5,6 +5,7 @@ import io.github.fusionflux.portalcubed.framework.util.PacketUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -54,29 +55,27 @@ public final class Portal {
 		this.linked = null;
 		this.linkedOptional = Optional.empty();
 
-		this.rotation = orientation.top().getRotation();
-//		Direction front = orientation.front();
-//		if (front == Direction.DOWN) {
-//			rotation.rotateZ(Mth.DEG_TO_RAD * 180);
-//		} else if (front.getAxis().isHorizontal()) {
-//			rotation.rotateX(Mth.DEG_TO_RAD * 90);
-//			float yRot = switch (front) {
-//				case NORTH -> 180;
-//				case EAST -> 90;
-//				case WEST -> 270;
-//				default -> 0;
-//			};
-//			rotation.rotateY(Mth.DEG_TO_RAD * yRot);
-//		}
-//		if (front.getAxis().isVertical()) {
-//			float yRot = switch (orientation.top()) {
-//				case NORTH -> 180;
-//				case EAST -> 90;
-//				case WEST -> 270;
-//				default -> 0;
-//			};
-//			rotation.rotateY(Mth.DEG_TO_RAD * yRot);
-//		}
+		var topDirection = orientation.top();
+		var frontDirection = orientation.front();
+		float topAngle = 0;
+		if (frontDirection.getAxis().isVertical()) {
+			topDirection = (frontDirection == Direction.DOWN && topDirection.getAxis() == Direction.Axis.Z) ? topDirection.getOpposite() : topDirection;
+			topAngle = switch (topDirection) {
+				case NORTH -> Mth.DEG_TO_RAD *  180;
+				case WEST ->  Mth.DEG_TO_RAD *  90;
+				case EAST ->  Mth.DEG_TO_RAD * -90;
+				default -> 0;
+			};
+		}
+		var rotation = switch (frontDirection) {
+			case DOWN -> new Quaternionf().rotationXYZ(Mth.DEG_TO_RAD * 270, 0, topAngle);
+			case UP -> new Quaternionf().rotationXYZ(Mth.DEG_TO_RAD *  -270, 0, topAngle);
+			case SOUTH -> new Quaternionf().rotationY(Mth.DEG_TO_RAD *  180);
+			case WEST -> new Quaternionf().rotationY(Mth.DEG_TO_RAD *   90);
+			case EAST -> new Quaternionf().rotationY(Mth.DEG_TO_RAD *  -90);
+			default -> new Quaternionf();
+		};
+		this.rotation = rotation;
 
 		Direction.Axis frontAxis = orientation.front().getAxis();
 		Direction.Axis verticalAxis = orientation.top().getAxis();
