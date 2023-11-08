@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalPickResult;
+import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import net.minecraft.core.BlockPos;
@@ -47,7 +47,7 @@ public abstract class EntityMixin {
 		Vec3 oldPos = position();
 		Vec3 newPos = new Vec3(args.get(0), args.get(1), args.get(2));
 		PortalManager manager = PortalManager.of(level());
-		PortalPickResult result = manager.pickPortal(oldPos, newPos);
+		PortalHitResult result = manager.clipPortal(oldPos, newPos);
 		if (result != null) {
 			Vec3 teleported = result.teleportedEnd();
 //			args.set(0, teleported.x);

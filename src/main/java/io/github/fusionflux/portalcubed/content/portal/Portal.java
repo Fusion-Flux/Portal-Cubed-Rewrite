@@ -12,6 +12,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ public final class Portal {
 	public final VoxelShape hole; // the hole this portal punches in the world to allow walking through
 	public final Vec3 normal;
 	public final FrontAndTop orientation;
+	public final Quaternionf rotation;
     public final PortalShape shape;
     public final PortalType type;
 	public final int color;
@@ -52,6 +54,30 @@ public final class Portal {
 		this.linked = null;
 		this.linkedOptional = Optional.empty();
 
+		this.rotation = orientation.top().getRotation();
+//		Direction front = orientation.front();
+//		if (front == Direction.DOWN) {
+//			rotation.rotateZ(Mth.DEG_TO_RAD * 180);
+//		} else if (front.getAxis().isHorizontal()) {
+//			rotation.rotateX(Mth.DEG_TO_RAD * 90);
+//			float yRot = switch (front) {
+//				case NORTH -> 180;
+//				case EAST -> 90;
+//				case WEST -> 270;
+//				default -> 0;
+//			};
+//			rotation.rotateY(Mth.DEG_TO_RAD * yRot);
+//		}
+//		if (front.getAxis().isVertical()) {
+//			float yRot = switch (orientation.top()) {
+//				case NORTH -> 180;
+//				case EAST -> 90;
+//				case WEST -> 270;
+//				default -> 0;
+//			};
+//			rotation.rotateY(Mth.DEG_TO_RAD * yRot);
+//		}
+
 		Direction.Axis frontAxis = orientation.front().getAxis();
 		Direction.Axis verticalAxis = orientation.top().getAxis();
 		double y = frontAxis.isVertical() ? THICKNESS : HEIGHT;
@@ -71,6 +97,10 @@ public final class Portal {
 
 	public Optional<Portal> maybeGetLinked() {
 		return linkedOptional;
+	}
+
+	public boolean isActive() {
+		return this.linked != null;
 	}
 
 	/**

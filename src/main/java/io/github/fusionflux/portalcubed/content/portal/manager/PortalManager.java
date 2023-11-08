@@ -1,18 +1,16 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
-import io.github.fusionflux.portalcubed.content.portal.PortalPickResult;
+import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
 import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
-import io.github.fusionflux.portalcubed.packet.clientbound.LinkPortalsPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,25 +38,28 @@ public abstract class PortalManager {
 	}
 
 	@Nullable
-	public PortalPickResult pickPortal(Vec3 start, Vec3 end) {
+	public PortalHitResult clipPortal(Vec3 start, Vec3 end) {
 		return storage.findPortalsInBox(new AABB(start, end))
-                .map(portal -> this.pickPortal(portal, start, end))
+                .map(portal -> this.clipPortal(portal, start, end))
                 .filter(Objects::nonNull)
-				.min(PortalPickResult.CLOSEST_TO_START)
+				.min(PortalHitResult.CLOSEST_TO_START)
 				.orElse(null);
 	}
 
 	@Nullable
-	private PortalPickResult pickPortal(Portal portal, Vec3 start, Vec3 end) {
+	private PortalHitResult clipPortal(Portal portal, Vec3 start, Vec3 end) {
+		Portal linked = portal.getLinked();
+		if (linked == null) // this shouldn't happen
+			return null;
 		// portals cannot be interacted with from behind
 		Vec3 delta = end.subtract(start);
 		if (delta.dot(portal.normal) > 0)
 			return null;
 		return portal.plane.clip(start, end).map(hit -> {
-			// TODO: transform these across portals
-			Vec3 teleportedEnd = end;
-			Vec3 hitOut = hit;
-            return new PortalPickResult(start, end, hit, hit, portal);
+//			portal.
+//			Vec3 teleportedEnd = end;
+//			Vec3 hitOut = hit;
+            return new PortalHitResult(start, end, hit, hit, portal, linked);
         }).orElse(null);
 	}
 

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
+import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
@@ -20,11 +21,16 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
 public class PortalRenderer {
+	public static final Color PLANE_COLOR = new Color(1, 1, 1, 1);
+	public static final Color ACTIVE_PLANE_COLOR = new Color(0.5f, 1, 0.5f, 1);
+	public static final Color HOLE_COLOR = new Color(1, 0.5f, 0.5f, 1);
+
 	private static void render(WorldRenderContext context) {
 		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource vertexConsumers))
 			return;
@@ -59,19 +65,18 @@ public class PortalRenderer {
 		// translate to portal pos
 		matrices.translate(portal.origin.x, portal.origin.y, portal.origin.z);
 		// apply rotations
-		Direction front = portal.orientation.front();
-		matrices.mulPose(front.getRotation()); // rotate towards facing direction
-		if (front.getAxis().isVertical()) {
-			// for floor / ceiling portals, rotate towards top
-			float rotation = portal.orientation.top().toYRot();
-			if (front == Direction.UP) {
-				// I don't know! This is needed because of some weirdness that I've debugged for too long across too many projects.
-				rotation = -rotation + 180;
-			}
-			matrices.mulPose(Axis.YP.rotationDegrees(rotation));
-		}
+		matrices.mulPose(portal.rotation); // rotate towards facing direction
+//		if (front.getAxis().isVertical()) {
+//			// for floor / ceiling portals, rotate towards top
+//			float rotation = portal.orientation.top().toYRot();
+//			if (front == Direction.UP) {
+//				// I don't know! This is needed because of some weirdness that I've debugged for too long across too many projects.
+//				rotation = -rotation + 180;
+//			}
+//			matrices.mulPose(Axis.YP.rotationDegrees(rotation));
+//		}
 		// slight offset so origin is center of portal
-		matrices.translate(-0.5f, 0, -1f);
+		matrices.translate(-0.5f, -1, 0);
 		// scale quad - 32x32 texture, half is used. scale the 1x1 to a 2x2.
 		matrices.scale(2, 2, 2);
 		RenderingUtil.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.color);
@@ -80,10 +85,15 @@ public class PortalRenderer {
 
 	private static void renderPortalDebug(Portal portal, PoseStack matrices, MultiBufferSource vertexConsumers) {
 		// render a box around the portal's plane
-		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
-		LevelRenderer.renderLineBox(matrices, vertices, portal.plane, 1, 1, 1, 1);
+		Color planeColor = portal.isActive() ? ACTIVE_PLANE_COLOR : PLANE_COLOR;
+		renderBox(matrices, vertexConsumers, portal.plane, planeColor);
 		// and the portal's hole
-		LevelRenderer.renderLineBox(matrices, vertices, portal.holeBox, 1, 0.5f, 0.5f, 1);
+//		renderBox(matrices, vertexConsumers, portal.holeBox, HOLE_COLOR);
+	}
+
+	private static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, AABB box, Color color) {
+		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
+		LevelRenderer.renderLineBox(matrices, vertices, box, color.r(), color.g(), color.b(), color.a());
 	}
 
 	public static void init() {

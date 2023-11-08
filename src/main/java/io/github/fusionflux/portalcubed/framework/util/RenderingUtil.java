@@ -21,7 +21,7 @@ public class RenderingUtil {
 	}
 
 	private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix, Matrix3f normalMatrix, int light, float x, int y, int color, int textureU, int textureV) {
-		vertexConsumer.vertex(matrix, x, 0, y)
+		vertexConsumer.vertex(matrix, x, y, 0)
 				.color(color)
 				.uv(textureU, textureV)
 				.overlayCoords(OverlayTexture.NO_OVERLAY)
