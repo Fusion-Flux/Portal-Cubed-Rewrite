@@ -34,6 +34,23 @@ dependencies {
 	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version")
 }
 
+loom {
+	runs {
+		datagen {
+			client()
+
+			name "Minecraft Data"
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+			vmArg "-Dfabric-api.datagen.modid=portalcubed"
+		}
+
+		configureEach {
+			vmArg("-Dmixin.debug.export=true")
+		}
+	}
+}
+
 tasks.register("buildOrPublish") {
 	group = "build"
 	String mavenUser = System.getenv("MAVEN_USER")
