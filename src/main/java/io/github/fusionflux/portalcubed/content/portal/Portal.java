@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public final class Portal {
 	// portal plane is 2 pixels short of full blocks on each axis, 1 on each side
@@ -24,6 +25,7 @@ public final class Portal {
 	public static final double WIDTH = 1 - (2 * SIXTEENTH);
 	public static final double THICKNESS = 0.001;
 	public static final double HOLE_DEPTH = 5;
+	public static final double OFFSET_FROM_WALL = 0.001;
 
 	public final int netId;
     public final Vec3 origin;
@@ -36,13 +38,14 @@ public final class Portal {
     public final PortalShape shape;
     public final PortalType type;
 	public final int color;
+	public final UUID owner;
 
 	private int linkedNetId;
 	@Nullable
 	private Portal linked;
 	private Optional<Portal> linkedOptional;
 
-    public Portal(int netId, Vec3 origin, FrontAndTop orientation, PortalShape shape, PortalType type, int color) {
+    public Portal(int netId, Vec3 origin, FrontAndTop orientation, PortalShape shape, PortalType type, int color, UUID owner) {
 		this.netId = netId;
         this.origin = origin;
 		this.normal = Vec3.atLowerCornerOf(orientation.front().getNormal());
@@ -50,35 +53,35 @@ public final class Portal {
         this.shape = shape;
         this.type = type;
 		this.color = color;
+		this.owner = owner;
 
 		this.linkedNetId = -1;
 		this.linked = null;
 		this.linkedOptional = Optional.empty();
 
-		var topDirection = orientation.top();
-		var frontDirection = orientation.front();
+		Direction topDirection = orientation.top();
+		Direction frontDirection = orientation.front();
 		float topAngle = 0;
 		if (frontDirection.getAxis().isVertical()) {
 			topDirection = (frontDirection == Direction.DOWN && topDirection.getAxis() == Direction.Axis.Z) ? topDirection.getOpposite() : topDirection;
-			topAngle = switch (topDirection) {
-				case NORTH -> Mth.DEG_TO_RAD *  180;
-				case WEST ->  Mth.DEG_TO_RAD *  90;
-				case EAST ->  Mth.DEG_TO_RAD * -90;
+			topAngle = Mth.DEG_TO_RAD * switch (topDirection) {
+				case NORTH -> 180;
+				case WEST -> 90;
+				case EAST -> -90;
 				default -> 0;
 			};
 		}
-		var rotation = switch (frontDirection) {
-			case DOWN -> new Quaternionf().rotationXYZ(Mth.DEG_TO_RAD * 270, 0, topAngle);
-			case UP -> new Quaternionf().rotationXYZ(Mth.DEG_TO_RAD *  -270, 0, topAngle);
-			case SOUTH -> new Quaternionf().rotationY(Mth.DEG_TO_RAD *  180);
-			case WEST -> new Quaternionf().rotationY(Mth.DEG_TO_RAD *   90);
-			case EAST -> new Quaternionf().rotationY(Mth.DEG_TO_RAD *  -90);
-			default -> new Quaternionf();
-		};
-		this.rotation = rotation;
+		this.rotation = new Quaternionf();
+		switch (frontDirection) {
+			case DOWN -> this.rotation.rotationXYZ(Mth.DEG_TO_RAD * 270, 0, topAngle);
+			case UP -> this.rotation.rotationXYZ(Mth.DEG_TO_RAD *  -270, 0, topAngle);
+			case SOUTH -> this.rotation.rotationY(Mth.DEG_TO_RAD *  180);
+			case WEST -> this.rotation.rotationY(Mth.DEG_TO_RAD *   90);
+			case EAST -> this.rotation.rotationY(Mth.DEG_TO_RAD *  -90);
+		}
 
-		Direction.Axis frontAxis = orientation.front().getAxis();
-		Direction.Axis verticalAxis = orientation.top().getAxis();
+		Direction.Axis frontAxis = frontDirection.getAxis();
+		Direction.Axis verticalAxis = topDirection.getAxis();
 		double y = frontAxis.isVertical() ? THICKNESS : HEIGHT;
 		double x = frontAxis == Direction.Axis.X ? THICKNESS : (verticalAxis == Direction.Axis.X ? HEIGHT : WIDTH);
 		double z = frontAxis == Direction.Axis.Z ? THICKNESS : (verticalAxis == Direction.Axis.Z ? HEIGHT : WIDTH);
@@ -127,6 +130,7 @@ public final class Portal {
 		buf.writeEnum(type);
 		buf.writeVarInt(color);
 		buf.writeVarInt(linkedNetId);
+		buf.writeUUID(owner);
 	}
 
 	public static Portal fromNetwork(FriendlyByteBuf buf) {
@@ -137,7 +141,8 @@ public final class Portal {
 		PortalType type = buf.readEnum(PortalType.class);
 		int color = buf.readVarInt();
 		int linkedId = buf.readVarInt();
-		Portal portal = new Portal(netId, origin, orientation, shape, type, color);
+		UUID owner = buf.readUUID();
+		Portal portal = new Portal(netId, origin, orientation, shape, type, color, owner);
 		portal.linkedNetId = linkedId; // the portal reference will be resolved later with findLinkedPortal
 		return portal;
 	}

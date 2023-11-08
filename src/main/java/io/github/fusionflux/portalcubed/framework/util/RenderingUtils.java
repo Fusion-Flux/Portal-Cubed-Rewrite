@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-public class RenderingUtil {
+public class RenderingUtils {
 	// mostly yoinked from DragonFireballRenderer
 	public static void renderQuad(PoseStack matrices, VertexConsumer vertices, int light, int color) {
 		PoseStack.Pose pose = matrices.last();

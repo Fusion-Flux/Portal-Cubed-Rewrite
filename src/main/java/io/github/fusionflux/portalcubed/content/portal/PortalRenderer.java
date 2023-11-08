@@ -7,7 +7,7 @@ import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.util.Color;
-import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 
@@ -20,7 +20,6 @@ import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -71,7 +70,7 @@ public class PortalRenderer {
 		matrices.translate(-0.5f, -1, 0);
 		// scale quad - 32x32 texture, half is used. scale the 1x1 to a 2x2.
 		matrices.scale(2, 2, 2);
-		RenderingUtil.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.color);
+		RenderingUtils.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.color);
 		matrices.popPose();
 	}
 

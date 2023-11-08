@@ -12,6 +12,7 @@ import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 public class PortalCubedEntities {
 	public static final EntityType<PortalProjectile> PORTAL_PROJECTILE = REGISTRAR.entities.create("portal_projectile", PortalProjectile::new)
 			.configure(QuiltEntityTypeBuilder::disableSaving)
+			.configure(QuiltEntityTypeBuilder::disableSummon)
 			.size(EntityDimensions.fixed(0.5f, 0.5f))
 			.renderer(() -> () -> PortalProjectileRenderer::new)
 			.build();

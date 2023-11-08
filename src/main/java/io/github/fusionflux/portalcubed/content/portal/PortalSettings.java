@@ -13,8 +13,6 @@ public record PortalSettings(int color, PortalShape shape) {
 
 	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(PortalType.PRIMARY.defaultColor, PortalShape.SQUARE);
 	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(PortalType.SECONDARY.defaultColor, PortalShape.SQUARE);
-	// for entity synced data, default needs to be a value that will never be set otherwise
-	public static final PortalSettings INVALID = new PortalSettings(-1, PortalShape.SQUARE);
 
 	public static void toNetwork(FriendlyByteBuf buf, PortalSettings data) {
 		buf.writeVarInt(data.color);

@@ -50,9 +50,9 @@ public abstract class EntityMixin {
 		PortalHitResult result = manager.clipPortal(oldPos, newPos);
 		if (result != null) {
 			Vec3 teleported = result.teleportedEnd();
-//			args.set(0, teleported.x);
-//			args.set(1, teleported.y);
-//			args.set(2, teleported.z);
+			args.set(0, teleported.x);
+			args.set(1, teleported.y);
+			args.set(2, teleported.z);
 			System.out.println("entity teleported");
 			// TODO: should we teleport the old position fields to behind the out portal?
 		}

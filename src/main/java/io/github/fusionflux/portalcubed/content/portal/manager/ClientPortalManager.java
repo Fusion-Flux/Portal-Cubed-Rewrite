@@ -19,4 +19,12 @@ public class ClientPortalManager extends PortalManager {
 		portal.findLinkedPortal(this);
 		this.storage.addPortal(portal);
 	}
+
+	public void removePortal(int portalId) {
+		Portal portal = storage.getByNetId(portalId);
+		if (portal != null) {
+			unlinkPortal(portal);
+			this.storage.removePortal(portal);
+		}
+	}
 }

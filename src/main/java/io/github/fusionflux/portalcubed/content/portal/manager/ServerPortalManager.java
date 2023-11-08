@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalShape;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.framework.extension.ServerLevelExt;
@@ -9,12 +10,13 @@ import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.LinkPortalsPacket;
 import net.minecraft.core.FrontAndTop;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
-import org.jetbrains.annotations.Nullable;
+import io.github.fusionflux.portalcubed.packet.clientbound.RemovePortalPacket;
+
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerPortalManager extends PortalManager {
@@ -33,31 +35,32 @@ public class ServerPortalManager extends PortalManager {
 	/**
 	 * Create and sync a new portal.
 	 */
-	public Portal createPortal(Vec3 pos, FrontAndTop orientation, int color, PortalShape shape, PortalType type) {
+	public Portal createPortal(Vec3 pos, FrontAndTop orientation, int color, PortalShape shape, PortalType type, UUID player) {
+		// potentially remove old portal
+		PortalPair playerPortals = this.getPortalsOf(player);
+		playerPortals.getOptional(type).ifPresent(this::removePortal);
+		// create new portal
 		int id = idGenerator.getAndIncrement();
-		Portal portal = new Portal(id, pos, orientation, shape, type, color);
+		Portal portal = new Portal(id, pos, orientation, shape, type, color, player);
+		// store new portal
 		this.storage.addPortal(portal);
-
-		CreatePortalPacket packet = new CreatePortalPacket(portal);
-		for (ServerPlayer player : PlayerLookup.world(this.level)) {
-			PortalCubedPackets.sendToClient(player, packet);
-		}
+		// (re-)link
+		this.linkPortals(playerPortals);
+		// notify clients
+		PortalCubedPackets.sendToClients(PlayerLookup.world(level), new CreatePortalPacket(portal));
 
 		return portal;
 	}
 
-	public Portal createLinkedPortal(Vec3 pos, FrontAndTop orientation, int color, PortalShape shape, PortalType type, Portal linked) {
-		Portal portal = createPortal(pos, orientation, color, shape, type);
-		linkPortals(portal, linked);
-		return portal;
+	private void removePortal(Portal portal) {
+		unlinkPortal(portal);
+		this.storage.removePortal(portal);
+		PortalCubedPackets.sendToClients(PlayerLookup.world(level), new RemovePortalPacket(portal));
 	}
 
 	@Override
 	public void linkPortals(Portal a, Portal b) {
 		super.linkPortals(a, b);
-		LinkPortalsPacket packet = new LinkPortalsPacket(a, b);
-		for (ServerPlayer player : PlayerLookup.world(this.level)) {
-			PortalCubedPackets.sendToClient(player, packet);
-		}
+		PortalCubedPackets.sendToClients(PlayerLookup.world(level), new LinkPortalsPacket(a, b));
 	}
 }

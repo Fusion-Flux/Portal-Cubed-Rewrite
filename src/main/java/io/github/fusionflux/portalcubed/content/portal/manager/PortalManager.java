@@ -2,19 +2,24 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
 import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public abstract class PortalManager {
@@ -37,6 +42,14 @@ public abstract class PortalManager {
 		return storage.findPortalsInBox(new AABB(pos).inflate(0.1)).collect(Collectors.toSet());
 	}
 
+	public PortalPair getPortalsOf(Player player) {
+		return getPortalsOf(player.getUUID());
+	}
+
+	public PortalPair getPortalsOf(UUID playerId) {
+		return storage.getPortalsOf(playerId);
+	}
+
 	@Nullable
 	public PortalHitResult clipPortal(Vec3 start, Vec3 end) {
 		return storage.findPortalsInBox(new AABB(start, end))
@@ -52,20 +65,27 @@ public abstract class PortalManager {
 		if (linked == null) // this shouldn't happen
 			return null;
 		// portals cannot be interacted with from behind
-		Vec3 delta = end.subtract(start);
-		if (delta.dot(portal.normal) > 0)
-			return null;
+//		Vec3 delta = end.subtract(start);
+//		if (delta.dot(portal.normal) > 0)
+//			return null;
 		return portal.plane.clip(start, end).map(hit -> {
-//			portal.
-//			Vec3 teleportedEnd = end;
-//			Vec3 hitOut = hit;
-            return new PortalHitResult(start, end, hit, hit, portal, linked);
+			Vec3 teleportedHit = TransformUtils.applyDual(portal.rotation::transformInverse, linked.rotation::transform, hit);
+			Vec3 remainder = end.subtract(hit);
+			Vec3 teleportedEnd = TransformUtils.applyDual(portal.rotation::transformInverse, linked.rotation::transform, remainder);
+
+			return new PortalHitResult(start, teleportedEnd, hit, teleportedHit, portal, linked);
         }).orElse(null);
 	}
 
+	public void linkPortals(PortalPair portals) {
+		if (portals.primary().isPresent() && portals.secondary().isPresent()) {
+			this.linkPortals(portals.primary().get(), portals.secondary().get());
+		}
+	}
+
 	public void linkPortals(Portal a, Portal b) {
-		unlinkPortal(a);
-		unlinkPortal(b);
+		this.unlinkPortal(a);
+		this.unlinkPortal(b);
 		a.setLinked(b);
 		b.setLinked(a);
 	}
