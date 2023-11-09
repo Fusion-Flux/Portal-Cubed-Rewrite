@@ -27,6 +27,7 @@ public class PortalCubedModelProvider extends FabricModelProvider {
 	@Override
 	public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
 		createFloorButton(blockStateModelGenerator, PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
+		createFloorButton(blockStateModelGenerator, PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
 	}
 
 	@Override
@@ -45,24 +46,30 @@ public class PortalCubedModelProvider extends FabricModelProvider {
 		blockStateModelGenerator.blockStateOutput.accept(
 			MultiVariantGenerator.multiVariant(floorButtonBlock)
 				.with(
-					PropertyDispatch.properties(FloorButtonBlock.ACTIVE, xProp, yProp).generate(
-						(active, x, y) -> {
-							var modelId = (active ? activeModelId : regularModelId)
-								.withSuffix("_" + QUADRANT_LOOKUP[y][x]);
-							return new Variant().with(VariantProperties.MODEL, modelId);
+					PropertyDispatch.properties(FloorButtonBlock.ACTIVE, BlockStateProperties.FACING, xProp, yProp).generate(
+						(active, facing, x, y) -> {
+							var quadrantName = switch (facing) {
+								case SOUTH -> QUADRANT_LOOKUP[y == 1 ? 0 : 1][x];
+								case WEST ->  QUADRANT_LOOKUP[y][x == 1 ? 0 : 1];
+								case DOWN ->  QUADRANT_LOOKUP[x == 1 ? 0 : 1][y == 1 ? 0 : 1];
+								default ->    QUADRANT_LOOKUP[y][x];
+							};
+							var modelId = (active ? activeModelId : regularModelId).withSuffix("_" + quadrantName);
+							return variantForMultiBlockDirection(facing).with(VariantProperties.MODEL, modelId);
 						}
 					)
-				).with(multiBlockFacingDispatch())
+				)
 		);
 	}
 
-	public static PropertyDispatch multiBlockFacingDispatch() {
-		return PropertyDispatch.property(BlockStateProperties.FACING)
-			.select(Direction.DOWN, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90))
-			.select(Direction.UP, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R270))
-			.select(Direction.NORTH, Variant.variant())
-			.select(Direction.SOUTH, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180))
-			.select(Direction.WEST, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270))
-			.select(Direction.EAST, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90));
+	public static Variant variantForMultiBlockDirection(Direction direction) {
+		return switch (direction) {
+			case DOWN  -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R180).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
+			case UP    -> Variant.variant();
+			case NORTH -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90);
+			case SOUTH -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R270);
+			case WEST  -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
+			case EAST  -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90);
+		};
 	}
 }

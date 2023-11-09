@@ -22,6 +22,10 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.STONE)
 			.item((block, properties) -> new MultiBlockItem(block, properties))
 			.build();
+	public static final FloorButtonBlock OLD_AP_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("old_ap_floor_button", FloorButtonBlock::new)
+			.copyFrom(Blocks.STONE)
+			.item((block, properties) -> new MultiBlockItem(block, properties))
+			.build();
 
 	public static void init() {
 	}
