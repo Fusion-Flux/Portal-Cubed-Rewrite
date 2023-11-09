@@ -60,6 +60,7 @@ public class PortalCubedModelProvider extends FabricModelProvider {
 					)
 				)
 		);
+		blockStateModelGenerator.skipAutoItemBlock(floorButtonBlock);
 	}
 
 	public static Variant variantForMultiBlockDirection(Direction direction) {
