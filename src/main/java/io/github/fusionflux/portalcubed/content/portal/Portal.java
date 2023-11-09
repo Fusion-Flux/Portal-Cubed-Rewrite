@@ -2,10 +2,10 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.framework.util.PacketUtils;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -36,6 +36,7 @@ public final class Portal {
 	public final Vec3 normal;
 	public final FrontAndTop orientation;
 	public final Quaternionf rotation;
+	public final Quaternionf rotation180;
     public final PortalShape shape;
     public final PortalType type;
 	public final int color;
@@ -60,29 +61,11 @@ public final class Portal {
 		this.linked = null;
 		this.linkedOptional = Optional.empty();
 
-		Direction topDirection = orientation.top();
-		Direction frontDirection = orientation.front();
-		float topAngle = 0;
-		if (frontDirection.getAxis().isVertical()) {
-			topDirection = (frontDirection == Direction.DOWN && topDirection.getAxis() == Direction.Axis.Z) ? topDirection.getOpposite() : topDirection;
-			topAngle = Mth.DEG_TO_RAD * switch (topDirection) {
-				case NORTH -> 180;
-				case WEST -> 90;
-				case EAST -> -90;
-				default -> 0;
-			};
-		}
-		this.rotation = new Quaternionf();
-		switch (frontDirection) {
-			case DOWN -> this.rotation.rotationXYZ(Mth.DEG_TO_RAD * 270, 0, topAngle);
-			case UP -> this.rotation.rotationXYZ(Mth.DEG_TO_RAD *  -270, 0, topAngle);
-			case SOUTH -> this.rotation.rotationY(Mth.DEG_TO_RAD *  180);
-			case WEST -> this.rotation.rotationY(Mth.DEG_TO_RAD *   90);
-			case EAST -> this.rotation.rotationY(Mth.DEG_TO_RAD *  -90);
-		}
+		this.rotation = TransformUtils.quaternionOf(orientation);
+		this.rotation180 = TransformUtils.rotateAround(rotation, orientation.top().getAxis(), 180);
 
-		Direction.Axis frontAxis = frontDirection.getAxis();
-		Direction.Axis verticalAxis = topDirection.getAxis();
+		Direction.Axis frontAxis = orientation.front().getAxis();
+		Direction.Axis verticalAxis = orientation.top().getAxis();
 		double y = frontAxis.isVertical() ? THICKNESS : HEIGHT;
 		double x = frontAxis == Direction.Axis.X ? THICKNESS : (verticalAxis == Direction.Axis.X ? HEIGHT : WIDTH);
 		double z = frontAxis == Direction.Axis.Z ? THICKNESS : (verticalAxis == Direction.Axis.Z ? HEIGHT : WIDTH);

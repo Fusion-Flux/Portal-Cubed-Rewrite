@@ -15,7 +15,6 @@ import net.minecraft.world.phys.Vec3;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3d;
 
 import java.util.List;
 import java.util.Objects;
@@ -73,14 +72,14 @@ public abstract class PortalManager {
 			Vec3 teleportedHit = TransformUtils.apply(hit,
 					portal::relativize,
 					portal.rotation::transformInverse,
-					linked.rotation::transform,
+					linked.rotation180::transform,
 					linked::derelativize
 			);
 			Vec3 remainder = end.subtract(hit);
 			Vec3 teleportedEnd = TransformUtils.apply(remainder,
 					portal::relativize,
 					portal.rotation::transformInverse,
-					linked.rotation::transform,
+					linked.rotation180::transform,
 					linked::derelativize,
 					portal::derelativize
 			);
