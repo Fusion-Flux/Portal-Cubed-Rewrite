@@ -5,8 +5,10 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockBehavior$BlockStateBaseMixin",
+    "CubeVoxelShapeAccessor",
     "EntityMixin",
-    "ServerLevelMixin"
+    "ServerLevelMixin",
+    "VoxelShapeAccessor"
   ],
   "client": [
     "client.ClientLevelMixin",
