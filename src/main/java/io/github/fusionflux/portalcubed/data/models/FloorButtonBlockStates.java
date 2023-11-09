@@ -14,13 +14,18 @@ import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public class PortalCubedModelProvider extends FabricModelProvider {
+/**
+ * generated files:
+ * assets\portalcubed\blockstates\old_ap_floor_button.json
+ * assets\portalcubed\blockstates\floor_button.json
+ */
+public class FloorButtonBlockStates extends FabricModelProvider {
 	public static final String[][] QUADRANT_LOOKUP = new String[][]{
 		new String[]{"bottom_left", "bottom_right"},
 		new String[]{"top_left", "top_right"}
 	};
 
-	public PortalCubedModelProvider(FabricDataOutput output) {
+	public FloorButtonBlockStates(FabricDataOutput output) {
 		super(output);
 	}
 

@@ -65,13 +65,6 @@ processResources {
 }
 
 sourceSets {
-	main {
-		resources {
-			srcDir("src/generated/resources")
-			exclude("src/generated/resources/.cache")
-		}
-	}
-
 	testmod {
 		compileClasspath += main.compileClasspath
 		compileClasspath += main.output
