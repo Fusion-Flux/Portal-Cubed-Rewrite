@@ -13,11 +13,20 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class VoxelShenanigans {
+	/**
+	 * The size of individual voxels, basically the resolution.
+	 * It must be within 2^n or else the math will die,
+	 * and I have no clue what demons will traverse the portal to hell you'll open.
+	 * */
 	public static final int SIZE = 32;
 	/**
 	 * This is the max value of the loop below
 	 * */
 	public static final long MAX = (long) SIZE * (long) SIZE * (long) SIZE - 1;
+	/**
+	 * The number of bits in {@link VoxelShenanigans#SIZE}
+	 * Please keep it in check or society will go up in flames.
+	 * */
 	public static final long SHIFT = 5;
 
 	public static VoxelShape rotateShape(VoxelShape shape, Quaternionf rotation) {
