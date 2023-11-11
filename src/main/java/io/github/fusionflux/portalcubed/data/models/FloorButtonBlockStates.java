@@ -33,6 +33,7 @@ public class FloorButtonBlockStates extends FabricModelProvider {
 	public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
 		createFloorButton(blockStateModelGenerator, PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 		createFloorButton(blockStateModelGenerator, PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
+		createFloorButton(blockStateModelGenerator, PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK);
 	}
 
 	@Override

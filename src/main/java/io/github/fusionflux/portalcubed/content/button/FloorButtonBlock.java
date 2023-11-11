@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
@@ -11,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -34,16 +34,16 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public final VoxelShaper[][] shapes;
 	public final Map<Direction, AABB> buttonBounds = new HashMap<>();
 	public final Predicate<? super Entity> entityPredicate;
-	public final SoundEvent activationSound;
-	public final SoundEvent deactivationSound;
+	public final SoundEvent pressSound;
+	public final SoundEvent releaseSound;
 
 	public FloorButtonBlock(
 		Properties properties,
 		VoxelShaper[][] shapes,
 		VoxelShape buttonShape,
 		Predicate<? super Entity> entityPredicate,
-		SoundEvent activationSound,
-		SoundEvent deactivationSound
+		SoundEvent pressSound,
+		SoundEvent releaseSound
 	) {
 		super(properties);
 		this.shapes = shapes;
@@ -57,16 +57,16 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		).move(-buttonShape.min(Direction.Axis.X), -buttonShape.min(Direction.Axis.Y), 0));
 		for (Direction direction : Direction.values()) getButtonBounds(direction);
 		this.entityPredicate = entityPredicate;
-		this.activationSound = activationSound;
-		this.deactivationSound = deactivationSound;
+		this.pressSound = pressSound;
+		this.releaseSound = releaseSound;
 		this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false));
 	}
 
-	public FloorButtonBlock(Properties properties, VoxelShaper[][] shapes, VoxelShape buttonShape, SoundEvent activationSound, SoundEvent deactivationSound) {
-		this(properties, shapes, buttonShape, entity -> entity.getType().is(PortalCubedEntityTags.PRESSES_FLOOR_BUTTONS), activationSound, deactivationSound);
+	public FloorButtonBlock(Properties properties, VoxelShaper[][] shapes, VoxelShape buttonShape, SoundEvent pressSound, SoundEvent releaseSound) {
+		this(properties, shapes, buttonShape, entity -> entity.getType().is(PortalCubedEntityTags.PRESSES_FLOOR_BUTTONS), pressSound, releaseSound);
 	}
 
-	public FloorButtonBlock(Properties properties, SoundEvent activationSound, SoundEvent deactivationSound) {
+	public FloorButtonBlock(Properties properties, SoundEvent pressSound, SoundEvent releaseSound) {
 		this(properties, new VoxelShaper[][]{
 			new VoxelShaper[]{
 				VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(4, 1, 4, 16, 3, 16)), Direction.UP),
@@ -76,11 +76,11 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 				VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(4, 1, 0, 16, 3, 12)), Direction.UP),
 				VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(0, 1, 0, 12, 3, 12)), Direction.UP)
 			}
-		}, box(7.5, 7.5, 3, 16, 16, 4), activationSound, deactivationSound);
+		}, box(7.5, 7.5, 3, 16, 16, 4), pressSound, releaseSound);
 	}
 
 	public FloorButtonBlock(Properties properties) {
-		this(properties, SoundEvents.STONE_BUTTON_CLICK_ON, SoundEvents.STONE_BUTTON_CLICK_OFF);
+		this(properties, PortalCubedSounds.FLOOR_BUTTON_PRESS, PortalCubedSounds.FLOOR_BUTTON_RELEASE);
 	}
 
 	public AABB getButtonBounds(Direction direction) {
@@ -128,6 +128,11 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	@Override
+	public VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return Shapes.empty();
+	}
+
+	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 		boolean entitiesPressing = level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate).size() > 0;
 		if (entitiesPressing) {
@@ -138,7 +143,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 				if (!quadrantState.is(this)) return;
 				level.setBlock(quadrantPos, quadrantState.setValue(ACTIVE, false), UPDATE_ALL);
 			}
-			playSoundAtCenter(deactivationSound, 1f, 1f, pos, state, level);
+			playSoundAtCenter(releaseSound, 1f, 1f, pos, state, level);
 		}
 	}
 
@@ -152,7 +157,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 					level.setBlock(quadrantPos, newQuadrantState, UPDATE_ALL);
 				}
 				level.scheduleTick(originPos, this, PRESSED_TIME);
-				playSoundAtCenter(activationSound, 1f, 1f, originPos, state, level);
+				playSoundAtCenter(pressSound, 1f, 1f, originPos, state, level);
 			}
 		}
 	}

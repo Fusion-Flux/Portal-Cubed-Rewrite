@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.content.button;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
 
 public class OldApFloorButtonBlock extends FloorButtonBlock {
 	public OldApFloorButtonBlock(Properties properties) {
@@ -15,6 +15,6 @@ public class OldApFloorButtonBlock extends FloorButtonBlock {
 				VoxelShaper.forDirectional(box(2, 0, 0, 16, 2, 14), Direction.UP),
 				VoxelShaper.forDirectional(box(0, 0, 0, 14, 2, 14), Direction.UP)
 			}
-		}, box(4, 4, 2, 16, 16, 3), SoundEvents.WOODEN_BUTTON_CLICK_ON, SoundEvents.WOODEN_BUTTON_CLICK_OFF);
+		}, box(4, 4, 2, 16, 16, 3), PortalCubedSounds.OLD_AP_FLOOR_BUTTON_PRESS, PortalCubedSounds.OLD_AP_FLOOR_BUTTON_RELEASE);
 	}
 }

@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
@@ -40,6 +41,8 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
 		PortalCubedSerializers.init();
+
+		PortalCubedSounds.init();
 	}
 
 	public static ResourceLocation id(String path) {
