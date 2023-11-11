@@ -7,7 +7,13 @@
     "ServerLevelMixin"
   ],
   "client": [
-    "MinecraftMixin",
+    "client.MinecraftMixin",
+    "client.BakedQuadMixin",
+    "client.BlockModel_DeserializerMixin",
+    "client.BlockModelMixin",
+    "client.BlockElement_DeserializerMixin",
+    "client.BlockElementMixin",
+    "client.SimpleBakedModelAccessor",
     "client.ClientLevelMixin"
   ],
   "injectors": {
