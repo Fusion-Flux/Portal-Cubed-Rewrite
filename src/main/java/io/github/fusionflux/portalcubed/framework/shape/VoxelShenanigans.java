@@ -1,12 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
 import io.github.fusionflux.portalcubed.mixin.CubeVoxelShapeAccessor;
-import io.github.fusionflux.portalcubed.mixin.VoxelShapeAccessor;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
-import net.minecraft.world.phys.shapes.CubeVoxelShape;
 import net.minecraft.world.phys.shapes.DiscreteVoxelShape;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.joml.Quaternionf;
@@ -14,50 +10,50 @@ import org.joml.Vector3f;
 
 public class VoxelShenanigans {
 	/**
-	 * The size of individual voxels, basically the resolution.
+	 * The number of voxels on each axis.
 	 * It must be within 2^n or else the math will die,
 	 * and I have no clue what demons will traverse the portal to hell you'll open.
 	 * */
-	public static final int SIZE = 32;
+	public static final int RESOLUTION = 16;
 	/**
 	 * This is the max value of the loop below
 	 * */
-	public static final long MAX = (long) SIZE * (long) SIZE * (long) SIZE - 1;
+	public static final long MAX = (long) RESOLUTION * (long) RESOLUTION * (long) RESOLUTION - 1;
 	/**
-	 * The number of bits in {@link VoxelShenanigans#SIZE}
+	 * The number of bits required to store {@link VoxelShenanigans#RESOLUTION}
 	 * Please keep it in check or society will go up in flames.
-	 * */
-	public static final long SHIFT = 5;
+	 */
+	public static final long SHIFT = 4;
 
+	/**
+	 * Rotate a shape by the given quaternion.
+	 * Shape is expected to be defined with relative coordinates.
+	 */
 	public static VoxelShape rotateShape(VoxelShape shape, Quaternionf rotation) {
 		if (shape.isEmpty())
 			return shape;
-		DiscreteVoxelShape internal = ((VoxelShapeAccessor) shape).getShape();
-		DiscreteVoxelShape newShape = new BitSetDiscreteVoxelShape(SIZE, SIZE, SIZE);
-		float width = internal.getXSize() / 2f;
-		float height = internal.getYSize() / 2f;
-		float depth = internal.getZSize() / 2f;
+
+		// center shape on 0, 0
+		shape = shape.move(-0.5, -0.5, -0.5);
+		DiscreteVoxelShape newShape = new BitSetDiscreteVoxelShape(RESOLUTION, RESOLUTION, RESOLUTION);
+		FillTest test = FillTest.create(shape, rotation);
 
 		// This helps save on allocations. Go cry to oracle if you don't like it
-		Vector3f rotated = new Vector3f();
-
+		Vector3f pos = new Vector3f();
 		// Instead of iterating through each coord like a sane person, let's combine all three axes!
 		for (long i = 0; i < MAX; i++) {
 			// Evil bit shifts to study and commit crimes to
-			int x = (int) (i % SIZE);
-			int y = (int) ((i >> SHIFT) % SIZE);
-			int z = (int) ((i >> (2*SHIFT)) % SIZE);
+			int x = (int) (i % RESOLUTION);
+			int y = (int) ((i >> SHIFT) % RESOLUTION);
+			int z = (int) ((i >> (2*SHIFT)) % RESOLUTION);
+			// coords are in voxel space
+			pos.set(x, y, z);
+			// convert to block scale
+			pos.mul(1f / RESOLUTION);
+			// and offset to origin
+			pos.sub(0.5f, 0.5f, 0.5f);
 
-			float ix = Mth.map(x, 0, SIZE, 0, internal.getXSize()) - width;
-			float iy = Mth.map(y, 0, SIZE, 0, internal.getYSize()) - height;
-			float iz = Mth.map(z, 0, SIZE, 0, internal.getZSize()) - depth;
-
-			rotation.transform(ix, iy, iz, rotated)
-					.add(width, height, depth).round();
-			if (rotated.x < 0 || rotated.y < 0 || rotated.z < 0)
-				continue;
-
-			if (internal.isFull((int) rotated.x, (int) rotated.y, (int) rotated.z)) {
+			if (test.isFilled(pos)) {
 				newShape.fill(x, y, z);
 			}
 		}

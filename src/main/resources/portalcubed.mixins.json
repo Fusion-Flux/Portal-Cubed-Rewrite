@@ -7,8 +7,7 @@
     "BlockBehavior$BlockStateBaseMixin",
     "CubeVoxelShapeAccessor",
     "EntityMixin",
-    "ServerLevelMixin",
-    "VoxelShapeAccessor"
+    "ServerLevelMixin"
   ],
   "client": [
     "client.ClientLevelMixin",
