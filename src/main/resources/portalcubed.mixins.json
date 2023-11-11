@@ -11,9 +11,15 @@
     "ThrowableProjectileMixin"
   ],
   "client": [
+    "client.BakedQuadMixin",
+    "client.BlockElement_DeserializerMixin",
+    "client.BlockElementMixin",
+    "client.BlockModel_DeserializerMixin",
+    "client.BlockModelMixin",
     "client.ClientLevelMixin",
     "client.LocalPlayerMixin",
-    "client.MinecraftMixin"
+    "client.MinecraftMixin",
+    "client.SimpleBakedModelAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
