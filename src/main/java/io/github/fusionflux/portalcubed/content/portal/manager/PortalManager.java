@@ -75,14 +75,12 @@ public abstract class PortalManager {
 					linked.rotation180::transform,
 					linked::derelativize
 			);
-			Vec3 remainder = end.subtract(hit);
+			Vec3 remainder = hit.vectorTo(end); // relative offset
 			Vec3 teleportedEnd = TransformUtils.apply(remainder,
-					portal::relativize,
+					// already relative, just transform
 					portal.rotation::transformInverse,
-					linked.rotation180::transform,
-					linked::derelativize,
-					portal::derelativize
-			);
+					linked.rotation180::transform
+			).add(teleportedHit); // derelativize
 
 			return new PortalHitResult(start, teleportedEnd, hit, teleportedHit, portal, linked);
         }).orElse(null);

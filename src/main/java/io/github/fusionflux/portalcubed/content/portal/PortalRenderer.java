@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.renderer.LevelRenderer;
@@ -20,15 +21,21 @@ import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import org.joml.Vector3f;
 
 import java.util.List;
 
 public class PortalRenderer {
+	public static final Color GREEN = new Color(0.5f, 1, 0.5f, 1);
+	public static final Color BLUE = new Color(0, 0, 1, 1);
+	public static final Color ORANGE = new Color(1, 0.5f, 0, 1);
+
 	public static final Color PLANE_COLOR = new Color(1, 1, 1, 1);
-	public static final Color ACTIVE_PLANE_COLOR = new Color(0.5f, 1, 0.5f, 1);
-	public static final Color HOLE_COLOR = new Color(1, 0.5f, 0.5f, 1);
+	public static final Color ACTIVE_PLANE_COLOR = GREEN;
 
 	private static void render(WorldRenderContext context) {
 		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource vertexConsumers))
@@ -48,7 +55,7 @@ public class PortalRenderer {
 			if (frustum.isVisible(portal.plane)) {
 				renderPortal(portal, matrices, vertexConsumers);
 				if (renderDebug) {
-					renderPortalDebug(portal, matrices, vertexConsumers);
+					renderPortalDebug(portal, context, matrices, vertexConsumers);
 				}
 			}
 		}
@@ -74,12 +81,31 @@ public class PortalRenderer {
 		matrices.popPose();
 	}
 
-	private static void renderPortalDebug(Portal portal, PoseStack matrices, MultiBufferSource vertexConsumers) {
+	private static void renderPortalDebug(Portal portal, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource vertexConsumers) {
 		// render a box around the portal's plane
 		Color planeColor = portal.isActive() ? ACTIVE_PLANE_COLOR : PLANE_COLOR;
 		renderBox(matrices, vertexConsumers, portal.plane, planeColor);
-		// and the portal's hole
-//		renderBox(matrices, vertexConsumers, portal.holeBox, HOLE_COLOR);
+		// render player's raycast through
+		Camera camera = ctx.camera();
+		Vec3 pos = camera.getPosition();
+		Vector3f lookVector = camera.getLookVector().normalize(3, new Vector3f());
+		Vec3 end = pos.add(lookVector.x, lookVector.y, lookVector.z);
+		PortalHitResult hit = ClientPortalManager.of(ctx.world()).clipPortal(pos, end);
+		if (hit != null) {
+			// start -> hitIn
+			RenderingUtils.renderLine(matrices, vertexConsumers, hit.start(), hit.hitIn(), ORANGE);
+			// box at hitIn
+			AABB hitInBox = AABB.ofSize(hit.hitIn(), 0.1, 0.1, 0.1);
+			renderBox(matrices, vertexConsumers, hitInBox, ORANGE);
+			// box at hitOut
+			AABB hitOutBox = AABB.ofSize(hit.hitOut(), 0.1, 0.1, 0.1);
+			renderBox(matrices, vertexConsumers, hitOutBox, BLUE);
+			// hitOut -> end
+			RenderingUtils.renderLine(matrices, vertexConsumers, hit.hitOut(), hit.teleportedEnd(), BLUE);
+			// box at end
+			AABB endBox = AABB.ofSize(hit.teleportedEnd(), 0.1, 0.1, 0.1);
+			renderBox(matrices, vertexConsumers, endBox, GREEN);
+		}
 	}
 
 	private static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, AABB box, Color color) {

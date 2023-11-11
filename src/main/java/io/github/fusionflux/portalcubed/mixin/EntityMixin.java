@@ -1,62 +1,33 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
-	@Shadow
-	public abstract Vec3 position();
-
-	@Shadow
-	public abstract Level level();
-
-	@Shadow
-	public abstract EntityType<?> getType();
-
-	@ModifyArgs(
+	@WrapOperation(
 			method = "move",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V"
 			)
 	)
-	private void moveThroughPortals(Args args) {
-		Level level = level();
-		if (level.isClientSide || this.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST))
-			return;
-
-		Vec3 oldPos = position();
-		Vec3 newPos = new Vec3(args.get(0), args.get(1), args.get(2));
-		PortalManager manager = PortalManager.of(level);
-		PortalHitResult result = manager.clipPortal(oldPos, newPos);
-		if (result != null) {
-			Vec3 teleported = result.teleportedEnd();
-			args.set(0, teleported.x);
-			args.set(1, teleported.y);
-			args.set(2, teleported.z);
-			System.out.println("entity teleported from " + newPos + " to " + teleported);
-			// TODO: should we teleport the old position fields to behind the out portal?
-		}
+	private void moveThroughPortals(Entity self, double x, double y, double z, Operation<Void> original) {
+		PortalTeleportHandler.handle(self, x, y, z, original);
 	}
 
 	@Redirect(
