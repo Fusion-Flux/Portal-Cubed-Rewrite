@@ -6,6 +6,8 @@ import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -16,14 +18,16 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractMultiBlock extends DirectionalBlock {
+	public final SizeProperties sizeProperties;
 	public final Size size;
 
 	protected AbstractMultiBlock(Properties properties) {
 		super(properties);
 
-		var sizeProperties = sizeProperties();
+		this.sizeProperties = sizeProperties();
 		this.size = new Size(Direction.SOUTH, sizeProperties.xMax, sizeProperties.yMax, sizeProperties.zMax);
 
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, size.direction));
@@ -32,34 +36,34 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 	public abstract SizeProperties sizeProperties();
 
 	public int getX(BlockState state) {
-		return sizeProperties().x.map(state::getValue).orElse(0);
+		return sizeProperties.x.map(state::getValue).orElse(0);
 	}
 
 	public int getY(BlockState state) {
-		return sizeProperties().y.map(state::getValue).orElse(0);
+		return sizeProperties.y.map(state::getValue).orElse(0);
 	}
 
 	public int getZ(BlockState state) {
-		return sizeProperties().z.map(state::getValue).orElse(0);
+		return sizeProperties.z.map(state::getValue).orElse(0);
 	}
 
 	public BlockState setX(BlockState state, int x) {
-		return sizeProperties().x.map(prop -> state.setValue(prop, x)).orElse(state);
+		return sizeProperties.x.map(prop -> state.setValue(prop, x)).orElse(state);
 	}
 
 	public BlockState setY(BlockState state, int y) {
-		return sizeProperties().y.map(prop -> state.setValue(prop, y)).orElse(state);
+		return sizeProperties.y.map(prop -> state.setValue(prop, y)).orElse(state);
 	}
 
 	public BlockState setZ(BlockState state, int z) {
-		return sizeProperties().z.map(prop -> state.setValue(prop, z)).orElse(state);
+		return sizeProperties.z.map(prop -> state.setValue(prop, z)).orElse(state);
 	}
 
 	public boolean isOrigin(BlockState state, Level level) {
 		return getX(state) == 0 && getY(state) == 0 && getZ(state) == 0;
 	}
 
-	public BlockPos getOriginPos(BlockPos pos, BlockState state, Level level) {
+	public BlockPos getOriginPos(BlockPos pos, BlockState state) {
 		int x = getX(state);
 		int y = getY(state);
 		int z = getZ(state);
@@ -75,13 +79,18 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		return BlockPos.betweenClosed(pos, pos.offset(rotatedSize.x() - 1, rotatedSize.y() - 1, rotatedSize.z() - 1));
 	}
 
+	public void playSoundAtCenter(SoundEvent sound, float volume, float pitch, BlockPos pos, BlockState state, Level level) {
+		var center = size.rotated(state.getValue(FACING)).center()
+			.add(pos.getX(), pos.getY(), pos.getZ());
+		level.playSound(null, center.x, center.y, center.z, sound, SoundSource.BLOCKS, volume, pitch);
+	}
+
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
-		var sizeProperties = sizeProperties();
-		sizeProperties.x.map(builder::add);
-		sizeProperties.y.map(builder::add);
-		sizeProperties.z.map(builder::add);
+		sizeProperties().x.map(builder::add);
+		sizeProperties().y.map(builder::add);
+		sizeProperties().z.map(builder::add);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -91,7 +100,7 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 			if (isOrigin(state, level)) {
 				for (BlockPos quadrantPos : quadrantIterator(pos, state, level)) level.destroyBlock(quadrantPos, false);
 			} else {
-				var originPos = getOriginPos(pos, state, level);
+				var originPos = getOriginPos(pos, state);
 				level.getBlockState(originPos).onRemove(level, originPos, Blocks.AIR.defaultBlockState(), false);
 			}
 		}
@@ -123,6 +132,10 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 			new Direction[]{Direction.DOWN, Direction.UP},
 			new Direction[]{Direction.NORTH, Direction.SOUTH}
 		};
+
+		public Vec3 center() {
+			return new Vec3(x / 2, y / 2, z / 2);
+		}
 
 		public Vec3i relative(Vec3i origin, Vec3i pos) {
 			var relative = pos.subtract(origin);
