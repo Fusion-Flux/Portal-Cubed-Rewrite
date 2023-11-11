@@ -18,6 +18,7 @@
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
 			"init": "io.github.fusionflux.portalcubed_test.PortalCubedTestmod",
+      "client_init": "io.github.fusionflux.portalcubed_test.PortalCubedTestmodClient",
       "quilt:game_test": [
         "io.github.fusionflux.portalcubed_test.gametest.ExampleModGameTest"
       ]
