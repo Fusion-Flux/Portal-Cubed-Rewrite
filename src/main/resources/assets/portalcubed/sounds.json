@@ -21,7 +21,8 @@
     "sounds": [
       {
         "name": "portalcubed:button/portal_1_floor/portal_1_floor_button_press",
-        "volume": 0.5
+        "volume": 0.5,
+        "pitch": 0.9
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_press"
@@ -30,7 +31,8 @@
     "sounds": [
       {
         "name": "portalcubed:button/portal_1_floor/portal_1_floor_button_release",
-        "volume": 0.5
+        "volume": 0.5,
+        "pitch": 0.8
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
