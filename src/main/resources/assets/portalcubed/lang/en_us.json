@@ -213,6 +213,7 @@
   "item.portalcubed.lego_portal_gun": "Portal Gun (LEGO Dimensions)",
   "item.portalcubed.paint_gun": "Paint Gun",
   "item.portalcubed.mini_blackhole": "Miniature Black Hole",
+
   "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
 
   "item.portalcubed.turret": "Sentry Turret",
@@ -456,7 +457,10 @@
 
   "block.portalcubed.floor_button": "Weighted Button",
   "block.portalcubed.floor_button.easter_egg": "Fifteen Hundred Megawatt Aperture Science Heavy Duty Super-Colliding Super Button",
+  "block.portalcubed.portal_1_floor_button": "Weighted Button",
+  "block.portalcubed.portal_1_floor_button.easter_egg": "Fifteen Hundred Megawatt Aperture Science Heavy Duty Super-Colliding Super Button",
   "block.portalcubed.old_ap_floor_button": "Old Aperture Weighted Button",
+  "block.portalcubed.cube_button": "Cube Button",
 
   "block.portalcubed.laser_relay": "Thermal Discouragement Beam Relay",
   "block.portalcubed.laser_emitter": "Thermal Discouragement Beam Emitter",
@@ -480,12 +484,6 @@
   "portalcubed.midnightconfig.portalHudMode": "Force Enable Portal HUD Mode",
   "portalcubed.midnightconfig.gelOverlayOpacity": "Gel Screen Overlay Opacity",
   "portalcubed.midnightconfig.staticPortalItemDrops": "Equipment Items Remain Stationary When Dropped",
-  "portalcubed.midnightconfig.renderer": "Portal Renderer (in development)",
-  "portalcubed.midnightconfig.enum.PortalRenderers.DISABLED": "Disabled",
-  "portalcubed.midnightconfig.enum.PortalRenderers.STENCIL": "Stencil",
-  "portalcubed.midnightconfig.enum.PortalRenderers.FRAMEBUFFER": "Framebuffer",
-  "portalcubed.midnightconfig.crossPortalEntityRendering": "Enable Cross-Portal Entity Rendering",
-  "portalcubed.midnightconfig.portalSmoothTime": "Portal Camera Smoothing Time (milliseconds)",
 
   "death.attack.acid": "%s was dissolved in toxic goo",
   "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
