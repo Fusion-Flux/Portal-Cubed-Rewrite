@@ -128,7 +128,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	@Override
-	public VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+	public VoxelShape getOcclusionShape(BlockState state, BlockGetter world, BlockPos pos) {
 		return Shapes.empty();
 	}
 
