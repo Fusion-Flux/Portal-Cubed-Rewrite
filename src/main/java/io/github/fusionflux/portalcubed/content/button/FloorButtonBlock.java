@@ -153,8 +153,9 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 			var originPos = getOriginPos(pos, state);
 			if (entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox())) {
 				for (BlockPos quadrantPos : quadrantIterator(originPos, state, level)) {
-					var newQuadrantState = level.getBlockState(quadrantPos).setValue(ACTIVE, true);
-					level.setBlock(quadrantPos, newQuadrantState, UPDATE_ALL);
+					var quadrantState = level.getBlockState(quadrantPos);
+					if (!quadrantState.is(this)) return;
+					level.setBlock(quadrantPos, quadrantState.setValue(ACTIVE, true), UPDATE_ALL);
 				}
 				level.scheduleTick(originPos, this, PRESSED_TIME);
 				playSoundAtCenter(pressSound, 1f, 1f, originPos, state, level);
