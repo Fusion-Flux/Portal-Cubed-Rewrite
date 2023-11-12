@@ -37,6 +37,8 @@ public class PortalRenderer {
 	public static final Color PLANE_COLOR = new Color(1, 1, 1, 1);
 	public static final Color ACTIVE_PLANE_COLOR = GREEN;
 
+	public static final double OFFSET_FROM_WALL = 0.001;
+
 	private static void render(WorldRenderContext context) {
 		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource vertexConsumers))
 			return;
@@ -75,6 +77,8 @@ public class PortalRenderer {
 		matrices.mulPose(Axis.ZP.rotationDegrees(180));
 		// slight offset so origin is center of portal
 		matrices.translate(-0.5f, -1, 0);
+		// small offset away from the wall to not z-fight
+		matrices.translate(0, 0, -OFFSET_FROM_WALL);
 		// scale quad - 32x32 texture, half is used. scale the 1x1 to a 2x2.
 		matrices.scale(2, 2, 2);
 		RenderingUtils.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.color);

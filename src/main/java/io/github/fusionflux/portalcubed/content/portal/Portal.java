@@ -26,7 +26,6 @@ public final class Portal {
 	public static final double WIDTH = 1 - (2 * SIXTEENTH);
 	public static final double THICKNESS = 0.001;
 	public static final double HOLE_DEPTH = 5;
-	public static final double OFFSET_FROM_WALL = 0.001;
 
 	public final int netId;
     public final Vec3 origin;
@@ -72,7 +71,8 @@ public final class Portal {
 		this.plane = AABB.ofSize(origin, x, y, z);
 
 		Vec3 holeOffset = this.normal.scale(-HOLE_DEPTH);
-		this.holeBox = this.plane.expandTowards(holeOffset);
+		AABB holePlane = this.plane.inflate(-0.01);// make hole slightly smaller than TP plane
+		this.holeBox = holePlane.expandTowards(holeOffset);
 		this.hole = Shapes.create(this.holeBox);
     }
 

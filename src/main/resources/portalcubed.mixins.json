@@ -19,6 +19,7 @@
     "client.ClientLevelMixin",
     "client.LocalPlayerMixin",
     "client.MinecraftMixin",
+    "client.ScreenEffectRendererMixin",
     "client.SimpleBakedModelAccessor"
   ],
   "injectors": {

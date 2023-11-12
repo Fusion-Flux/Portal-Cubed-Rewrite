@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
 import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
@@ -69,12 +70,7 @@ public abstract class PortalManager {
 		if (delta.dot(portal.normal) > 0)
 			return null;
 		return portal.plane.clip(start, end).map(hit -> {
-			Vec3 teleportedHit = TransformUtils.apply(hit,
-					portal::relativize,
-					portal.rotation::transformInverse,
-					linked.rotation180::transform,
-					linked::derelativize
-			);
+			Vec3 teleportedHit = PortalTeleportHandler.teleportAbsoluteVecBetween(hit, portal, linked);
 			Vec3 remainder = hit.vectorTo(end); // relative offset
 			Vec3 teleportedEnd = TransformUtils.apply(remainder,
 					// already relative, just transform

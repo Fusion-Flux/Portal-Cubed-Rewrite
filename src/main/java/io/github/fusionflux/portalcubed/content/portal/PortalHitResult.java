@@ -9,4 +9,11 @@ public record PortalHitResult(Vec3 start, Vec3 teleportedEnd, Vec3 hitIn, Vec3 h
 			result -> result.hitIn.distanceTo(result.start)
 	);
 
+	public Vec3 teleportAbsoluteVec(Vec3 pos) {
+		return PortalTeleportHandler.teleportAbsoluteVecBetween(pos, in, out);
+	}
+
+	public Vec3 teleportRelativeVec(Vec3 vec) {
+		return PortalTeleportHandler.teleportRelativeVecBetween(vec, in, out);
+	}
 }

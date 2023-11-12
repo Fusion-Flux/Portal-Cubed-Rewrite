@@ -47,11 +47,14 @@ public class TransformUtils {
 	}
 
 	public static Quaternionf rotateAround(Quaternionf rotation, Direction.Axis axis, float deg) {
-		float rot = Mth.DEG_TO_RAD * deg;
-		return switch (axis) {
-			case X -> rotation.rotateX(rot, new Quaternionf());
-			case Y -> rotation.rotateY(rot, new Quaternionf());
-			case Z -> rotation.rotateZ(rot, new Quaternionf());
-		};
+		float rad = Mth.DEG_TO_RAD * deg;
+		// note: rotate<axis> methods make their new rotation apply first
+		Quaternionf axisRotation = new Quaternionf();
+		switch (axis) {
+			case X -> axisRotation.rotateX(rad);
+			case Y -> axisRotation.rotateY(rad);
+			case Z -> axisRotation.rotateZ(rad);
+		}
+		return axisRotation.mul(rotation); // parameter is applied first
 	}
 }

@@ -96,7 +96,7 @@ public class PortalProjectile extends UnsavedEntity {
 			return;
 
 		Direction facing = hit.getDirection();
-		Vec3 pos = hit.getLocation().relative(facing, Portal.OFFSET_FROM_WALL);
+		Vec3 pos = hit.getLocation();
 		Direction top = facing.getAxis().isHorizontal() ? Direction.UP : shooterFacing;
 		FrontAndTop orientation = Objects.requireNonNull(FrontAndTop.fromFrontAndTop(facing, top));
 		ServerPortalManager manager = ServerPortalManager.of(level);
