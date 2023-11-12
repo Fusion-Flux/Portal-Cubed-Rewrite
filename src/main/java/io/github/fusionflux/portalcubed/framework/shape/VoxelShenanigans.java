@@ -10,20 +10,18 @@ import org.joml.Vector3f;
 
 public class VoxelShenanigans {
 	/**
+	 * The number of bits required to store {@link VoxelShenanigans#RESOLUTION}
+	 */
+	public static final long SHIFT = 4;
+	/**
 	 * The number of voxels on each axis.
-	 * It must be within 2^n or else the math will die,
-	 * and I have no clue what demons will traverse the portal to hell you'll open.
+	 * Will be 2^{@link VoxelShenanigans#SHIFT}
 	 * */
-	public static final int RESOLUTION = 16;
+	public static final int RESOLUTION = (int)Math.pow(2, SHIFT);
 	/**
 	 * This is the max value of the loop below
 	 * */
-	public static final long MAX = (long) RESOLUTION * (long) RESOLUTION * (long) RESOLUTION - 1;
-	/**
-	 * The number of bits required to store {@link VoxelShenanigans#RESOLUTION}
-	 * Please keep it in check or society will go up in flames.
-	 */
-	public static final long SHIFT = 4;
+	public static final long MAX = (long) RESOLUTION * (long) RESOLUTION * (long) RESOLUTION;
 
 	/**
 	 * Rotate a shape by the given quaternion.
