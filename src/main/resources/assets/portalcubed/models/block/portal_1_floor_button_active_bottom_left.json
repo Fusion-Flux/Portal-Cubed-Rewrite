@@ -9,7 +9,7 @@
 	},
 	"elements": [
 		{
-			"from": [7, 3, 7],
+			"from": [6.95, 3, 6.95],
 			"to": [16, 1.25, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [16, 1.5, 16]},
 			"faces": {
@@ -41,8 +41,8 @@
 		},
 		{
 			"name": "emission",
-			"from": [4, 3, 4],
-			"to": [16, 3, 16],
+			"from": [4, 3.01, 4],
+			"to": [16, 3.01, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [16, 1.5, 16]},
 			"faces": {
 				"up": {"uv": [6, 6, 3, 3], "texture": "#3"}
