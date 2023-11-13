@@ -8,6 +8,7 @@
   ],
   "client": [
     "client.MinecraftMixin",
+    "client.CreativeModeInventoryScreenMixin",
     "client.BakedQuadMixin",
     "client.BlockModel_DeserializerMixin",
     "client.BlockModelMixin",

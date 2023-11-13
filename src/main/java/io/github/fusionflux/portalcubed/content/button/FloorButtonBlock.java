@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
@@ -35,6 +36,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);
 	public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 	public static final int PRESSED_TIME = 5;
+	public static int easterEggTrigger = 0;
 
 	public final VoxelShaper[][] shapes;
 	public final Map<Direction, AABB> buttonBounds = new HashMap<>();
@@ -180,9 +182,14 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		if (!level.isClientSide) {
 			var originPos = getOriginPos(pos, state);
 			boolean entityPressing = entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox());
-			if (entityPressing && !state.getValue(ACTIVE)) {
+			if (entityPressing && !state.getValue(ACTIVE))
 				toggle(state, level, originPos, entity, false);
-			}
 		}
+	}
+
+	@Override
+	public String getDescriptionId() {
+		boolean hasEasterEgg = this == PortalCubedBlocks.FLOOR_BUTTON_BLOCK || this == PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK;
+		return (easterEggTrigger == 1 && hasEasterEgg) ? "block.portalcubed.floor_button.easter_egg" : super.getDescriptionId();
 	}
 }
