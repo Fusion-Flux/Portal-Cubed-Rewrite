@@ -24,11 +24,11 @@ public class MultiBlockItem extends BlockItem {
 		var direction = state.getValue(AbstractMultiBlock.FACING);
 		var rotatedSize = block.size.rotated(direction);
 
-		var horizontalDirection = context.getHorizontalDirection();
+		var horizontalDirection = direction.getAxis().isHorizontal() ? direction.getOpposite() : context.getHorizontalDirection();
 		var correctedClickedPos = context.getClickedPos();
 		if (horizontalDirection == Direction.SOUTH || horizontalDirection == Direction.WEST)
 			correctedClickedPos = correctedClickedPos.relative(horizontalDirection.getClockWise());
-			if (direction.getAxis().isHorizontal() && context.getClickedFace() == Direction.DOWN) correctedClickedPos = correctedClickedPos.below();
+			if (horizontalDirection.getAxis().isHorizontal() && direction == Direction.DOWN) correctedClickedPos = correctedClickedPos.below();
 		if (direction.getAxis().isVertical() && horizontalDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
 			correctedClickedPos = correctedClickedPos.relative(context.getHorizontalDirection());
 
