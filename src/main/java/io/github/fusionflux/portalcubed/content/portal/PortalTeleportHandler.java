@@ -5,10 +5,15 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.PlainTeleportPacket;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 public class PortalTeleportHandler {
 	public static final double MIN_OUTPUT_VELOCITY = 0.1;
@@ -33,8 +38,7 @@ public class PortalTeleportHandler {
 
 			Vec3 oldPosTeleported = result.teleportAbsoluteVec(oldPos);
 			Vec3 newPosTeleported = result.teleportedEnd();
-			// todo: prevent lerping between portals on client
-			entity.teleportTo(newPosTeleported.x, newPosTeleported.y, newPosTeleported.z);
+			teleportNoLerp(entity, newPosTeleported);
 
 			// rotate entity
 			Vec3 lookVec = result.teleportRelativeVec(entity.getLookAngle());
@@ -50,9 +54,19 @@ public class PortalTeleportHandler {
 				newVel = newVel.normalize().scale(MIN_OUTPUT_VELOCITY);
 			}
 			entity.setDeltaMovement(newVel);
+
+			// tp command does this
+			if (entity instanceof PathfinderMob pathfinderMob) {
+				pathfinderMob.getNavigation().stop();
+			}
 		} else {
 			setPos.call(entity, x, y, z);
 		}
+	}
+
+	public static void teleportNoLerp(Entity entity, Vec3 pos) {
+		entity.teleportTo(pos.x, pos.y, pos.z);
+		PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), new PlainTeleportPacket(entity));
 	}
 
 	public static Vec3 teleportAbsoluteVecBetween(Vec3 vec, Portal in, Portal out) {

@@ -24,7 +24,7 @@ public final class Portal {
 	public static final double SIXTEENTH = 1 / 16f;
 	public static final double HEIGHT = 2 - (2 * SIXTEENTH);
 	public static final double WIDTH = 1 - (2 * SIXTEENTH);
-	public static final double THICKNESS = 0.001;
+	public static final double THICKNESS = 0;
 	public static final double HOLE_DEPTH = 5;
 
 	public final int netId;

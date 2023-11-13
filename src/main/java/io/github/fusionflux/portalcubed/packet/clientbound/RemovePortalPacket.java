@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+
 public class RemovePortalPacket implements ClientboundManagePortalsPacket {
 	private final int portalId;
 
@@ -30,6 +32,7 @@ public class RemovePortalPacket implements ClientboundManagePortalsPacket {
 	}
 
 	@Override
+	@ClientOnly
 	public void handle(LocalPlayer player, ClientPortalManager manager, PacketSender responder) {
 		manager.removePortal(portalId);
 	}
