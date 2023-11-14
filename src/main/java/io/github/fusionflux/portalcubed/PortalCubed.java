@@ -5,6 +5,7 @@ import java.util.List;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
@@ -34,6 +35,7 @@ public class PortalCubed implements ModInitializer {
 
 		PortalCubedBlocks.init();
 		PortalCubedItems.init();
+		PortalCubedParticles.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
 		PortalCubedSerializers.init();
