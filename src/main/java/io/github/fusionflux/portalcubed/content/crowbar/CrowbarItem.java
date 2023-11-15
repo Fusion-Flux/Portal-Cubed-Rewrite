@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.crowbar;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +18,10 @@ public class CrowbarItem extends Item {
 
 	@Override
 	public boolean canAttackBlock(BlockState state, Level world, BlockPos pos, Player miner) {
+		if (!state.is(PortalCubedBlockTags.CROWBAR_MAKES_HOLES))
+			return !miner.isCreative();
+		// I don't know if this is the best place to put this logic, but it works so I'm not questioning it.
+
 		// TODO: this will break with pekhui. Don't hardcode maxDistance
 		// Also why the fuck is the raycast method named pick
 		BlockHitResult result = (BlockHitResult) miner.pick(5, 0, false);
@@ -29,7 +34,8 @@ public class CrowbarItem extends Item {
 			sz = dir.getStepZ();
 
 		world.addParticle(
-				PortalCubedParticles.BULLET_DECAL,
+				PortalCubedParticles.DECAL,
+				// Offset it slightly to avoid zfighting with blocks.
 				location.x + sx * 0.01f, location.y + sy * 0.01f, location.z + sz * 0.01f,
 				dir.getStepX(), dir.getStepY(), dir.getStepZ()
 		);

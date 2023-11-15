@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 public class PortalCubedParticlesClient {
 	public static void init() {
 		ParticleFactoryRegistry.getInstance().register(
-				PortalCubedParticles.BULLET_DECAL,
+				PortalCubedParticles.DECAL,
 				DecalParticle.Provider::new
 		);
 	}
