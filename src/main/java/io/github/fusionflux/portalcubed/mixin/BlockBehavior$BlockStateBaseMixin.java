@@ -11,12 +11,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
+
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,14 +50,25 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 				PortalManager manager = PortalManager.of(level);
 				Set<Portal> portals = manager.getPortalsAt(pos);
 				if (!portals.isEmpty()) {
-					// move shape to pos
-					shape = shape.move(pos.getX(), pos.getY(), pos.getZ());
-					// punch holes
+					MutableObject<VoxelShape> shapeHolder = new MutableObject<>(shape);
 					for (Portal portal : portals) {
-						shape = Shapes.join(shape, portal.hole, BooleanOp.ONLY_FIRST);
+						Portal linked = portal.getLinked();
+						if (linked == null)
+							continue;
+						if (!portal.collisionArea.contains(entity.position()))
+							continue;
+						BlockPos.betweenClosedStream(linked.collisionArea).forEach(blockPos -> {
+							BlockState state = level.getBlockState(blockPos);
+							VoxelShape otherShape = state.getCollisionShape(level, blockPos, context);
+							VoxelShape transformed = VoxelShenanigans.transformShapeAcross(otherShape, linked, portal);
+							// limit to 1x1
+							VoxelShape limited = Shapes.join(Shapes.block(), transformed, BooleanOp.AND);
+							// merge
+							VoxelShape merged = Shapes.or(shapeHolder.getValue(), limited);
+							shapeHolder.setValue(merged);
+						});
 					}
-					// move shape back to relative coords
-					shape = shape.move(-pos.getX(), -pos.getY(), -pos.getZ());
+					return shapeHolder.getValue();
 				}
 			}
 		}
