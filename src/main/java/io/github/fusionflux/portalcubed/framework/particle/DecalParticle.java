@@ -139,7 +139,7 @@ public class DecalParticle extends TextureSheetParticle {
 		}
 
 		public Particle createParticle(SimpleParticleType defaultParticleType, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-			BlockPos pos = new BlockPos((int) Math.floor(x - dx), (int) Math.floor(y - dy), (int) Math.floor(z - dz));
+			BlockPos pos = new BlockPos((int) Math.floor(x - dx * 0.02f), (int) Math.floor(y - dy* 0.02f), (int) Math.floor(z - dz* 0.02f));
 
 			// Get texture and whether to multiply.
 			BlockState state = world.getBlockState(pos);
