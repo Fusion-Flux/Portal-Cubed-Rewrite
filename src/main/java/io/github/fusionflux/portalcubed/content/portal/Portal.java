@@ -33,6 +33,7 @@ public final class Portal {
 	public final AABB holeBox;
 	public final VoxelShape hole; // the hole this portal punches in the world to allow walking through
 	public final AABB collisionArea; // area in front of portal where entities will collide with blocks on the other side
+	public final AABB blockCollisionArea; // area behind portal where blocks are important to collision
 	public final Vec3 normal;
 	public final FrontAndTop orientation;
 	public final Quaternionf rotation;
@@ -76,7 +77,8 @@ public final class Portal {
 		this.holeBox = holePlane.expandTowards(holeOffset);
 		this.hole = Shapes.create(this.holeBox);
 
-		this.collisionArea = this.plane.expandTowards(normal);
+		this.collisionArea = this.plane.inflate(1).move(normal);
+		this.blockCollisionArea = this.plane.inflate(1).move(normal.reverse());
     }
 
 	@Nullable

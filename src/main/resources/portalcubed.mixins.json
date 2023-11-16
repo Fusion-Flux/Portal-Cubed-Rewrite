@@ -7,6 +7,7 @@
     "BlockBehavior$BlockStateBaseMixin",
     "ClientboundTeleportEntityPacketMixin",
     "CubeVoxelShapeAccessor",
+    "EntityCollisionContextMixin",
     "EntityMixin",
     "ServerLevelMixin",
     "ThrowableProjectileMixin"

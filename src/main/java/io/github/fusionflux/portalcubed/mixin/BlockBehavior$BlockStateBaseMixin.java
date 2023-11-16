@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.framework.Aaaa;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -44,34 +45,6 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 			at = @At("RETURN")
 	)
 	private VoxelShape quantumSpaceHole(VoxelShape shape, BlockGetter world, BlockPos pos, CollisionContext context) {
-		if (world instanceof Level level && context instanceof EntityCollisionContext entityCtx) {
-			Entity entity = entityCtx.getEntity();
-			if (entity != null) {
-				PortalManager manager = PortalManager.of(level);
-				Set<Portal> portals = manager.getPortalsAt(pos);
-				if (!portals.isEmpty()) {
-					MutableObject<VoxelShape> shapeHolder = new MutableObject<>(shape);
-					for (Portal portal : portals) {
-						Portal linked = portal.getLinked();
-						if (linked == null)
-							continue;
-						if (!portal.collisionArea.contains(entity.position()))
-							continue;
-						BlockPos.betweenClosedStream(linked.collisionArea).forEach(blockPos -> {
-							BlockState state = level.getBlockState(blockPos);
-							VoxelShape otherShape = state.getCollisionShape(level, blockPos, context);
-							VoxelShape transformed = VoxelShenanigans.transformShapeAcross(otherShape, linked, portal);
-							// limit to 1x1
-							VoxelShape limited = Shapes.join(Shapes.block(), transformed, BooleanOp.AND);
-							// merge
-							VoxelShape merged = Shapes.or(shapeHolder.getValue(), limited);
-							shapeHolder.setValue(merged);
-						});
-					}
-					return shapeHolder.getValue();
-				}
-			}
-		}
-		return shape;
+		return Aaaa.h(shape, world, pos, context);
 	}
 }

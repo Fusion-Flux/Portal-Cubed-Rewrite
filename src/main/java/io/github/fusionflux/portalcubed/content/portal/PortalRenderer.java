@@ -33,6 +33,8 @@ public class PortalRenderer {
 	public static final Color GREEN = new Color(0.5f, 1, 0.5f, 1);
 	public static final Color BLUE = new Color(0, 0, 1, 1);
 	public static final Color ORANGE = new Color(1, 0.5f, 0, 1);
+	public static final Color PURPLE = new Color(0.5f, 0, 1, 1);
+	public static final Color CYAN = new Color(0, 1, 1, 1);
 
 	public static final Color PLANE_COLOR = new Color(1, 1, 1, 1);
 	public static final Color ACTIVE_PLANE_COLOR = GREEN;
@@ -89,6 +91,9 @@ public class PortalRenderer {
 		// render a box around the portal's plane
 		Color planeColor = portal.isActive() ? ACTIVE_PLANE_COLOR : PLANE_COLOR;
 		renderBox(matrices, vertexConsumers, portal.plane, planeColor);
+		// collision bounds
+		renderBox(matrices, vertexConsumers, portal.collisionArea, PURPLE);
+		renderBox(matrices, vertexConsumers, portal.blockCollisionArea, CYAN);
 		// render player's raycast through
 		Camera camera = ctx.camera();
 		Vec3 pos = camera.getPosition();

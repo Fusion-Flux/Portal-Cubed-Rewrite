@@ -11,6 +11,7 @@ import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
@@ -85,5 +86,13 @@ public class PortalTeleportHandler {
 				in.rotation::transformInverse,
 				out.rotation180::transform
 		);
+	}
+
+	public static AABB teleportBoxBetween(AABB box, Portal in, Portal out) {
+		Vec3 min = new Vec3(box.minX, box.minY, box.minZ);
+		Vec3 max = new Vec3(box.maxX, box.maxY, box.maxZ);
+		Vec3 one = teleportAbsoluteVecBetween(min, in, out);
+		Vec3 two = teleportAbsoluteVecBetween(max, in, out);
+		return new AABB(one, two);
 	}
 }

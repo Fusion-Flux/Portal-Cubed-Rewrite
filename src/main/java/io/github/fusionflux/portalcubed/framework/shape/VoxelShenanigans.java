@@ -62,13 +62,13 @@ public class VoxelShenanigans {
 	public static VoxelShape transformShapeAcross(VoxelShape shape, Portal a, Portal b) {
 		if (shape.isEmpty())
 			return shape;
-		// quaterion multiplication: T * Q applies Q first, then T
+		// quaternion multiplication: T * Q applies Q first, then T
 		// want to transform the shape from the front of A to the back of B
 		// transform by inverse of A
 		// transform by inverse of B's 180 rotation
 		// to apply in that order, B * A
 		Quaternionf inverted = a.rotation.invert(new Quaternionf());
-		Quaternionf totalRotation = b.rotation.mul(inverted);
+		Quaternionf totalRotation = b.rotation.mul(inverted, new Quaternionf());
 		return rotateShape(shape, totalRotation);
 	}
 }
