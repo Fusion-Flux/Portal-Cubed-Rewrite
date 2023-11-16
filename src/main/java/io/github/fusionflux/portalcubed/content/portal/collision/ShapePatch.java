@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal.collision;
 
-import com.google.common.cache.Cache;
-
 import com.google.common.cache.CacheBuilder;
 import com.mojang.datafixers.util.Pair;
 
@@ -10,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 public interface ShapePatch {
-	VoxelShape apply(VoxelShape original, CollisionContext ctx);
+	VoxelShape apply(VoxelShape original, EntityCollisionContext ctx);
 
 	/**
 	 * A shape patch takes the shape of a block behind a portal, and adds the shape(s) of the corresponding

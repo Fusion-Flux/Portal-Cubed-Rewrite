@@ -4,6 +4,7 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.collision.CollisionManager;
 import io.github.fusionflux.portalcubed.content.portal.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.storage.SectionPortalStorage;
 import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
@@ -25,13 +26,22 @@ import java.util.stream.Collectors;
 
 public abstract class PortalManager {
 	protected final PortalStorage storage = new SectionPortalStorage();
-
-	public List<Portal> allPortals() {
-		return storage.all();
-	}
+	protected final CollisionManager collisionManager;
 
 	public static PortalManager of(Level level) {
 		return ((LevelExt) level).pc$portalManager();
+	}
+
+	public PortalManager(Level level) {
+		this.collisionManager = new CollisionManager(level);
+	}
+
+	public CollisionManager getCollisionManager() {
+		return collisionManager;
+	}
+
+	public List<Portal> allPortals() {
+		return storage.all();
 	}
 
 	@Nullable

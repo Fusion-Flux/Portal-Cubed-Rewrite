@@ -3,6 +3,8 @@ package io.github.fusionflux.portalcubed.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.collision.CollisionManager;
+import io.github.fusionflux.portalcubed.content.portal.collision.ShapePatch;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.framework.Aaaa;
 import net.minecraft.core.BlockPos;
@@ -45,6 +47,12 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 			at = @At("RETURN")
 	)
 	private VoxelShape quantumSpaceHole(VoxelShape shape, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return Aaaa.h(shape, world, pos, context);
+		if (world instanceof Level level && context instanceof EntityCollisionContext entityCtx) {
+			CollisionManager collisionManager = PortalManager.of(level).getCollisionManager();
+			ShapePatch patch = collisionManager.getPatchAt(pos);
+			if (patch != null) {
+				patch.apply(shape, entityCtx);
+			}
+		}
 	}
 }

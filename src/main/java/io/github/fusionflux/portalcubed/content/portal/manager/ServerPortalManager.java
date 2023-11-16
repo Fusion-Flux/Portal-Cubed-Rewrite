@@ -25,6 +25,7 @@ public class ServerPortalManager extends PortalManager {
 	private static final AtomicInteger idGenerator = new AtomicInteger();
 
 	public ServerPortalManager(ServerLevel level) {
+		super(level);
 		this.level = level;
 	}
 

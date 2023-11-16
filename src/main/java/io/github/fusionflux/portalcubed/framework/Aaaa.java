@@ -70,14 +70,18 @@ public class Aaaa {
 									VoxelShape transformed = VoxelShenanigans.transformShapeAcross(merged, linked, portal);
 									// limit to 1x1
 									VoxelShape bounded = Shapes.join(transformed, Shapes.block(), BooleanOp.AND);
-									shapeHolder.setValue(bounded);
+									// slight shift into wall to leave surface intact
+									Vec3 offset = portal.normal.scale(0.01);
+									VoxelShape shifted = bounded.move(offset.x, offset.y, offset.z);
+									shapeHolder.setValue(shifted);
 								}
 							});
 						}
 						// reset
 						ctxExt.pc$setPortalCollision(true);
 
-						return shapeHolder.getValue();
+						VoxelShape otherSideCollision = shapeHolder.getValue();
+						return otherSideCollision;
 					}
 				}
 			}

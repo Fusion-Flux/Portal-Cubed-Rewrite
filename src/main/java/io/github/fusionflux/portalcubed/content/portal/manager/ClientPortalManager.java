@@ -8,6 +8,7 @@ public class ClientPortalManager extends PortalManager {
 	private final ClientLevel level;
 
 	public ClientPortalManager(ClientLevel level) {
+		super(level);
 		this.level = level;
 	}
 
