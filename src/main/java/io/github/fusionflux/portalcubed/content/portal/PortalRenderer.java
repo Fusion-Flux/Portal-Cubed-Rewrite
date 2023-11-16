@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
+import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
@@ -14,6 +15,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 
 import net.minecraft.client.renderer.culling.Frustum;
@@ -21,10 +23,14 @@ import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.level.ClipContext;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -94,6 +100,11 @@ public class PortalRenderer {
 		// collision bounds
 		renderBox(matrices, vertexConsumers, portal.collisionArea, PURPLE);
 		renderBox(matrices, vertexConsumers, portal.blockCollisionArea, CYAN);
+		// cross-portal collision
+		Portal linked = portal.getLinked();
+		if (linked != null) {
+			renderCollision(ctx, portal, linked);
+		}
 		// render player's raycast through
 		Camera camera = ctx.camera();
 		Vec3 pos = camera.getPosition();
@@ -115,6 +126,22 @@ public class PortalRenderer {
 			AABB endBox = AABB.ofSize(hit.teleportedEnd(), 0.1, 0.1, 0.1);
 			renderBox(matrices, vertexConsumers, endBox, GREEN);
 		}
+	}
+
+	private static void renderCollision(WorldRenderContext ctx, Portal portal, Portal linked) {
+		Camera camera = ctx.camera();
+		Entity entity = camera.getEntity();
+		ClientLevel level = ctx.world();
+		PoseStack matrices = ctx.matrixStack();
+		VertexConsumer vertices = ctx.consumers().getBuffer(RenderType.lines());
+
+		List<VoxelShape> shapes = VoxelShenanigans.getShapesBehindPortal(level, entity, portal, linked);
+		shapes.forEach(shape -> LevelRenderer.renderVoxelShape(
+				matrices, vertices, shape,
+				0, 0, 0,
+				1, 1, 1, 1,
+				true
+		));
 	}
 
 	private static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, AABB box, Color color) {

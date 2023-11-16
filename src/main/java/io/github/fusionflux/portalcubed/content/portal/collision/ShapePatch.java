@@ -51,7 +51,7 @@ public interface ShapePatch {
 		}
 
 		@Override
-		public VoxelShape apply(VoxelShape original, CollisionContext ctx) {
+		public VoxelShape apply(VoxelShape original, EntityCollisionContext ctx) {
 			if (original != last) {
 				this.cached = Shapes.or(original, this.shape);
 				this.last = original;
@@ -77,7 +77,7 @@ public interface ShapePatch {
         }
 
         @Override
-        public VoxelShape apply(VoxelShape original, CollisionContext ctx) {
+        public VoxelShape apply(VoxelShape original, EntityCollisionContext ctx) {
 			VoxelShape shape = state.getCollisionShape(level, pos, ctx);
 			Pair<VoxelShape, VoxelShape> key = Pair.of(shape, original);
 			return cache.computeIfAbsent(key, $ -> {

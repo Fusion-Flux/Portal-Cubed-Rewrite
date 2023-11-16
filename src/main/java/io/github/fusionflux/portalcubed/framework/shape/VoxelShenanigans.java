@@ -1,13 +1,25 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.mixin.CubeVoxelShapeAccessor;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
 import net.minecraft.world.phys.shapes.DiscreteVoxelShape;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VoxelShenanigans {
 	/**
@@ -59,7 +71,7 @@ public class VoxelShenanigans {
 		return CubeVoxelShapeAccessor.pc$create(newShape);
 	}
 
-	public static VoxelShape transformShapeAcross(VoxelShape shape, Portal a, Portal b) {
+	public static VoxelShape rotateShapeBetween(VoxelShape shape, Portal a, Portal b) {
 		if (shape.isEmpty())
 			return shape;
 		// quaternion multiplication: T * Q applies Q first, then T
@@ -68,7 +80,30 @@ public class VoxelShenanigans {
 		// transform by inverse of B's 180 rotation
 		// to apply in that order, B * A
 		Quaternionf inverted = a.rotation.invert(new Quaternionf());
-		Quaternionf totalRotation = b.rotation.mul(inverted, new Quaternionf());
+		Quaternionf totalRotation = b.rotation180.mul(inverted, new Quaternionf());
 		return rotateShape(shape, totalRotation);
+	}
+
+	public static List<VoxelShape> getShapesBehindPortal(Level level, @Nullable Entity entity, Portal portal, Portal linked) {
+		Iterable<VoxelShape> shapes = level.getCollisions(entity, linked.collisionArea);
+		List<VoxelShape> behindPortal = new ArrayList<>();
+		for (VoxelShape shape : shapes) {
+			// translate to origin
+			Vec3 center = shape.bounds().getCenter();
+			shape = shape.move(-center.x, -center.y, -center.z);
+			// rotate around
+			// rotateShape subtracts an extra 0.5, compensate here
+			shape = shape.move(0.5, 0.5, 0.5);
+			shape = VoxelShenanigans.rotateShapeBetween(shape, linked, portal);
+			shape = shape.move(-0.5, -0.5, -0.5);
+			// de-relativize to other portal
+			shape = shape.move(portal.origin.x, portal.origin.y, portal.origin.z);
+			// translate to right pos
+			Vec3 originToBlock = linked.origin.vectorTo(center);
+			Vec3 teleported = PortalTeleportHandler.teleportRelativeVecBetween(originToBlock, linked, portal);
+			shape = shape.move(teleported.x, teleported.y, teleported.z);
+			behindPortal.add(shape);
+		}
+		return behindPortal;
 	}
 }

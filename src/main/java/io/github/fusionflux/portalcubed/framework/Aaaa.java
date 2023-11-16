@@ -67,7 +67,7 @@ public class Aaaa {
 								VoxelShape merged = combined.getValue();
 								if (!merged.isEmpty()) {
 									// transform collected collision to be behind the input portal
-									VoxelShape transformed = VoxelShenanigans.transformShapeAcross(merged, linked, portal);
+									VoxelShape transformed = VoxelShenanigans.rotateShapeBetween(merged, linked, portal);
 									// limit to 1x1
 									VoxelShape bounded = Shapes.join(transformed, Shapes.block(), BooleanOp.AND);
 									// slight shift into wall to leave surface intact
