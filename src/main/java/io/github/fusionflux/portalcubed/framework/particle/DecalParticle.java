@@ -55,7 +55,7 @@ public class DecalParticle extends TextureSheetParticle {
 	final boolean multiply;
 
 	protected DecalParticle(ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, boolean multiply) {
-		super(clientLevel, x, y, z);
+		super(clientLevel, Math.round(x * 16) / 16f + dx * 0.01f, Math.round(y * 16) / 16f + dy * 0.01f, Math.round(z * 16) / 16f + dz * 0.01f);
 
 		// Keep track of some things.
 		this.basePos = basePos;
@@ -64,7 +64,7 @@ public class DecalParticle extends TextureSheetParticle {
 		// rotate the particle to be oriented in the right direction.
 		float rx = (float)Math.asin(dy);
 		float ry = (float)Math.atan2(dx, dz) + Mth.PI;
-		float rz = clientLevel.random.nextFloat() * Mth.TWO_PI;
+		float rz = Math.round(clientLevel.random.nextFloat() * 4) / 4f * Mth.TWO_PI;
 
 		rotation = new Quaternionf().rotateY(ry).rotateX(rx).rotateZ(rz);
 

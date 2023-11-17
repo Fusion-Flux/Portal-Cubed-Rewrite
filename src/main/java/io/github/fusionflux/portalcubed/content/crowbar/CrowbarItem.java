@@ -29,14 +29,9 @@ public class CrowbarItem extends Item {
 		Vec3 location = result.getLocation();
 		Direction dir = result.getDirection();
 
-		int sx = dir.getStepX(),
-			sy = dir.getStepY(),
-			sz = dir.getStepZ();
-
 		world.addParticle(
 				PortalCubedParticles.DECAL,
-				// Offset it slightly to avoid zfighting with blocks.
-				location.x + sx * 0.01f, location.y + sy * 0.01f, location.z + sz * 0.01f,
+				location.x, location.y, location.z,
 				dir.getStepX(), dir.getStepY(), dir.getStepZ()
 		);
 
