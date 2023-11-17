@@ -55,7 +55,9 @@ public class DecalParticle extends TextureSheetParticle {
 	final boolean multiply;
 
 	protected DecalParticle(ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, boolean multiply) {
-		super(clientLevel, Math.round(x * 16) / 16f + dx * 0.01f, Math.round(y * 16) / 16f + dy * 0.01f, Math.round(z * 16) / 16f + dz * 0.01f);
+		super(clientLevel, 0, 0, 0);
+
+		setPos(x, y, z, dx, dy, dz);
 
 		// Keep track of some things.
 		this.basePos = basePos;
@@ -70,6 +72,16 @@ public class DecalParticle extends TextureSheetParticle {
 
 		// Idk if this is the best place to put this.
 		setLifetime(1200);
+	}
+
+	public void setPos(double x, double y, double z, double dx, double dy, double dz) {
+		double offset = random.nextFloat() * 0.01 + 0.01;
+		this.x = snap(x) + dx * offset;
+		this.y = snap(y) + dy * offset;
+		this.z = snap(z) + dz * offset;
+		xo = x;
+		yo = y;
+		zo = z;
 	}
 
 	@Override
@@ -129,6 +141,10 @@ public class DecalParticle extends TextureSheetParticle {
 	@Override
 	public ParticleRenderType getRenderType() {
 		return multiply ? PARTICLE_SHEET_MULTIPLY : ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+	}
+
+	public static double snap(double d) {
+		return Math.round(d * 4) / 4d;
 	}
 
 	public static class Provider implements ParticleProvider<SimpleParticleType> {
