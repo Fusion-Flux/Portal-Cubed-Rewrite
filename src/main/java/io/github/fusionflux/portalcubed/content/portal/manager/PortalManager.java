@@ -25,6 +25,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public abstract class PortalManager {
+	private final Level level;
 	protected final PortalStorage storage = new SectionPortalStorage();
 	protected final CollisionManager collisionManager;
 
@@ -33,7 +34,8 @@ public abstract class PortalManager {
 	}
 
 	public PortalManager(Level level) {
-		this.collisionManager = new CollisionManager(level);
+		this.level = level;
+		this.collisionManager = new CollisionManager(this, level);
 	}
 
 	public CollisionManager getCollisionManager() {

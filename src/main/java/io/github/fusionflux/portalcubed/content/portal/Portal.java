@@ -26,14 +26,11 @@ public final class Portal {
 	public static final double WIDTH = 1 - (2 * SIXTEENTH);
 	public static final double THICKNESS = 0;
 	public static final double COLLISION_BOX_SIDE_THICKNESS = 0.01;
-	public static final double COLLISION_BOX_DEPTH = 2 - (2 * COLLISION_BOX_SIDE_THICKNESS);
+	public static final double COLLISION_BOX_DEPTH = 4 - (2 * COLLISION_BOX_SIDE_THICKNESS);
 
 	public final int netId;
     public final Vec3 origin;
 	public final AABB plane; // technically a box, but really thin on 1 axis
-	public final VoxelShape hole; // the hole this portal punches in the world to allow walking through
-	public final AABB collisionArea; // area in front of portal where entities will collide with blocks on the other side
-	public final AABB blockCollisionArea; // area behind portal where blocks are important to collision
 	public final Vec3 normal;
 	public final FrontAndTop orientation;
 	public final Quaternionf rotation;
@@ -42,6 +39,16 @@ public final class Portal {
     public final PortalType type;
 	public final int color;
 	public final UUID owner;
+
+	// plane-like hole this portal punches in the world to allow walking through
+	public final VoxelShape hole;
+	// area in front of portal that an entity must be in for cross-portal collision to apply
+	public final AABB entityCollisionArea;
+	// area in front of portal where collision will be matched to behind the other portal
+	public final AABB collisionCollectionArea;
+	// area behind portal where collision is modified to match other portal
+	public final AABB collisionModificationBox;
+
 
 	private int linkedNetId;
 	@Nullable
@@ -76,11 +83,16 @@ public final class Portal {
 		AABB holePlane = this.plane.inflate(-0.01);
 		this.hole = Shapes.create(holePlane);
 
-		this.collisionArea = this.plane.expandTowards(normal.scale(COLLISION_BOX_DEPTH)) // extend forwards
+		this.entityCollisionArea = AABB.ofSize(
+				origin.add(normal.scale(1.5)),  // center 1.5 blocks away
+				3, 3, 3 // 3x3x3 box
+		);
+
+		this.collisionCollectionArea = this.plane.expandTowards(normal.scale(COLLISION_BOX_DEPTH)) // extend forwards
 				.inflate(COLLISION_BOX_SIDE_THICKNESS) // expand bounds by thickness
 				.move(normal.scale(COLLISION_BOX_SIDE_THICKNESS)); // move bounds off supporting wall
 
-		this.blockCollisionArea = this.plane.expandTowards(normal.scale(-COLLISION_BOX_DEPTH)) // extend backwards
+		this.collisionModificationBox = this.plane.expandTowards(normal.scale(-COLLISION_BOX_DEPTH)) // extend backwards
 				.inflate(COLLISION_BOX_SIDE_THICKNESS) // expand bounds by thickness
 				.move(normal.scale(-COLLISION_BOX_SIDE_THICKNESS)); // move bounds fully into supporting wall
     }

@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 
@@ -14,11 +15,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin {
+public abstract class EntityMixin implements EntityExt {
+	@Unique
+	private int portalCollisionRecursionDepth;
+
 	@WrapOperation(
 			method = "move",
 			at = @At(
@@ -39,5 +44,15 @@ public abstract class EntityMixin {
 	)
 	private VoxelShape provideEntityContext(BlockState instance, BlockGetter blockGetter, BlockPos blockPos) {
 		return instance.getCollisionShape(blockGetter, blockPos, CollisionContext.of((Entity) (Object) this));
+	}
+
+	@Override
+	public int pc$getPortalCollisionRecursionDepth() {
+		return portalCollisionRecursionDepth;
+	}
+
+	@Override
+	public void pc$setPortalCollisionRecursionDepth(int depth) {
+		this.portalCollisionRecursionDepth = depth;
 	}
 }

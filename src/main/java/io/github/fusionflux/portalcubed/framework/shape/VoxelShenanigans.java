@@ -1,12 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.mixin.CubeVoxelShapeAccessor;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -85,7 +81,7 @@ public class VoxelShenanigans {
 	}
 
 	public static List<VoxelShape> getShapesBehindPortal(Level level, @Nullable Entity entity, Portal portal, Portal linked) {
-		Iterable<VoxelShape> shapes = level.getCollisions(entity, linked.collisionArea);
+		Iterable<VoxelShape> shapes = level.getCollisions(entity, linked.collisionCollectionArea);
 		List<VoxelShape> behindPortal = new ArrayList<>();
 		for (VoxelShape shape : shapes) {
 			// translate to origin

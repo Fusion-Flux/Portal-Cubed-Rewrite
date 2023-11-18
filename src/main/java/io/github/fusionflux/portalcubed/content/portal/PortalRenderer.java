@@ -23,19 +23,18 @@ import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.List;
 
 public class PortalRenderer {
+	public static final Color RED = new Color(1, 0, 0, 1);
 	public static final Color GREEN = new Color(0.5f, 1, 0.5f, 1);
 	public static final Color BLUE = new Color(0, 0, 1, 1);
 	public static final Color ORANGE = new Color(1, 0.5f, 0, 1);
@@ -98,8 +97,9 @@ public class PortalRenderer {
 		Color planeColor = portal.isActive() ? ACTIVE_PLANE_COLOR : PLANE_COLOR;
 		renderBox(matrices, vertexConsumers, portal.plane, planeColor);
 		// collision bounds
-		renderBox(matrices, vertexConsumers, portal.collisionArea, PURPLE);
-		renderBox(matrices, vertexConsumers, portal.blockCollisionArea, CYAN);
+		renderBox(matrices, vertexConsumers, portal.entityCollisionArea, RED);
+		renderBox(matrices, vertexConsumers, portal.collisionCollectionArea, PURPLE);
+		renderBox(matrices, vertexConsumers, portal.collisionModificationBox, CYAN);
 		// cross-portal collision
 		Portal linked = portal.getLinked();
 		if (linked != null) {
