@@ -5,11 +5,8 @@ import io.github.fusionflux.portalcubed.framework.extension.ClientLevelExt;
 import net.minecraft.client.multiplayer.ClientLevel;
 
 public class ClientPortalManager extends PortalManager {
-	private final ClientLevel level;
-
 	public ClientPortalManager(ClientLevel level) {
 		super(level);
-		this.level = level;
 	}
 
 	public static ClientPortalManager of(ClientLevel level) {

@@ -22,7 +22,7 @@ public abstract class LocalPlayerMixin extends AbstractClientPlayer {
 
 	@Inject(method = "suffocatesAt", at = @At("HEAD"), cancellable = true)
 	private void dontSuffocateInPortals(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if (!ClientPortalManager.of(this.clientLevel).getPortalsAt(pos).isEmpty()) {
+		if (ClientPortalManager.of(this.clientLevel).getCollisionManager().modifiesCollisionAt(pos)) {
 			cir.setReturnValue(false);
 		}
 	}

@@ -49,7 +49,6 @@ public final class Portal {
 	// area behind portal where collision is modified to match other portal
 	public final AABB collisionModificationBox;
 
-
 	private int linkedNetId;
 	@Nullable
 	private Portal linked;
@@ -158,5 +157,15 @@ public final class Portal {
 		Portal portal = new Portal(netId, origin, orientation, shape, type, color, owner);
 		portal.linkedNetId = linkedId; // the portal reference will be resolved later with findLinkedPortal
 		return portal;
+	}
+
+	@Override
+	public int hashCode() {
+		return netId;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof Portal other && other.netId == this.netId;
 	}
 }

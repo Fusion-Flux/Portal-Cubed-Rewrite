@@ -1,7 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.collision;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
 import io.github.fusionflux.portalcubed.content.portal.Portal;
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
@@ -13,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class CollisionManager {
@@ -31,19 +35,34 @@ public class CollisionManager {
 
 	private final PortalManager portals;
 	private final Level level;
-	private final Map<BlockPos, ShapePatch> patches;
+	private final Table<BlockPos, Portal, ShapePatch> patches;
 
 	public CollisionManager(PortalManager portalManager, Level level) {
 		this.portals = portalManager;
 		this.level = level;
-		this.patches = new HashMap<>();
+		this.patches = HashBasedTable.create();
+	}
+
+	public boolean modifiesCollisionAt(BlockPos pos) {
+		return !patches.row(pos).isEmpty();
+	}
+
+	public VoxelShape getPortalModifiedShape(VoxelShape original, BlockPos pos, EntityCollisionContext ctx) {
+		Map<Portal, ShapePatch> patches = this.patches.row(pos);
+		VoxelShape shape = original;
+		for (Entry<Portal, ShapePatch> entry : patches.entrySet()) {
+			if (entry.getKey().entityCollisionArea.contains(ctx.getEntity().position())) { // trust that entity has been checked
+				shape = entry.getValue().apply(shape, ctx);
+			}
+		}
+		return shape;
 	}
 
 	// modifying a shape for a portal involves 3 parts:
 	// - cut out most of the shape to make it non-solid (leave the surface the portal is on intact)
 	// - add in collision from other side
 	// - cut a hole directly under the portal
-	public VoxelShape getPortalModifiedShape(VoxelShape original, BlockPos pos, Entity entity) {
+	public VoxelShape modifyShapeForPortals(VoxelShape original, BlockPos pos, Entity entity) {
 		if (getRecursionDepth(entity) > RECURSION_DEPTH_LIMIT)
 			return original;
 		if (entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST))
@@ -141,28 +160,16 @@ public class CollisionManager {
 	}
 
 	private void handleNewPortal(Portal portal, Portal linked) {
-		// iterate through block positions in front of the output portal
-		BlockPos.betweenClosedStream(linked.collisionCollectionArea).forEach(posInFront -> {
-			BlockState state = level.getBlockState(posInFront);
-			if (state.isAir())
-				return; // easy skip, don't care
-			// convert position in front of output, to a position behind the input
-			Vec3 outputOriginToCorner = linked.origin.vectorTo(Vec3.atLowerCornerOf(posInFront));
-			Vec3 teleported = PortalTeleportHandler.teleportRelativeVecBetween(outputOriginToCorner, linked, portal);
-			Vec3 posBehindIn = portal.origin.add(teleported);
-			BlockPos targetPos = BlockPos.containing(posBehindIn);
-			Vec3 inputOriginToCorner = portal.origin.vectorTo(Vec3.atLowerCornerOf(targetPos));
-
-			ShapePatch patch = ShapePatch.create(state, level, posInFront, inputOriginToCorner);
-			if (patch == null)
-				return;
-
-			this.patches.put(targetPos, patch);
+		// iterate through positions behind portal and add a patch
+		BlockPos.betweenClosedStream(portal.collisionModificationBox).forEach(pos -> {
+			pos = pos.immutable();
+			BlockState state = level.getBlockState(pos);
+			patches.put(pos, portal, new ShapePatch(this, level, state, pos));
 		});
 	}
 
 	private void removePortal(Portal portal) {
-		BlockPos.betweenClosedStream(portal.collisionModificationBox).forEach(this.patches::remove);
+		this.patches.columnMap().remove(portal);
 	}
 
 	private static int getRecursionDepth(Entity entity) {

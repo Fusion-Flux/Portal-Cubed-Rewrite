@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.collision.CollisionManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ScreenEffectRenderer;
@@ -36,10 +37,6 @@ public class ScreenEffectRendererMixin {
 		if (!(level instanceof ClientLevel clientLevel))
 			return true; // ???
 
-		ClientPortalManager manager = ClientPortalManager.of(clientLevel);
-		Set<Portal> portals = manager.getPortalsAt(pos);
-		// when portals are present, do not block.
-		// I don't really care if this causes xray issues, it's still easy in vanilla
-		return portals.isEmpty();
+		return !ClientPortalManager.of(clientLevel).getCollisionManager().modifiesCollisionAt(pos);
 	}
 }

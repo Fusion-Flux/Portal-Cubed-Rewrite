@@ -105,6 +105,7 @@ public abstract class PortalManager {
 		this.unlinkPortal(b);
 		a.setLinked(b);
 		b.setLinked(a);
+		collisionManager.handlePortalLink(a, b);
 	}
 
 	public void unlinkPortal(Portal portal) {
@@ -112,6 +113,7 @@ public abstract class PortalManager {
 		if (linked != null) {
 			portal.setLinked(null);
 			linked.setLinked(null);
+			collisionManager.handlePortalUnlink(portal, linked);
 		}
 	}
 }
