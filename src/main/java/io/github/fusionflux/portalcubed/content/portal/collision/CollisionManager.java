@@ -11,7 +11,6 @@ import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -62,49 +61,44 @@ public class CollisionManager {
 	// - cut out most of the shape to make it non-solid (leave the surface the portal is on intact)
 	// - add in collision from other side
 	// - cut a hole directly under the portal
-	public VoxelShape modifyShapeForPortals(VoxelShape original, BlockPos pos, Entity entity) {
+	public VoxelShape modifyShapeForPortal(VoxelShape original, Portal portal, BlockPos pos, Entity entity) {
 		if (getRecursionDepth(entity) > RECURSION_DEPTH_LIMIT)
 			return original;
 		if (entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST))
 			return original;
-		List<Portal> portals = this.getPortalsToUse(pos, entity);
-		if (portals.isEmpty())
+		Portal linked = portal.getLinked();
+		if (linked == null)
 			return original;
+		if (!portal.entityCollisionArea.contains(entity.position()))
+			return original; // out of collision area, don't care
+
 		incrementRecursionDepth(entity);
+
 		// move shape to absolute coords to match found collision shapes
 		VoxelShape shape = original.move(pos.getX(), pos.getY(), pos.getZ());
 		// cut out most of the shape beyond the surface
-		Vec3 normal = portals.get(0).normal;
+		Vec3 normal = portal.normal;
 		Vec3 offsetIntoWall = normal.scale(-WALL_THICKNESS);
 		VoxelShape cubeAtPos = Shapes.block().move(pos.getX(), pos.getY(), pos.getZ());
 		VoxelShape cutBox = cubeAtPos.move(offsetIntoWall.x, offsetIntoWall.y, offsetIntoWall.z);
-		shape = Shapes.join(shape, cutBox, BooleanOp.ONLY_FIRST);
+		shape = Shapes.joinUnoptimized(shape, cutBox, BooleanOp.ONLY_FIRST);
 		// first combine all collisions
-		List<Portal> relevantPortals = new ArrayList<>(); // portals the entity is interacting with
-		for (Portal portal : portals) {
-			Portal linked = portal.getLinked();
-			if (linked == null)
-				continue;
-			if (!portal.entityCollisionArea.contains(entity.position()))
-				continue; // out of collision area, don't care
-			relevantPortals.add(portal);
-			List<VoxelShape> shapes = VoxelShenanigans.getShapesBehindPortal(level, entity, portal, linked);
-			if (shapes.isEmpty())
-				continue; // all non-solid
-			// combine collisions
-			for (VoxelShape collisionShape : shapes) {
-				shape = Shapes.or(shape, collisionShape);
-			}
+		List<VoxelShape> shapes = VoxelShenanigans.getShapesBehindPortal(level, entity, portal, linked);
+		if (shapes.isEmpty())
+			return shape; // all non-solid, done already
+		// combine collisions
+		for (VoxelShape collisionShape : shapes) {
+			shape = Shapes.joinUnoptimized(shape, collisionShape, BooleanOp.OR);
 		}
 		// crop the shape to the specific BlockPos
-		shape = Shapes.join(shape, cubeAtPos, BooleanOp.AND);
-		// cut portal holes
-		for (Portal portal : relevantPortals) {
-			shape = Shapes.join(shape, portal.hole, BooleanOp.ONLY_FIRST);
-		}
+		shape = Shapes.joinUnoptimized(shape, cubeAtPos, BooleanOp.AND);
+		// cut portal hole
+		shape = Shapes.joinUnoptimized(shape, portal.hole, BooleanOp.ONLY_FIRST);
+
 		decrementRecursionDepth(entity);
-		// translate shape back to relative coords, and we're done here
-        return shape.move(-pos.getX(), -pos.getY(), -pos.getZ());
+
+		// translate shape back to relative coords, optimize, and we're done here
+        return shape.move(-pos.getX(), -pos.getY(), -pos.getZ()).optimize();
 	}
 
 	// in most cases, this list will have a size of 1
@@ -163,8 +157,7 @@ public class CollisionManager {
 		// iterate through positions behind portal and add a patch
 		BlockPos.betweenClosedStream(portal.collisionModificationBox).forEach(pos -> {
 			pos = pos.immutable();
-			BlockState state = level.getBlockState(pos);
-			patches.put(pos, portal, new ShapePatch(this, level, state, pos));
+			patches.put(pos, portal, new ShapePatch(this, portal, pos));
 		});
 	}
 
