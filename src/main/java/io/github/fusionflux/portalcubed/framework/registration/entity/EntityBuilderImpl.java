@@ -17,7 +17,7 @@ import net.minecraft.world.entity.MobCategory;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.entity.api.QuiltEntityTypeBuilder;
+import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

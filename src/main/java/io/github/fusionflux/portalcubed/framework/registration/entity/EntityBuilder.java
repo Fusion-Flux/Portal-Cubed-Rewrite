@@ -8,7 +8,7 @@ import net.minecraft.world.entity.EntityType;
 
 import net.minecraft.world.entity.MobCategory;
 
-import org.quiltmc.qsl.entity.api.QuiltEntityTypeBuilder;
+import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

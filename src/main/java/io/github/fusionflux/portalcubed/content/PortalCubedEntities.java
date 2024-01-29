@@ -5,7 +5,7 @@ import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjecti
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 
-import org.quiltmc.qsl.entity.api.QuiltEntityTypeBuilder;
+import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 

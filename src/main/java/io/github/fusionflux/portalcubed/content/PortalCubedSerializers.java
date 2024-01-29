@@ -2,11 +2,9 @@ package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalShape;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import net.minecraft.network.syncher.EntityDataSerializer;
 
-import org.quiltmc.qsl.entity.networking.api.tracked_data.QuiltTrackedDataHandlerRegistry;
+import org.quiltmc.qsl.entity.extensions.api.networking.QuiltTrackedDataHandlerRegistry;
 
 public class PortalCubedSerializers {
 	public static final EntityDataSerializer<PortalData> PORTAL_DATA = register(
