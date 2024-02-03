@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
+import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.Util;
@@ -40,6 +41,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
+		PropType.init();
 		PortalCubedSerializers.init();
 
 		PortalCubedSounds.init();

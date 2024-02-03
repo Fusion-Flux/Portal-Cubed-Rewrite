@@ -14,6 +14,7 @@
     "client.BlockModelMixin",
     "client.BlockElement_DeserializerMixin",
     "client.BlockElementMixin",
+    "client.ItemRendererAccessor",
     "client.SimpleBakedModelAccessor",
     "client.ClientLevelMixin"
   ],
