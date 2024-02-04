@@ -165,9 +165,10 @@
   "item.portalcubed.storage_cube": "Weighted Storage Cube",
   "item.portalcubed.dirty_storage_cube": "Dirty Weighted Storage Cube",
   "item.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
-  "item.portalcubed.companion_cube": "Dirty Weighted Companion Cube",
-  "item.portalcubed.dirty_companion_cube": "Weighted Companion Cube",
+  "item.portalcubed.companion_cube": "Weighted Companion Cube",
+  "item.portalcubed.dirty_companion_cube": "Dirty Weighted Companion Cube",
   "item.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
+  "item.portalcubed.charred_portal_1_companion_cube": "Charred Portal 1 Weighted Companion Cube",
   "item.portalcubed.redirection_cube": "Discouragement Redirection Cube",
   "item.portalcubed.dirty_redirection_cube": "Dirty Discouragement Redirection Cube",
   "item.portalcubed.schrodinger_cube": "Schrödinger Cube",
@@ -564,7 +565,6 @@
 
 
   "entity.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
-  "entity.portalcubed.charred_portal_1_companion_cube": "Charred Portal 1 Weighted Companion Cube",
   "entity.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
   "entity.portalcubed.companion_cube": "Weighted Companion Cube",
   "entity.portalcubed.storage_cube": "Weighted Storage Cube",

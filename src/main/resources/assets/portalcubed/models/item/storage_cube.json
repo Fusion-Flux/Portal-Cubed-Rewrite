@@ -62,9 +62,9 @@
 		}
 	],
 	"overrides": [
-		{"model": "portalcubed:item/storage_cube_lit", "predicate": {"custom_model_data": 0}},
-		{"model": "portalcubed:item/dirty_storage_cube", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/dirty_storage_cube_lit", "predicate": {"custom_model_data": 2}}
+		{"model": "portalcubed:item/storage_cube_lit", "predicate": {"custom_model_data": 1}},
+		{"model": "portalcubed:item/dirty_storage_cube", "predicate": {"custom_model_data": 2}},
+		{"model": "portalcubed:item/dirty_storage_cube_lit", "predicate": {"custom_model_data": 3}}
 	],
 	"display": {
 		"thirdperson_righthand": {

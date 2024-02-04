@@ -82,7 +82,7 @@
 		}
 	],
 	"overrides": [
-		{"model": "portalcubed:item/charred_portal_1_companion_cube", "predicate": {"custom_model_data": 0}}
+		{"model": "portalcubed:item/charred_portal_1_companion_cube", "predicate": {"custom_model_data": 1}}
 	],
 	"display": {
 		"thirdperson_righthand": {

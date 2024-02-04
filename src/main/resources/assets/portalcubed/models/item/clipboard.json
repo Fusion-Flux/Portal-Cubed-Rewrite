@@ -31,12 +31,12 @@
 		}
 	],
 	"overrides": [
-		{"model": "portalcubed:item/clipboard_blank", "predicate": {"custom_model_data": 0}},
-		{"model": "portalcubed:item/clipboard_chell", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/clipboard_chicken", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/clipboard_hazards", "predicate": {"custom_model_data": 3}},
-		{"model": "portalcubed:item/clipboard_knee", "predicate": {"custom_model_data": 4}},
-		{"model": "portalcubed:item/clipboard_text", "predicate": {"custom_model_data": 5}}
+		{"model": "portalcubed:item/clipboard_blank", "predicate": {"custom_model_data": 1}},
+		{"model": "portalcubed:item/clipboard_chell", "predicate": {"custom_model_data": 2}},
+		{"model": "portalcubed:item/clipboard_chicken", "predicate": {"custom_model_data": 3}},
+		{"model": "portalcubed:item/clipboard_hazards", "predicate": {"custom_model_data": 4}},
+		{"model": "portalcubed:item/clipboard_knee", "predicate": {"custom_model_data": 5}},
+		{"model": "portalcubed:item/clipboard_text", "predicate": {"custom_model_data": 6}}
 	],
 	"display": {
 		"thirdperson_righthand": {

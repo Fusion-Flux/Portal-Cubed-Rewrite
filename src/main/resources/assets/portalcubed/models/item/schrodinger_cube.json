@@ -75,7 +75,7 @@
 		}
 	],
 	"overrides": [
-		{"model": "portalcubed:item/schrodinger_cube_lit", "predicate": {"custom_model_data": 0}}
+		{"model": "portalcubed:item/schrodinger_cube_lit", "predicate": {"custom_model_data": 1}}
 	],
 	"display": {
 		"thirdperson_righthand": {

@@ -43,16 +43,16 @@
 		}
 	],
 	"overrides": [
-		{"model": "portalcubed:item/lil_pineapple_ace", "predicate": {"custom_model_data": 0}},
-		{"model": "portalcubed:item/lil_pineapple_agender", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/lil_pineapple_aro", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/lil_pineapple_bi", "predicate": {"custom_model_data": 3}},
-		{"model": "portalcubed:item/lil_pineapple_genderfluid", "predicate": {"custom_model_data": 4}},
-		{"model": "portalcubed:item/lil_pineapple_lesbian", "predicate": {"custom_model_data": 5}},
-		{"model": "portalcubed:item/lil_pineapple_nonbinary", "predicate": {"custom_model_data": 6}},
-		{"model": "portalcubed:item/lil_pineapple_pan", "predicate": {"custom_model_data": 7}},
-		{"model": "portalcubed:item/lil_pineapple_trans", "predicate": {"custom_model_data": 8}},
-		{"model": "portalcubed:item/lil_pineapple_proud", "predicate": {"custom_model_data": 9}}
+		{"model": "portalcubed:item/lil_pineapple_ace", "predicate": {"custom_model_data": 1}},
+		{"model": "portalcubed:item/lil_pineapple_agender", "predicate": {"custom_model_data": 2}},
+		{"model": "portalcubed:item/lil_pineapple_aro", "predicate": {"custom_model_data": 3}},
+		{"model": "portalcubed:item/lil_pineapple_bi", "predicate": {"custom_model_data": 4}},
+		{"model": "portalcubed:item/lil_pineapple_genderfluid", "predicate": {"custom_model_data": 5}},
+		{"model": "portalcubed:item/lil_pineapple_lesbian", "predicate": {"custom_model_data": 6}},
+		{"model": "portalcubed:item/lil_pineapple_nonbinary", "predicate": {"custom_model_data": 7}},
+		{"model": "portalcubed:item/lil_pineapple_pan", "predicate": {"custom_model_data": 8}},
+		{"model": "portalcubed:item/lil_pineapple_trans", "predicate": {"custom_model_data": 9}},
+		{"model": "portalcubed:item/lil_pineapple_proud", "predicate": {"custom_model_data": 10}}
 	],
 	"display": {
 		"thirdperson_righthand": {
