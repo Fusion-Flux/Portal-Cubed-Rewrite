@@ -28,9 +28,14 @@ public class PropRenderer extends EntityRenderer<PropEntity> {
 		var model = PropModels.getModel(prop.type, prop.getVariant());
 		matrices.pushPose();
 		model.getTransforms().getTransform(ItemDisplayContext.GROUND).apply(false, matrices);
-		matrices.translate(-.5, -.5, -.5);
+		matrices.scale(2, 2, 2);
+		matrices.translate(-.5, -.1775, -.5);
 		var consumer = vertexConsumers.getBuffer(Sheets.translucentItemSheet());
-		((ItemRendererAccessor) itemRenderer).callRenderModelLists(model, ItemStack.EMPTY, light, OverlayTexture.NO_OVERLAY, matrices, consumer);
+		if (model.isVanillaAdapter()) {
+			((ItemRendererAccessor) itemRenderer).callRenderModelLists(model, ItemStack.EMPTY, light, OverlayTexture.NO_OVERLAY, matrices, consumer);
+		} else {
+			// TODO: Figure out FRAPI
+		}
 		matrices.popPose();
 	}
 

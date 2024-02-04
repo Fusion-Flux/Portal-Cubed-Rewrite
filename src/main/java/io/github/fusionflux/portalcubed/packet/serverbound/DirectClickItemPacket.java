@@ -1,11 +1,13 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import org.quiltmc.qsl.networking.api.PacketSender;
+
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -31,12 +33,12 @@ public class DirectClickItemPacket implements ServerboundPacket {
 	}
 
 	@Override
-	public PacketType<?> getType() {
+	public ResourceLocation id() {
 		return PortalCubedPackets.DIRECT_CLICK_ITEM;
 	}
 
 	@Override
-	public void handle(ServerPlayer player, PacketSender responder) {
+	public void handle(ServerPlayer player, PacketSender<CustomPacketPayload> responder) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (stack.getItem() instanceof DirectClickItem direct) {
 			if (this.attack) {

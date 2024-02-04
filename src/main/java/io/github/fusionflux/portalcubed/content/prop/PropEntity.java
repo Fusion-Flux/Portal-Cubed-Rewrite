@@ -22,7 +22,7 @@ public class PropEntity extends Entity {
 		return entityData.get(VARIANT);
 	}
 
-	private void setVariant(int variant) {
+	public void setVariant(int variant) {
 		entityData.set(VARIANT, variant);
 	}
 

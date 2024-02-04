@@ -1,13 +1,15 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
+import org.quiltmc.qsl.networking.api.PacketSender;
+
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
 public class CreatePortalPacket implements ClientboundPacket {
 	private final Portal portal;
@@ -26,12 +28,12 @@ public class CreatePortalPacket implements ClientboundPacket {
 	}
 
 	@Override
-	public PacketType<?> getType() {
+	public ResourceLocation id() {
 		return PortalCubedPackets.CREATE_PORTAL;
 	}
 
 	@Override
-	public void handle(LocalPlayer player, PacketSender responder) {
+	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		ClientPortalManager manager = ClientPortalManager.of(player.clientLevel);
 		manager.addPortal(this.portal);
 	}

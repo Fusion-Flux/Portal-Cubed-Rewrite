@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedColorProviders;
+import io.github.fusionflux.portalcubed.content.PortalCubedKeyBindings;
 import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropModels;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
@@ -15,6 +16,7 @@ public class PortalCubedClient implements ClientModInitializer {
 	public void onInitializeClient(ModContainer mod) {
 		PortalRenderer.init();
 		PortalCubedColorProviders.init();
+		PortalCubedKeyBindings.init();
 
 		PropModels.register();
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);

@@ -25,7 +25,8 @@ public class PropModels implements SimpleSynchronousResourceReloader {
 	}
 
 	public static BakedModel getModel(PropType type, int variant) {
-		return MODELS.get(type).get(variant);
+		var variantModels = MODELS.get(type);
+		return variantModels.get(variant % variantModels.size());
 	}
 
 	public static final ResourceLocation ID = PortalCubed.id("prop_models");
