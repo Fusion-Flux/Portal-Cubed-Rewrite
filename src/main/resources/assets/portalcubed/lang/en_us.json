@@ -163,10 +163,13 @@
   "item.portalcubed.crowbar": "Crowbar",
 
   "item.portalcubed.storage_cube": "Weighted Storage Cube",
+  "item.portalcubed.dirty_storage_cube": "Dirty Weighted Storage Cube",
   "item.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
-  "item.portalcubed.companion_cube": "Weighted Companion Cube",
+  "item.portalcubed.companion_cube": "Dirty Weighted Companion Cube",
+  "item.portalcubed.dirty_companion_cube": "Weighted Companion Cube",
   "item.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
   "item.portalcubed.redirection_cube": "Discouragement Redirection Cube",
+  "item.portalcubed.dirty_redirection_cube": "Dirty Discouragement Redirection Cube",
   "item.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "item.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
@@ -177,6 +180,7 @@
   "item.portalcubed.computer": "Computer",
   "item.portalcubed.chair": "Office Chair",
   "item.portalcubed.hoopy": "Hoopy",
+  "item.portalcubed.the_taco": "The Taco",
 
   "item.portalcubed.clipboard": "Clipboard",
   "item.portalcubed.clipboard_blank": "Blank Clipboard",
@@ -515,10 +519,10 @@
   "death.attack.cube": "%s was hit on the head by a falling Physics Entity",
   "death.attack.cube.player":  "%1$s was hit on the head by a falling Physics Entity trying to escape %2$s",
 
-  "key.portalcubed.category" : "Portal Cubed",
-  "key.portalcubed.grab" : "Grab",
-  "key.portalcubed.remove_portals" : "Remove Portals",
-  "key.portalcubed.toggle_hidden_blocks" : "Toggle Hidden Blocks",
+  "key.categories.portalcubed": "Portal Cubed",
+  "key.portalcubed.grab": "Grab",
+  "key.portalcubed.remove_portals": "Remove Portals",
+  "key.portalcubed.toggle_hidden_blocks": "Toggle Hidden Blocks",
 
   "portalcubed.physics_entity.locked.true": "Physics entity is now locked",
   "portalcubed.physics_entity.locked.false": "Physics entity is now unlocked",
@@ -552,9 +556,15 @@
   "entity.portalcubed.jug": "Water Jug",
   "entity.portalcubed.lil_pineapple": "Lil' Pineapple",
   "entity.portalcubed.mug": "Mug",
+  "entity.portalcubed.cooking_pot": "Cooking Pot",
+  "entity.portalcubed.clipboard": "Clipboard",
+  "entity.portalcubed.oil_drum": "Oil Drum",
   "entity.portalcubed.radio": "Radio",
+  "entity.portalcubed.the_taco": "The Taco",
+
 
   "entity.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
+  "entity.portalcubed.charred_portal_1_companion_cube": "Charred Portal 1 Weighted Companion Cube",
   "entity.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
   "entity.portalcubed.companion_cube": "Weighted Companion Cube",
   "entity.portalcubed.storage_cube": "Weighted Storage Cube",

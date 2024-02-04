@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench by Cart3r.  ",
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "portalcubed:item/companion_cube_e",
-		"2": "portalcubed:item/companion_cube",
-		"particle": "portalcubed:item/companion_cube"
+		"1": "portalcubed:item/dirty_companion_cube_e",
+		"2": "portalcubed:item/dirty_companion_cube",
+		"particle": "portalcubed:item/dirty_companion_cube"
 	},
 	"elements": [
 		{
@@ -87,11 +87,6 @@
 				"down": {"uv": [0, 5, 1, 6], "rotation": 180, "texture": "#2"}
 			}
 		}
-	],
-	"overrides": [
-		{"model": "portalcubed:item/companion_cube_lit", "predicate": {"custom_model_data": 0}},
-		{"model": "portalcubed:item/dirty_companion_cube", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/dirty_companion_cube_lit", "predicate": {"custom_model_data": 2}}
 	],
 	"display": {
 		"thirdperson_righthand": {

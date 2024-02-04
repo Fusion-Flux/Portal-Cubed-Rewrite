@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench by Cart3r.  ",
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "portalcubed:item/portal_1_companion_cube"
+		"1": "portalcubed:item/charred_portal_1_companion_cube"
 	},
 	"elements": [
 		{
@@ -80,9 +80,6 @@
 				"down": {"uv": [0, 7.5, 2, 5.5], "rotation": 180, "texture": "#1"}
 			}
 		}
-	],
-	"overrides": [
-		{"model": "portalcubed:item/charred_portal_1_companion_cube", "predicate": {"custom_model_data": 0}}
 	],
 	"display": {
 		"thirdperson_righthand": {

@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench by Cart3r.  ",
 	"texture_size": [32, 32],
 	"textures": {
-		"2": "portalcubed:item/redirection_cube"
+		"2": "portalcubed:item/dirty_redirection_cube"
 	},
 	"elements": [
 		{
@@ -73,11 +73,6 @@
 				"down": {"uv": [0.508, 10.508, 3.984, 13.984], "texture": "#2"}
 			}
 		}
-	],
-	"overrides": [
-		{"model": "portalcubed:item/redirection_cube_lit", "predicate": {"custom_model_data": 0}},
-		{"model": "portalcubed:item/dirty_redirection_cube", "predicate": {"custom_model_data": 0}},
-		{"model": "portalcubed:item/dirty_redirection_cube_lit", "predicate": {"custom_model_data": 0}}
 	],
 	"display": {
 		"thirdperson_righthand": {

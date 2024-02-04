@@ -44,9 +44,9 @@
 		}
 	],
 	"overrides": [
-		{"model": "portalcubed:item/oil_drum_blue", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/oil_drum_white", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/oil_drum_brown", "predicate": {"custom_model_data": 3}}
+		{"model": "portalcubed:item/oil_drum_blue", "predicate": {"custom_model_data": 0}},
+		{"model": "portalcubed:item/oil_drum_white", "predicate": {"custom_model_data": 1}},
+		{"model": "portalcubed:item/oil_drum_brown", "predicate": {"custom_model_data": 2}}
 	],
 	"display": {
 		"thirdperson_righthand": {

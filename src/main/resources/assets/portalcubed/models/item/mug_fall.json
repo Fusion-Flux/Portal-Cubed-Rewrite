@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench by Cart3r.  ",
 	"textures": {
-		"0": "portalcubed:item/mug_blue"
+		"0": "portalcubed:item/mug_fall"
 	},
 	"elements": [
 		{
@@ -36,7 +36,7 @@
 				"north": {"uv": [9.032, 6.968, 11.968, 3.032], "texture": "#0"},
 				"east": {"uv": [6.032, 6.968, 8.968, 3.032], "texture": "#0"},
 				"south": {"uv": [3.032, 6.968, 5.968, 3.032], "texture": "#0"},
-				"west": {"uv": [0.032, 6.968, 2.968, 3.032], "texture": "#0"},
+				"west": {"uv": [6.032, 6.968, 8.968, 3.032], "texture": "#0"},
 				"up": {"uv": [6.032, 0.032, 8.968, 2.968], "texture": "#0"},
 				"down": {"uv": [3.032, 2.968, 5.968, 0.032], "texture": "#0"}
 			}
@@ -56,15 +56,6 @@
 		}
 	],
 	"gui_light": "front",
-	"overrides": [
-		{"model": "portalcubed:item/mug_blue", "predicate": {"custom_model_data": 0}},
-		{"model": "portalcubed:item/mug_red", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/mug_yellow", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/mug_white", "predicate": {"custom_model_data": 3}},
-		{"model": "portalcubed:item/mug_orange", "predicate": {"custom_model_data": 4}},
-		{"model": "portalcubed:item/mug_aperture", "predicate": {"custom_model_data": 5}},
-		{"model": "portalcubed:item/mug_fall", "predicate": {"custom_model_data": 6}}
-	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [20.94, 13.17, 4.05],
