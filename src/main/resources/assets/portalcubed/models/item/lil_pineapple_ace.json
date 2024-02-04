@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench by Cart3r.  ",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "portalcubed:item/lil_pineapple_ace"
+		"0": "portalcubed:item/lil_prideapple_ace"
 	},
 	"elements": [
 		{
