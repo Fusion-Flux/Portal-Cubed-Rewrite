@@ -55,6 +55,9 @@ public class ConstructLoader extends SimpleJsonResourceReloadListener implements
 
 	@Override
 	protected void apply(Map<ResourceLocation, JsonElement> cache, ResourceManager manager, ProfilerFiller profiler) {
+		this.constructs.clear();
+		this.byMaterial.clear();
+
 		cache.forEach((id, json) -> {
 			Construct parsed = Construct.CODEC.parse(JsonOps.INSTANCE, json).get().map(
 					Function.identity(),
