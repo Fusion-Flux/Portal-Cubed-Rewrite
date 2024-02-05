@@ -187,6 +187,7 @@
   "item.portalcubed.clipboard_blank": "Blank Clipboard",
   "item.portalcubed.clipboard_chell": "Test Subject Clipboard",
   "item.portalcubed.clipboard_chicken": "Chicken Test Clipboard",
+  "item.portalcubed.clipboard_knee": "Knee Replacement Clipboard",
   "item.portalcubed.clipboard_hazard": "Hazard Warnings Clipboard",
   "item.portalcubed.clipboard_text": "Contract Clipboard",
 
@@ -195,6 +196,9 @@
   "item.portalcubed.mug_blue": "Blue Mug",
   "item.portalcubed.mug_yellow": "Yellow Mug",
   "item.portalcubed.mug_white": "White Mug",
+  "item.portalcubed.mug_orange": "Orange Aperture Mug",
+  "item.portalcubed.mug_aperture": "White Aperture Mug",
+  "item.portalcubed.mug_fall": "Blue Faith Plate Mug",
 
   "item.portalcubed.oil_drum": "Oil Drum",
   "item.portalcubed.oil_drum_blue": "Blue Oil Drum",
