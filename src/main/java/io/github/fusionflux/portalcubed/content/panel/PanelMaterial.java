@@ -6,22 +6,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.*;
+
 public enum PanelMaterial {
-	PORTAL_1_WHITE,
-	DIRTY_PORTAL_1_WHITE,
-	PORTAL_1_METAL,
-	DIRTY_PORTAL_1_METAL,
-	WHITE,
-	AGED_WHITE,
+	PORTAL_1_WHITE(CHECKERED, NO_2x2),
+	DIRTY_PORTAL_1_WHITE(CHECKERED, NO_2x2),
+	PORTAL_1_METAL(JOINER),
+	DIRTY_PORTAL_1_METAL(JOINER),
+	WHITE(CHECKERED),
+	AGED_WHITE(CHECKERED),
 	PADDED_GRAY,
 	AGED_PADDED_GRAY,
 	SMOOTH_GRAY,
 	AGED_SMOOTH_GRAY,
-	OLD_AP_WHITE,
-	OLD_AP_GREEN,
-	OLD_AP_BLUE;
+	OLD_AP_WHITE(CHECKERED, NO_1x2, NO_HALF),
+	OLD_AP_GREEN(NO_HALF),
+	OLD_AP_BLUE(NO_HALF);
 
 	// maybe we'll do something with this eventually, kept mostly as a record for now
 	// DFU? It has major issues.
@@ -31,23 +34,28 @@ public enum PanelMaterial {
 	);
 
 	public final String name;
-	public final boolean hasCheckered;
-	public final boolean hasJoiner;
 	public final List<PanelPart> parts;
 
 	private final QuiltBlockSettings settings;
 
-	PanelMaterial() {
-		this(settings -> {});
+	PanelMaterial(Flags... flags) {
+		this(settings -> {}, flags);
 	}
 
-	PanelMaterial(Consumer<QuiltBlockSettings> settingsModifier) {
+	PanelMaterial(Consumer<QuiltBlockSettings> settingsModifier, Flags... flags) {
 		this.name = this.name().toLowerCase(Locale.ROOT);
-		this.hasCheckered = this.name.contains("white");
-		this.hasJoiner = this.name.contains("portal_1_metal");
+
+		Set<Flags> set = Set.of(flags);
 		this.parts = Arrays.stream(PanelPart.values())
-				.filter(part -> part != PanelPart.CHECKERED || this.hasCheckered)
-				.filter(part -> part != PanelPart.JOINER || this.hasJoiner)
+				.filter(part -> switch (part) {
+					case CHECKERED -> set.contains(CHECKERED);
+					case JOINER -> set.contains(JOINER);
+					case MULTI_2x2_BOTTOM_LEFT, MULTI_2x2_BOTTOM_RIGHT,
+							MULTI_2x2_TOP_LEFT, MULTI_2x2_TOP_RIGHT -> !set.contains(NO_2x2);
+					case MULTI_1x2_BOTTOM, MULTI_1x2_TOP -> !set.contains(NO_1x2);
+					case HALF -> !set.contains(NO_HALF);
+					default -> true;
+				})
 				.toList();
 
 		this.settings = QuiltBlockSettings.create();
@@ -56,5 +64,13 @@ public enum PanelMaterial {
 
 	public QuiltBlockSettings getSettings() {
 		return QuiltBlockSettings.copyOf(this.settings);
+	}
+
+	enum Flags {
+		CHECKERED,
+		JOINER,
+		NO_2x2,
+		NO_1x2,
+		NO_HALF
 	}
 }
