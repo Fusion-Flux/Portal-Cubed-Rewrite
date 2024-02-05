@@ -69,7 +69,13 @@ public class PortalCubedBlocks {
 						String name = material.name + "_" + part.name;
 						Block block = REGISTRAR.blocks.create(name, part::createBlock)
 								.settings(material.getSettings())
-								.settings(s -> s.dropsLike(base))
+								.settings(s -> {
+									// most panels will just drop the main one.
+									// Half is an exception
+									if (part != PanelPart.HALF) {
+										s.dropsLike(base);
+									}
+                                })
 								.build();
 						blocks.put(part, block);
 					}
