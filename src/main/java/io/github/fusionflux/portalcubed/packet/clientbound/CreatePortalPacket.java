@@ -11,15 +11,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
-public class CreatePortalPacket implements ClientboundPacket {
-	private final Portal portal;
-
-	public CreatePortalPacket(Portal portal) {
-		this.portal = portal;
-	}
-
+public record CreatePortalPacket(Portal portal) implements ClientboundPacket {
 	public CreatePortalPacket(FriendlyByteBuf buf) {
-		this.portal = Portal.fromNetwork(buf);
+		this(Portal.fromNetwork(buf));
 	}
 
 	@Override

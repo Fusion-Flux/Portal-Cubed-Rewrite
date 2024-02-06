@@ -12,18 +12,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
-public class DirectClickItemPacket implements ServerboundPacket {
-	private final boolean attack;
-	private final InteractionHand hand;
-
-	public DirectClickItemPacket(boolean attack, InteractionHand hand) {
-		this.attack = attack;
-		this.hand = hand;
-	}
-
+public record DirectClickItemPacket(boolean attack, InteractionHand hand) implements ServerboundPacket {
 	public DirectClickItemPacket(FriendlyByteBuf buf) {
-		this.attack = buf.readBoolean();
-		this.hand = buf.readEnum(InteractionHand.class);
+		this(buf.readBoolean(), buf.readEnum(InteractionHand.class));
 	}
 
 	@Override

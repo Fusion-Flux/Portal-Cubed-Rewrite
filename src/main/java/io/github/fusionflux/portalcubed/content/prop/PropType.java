@@ -23,41 +23,43 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public enum PropType {
-	BEANS                  (EntityDimensions.fixed(.5f, .5f)),
+	BEANS                  (EntityDimensions.fixed(.25f, .5f)),
 	CHAIR                  (EntityDimensions.fixed(.5f, .5f)),
-	CLIPBOARD              (6, EntityDimensions.fixed(.5f, .5f)),
-	COMPANION_CUBE         (2, EntityDimensions.fixed(.5f, .5f)),
+	CLIPBOARD              (6, true, EntityDimensions.fixed(.5f, .5f)),
+	COMPANION_CUBE         (4, false, EntityDimensions.fixed(.5f, .5f)),
 	COMPUTER               (EntityDimensions.fixed(.5f, .5f)),
 	COOKING_POT            (EntityDimensions.fixed(.5f, .5f)),
 	HOOPY                  (EntityDimensions.fixed(.5f, .5f)),
 	JUG                    (EntityDimensions.fixed(.5f, .5f)),
-	LIL_PINEAPPLE          (10, EntityDimensions.fixed(.5f, .5f)),
-	MUG                    (4,  EntityDimensions.fixed(.5f, .5f)),
-	OIL_DRUM               (3, EntityDimensions.fixed(.5f, .5f)),
+	LIL_PINEAPPLE          (10, false, EntityDimensions.fixed(.5f, .5f)),
+	MUG                    (7, true, EntityDimensions.fixed(.5f, .5f)),
+	OIL_DRUM               (3, true, EntityDimensions.fixed(.5f, .5f)),
 	OLD_AP_CUBE            (EntityDimensions.fixed(.5f, .5f)),
-	PORTAL_1_COMPANION_CUBE(EntityDimensions.fixed(.5f, .5f)),
+	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.5f, .5f)),
 	PORTAL_1_STORAGE_CUBE  (EntityDimensions.fixed(.5f, .5f)),
 	RADIO                  (EntityDimensions.fixed(.5f, .5f)),
-	// REDIRECTION_CUBE(2,
-	// SCHRODINGER_CUBE(2,
-	STORAGE_CUBE           (2, EntityDimensions.fixed(.5f, .5f));
+	// REDIRECTION_CUBE(2, false,
+	// SCHRODINGER_CUBE(2, false,
+	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.5f, .5f));
 
 	public static final Object2ObjectOpenHashMap<PropType, Item> ITEMS = new Object2ObjectOpenHashMap<>();
 
 	public final int[] variants;
+	public final boolean randomVariantOnPlace;
 	public final EntityDimensions dimensions;
 	public final EntityType<PropEntity> entityType;
 
 	PropType(EntityDimensions dimensions) {
-		this(1, dimensions);
+		this(1, false, dimensions);
 	}
 
-	PropType(int variants, EntityDimensions dimensions) {
-		this(variants, dimensions, PropEntity::new);
+	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions) {
+		this(variants, randomVariantOnPlace, dimensions, PropEntity::new);
 	}
 
-	PropType(int variants, EntityDimensions dimensions, TriFunction<PropType, EntityType<PropEntity>, Level, PropEntity> factory) {
+	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions, TriFunction<PropType, EntityType<PropEntity>, Level, PropEntity> factory) {
 		this.variants = IntStreams.range(variants).toArray();
+		this.randomVariantOnPlace = randomVariantOnPlace;
 		this.dimensions = dimensions;
 		this.entityType = QuiltEntityTypeBuilder.<PropEntity>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).build();
 	}

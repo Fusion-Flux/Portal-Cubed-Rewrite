@@ -14,6 +14,6 @@ public interface ClientboundPacket extends BasePacket {
 
 	static void receive(Minecraft client, ClientPacketListener handler, ClientboundPacket payload,
 			PacketSender<CustomPacketPayload> responder) {
-		payload.handle(client.player, responder);
+		client.execute(() -> payload.handle(client.player, responder));
 	}
 }

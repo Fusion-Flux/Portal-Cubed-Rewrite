@@ -25,9 +25,9 @@ public class PropItem extends Item {
 				clickedPos = clickedPos.relative(clickedFace);
 
 			var stack = context.getItemInHand();
-			int variant = stack.hasTag() ? stack.getTag().getInt("CustomModelData") : -1;
-			if (variant == -1)
-				variant = level.random.nextInt(type.variants.length);
+			int variant = stack.hasTag() ? stack.getTag().getInt("CustomModelData") : 0;
+			if (variant <= 0 && type.randomVariantOnPlace)
+				variant = level.random.nextInt(type.variants.length - 1) + 1;
 
 			if (type.spawn(level, clickedPos, clickedFace == Direction.DOWN ? type.dimensions.height : 0, variant)) {
 				stack.shrink(1);

@@ -1,45 +1,82 @@
 package io.github.fusionflux.portalcubed.content;
 
+import java.util.ArrayList;
+import java.util.OptionalInt;
+import java.util.function.Consumer;
+import java.util.function.IntSupplier;
+
 import org.lwjgl.glfw.GLFW;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
+import io.github.fusionflux.portalcubed.content.prop.PropEntity;
+import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.phys.Vec3;
 
-public enum PortalCubedKeyBindings {
-	GRAB("grab", GLFW.GLFW_KEY_G, () -> System.out.println("I'm with the science team!"));
+public class PortalCubedKeyBindings {
+	public static final KeyBinding[] ALL = KeyBinding.values();
 
-	public final String name;
-	public final Runnable onPress;
-	private final KeyMapping mapping;
-
-	PortalCubedKeyBindings(String name, int keyCode, Runnable onPress) {
-		this.name = name;
-		this.onPress = onPress;
-		this.mapping = new KeyMapping("key.portalcubed." + name, keyCode, "key.categories.portalcubed");
-		KeyBindingHelper.registerKeyBinding(mapping);
-	}
-
+	@ClientOnly
 	public static void init() {
-		ClientTickEvents.START.register(client -> {
-			for (var keyBinding : values()) {
-				while (keyBinding.mapping.consumeClick())
-					keyBinding.onPress.run();
+		var mappings = new ArrayList<KeyMapping>();
+		for (KeyBinding keyBinding : ALL) {
+			var mapping = new KeyMapping("key.portalcubed." + keyBinding.name, keyBinding.keyCode.getAsInt(), "key.categories.portalcubed");
+			mappings.add(mapping);
+			KeyBindingHelper.registerKeyBinding(mapping);
+		}
+
+		ClientTickEvents.END.register(client -> {
+			for (int i = 0; i < ALL.length; i++) {
+				var keyBinding = ALL[i];
+				if (client.player != null && mappings.get(i).consumeClick()) {
+					keyBinding.onPress.accept(client.player);
+					PortalCubedPackets.sendToServer(new KeyPressPacket(keyBinding));
+				}
 			}
 		});
 	}
 
-	// @ClientOnly
-	// public static class Client {
-	// 	public static final KeyMapping GRAB_PROP = register("grab", GLFW.GLFW_KEY_G);
+	public static enum KeyBinding {
+		GRAB("grab", () -> GLFW.GLFW_KEY_G, (player) -> {
+			var level = player.level();
+			var heldPropId = ((PlayerExt) player).pc$heldProp();
+			if (heldPropId.isEmpty()) {
+				var playerDirection = Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(3);
+				var checkBox = player.getBoundingBox().expandTowards(playerDirection).inflate(1);
 
-	// 	private static KeyMapping register(String name, int keyCode) {
-	// 		return new KeyMapping("key.portalcubed." + name, keyCode, "key.categories.portalcubed");
-	// 	}
+				var startPos = player.getEyePosition();
+				var endPos = startPos.add(playerDirection);
 
-	// 	public static void init() {
-	// 	}
-	// }
+				var hit = ProjectileUtil.getEntityHitResult(player, startPos, endPos, checkBox, entity -> !entity.isSpectator() && entity.isPickable(), 3 * 3);
+				if (hit != null && hit.getEntity() instanceof PropEntity prop) {
+					if (prop.hold(player))
+						((PlayerExt) player).pc$heldProp(OptionalInt.of(prop.getId()));
+				}
+			} else {
+				var heldProp = (PropEntity) level.getEntity(heldPropId.getAsInt());
+				heldProp.drop(player);
+				((PlayerExt) player).pc$heldProp(OptionalInt.empty());
+			}
+		});
 
-	// private static record KeyBinding(Consumer<Minecraft> onClick, ResourceLocation id, @ClientOnly KeyMapping mapping) { }
+		public final String name;
+		public final IntSupplier keyCode;
+		public final Consumer<Player> onPress;
+
+		KeyBinding(String name, IntSupplier keyCode, Consumer<Player> onPress) {
+			this.name = name;
+			this.keyCode = keyCode;
+			this.onPress = onPress;
+		}
+
+		@ClientOnly
+		public static void init() {
+		}
+	}
 }

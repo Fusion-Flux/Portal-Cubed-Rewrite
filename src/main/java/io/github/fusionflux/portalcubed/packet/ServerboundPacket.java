@@ -12,6 +12,6 @@ public interface ServerboundPacket extends BasePacket {
 
 	static void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler,
 			ServerboundPacket payload, PacketSender<CustomPacketPayload> responder) {
-		payload.handle(player, responder);
+		server.execute(() -> payload.handle(player, responder));
 	}
 }

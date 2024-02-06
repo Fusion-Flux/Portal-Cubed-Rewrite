@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.mixin.client.ItemRendererAccessor;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class PropRenderer extends EntityRenderer<PropEntity> {
 	private final ItemRenderer itemRenderer;
+	private final ItemStack FAKE_STACK = new ItemStack(PropType.ITEMS.get(PropType.BEANS));
 
 	public PropRenderer(Context ctx) {
 		super(ctx);
@@ -27,6 +29,7 @@ public class PropRenderer extends EntityRenderer<PropEntity> {
 
 		var model = PropModels.getModel(prop.type, prop.getVariant());
 		matrices.pushPose();
+		matrices.mulPose(Axis.YP.rotationDegrees(prop.getYRot()));
 		model.getTransforms().getTransform(ItemDisplayContext.GROUND).apply(false, matrices);
 		matrices.scale(2, 2, 2);
 		matrices.translate(-.5, -.1775, -.5);
@@ -34,7 +37,8 @@ public class PropRenderer extends EntityRenderer<PropEntity> {
 		if (model.isVanillaAdapter()) {
 			((ItemRendererAccessor) itemRenderer).callRenderModelLists(model, ItemStack.EMPTY, light, OverlayTexture.NO_OVERLAY, matrices, consumer);
 		} else {
-			// TODO: Figure out FRAPI
+			matrices.translate(.5, .5, .5);
+			itemRenderer.render(FAKE_STACK, ItemDisplayContext.NONE, false, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, model);
 		}
 		matrices.popPose();
 	}

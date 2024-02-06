@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.packet;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
 import net.fabricmc.api.EnvType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,6 +19,7 @@ public class PortalCubedPackets {
 	public static final ResourceLocation CREATE_PORTAL = clientbound("create_portal", CreatePortalPacket::new);
 	// serverbound
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);
+	public static final ResourceLocation KEY_PRESS = serverbound("key_press", KeyPressPacket::new);
 
 	public static void init() {
 	}
