@@ -1,0 +1,6 @@
+{
+  "type": "bidirectional",
+  "material": "portalcubed:dirty_portal_1_white_panel",
+  "horizontal": "portalcubed:construction_cannon/panels/dirty_portal_1_white/dirty_portal_1_white_2x1_panel_horizontal",
+  "vertical": "portalcubed:construction_cannon/panels/dirty_portal_1_white/dirty_portal_1_white_2x1_panel_vertical"
+}

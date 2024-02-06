@@ -1,0 +1,6 @@
+{
+  "type": "bidirectional",
+  "material": "portalcubed:old_ap_blue_panel",
+  "horizontal": "portalcubed:construction_cannon/panels/old_ap_blue/old_ap_blue_2x1_panel_horizontal",
+  "vertical": "portalcubed:construction_cannon/panels/old_ap_blue/old_ap_blue_2x1_panel_vertical"
+}

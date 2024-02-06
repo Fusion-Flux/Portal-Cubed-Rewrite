@@ -1,0 +1,6 @@
+{
+  "type": "bidirectional",
+  "material": "portalcubed:white_panel",
+  "horizontal": "portalcubed:construction_cannon/panels/white/white_2x1_panel_horizontal",
+  "vertical": "portalcubed:construction_cannon/panels/white/white_2x1_panel_vertical"
+}

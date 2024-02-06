@@ -1,0 +1,5 @@
+{
+  "type": "monodirectional",
+  "material": "portalcubed:aged_smooth_gray_panel",
+  "structure": "portalcubed:construction_cannon/panels/aged_smooth_gray/aged_smooth_gray_half_panel"
+}

@@ -1,0 +1,5 @@
+{
+  "type": "monodirectional",
+  "material": "portalcubed:padded_gray_panel",
+  "structure": "portalcubed:construction_cannon/panels/padded_gray/padded_gray_panel"
+}
