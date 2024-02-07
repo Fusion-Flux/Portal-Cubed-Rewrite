@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class PropRenderer extends EntityRenderer<PropEntity> {
+public class PropRenderer extends EntityRenderer<Prop> {
 	private final ItemRenderer itemRenderer;
 	private final ItemStack FAKE_STACK = new ItemStack(PropType.ITEMS.get(PropType.BEANS));
 
@@ -24,7 +24,7 @@ public class PropRenderer extends EntityRenderer<PropEntity> {
 	}
 
 	@Override
-	public void render(PropEntity prop, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light) {
+	public void render(Prop prop, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light) {
 		super.render(prop, yaw, tickDelta, matrices, vertexConsumers, light);
 
 		var model = PropModels.getModel(prop.type, prop.getVariant());
@@ -44,7 +44,7 @@ public class PropRenderer extends EntityRenderer<PropEntity> {
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(PropEntity entity) {
+	public ResourceLocation getTextureLocation(Prop entity) {
 		return null;
 	}
 }

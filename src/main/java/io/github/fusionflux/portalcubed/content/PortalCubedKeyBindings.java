@@ -9,7 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
-import io.github.fusionflux.portalcubed.content.prop.PropEntity;
+import io.github.fusionflux.portalcubed.content.prop.Prop;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
@@ -54,12 +54,12 @@ public class PortalCubedKeyBindings {
 				var endPos = startPos.add(playerDirection);
 
 				var hit = ProjectileUtil.getEntityHitResult(player, startPos, endPos, checkBox, entity -> !entity.isSpectator() && entity.isPickable(), 3 * 3);
-				if (hit != null && hit.getEntity() instanceof PropEntity prop) {
+				if (hit != null && hit.getEntity() instanceof Prop prop) {
 					if (prop.hold(player))
 						((PlayerExt) player).pc$heldProp(OptionalInt.of(prop.getId()));
 				}
 			} else {
-				var heldProp = (PropEntity) level.getEntity(heldPropId.getAsInt());
+				var heldProp = (Prop) level.getEntity(heldPropId.getAsInt());
 				heldProp.drop(player);
 				((PlayerExt) player).pc$heldProp(OptionalInt.empty());
 			}

@@ -2,12 +2,16 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.OptionalInt;
 
-import net.minecraft.core.BlockPos;
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,9 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class PropEntity extends Entity {
-	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(PropEntity.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<OptionalInt> HELD_BY = SynchedEntityData.defineId(PropEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
+public class Prop extends Entity {
+	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<OptionalInt> HELD_BY = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 	private static final double TERMINAL_VELOCITY = 66.6667f;
 
 	private int lerpSteps;
@@ -30,7 +34,7 @@ public class PropEntity extends Entity {
 
 	public final PropType type;
 
-	public PropEntity(PropType type, EntityType<?> entityType, Level level) {
+	public Prop(PropType type, EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.type = type;
 	}
@@ -51,7 +55,7 @@ public class PropEntity extends Entity {
 		boolean notHeld = getHeldBy().isEmpty();
 		if (!level().isClientSide && notHeld)
 			entityData.set(HELD_BY, OptionalInt.of(player.getId()));
-		return !notHeld;
+		return notHeld;
 	}
 
 	public void drop(Player player) {
@@ -77,10 +81,9 @@ public class PropEntity extends Entity {
 
 			var vel = getDeltaMovement();
 			if (getHeldBy().isEmpty()) {
-				if (!onGround() && !isNoGravity()) {
+				if (!onGround() && !isNoGravity())
 					vel = vel.subtract(0, LivingEntity.DEFAULT_BASE_GRAVITY / (isInWater() ? 16 : 1), 0);
-				}
-				var posBelow = this.getBlockPosBelowThatAffectsMyMovement();
+				var posBelow = getBlockPosBelowThatAffectsMyMovement();
 				float f = level().getBlockState(posBelow).getBlock().getFriction();
 				f = onGround() ? f * .91f : .91f;
 				vel = new Vec3(vel.x * f, Math.max(vel.y, -TERMINAL_VELOCITY), vel.z * f);
@@ -89,6 +92,10 @@ public class PropEntity extends Entity {
 				var holdPoint = player.getEyePosition().add(Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2));
 				float holdYOffset = -getBbHeight() / 2;
 				vel = position().vectorTo(holdPoint.add(0, holdYOffset, 0));
+				if (position().distanceToSqr(player.getEyePosition()) >= 4.5 * 4.5) {
+					drop(player);
+					((PlayerExt) player).pc$heldProp(OptionalInt.empty());
+				}
 				setYRot(-player.getYRot() % 360);
 			}
 			setDeltaMovement(vel);
@@ -113,6 +120,27 @@ public class PropEntity extends Entity {
 		lerpZ = z;
 		lerpYRot = yaw;
 		lerpSteps = getType().updateInterval();
+	}
+
+	@Override
+	public boolean hurt(DamageSource source, float amount) {
+		boolean destroyed = false;
+		var level = level();
+		if (!level.isClientSide) {
+			if (source.isCreativePlayer()) {
+				remove(RemovalReason.KILLED);
+				destroyed = true;
+			} else if (source.getEntity() instanceof Player player && player.getMainHandItem().is(PortalCubedItems.HAMMER)) {
+				HammerItem.destroyProp(player, level(), this);
+				destroyed = true;
+			}
+
+			if (destroyed) {
+				var pos = source.getSourcePosition();
+				level.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.PLAYERS, .3f, .5f);
+			}
+		}
+		return destroyed;
 	}
 
 	@Override
@@ -160,11 +188,11 @@ public class PropEntity extends Entity {
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag tag) {
-		tag.putInt("CustomModelData", getVariant());
+		tag.putInt("variant", getVariant());
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
-		setVariant(tag.getInt("CustomModelData"));
+		setVariant(tag.getInt("variant"));
 	}
 }
