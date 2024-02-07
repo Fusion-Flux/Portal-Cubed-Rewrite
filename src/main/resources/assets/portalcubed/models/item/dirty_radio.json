@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench by Cart3r.  ",
 	"textures": {
-		"0": "portalcubed:item/radio",
+		"0": "portalcubed:item/dirty_radio",
 		"1": "portalcubed:item/radio_e",
-		"particle": "portalcubed:item/radio"
+		"particle": "portalcubed:item/dirty_radio"
 	},
 	"elements": [
 		{
@@ -36,7 +36,7 @@
 			"to": [8.5, 3, 6.475],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 3.75, 8]},
 			"faces": {
-				"north": {"uv": [7.058, 7.058, 7.933, 7.933], "texture": "#1"},
+				"north": {"uv": [11.058, 10.058, 11.933, 10.933], "texture": "#1"},
 				"east": {"uv": [0.008, 8.008, 1.492, 9.992], "texture": "#1"},
 				"south": {"uv": [1.508, 8.008, 4.992, 9.992], "texture": "#1"},
 				"west": {"uv": [5.008, 8.008, 6.492, 9.992], "texture": "#1"},
@@ -61,11 +61,6 @@
 				"west": {"uv": [1.032, 0.032, 1.968, 3.968], "texture": "#0"}
 			}
 		}
-	],
-	"overrides": [
-		{"model": "portalcubed:item/radio_awaiting_transmission", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/radio_transmission_received", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/dirty_radio", "predicate": {"custom_model_data": 3}}
 	],
 	"display": {
 		"thirdperson_righthand": {
