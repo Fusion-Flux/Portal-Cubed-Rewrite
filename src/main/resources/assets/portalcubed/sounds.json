@@ -70,5 +70,19 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
+  },
+  "radio": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/radio",
+        "volume": 0.5,
+        "stream": true
+      }
+    ]
+  },
+  "companion_cube_ambiance": {
+    "sounds": [
+      "portalcubed:props/companion_cube_ambiance"
+    ]
   }
 }

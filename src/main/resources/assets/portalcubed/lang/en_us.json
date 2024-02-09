@@ -175,6 +175,11 @@
   "item.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
   "item.portalcubed.radio": "Radio",
+  "item.portalcubed.dirty_radio": "Dirty Radio",
+  "item.portalcubed.radio_transmission_received": "Radio",
+  "item.portalcubed.radio_awaiting_transmission": "Radio",
+
+
   "item.portalcubed.beans": "Bean Can",
   "item.portalcubed.cooking_pot": "Cooking Pot",
   "item.portalcubed.jug": "Water Jug",
