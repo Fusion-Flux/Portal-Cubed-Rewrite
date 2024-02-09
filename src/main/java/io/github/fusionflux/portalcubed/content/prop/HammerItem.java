@@ -15,7 +15,7 @@ public class HammerItem extends Item {
 	public static void destroyProp(Player user, Level world, Prop prop) {
 		prop.remove(RemovalReason.KILLED);
 		var propItem = prop.getPickResult();
-		if (prop instanceof P2CubeProp cube)
+		if (prop instanceof ButtonActivatedProp cube)
 			cube.setActivated(false);
 		if (!prop.type.randomVariantOnPlace && prop.getVariant() != 0)
 			propItem.getOrCreateTag().putInt("CustomModelData", prop.getVariant());

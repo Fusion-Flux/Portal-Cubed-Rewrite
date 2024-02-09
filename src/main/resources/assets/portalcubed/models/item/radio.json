@@ -63,9 +63,9 @@
 		}
 	],
 	"overrides": [
-		{"model": "portalcubed:item/radio_awaiting_transmission", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/radio_transmission_received", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/dirty_radio", "predicate": {"custom_model_data": 3}}
+		{"model": "portalcubed:item/dirty_radio", "predicate": {"custom_model_data": 1}},
+		{"model": "portalcubed:item/radio_awaiting_transmission", "predicate": {"custom_model_data": 2}},
+		{"model": "portalcubed:item/radio_transmission_received", "predicate": {"custom_model_data": 3}}
 	],
 	"display": {
 		"thirdperson_righthand": {

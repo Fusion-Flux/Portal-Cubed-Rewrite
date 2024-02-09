@@ -47,6 +47,7 @@ public class PortalCubedKeyBindings {
 			var level = player.level();
 			var heldPropId = ((PlayerExt) player).pc$heldProp();
 			if (heldPropId.isEmpty()) {
+				if (player.isSpectator()) return;
 				var playerDirection = Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(3);
 				var checkBox = player.getBoundingBox().expandTowards(playerDirection).inflate(1);
 

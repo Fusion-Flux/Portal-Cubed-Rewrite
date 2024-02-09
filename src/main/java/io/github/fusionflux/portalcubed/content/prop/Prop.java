@@ -3,14 +3,21 @@ package io.github.fusionflux.portalcubed.content.prop;
 import java.util.OptionalInt;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedTags;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,6 +26,8 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.phys.Vec3;
 
 public class Prop extends Entity {
@@ -36,7 +45,25 @@ public class Prop extends Entity {
 
 	public Prop(PropType type, EntityType<?> entityType, Level level) {
 		super(entityType, level);
+		this.blocksBuilding = true;
 		this.type = type;
+	}
+
+	protected boolean getVariantFlag(int index) {
+		return (getVariant() & (1 << index)) != 0;
+	}
+
+	protected void setVariantFlag(int index, boolean flag) {
+		int variant = getVariant();
+		if (flag) {
+			setVariant(variant | (1 << index));
+		} else {
+			setVariant(variant & ~(1 << index));
+		}
+	}
+
+	protected int dirtyFlagIndex() {
+		return 0;
 	}
 
 	public int getVariant() {
@@ -75,6 +102,8 @@ public class Prop extends Entity {
 	@Override
 	public void tick() {
 		super.tick();
+		if (!level().isClientSide && getVariantFlag(dirtyFlagIndex()) && isInWaterOrRain())
+			setVariantFlag(dirtyFlagIndex(), false);
 		if (isControlledByLocalInstance()) {
 			lerpSteps = 0;
 			syncPacketPositionCodec(getX(), getY(), getZ());
@@ -87,19 +116,19 @@ public class Prop extends Entity {
 				float f = level().getBlockState(posBelow).getBlock().getFriction();
 				f = onGround() ? f * .91f : .91f;
 				vel = new Vec3(vel.x * f, Math.max(vel.y, -TERMINAL_VELOCITY), vel.z * f);
+				setDeltaMovement(vel);
+				move(MoverType.SELF, vel);
 			} else {
 				var player = ((Player) level().getEntity(getHeldBy().getAsInt()));
 				var holdPoint = player.getEyePosition().add(Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2));
 				float holdYOffset = -getBbHeight() / 2;
-				vel = position().vectorTo(holdPoint.add(0, holdYOffset, 0));
+				setPos(holdPoint.add(0, holdYOffset, 0));
 				if (position().distanceToSqr(player.getEyePosition()) >= 4.5 * 4.5) {
 					drop(player);
 					((PlayerExt) player).pc$heldProp(OptionalInt.empty());
 				}
 				setYRot(-player.getYRot() % 360);
 			}
-			setDeltaMovement(vel);
-			move(MoverType.SELF, vel);
 		} else if (lerpSteps > 0) {
 			double delta = 1.0 / lerpSteps;
 			setPos(
@@ -123,6 +152,34 @@ public class Prop extends Entity {
 	}
 
 	@Override
+	public InteractionResult interact(Player player, InteractionHand hand) {
+		var itemInHand = player.getItemInHand(hand);
+		var level = level();
+		if (type.hasDirtyVariant) {
+			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedTags.Item.AGED_CRAFTING_MATERIALS) && !getVariantFlag(dirtyFlagIndex())) {
+				if (!level.isClientSide) {
+					setVariantFlag(dirtyFlagIndex(), true);
+					level.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1f, .5f);
+					var particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
+					for (var dir : Direction.values()) {
+						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
+						double y = getY() + (dir.getStepY() * getBbWidth() / 2);
+						double z = getZ() + (dir.getStepZ() * getBbWidth() / 2);
+						((ServerLevel) level).sendParticles(particleOption, x, y, z, level.random.nextInt(5, 8), 0, 0, 0, 1);
+					}
+					itemInHand.shrink(1);
+				}
+				return InteractionResult.sidedSuccess(level.isClientSide);
+			}
+		}
+		if (!isVehicle() && type == PropType.CHAIR) {
+			if (!level.isClientSide) player.startRiding(this);
+			return InteractionResult.sidedSuccess(level.isClientSide);
+		}
+		return super.interact(player, hand);
+	}
+
+	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		boolean destroyed = false;
 		var level = level();
@@ -137,7 +194,7 @@ public class Prop extends Entity {
 
 			if (destroyed) {
 				var pos = source.getSourcePosition();
-				level.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.PLAYERS, .3f, .5f);
+				level.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, .3f, .7f);
 			}
 		}
 		return destroyed;
@@ -165,19 +222,13 @@ public class Prop extends Entity {
 	@Override
 	public void lavaHurt() {
 		super.lavaHurt();
-		if (type == PropType.PORTAL_1_COMPANION_CUBE && getVariant() == 0) setVariant(1);
+		if (type == PropType.PORTAL_1_COMPANION_CUBE) setVariantFlag(dirtyFlagIndex(), true);
 	}
 
 	@Override
 	public void setRemainingFireTicks(int ticks) {
 		super.setRemainingFireTicks(ticks);
-		if (type == PropType.PORTAL_1_COMPANION_CUBE && getVariant() == 0 && getRemainingFireTicks() > 0) setVariant(1);
-	}
-
-	@Override
-	public void extinguishFire() {
-		super.extinguishFire();
-		if (type == PropType.PORTAL_1_COMPANION_CUBE && getVariant() == 1) setVariant(0);
+		if (type == PropType.PORTAL_1_COMPANION_CUBE && getRemainingFireTicks() > 0) setVariantFlag(dirtyFlagIndex(), true);
 	}
 
 	@Override

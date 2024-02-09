@@ -27,8 +27,8 @@ import net.minecraft.world.level.Level;
 public enum PropType {
 	BEANS                  (EntityDimensions.fixed(.25f, .375f)),
 	CHAIR                  (EntityDimensions.fixed(.4375f, .46875f)),
-	CLIPBOARD              (7, true, EntityDimensions.fixed(.625f, .625f)),
-	COMPANION_CUBE         (4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new),
+	CLIPBOARD              (7, true, EntityDimensions.fixed(.5625f, .0625f)),
+	COMPANION_CUBE         (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, true),
 	COMPUTER               (EntityDimensions.fixed(.5f, .1875f)),
 	COOKING_POT            (EntityDimensions.fixed(.43875f, .25125f)),
 	HOOPY                  (EntityDimensions.fixed(1.625f, .0625f)),
@@ -39,10 +39,11 @@ public enum PropType {
 	OLD_AP_CUBE            (EntityDimensions.fixed(.625f, .625f)),
 	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.625f, .625f)),
 	PORTAL_1_STORAGE_CUBE  (EntityDimensions.fixed(.625f, .625f)),
-	RADIO                  (4, false, EntityDimensions.fixed(.625f, .3125f)),
+	RADIO                  (4, false, EntityDimensions.fixed(.5625f, .3125f), SoundPlayingProp::new, true),
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
-	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new);
+	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, true),
+	THE_TACO(EntityDimensions.fixed(.69375f, .38125f));
 
 	public static final Object2ObjectOpenHashMap<PropType, Item> ITEMS = new Object2ObjectOpenHashMap<>();
 
@@ -50,20 +51,22 @@ public enum PropType {
 	public final boolean randomVariantOnPlace;
 	public final EntityDimensions dimensions;
 	public final EntityType<Prop> entityType;
+	public final boolean hasDirtyVariant;
 
 	PropType(EntityDimensions dimensions) {
 		this(1, false, dimensions);
 	}
 
 	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions) {
-		this(variants, randomVariantOnPlace, dimensions, Prop::new);
+		this(variants, randomVariantOnPlace, dimensions, Prop::new, false);
 	}
 
-	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions, TriFunction<PropType, EntityType<Prop>, Level, Prop> factory) {
+	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions, TriFunction<PropType, EntityType<Prop>, Level, Prop> factory, boolean hasDirtyVariant) {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnPlace = randomVariantOnPlace;
 		this.dimensions = dimensions;
 		this.entityType = QuiltEntityTypeBuilder.<Prop>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).build();
+		this.hasDirtyVariant = hasDirtyVariant;
 	}
 
 	public static void init() {
