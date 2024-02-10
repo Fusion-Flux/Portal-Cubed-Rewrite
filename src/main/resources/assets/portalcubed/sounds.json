@@ -84,5 +84,105 @@
     "sounds": [
       "portalcubed:props/companion_cube_ambiance"
     ]
+  },
+  "generic_prop_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/generic_prop_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/generic_prop_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/generic_prop_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/generic_prop_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/generic_prop_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.generic_prop_impact"
+  },
+  "cube_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/cube_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/cube_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/cube_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/cube_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/cube_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.cube_impact"
+  },
+  "old_ap_cube_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.old_ap_cube_impact"
+  },
+  "portal_1_cube_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_1_cube_impact"
   }
 }
