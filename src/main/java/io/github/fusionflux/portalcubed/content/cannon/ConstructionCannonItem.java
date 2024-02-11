@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.cannon;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructLoader;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.content.cannon.data.DeviceData;
 import io.github.fusionflux.portalcubed.content.cannon.data.DeviceInventory;
@@ -89,7 +89,7 @@ public class ConstructionCannonItem extends Item {
 		if (settings == null) // not configured
 			return CannonUseResult.NOT_CONFIGURED;
 
-		Construct construct = ConstructLoader.INSTANCE.getConstruct(settings.construct());
+		Construct construct = ConstructManager.INSTANCE.getConstruct(settings.construct());
 		if (construct == null) // fake construct
 			return CannonUseResult.INVALID;
 

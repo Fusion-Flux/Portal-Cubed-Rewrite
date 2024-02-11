@@ -9,7 +9,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedMenus;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructLoader;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.Util;
@@ -49,7 +49,7 @@ public class PortalCubed implements ModInitializer {
 
 		PortalCubedSounds.init();
 
-		ResourceLoader.get(PackType.SERVER_DATA).registerReloader(ConstructLoader.INSTANCE);
+		ConstructManager.init();
 	}
 
 	public static ResourceLocation id(String path) {
