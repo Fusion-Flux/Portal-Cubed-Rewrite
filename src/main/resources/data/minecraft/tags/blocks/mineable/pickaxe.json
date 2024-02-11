@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "portalcubed:magnesium_ore",
+    "portalcubed:deepslate_magnesium_ore",
+    "portalcubed:magnesium_block",
+    "portalcubed:raw_magnesium_block"
+  ]
+}

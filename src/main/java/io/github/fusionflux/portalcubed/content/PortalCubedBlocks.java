@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.material.MapColor;
@@ -21,6 +22,24 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.STONE)
 			.settings(QuiltBlockSettings::noCollision)
 			.item(BlockItemProvider::noItem)
+			.build();
+
+	public static final Block MAGNESIUM_ORE = REGISTRAR.blocks.create("magnesium_ore", Block::new)
+			.copyFrom(Blocks.IRON_ORE)
+			.build();
+
+	public static final Block DEEPSLATE_MAGNESIUM_ORE = REGISTRAR.blocks.create("deepslate_magnesium_ore", Block::new)
+			.copyFrom(Blocks.DEEPSLATE_IRON_ORE)
+			.build();
+
+	public static final Block MAGNESIUM_BLOCK = REGISTRAR.blocks.create("magnesium_block", Block::new)
+			.copyFrom(Blocks.IRON_BLOCK)
+			.settings(settings -> settings.mapColor(MapColor.CLAY))
+			.build();
+
+	public static final Block RAW_MAGNESIUM_BLOCK = REGISTRAR.blocks.create("raw_magnesium_block", Block::new)
+			.copyFrom(Blocks.IRON_BLOCK)
+			.settings(settings -> settings.mapColor(MapColor.CLAY))
 			.build();
 
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("floor_button", FloorButtonBlock::new)
