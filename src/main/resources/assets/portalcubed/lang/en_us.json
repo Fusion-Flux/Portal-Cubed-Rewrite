@@ -472,6 +472,8 @@
   "block.portalcubed.light_bridge_emitter": "Hard Light Bridge Emitter",
   "block.portalcubed.light_bridge": "Hard Light Bridge",
 
+  "block.portalcubed.black_forest_cake": "Black Forest Cake",
+
   "portalcubed.midnightconfig.title": "Portal Cubed Config",
   "portalcubed.midnightconfig.maxBridgeLength": "Maximum Emitter Block Range",
   "portalcubed.midnightconfig.enableRoundPortals": "Use Round Portal Texture",
