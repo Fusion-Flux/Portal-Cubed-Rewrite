@@ -110,6 +110,31 @@
     ],
     "subtitle": "subtitles.portalcubed.generic_prop_impact"
   },
+  "metal_prop_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/metal_prop_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/metal_prop_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/metal_prop_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/metal_prop_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/metal_prop_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.metal_prop_impact"
+  },
   "cube_impact": {
     "sounds": [
       {
