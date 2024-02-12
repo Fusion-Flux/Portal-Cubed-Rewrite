@@ -184,6 +184,7 @@
   "item.portalcubed.dirty_radio": "Dirty Radio",
   "item.portalcubed.radio_transmission_received": "Radio",
   "item.portalcubed.radio_awaiting_transmission": "Radio",
+  "item.portalcubed.boombox": "Boombox",
 
 
   "item.portalcubed.beans": "Bean Can",
@@ -555,9 +556,6 @@
   "portalcubed.velocity_helper.failed_expression": "Failed to evaluate Velocity Helper %s",
   "portalcubed.velocity_helper.condition_expression": "condition",
   "portalcubed.velocity_helper.curve_expression": "interpolation curve",
-
-  "portalcubed.radio.allow_mute": "Grabbing Toggles Radio Music: Enabled",
-  "portalcubed.radio.disallow_mute": "Grabbing Toggles Radio Music: Disabled",
 
   "entity.portalcubed.adhesion_gel_blob": "Adhesion Gel Blob",
   "entity.portalcubed.conversion_gel_blob": "Conversion Gel Blob",
