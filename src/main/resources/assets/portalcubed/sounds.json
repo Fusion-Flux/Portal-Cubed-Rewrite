@@ -82,7 +82,10 @@
   },
   "companion_cube_ambiance": {
     "sounds": [
-      "portalcubed:props/companion_cube_ambiance"
+      {
+        "name": "portalcubed:props/companion_cube_ambiance",
+        "stream": true
+      }
     ]
   },
   "generic_prop_impact": {
