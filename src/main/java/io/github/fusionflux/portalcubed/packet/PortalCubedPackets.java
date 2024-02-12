@@ -2,9 +2,11 @@ package io.github.fusionflux.portalcubed.packet;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.RadioSoundPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
 import net.fabricmc.api.EnvType;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -17,6 +19,7 @@ import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 public class PortalCubedPackets {
 	// clientbound
 	public static final ResourceLocation CREATE_PORTAL = clientbound("create_portal", CreatePortalPacket::new);
+	public static final ResourceLocation RADIO_SOUND = clientbound("radio_sound", RadioSoundPacket::new);
 	// serverbound
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);
 	public static final ResourceLocation KEY_PRESS = serverbound("key_press", KeyPressPacket::new);
@@ -47,8 +50,17 @@ public class PortalCubedPackets {
 		ServerPlayNetworking.getSender(player).sendPayload(packet);
 	}
 
+	public static <T extends ClientboundPacket> Packet<?> createPayloadPacket(T packet) {
+		return ServerPlayNetworking.createS2CPacket(packet);
+	}
+
 	@ClientOnly
 	public static <T extends ServerboundPacket> void sendToServer(T packet) {
 		ClientPlayNetworking.getSender().sendPayload(packet);
+	}
+
+	@ClientOnly
+	public static <T extends ServerboundPacket> Packet<?> createPayloadPacket(T packet) {
+		return ClientPlayNetworking.createC2SPacket(packet);
 	}
 }

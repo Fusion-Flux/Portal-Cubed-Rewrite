@@ -88,7 +88,7 @@
       }
     ]
   },
-  "generic_prop_impact": {
+  "generic_impact": {
     "sounds": [
       {
         "name": "portalcubed:props/generic_prop_impact_1",
@@ -113,7 +113,7 @@
     ],
     "subtitle": "subtitles.portalcubed.generic_prop_impact"
   },
-  "metal_prop_impact": {
+  "metal_impact": {
     "sounds": [
       {
         "name": "portalcubed:props/metal_prop_impact_1",

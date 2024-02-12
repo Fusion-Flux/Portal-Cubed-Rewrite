@@ -18,6 +18,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -25,25 +26,25 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public enum PropType {
-	BEANS                  (EntityDimensions.fixed(.25f, .375f)),
-	CHAIR                  (EntityDimensions.fixed(.4375f, .46875f)),
-	CLIPBOARD              (7, true, EntityDimensions.fixed(.5625f, .0625f)),
-	COMPANION_CUBE         (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, true),
-	COMPUTER               (EntityDimensions.fixed(.5f, .1875f)),
-	COOKING_POT            (EntityDimensions.fixed(.43875f, .25125f)),
-	HOOPY                  (EntityDimensions.fixed(1.625f, .0625f)),
-	JUG                    (EntityDimensions.fixed(.375f, .5f)),
-	LIL_PINEAPPLE          (10, false, EntityDimensions.fixed(.5625f, .5f)),
-	MUG                    (8, true, EntityDimensions.fixed(.1875f, .25f)),
-	OIL_DRUM               (4, true, EntityDimensions.fixed(.5625f, .9375f)),
-	OLD_AP_CUBE            (EntityDimensions.fixed(.625f, .625f)),
-	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.625f, .625f)),
-	PORTAL_1_STORAGE_CUBE  (EntityDimensions.fixed(.625f, .625f)),
-	RADIO                  (4, false, EntityDimensions.fixed(.5625f, .3125f), SoundPlayingProp::new, true),
+	BEANS                  (EntityDimensions.fixed(.25f, .375f), SoundType.METAL),
+	CHAIR                  (EntityDimensions.fixed(.4375f, .46875f), SoundType.GENERIC),
+	CLIPBOARD              (7, true, EntityDimensions.fixed(.5625f, .0625f), SoundType.GENERIC),
+	COMPANION_CUBE         (4, false, EntityDimensions.fixed(.625f, .625f), CompanionCube::new, true, SoundType.CUBE),
+	COMPUTER               (EntityDimensions.fixed(.5f, .1875f), SoundType.METAL),
+	COOKING_POT            (EntityDimensions.fixed(.43875f, .25125f), SoundType.METAL),
+	HOOPY                  (EntityDimensions.fixed(1.625f, .0625f), SoundType.METAL),
+	JUG                    (EntityDimensions.fixed(.375f, .5f), SoundType.GENERIC),
+	LIL_PINEAPPLE          (10, false, EntityDimensions.fixed(.5625f, .5f), SoundType.GENERIC),
+	MUG                    (8, true, EntityDimensions.fixed(.1875f, .25f), SoundType.GENERIC),
+	OIL_DRUM               (4, true, EntityDimensions.fixed(.5625f, .9375f), SoundType.METAL),
+	OLD_AP_CUBE            (EntityDimensions.fixed(.625f, .625f), SoundType.OLD_AP_CUBE),
+	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.625f, .625f), SoundType.PORTAL_1_CUBE),
+	PORTAL_1_STORAGE_CUBE  (EntityDimensions.fixed(.625f, .625f), SoundType.PORTAL_1_CUBE),
+	RADIO                  (5, false, EntityDimensions.fixed(.5625f, .3125f), Radio::new, true, SoundType.METAL),
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
-	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, true),
-	THE_TACO(EntityDimensions.fixed(.69375f, .38125f));
+	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, true, SoundType.CUBE),
+	THE_TACO(new TacoDimensions(), SoundType.GENERIC);
 
 	public static final Object2ObjectOpenHashMap<PropType, Item> ITEMS = new Object2ObjectOpenHashMap<>();
 
@@ -52,21 +53,23 @@ public enum PropType {
 	public final EntityDimensions dimensions;
 	public final EntityType<Prop> entityType;
 	public final boolean hasDirtyVariant;
+	public final SoundType soundType;
 
-	PropType(EntityDimensions dimensions) {
-		this(1, false, dimensions);
+	PropType(EntityDimensions dimensions, SoundType soundType) {
+		this(1, false, dimensions, soundType);
 	}
 
-	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions) {
-		this(variants, randomVariantOnPlace, dimensions, Prop::new, false);
+	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions, SoundType soundType) {
+		this(variants, randomVariantOnPlace, dimensions, Prop::new, false, soundType);
 	}
 
-	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions, TriFunction<PropType, EntityType<Prop>, Level, Prop> factory, boolean hasDirtyVariant) {
+	PropType(int variants, boolean randomVariantOnPlace, EntityDimensions dimensions, TriFunction<PropType, EntityType<Prop>, Level, Prop> factory, boolean hasDirtyVariant, SoundType soundType) {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnPlace = randomVariantOnPlace;
 		this.dimensions = dimensions;
 		this.entityType = QuiltEntityTypeBuilder.<Prop>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).build();
 		this.hasDirtyVariant = hasDirtyVariant;
+		this.soundType = soundType;
 	}
 
 	public static void init() {
@@ -99,5 +102,25 @@ public enum PropType {
 	@Override
 	public String toString() {
 		return name().toLowerCase(Locale.ROOT);
+	}
+
+	enum SoundType {
+		GENERIC,
+		METAL,
+		CUBE,
+		OLD_AP_CUBE,
+		PORTAL_1_CUBE;
+
+		public final SoundEvent impactSound;
+
+		SoundType() {
+			var id = PortalCubed.id(toString() + "_impact");
+			this.impactSound = Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
+		}
+
+		@Override
+		public String toString() {
+			return name().toLowerCase(Locale.ROOT);
+		}
 	}
 }

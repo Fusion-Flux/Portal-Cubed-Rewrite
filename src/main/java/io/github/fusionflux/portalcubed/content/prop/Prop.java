@@ -3,7 +3,9 @@ package io.github.fusionflux.portalcubed.content.prop;
 import java.util.OptionalInt;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedTags;
+import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -13,7 +15,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -30,7 +31,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.phys.Vec3;
 
-public class Prop extends Entity {
+public class Prop extends Entity implements CollisionListener {
 	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<OptionalInt> HELD_BY = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 	private static final double TERMINAL_VELOCITY = 66.6667f;
@@ -122,12 +123,12 @@ public class Prop extends Entity {
 				var player = ((Player) level().getEntity(getHeldBy().getAsInt()));
 				var holdPoint = player.getEyePosition().add(Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2));
 				float holdYOffset = -getBbHeight() / 2;
-				setPos(holdPoint.add(0, holdYOffset, 0));
+				move(MoverType.PLAYER, position().vectorTo(holdPoint.add(0, holdYOffset, 0)));
+				setYRot(-player.getYRot() % 360);
 				if (position().distanceToSqr(player.getEyePosition()) >= 4.5 * 4.5) {
 					drop(player);
 					((PlayerExt) player).pc$heldProp(OptionalInt.empty());
 				}
-				setYRot(-player.getYRot() % 360);
 			}
 		} else if (lerpSteps > 0) {
 			double delta = 1.0 / lerpSteps;
@@ -148,7 +149,7 @@ public class Prop extends Entity {
 		lerpY = y;
 		lerpZ = z;
 		lerpYRot = yaw;
-		lerpSteps = getType().updateInterval();
+		lerpSteps = interpolationSteps;
 	}
 
 	@Override
@@ -159,7 +160,7 @@ public class Prop extends Entity {
 			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedTags.Item.AGED_CRAFTING_MATERIALS) && !getVariantFlag(dirtyFlagIndex())) {
 				if (!level.isClientSide) {
 					setVariantFlag(dirtyFlagIndex(), true);
-					level.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1f, .5f);
+					level.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
 					var particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
 					for (var dir : Direction.values()) {
 						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
@@ -181,23 +182,22 @@ public class Prop extends Entity {
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
-		boolean destroyed = false;
 		var level = level();
 		if (!level.isClientSide) {
 			if (source.isCreativePlayer()) {
 				remove(RemovalReason.KILLED);
-				destroyed = true;
 			} else if (source.getEntity() instanceof Player player && player.getMainHandItem().is(PortalCubedItems.HAMMER)) {
 				HammerItem.destroyProp(player, level(), this);
-				destroyed = true;
-			}
-
-			if (destroyed) {
-				var pos = source.getSourcePosition();
-				level.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, .3f, .7f);
 			}
 		}
-		return destroyed;
+		return true;
+	}
+
+	@Override
+	public boolean skipAttackInteraction(Entity attacker) {
+		if (attacker instanceof Player player)
+			return !(player.getAbilities().instabuild || player.getMainHandItem().is(PortalCubedItems.HAMMER));
+		return true;
 	}
 
 	@Override
@@ -217,6 +217,13 @@ public class Prop extends Entity {
 	@Override
 	public ItemStack getPickResult() {
 		return new ItemStack(PropType.ITEMS.get(type));
+	}
+
+	@Override
+	public void onCollision() {
+		var level = level();
+		if (!level.isClientSide)
+			level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
 	}
 
 	@Override
