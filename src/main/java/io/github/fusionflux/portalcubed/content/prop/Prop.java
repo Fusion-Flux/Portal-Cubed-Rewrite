@@ -3,8 +3,7 @@ package io.github.fusionflux.portalcubed.content.prop;
 import java.util.OptionalInt;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedTags;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import net.minecraft.core.Direction;
@@ -36,6 +35,7 @@ public class Prop extends Entity implements CollisionListener {
 	private static final EntityDataAccessor<OptionalInt> HELD_BY = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 	private static final double TERMINAL_VELOCITY = 66.6667f;
 
+	private int variantFromItem;
 	private int lerpSteps;
 	private double lerpX;
 	private double lerpY;
@@ -50,21 +50,12 @@ public class Prop extends Entity implements CollisionListener {
 		this.type = type;
 	}
 
-	protected boolean getVariantFlag(int index) {
-		return (getVariant() & (1 << index)) != 0;
+	protected boolean isDirty() {
+		return getVariant() == 1;
 	}
 
-	protected void setVariantFlag(int index, boolean flag) {
-		int variant = getVariant();
-		if (flag) {
-			setVariant(variant | (1 << index));
-		} else {
-			setVariant(variant & ~(1 << index));
-		}
-	}
-
-	protected int dirtyFlagIndex() {
-		return 0;
+	protected void setDirty(boolean dirty) {
+		setVariant(dirty ? 1 : 0);
 	}
 
 	public int getVariant() {
@@ -73,6 +64,10 @@ public class Prop extends Entity implements CollisionListener {
 
 	public void setVariant(int variant) {
 		if (!level().isClientSide) entityData.set(VARIANT, variant);
+	}
+
+	public void setVariantFromItem(int variant) {
+		this.variantFromItem = variant;
 	}
 
 	public OptionalInt getHeldBy() {
@@ -103,15 +98,15 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!level().isClientSide && getVariantFlag(dirtyFlagIndex()) && isInWaterOrRain())
-			setVariantFlag(dirtyFlagIndex(), false);
+		if (!level().isClientSide && isInWaterOrRain())
+			setDirty(false);
 		if (isControlledByLocalInstance()) {
 			lerpSteps = 0;
 			syncPacketPositionCodec(getX(), getY(), getZ());
 
 			var vel = getDeltaMovement();
 			if (getHeldBy().isEmpty()) {
-				if (!onGround() && !isNoGravity())
+				if (!isNoGravity())
 					vel = vel.subtract(0, LivingEntity.DEFAULT_BASE_GRAVITY / (isInWater() ? 16 : 1), 0);
 				var posBelow = getBlockPosBelowThatAffectsMyMovement();
 				float f = level().getBlockState(posBelow).getBlock().getFriction();
@@ -124,7 +119,8 @@ public class Prop extends Entity implements CollisionListener {
 				var holdPoint = player.getEyePosition().add(Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2));
 				float holdYOffset = -getBbHeight() / 2;
 				move(MoverType.PLAYER, position().vectorTo(holdPoint.add(0, holdYOffset, 0)));
-				setYRot(-player.getYRot() % 360);
+				if (type != PropType.THE_TACO)
+					setYRot(-player.getYRot() % 360);
 				if (position().distanceToSqr(player.getEyePosition()) >= 4.5 * 4.5) {
 					drop(player);
 					((PlayerExt) player).pc$heldProp(OptionalInt.empty());
@@ -157,25 +153,21 @@ public class Prop extends Entity implements CollisionListener {
 		var itemInHand = player.getItemInHand(hand);
 		var level = level();
 		if (type.hasDirtyVariant) {
-			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedTags.Item.AGED_CRAFTING_MATERIALS) && !getVariantFlag(dirtyFlagIndex())) {
-				if (!level.isClientSide) {
-					setVariantFlag(dirtyFlagIndex(), true);
-					level.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
+			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && !isDirty()) {
+				if (level instanceof ServerLevel serverLevel) {
+					setDirty(true);
+					serverLevel.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
 					var particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
 					for (var dir : Direction.values()) {
 						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
 						double y = getY() + (dir.getStepY() * getBbWidth() / 2);
 						double z = getZ() + (dir.getStepZ() * getBbWidth() / 2);
-						((ServerLevel) level).sendParticles(particleOption, x, y, z, level.random.nextInt(5, 8), 0, 0, 0, 1);
+						serverLevel.sendParticles(particleOption, x, y, z, random.nextInt(5, 8), 0, 0, 0, 1);
 					}
 					itemInHand.shrink(1);
 				}
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}
-		}
-		if (!isVehicle() && type == PropType.CHAIR) {
-			if (!level.isClientSide) player.startRiding(this);
-			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
 		return super.interact(player, hand);
 	}
@@ -227,18 +219,6 @@ public class Prop extends Entity implements CollisionListener {
 	}
 
 	@Override
-	public void lavaHurt() {
-		super.lavaHurt();
-		if (type == PropType.PORTAL_1_COMPANION_CUBE) setVariantFlag(dirtyFlagIndex(), true);
-	}
-
-	@Override
-	public void setRemainingFireTicks(int ticks) {
-		super.setRemainingFireTicks(ticks);
-		if (type == PropType.PORTAL_1_COMPANION_CUBE && getRemainingFireTicks() > 0) setVariantFlag(dirtyFlagIndex(), true);
-	}
-
-	@Override
 	protected void defineSynchedData() {
 		entityData.define(VARIANT, 0);
 		entityData.define(HELD_BY, OptionalInt.empty());
@@ -247,10 +227,12 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	protected void addAdditionalSaveData(CompoundTag tag) {
 		tag.putInt("variant", getVariant());
+		tag.putInt("variant_from_item", variantFromItem);
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
 		setVariant(tag.getInt("variant"));
+		setVariantFromItem(tag.getInt("variant_from_item"));
 	}
 }

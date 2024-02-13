@@ -18,6 +18,7 @@
     "client.BlockElementMixin",
     "client.ItemRendererAccessor",
     "client.SimpleBakedModelAccessor",
+    "client.ClientPacketListenerMixin",
     "client.ClientLevelMixin"
   ],
   "injectors": {

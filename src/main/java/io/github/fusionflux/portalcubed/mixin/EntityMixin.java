@@ -31,7 +31,7 @@ public class EntityMixin {
 	@Inject(method = "move", at = @At("RETURN"))
 	private void listenForCollisions(MoverType movementType, Vec3 movement, CallbackInfo ci) {
 		if (this instanceof CollisionListener collisionListener) {
-			if (horizontalCollision) {
+			if (horizontalCollision || verticalCollision || verticalCollisionBelow) {
 				if (!isColliding)
 					collisionListener.onCollision();
 				isColliding = true;
@@ -43,8 +43,8 @@ public class EntityMixin {
 
 	@Inject(method = "canCollideWith", at = @At("RETURN"), cancellable = true)
 	private void dontCollideWithHeldProp(Entity other, CallbackInfoReturnable<Boolean> cir) {
-		if (this instanceof PlayerExt ext)
-			cir.setReturnValue((other.getId() != ext.pc$heldProp().orElse(-1)) && cir.getReturnValue());
+		if (this instanceof PlayerExt ext && other.getId() == ext.pc$heldProp().orElse(-1))
+			cir.setReturnValue(false);
 	}
 
 	@Inject(method = "setRemoved", at = @At("HEAD"))

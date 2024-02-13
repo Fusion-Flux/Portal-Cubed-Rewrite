@@ -29,11 +29,9 @@ public class PropItem extends Item {
 
 			var stack = context.getItemInHand();
 			int variant = stack.hasTag() ? stack.getTag().getInt("CustomModelData") : 0;
-			if (variant <= 0 && type.randomVariantOnPlace)
-				variant = level.random.nextInt(type.variants.length - 1) + 1;
 			Optional<Component> customName = stack.getTagElement("display") != null ? Optional.of(stack.getHoverName()) : Optional.empty();
 
-			if (type.spawn(level, clickedPos, clickedFace == Direction.DOWN ? type.dimensions.height : 0, variant, customName)) {
+			if (type.spawn(level, clickedPos, clickedFace == Direction.DOWN ? type.dimensions.height : 0, variant, variant <= 0, customName)) {
 				stack.shrink(1);
 				level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, clickedPos);
 			}

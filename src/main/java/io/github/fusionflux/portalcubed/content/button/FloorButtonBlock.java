@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedTags;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import net.minecraft.core.BlockPos;
@@ -70,7 +70,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	public FloorButtonBlock(Properties properties, VoxelShaper[][] shapes, VoxelShape buttonShape, SoundEvent pressSound, SoundEvent releaseSound) {
-		this(properties, shapes, buttonShape, entity -> entity instanceof LivingEntity || entity.getType().is(PortalCubedTags.Entity.PRESSES_FLOOR_BUTTONS), pressSound, releaseSound);
+		this(properties, shapes, buttonShape, entity -> entity instanceof LivingEntity || entity.getType().is(PortalCubedEntityTags.PRESSES_FLOOR_BUTTONS), pressSound, releaseSound);
 	}
 
 	public FloorButtonBlock(Properties properties, SoundEvent pressSound, SoundEvent releaseSound) {

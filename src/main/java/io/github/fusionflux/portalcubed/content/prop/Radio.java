@@ -1,46 +1,54 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
-import java.util.List;
-
 import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.clientbound.RadioSoundPacket;
+import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBundlePacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
-public class Radio extends Prop {
-	private SoundEvent soundEvent;
+public class Radio extends Prop implements AmbientSoundEmitter {
+	private static final EntityDataAccessor<SoundEvent> TRACK = SynchedEntityData.defineId(Radio.class, PortalCubedSerializers.SOUND_EVENT);
 
 	@ClientOnly
 	private PropSoundInstance soundInstance;
 
 	public Radio(PropType type, EntityType<?> entityType, Level level) {
 		super(type, entityType, level);
-		this.soundEvent = PortalCubedSounds.RADIO_SONG;
+	}
+
+	@Override
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		entityData.define(TRACK, PortalCubedSounds.RADIO_SONG);
+	}
+
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
+		super.onSyncedDataUpdated(data);
+		if (level().isClientSide && TRACK.equals(data))
+			playAmbientSound();
 	}
 
 	@ClientOnly
-	public void clientUpdateSound(SoundEvent event) {
+	@Override
+	public void playAmbientSound() {
 		if (soundInstance != null) soundInstance.forceStop();
-		soundInstance = new PropSoundInstance(event, this);
+		soundInstance = new PropSoundInstance(entityData.get(TRACK), this);
 		Minecraft.getInstance().getSoundManager().play(soundInstance);
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
-		tag.putString("radio_track", soundEvent.getLocation().toString());
+		tag.putString("radio_track", entityData.get(TRACK).getLocation().toString());
 	}
 
 	@Override
@@ -48,18 +56,7 @@ public class Radio extends Prop {
 		super.readAdditionalSaveData(tag);
 		var trackId = ResourceLocation.tryParse(tag.getString("radio_track"));
 		if (trackId == null) trackId = PortalCubedSounds.RADIO_SONG.getLocation();
-		if (trackId == soundEvent.getLocation()) return;
-		soundEvent = SoundEvent.createVariableRangeEvent(trackId);
-		for (var player : PlayerLookup.tracking(this))
-			PortalCubedPackets.sendToClient(player, new RadioSoundPacket(getId(), Holder.direct(soundEvent)));
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return new ClientboundBundlePacket(List.of(
-			super.getAddEntityPacket(),
-			(Packet<ClientGamePacketListener>) PortalCubedPackets.createPayloadPacket(new RadioSoundPacket(getId(), Holder.direct(soundEvent)))
-		));
+		if (trackId.equals(entityData.get(TRACK).getLocation())) return;
+		entityData.set(TRACK, SoundEvent.createVariableRangeEvent(trackId));
 	}
 }

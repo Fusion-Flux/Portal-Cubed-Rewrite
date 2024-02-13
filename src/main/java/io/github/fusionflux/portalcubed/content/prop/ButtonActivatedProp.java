@@ -9,17 +9,38 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
 public class ButtonActivatedProp extends Prop {
+	public static final int ACTIVATION_FLAG_INDEX = 0;
+	public static final int DIRTY_FLAG_INDEX = 1;
+
 	public ButtonActivatedProp(PropType type, EntityType<?> entityType, Level level) {
 		super(type, entityType, level);
 	}
 
+	private boolean getVariantFlag(int index) {
+		return (getVariant() & (1 << index)) != 0;
+	}
+
+	private void setVariantFlag(int index, boolean flag) {
+		int variant = getVariant();
+		if (flag) {
+			setVariant(variant | (1 << index));
+		} else {
+			setVariant(variant & ~(1 << index));
+		}
+	}
+
 	public void setActivated(boolean activated) {
-		setVariantFlag(0, activated);
+		setVariantFlag(ACTIVATION_FLAG_INDEX, activated);
 	}
 
 	@Override
-	protected int dirtyFlagIndex() {
-		return 1;
+	protected boolean isDirty() {
+		return getVariantFlag(DIRTY_FLAG_INDEX);
+	}
+
+	@Override
+	protected void setDirty(boolean dirty) {
+		setVariantFlag(DIRTY_FLAG_INDEX, dirty);
 	}
 
 	@SuppressWarnings("deprecation")
