@@ -30,7 +30,7 @@
                     "condition": "minecraft:entity_properties",
                     "entity": "this",
                     "predicate": {
-                      "nbt": "{variant_from_item:0}"
+                      "nbt": "{variant:0}"
                     }
                   }
                 }
