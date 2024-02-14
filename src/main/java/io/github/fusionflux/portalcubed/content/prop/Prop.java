@@ -28,11 +28,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 
 public class Prop extends Entity implements CollisionListener {
 	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<OptionalInt> HELD_BY = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
+	//this value was obtained by converting the terminal velocity of props in source engine units to mc blocks
 	private static final double TERMINAL_VELOCITY = 66.6667f;
 
 	private int variantFromItem;
@@ -175,14 +177,17 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		var level = level();
+		boolean destroyed = false;
 		if (!level.isClientSide) {
-			if (source.isCreativePlayer()) {
+			boolean hammer = source.getEntity() instanceof Player player && player.getMainHandItem().is(PortalCubedItems.HAMMER);
+			if (source.isCreativePlayer() || hammer) {
 				remove(RemovalReason.KILLED);
-			} else if (source.getEntity() instanceof Player player && player.getMainHandItem().is(PortalCubedItems.HAMMER)) {
-				HammerItem.destroyProp(player, level(), this);
+				destroyed = true;
 			}
+			if (hammer)
+				HammerItem.destroyProp((Player) source.getEntity(), level(), this);
 		}
-		return true;
+		return destroyed;
 	}
 
 	@Override
@@ -214,8 +219,10 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void onCollision() {
 		var level = level();
-		if (!level.isClientSide)
+		if (!level.isClientSide) {
 			level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
+			level.gameEvent(this, GameEvent.HIT_GROUND, position());
+		}
 	}
 
 	@Override

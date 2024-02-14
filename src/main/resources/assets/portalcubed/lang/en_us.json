@@ -533,8 +533,8 @@
   "death.attack.vaporization.player": "%1$s was vaporized by a High Energy Pellet trying to escape %2$s",
   "death.attack.laser": "%s was thermally discouraged",
   "death.attack.laser.player": "%1$s was thermally discouraged trying to escape %2$s",
-  "death.attack.portal_1_entity": "%s was hit on the head by a Falling Prop",
-  "death.attack.portal_1_entity.player":  "%1$s was hit on the head by a Falling Prop trying to escape %2$s",
+  "death.attack.portal_1_prop": "%s was hit on the head by a Falling Prop",
+  "death.attack.portal_1_prop.player":  "%1$s was hit on the head by a Falling Prop trying to escape %2$s",
 
   "key.categories.portalcubed": "Portal Cubed",
   "key.portalcubed.grab": "Grab",
