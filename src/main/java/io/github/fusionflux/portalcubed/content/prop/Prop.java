@@ -100,7 +100,7 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!level().isClientSide && isInWaterOrRain())
+		if (!level().isClientSide && isDirty() && isInWaterOrRain())
 			setDirty(false);
 		if (isControlledByLocalInstance()) {
 			lerpSteps = 0;
