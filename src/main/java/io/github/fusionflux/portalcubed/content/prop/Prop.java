@@ -53,7 +53,8 @@ public class Prop extends Entity implements CollisionListener {
 	}
 
 	protected boolean isDirty() {
-		return !(getVariant() < 1);
+		int variant = getVariant();
+		return (variant > 0) && (variant < 2);
 	}
 
 	protected void setDirty(boolean dirty) {
@@ -100,7 +101,7 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!level().isClientSide && isDirty() && isInWaterOrRain())
+		if (!level().isClientSide && (type.hasDirtyVariant && isDirty()) && isInWaterOrRain())
 			setDirty(false);
 		if (isControlledByLocalInstance()) {
 			lerpSteps = 0;
