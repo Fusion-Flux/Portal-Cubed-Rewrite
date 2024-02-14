@@ -53,7 +53,7 @@ public class Prop extends Entity implements CollisionListener {
 	}
 
 	protected boolean isDirty() {
-		return getVariant() == 1;
+		return !(getVariant() < 1);
 	}
 
 	protected void setDirty(boolean dirty) {

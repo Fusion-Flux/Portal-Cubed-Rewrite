@@ -38,8 +38,8 @@ public enum PropType {
 	MUG                    (8, true, EntityDimensions.fixed(.1875f, .25f), SoundType.GENERIC),
 	OIL_DRUM               (4, true, EntityDimensions.fixed(.5625f, .9375f), SoundType.METAL),
 	OLD_AP_CUBE            (EntityDimensions.fixed(.625f, .625f), SoundType.OLD_AP_CUBE),
-	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.625f, .625f), P1CompanionCube::new, true, SoundType.PORTAL_1_CUBE),
-	PORTAL_1_STORAGE_CUBE  (1, false, EntityDimensions.fixed(.625f, .625f), P1Prop::new, true, SoundType.PORTAL_1_CUBE),
+	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.625f, .625f), P1CompanionCube::new, false, SoundType.PORTAL_1_CUBE),
+	PORTAL_1_STORAGE_CUBE  (1, false, EntityDimensions.fixed(.625f, .625f), P1Prop::new, false, SoundType.PORTAL_1_CUBE),
 	RADIO                  (5, false, EntityDimensions.fixed(.5625f, .3125f), Radio::new, true, SoundType.METAL),
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
