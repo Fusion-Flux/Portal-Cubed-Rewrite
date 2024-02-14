@@ -28,6 +28,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
 public class Prop extends Entity implements CollisionListener {
@@ -176,23 +179,34 @@ public class Prop extends Entity implements CollisionListener {
 
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		if (source.getEntity() instanceof Player player)
+		if (source.getDirectEntity() instanceof Player player)
 			return !(player.getAbilities().instabuild || HammerItem.usingHammer(player));
-		return true;
+		return super.isInvulnerableTo(source);
 	}
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		if (!isInvulnerableTo(source)) {
-			var level = level();
-			if (source.getEntity() instanceof Player player && HammerItem.usingHammer(player)) {
-				HammerItem.destroyProp(player, level, this);
-			} else if (!level.isClientSide) {
+			if (!level().isClientSide) {
+				if (!(source.getDirectEntity() instanceof Player player && (player.getAbilities().instabuild && !HammerItem.usingHammer(player))))
+					dropLoot();
 				kill();
 			}
 			return true;
 		}
 		return false;
+	}
+
+	protected void dropLoot() {
+		if (level() instanceof ServerLevel level) {
+			var lootTableId = getType().getDefaultLootTable();
+			var lootTable = level.getServer().getLootData().getLootTable(lootTableId);
+			var builder = new LootParams.Builder(level)
+				.withParameter(LootContextParams.THIS_ENTITY, this)
+				.withParameter(LootContextParams.ORIGIN, position())
+				.withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().genericKill());
+			lootTable.getRandomItems(builder.create(LootContextParamSets.ENTITY), 0, this::spawnAtLocation);
+		}
 	}
 
 	@Override

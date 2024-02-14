@@ -49,4 +49,10 @@ public class ButtonActivatedProp extends Prop {
 		if (activatedTimer > 0 && --activatedTimer == 0)
 			setActivated(false);
 	}
+
+	@Override
+	protected void dropLoot() {
+		setActivated(false);
+		super.dropLoot();
+	}
 }
