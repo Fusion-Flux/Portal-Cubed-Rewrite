@@ -8,7 +8,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
 public class P1Prop extends Prop {
-	private static float MAX_FALL_DAMAGE = 30;
+	//arbitrary limit to prevent use against high-health mobs, for example; wardens
+	private static float MAX_FALL_DAMAGE = 2 * 30;
+	//makes it so it takes roughly the same amount of fall distance as portal 1 to kill a player
 	private static float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
 
 	public P1Prop(PropType type, EntityType<?> entityType, Level level) {

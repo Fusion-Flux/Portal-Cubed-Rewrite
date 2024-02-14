@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.OptionalInt;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
@@ -176,26 +175,24 @@ public class Prop extends Entity implements CollisionListener {
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
-		var level = level();
-		boolean destroyed = false;
-		if (!level.isClientSide) {
-			boolean hammer = source.getEntity() instanceof Player player && player.getMainHandItem().is(PortalCubedItems.HAMMER);
-			if (source.isCreativePlayer() || hammer) {
-				remove(RemovalReason.KILLED);
-				destroyed = true;
-			}
-			if (hammer)
-				HammerItem.destroyProp((Player) source.getEntity(), level(), this);
-		}
-		return destroyed;
+	public boolean isInvulnerableTo(DamageSource source) {
+		if (source.getEntity() instanceof Player player)
+			return !(player.getAbilities().instabuild || HammerItem.usingHammer(player));
+		return true;
 	}
 
 	@Override
-	public boolean skipAttackInteraction(Entity attacker) {
-		if (attacker instanceof Player player)
-			return !(player.getAbilities().instabuild || player.getMainHandItem().is(PortalCubedItems.HAMMER));
-		return true;
+	public boolean hurt(DamageSource source, float amount) {
+		if (!isInvulnerableTo(source)) {
+			var level = level();
+			if (source.getEntity() instanceof Player player && HammerItem.usingHammer(player)) {
+				HammerItem.destroyProp(player, level, this);
+			} else if (!level.isClientSide) {
+				kill();
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Override

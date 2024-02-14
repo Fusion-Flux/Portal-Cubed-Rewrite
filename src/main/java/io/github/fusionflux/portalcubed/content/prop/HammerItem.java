@@ -2,9 +2,9 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.function.Consumer;
 
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,8 +18,12 @@ public class HammerItem extends Item {
 		super(settings);
 	}
 
+	public static boolean usingHammer(Player player) {
+		return player.getMainHandItem().is(PortalCubedItemTags.WRENCHES);
+	}
+
 	public static void destroyProp(Player user, Level level, Prop prop) {
-		prop.remove(RemovalReason.KILLED);
+		prop.kill();
 		if (level instanceof ServerLevel serverLevel) {
 			if (prop instanceof ButtonActivatedProp buttonActivated)
 				buttonActivated.setActivated(false);

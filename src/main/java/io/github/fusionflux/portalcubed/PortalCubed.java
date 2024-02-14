@@ -9,8 +9,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
@@ -35,9 +33,6 @@ public class PortalCubed implements ModInitializer {
 		Util.getRandomSafe(List.copyOf(metadata.contributors()), RandomSource.create()).ifPresent(contributor -> {
 			LOGGER.info("I loved the part when " + contributor.name() + " said \"It's Portaln' time\" and portal'd all over the place");
 		});
-
-		PortalCubedItemTags.init();
-		PortalCubedEntityTags.init();
 
 		PortalCubedBlocks.init();
 		PortalCubedItems.init();
