@@ -67,7 +67,7 @@ public enum PropType {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnSpawn = randomVariantOnSpawn;
 		this.dimensions = dimensions;
-		this.entityType = QuiltEntityTypeBuilder.<Prop>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).build();
+		this.entityType = QuiltEntityTypeBuilder.<Prop>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).makeFireImmune().build();
 		this.hasDirtyVariant = hasDirtyVariant;
 		this.soundType = soundType;
 	}
