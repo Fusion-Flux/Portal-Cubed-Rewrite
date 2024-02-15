@@ -21,7 +21,7 @@ public class PropSoundInstance extends AbstractTickableSoundInstance {
 	@Override
 	public void tick() {
 		var client = Minecraft.getInstance();
-		if (prop.isRemoved() || client.player == null) {
+		if (prop.isRemoved() || prop.isSilent() || client.player == null) {
 			stop();
 			return;
 		}
