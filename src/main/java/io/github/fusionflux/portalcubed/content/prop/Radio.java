@@ -33,7 +33,7 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
 		super.onSyncedDataUpdated(data);
-		if (level().isClientSide && TRACK.equals(data))
+		if (level().isClientSide && TRACK.equals(data) && !isSilent())
 			playAmbientSound();
 	}
 
