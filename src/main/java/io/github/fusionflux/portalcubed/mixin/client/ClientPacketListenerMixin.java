@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 public class ClientPacketListenerMixin {
 	@Inject(method = "postAddEntitySoundInstance", at = @At("RETURN"))
 	private void playCustomAmbientSounds(Entity entity, CallbackInfo ci) {
-		if (entity instanceof AmbientSoundEmitter ambientSoundEmitter)
+		if (!entity.isSilent() && entity instanceof AmbientSoundEmitter ambientSoundEmitter)
 			ambientSoundEmitter.playAmbientSound();
 	}
 }
