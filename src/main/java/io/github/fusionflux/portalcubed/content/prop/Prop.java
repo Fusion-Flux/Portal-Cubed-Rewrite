@@ -189,7 +189,7 @@ public class Prop extends Entity implements CollisionListener {
 		if (!isInvulnerableTo(source)) {
 			if (!level().isClientSide) {
 				if (!(source.getDirectEntity() instanceof Player player && (player.getAbilities().instabuild && !HammerItem.usingHammer(player))))
-					dropLoot();
+					dropLoot(source);
 				kill();
 			}
 			return true;
@@ -197,14 +197,14 @@ public class Prop extends Entity implements CollisionListener {
 		return false;
 	}
 
-	protected void dropLoot() {
+	protected void dropLoot(DamageSource source) {
 		if (level() instanceof ServerLevel level) {
 			var lootTableId = getType().getDefaultLootTable();
 			var lootTable = level.getServer().getLootData().getLootTable(lootTableId);
 			var builder = new LootParams.Builder(level)
 				.withParameter(LootContextParams.THIS_ENTITY, this)
 				.withParameter(LootContextParams.ORIGIN, position())
-				.withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().genericKill());
+				.withParameter(LootContextParams.DAMAGE_SOURCE, source);
 			lootTable.getRandomItems(builder.create(LootContextParamSets.ENTITY), 0, this::spawnAtLocation);
 		}
 	}
