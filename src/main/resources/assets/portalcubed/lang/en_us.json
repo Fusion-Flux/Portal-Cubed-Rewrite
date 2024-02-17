@@ -1,7 +1,22 @@
 {
-  "itemGroup.portalcubed.main_testing_elements": "Main Testing Elements",
-  "itemGroup.portalcubed.other_testing_elements": "Other Testing Elements",
-  "itemGroup.portalcubed.portal_blocks": "Portal Blocks",
+  "portalcubed.itemGroup.test_elements": "Test Elements",
+  "portalcubed.itemGroup.portal_blocks": "Portal Blocks",
+  "portalcubed.itemGroup.props_and_items": "Props and Items",
+
+
+  "key.categories.portalcubed": "Portal Cubed",
+  "key.portalcubed.grab": "Grab",
+  "key.portalcubed.remove_portals": "Remove Portals",
+
+
+  "gamerule.category.portalcubed": "Portal Cubed",
+  "gamerule.allowCrouchFlyGlitch": "Allow Crouch Fly Glitch",
+  "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
+  "gamerule.disablePortalValidation": "Disable Portal Validation",
+  "gamerule.disablePortalValidation.description": "Disables placement checks when shooting portals, allowing them to be placed on any surface, including overhangs. May cause unexpected behavior - Issues caused by invalid portals will not be fixed.",
+  "gamerule.portalAlignment": "Portal Alignment",
+  "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
+
 
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
@@ -10,7 +25,6 @@
   "subtitles.portalcubed.portal_gun_secondary_fire": "Portal gun shoots secondary portal",
   "subtitles.portalcubed.portal_gun_primary_fire": "Portal gun shoots primary portal",
   "subtitles.portalcubed.portal_invalid_surface": "Portal gun shot fails",
-
   "subtitles.portalcubed.object_pickup": "Portal gun picks up object",
   "subtitles.portalcubed.object_drop": "Portal gun releases object",
 
@@ -46,10 +60,17 @@
 
   "subtitles.portalcubed.crowbar_swoosh": "Crowbar swooshes",
   "subtitles.portalcubed.impact.concrete": "Concrete crumbles",
-  "subtitles.portalcubed.impact.metal": "Metal clanks",
+  "subtitles.portalcubed.impact.metal": "Metal clangs",
   "subtitles.portalcubed.impact.glass": "Glass cracks",
 
+  "subtitles.portalcubed.generic_prop_impact": "Object bumps into something",
+  "subtitles.portalcubed.metal_prop_impact": "Metal object bumps into something",
+  "subtitles.portalcubed.cube_impact": "Cube bumps into something",
+  "subtitles.portalcubed.portal_1_cube_impact": "Cube bumps into something",
+  "subtitles.portalcubed.old_ap_cube_impact": "Cube bumps into something",
+
   "subtitles.portalcubed.faith_plate": "Faith plate activates",
+
 
   "advancement.portalcubed.root.title": "Portal Cubed",
   "advancement.portalcubed.root.description": "Welcome to Aperture Science! You're here because we want the best, and you are it.",
@@ -62,11 +83,11 @@
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",
   "advancement.portalcubed.cubes.title": "Cubes to Keep You Company",
-  "advancement.portalcubed.cubes.description": "Obtain one of every cube variant",
+  "advancement.portalcubed.cubes.description": "Obtain one of every cube type",
   "advancement.portalcubed.hoopy.title": "The Next Big Thing",
   "advancement.portalcubed.hoopy.description": "Hold Hoopy the Hoop",
   "advancement.portalcubed.rattmann.title": "I am Rattmann",
-  "advancement.portalcubed.rattmann.description": "Obtain every physics entity that can be found in a Rattmann den",
+  "advancement.portalcubed.rattmann.description": "Obtain every prop that can be found in a Rattmann den",
 
   "advancement.portalcubed.boots.title": "Good Work, Boots",
   "advancement.portalcubed.boots.description": "Prevent fall damage using the Long Fall Boots",
@@ -94,7 +115,7 @@
   "advancement.portalcubed.laser.description": "Touch a Thermal Discouragement Beam and become thermally discouraged from doing it again",
 
   "advancement.portalcubed.goo.title": "The Floor is Failure",
-  "advancement.portalcubed.goo.description": "Submerse yourself in a pool of Toxic Goo and receive an unsatisfactory mark to your record",
+  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your record",
 
   "advancement.portalcubed.faith_plate.title": "Sailing Through the Air...",
   "advancement.portalcubed.faith_plate.description": "Launch yourself from an Aerial Faith Plate",
@@ -108,7 +129,7 @@
   "advancement.portalcubed.crouch_fly.description": "Activate the Crouch Fly Glitch",
 
   "advancement.portalcubed.space_core.title": "Spaaaaaaaaaaaaaaaace!",
-  "advancement.portalcubed.space_core.description": "Take Space Core to y:500 or higher",
+  "advancement.portalcubed.space_core.description": "Take a Core to y:500 or higher",
 
   "advancement.portalcubed.repulsion_gel.title": "It's a Lively One",
   "advancement.portalcubed.repulsion_gel.description": "Bounce off Repulsion Gel for the first time",
@@ -120,41 +141,6 @@
   "advancement.portalcubed.adhesion_gel.description": "Stand on the ceiling with Adhesion Gel",
 
 
-  "tooltip.portalcubed.hammer_interaction": "Interact with Hammer:",
-  "tooltip.portalcubed.dye_interaction": "Interact with Dye:",
-  "tooltip.portalcubed.name_tag_interaction": "Interact with Name Tag:",
-  "tooltip.portalcubed.velocity_helper_interaction": "Interact with Velocity Helper:",
-  "tooltip.portalcubed.empty": "",
-
-  "tooltip.portalcubed.hammer.1": "Used to configure various Test Elements.",
-  "tooltip.portalcubed.hammer.2": "Any item tagged as c:wrenches works as a hammer.",
-  "tooltip.portalcubed.hammer.3": "Required to turn cubes and other physics entities",
-  "tooltip.portalcubed.hammer.4": "back into items in Survival Mode.",
-  "tooltip.portalcubed.hammer.5": "Interact with a physics entity in Creative Mode",
-  "tooltip.portalcubed.hammer.6": "while sneaking to toggle if it can be grabbed.",
-
-  "tooltip.portalcubed.schrodinger_cube.1": " Links Two Schrödinger Cubes",
-  "tooltip.portalcubed.schrodinger_cube.2": "Schrodinger Cubes linked by name",
-  "tooltip.portalcubed.schrodinger_cube.3": "ignore other Schrodinger Cubes.",
-
-  "tooltip.portalcubed.radio.1": " Changes if the music toggles when picked up",
-
-  "tooltip.portalcubed.velocity_helper.1": " Links Velocity Helpers",
-  "tooltip.portalcubed.velocity_helper.2": " Opens Configuration Menu",
-
-  "tooltip.portalcubed.auto_portal.1": " Changes Portal Type",
-  "tooltip.portalcubed.auto_portal.2": " Changes Portal Colors",
-
-  "tooltip.portalcubed.excursion_funnel_emitter.1": " Changes Funnel Polarity",
-
-  "tooltip.portalcubed.faith_plate.1": " Opens Configuration Menu",
-  "tooltip.portalcubed.faith_plate.2": "Hammer not required in Creative Mode",
-
-  "tooltip.portalcubed.pedestal_button.1": " Changes Placement Offset",
-
-  "tooltip.portalcubed.light_bridge_emitter.1": " Changes Edge Alignment",
-
-
   "item.portalcubed.long_fall_boots": "Long Fall Boots",
   "item.portalcubed.hammer": "Hammer",
   "item.portalcubed.energy_pellet": "High Energy Pellet",
@@ -163,36 +149,69 @@
   "item.portalcubed.crowbar": "Crowbar",
 
   "item.portalcubed.storage_cube": "Weighted Storage Cube",
+  "item.portalcubed.dirty_storage_cube": "Dirty Weighted Storage Cube",
   "item.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
   "item.portalcubed.companion_cube": "Weighted Companion Cube",
+  "item.portalcubed.dirty_companion_cube": "Dirty Weighted Companion Cube",
   "item.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
+  "item.portalcubed.charred_portal_1_companion_cube": "Charred Portal 1 Weighted Companion Cube",
   "item.portalcubed.redirection_cube": "Discouragement Redirection Cube",
+  "item.portalcubed.dirty_redirection_cube": "Dirty Discouragement Redirection Cube",
   "item.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "item.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
   "item.portalcubed.radio": "Radio",
+  "item.portalcubed.dirty_radio": "Dirty Radio",
+  "item.portalcubed.radio_transmission_received": "Radio",
+  "item.portalcubed.radio_awaiting_transmission": "Radio",
+  "item.portalcubed.boombox": "Boombox",
+
   "item.portalcubed.beans": "Bean Can",
+  "item.portalcubed.cooking_pot": "Cooking Pot",
   "item.portalcubed.jug": "Water Jug",
   "item.portalcubed.computer": "Computer",
   "item.portalcubed.chair": "Office Chair",
-  "item.portalcubed.mug": "Mug",
   "item.portalcubed.hoopy": "Hoopy",
+  "item.portalcubed.the_taco": "The Taco",
+
+  "item.portalcubed.clipboard": "Clipboard",
+  "item.portalcubed.clipboard_blank": "Blank Clipboard",
+  "item.portalcubed.clipboard_chell": "Test Subject Clipboard",
+  "item.portalcubed.clipboard_chicken": "Chicken Test Clipboard",
+  "item.portalcubed.clipboard_knee": "Knee Replacement Clipboard",
+  "item.portalcubed.clipboard_hazards": "Hazard Warnings Clipboard",
+  "item.portalcubed.clipboard_text": "Contract Clipboard",
+
+  "item.portalcubed.mug": "Mug",
+  "item.portalcubed.mug_red": "Red Mug",
+  "item.portalcubed.mug_blue": "Blue Mug",
+  "item.portalcubed.mug_yellow": "Yellow Mug",
+  "item.portalcubed.mug_white": "White Mug",
+  "item.portalcubed.mug_orange": "Orange Aperture Mug",
+  "item.portalcubed.mug_aperture": "White Aperture Mug",
+  "item.portalcubed.mug_fall": "Blue Faith Plate Mug",
+
+  "item.portalcubed.oil_drum": "Oil Drum",
+  "item.portalcubed.oil_drum_blue": "Blue Oil Drum",
+  "item.portalcubed.oil_drum_white": "White Oil Drum",
+  "item.portalcubed.oil_drum_brown": "Brown Oil Drum",
+
   "item.portalcubed.lil_pineapple": "Lil' Pineapple",
-  "item.portalcubed.core_frame": "Core Frame",
-  "item.portalcubed.anger_core": "Anger Core",
-  "item.portalcubed.intelligence_core": "Intelligence Core",
-  "item.portalcubed.curiosity_core": "Curiosity Core",
-  "item.portalcubed.morality_core": "Morality Core",
+  "item.portalcubed.lil_prideapple_ace": "Ace Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_agender": "Agender Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_aro": "Aro Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_bi": "Bi Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_genderfluid": "Genderfluid Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_lesbian": "Lesbian Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_nonbinary": "Nonbinary Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_pan": "Pan Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_trans": "Trans Lil' Prideapple",
+  "item.portalcubed.lil_prideapple_proud": "Proud Lil' Prideapple",
 
-  "item.portalcubed.fact_core": "Fact Core",
-  "item.portalcubed.space_core": "Space Core",
-  "item.portalcubed.adventure_core": "Adventure Core",
-
+  "item.portalcubed.mini_blackhole": "Miniature Black Hole",
   "item.portalcubed.portal_gun_frame": "Portal Gun Frame",
   "item.portalcubed.portal_gun_casing": "Portal Gun Casing",
   "item.portalcubed.portal_gun": "Portal Gun",
-  "item.portalcubed.portal_gun_primary": "Primary Portal Gun",
-  "item.portalcubed.portal_gun_secondary": "Secondary Portal Gun",
   "item.portalcubed.potatos_portal_gun": "PotatOS Portal Gun",
   "item.portalcubed.portal_gun_atlas": "Atlas' Portal Gun",
   "item.portalcubed.portal_gun_p_body": "P-Body's Portal Gun",
@@ -211,8 +230,9 @@
   "item.portalcubed.blueprint_portal_gun": "Blueprint Portal Gun",
   "item.portalcubed.bendy_portal_gun": "Bendy's Portal Gun",
   "item.portalcubed.lego_portal_gun": "Portal Gun (LEGO Dimensions)",
+  "item.portalcubed.damaged_portal_gun": "Damaged Portal Gun (Portal Revolution)",
+  "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
   "item.portalcubed.paint_gun": "Paint Gun",
-  "item.portalcubed.mini_blackhole": "Miniature Black Hole",
 
   "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
 
@@ -220,8 +240,6 @@
   "block.portalcubed.rocket_turret": "Rocket Turret",
 
   "block.portalcubed.power_block": "Power Block",
-  "block.portalcubed.velocity_helper": "Velocity Helper",
-  "block.portalcubed.catapult": "Catapult",
 
   "item.portalcubed.base_gel": "Gel Blob",
   "block.portalcubed.propulsion_gel": "Propulsion Gel Blob",
@@ -230,7 +248,7 @@
   "block.portalcubed.conversion_gel": "Conversion Gel Blob",
   "block.portalcubed.reflection_gel": "Reflection Gel Blob",
 
-  "block.portalcubed.auto_portal": "Autoportal",
+  "block.portalcubed.auto_portal": "Autoportal Frame",
 
   "block.portalcubed.sewage": "Sewage",
 
@@ -443,10 +461,10 @@
   "block.portalcubed.portal_2_metal_grating_facade": "Portal 2 Metal Grating Facade",
   "block.portalcubed.old_ap_metal_grating_facade": "Old Aperture Metal Grating Facade",
 
-
-
   "block.portalcubed.neurotoxin_emitter": "Neurotoxin Emitter",
+
   "block.portalcubed.excursion_funnel_emitter": "Excursion Funnel Emitter",
+
   "block.portalcubed.portal_1_door": "Portal 1 Door",
   "block.portalcubed.portal_2_door": "Portal 2 Door",
   "block.portalcubed.octopus_door": "Octopus Door",
@@ -461,9 +479,9 @@
   "block.portalcubed.cube_button": "Cube Button",
   "block.portalcubed.floor_button.easter_egg": "Fifteen Hundred Megawatt Aperture Science Heavy Duty Super-Colliding Super Button",
 
-  "block.portalcubed.laser_relay": "Thermal Discouragement Beam Relay",
-  "block.portalcubed.laser_emitter": "Thermal Discouragement Beam Emitter",
-  "block.portalcubed.laser_catcher": "Thermal Discouragement Beam Receptacle",
+  "block.portalcubed.laser_relay": "Laser Relay",
+  "block.portalcubed.laser_emitter": "Laser Emitter",
+  "block.portalcubed.laser_catcher": "Laser Receptacle",
 
   "block.portalcubed.faith_plate": "Aerial Faith Plate",
   "block.portalcubed.beta_faith_plate": "Beta Aerial Faith Plate",
@@ -474,67 +492,23 @@
 
   "block.portalcubed.black_forest_cake": "Black Forest Cake",
 
-  "portalcubed.midnightconfig.title": "Portal Cubed Config",
-  "portalcubed.midnightconfig.maxBridgeLength": "Maximum Emitter Block Range",
-  "portalcubed.midnightconfig.enableRoundPortals": "Use Round Portal Texture",
-  "portalcubed.midnightconfig.enableAccurateMovement": "Long Fall Boots Enable Source Engine Movement Physics",
-  "portalcubed.midnightconfig.fizzlerDamage": "Death Fizzler Damage",
-  "portalcubed.midnightconfig.rocketDamage": "Rocket Turret Damage",
-  "portalcubed.midnightconfig.pelletDamage": "Energy Pellet Damage",
-  "portalcubed.midnightconfig.laserDamage": "Thermal Discouragement Beam Damage",
-  "portalcubed.midnightconfig.portalHudMode": "Force Enable Portal HUD Mode",
-  "portalcubed.midnightconfig.gelOverlayOpacity": "Gel Screen Overlay Opacity",
-  "portalcubed.midnightconfig.staticPortalItemDrops": "Equipment Items Remain Stationary When Dropped",
-
   "death.attack.acid": "%s was dissolved in toxic goo",
   "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
   "death.attack.fizzle": "%s was fizzled",
-  "death.attack.fizzle.player": "%1$s was pushed into a fizzler by %2$s",
+  "death.attack.fizzle.player": "%1$s was pushed into a laser field by %2$s",
   "death.attack.vaporization": "%s was vaporized by a High Energy Pellet",
   "death.attack.vaporization.player": "%1$s was vaporized by a High Energy Pellet trying to escape %2$s",
   "death.attack.laser": "%s was thermally discouraged",
   "death.attack.laser.player": "%1$s was thermally discouraged trying to escape %2$s",
-  "death.attack.cube": "%s was hit on the head by a falling Physics Entity",
-  "death.attack.cube.player":  "%1$s was hit on the head by a falling Physics Entity trying to escape %2$s",
+  "death.attack.portal_1_prop": "%s was hit on the head by a Falling Prop",
+  "death.attack.portal_1_prop.player":  "%1$s was hit on the head by a Falling Prop trying to escape %2$s",
 
-  "key.portalcubed.category" : "Portal Cubed",
-  "key.portalcubed.grab" : "Grab",
-  "key.portalcubed.remove_portals" : "Remove Portals",
-  "key.portalcubed.toggle_hidden_blocks" : "Toggle Hidden Blocks",
-
-  "portalcubed.physics_entity.locked.true": "Physics entity is now locked",
-  "portalcubed.physics_entity.locked.false": "Physics entity is now unlocked",
-
-  "portalcubed.auto_portal.set_portal_type": "Set portal type to %s",
-  "portalcubed.portal_type.primary": "Primary",
-  "portalcubed.portal_type.secondary": "Secondary",
-  "portalcubed.auto_portal.set_portal_color": "Set portal color to %s",
-  "portalcubed.auto_portal.set_portal_color.default": "Reset portal color",
-
-  "portalcubed.velocity_helper.flight_duration": "Flight Duration (Ticks): ",
-  "portalcubed.velocity_helper.condition": "Condition Expression (x, y, z)",
-  "portalcubed.velocity_helper.interpolation_curve": "Interpolation Curve (x)",
-  "portalcubed.velocity_helper.failed_expression": "Failed to evaluate Velocity Helper %s",
-  "portalcubed.velocity_helper.condition_expression": "condition",
-  "portalcubed.velocity_helper.curve_expression": "interpolation curve",
-
-  "portalcubed.radio.allow_mute": "Grabbing Toggles Radio Music: Enabled",
-  "portalcubed.radio.disallow_mute": "Grabbing Toggles Radio Music: Disabled",
 
   "entity.portalcubed.adhesion_gel_blob": "Adhesion Gel Blob",
   "entity.portalcubed.conversion_gel_blob": "Conversion Gel Blob",
   "entity.portalcubed.propulsion_gel_blob": "Propulsion Gel Blob",
   "entity.portalcubed.reflection_gel_blob": "Reflection Gel Blob",
   "entity.portalcubed.repulsion_gel_blob": "Repulsion Gel Blob",
-
-  "entity.portalcubed.adventure_core": "Adventure Core",
-  "entity.portalcubed.anger_core": "Anger Core",
-  "entity.portalcubed.core_frame": "Core Frame",
-  "entity.portalcubed.curiosity_core": "Curiosity Core",
-  "entity.portalcubed.fact_core": "Fact Core",
-  "entity.portalcubed.intelligence_core": "Intelligence Core",
-  "entity.portalcubed.morality_core": "Morality Core",
-  "entity.portalcubed.space_core": "Space Core",
 
   "entity.portalcubed.beans": "Bean Can",
   "entity.portalcubed.chair": "Office Chair",
@@ -543,7 +517,11 @@
   "entity.portalcubed.jug": "Water Jug",
   "entity.portalcubed.lil_pineapple": "Lil' Pineapple",
   "entity.portalcubed.mug": "Mug",
+  "entity.portalcubed.cooking_pot": "Cooking Pot",
+  "entity.portalcubed.clipboard": "Clipboard",
+  "entity.portalcubed.oil_drum": "Oil Drum",
   "entity.portalcubed.radio": "Radio",
+  "entity.portalcubed.the_taco": "The Taco",
 
   "entity.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
   "entity.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
@@ -561,25 +539,6 @@
 
   "entity.portalcubed.excursion_funnel": "Excursion Funnel",
 
-  "entity.portalcubed.turret": "Sentry Turret",
+  "entity.portalcubed.turret": "Sentry Turret"
 
-
-  "portalcubed.command.fizzle.success": "Successfully fizzled %s physics objects",
-  "portalcubed.command.lasersong.failed": "Block at %s is not a laser node.",
-  "portalcubed.command.lasersong.success": "Successfully changed node song at %s to %s.",
-  "portalcubed.command.fog.success": "Current fog in %s is set to %s.",
-  "portalcubed.command.fog.reset.success": "Reset fog to default in %s.",
-  "portalcubed.command.fog.set.success": "Set fog in %s to %s.",
-  "portalcubed.command.fog.preset.success": "Set fog in %s to %s.",
-
-  "gamerule.category.portalcubed": "Portal Cubed",
-  "gamerule.allowCrouchFlyGlitch": "Allow Crouch Fly Glitch",
-  "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
-  "gamerule.disablePortalValidation": "Disable Portal Validation",
-  "gamerule.disablePortalValidation.description": "Disables placement checks when shooting portals, allowing them to be placed on any surface, including overhangs. May cause unexpected behavior - Issues caused by invalid portals will not be fixed.",
-  "gamerule.portalAlignment": "Portal Alignment",
-  "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
-  "gamerule.usePortalHud": "Use Portal HUD",
-  "gamerule.usePortalHud.description": "Disables the hotbar and inventory, uses 'E' to grab objects, and disables clearing your portals with the keybind. Requires valid items to be in the first hotbar slot."
-
-}
+  }

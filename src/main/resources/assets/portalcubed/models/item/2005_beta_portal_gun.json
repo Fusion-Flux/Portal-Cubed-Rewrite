@@ -456,6 +456,6 @@
 		}
 	},
 	"portalcubed:render_types": {
-		"translucent": ["transparent"]
+		"cutout": ["cutout"]
 	}
 }
