@@ -42,7 +42,7 @@
 			"scale": [0.58984, 0.58984, 0.58984]
 		},
 		"gui": {
-			"rotation": [26.75, 141, 0],
+			"rotation": [26.75, 35, 0],
 			"translation": [0, 3.75, 0],
 			"scale": [0.99024, 0.99024, 0.99024]
 		},
@@ -56,6 +56,6 @@
 		}
 	},
 	"portalcubed:render_types": {
-		"translucent": ["transparent"]
+		"cutout": ["cutout"]
 	}
 }

@@ -11,7 +11,4 @@ public class PortalCubedEntityTags {
 	private static TagKey<EntityType<?>> create(String name) {
 		return TagKey.create(Registries.ENTITY_TYPE, PortalCubed.id(name));
 	}
-
-	public static void init() {
-	}
 }

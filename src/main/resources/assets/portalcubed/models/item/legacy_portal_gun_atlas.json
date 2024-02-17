@@ -8,6 +8,7 @@
 	},
 	"elements": [
 		{
+			"name": "cutout",
 			"from": [4.5, 0, 8.5],
 			"to": [11.5, 6, 18.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -21,6 +22,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [5.5, 0, 8.5],
 			"to": [10.5, 5, 18.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -31,6 +33,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [4.5, 0, -0.5],
 			"to": [11.5, 3, 5.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -44,6 +47,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [4.475, 0, 1.5],
 			"to": [4.475, 2, 3.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -52,6 +56,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [5.5, 0.75, 4.5],
 			"to": [10.5, 3.75, 8.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -63,6 +68,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [5, 1, 0.5],
 			"to": [11, 6, 4.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -75,6 +81,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [6, 1.075, -2.25],
 			"to": [10, 5.075, 1.75],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -87,6 +94,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [10.375, -0.4, -5.5],
 			"to": [14.375, -0.4, 1.5],
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [15.5, 0, -0.75]},
@@ -96,6 +104,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [1.425, -0.4, -5.5],
 			"to": [5.425, -0.4, 1.5],
 			"rotation": {"angle": 22.5, "axis": "z", "origin": [0.3, 0, -0.75]},
@@ -105,6 +114,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [8, 4.875, -5.5],
 			"to": [8, 8.875, 1.5],
 			"rotation": {"angle": 0, "axis": "z", "origin": [15.5, -5, -0.75]},
@@ -114,6 +124,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [7, 3.75, 4.5],
 			"to": [9, 4.75, 8.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -124,6 +135,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [7.5, 6.025, 10.5],
 			"to": [8.5, 6.025, 11.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -143,6 +155,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [5.49, 2.99, 8.49],
 			"to": [6.51, 6.01, 18.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -153,6 +166,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [9.49, 2.99, 8.49],
 			"to": [10.51, 6.01, 18.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
@@ -200,6 +214,6 @@
 		}
 	},
 	"portalcubed:render_types": {
-		"translucent": ["transparent"]
+		"cutout": ["cutout"]
 	}
 }
