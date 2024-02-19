@@ -212,5 +212,41 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_1_cube_impact"
+  },
+  "portal_gun_grab": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_gun_grab",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_grab"
+  },
+  "portal_gun_hold_loop": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_gun_hold_loop",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_hold_loop"
+  },
+  "portal_gun_drop": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_gun_drop",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_drop"
+  },
+  "portal_gun_cannot_grab": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_gun_cannot_grab",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_cannot_grab"
   }
 }

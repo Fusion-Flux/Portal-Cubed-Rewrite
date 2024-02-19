@@ -25,8 +25,11 @@
   "subtitles.portalcubed.portal_gun_secondary_fire": "Portal gun shoots secondary portal",
   "subtitles.portalcubed.portal_gun_primary_fire": "Portal gun shoots primary portal",
   "subtitles.portalcubed.portal_invalid_surface": "Portal gun shot fails",
-  "subtitles.portalcubed.object_pickup": "Portal gun picks up object",
-  "subtitles.portalcubed.object_drop": "Portal gun releases object",
+
+  "subtitles.portalcubed.portal_gun_grab": "Portal gun picks up object",
+  "subtitles.portalcubed.portal_gun_hold_loop": "Portal gun holds object",
+  "subtitles.portalcubed.portal_gun_drop": "Portal gun releases object",
+  "subtitles.portalcubed.portal_gun_cannot_grab": "Portal gun fails to grab object",
 
   "subtitles.portalcubed.portal_open": "Portal opens",
   "subtitles.portalcubed.portal_close": "Portal closes",
