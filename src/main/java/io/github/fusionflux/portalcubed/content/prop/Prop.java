@@ -14,6 +14,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -103,7 +105,7 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!level().isClientSide && (type.hasDirtyVariant && isDirty()) && isInWaterOrRain())
+		if (!level().isClientSide && ((type.hasDirtyVariant || type == PropType.PORTAL_1_COMPANION_CUBE) && isDirty()) && isInWaterOrRain())
 			setDirty(false);
 		if (isControlledByLocalInstance()) {
 			lerpSteps = 0;
@@ -123,6 +125,7 @@ public class Prop extends Entity implements CollisionListener {
 				var player = ((Player) level().getEntity(getHeldBy().getAsInt()));
 				var holdPoint = player.getEyePosition().add(Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2));
 				float holdYOffset = -getBbHeight() / 2;
+				setDeltaMovement(Vec3.ZERO);
 				move(MoverType.PLAYER, position().vectorTo(holdPoint.add(0, holdYOffset, 0)));
 				if (type != PropType.THE_TACO)
 					setYRot(-player.getYRot() % 360);
@@ -179,9 +182,11 @@ public class Prop extends Entity implements CollisionListener {
 
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		if (source.getDirectEntity() instanceof Player player)
-			return !(player.getAbilities().instabuild || HammerItem.usingHammer(player));
-		return super.isInvulnerableTo(source);
+		if (source.getDirectEntity() instanceof Player player) {
+			var abilities = player.getAbilities();
+			return !isInvulnerable() && !(abilities.instabuild || (abilities.mayBuild && HammerItem.usingHammer(player)));
+		}
+		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
 	}
 
 	@Override
@@ -210,6 +215,11 @@ public class Prop extends Entity implements CollisionListener {
 	}
 
 	@Override
+	public boolean canCollideWith(Entity other) {
+		return Boat.canVehicleCollide(this, other);
+	}
+
+	@Override
 	public boolean canBeCollidedWith() {
 		return true;
 	}
@@ -231,7 +241,7 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void onCollision() {
 		var level = level();
-		if (!level.isClientSide) {
+		if (!level.isClientSide && !isSilent()) {
 			level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
 			level.gameEvent(this, GameEvent.HIT_GROUND, position());
 		}

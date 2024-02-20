@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -12,22 +12,28 @@ public class P1Prop extends Prop {
 	private static float MAX_FALL_DAMAGE = 2 * 30;
 	//makes it so it takes roughly the same amount of fall distance as portal 1 to kill a player
 	private static float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
+	//makes it so the damage applies even when the collision box is outside the target
+	private static double CHECK_BOX_EPSILON = 1E-7;
 
 	public P1Prop(PropType type, EntityType<?> entityType, Level level) {
 		super(type, entityType, level);
 	}
 
 	@Override
-	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-		int blocksFallen = Mth.ceil(fallDistance - 1);
-		if (blocksFallen < 0) {
-			return false;
-		} else {
-			float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
-			var selector = EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE);
-			var level = level();
-			level.getEntities(this, getBoundingBox(), selector).forEach(entity -> entity.hurt(PortalCubedDamageSources.portal1Prop(level), damage));
-			return false;
+	public void onCollision() {
+		super.onCollision();
+		var level = level();
+		if (!level.isClientSide && verticalCollisionBelow) {
+			int blocksFallen = Mth.ceil(fallDistance - 1);
+			if (blocksFallen > 0) {
+				float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
+				var selector =
+					EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(
+					EntitySelector.LIVING_ENTITY_STILL_ALIVE).and(
+					entity -> !(entity instanceof PlayerExt ext && ext.pc$heldProp().orElse(-1) == getId()));
+				level.getEntities(this, getBoundingBox().inflate(CHECK_BOX_EPSILON), selector)
+					.forEach(entity -> entity.hurt(PortalCubedDamageSources.portal1Prop(level, this, entity), damage));
+			}
 		}
 	}
 }

@@ -15,6 +15,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +25,9 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DispenserBlock;
 
 public enum PropType {
 	BEANS                  (EntityDimensions.fixed(.25f, .375f), SoundType.METAL),
@@ -67,7 +71,7 @@ public enum PropType {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnSpawn = randomVariantOnSpawn;
 		this.dimensions = dimensions;
-		this.entityType = QuiltEntityTypeBuilder.<Prop>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).makeFireImmune().build();
+		this.entityType = QuiltEntityTypeBuilder.<Prop>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).build();
 		this.hasDirtyVariant = hasDirtyVariant;
 		this.soundType = soundType;
 	}
@@ -80,7 +84,21 @@ public enum PropType {
 	public void register() {
 		var id = PortalCubed.id(toString());
 		Registry.register(BuiltInRegistries.ENTITY_TYPE, id, this.entityType);
-		ITEMS.put(this, Registry.register(BuiltInRegistries.ITEM, id, new PropItem(new Item.Properties(), this)));
+		var item = Registry.register(BuiltInRegistries.ITEM, id, new PropItem(new Item.Properties(), this));
+		ITEMS.put(this, item);
+		DispenserBlock.registerBehavior(item, new DefaultDispenseItemBehavior() {
+			@Override
+			protected ItemStack execute(BlockSource pointer, ItemStack stack) {
+				var level = pointer.level();
+				var direction = pointer.state().getValue(DispenserBlock.FACING);
+				var pos = pointer.pos().relative(direction);
+				var state = level.getBlockState(pos);
+				if (!state.getCollisionShape(level, pos).isEmpty())
+					pos = pos.above();
+				item.use(level, pos, direction, stack, null);
+				return stack;
+			}
+		});
 
 		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT)
 			registerClient();

@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.mixin;
 
 import java.util.OptionalInt;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -11,8 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import io.github.fusionflux.portalcubed.content.prop.Prop;
+import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.MoverType;
@@ -21,6 +24,7 @@ import net.minecraft.world.phys.Vec3;
 
 @Mixin(Entity.class)
 public class EntityMixin {
+	@Shadow @Final private static EntityDataAccessor<Boolean> DATA_SILENT;
 	@Shadow private boolean horizontalCollision;
 	@Shadow private boolean verticalCollision;
 	@Shadow private boolean verticalCollisionBelow;
@@ -28,12 +32,27 @@ public class EntityMixin {
 	@Unique
 	private boolean isColliding = false;
 
-	@Inject(method = "move", at = @At("RETURN"))
+	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("RETURN"))
+	private void startSoundWhenUnSilenced(EntityDataAccessor<?> data, CallbackInfo ci) {
+		var self = (Entity) (Object) this;
+		if (self.level().isClientSide && self instanceof AmbientSoundEmitter ambientSoundEmitter) {
+			if (DATA_SILENT.equals(data) && !self.getEntityData().get(DATA_SILENT))
+				ambientSoundEmitter.playAmbientSound();
+		}
+	}
+
+	@Inject(
+		method = "move",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/entity/Entity;checkFallDamage(DZLnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)V",
+			shift = At.Shift.BEFORE
+		)
+	)
 	private void listenForCollisions(MoverType movementType, Vec3 movement, CallbackInfo ci) {
 		if (this instanceof CollisionListener collisionListener) {
 			if (horizontalCollision || verticalCollision || verticalCollisionBelow) {
-				if (!isColliding)
-					collisionListener.onCollision();
+				if (!isColliding) collisionListener.onCollision();
 				isColliding = true;
 			} else {
 				isColliding = false;
