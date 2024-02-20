@@ -2,6 +2,8 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.OptionalInt;
 
+import org.quiltmc.qsl.base.api.util.TriState;
+
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
@@ -56,9 +58,10 @@ public class Prop extends Entity implements CollisionListener {
 		this.type = type;
 	}
 
-	protected boolean isDirty() {
+	protected TriState isDirty() {
 		int variant = getVariant();
-		return (variant > 0) && (variant < 2);
+		TriState.fromBoolean((variant > 0) && (variant < 2));
+		return variant > 1 ? TriState.DEFAULT : TriState.fromBoolean((variant > 0) && (variant < 2));
 	}
 
 	protected void setDirty(boolean dirty) {
@@ -105,7 +108,7 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!level().isClientSide && ((type.hasDirtyVariant || type == PropType.PORTAL_1_COMPANION_CUBE) && isDirty()) && isInWaterOrRain())
+		if (!level().isClientSide && ((type.hasDirtyVariant || type == PropType.PORTAL_1_COMPANION_CUBE) && isDirty() == TriState.TRUE) && isInWaterOrRain())
 			setDirty(false);
 		if (isControlledByLocalInstance()) {
 			lerpSteps = 0;
@@ -161,7 +164,7 @@ public class Prop extends Entity implements CollisionListener {
 		var itemInHand = player.getItemInHand(hand);
 		var level = level();
 		if (type.hasDirtyVariant) {
-			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && !isDirty()) {
+			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && isDirty() == TriState.FALSE) {
 				if (level instanceof ServerLevel serverLevel) {
 					setDirty(true);
 					serverLevel.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
@@ -184,7 +187,7 @@ public class Prop extends Entity implements CollisionListener {
 	public boolean isInvulnerableTo(DamageSource source) {
 		if (source.getDirectEntity() instanceof Player player) {
 			var abilities = player.getAbilities();
-			return !isInvulnerable() && !(abilities.instabuild || (abilities.mayBuild && HammerItem.usingHammer(player)));
+			return (isInvulnerable() && !abilities.instabuild) || !(abilities.instabuild || (abilities.mayBuild && HammerItem.usingHammer(player)));
 		}
 		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
 	}
