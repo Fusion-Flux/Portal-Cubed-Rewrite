@@ -24,7 +24,7 @@ public class P1Prop extends Prop {
 		super.onCollision();
 		var level = level();
 		if (!level.isClientSide && verticalCollisionBelow) {
-			int blocksFallen = Mth.ceil(fallDistance - 1);
+			int blocksFallen = Mth.ceil(fallDistance);
 			if (blocksFallen > 0) {
 				float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
 				var selector =

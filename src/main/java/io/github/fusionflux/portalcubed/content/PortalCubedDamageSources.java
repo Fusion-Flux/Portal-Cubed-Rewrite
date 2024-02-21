@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
@@ -28,7 +29,26 @@ public class PortalCubedDamageSources {
 	public static DamageSource portal1Prop(Level level, P1Prop source, @Nullable Entity attacked) {
 		var damageType = ((LevelExt) level).pc$damageSources().portal1PropType;
 		if (attacked instanceof LivingEntity livingEntity)
-			return new DamageSource(damageType, source, livingEntity.getKillCredit());
-		return new DamageSource(damageType, source);
+			return new P1PropDamageSource(damageType, source, livingEntity.getKillCredit());
+		return new P1PropDamageSource(damageType, source, source);
+	}
+
+	public static class P1PropDamageSource extends DamageSource {
+		P1PropDamageSource(Holder<DamageType> type, Entity source, Entity attacker) {
+			super(type, source, attacker);
+		}
+
+		@Override
+		public Component getLocalizedDeathMessage(LivingEntity attacked) {
+			var id = "death.attack." + type().msgId();
+			var sourceName = getDirectEntity().getDisplayName();
+			var causeName = getEntity().getDisplayName();
+			if (getEntity() == null || !(getEntity() instanceof LivingEntity attacker))
+				return Component.translatable(id, attacked.getDisplayName(), sourceName);
+			var attackerHeldStack = attacker.getMainHandItem();
+			return !attackerHeldStack.isEmpty() && attackerHeldStack.hasCustomHoverName()
+				? Component.translatable(id + ".item", attacked.getDisplayName(), sourceName, causeName, attackerHeldStack.getDisplayName())
+				: Component.translatable(id + ".player", attacked.getDisplayName(), sourceName, causeName);
+		}
 	}
 }

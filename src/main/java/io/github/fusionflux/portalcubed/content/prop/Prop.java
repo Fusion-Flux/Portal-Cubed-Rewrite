@@ -60,8 +60,7 @@ public class Prop extends Entity implements CollisionListener {
 
 	protected TriState isDirty() {
 		int variant = getVariant();
-		TriState.fromBoolean((variant > 0) && (variant < 2));
-		return variant > 1 ? TriState.DEFAULT : TriState.fromBoolean((variant > 0) && (variant < 2));
+		return variant > 1 ? TriState.DEFAULT : TriState.fromBoolean(variant != 0);
 	}
 
 	protected void setDirty(boolean dirty) {
@@ -171,7 +170,7 @@ public class Prop extends Entity implements CollisionListener {
 					var particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
 					for (var dir : Direction.values()) {
 						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
-						double y = getY() + (dir.getStepY() * getBbWidth() / 2);
+						double y = getY() + (dir.getStepY() * getBbHeight() / 2);
 						double z = getZ() + (dir.getStepZ() * getBbWidth() / 2);
 						serverLevel.sendParticles(particleOption, x, y, z, random.nextInt(5, 8), 0, 0, 0, 1);
 					}
@@ -219,7 +218,7 @@ public class Prop extends Entity implements CollisionListener {
 
 	@Override
 	public boolean canCollideWith(Entity other) {
-		return Boat.canVehicleCollide(this, other);
+		return other.getId() != getHeldBy().orElse(-1) && Boat.canVehicleCollide(this, other);
 	}
 
 	@Override

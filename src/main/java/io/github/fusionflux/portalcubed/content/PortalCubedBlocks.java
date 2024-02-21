@@ -9,6 +9,7 @@ import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
+import io.github.fusionflux.portalcubed.content.button.CubeButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.OldApFloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.P1FloorButtonBlock;
@@ -24,6 +25,12 @@ public class PortalCubedBlocks {
 			.build();
 
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("floor_button", FloorButtonBlock::new)
+			.copyFrom(Blocks.STONE)
+			.item(MultiBlockItem::new)
+			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final FloorButtonBlock CUBE_BUTTON_BLOCK = REGISTRAR.blocks.create("cube_button", CubeButtonBlock::new)
 			.copyFrom(Blocks.STONE)
 			.item(MultiBlockItem::new)
 			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))

@@ -16,6 +16,11 @@ public class PortalCubedSounds {
 	public static final SoundEvent RADIO_SONG = register("radio");
 	public static final SoundEvent COMPANION_CUBE_AMBIANCE = register("companion_cube_ambiance");
 
+	public static final SoundEvent PORTAL_GUN_CANNOT_GRAB = register("portal_gun_cannot_grab");
+	public static final SoundEvent PORTAL_GUN_GRAB = register("portal_gun_grab");
+	public static final SoundEvent PORTAL_GUN_HOLD_LOOP = register("portal_gun_hold_loop");
+	public static final SoundEvent PORTAL_GUN_DROP = register("portal_gun_drop");
+
 	public static SoundEvent register(String name) {
 		var id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
