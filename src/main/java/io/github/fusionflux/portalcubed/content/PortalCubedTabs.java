@@ -25,6 +25,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.PORTAL_GUN);
 			output.accept(PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
+			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
 			output.accept(PropType.ITEMS.get(PropType.PORTAL_1_STORAGE_CUBE));
 			output.accept(PropType.ITEMS.get(PropType.PORTAL_1_COMPANION_CUBE));
