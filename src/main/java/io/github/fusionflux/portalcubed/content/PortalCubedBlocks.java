@@ -13,6 +13,7 @@ import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.OldApFloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.P1FloorButtonBlock;
+import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
 import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
@@ -24,9 +25,9 @@ public class PortalCubedBlocks {
 			.item(BlockItemProvider::noItem)
 			.build();
 
-	public static final CakeBlock BLACK_FOREST_CAKE = REGISTRAR.blocks.create("black_forest_cake", CakeBlock::new)
-			.copyFrom(Blocks.CAKE)
-			.build();
+	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
+			"black_forest_cake", REGISTRAR, QuiltBlockSettings.copyOf(Blocks.CAKE).mapColor(MapColor.COLOR_BLACK)
+	);
 
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("floor_button", FloorButtonBlock::new)
 			.copyFrom(Blocks.STONE)
