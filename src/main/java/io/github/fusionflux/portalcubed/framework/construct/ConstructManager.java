@@ -10,8 +10,10 @@ import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -32,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -46,13 +47,13 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 
 	private static final Logger logger = LoggerFactory.getLogger(ConstructManager.class);
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	@SuppressWarnings("SortedCollectionWithNonComparableKeys")
-	private static final SortedSet<Construct> emptySet = Collections.unmodifiableSortedSet(new TreeSet<>());
+	@SuppressWarnings("SortedCollectionWithNonComparableKeys") // never contains anything, this is safe
+	private static final SortedSet<ConstructSet> emptySet = Collections.unmodifiableSortedSet(new TreeSet<>());
 
 	public static ConstructManager INSTANCE = new ConstructManager();
 
-	private final BiMap<ResourceLocation, Construct> constructs = HashBiMap.create();
-	private final Map<Item, SortedSet<Construct>> byMaterial = new HashMap<>();
+	private final BiMap<ResourceLocation, ConstructSet> constructSets = HashBiMap.create();
+	private final Map<Item, SortedSet<ConstructSet>> byMaterial = new HashMap<>();
 
 	private ConstructManager() {
 		super(gson, DIR);
@@ -67,7 +68,9 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 	@Override
 	protected void apply(Map<ResourceLocation, JsonElement> cache, ResourceManager manager, ProfilerFiller profiler) {
 		this.reset();
-		cache.forEach((id, json) -> tryParseConstruct(id, JsonOps.INSTANCE, json).ifPresent(this::addConstruct));
+		cache.forEach(
+				(id, json) -> tryParseConstruct(id, JsonOps.INSTANCE, json).ifPresent(this::addConstruct)
+		);
 	}
 
 	public void syncToPlayer(ServerPlayer player) {
@@ -75,7 +78,7 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 			return; // in LAN, don't sync to self
 
 		// build packet
-		ConstructSyncPacket packet = new ConstructSyncPacket(this.constructs);
+		ConstructSyncPacket packet = new ConstructSyncPacket(this.constructSets);
 		PortalCubedPackets.sendToClient(player, packet);
 	}
 
@@ -84,8 +87,8 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		packet.getConstructs().forEach(this::addConstruct);
 	}
 
-	protected static <T> Optional<Construct.Holder> tryParseConstruct(ResourceLocation id, DynamicOps<T> ops, T data) {
-		Construct construct = Construct.CODEC.parse(ops, data).get().map(
+	protected static <T> Optional<ConstructSet.Holder> tryParseConstruct(ResourceLocation id, DynamicOps<T> ops, T data) {
+		ConstructSet constructSet = ConstructSet.CODEC.parse(ops, data).get().map(
 				Function.identity(),
 				partial -> {
 					logger.error("Failed to parse construct {}: {}", id, partial.message());
@@ -93,20 +96,20 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 				}
 		);
 
-		return construct == null ? Optional.empty() : Optional.of(new Construct.Holder(id, construct));
+		return constructSet == null ? Optional.empty() : Optional.of(new ConstructSet.Holder(id, constructSet));
 	}
 
-	private void addConstruct(Construct.Holder holder) {
-		Construct construct = holder.construct();
-		this.constructs.put(holder.id(), construct);
-		this.byMaterial.computeIfAbsent(construct.material, $ -> {
-			Comparator<Construct> comparator = Comparator.comparing(this.constructs.inverse()::get);
+	private void addConstruct(ConstructSet.Holder holder) {
+		ConstructSet constructSet = holder.constructSet();
+		this.constructSets.put(holder.id(), constructSet);
+		this.byMaterial.computeIfAbsent(constructSet.material, $ -> {
+			Comparator<ConstructSet> comparator = Comparator.comparing(this.constructSets.inverse()::get);
 			return new TreeSet<>(comparator);
-		}).add(construct);
+		}).add(constructSet);
 	}
 
 	private void reset() {
-		this.constructs.clear();
+		this.constructSets.clear();
 		this.byMaterial.clear();
 	}
 
@@ -118,22 +121,27 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 				(handler, sender, server) -> INSTANCE.syncToPlayer(handler.player)
 		);
 		ResourceLoaderEvents.END_DATA_PACK_RELOAD.register(
-				ctx -> ctx.server().getPlayerList().getPlayers().forEach(INSTANCE::syncToPlayer)
+				ctx -> {
+					MinecraftServer server = ctx.server();
+					if (server != null) {
+						server.getPlayerList().getPlayers().forEach(INSTANCE::syncToPlayer);
+					}
+				}
 		);
 	}
 
 	// API
 
 	@Nullable
-	public Construct getConstruct(ResourceLocation id) {
-		return this.constructs.get(id);
+	public ConstructSet getConstructSet(ResourceLocation id) {
+		return this.constructSets.get(id);
 	}
 
-	public Optional<Construct> maybeGetConstruct(ResourceLocation id) {
-		return Optional.ofNullable(this.getConstruct(id));
+	public Optional<ConstructSet> maybeGetConstructSet(ResourceLocation id) {
+		return Optional.ofNullable(this.getConstructSet(id));
 	}
 
-	public SortedSet<Construct> getConstructsForMaterial(Item material) {
+	public SortedSet<ConstructSet> getConstructSetsForMaterial(Item material) {
 		return this.byMaterial.getOrDefault(material, emptySet);
 	}
 

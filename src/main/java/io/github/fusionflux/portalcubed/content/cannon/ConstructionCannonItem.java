@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.cannon;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
+import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.content.cannon.data.DeviceData;
@@ -28,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -89,35 +91,21 @@ public class ConstructionCannonItem extends Item {
 		if (settings == null) // not configured
 			return CannonUseResult.NOT_CONFIGURED;
 
-		Construct construct = ConstructManager.INSTANCE.getConstruct(settings.construct());
-		if (construct == null) // fake construct
+		ConstructSet constructSet = ConstructManager.INSTANCE.getConstructSet(settings.construct());
+		if (constructSet == null) // fake construct
 			return CannonUseResult.INVALID;
 
-		ResourceLocation structure = construct.getStructure(ConstructPlacementContext.of(ctx));
+		Construct construct = constructSet.choose(ConstructPlacementContext.of(ctx));
 
-		if (!(ctx.getLevel() instanceof ServerLevel level))
-			return CannonUseResult.PLACED; // assume all is well on the client
-
-		Optional<StructureTemplate> maybeStructure = level.getStructureManager().get(structure);
-		if (maybeStructure.isEmpty()) // fake structure
-			return CannonUseResult.INVALID;
-
-		BlockPos pos = new BlockPlaceContext(ctx).getClickedPos();
-		StructurePlaceSettings placeSettings = new StructurePlaceSettings().setRotation(rotation);
-		StructureTemplate template = maybeStructure.get();
-		BoundingBox bounds = template.getBoundingBox(placeSettings, pos);
+		BlockPos clicked = new BlockPlaceContext(ctx).getClickedPos();
+		BoundingBox bounds = construct.getBounds(rotation);
 
 		if (!this.mayBuild(ctx, bounds))
 			return CannonUseResult.NO_PERMS;
 
-		template.placeInWorld(
-				level,
-				pos,
-				pos,
-				placeSettings,
-				level.random,
-				Block.UPDATE_ALL
-		);
+		if (ctx.getLevel() instanceof ServerLevel level) {
+			construct.place(level, clicked, rotation);
+		}
 
 		return CannonUseResult.PLACED;
 	}

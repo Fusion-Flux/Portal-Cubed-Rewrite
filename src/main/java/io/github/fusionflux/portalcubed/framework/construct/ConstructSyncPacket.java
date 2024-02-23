@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
+import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.player.LocalPlayer;
@@ -21,10 +22,10 @@ import java.util.Map;
 public class ConstructSyncPacket implements ClientboundPacket {
 	private static final Logger logger = LoggerFactory.getLogger(ConstructSyncPacket.class);
 
-	private final List<Construct.Holder> constructs;
+	private final List<ConstructSet.Holder> constructs;
 
-	public ConstructSyncPacket(Map<ResourceLocation, Construct> constructs) {
-		this.constructs = constructs.entrySet().stream().map(Construct.Holder::new).toList();
+	public ConstructSyncPacket(Map<ResourceLocation, ConstructSet> constructs) {
+		this.constructs = constructs.entrySet().stream().map(ConstructSet.Holder::new).toList();
 	}
 
 	public ConstructSyncPacket(FriendlyByteBuf buf) {
@@ -50,7 +51,7 @@ public class ConstructSyncPacket implements ClientboundPacket {
 		buf.writeVarInt(this.constructs.size());
 		this.constructs.forEach((holder) -> {
 			ResourceLocation id = holder.id();
-			Construct.CODEC.encodeStart(NbtOps.INSTANCE, holder.construct()).get().ifLeft(nbt -> {
+			ConstructSet.CODEC.encodeStart(NbtOps.INSTANCE, holder.constructSet()).get().ifLeft(nbt -> {
 				buf.writeResourceLocation(id);
 				buf.writeNbt(nbt);
 			}).ifRight(
@@ -59,7 +60,7 @@ public class ConstructSyncPacket implements ClientboundPacket {
 		});
 	}
 
-	public List<Construct.Holder> getConstructs() {
+	public List<ConstructSet.Holder> getConstructs() {
 		return constructs;
 	}
 
