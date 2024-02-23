@@ -18,6 +18,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import net.minecraft.world.item.Item;
@@ -33,7 +34,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -53,7 +55,7 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 	public static ConstructManager INSTANCE = new ConstructManager();
 
 	private final BiMap<ResourceLocation, ConstructSet> constructSets = HashBiMap.create();
-	private final Map<Item, SortedSet<ConstructSet>> byMaterial = new HashMap<>();
+	private final Map<TagKey<Item>, SortedSet<ConstructSet>> byMaterial = new IdentityHashMap<>();
 
 	private ConstructManager() {
 		super(gson, DIR);
@@ -141,11 +143,19 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		return Optional.ofNullable(this.getConstructSet(id));
 	}
 
-	public SortedSet<ConstructSet> getConstructSetsForMaterial(Item material) {
-		return this.byMaterial.getOrDefault(material, emptySet);
+	public SortedSet<ConstructSet> getConstructSetsForMaterial(TagKey<Item> tag) {
+		return this.byMaterial.getOrDefault(tag, emptySet);
 	}
 
-	public Set<Item> getMaterials() {
+	@SuppressWarnings("deprecation") // builtInRegistryHolder
+	public List<ConstructSet> getConstructSetsForMaterial(Item material) {
+		return material.builtInRegistryHolder().tags()
+				.map(this::getConstructSetsForMaterial)
+				.flatMap(Set::stream)
+				.toList();
+	}
+
+	public Set<TagKey<Item>> getMaterials() {
 		return this.byMaterial.keySet();
 	}
 }

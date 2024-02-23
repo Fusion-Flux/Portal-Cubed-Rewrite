@@ -6,7 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 /**
@@ -14,13 +15,13 @@ import net.minecraft.world.item.Item;
  */
 public class MonoConstructSet extends ConstructSet {
 	public static Codec<MonoConstructSet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			BuiltInRegistries.ITEM.byNameCodec().fieldOf("material").forGetter(c -> c.material),
+			TagKey.hashedCodec(Registries.ITEM).fieldOf("material").forGetter(c -> c.material),
 			Construct.CODEC.fieldOf("construct").forGetter(c -> c.construct)
 	).apply(instance, MonoConstructSet::new));
 
 	private final Construct construct;
 
-	public MonoConstructSet(Item material, Construct construct) {
+	public MonoConstructSet(TagKey<Item> material, Construct construct) {
 		super(Type.MONO, material);
 		this.construct = construct;
 	}

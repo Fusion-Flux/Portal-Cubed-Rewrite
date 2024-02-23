@@ -5,8 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 /**
@@ -14,7 +14,7 @@ import net.minecraft.world.item.Item;
  */
 public class BiConstructSet extends ConstructSet {
 	public static Codec<BiConstructSet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			BuiltInRegistries.ITEM.byNameCodec().fieldOf("material").forGetter(c -> c.material),
+			TagKey.hashedCodec(Registries.ITEM).fieldOf("material").forGetter(c -> c.material),
 			Construct.CODEC.fieldOf("horizontal").forGetter(c -> c.horizontal),
 			Construct.CODEC.fieldOf("vertical").forGetter(c -> c.vertical)
 	).apply(instance, BiConstructSet::new));
@@ -22,7 +22,7 @@ public class BiConstructSet extends ConstructSet {
 	private final Construct horizontal;
 	private final Construct vertical;
 
-	public BiConstructSet(Item material, Construct horizontal, Construct vertical) {
+	public BiConstructSet(TagKey<Item> material, Construct horizontal, Construct vertical) {
 		super(Type.BI, material);
 		this.horizontal = horizontal;
 		this.vertical = vertical;

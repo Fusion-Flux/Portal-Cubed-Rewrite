@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 
 import net.minecraft.world.item.Item;
@@ -23,9 +24,9 @@ public abstract class ConstructSet {
 	);
 
 	public final Type type;
-	public final Item material;
+	public final TagKey<Item> material;
 
-	public ConstructSet(Type type, Item material) {
+	public ConstructSet(Type type, TagKey<Item> material) {
 		this.type = type;
 		this.material = material;
 	}

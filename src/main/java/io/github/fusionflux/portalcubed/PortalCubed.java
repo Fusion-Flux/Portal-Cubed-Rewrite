@@ -22,12 +22,9 @@ import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
-
-import net.minecraft.world.item.Items;
 
 import net.minecraft.world.level.block.Blocks;
 
@@ -36,7 +33,6 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.ModMetadata;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,11 +63,12 @@ public class PortalCubed implements ModInitializer {
 		ConstructManager.init();
 
 		ConstructSet test = new MonoConstructSet(
-				Items.GOLD_BLOCK,
+				ItemTags.ANVIL,
 				new Construct.Builder()
 						.put(BlockPos.ZERO, new Construct.BlockInfo(
 								Blocks.OAK_LOG.defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Z)
 						))
+						.put(BlockPos.ZERO.above(), Blocks.STONE)
 						.build()
 		);
 
