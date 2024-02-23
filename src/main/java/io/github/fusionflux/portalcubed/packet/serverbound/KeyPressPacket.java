@@ -16,7 +16,7 @@ public record KeyPressPacket(KeyBinding key) implements ServerboundPacket {
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.KEY_PRESS;
 	}
 

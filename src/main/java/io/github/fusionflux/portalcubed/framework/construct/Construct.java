@@ -7,8 +7,11 @@ import net.minecraft.util.StringRepresentable;
 
 import net.minecraft.world.item.Item;
 
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -28,6 +31,12 @@ public abstract class Construct {
 	}
 
 	public abstract ResourceLocation getStructure(ConstructPlacementContext ctx);
+
+	public record Holder(ResourceLocation id, Construct construct) {
+		public Holder(Map.Entry<ResourceLocation, Construct> entry) {
+			this(entry.getKey(), entry.getValue());
+		}
+	}
 
 	public enum Type implements StringRepresentable {
 		MONO("monodirectional", () -> MonoConstruct.CODEC),

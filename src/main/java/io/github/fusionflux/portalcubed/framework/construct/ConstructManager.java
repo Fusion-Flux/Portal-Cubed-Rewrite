@@ -6,14 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.FriendlyByteBuf;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
@@ -25,7 +22,6 @@ import net.minecraft.world.item.Item;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.PacketByteBufs;
 import org.quiltmc.qsl.networking.api.ServerPlayConnectionEvents;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
@@ -33,13 +29,15 @@ import org.quiltmc.qsl.resource.loader.api.reloader.IdentifiableResourceReloader
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Function;
 
 public class ConstructManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloader {
@@ -48,11 +46,13 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 
 	private static final Logger logger = LoggerFactory.getLogger(ConstructManager.class);
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	@SuppressWarnings("SortedCollectionWithNonComparableKeys")
+	private static final SortedSet<Construct> emptySet = Collections.unmodifiableSortedSet(new TreeSet<>());
 
 	public static ConstructManager INSTANCE = new ConstructManager();
 
 	private final BiMap<ResourceLocation, Construct> constructs = HashBiMap.create();
-	private final Map<Item, List<Construct>> byMaterial = new HashMap<>();
+	private final Map<Item, SortedSet<Construct>> byMaterial = new HashMap<>();
 
 	private ConstructManager() {
 		super(gson, DIR);
@@ -67,8 +67,7 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 	@Override
 	protected void apply(Map<ResourceLocation, JsonElement> cache, ResourceManager manager, ProfilerFiller profiler) {
 		this.reset();
-		cache.forEach((id, json) -> this.tryParseConstruct(id, JsonOps.INSTANCE, json).ifPresent(this::addConstruct));
-		this.finishReading();
+		cache.forEach((id, json) -> tryParseConstruct(id, JsonOps.INSTANCE, json).ifPresent(this::addConstruct));
 	}
 
 	public void syncToPlayer(ServerPlayer player) {
@@ -76,40 +75,16 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 			return; // in LAN, don't sync to self
 
 		// build packet
-		FriendlyByteBuf buf = PacketByteBufs.create();
-		buf.writeVarInt(this.constructs.size());
-		this.constructs.forEach((id, construct) -> {
-			Construct.CODEC.encodeStart(NbtOps.INSTANCE, construct).get().ifLeft(nbt -> {
-				buf.writeResourceLocation(id);
-				buf.writeNbt(nbt);
-			}).ifRight(partial -> {
-				logger.error("Failed to serialize construct {}: {}", id, partial.message());
-			});
-		});
+		ConstructSyncPacket packet = new ConstructSyncPacket(this.constructs);
+		PortalCubedPackets.sendToClient(player, packet);
 	}
 
-	public void readFromPacket(FriendlyByteBuf buf) {
+	public void readFromPacket(ConstructSyncPacket packet) {
 		this.reset();
-
-		int size = buf.readVarInt();
-		for (int i = 0; i < size; i++) {
-			ResourceLocation id = buf.readResourceLocation();
-			CompoundTag nbt = buf.readNbt();
-
-			this.tryParseConstruct(id, NbtOps.INSTANCE, nbt).ifPresent(this::addConstruct);
-		}
-
-		this.finishReading();
+		packet.getConstructs().forEach(this::addConstruct);
 	}
 
-	private void finishReading() {
-		this.byMaterial.values().forEach(list -> list.sort(
-				// sort alphabetically by id
-				Comparator.comparing(this.constructs.inverse()::get)
-		));
-	}
-
-	private <T> Optional<Pair<ResourceLocation, Construct>> tryParseConstruct(ResourceLocation id, DynamicOps<T> ops, T data) {
+	protected static <T> Optional<Construct.Holder> tryParseConstruct(ResourceLocation id, DynamicOps<T> ops, T data) {
 		Construct construct = Construct.CODEC.parse(ops, data).get().map(
 				Function.identity(),
 				partial -> {
@@ -118,15 +93,16 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 				}
 		);
 
-		return construct == null ? Optional.empty() : Optional.of(new Pair<>(id, construct));
+		return construct == null ? Optional.empty() : Optional.of(new Construct.Holder(id, construct));
 	}
 
-	private void addConstruct(Pair<ResourceLocation, Construct> pair) {
-		ResourceLocation id = pair.getFirst();
-		Construct construct = pair.getSecond();
-
-		this.constructs.put(id, construct);
-		this.byMaterial.computeIfAbsent(construct.material, $ -> new ArrayList<>()).add(construct);
+	private void addConstruct(Construct.Holder holder) {
+		Construct construct = holder.construct();
+		this.constructs.put(holder.id(), construct);
+		this.byMaterial.computeIfAbsent(construct.material, $ -> {
+			Comparator<Construct> comparator = Comparator.comparing(this.constructs.inverse()::get);
+			return new TreeSet<>(comparator);
+		}).add(construct);
 	}
 
 	private void reset() {
@@ -157,8 +133,8 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		return Optional.ofNullable(this.getConstruct(id));
 	}
 
-	public List<Construct> getConstructsForMaterial(Item material) {
-		return this.byMaterial.getOrDefault(material, List.of());
+	public SortedSet<Construct> getConstructsForMaterial(Item material) {
+		return this.byMaterial.getOrDefault(material, emptySet);
 	}
 
 	public Set<Item> getMaterials() {

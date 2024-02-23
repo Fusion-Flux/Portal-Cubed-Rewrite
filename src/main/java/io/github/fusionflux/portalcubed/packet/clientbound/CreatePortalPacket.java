@@ -22,7 +22,7 @@ public record CreatePortalPacket(Portal portal) implements ClientboundPacket {
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.CREATE_PORTAL;
 	}
 
