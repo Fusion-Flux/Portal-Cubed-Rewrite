@@ -26,7 +26,7 @@ public class PortalCubedBlocks {
 			.build();
 
 	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
-			"black_forest_cake", REGISTRAR, QuiltBlockSettings.copyOf(Blocks.CAKE).mapColor(MapColor.COLOR_BLACK)
+			"black_forest_cake", REGISTRAR, QuiltBlockSettings.copyOf(Blocks.CAKE)
 	);
 
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("floor_button", FloorButtonBlock::new)
