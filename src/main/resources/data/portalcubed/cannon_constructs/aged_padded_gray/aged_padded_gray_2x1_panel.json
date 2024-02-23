@@ -1,6 +1,0 @@
-{
-  "type": "bidirectional",
-  "material": "portalcubed:aged_padded_gray_panel",
-  "horizontal": "portalcubed:construction_cannon/panels/aged_padded_gray/aged_padded_gray_2x1_panel_horizontal",
-  "vertical": "portalcubed:construction_cannon/panels/aged_padded_gray/aged_padded_gray_2x1_panel_vertical"
-}
