@@ -8,6 +8,10 @@ import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockHelper;
 
+import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemFactory;
+
+import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,7 +39,7 @@ public class CakeBlockSet {
 		this.cake = blocks.create(name, s -> new CustomCakeBlock(s, this.candleToCake))
 				.settings(settings).build();
 		this.uncoloredCandled = blocks.create("candle_" + name, s -> new CustomCandleCakeBlock(this.cake, Blocks.CANDLE, s))
-				.settings(settings).build();
+				.settings(settings).item(BlockItemProvider::noItem).build();
 
 		this.candleToCake.put(Blocks.CANDLE, this.uncoloredCandled);
 
@@ -45,7 +49,7 @@ public class CakeBlockSet {
 			Block candleBlock = BuiltInRegistries.BLOCK.getOrThrow(candleKey);
 
 			Block candleCake = blocks.create(candleName + "_" + name, s -> new CustomCandleCakeBlock(this.cake, candleBlock, s))
-					.settings(settings).build();
+					.settings(settings).item(BlockItemProvider::noItem).build();
 
 			this.candleToCake.put(candleBlock, candleCake);
 			this.candled.put(color, candleCake);
