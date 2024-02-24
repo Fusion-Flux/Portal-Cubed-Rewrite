@@ -48,6 +48,7 @@ public class PortalCubedTabs {
 		builder.icon(() -> new ItemStack(PortalCubedItems.HAMMER));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
+			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
 			output.accept(PortalCubedItems.PORTAL_GUN);
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
