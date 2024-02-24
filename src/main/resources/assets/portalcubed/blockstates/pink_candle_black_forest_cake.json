@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "portalcubed:block/pink_candle_black_forest_cake"
+    },
+    "lit=true": {
+      "model": "portalcubed:block/pink_candle_black_forest_cake_lit"
+    }
+  }
+}

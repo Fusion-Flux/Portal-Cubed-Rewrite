@@ -494,6 +494,7 @@
   "block.portalcubed.light_bridge_emitter": "Hard Light Bridge Emitter",
   "block.portalcubed.light_bridge": "Hard Light Bridge",
 
+  "block.portalcubed.black_forest_cake": "Black Forest Cake",
 
   "death.attack.acid": "%s was dissolved in toxic goo",
   "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",

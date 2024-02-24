@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content;
 
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CakeBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -13,6 +14,7 @@ import io.github.fusionflux.portalcubed.content.button.CubeButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.OldApFloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.P1FloorButtonBlock;
+import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
 import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
@@ -23,6 +25,10 @@ public class PortalCubedBlocks {
 			.settings(QuiltBlockSettings::noCollision)
 			.item(BlockItemProvider::noItem)
 			.build();
+
+	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
+			"black_forest_cake", REGISTRAR, QuiltBlockSettings.copyOf(Blocks.CAKE)
+	);
 
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("floor_button", FloorButtonBlock::new)
 			.copyFrom(Blocks.STONE)
