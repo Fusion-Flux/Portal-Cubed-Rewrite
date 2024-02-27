@@ -37,6 +37,12 @@ public class MOTL {
 
 	public static String get() {
 		Collections.shuffle(providers);
-		return providers.get(0).get();
+		for (Supplier<String> provider : providers) {
+			String message = provider.get();
+			if (message != null) {
+				return message;
+			}
+		}
+		return "Sorry, no MOTL :(";
 	}
 }
