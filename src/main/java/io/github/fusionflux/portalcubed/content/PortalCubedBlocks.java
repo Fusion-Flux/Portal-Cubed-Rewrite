@@ -20,16 +20,10 @@ import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 
 public class PortalCubedBlocks {
-	public static final RotatedPillarBlock TEST_BLOCK = REGISTRAR.blocks.create("test_block", RotatedPillarBlock::new)
-			.copyFrom(Blocks.STONE)
-			.settings(QuiltBlockSettings::noCollision)
-			.item(BlockItemProvider::noItem)
-			.build();
-
 	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
 			"black_forest_cake", REGISTRAR, QuiltBlockSettings.copyOf(Blocks.CAKE)
 	);
-
+	// ----- floor buttons -----
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("floor_button", FloorButtonBlock::new)
 			.copyFrom(Blocks.STONE)
 			.item(MultiBlockItem::new)

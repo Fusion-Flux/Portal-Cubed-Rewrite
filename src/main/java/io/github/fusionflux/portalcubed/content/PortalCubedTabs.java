@@ -27,12 +27,12 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
-			output.accept(PropType.ITEMS.get(PropType.PORTAL_1_STORAGE_CUBE));
-			output.accept(PropType.ITEMS.get(PropType.PORTAL_1_COMPANION_CUBE));
-			output.accept(PropType.ITEMS.get(PropType.STORAGE_CUBE));
-			output.accept(PropType.ITEMS.get(PropType.COMPANION_CUBE));
-			output.accept(PropType.ITEMS.get(PropType.OLD_AP_CUBE));
-			output.accept(PropType.ITEMS.get(PropType.RADIO));
+			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
+			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
+			addProp(output, PropType.STORAGE_CUBE);
+			addProp(output, PropType.COMPANION_CUBE);
+			addProp(output, PropType.OLD_AP_CUBE);
+			addProp(output, PropType.RADIO);
 		});
 	});
 
@@ -40,7 +40,6 @@ public class PortalCubedTabs {
 		builder.icon(() -> new ItemStack(Blocks.DIRT));
 		builder.displayItems((params, output) -> {
 			output.accept(Blocks.DIRT);
-
 		});
 	});
 
@@ -49,6 +48,9 @@ public class PortalCubedTabs {
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
+
+			// ----- portal guns -----
+
 			output.accept(PortalCubedItems.PORTAL_GUN);
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
@@ -70,59 +72,83 @@ public class PortalCubedTabs {
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
-			output.accept(PropType.ITEMS.get(PropType.PORTAL_1_STORAGE_CUBE));
-			output.accept(PropType.ITEMS.get(PropType.PORTAL_1_COMPANION_CUBE));
-			addVariant(output, PropType.ITEMS.get(PropType.PORTAL_1_COMPANION_CUBE), 1);
-			output.accept(PropType.ITEMS.get(PropType.STORAGE_CUBE));
-			addVariant(output, PropType.ITEMS.get(PropType.STORAGE_CUBE), 2);
-			output.accept(PropType.ITEMS.get(PropType.COMPANION_CUBE));
-			addVariant(output, PropType.ITEMS.get(PropType.COMPANION_CUBE), 2);
-			output.accept(PropType.ITEMS.get(PropType.OLD_AP_CUBE));
-			output.accept(PropType.ITEMS.get(PropType.RADIO));
-			addVariant(output, PropType.ITEMS.get(PropType.RADIO), 1);
-			addVariant(output, PropType.ITEMS.get(PropType.RADIO), 2);
-			addVariant(output, PropType.ITEMS.get(PropType.RADIO), 3);
-			addVariant(output, PropType.ITEMS.get(PropType.RADIO), 4);
-			output.accept(PropType.ITEMS.get(PropType.MUG));
-			addVariant(output, PropType.ITEMS.get(PropType.MUG), 1);
-			addVariant(output, PropType.ITEMS.get(PropType.MUG), 2);
-			addVariant(output, PropType.ITEMS.get(PropType.MUG), 3);
-			addVariant(output, PropType.ITEMS.get(PropType.MUG), 4);
-			addVariant(output, PropType.ITEMS.get(PropType.MUG), 5);
-			addVariant(output, PropType.ITEMS.get(PropType.MUG), 6);
-			addVariant(output, PropType.ITEMS.get(PropType.MUG), 7);
-			output.accept(PropType.ITEMS.get(PropType.CHAIR));
-			output.accept(PropType.ITEMS.get(PropType.COMPUTER));
-			output.accept(PropType.ITEMS.get(PropType.CLIPBOARD));
-			addVariant(output, PropType.ITEMS.get(PropType.CLIPBOARD), 1);
-			addVariant(output, PropType.ITEMS.get(PropType.CLIPBOARD), 2);
-			addVariant(output, PropType.ITEMS.get(PropType.CLIPBOARD), 3);
-			addVariant(output, PropType.ITEMS.get(PropType.CLIPBOARD), 4);
-			addVariant(output, PropType.ITEMS.get(PropType.CLIPBOARD), 5);
-			addVariant(output, PropType.ITEMS.get(PropType.CLIPBOARD), 6);
-			output.accept(PropType.ITEMS.get(PropType.HOOPY));
-			output.accept(PropType.ITEMS.get(PropType.BEANS));
-			output.accept(PropType.ITEMS.get(PropType.JUG));
-			output.accept(PropType.ITEMS.get(PropType.OIL_DRUM));
-			addVariant(output, PropType.ITEMS.get(PropType.OIL_DRUM), 1);
-			addVariant(output, PropType.ITEMS.get(PropType.OIL_DRUM), 2);
-			addVariant(output, PropType.ITEMS.get(PropType.OIL_DRUM), 3);
-			output.accept(PropType.ITEMS.get(PropType.COOKING_POT));
-			output.accept(PropType.ITEMS.get(PropType.LIL_PINEAPPLE));
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 1);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 2);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 3);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 4);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 5);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 6);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 7);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 8);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 9);
-			addVariant(output, PropType.ITEMS.get(PropType.LIL_PINEAPPLE), 10);
-			output.accept(PropType.ITEMS.get(PropType.THE_TACO));
 
+			// ----- props -----
+
+			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
+
+			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
+			addVariant(output, PropType.PORTAL_1_COMPANION_CUBE, 1);
+
+			addProp(output, PropType.STORAGE_CUBE);
+			addVariant(output, PropType.STORAGE_CUBE, 2);
+
+			addProp(output, PropType.COMPANION_CUBE);
+			addVariant(output, PropType.COMPANION_CUBE, 2);
+
+			addProp(output, PropType.OLD_AP_CUBE);
+
+			addProp(output, PropType.RADIO);
+
+			addVariant(output, PropType.RADIO, 1);
+			addVariant(output, PropType.RADIO, 2);
+			addVariant(output, PropType.RADIO, 3);
+			addVariant(output, PropType.RADIO, 4);
+
+			addProp(output, PropType.MUG);
+			addVariant(output, PropType.MUG, 1);
+			addVariant(output, PropType.MUG, 2);
+			addVariant(output, PropType.MUG, 3);
+			addVariant(output, PropType.MUG, 4);
+			addVariant(output, PropType.MUG, 5);
+			addVariant(output, PropType.MUG, 6);
+			addVariant(output, PropType.MUG, 7);
+
+			addProp(output, PropType.CHAIR);
+			addProp(output, PropType.COMPUTER);
+
+			addProp(output, PropType.CLIPBOARD);
+			addVariant(output, PropType.CLIPBOARD, 1);
+			addVariant(output, PropType.CLIPBOARD, 2);
+			addVariant(output, PropType.CLIPBOARD, 3);
+			addVariant(output, PropType.CLIPBOARD, 4);
+			addVariant(output, PropType.CLIPBOARD, 5);
+			addVariant(output, PropType.CLIPBOARD, 6);
+
+			addProp(output, PropType.HOOPY);
+			addProp(output, PropType.BEANS);
+			addProp(output, PropType.JUG);
+
+			addProp(output, PropType.OIL_DRUM);
+			addVariant(output, PropType.OIL_DRUM, 1);
+			addVariant(output, PropType.OIL_DRUM, 2);
+			addVariant(output, PropType.OIL_DRUM, 3);
+
+			addProp(output, PropType.COOKING_POT);
+
+			addProp(output, PropType.LIL_PINEAPPLE);
+			addVariant(output, PropType.LIL_PINEAPPLE, 1);
+			addVariant(output, PropType.LIL_PINEAPPLE, 2);
+			addVariant(output, PropType.LIL_PINEAPPLE, 3);
+			addVariant(output, PropType.LIL_PINEAPPLE, 4);
+			addVariant(output, PropType.LIL_PINEAPPLE, 5);
+			addVariant(output, PropType.LIL_PINEAPPLE, 6);
+			addVariant(output, PropType.LIL_PINEAPPLE, 7);
+			addVariant(output, PropType.LIL_PINEAPPLE, 8);
+			addVariant(output, PropType.LIL_PINEAPPLE, 9);
+			addVariant(output, PropType.LIL_PINEAPPLE, 10);
+
+			addProp(output, PropType.THE_TACO);
 		});
 	});
+
+	private static void addProp(CreativeModeTab.Output output, PropType type) {
+		output.accept(PortalCubedItems.PROPS.get(type));
+	}
+
+	private static void addVariant(CreativeModeTab.Output output, PropType type, int cmd) {
+		addVariant(output, PortalCubedItems.PROPS.get(type), cmd);
+	}
 
 	private static void addVariant(CreativeModeTab.Output output, Item item, int cmd) {
 		ItemStack stack = new ItemStack(item);

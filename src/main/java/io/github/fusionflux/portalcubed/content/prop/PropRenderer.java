@@ -3,6 +3,8 @@ package io.github.fusionflux.portalcubed.content.prop;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.mixin.client.ItemRendererAccessor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
@@ -16,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class PropRenderer extends EntityRenderer<Prop> {
 	private final ItemRenderer itemRenderer;
-	private final ItemStack FAKE_STACK = new ItemStack(PropType.ITEMS.get(PropType.BEANS));
+	private final ItemStack FAKE_STACK = new ItemStack(PortalCubedItems.PROPS.get(PropType.BEANS));
 
 	public PropRenderer(Context ctx) {
 		super(ctx);

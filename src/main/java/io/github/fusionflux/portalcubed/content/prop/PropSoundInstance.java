@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
@@ -8,7 +10,7 @@ import net.minecraft.sounds.SoundSource;
 public class PropSoundInstance extends AbstractTickableSoundInstance {
 	private final Prop prop;
 
-	PropSoundInstance(SoundEvent soundEvent, Prop prop) {
+	public PropSoundInstance(SoundEvent soundEvent, Prop prop) {
 		super(soundEvent, SoundSource.RECORDS, prop.level().random);
 		this.prop = prop;
 		this.x = prop.getX();

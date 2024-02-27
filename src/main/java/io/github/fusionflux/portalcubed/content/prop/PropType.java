@@ -3,31 +3,33 @@ package io.github.fusionflux.portalcubed.content.prop;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.apache.commons.lang3.function.TriFunction;
+import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+
+import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
+import io.github.fusionflux.portalcubed.content.prop.entity.Chair;
+import io.github.fusionflux.portalcubed.content.prop.entity.CompanionCube;
+import io.github.fusionflux.portalcubed.content.prop.entity.P1CompanionCube;
+import io.github.fusionflux.portalcubed.content.prop.entity.P1Prop;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
+
+import io.github.fusionflux.portalcubed.content.prop.entity.Radio;
+
 import org.apache.commons.lang3.stream.IntStreams;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.core.dispenser.BlockSource;
-import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType.EntityFactory;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DispenserBlock;
 
 public enum PropType {
 	BEANS                  (EntityDimensions.fixed(.25f, .375f), SoundType.METAL),
@@ -55,7 +57,7 @@ public enum PropType {
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;
 	public final EntityDimensions dimensions;
-	public final EntityType<Prop> entityType;
+	public final EntityFactory<Prop> factory;
 	public final boolean hasDirtyVariant;
 	public final SoundType soundType;
 
@@ -67,55 +69,26 @@ public enum PropType {
 		this(variants, randomVariantOnSpawn, dimensions, Prop::new, false, soundType);
 	}
 
-	PropType(int variants, boolean randomVariantOnSpawn, EntityDimensions dimensions, TriFunction<PropType, EntityType<Prop>, Level, Prop> factory, boolean hasDirtyVariant, SoundType soundType) {
+	PropType(int variants, boolean randomVariantOnSpawn, EntityDimensions dimensions, PropFactory factory, boolean hasDirtyVariant, SoundType soundType) {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnSpawn = randomVariantOnSpawn;
 		this.dimensions = dimensions;
-		this.entityType = QuiltEntityTypeBuilder.<Prop>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).build();
+		this.factory = (entityType, level) -> factory.create(this, entityType, level);
 		this.hasDirtyVariant = hasDirtyVariant;
 		this.soundType = soundType;
 	}
 
-	public static void init() {
-		for (var type : values())
-			type.register();
-	}
-
-	public void register() {
-		var id = PortalCubed.id(toString());
-		Registry.register(BuiltInRegistries.ENTITY_TYPE, id, this.entityType);
-		var item = Registry.register(BuiltInRegistries.ITEM, id, new PropItem(new Item.Properties(), this));
-		ITEMS.put(this, item);
-		DispenserBlock.registerBehavior(item, new DefaultDispenseItemBehavior() {
-			@Override
-			protected ItemStack execute(BlockSource pointer, ItemStack stack) {
-				var level = pointer.level();
-				var direction = pointer.state().getValue(DispenserBlock.FACING);
-				var pos = pointer.pos().relative(direction);
-				var state = level.getBlockState(pos);
-				if (!state.getCollisionShape(level, pos).isEmpty())
-					pos = pos.above();
-				item.use(level, pos, direction, stack, null);
-				return stack;
-			}
-		});
-
-		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT)
-			registerClient();
-	}
-
-	@ClientOnly
-	private void registerClient() {
-		EntityRendererRegistry.register(entityType, PropRenderer::new);
-	}
-
 	public boolean spawn(ServerLevel level, BlockPos pos, double yOffset, int variant, boolean randomizeVariant, Optional<Component> customName) {
-		var entity = entityType.create(level);
+		EntityType<Prop> entityType = PortalCubedEntities.PROPS.get(this);
+		Prop entity = entityType.create(level);
+		if (entity == null)
+			return false;
+
 		entity.setVariantFromItem(variant);
 		if (randomizeVariant && randomVariantOnSpawn)
 			variant = level.random.nextInt(variants.length - 1) + 1;
 		entity.setVariant(variant);
-		customName.ifPresent(name -> entity.setCustomName(name));
+		customName.ifPresent(entity::setCustomName);
 		entity.setPos(pos.getX() + .5, pos.getY() + yOffset, pos.getZ() + .5);
 		return level.addFreshEntity(entity);
 	}
@@ -125,7 +98,7 @@ public enum PropType {
 		return name().toLowerCase(Locale.ROOT);
 	}
 
-	enum SoundType {
+	public enum SoundType {
 		GENERIC,
 		METAL,
 		CUBE,
@@ -135,7 +108,7 @@ public enum PropType {
 		public final SoundEvent impactSound;
 
 		SoundType() {
-			var id = PortalCubed.id(toString() + "_impact");
+			var id = PortalCubed.id(this + "_impact");
 			this.impactSound = Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
 		}
 
@@ -143,5 +116,9 @@ public enum PropType {
 		public String toString() {
 			return name().toLowerCase(Locale.ROOT);
 		}
+	}
+
+	public interface PropFactory {
+		Prop create(PropType type, EntityType<Prop> entityType, Level level);
 	}
 }

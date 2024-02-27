@@ -38,7 +38,6 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
-		PropType.init();
 		PortalCubedSerializers.init();
 
 		PortalCubedSounds.init();
