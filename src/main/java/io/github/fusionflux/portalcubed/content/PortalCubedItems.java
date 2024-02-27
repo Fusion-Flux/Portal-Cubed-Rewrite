@@ -5,6 +5,7 @@ import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 import java.util.EnumMap;
 import java.util.Map;
 
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.DispenserBlock;
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
 			.settings(s -> s.stacksTo(1).fireResistant())
+			.colored(() -> () -> PortalGunColorProvider.INSTANCE)
 			.build();
 
 	public static final HammerItem HAMMER = REGISTRAR.items.create("hammer", HammerItem::new)
