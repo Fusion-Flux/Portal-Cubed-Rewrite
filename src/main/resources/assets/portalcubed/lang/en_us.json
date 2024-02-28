@@ -18,6 +18,9 @@
   "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
 
 
+  "container.portalcubed.construction_cannon": "Construction Cannon",
+
+
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
   "subtitles.portalcubed.gel_blob_splash": "Gel blob splashes",

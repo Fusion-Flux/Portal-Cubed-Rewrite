@@ -158,4 +158,11 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 	public Set<TagKey<Item>> getMaterials() {
 		return this.byMaterial.keySet();
 	}
+
+	public SortedSet<TagKey<Item>> getMaterialsSorted() {
+		Set<TagKey<Item>> materials = this.getMaterials();
+		SortedSet<TagKey<Item>> sorted = new TreeSet<>(Comparator.comparing(TagKey::location));
+		sorted.addAll(materials);
+		return sorted;
+	}
 }

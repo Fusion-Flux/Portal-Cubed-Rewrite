@@ -9,7 +9,6 @@ import com.mojang.serialization.JsonOps;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.PortalCubedMenus;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
@@ -56,7 +55,6 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedEntities.init();
 		PropType.init();
 		PortalCubedSerializers.init();
-		PortalCubedMenus.init();
 
 		PortalCubedSounds.init();
 

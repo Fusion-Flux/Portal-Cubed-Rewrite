@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.packet;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.cannon.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
@@ -19,6 +20,7 @@ public class PortalCubedPackets {
 	// clientbound
 	public static final ResourceLocation CREATE_PORTAL = clientbound("create_portal", CreatePortalPacket::new);
 	public static final ResourceLocation SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket::new);
+	public static final ResourceLocation OPEN_CANNON_CONFIG = clientbound("open_cannon_config", OpenCannonConfigPacket::new);
 	// serverbound
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);
 	public static final ResourceLocation KEY_PRESS = serverbound("key_press", KeyPressPacket::new);

@@ -1,44 +1,33 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
-import io.github.fusionflux.portalcubed.content.cannon.data.DeviceData;
-import io.github.fusionflux.portalcubed.content.cannon.data.DeviceInventory;
-import io.github.fusionflux.portalcubed.content.cannon.data.PlacementMode;
-import io.github.fusionflux.portalcubed.content.cannon.data.PlacementSettings;
+import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
-import java.util.Optional;
 
 public class ConstructionCannonItem extends Item {
 	public ConstructionCannonItem(Properties settings) {
@@ -50,16 +39,9 @@ public class ConstructionCannonItem extends Item {
 	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
 		ItemStack held = user.getItemInHand(hand);
 		if (user.isSecondaryUseActive()) {
-			held.addTagElement(DeviceData.NBT_KEY, DeviceData.CODEC.encodeStart(NbtOps.INSTANCE, new DeviceData(
-					new PlacementSettings(
-							Optional.of(Items.GOLD_BLOCK),
-							Optional.of(PortalCubed.id("test")),
-							PlacementMode.WHOLE,
-							Optional.empty()
-					),
-					new DeviceInventory(Map.of())
-			)).getOrThrow(false, $ -> {}));
-//			user.openMenu(new SimpleMenuProvider(ConstructionCannonMenu::new, ConstructionCannonMenu.TITLE));
+			if (user instanceof ServerPlayer serverPlayer) {
+				PortalCubedPackets.sendToClient(serverPlayer, new OpenCannonConfigPacket(hand));
+			}
 			return InteractionResultHolder.success(held);
 		}
 
@@ -81,17 +63,17 @@ public class ConstructionCannonItem extends Item {
 
 	protected CannonUseResult tryPlace(UseOnContext ctx) {
 		ItemStack stack = ctx.getItemInHand();
-		DeviceData data = this.getDeviceData(stack);
-		if (data == null) // invalid state
+		CannonSettings settings = getCannonSettings(stack);
+		if (settings == null) // invalid state
 			return CannonUseResult.INVALID;
 
 		Rotation rotation = this.getRotation(ctx);
 
-		PlacementSettings.Configured settings = data.settings().validate();
-		if (settings == null) // not configured
+		CannonSettings.Configured configured = settings.validate();
+		if (configured == null) // not configured
 			return CannonUseResult.NOT_CONFIGURED;
 
-		ConstructSet constructSet = ConstructManager.INSTANCE.getConstructSet(settings.construct());
+		ConstructSet constructSet = ConstructManager.INSTANCE.getConstructSet(configured.construct());
 		if (constructSet == null) // fake construct
 			return CannonUseResult.INVALID;
 
@@ -131,11 +113,11 @@ public class ConstructionCannonItem extends Item {
 	}
 
 	@Nullable
-	protected DeviceData getDeviceData(ItemStack stack) {
+	public static CannonSettings getCannonSettings(ItemStack stack) {
 		CompoundTag nbt = stack.getTag();
-		if (nbt != null && nbt.contains(DeviceData.NBT_KEY, Tag.TAG_COMPOUND)) {
-			CompoundTag dataNbt = nbt.getCompound(DeviceData.NBT_KEY);
-			return DeviceData.CODEC.parse(NbtOps.INSTANCE, dataNbt).result().orElse(null);
+		if (nbt != null && nbt.contains(CannonSettings.NBT_KEY, Tag.TAG_COMPOUND)) {
+			CompoundTag dataNbt = nbt.getCompound(CannonSettings.NBT_KEY);
+			return CannonSettings.CODEC.parse(NbtOps.INSTANCE, dataNbt).result().orElse(null);
 		}
 		return null;
 	}
