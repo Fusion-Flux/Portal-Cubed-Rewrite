@@ -1,7 +1,12 @@
-package io.github.fusionflux.portalcubed.content.prop;
+package io.github.fusionflux.portalcubed.content.prop.entity;
 
 import java.util.OptionalInt;
 
+import org.quiltmc.qsl.base.api.util.TriState;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.prop.HammerItem;
+import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
@@ -14,6 +19,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,6 +29,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -54,9 +61,9 @@ public class Prop extends Entity implements CollisionListener {
 		this.type = type;
 	}
 
-	protected boolean isDirty() {
+	protected TriState isDirty() {
 		int variant = getVariant();
-		return (variant > 0) && (variant < 2);
+		return variant > 1 ? TriState.DEFAULT : TriState.fromBoolean(variant != 0);
 	}
 
 	protected void setDirty(boolean dirty) {
@@ -103,7 +110,7 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!level().isClientSide && (type.hasDirtyVariant && isDirty()) && isInWaterOrRain())
+		if (!level().isClientSide && ((type.hasDirtyVariant || type == PropType.PORTAL_1_COMPANION_CUBE) && isDirty() == TriState.TRUE) && isInWaterOrRain())
 			setDirty(false);
 		if (isControlledByLocalInstance()) {
 			lerpSteps = 0;
@@ -123,6 +130,7 @@ public class Prop extends Entity implements CollisionListener {
 				var player = ((Player) level().getEntity(getHeldBy().getAsInt()));
 				var holdPoint = player.getEyePosition().add(Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2));
 				float holdYOffset = -getBbHeight() / 2;
+				setDeltaMovement(Vec3.ZERO);
 				move(MoverType.PLAYER, position().vectorTo(holdPoint.add(0, holdYOffset, 0)));
 				if (type != PropType.THE_TACO)
 					setYRot(-player.getYRot() % 360);
@@ -158,14 +166,14 @@ public class Prop extends Entity implements CollisionListener {
 		var itemInHand = player.getItemInHand(hand);
 		var level = level();
 		if (type.hasDirtyVariant) {
-			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && !isDirty()) {
+			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && isDirty() == TriState.FALSE) {
 				if (level instanceof ServerLevel serverLevel) {
 					setDirty(true);
 					serverLevel.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
 					var particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
 					for (var dir : Direction.values()) {
 						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
-						double y = getY() + (dir.getStepY() * getBbWidth() / 2);
+						double y = getY() + (dir.getStepY() * getBbHeight() / 2);
 						double z = getZ() + (dir.getStepZ() * getBbWidth() / 2);
 						serverLevel.sendParticles(particleOption, x, y, z, random.nextInt(5, 8), 0, 0, 0, 1);
 					}
@@ -179,9 +187,11 @@ public class Prop extends Entity implements CollisionListener {
 
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		if (source.getDirectEntity() instanceof Player player)
-			return !(player.getAbilities().instabuild || HammerItem.usingHammer(player));
-		return super.isInvulnerableTo(source);
+		if (source.getDirectEntity() instanceof Player player) {
+			var abilities = player.getAbilities();
+			return (isInvulnerable() && !abilities.instabuild) || !(abilities.instabuild || (abilities.mayBuild && HammerItem.usingHammer(player)));
+		}
+		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
 	}
 
 	@Override
@@ -210,6 +220,11 @@ public class Prop extends Entity implements CollisionListener {
 	}
 
 	@Override
+	public boolean canCollideWith(Entity other) {
+		return other.getId() != getHeldBy().orElse(-1) && Boat.canVehicleCollide(this, other);
+	}
+
+	@Override
 	public boolean canBeCollidedWith() {
 		return true;
 	}
@@ -225,13 +240,13 @@ public class Prop extends Entity implements CollisionListener {
 
 	@Override
 	public ItemStack getPickResult() {
-		return new ItemStack(PropType.ITEMS.get(type));
+		return new ItemStack(PortalCubedItems.PROPS.get(type));
 	}
 
 	@Override
 	public void onCollision() {
 		var level = level();
-		if (!level.isClientSide) {
+		if (!level.isClientSide && !isSilent()) {
 			level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
 			level.gameEvent(this, GameEvent.HIT_GROUND, position());
 		}

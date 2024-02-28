@@ -12,6 +12,8 @@ public class PortalGunColorProvider implements ItemColor {
 
 	public static final int INVALID = -1;
 
+	public static final PortalGunColorProvider INSTANCE = new PortalGunColorProvider();
+
 	@Override
 	public int getColor(ItemStack stack, int tintIndex) {
 		PortalGunData data = PortalGunItem.getData(stack);

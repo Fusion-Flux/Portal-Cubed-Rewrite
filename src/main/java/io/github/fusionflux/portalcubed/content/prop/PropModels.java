@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.reloader.ResourceReloaderKeys;
@@ -40,7 +42,7 @@ public class PropModels implements SimpleSynchronousResourceReloader {
 	@Override
 	public void onResourceManagerReload(ResourceManager manager) {
 		var modelManager = Minecraft.getInstance().getModelManager();
-		for (var entry : PropType.ITEMS.entrySet()) {
+		for (var entry : PortalCubedItems.PROPS.entrySet()) {
 			var item = entry.getValue();
 			var stack = new ItemStack(item);
 			var model = modelManager.getModel(new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(item), "inventory"));

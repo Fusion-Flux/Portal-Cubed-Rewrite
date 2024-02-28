@@ -9,7 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
-import io.github.fusionflux.portalcubed.content.prop.Prop;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
@@ -46,6 +46,7 @@ public class PortalCubedKeyBindings {
 		GRAB("grab", () -> GLFW.GLFW_KEY_G, (player) -> {
 			var level = player.level();
 			var heldPropId = ((PlayerExt) player).pc$heldProp();
+			boolean isHoldingPortalGun = player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN);
 			if (heldPropId.isEmpty()) {
 				if (player.isSpectator()) return;
 				var playerDirection = Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(3);
@@ -56,13 +57,18 @@ public class PortalCubedKeyBindings {
 
 				var hit = ProjectileUtil.getEntityHitResult(player, startPos, endPos, checkBox, entity -> !entity.isSpectator() && entity.isPickable(), 3 * 3);
 				if (hit != null && hit.getEntity() instanceof Prop prop) {
-					if (prop.hold(player))
+					if (prop.hold(player)) {
 						((PlayerExt) player).pc$heldProp(OptionalInt.of(prop.getId()));
+						if (isHoldingPortalGun) player.playSound(PortalCubedSounds.PORTAL_GUN_GRAB);
+						return;
+					}
 				}
+				if (isHoldingPortalGun) player.playSound(PortalCubedSounds.PORTAL_GUN_CANNOT_GRAB);
 			} else {
 				var heldProp = (Prop) level.getEntity(heldPropId.getAsInt());
 				heldProp.drop(player);
 				((PlayerExt) player).pc$heldProp(OptionalInt.empty());
+				if (isHoldingPortalGun) player.playSound(PortalCubedSounds.PORTAL_GUN_DROP);
 			}
 		});
 

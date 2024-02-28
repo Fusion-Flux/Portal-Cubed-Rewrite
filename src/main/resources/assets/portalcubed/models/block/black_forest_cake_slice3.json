@@ -1,0 +1,22 @@
+{
+    "textures": {
+        "particle": "portalcubed:block/black_forest_cake_side",
+        "bottom": "portalcubed:block/black_forest_cake_bottom",
+        "top": "portalcubed:block/black_forest_cake_top",
+        "side": "portalcubed:block/black_forest_cake_side",
+        "inside": "portalcubed:block/black_forest_cake_inner"
+    },
+    "elements": [
+        {   "from": [ 7, 0, 1 ],
+            "to": [ 15, 8, 15 ],
+            "faces": {
+                "down":  { "texture": "#bottom", "cullface": "down" },
+                "up":    { "texture": "#top" },
+                "north": { "texture": "#side" },
+                "south": { "texture": "#side" },
+                "west":  { "texture": "#inside" },
+                "east":  { "texture": "#side" }
+            }
+        }
+    ]
+}

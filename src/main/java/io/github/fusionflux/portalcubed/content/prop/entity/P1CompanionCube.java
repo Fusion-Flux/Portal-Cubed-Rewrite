@@ -1,4 +1,6 @@
-package io.github.fusionflux.portalcubed.content.prop;
+package io.github.fusionflux.portalcubed.content.prop.entity;
+
+import io.github.fusionflux.portalcubed.content.prop.PropType;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;

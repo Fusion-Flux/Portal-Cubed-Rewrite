@@ -14,7 +14,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.construct.set.MonoConstructSet;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
@@ -45,15 +45,12 @@ public class PortalCubed implements ModInitializer {
 	public void onInitialize(ModContainer mod) {
 		ModMetadata metadata = mod.metadata();
 		LOGGER.info("Portal Cubed (" + metadata.version() + ") initializing...");
-		Util.getRandomSafe(List.copyOf(metadata.contributors()), RandomSource.create()).ifPresent(contributor -> {
-			LOGGER.info("I loved the part when " + contributor.name() + " said \"It's Portaln' time\" and portal'd all over the place");
-		});
+		LOGGER.info(MOTL.get());
 
 		PortalCubedBlocks.init();
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
-		PropType.init();
 		PortalCubedSerializers.init();
 
 		PortalCubedSounds.init();
@@ -74,6 +71,8 @@ public class PortalCubed implements ModInitializer {
 				.getOrThrow(false, System.out::println);
 		String string = new GsonBuilder().setPrettyPrinting().create().toJson(json);
 		System.out.println(string);
+
+		LOGGER.info("Portal Cubed (" + metadata.version() + ") initialized!");
 	}
 
 	public static ResourceLocation id(String path) {

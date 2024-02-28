@@ -16,6 +16,7 @@ public interface BlockBuilder<T extends Block> {
 
 	/**
 	 * Set the settings of this block to the given value.
+	 * Settings are copied, it is safe to re-use the same instance.
 	 */
 	BlockBuilder<T> settings(QuiltBlockSettings settings);
 
