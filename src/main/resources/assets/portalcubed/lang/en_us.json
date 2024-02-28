@@ -24,6 +24,9 @@
   "container.portalcubed.construction_cannon.tab.settings": "Settings",
 
 
+  "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
+
+
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
   "subtitles.portalcubed.gel_blob_splash": "Gel blob splashes",

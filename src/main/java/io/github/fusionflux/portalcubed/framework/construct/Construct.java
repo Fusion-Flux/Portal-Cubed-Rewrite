@@ -95,6 +95,10 @@ public class Construct {
 			return this.put(pos, new BlockInfo(state));
 		}
 
+		public Builder put(BlockPos pos, BlockState state, @Nullable CompoundTag nbt) {
+			return this.put(pos, new BlockInfo(state, nbt));
+		}
+
 		public Builder put(BlockPos pos, BlockInfo info) {
 			if (this.blocks.put(pos, info) != null) {
 				throw new IllegalArgumentException("Duplicate pos: " + pos);
@@ -128,8 +132,8 @@ public class Construct {
 				byState, fullCodec, info -> info.maybeNbt.isPresent()
 		);
 
-		public BlockInfo(BlockState state, CompoundTag nbt) {
-			this(state, Optional.of(nbt));
+		public BlockInfo(BlockState state, @Nullable CompoundTag nbt) {
+			this(state, Optional.ofNullable(nbt));
 		}
 
 		public BlockInfo(BlockState state) {
