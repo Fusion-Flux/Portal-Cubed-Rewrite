@@ -19,6 +19,9 @@
 
 
   "container.portalcubed.construction_cannon": "Construction Cannon",
+  "container.portalcubed.construction_cannon.tab.materials": "Materials",
+  "container.portalcubed.construction_cannon.tab.constructs": "Constructs",
+  "container.portalcubed.construction_cannon.tab.settings": "Settings",
 
 
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",

@@ -1,6 +1,8 @@
 package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
+import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
@@ -11,8 +13,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class PortalCubedTabs {
@@ -36,17 +40,27 @@ public class PortalCubedTabs {
 		});
 	});
 
-	public static final ResourceKey<CreativeModeTab> PORTAL_BLOCKS = create("portal_blocks", builder -> {
-		builder.icon(() -> new ItemStack(Blocks.DIRT));
-		builder.displayItems((params, output) -> {
-			output.accept(Blocks.DIRT);
-		});
-	});
+	// public static final ResourceKey<CreativeModeTab> PORTAL_BLOCKS = create("portal_blocks", builder -> {
+	//	builder.icon(() -> {
+	//		Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE);
+	//		Block block = blocks.get(PanelPart.HALF);
+	//		return new ItemStack(block);
+	//	});
+	//	builder.displayItems((params, output) -> {
+	//		output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+	//		for (PanelMaterial material : PanelMaterial.values()) {
+	//			Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
+	//			Block base = blocks.get(PanelPart.SINGLE);
+	//			output.accept(base);
+	//		}
+	//	});
+	// });
 
 	public static final ResourceKey<CreativeModeTab> PROPS_AND_ITEMS = create("props_and_items", builder -> {
 		builder.icon(() -> new ItemStack(PortalCubedItems.HAMMER));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
+			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
 
 			// ----- portal guns -----
