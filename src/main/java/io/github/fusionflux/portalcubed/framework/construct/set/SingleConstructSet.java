@@ -13,16 +13,16 @@ import net.minecraft.world.item.Item;
 /**
  * A construct that always places the same structure.
  */
-public class MonoConstructSet extends ConstructSet {
-	public static Codec<MonoConstructSet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+public class SingleConstructSet extends ConstructSet {
+	public static Codec<SingleConstructSet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			TagKey.hashedCodec(Registries.ITEM).fieldOf("material").forGetter(c -> c.material),
 			Construct.CODEC.fieldOf("construct").forGetter(c -> c.construct)
-	).apply(instance, MonoConstructSet::new));
+	).apply(instance, SingleConstructSet::new));
 
 	private final Construct construct;
 
-	public MonoConstructSet(TagKey<Item> material, Construct construct) {
-		super(Type.MONO, material);
+	public SingleConstructSet(TagKey<Item> material, Construct construct) {
+		super(Type.SINGLE, material);
 		this.construct = construct;
 	}
 

@@ -10,20 +10,20 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 /**
- * A construct set that places one construct on Y axis faces, and another one otherwise.
+ * A construct set that places one of two constructs based on the axis of the clicked face.
  */
-public class BiConstructSet extends ConstructSet {
-	public static Codec<BiConstructSet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+public class DualFaceConstructSet extends ConstructSet {
+	public static Codec<DualFaceConstructSet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			TagKey.hashedCodec(Registries.ITEM).fieldOf("material").forGetter(c -> c.material),
 			Construct.CODEC.fieldOf("horizontal").forGetter(c -> c.horizontal),
 			Construct.CODEC.fieldOf("vertical").forGetter(c -> c.vertical)
-	).apply(instance, BiConstructSet::new));
+	).apply(instance, DualFaceConstructSet::new));
 
 	private final Construct horizontal;
 	private final Construct vertical;
 
-	public BiConstructSet(TagKey<Item> material, Construct horizontal, Construct vertical) {
-		super(Type.BI, material);
+	public DualFaceConstructSet(TagKey<Item> material, Construct horizontal, Construct vertical) {
+		super(Type.DUAL_FACE, material);
 		this.horizontal = horizontal;
 		this.vertical = vertical;
 	}

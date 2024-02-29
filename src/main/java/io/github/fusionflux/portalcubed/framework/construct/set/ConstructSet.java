@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -40,16 +41,17 @@ public abstract class ConstructSet {
 	}
 
 	public enum Type implements StringRepresentable {
-		MONO("monodirectional", () -> MonoConstructSet.CODEC),
-		BI("bidirectional", () -> BiConstructSet.CODEC);
+		SINGLE(() -> SingleConstructSet.CODEC),
+		DUAL_FACE(() -> DualFaceConstructSet.CODEC),
+		DUAL_FACING(() -> DualFacingConstructSet.CODEC);
 
 		public static Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
 
 		private final String name;
 		private final Supplier<Codec<? extends ConstructSet>> supplier;
 
-		Type(String name, Supplier<Codec<? extends ConstructSet>> supplier) {
-			this.name = name;
+		Type(Supplier<Codec<? extends ConstructSet>> supplier) {
+			this.name = this.name().toLowerCase(Locale.ROOT);
 			this.supplier = supplier;
 		}
 

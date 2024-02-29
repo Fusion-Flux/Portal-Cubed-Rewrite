@@ -45,7 +45,7 @@ import java.util.function.Function;
 
 public class ConstructManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloader {
 	public static final ResourceLocation ID = PortalCubed.id("constructs");
-	public static final String DIR = "cannon_constructs";
+	public static final String DIR = "construct_sets";
 
 	private static final Logger logger = LoggerFactory.getLogger(ConstructManager.class);
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
