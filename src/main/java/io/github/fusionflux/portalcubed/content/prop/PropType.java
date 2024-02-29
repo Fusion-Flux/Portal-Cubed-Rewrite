@@ -53,7 +53,7 @@ public enum PropType {
 	THE_TACO(new TacoDimensions(), SoundType.PORTAL_1_CUBE);
 
 	public static final Object2ObjectOpenHashMap<PropType, Item> ITEMS = new Object2ObjectOpenHashMap<>();
--
+
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;
 	public final EntityDimensions dimensions;
