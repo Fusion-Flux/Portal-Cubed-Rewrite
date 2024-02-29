@@ -1,0 +1,29 @@
+{
+  "material": "#portalcubed:dirty_portal_1_metal_panel_materials",
+  "type": "dual_face",
+  "vertical": {
+    "0,0,0": "portalcubed:dirty_portal_1_metal_2x1_panel_bottom",
+    "0,2,0": "portalcubed:dirty_portal_1_metal_2x1_panel_top",
+    "0,1,0": "portalcubed:dirty_portal_1_metal_2x1_panel_joiner"
+  },
+  "horizontal": {
+    "0,0,0": {
+      "Properties": {
+        "axis": "z"
+      },
+      "Name": "portalcubed:dirty_portal_1_metal_2x1_panel_top"
+    },
+    "0,0,1": {
+      "Properties": {
+        "axis": "z"
+      },
+      "Name": "portalcubed:dirty_portal_1_metal_2x1_panel_joiner"
+    },
+    "0,0,2": {
+      "Properties": {
+        "axis": "z"
+      },
+      "Name": "portalcubed:dirty_portal_1_metal_2x1_panel_bottom"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "material": "#portalcubed:white_panel_materials",
+  "type": "single",
+  "construct": {
+     "0,0,0": "portalcubed:white_half_panel"
+  }
+}

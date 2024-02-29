@@ -1,0 +1,22 @@
+{
+  "material": "#portalcubed:white_panel_materials",
+  "type": "dual_face",
+  "vertical": {
+    "0,0,0": "portalcubed:white_2x1_panel_bottom",
+    "0,1,0": "portalcubed:white_2x1_panel_top"
+  },
+  "horizontal": {
+    "0,0,0": {
+      "Properties": {
+        "axis": "z"
+      },
+      "Name": "portalcubed:white_2x1_panel_top"
+    },
+    "0,0,1": {
+      "Properties": {
+        "axis": "z"
+      },
+      "Name": "portalcubed:white_2x1_panel_bottom"
+    }
+  }
+}
