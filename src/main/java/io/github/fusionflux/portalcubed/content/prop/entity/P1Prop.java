@@ -1,6 +1,7 @@
-package io.github.fusionflux.portalcubed.content.prop;
+package io.github.fusionflux.portalcubed.content.prop.entity;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntitySelector;

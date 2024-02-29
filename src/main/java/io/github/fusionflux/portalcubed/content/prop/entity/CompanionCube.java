@@ -1,8 +1,10 @@
-package io.github.fusionflux.portalcubed.content.prop;
+package io.github.fusionflux.portalcubed.content.prop.entity;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.content.prop.PropSoundInstance;
+import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.EntityType;

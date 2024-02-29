@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;

@@ -1,14 +1,23 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
-import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
-
 import java.util.Locale;
 import java.util.Optional;
 
-import org.apache.commons.lang3.function.TriFunction;
+import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+
+import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
+import io.github.fusionflux.portalcubed.content.prop.entity.Chair;
+import io.github.fusionflux.portalcubed.content.prop.entity.CompanionCube;
+import io.github.fusionflux.portalcubed.content.prop.entity.P1CompanionCube;
+import io.github.fusionflux.portalcubed.content.prop.entity.P1Prop;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
+
+import io.github.fusionflux.portalcubed.content.prop.entity.Radio;
+
 import org.apache.commons.lang3.stream.IntStreams;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,10 +26,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.entity.EntityType.EntityFactory;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DispenserBlock;
 
 public enum PropType {
 	BEANS                  (EntityDimensions.fixed(.25f, .375f), SoundType.METAL),
@@ -41,13 +48,12 @@ public enum PropType {
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, true, SoundType.CUBE),
-	THE_TACO(new TacoDimensions(), SoundType.GENERIC);
+	THE_TACO(new TacoDimensions(), SoundType.PORTAL_1_CUBE);
 
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;
 	public final EntityDimensions dimensions;
-	public final EntityType<Prop> entityType;
-	public final Item item;
+	public final EntityFactory<Prop> factory;
 	public final boolean hasDirtyVariant;
 	public final SoundType soundType;
 
@@ -59,33 +65,26 @@ public enum PropType {
 		this(variants, randomVariantOnSpawn, dimensions, Prop::new, false, soundType);
 	}
 
-	PropType(int variants, boolean randomVariantOnSpawn, EntityDimensions dimensions, TriFunction<PropType, EntityType<Prop>, Level, Prop> factory, boolean hasDirtyVariant, SoundType soundType) {
+	PropType(int variants, boolean randomVariantOnSpawn, EntityDimensions dimensions, PropFactory factory, boolean hasDirtyVariant, SoundType soundType) {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnSpawn = randomVariantOnSpawn;
 		this.dimensions = dimensions;
+		this.factory = (entityType, level) -> factory.create(this, entityType, level);
 		this.hasDirtyVariant = hasDirtyVariant;
 		this.soundType = soundType;
-
-		var id = toString();
-		this.entityType = REGISTRAR.entities.<Prop>create(id, (entityType, level) -> factory.apply(this, entityType, level))
-			.category(MobCategory.MISC)
-			.size(dimensions)
-			.renderer(() -> () -> PropRenderer::new)
-			.build();
-		this.item = REGISTRAR.items.simple(id, properties -> new PropItem(properties, this));
-		DispenserBlock.registerBehavior(item, new PropItem.DispenseBehavior());
-	}
-
-	public static void init() {
 	}
 
 	public boolean spawn(ServerLevel level, BlockPos pos, double yOffset, int variant, boolean randomizeVariant, Optional<Component> customName) {
-		var entity = entityType.create(level);
+		EntityType<Prop> entityType = PortalCubedEntities.PROPS.get(this);
+		Prop entity = entityType.create(level);
+		if (entity == null)
+			return false;
+
 		entity.setVariantFromItem(variant);
 		if (randomizeVariant && randomVariantOnSpawn)
 			variant = level.random.nextInt(variants.length - 1) + 1;
 		entity.setVariant(variant);
-		customName.ifPresent(name -> entity.setCustomName(name));
+		customName.ifPresent(entity::setCustomName);
 		entity.setPos(pos.getX() + .5, pos.getY() + yOffset, pos.getZ() + .5);
 		return level.addFreshEntity(entity);
 	}
@@ -95,7 +94,7 @@ public enum PropType {
 		return name().toLowerCase(Locale.ROOT);
 	}
 
-	enum SoundType {
+	public enum SoundType {
 		GENERIC,
 		METAL,
 		CUBE,
@@ -105,7 +104,7 @@ public enum PropType {
 		public final SoundEvent impactSound;
 
 		SoundType() {
-			var id = PortalCubed.id(toString() + "_impact");
+			var id = PortalCubed.id(this + "_impact");
 			this.impactSound = Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
 		}
 
@@ -113,5 +112,9 @@ public enum PropType {
 		public String toString() {
 			return name().toLowerCase(Locale.ROOT);
 		}
+	}
+
+	public interface PropFactory {
+		Prop create(PropType type, EntityType<Prop> entityType, Level level);
 	}
 }

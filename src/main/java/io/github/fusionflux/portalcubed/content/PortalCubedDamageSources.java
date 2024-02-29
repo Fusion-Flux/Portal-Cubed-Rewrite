@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.prop.P1Prop;
+import io.github.fusionflux.portalcubed.content.prop.entity.P1Prop;
 import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;

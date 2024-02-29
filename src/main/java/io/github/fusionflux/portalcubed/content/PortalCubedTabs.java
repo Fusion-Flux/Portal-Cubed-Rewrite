@@ -27,12 +27,12 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
-			output.accept(PropType.PORTAL_1_STORAGE_CUBE.item);
-			output.accept(PropType.PORTAL_1_COMPANION_CUBE.item);
-			output.accept(PropType.STORAGE_CUBE.item);
-			output.accept(PropType.COMPANION_CUBE.item);
-			output.accept(PropType.OLD_AP_CUBE.item);
-			output.accept(PropType.RADIO.item);
+			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
+			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
+			addProp(output, PropType.STORAGE_CUBE);
+			addProp(output, PropType.COMPANION_CUBE);
+			addProp(output, PropType.OLD_AP_CUBE);
+			addProp(output, PropType.RADIO);
 		});
 	});
 
@@ -40,7 +40,6 @@ public class PortalCubedTabs {
 		builder.icon(() -> new ItemStack(Blocks.DIRT));
 		builder.displayItems((params, output) -> {
 			output.accept(Blocks.DIRT);
-
 		});
 	});
 
@@ -48,6 +47,10 @@ public class PortalCubedTabs {
 		builder.icon(() -> new ItemStack(PortalCubedItems.HAMMER));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
+			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
+
+			// ----- portal guns -----
+
 			output.accept(PortalCubedItems.PORTAL_GUN);
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
@@ -69,59 +72,83 @@ public class PortalCubedTabs {
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
 			addVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
-			output.accept(PropType.PORTAL_1_STORAGE_CUBE.item);
-			output.accept(PropType.PORTAL_1_COMPANION_CUBE.item);
-			addVariant(output, PropType.PORTAL_1_COMPANION_CUBE.item, 1);
-			output.accept(PropType.STORAGE_CUBE.item);
-			addVariant(output, PropType.STORAGE_CUBE.item, 2);
-			output.accept(PropType.COMPANION_CUBE.item);
-			addVariant(output, PropType.COMPANION_CUBE.item, 2);
-			output.accept(PropType.OLD_AP_CUBE.item);
-			output.accept(PropType.RADIO.item);
-			addVariant(output, PropType.RADIO.item, 1);
-			addVariant(output, PropType.RADIO.item, 2);
-			addVariant(output, PropType.RADIO.item, 3);
-			addVariant(output, PropType.RADIO.item, 4);
-			output.accept(PropType.MUG.item);
-			addVariant(output, PropType.MUG.item, 1);
-			addVariant(output, PropType.MUG.item, 2);
-			addVariant(output, PropType.MUG.item, 3);
-			addVariant(output, PropType.MUG.item, 4);
-			addVariant(output, PropType.MUG.item, 5);
-			addVariant(output, PropType.MUG.item, 6);
-			addVariant(output, PropType.MUG.item, 7);
-			output.accept(PropType.CHAIR.item);
-			output.accept(PropType.COMPUTER.item);
-			output.accept(PropType.CLIPBOARD.item);
-			addVariant(output, PropType.CLIPBOARD.item, 1);
-			addVariant(output, PropType.CLIPBOARD.item, 2);
-			addVariant(output, PropType.CLIPBOARD.item, 3);
-			addVariant(output, PropType.CLIPBOARD.item, 4);
-			addVariant(output, PropType.CLIPBOARD.item, 5);
-			addVariant(output, PropType.CLIPBOARD.item, 6);
-			output.accept(PropType.HOOPY.item);
-			output.accept(PropType.BEANS.item);
-			output.accept(PropType.JUG.item);
-			output.accept(PropType.OIL_DRUM.item);
-			addVariant(output, PropType.OIL_DRUM.item, 1);
-			addVariant(output, PropType.OIL_DRUM.item, 2);
-			addVariant(output, PropType.OIL_DRUM.item, 3);
-			output.accept(PropType.COOKING_POT.item);
-			output.accept(PropType.LIL_PINEAPPLE.item);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 1);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 2);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 3);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 4);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 5);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 6);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 7);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 8);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 9);
-			addVariant(output, PropType.LIL_PINEAPPLE.item, 10);
-			output.accept(PropType.THE_TACO.item);
 
+			// ----- props -----
+
+			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
+
+			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
+			addVariant(output, PropType.PORTAL_1_COMPANION_CUBE, 1);
+
+			addProp(output, PropType.STORAGE_CUBE);
+			addVariant(output, PropType.STORAGE_CUBE, 2);
+
+			addProp(output, PropType.COMPANION_CUBE);
+			addVariant(output, PropType.COMPANION_CUBE, 2);
+
+			addProp(output, PropType.OLD_AP_CUBE);
+
+			addProp(output, PropType.RADIO);
+
+			addVariant(output, PropType.RADIO, 1);
+			addVariant(output, PropType.RADIO, 2);
+			addVariant(output, PropType.RADIO, 3);
+			addVariant(output, PropType.RADIO, 4);
+
+			addProp(output, PropType.MUG);
+			addVariant(output, PropType.MUG, 1);
+			addVariant(output, PropType.MUG, 2);
+			addVariant(output, PropType.MUG, 3);
+			addVariant(output, PropType.MUG, 4);
+			addVariant(output, PropType.MUG, 5);
+			addVariant(output, PropType.MUG, 6);
+			addVariant(output, PropType.MUG, 7);
+
+			addProp(output, PropType.CHAIR);
+			addProp(output, PropType.COMPUTER);
+
+			addProp(output, PropType.CLIPBOARD);
+			addVariant(output, PropType.CLIPBOARD, 1);
+			addVariant(output, PropType.CLIPBOARD, 2);
+			addVariant(output, PropType.CLIPBOARD, 3);
+			addVariant(output, PropType.CLIPBOARD, 4);
+			addVariant(output, PropType.CLIPBOARD, 5);
+			addVariant(output, PropType.CLIPBOARD, 6);
+
+			addProp(output, PropType.HOOPY);
+			addProp(output, PropType.BEANS);
+			addProp(output, PropType.JUG);
+
+			addProp(output, PropType.OIL_DRUM);
+			addVariant(output, PropType.OIL_DRUM, 1);
+			addVariant(output, PropType.OIL_DRUM, 2);
+			addVariant(output, PropType.OIL_DRUM, 3);
+
+			addProp(output, PropType.COOKING_POT);
+
+			addProp(output, PropType.LIL_PINEAPPLE);
+			addVariant(output, PropType.LIL_PINEAPPLE, 1);
+			addVariant(output, PropType.LIL_PINEAPPLE, 2);
+			addVariant(output, PropType.LIL_PINEAPPLE, 3);
+			addVariant(output, PropType.LIL_PINEAPPLE, 4);
+			addVariant(output, PropType.LIL_PINEAPPLE, 5);
+			addVariant(output, PropType.LIL_PINEAPPLE, 6);
+			addVariant(output, PropType.LIL_PINEAPPLE, 7);
+			addVariant(output, PropType.LIL_PINEAPPLE, 8);
+			addVariant(output, PropType.LIL_PINEAPPLE, 9);
+			addVariant(output, PropType.LIL_PINEAPPLE, 10);
+
+			addProp(output, PropType.THE_TACO);
 		});
 	});
+
+	private static void addProp(CreativeModeTab.Output output, PropType type) {
+		output.accept(PortalCubedItems.PROPS.get(type));
+	}
+
+	private static void addVariant(CreativeModeTab.Output output, PropType type, int cmd) {
+		addVariant(output, PortalCubedItems.PROPS.get(type), cmd);
+	}
 
 	private static void addVariant(CreativeModeTab.Output output, Item item, int cmd) {
 		ItemStack stack = new ItemStack(item);

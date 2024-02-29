@@ -9,7 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
-import io.github.fusionflux.portalcubed.content.prop.Prop;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
