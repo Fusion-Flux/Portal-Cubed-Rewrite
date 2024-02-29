@@ -32,4 +32,9 @@ public class DualFacingConstructSet extends ConstructSet {
 	public Construct choose(ConstructPlacementContext ctx) {
 		return ctx.placerFacing().getAxis().isVertical() ? this.vertical : this.horizontal;
 	}
+
+	@Override
+	public Construct getDefault() {
+		return this.horizontal;
+	}
 }

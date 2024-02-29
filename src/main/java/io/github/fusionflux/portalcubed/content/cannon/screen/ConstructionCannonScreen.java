@@ -47,7 +47,7 @@ public class ConstructionCannonScreen extends Screen {
 		LinearLayout root = LinearLayout.horizontal();
 		root.defaultCellSetting().paddingHorizontal(10).alignVerticallyMiddle();
 
-		ConstructPreviewWidget preview = root.addChild(new ConstructPreviewWidget(120));
+		root.addChild(new ConstructPreviewWidget(120, this.settings));
 
 		LinearLayout rightSide = root.addChild(LinearLayout.vertical());
 		rightSide.defaultCellSetting().alignHorizontallyCenter().paddingVertical(5);

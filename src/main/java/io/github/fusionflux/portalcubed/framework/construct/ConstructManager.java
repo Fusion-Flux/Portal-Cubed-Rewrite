@@ -139,6 +139,11 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		return this.constructSets.get(id);
 	}
 
+	@Nullable
+	public ResourceLocation getId(ConstructSet set) {
+		return this.constructSets.inverse().get(set);
+	}
+
 	public Optional<ConstructSet> maybeGetConstructSet(ResourceLocation id) {
 		return Optional.ofNullable(this.getConstructSet(id));
 	}

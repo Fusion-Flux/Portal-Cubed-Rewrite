@@ -45,6 +45,10 @@ public record CannonSettings(
 		return new CannonSettings(Optional.of(material), this.construct, this.mode, this.selectedPos);
 	}
 
+	public CannonSettings withConstruct(Optional<ResourceLocation> construct) {
+		return new CannonSettings(this.material, construct, this.mode, this.selectedPos);
+	}
+
 	public record Configured(TagKey<Item> material, ResourceLocation construct, PlacementMode mode, @Nullable BlockPos selected) {
 	}
 }

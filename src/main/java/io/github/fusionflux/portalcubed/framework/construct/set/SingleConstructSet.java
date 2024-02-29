@@ -30,4 +30,9 @@ public class SingleConstructSet extends ConstructSet {
 	public Construct choose(ConstructPlacementContext ctx) {
 		return this.construct;
 	}
+
+	@Override
+	public Construct getDefault() {
+		return this.construct;
+	}
 }

@@ -32,4 +32,9 @@ public class DualFaceConstructSet extends ConstructSet {
 	public Construct choose(ConstructPlacementContext ctx) {
 		return ctx.clickedFace().getAxis().isVertical() ? this.vertical : this.horizontal;
 	}
+
+	@Override
+	public Construct getDefault() {
+		return this.horizontal;
+	}
 }

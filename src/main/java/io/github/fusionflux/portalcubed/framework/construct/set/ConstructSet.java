@@ -34,6 +34,8 @@ public abstract class ConstructSet {
 
 	public abstract Construct choose(ConstructPlacementContext ctx);
 
+	public abstract Construct getDefault();
+
 	public record Holder(ResourceLocation id, ConstructSet constructSet) {
 		public Holder(Map.Entry<ResourceLocation, ConstructSet> entry) {
 			this(entry.getKey(), entry.getValue());
