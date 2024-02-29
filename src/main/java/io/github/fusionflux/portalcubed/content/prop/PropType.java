@@ -50,10 +50,10 @@ public enum PropType {
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, true, SoundType.CUBE),
-	THE_TACO(new TacoDimensions(), SoundType.GENERIC);
+	THE_TACO(new TacoDimensions(), SoundType.PORTAL_1_CUBE);
 
 	public static final Object2ObjectOpenHashMap<PropType, Item> ITEMS = new Object2ObjectOpenHashMap<>();
-
+-
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;
 	public final EntityDimensions dimensions;
