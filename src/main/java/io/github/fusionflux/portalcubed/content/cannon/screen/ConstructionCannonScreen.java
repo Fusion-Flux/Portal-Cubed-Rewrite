@@ -1,9 +1,11 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.MaterialsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.ConstructPreviewWidget;
+import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
@@ -14,6 +16,7 @@ import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -74,8 +77,8 @@ public class ConstructionCannonScreen extends Screen {
 			case SETTINGS -> {}
 		}
 
-		// cannon view, temporary placeholder
-		rightSide.addChild(new ConstructPreviewWidget(60));
+		// cannon view
+		rightSide.addChild(new CannonDisplayWidget(140, 60, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON)));
 
 		// first arrangement, set bounds
 		root.arrangeElements();
