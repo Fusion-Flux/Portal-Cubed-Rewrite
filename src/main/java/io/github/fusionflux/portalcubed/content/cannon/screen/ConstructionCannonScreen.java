@@ -5,12 +5,17 @@ import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.MaterialsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.ConstructPreviewWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.TabWidget;
+import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ImageWidget;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Collections;
 import java.util.Locale;
 
 public class ConstructionCannonScreen extends Screen {
@@ -36,47 +41,53 @@ public class ConstructionCannonScreen extends Screen {
 	@Override
 	protected void init() {
 		super.init();
+		LinearLayout root = LinearLayout.horizontal();
+		root.defaultCellSetting().paddingHorizontal(10).alignVerticallyMiddle();
 
-		ConstructPreviewWidget preview = this.addRenderableWidget(new ConstructPreviewWidget(
-				0, 0, this.width / 2, this.height
-		));
+		ConstructPreviewWidget preview = root.addChild(new ConstructPreviewWidget(120));
 
+		LinearLayout rightSide = root.addChild(LinearLayout.vertical());
+		rightSide.defaultCellSetting().alignHorizontallyCenter().paddingVertical(5);
+
+		PanelLayout menu = rightSide.addChild(new PanelLayout());
+
+		LinearLayout tabs = LinearLayout.horizontal();
 		for (int i = 0; i < Tab.values().length; i++) {
 			Tab tab = Tab.values()[i];
-			int x = this.width / 2; // initial
-			x += i * TabWidget.WIDTH; // offset by index
-			x += i; // 1 buffer pixel between each
-			TabWidget button = new TabWidget(
-					x, 0, tab, () -> this.switchToTab(tab)
-			);
+			TabWidget button = new TabWidget(tab, () -> this.switchToTab(tab));
 			if (tab == this.tab) {
 				button.select();
 			}
-			this.addRenderableWidget(button);
+			tabs.addChild(button);
+			tabs.addChild(SpacerElement.width(1)); // 1-pixel buffer
 		}
 
+		menu.addChild(TAB_TITLE_X_OFFSET, TAB_TITLE_Y_OFFSET, new StringWidget(this.tab.title, this.font))
+				.setColor(4210752); // magic number from InventoryScreen
+		menu.addChild(0, BACKGROUND_Y_OFFSET, ImageWidget.texture(WIDTH, HEIGHT, BACKGROUND, 256, 256));
+		// add tabs after so they're on top
+		menu.addChild(0, 0, tabs);
+
 		switch (this.tab) {
-			case MATERIALS -> MaterialsTab.init(this.width / 2, BACKGROUND_Y_OFFSET, this.settings, this::addRenderableWidget);
+			case MATERIALS -> MaterialsTab.init(this.settings, menu);
 			case CONSTRUCTS -> {}
 			case SETTINGS -> {}
 		}
-	}
 
-	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.render(graphics, mouseX, mouseY, delta);
-		// magic from InventoryScreen
-		graphics.drawString(
-				this.font, this.tab.title,
-				(this.width / 2) + TAB_TITLE_X_OFFSET, TAB_TITLE_Y_OFFSET,
-				4210752, false
-		);
-	}
+		// cannon view, temporary placeholder
+		rightSide.addChild(new ConstructPreviewWidget(60));
 
-	@Override
-	public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.renderBackground(graphics, mouseX, mouseY, delta);
-		graphics.blit(BACKGROUND, this.width / 2, BACKGROUND_Y_OFFSET, 0, 0, 256, 256);
+		// first arrangement, set bounds
+		root.arrangeElements();
+		// center whole thing
+		int xOff = (this.width - root.getWidth()) / 2;
+		int yOff = (this.height - root.getHeight()) / 2;
+		root.setPosition(xOff, yOff);
+		// second arrangement, apply new position
+		root.arrangeElements();
+		root.visitWidgets(this::addRenderableWidget);
+		// reverse order of children so they iterate highest to lowest
+		Collections.reverse(this.children());
 	}
 
 	@Override

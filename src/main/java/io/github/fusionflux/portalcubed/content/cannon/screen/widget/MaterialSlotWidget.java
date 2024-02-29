@@ -29,6 +29,10 @@ public class MaterialSlotWidget extends TexturedStickyButton {
 	private final CannonDataHolder data;
 	private final ItemStack rendered;
 
+	public MaterialSlotWidget(TagKey<Item> tag, CannonDataHolder data, Runnable onSelect) {
+		this(tag, data, 0, 0, onSelect);
+	}
+
 	public MaterialSlotWidget(TagKey<Item> tag, CannonDataHolder data, int x, int y, Runnable onSelect) {
 		super(x, y, SIZE, SIZE, translateTag(tag.location()), TEXTURES, onSelect);
 		this.tag = tag;

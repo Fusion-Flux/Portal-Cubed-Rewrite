@@ -8,8 +8,8 @@ public class TabWidget extends TexturedStickyButton {
 	public static final int WIDTH = 58;
 	public static final int HEIGHT = 32;
 
-	public TabWidget(int x, int y, ConstructionCannonScreen.Tab tab, Runnable onSelect) {
-		super(x, y, WIDTH, HEIGHT, tab.title, tab.textures, onSelect);
+	public TabWidget(ConstructionCannonScreen.Tab tab, Runnable onSelect) {
+		super(0, 0, WIDTH, HEIGHT, tab.title, tab.textures, onSelect);
 	}
 
 	@Override

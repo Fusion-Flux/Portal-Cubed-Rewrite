@@ -13,8 +13,8 @@ public class ConstructPreviewWidget extends AbstractWidget {
 
 	private Construct construct;
 
-	public ConstructPreviewWidget(int x, int y, int width, int height) {
-		super(x, y, width, height, MESSAGE);
+	public ConstructPreviewWidget(int size) {
+		super(0, 0, size, size, MESSAGE);
 	}
 
 	public void setConstruct(Construct construct) {
