@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.framework;
+package io.github.fusionflux.portalcubed.framework.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;

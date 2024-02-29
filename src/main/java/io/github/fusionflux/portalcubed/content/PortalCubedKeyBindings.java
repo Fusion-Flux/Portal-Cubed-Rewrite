@@ -33,11 +33,8 @@ public class PortalCubedKeyBindings {
 
 		ClientTickEvents.END.register(client -> {
 			for (int i = 0; i < ALL.length; i++) {
-				var keyBinding = ALL[i];
-				if (client.player != null && mappings.get(i).consumeClick()) {
-					keyBinding.onPress.accept(client.player);
-					PortalCubedPackets.sendToServer(new KeyPressPacket(keyBinding));
-				}
+				if (client.player != null && mappings.get(i).consumeClick())
+					PortalCubedPackets.sendToServer(new KeyPressPacket(ALL[i]));
 			}
 		});
 	}
@@ -59,16 +56,14 @@ public class PortalCubedKeyBindings {
 				if (hit != null && hit.getEntity() instanceof Prop prop) {
 					if (prop.hold(player)) {
 						((PlayerExt) player).pc$heldProp(OptionalInt.of(prop.getId()));
-						if (isHoldingPortalGun) player.playSound(PortalCubedSounds.PORTAL_GUN_GRAB);
 						return;
 					}
 				}
 				if (isHoldingPortalGun) player.playSound(PortalCubedSounds.PORTAL_GUN_CANNOT_GRAB);
 			} else {
-				var heldProp = (Prop) level.getEntity(heldPropId.getAsInt());
-				heldProp.drop(player);
+				if (level.getEntity(heldPropId.getAsInt()) instanceof Prop heldProp)
+					heldProp.drop(player);
 				((PlayerExt) player).pc$heldProp(OptionalInt.empty());
-				if (isHoldingPortalGun) player.playSound(PortalCubedSounds.PORTAL_GUN_DROP);
 			}
 		});
 

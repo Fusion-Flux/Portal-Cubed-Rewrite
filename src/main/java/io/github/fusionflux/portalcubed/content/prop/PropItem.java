@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -11,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class PropItem extends Item {
@@ -54,5 +57,19 @@ public class PropItem extends Item {
 		if (variant == 0)
 			return super.getDescriptionId(stack);
 		return String.format("%s.%d", super.getDescriptionId(stack), variant);
+	}
+
+	public static class DispenseBehavior extends DefaultDispenseItemBehavior {
+		@Override
+		protected ItemStack execute(BlockSource pointer, ItemStack stack) {
+			var level = pointer.level();
+			var direction = pointer.state().getValue(DispenserBlock.FACING);
+			var pos = pointer.pos().relative(direction);
+			var state = level.getBlockState(pos);
+			if (!state.getCollisionShape(level, pos).isEmpty())
+				pos = pos.above();
+			((PropItem) stack.getItem()).use(level, pos, direction, stack, null);
+			return stack;
+		}
 	}
 }

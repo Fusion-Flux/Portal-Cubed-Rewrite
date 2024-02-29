@@ -1,9 +1,13 @@
 package io.github.fusionflux.portalcubed.content;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.player.Player;
 
 public class PortalCubedSounds {
 	public static final SoundEvent FLOOR_BUTTON_PRESS = register("floor_button_press");
@@ -24,6 +28,13 @@ public class PortalCubedSounds {
 	public static SoundEvent register(String name) {
 		var id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
+	}
+
+	@ClientOnly
+	public static FollowingSoundInstance createPortalGunHoldLoop(Player player) {
+		var sound = new FollowingSoundInstance(PORTAL_GUN_HOLD_LOOP, player.getSoundSource(), player);
+		sound.setLooping(true);
+		return sound;
 	}
 
 	public static void init() {

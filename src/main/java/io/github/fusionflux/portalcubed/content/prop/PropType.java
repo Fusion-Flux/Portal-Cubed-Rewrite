@@ -1,22 +1,16 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
+
 import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.commons.lang3.function.TriFunction;
 import org.apache.commons.lang3.stream.IntStreams;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.core.dispenser.BlockSource;
-import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -25,7 +19,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 
@@ -50,12 +43,11 @@ public enum PropType {
 	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, true, SoundType.CUBE),
 	THE_TACO(new TacoDimensions(), SoundType.GENERIC);
 
-	public static final Object2ObjectOpenHashMap<PropType, Item> ITEMS = new Object2ObjectOpenHashMap<>();
-
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;
 	public final EntityDimensions dimensions;
 	public final EntityType<Prop> entityType;
+	public final Item item;
 	public final boolean hasDirtyVariant;
 	public final SoundType soundType;
 
@@ -71,42 +63,20 @@ public enum PropType {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnSpawn = randomVariantOnSpawn;
 		this.dimensions = dimensions;
-		this.entityType = QuiltEntityTypeBuilder.<Prop>create(MobCategory.MISC, (entityType, level) -> factory.apply(this, entityType, level)).setDimensions(dimensions).build();
 		this.hasDirtyVariant = hasDirtyVariant;
 		this.soundType = soundType;
+
+		var id = toString();
+		this.entityType = REGISTRAR.entities.<Prop>create(id, (entityType, level) -> factory.apply(this, entityType, level))
+			.category(MobCategory.MISC)
+			.size(dimensions)
+			.renderer(() -> () -> PropRenderer::new)
+			.build();
+		this.item = REGISTRAR.items.simple(id, properties -> new PropItem(properties, this));
+		DispenserBlock.registerBehavior(item, new PropItem.DispenseBehavior());
 	}
 
 	public static void init() {
-		for (var type : values())
-			type.register();
-	}
-
-	public void register() {
-		var id = PortalCubed.id(toString());
-		Registry.register(BuiltInRegistries.ENTITY_TYPE, id, this.entityType);
-		var item = Registry.register(BuiltInRegistries.ITEM, id, new PropItem(new Item.Properties(), this));
-		ITEMS.put(this, item);
-		DispenserBlock.registerBehavior(item, new DefaultDispenseItemBehavior() {
-			@Override
-			protected ItemStack execute(BlockSource pointer, ItemStack stack) {
-				var level = pointer.level();
-				var direction = pointer.state().getValue(DispenserBlock.FACING);
-				var pos = pointer.pos().relative(direction);
-				var state = level.getBlockState(pos);
-				if (!state.getCollisionShape(level, pos).isEmpty())
-					pos = pos.above();
-				item.use(level, pos, direction, stack, null);
-				return stack;
-			}
-		});
-
-		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT)
-			registerClient();
-	}
-
-	@ClientOnly
-	private void registerClient() {
-		EntityRendererRegistry.register(entityType, PropRenderer::new);
 	}
 
 	public boolean spawn(ServerLevel level, BlockPos pos, double yOffset, int variant, boolean randomizeVariant, Optional<Component> customName) {

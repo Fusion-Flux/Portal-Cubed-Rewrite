@@ -1,12 +1,13 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import java.util.EnumMap;
+
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.reloader.ResourceReloaderKeys;
 import org.quiltmc.qsl.resource.loader.api.reloader.SimpleSynchronousResourceReloader;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
@@ -30,7 +31,7 @@ public class PropModels implements SimpleSynchronousResourceReloader {
 	}
 
 	public static final ResourceLocation ID = PortalCubed.id("prop_models");
-	public static final Object2ReferenceOpenHashMap<PropType, ReferenceArrayList<BakedModel>> MODELS = new Object2ReferenceOpenHashMap<>();
+	public static final EnumMap<PropType, ReferenceArrayList<BakedModel>> MODELS = new EnumMap<>(PropType.class);
 
 	@Override
 	public @NotNull ResourceLocation getQuiltId() {
@@ -40,17 +41,17 @@ public class PropModels implements SimpleSynchronousResourceReloader {
 	@Override
 	public void onResourceManagerReload(ResourceManager manager) {
 		var modelManager = Minecraft.getInstance().getModelManager();
-		for (var entry : PropType.ITEMS.entrySet()) {
-			var item = entry.getValue();
+		for (var propType : PropType.values()) {
+			var item = propType.item;
 			var stack = new ItemStack(item);
 			var model = modelManager.getModel(new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(item), "inventory"));
 			var variantModels = new ReferenceArrayList<BakedModel>();
-			for (int variant : entry.getKey().variants) {
+			for (int variant : propType.variants) {
 				stack.getOrCreateTag().putInt("CustomModelData", variant);
 				var variantModel = model.getOverrides().resolve(model, stack, null, null, 42);
 				variantModels.add(variantModel);
 			}
-			MODELS.put(entry.getKey(), variantModels);
+			MODELS.put(propType, variantModels);
 		}
 	}
 }

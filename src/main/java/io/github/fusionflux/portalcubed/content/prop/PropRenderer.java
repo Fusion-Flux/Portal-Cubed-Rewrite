@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class PropRenderer extends EntityRenderer<Prop> {
 	private final ItemRenderer itemRenderer;
-	private final ItemStack FAKE_STACK = new ItemStack(PropType.ITEMS.get(PropType.BEANS));
+	private final ItemStack FAKE_STACK = new ItemStack(PropType.BEANS.item);
 
 	public PropRenderer(Context ctx) {
 		super(ctx);
@@ -33,9 +33,8 @@ public class PropRenderer extends EntityRenderer<Prop> {
 		model.getTransforms().getTransform(ItemDisplayContext.GROUND).apply(false, matrices);
 		matrices.scale(2, 2, 2);
 		matrices.translate(-.5, -.1775, -.5);
-		var consumer = vertexConsumers.getBuffer(Sheets.translucentItemSheet());
 		if (model.isVanillaAdapter()) {
-			((ItemRendererAccessor) itemRenderer).callRenderModelLists(model, ItemStack.EMPTY, light, OverlayTexture.NO_OVERLAY, matrices, consumer);
+			((ItemRendererAccessor) itemRenderer).callRenderModelLists(model, ItemStack.EMPTY, light, OverlayTexture.NO_OVERLAY, matrices, vertexConsumers.getBuffer(Sheets.translucentItemSheet()));
 		} else {
 			matrices.translate(.5, .5, .5);
 			itemRenderer.render(FAKE_STACK, ItemDisplayContext.NONE, false, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, model);
