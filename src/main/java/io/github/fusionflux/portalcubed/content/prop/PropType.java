@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
-
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.content.prop.entity.Chair;
 import io.github.fusionflux.portalcubed.content.prop.entity.CompanionCube;
@@ -27,6 +27,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityType.EntityFactory;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public enum PropType {
@@ -72,6 +73,10 @@ public enum PropType {
 		this.factory = (entityType, level) -> factory.create(this, entityType, level);
 		this.hasDirtyVariant = hasDirtyVariant;
 		this.soundType = soundType;
+	}
+
+	public Item item() {
+		return PortalCubedItems.PROPS.get(this);
 	}
 
 	public boolean spawn(ServerLevel level, BlockPos pos, double yOffset, int variant, boolean randomizeVariant, Optional<Component> customName) {

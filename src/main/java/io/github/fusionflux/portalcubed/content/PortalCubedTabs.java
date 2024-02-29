@@ -143,11 +143,11 @@ public class PortalCubedTabs {
 	});
 
 	private static void addProp(CreativeModeTab.Output output, PropType type) {
-		output.accept(PortalCubedItems.PROPS.get(type));
+		output.accept(type.item());
 	}
 
 	private static void addVariant(CreativeModeTab.Output output, PropType type, int cmd) {
-		addVariant(output, PortalCubedItems.PROPS.get(type), cmd);
+		addVariant(output, type.item(), cmd);
 	}
 
 	private static void addVariant(CreativeModeTab.Output output, Item item, int cmd) {

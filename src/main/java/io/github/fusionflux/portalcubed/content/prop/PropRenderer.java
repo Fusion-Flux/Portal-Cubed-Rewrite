@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class PropRenderer extends EntityRenderer<Prop> {
 	private final ItemRenderer itemRenderer;
-	private final ItemStack FAKE_STACK = new ItemStack(PropType.BEANS.item);
+	private final ItemStack FAKE_STACK = new ItemStack(PropType.BEANS.item());
 
 	public PropRenderer(Context ctx) {
 		super(ctx);

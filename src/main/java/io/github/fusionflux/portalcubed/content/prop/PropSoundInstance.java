@@ -6,7 +6,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 
 public class PropSoundInstance extends FollowingSoundInstance {
-	PropSoundInstance(SoundEvent soundEvent, Prop prop) {
+	public PropSoundInstance(SoundEvent soundEvent, Prop prop) {
 		super(soundEvent, SoundSource.RECORDS, prop);
 		setLooping(true);
 	}

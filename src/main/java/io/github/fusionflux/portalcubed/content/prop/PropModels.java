@@ -42,7 +42,7 @@ public class PropModels implements SimpleSynchronousResourceReloader {
 	public void onResourceManagerReload(ResourceManager manager) {
 		var modelManager = Minecraft.getInstance().getModelManager();
 		for (var propType : PropType.values()) {
-			var item = propType.item;
+			var item = propType.item();
 			var stack = new ItemStack(item);
 			var model = modelManager.getModel(new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(item), "inventory"));
 			var variantModels = new ReferenceArrayList<BakedModel>();
