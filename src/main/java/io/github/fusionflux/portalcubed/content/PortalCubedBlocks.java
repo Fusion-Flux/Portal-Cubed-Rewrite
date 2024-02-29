@@ -68,10 +68,11 @@ public class PortalCubedBlocks {
 					Block base = REGISTRAR.blocks.create(material.name + "_panel")
 							.settings(material.getSettings())
 							.build();
+					blocks.put(PanelPart.SINGLE, base);
 
 					for (PanelPart part : material.parts) {
 						if (part == PanelPart.SINGLE)
-							continue;
+							continue; // registered above
 
 						String name = material.name + "_" + part.name;
 						Block block = REGISTRAR.blocks.create(name, part::createBlock)
