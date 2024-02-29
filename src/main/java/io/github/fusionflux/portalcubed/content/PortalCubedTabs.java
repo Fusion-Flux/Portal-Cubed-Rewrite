@@ -14,7 +14,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -40,21 +39,25 @@ public class PortalCubedTabs {
 		});
 	});
 
-	// public static final ResourceKey<CreativeModeTab> PORTAL_BLOCKS = create("portal_blocks", builder -> {
-	//	builder.icon(() -> {
-	//		Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE);
-	//		Block block = blocks.get(PanelPart.HALF);
-	//		return new ItemStack(block);
-	//	});
-	//	builder.displayItems((params, output) -> {
-	//		output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
-	//		for (PanelMaterial material : PanelMaterial.values()) {
-	//			Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
-	//			Block base = blocks.get(PanelPart.SINGLE);
-	//			output.accept(base);
-	//		}
-	//	});
-	// });
+	 public static final ResourceKey<CreativeModeTab> PORTAL_BLOCKS = create("portal_blocks", builder -> {
+		builder.icon(() -> {
+			Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE);
+			Block block = blocks.get(PanelPart.HALF);
+			return new ItemStack(block);
+		});
+		builder.displayItems((params, output) -> {
+			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+			for (PanelMaterial material : PanelMaterial.values()) {
+				Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
+				for (PanelPart part : PanelPart.values()) {
+					if (blocks.containsKey(part)) {
+						Block block = blocks.get(part);
+						output.accept(block);
+					}
+				}
+			}
+		});
+	 });
 
 	public static final ResourceKey<CreativeModeTab> PROPS_AND_ITEMS = create("props_and_items", builder -> {
 		builder.icon(() -> new ItemStack(PortalCubedItems.HAMMER));
