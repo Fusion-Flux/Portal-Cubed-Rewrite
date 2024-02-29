@@ -41,8 +41,7 @@ public class ConstructPreviewWidget extends AbstractWidget {
 			set.getDefault().getBlocks(Rotation.NONE).forEach((pos, info) -> {
 				matrices.pushPose();
 				matrices.translate(pos.getX(), pos.getY(), pos.getZ());
-				matrices.mulPose(Axis.XP.rotationDegrees(20));
-				matrices.mulPose(Axis.YN.rotationDegrees(30));
+				matrices.mulPose(Axis.YN.rotationDegrees(Minecraft.getInstance().player.tickCount));
 				Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
 						info.state(), matrices, graphics.bufferSource(), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY
 				);
