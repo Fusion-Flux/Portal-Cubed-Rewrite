@@ -243,8 +243,8 @@
   "item.portalcubed.magnesium_nugget": "Magnesium Nugget",
   "item.portalcubed.magnesium_ingot": "Magnesium Ingot",
   "item.portalcubed.raw_magnesium": "Raw Magnesium",
-  "block.portalcubed.raw_magnesium_block": "Raw Magnesium Block",
-  "block.portalcubed.magnesium_block": "Magnesium Block",
+  "block.portalcubed.raw_magnesium_block": "Block of Raw Magnesium",
+  "block.portalcubed.magnesium_block": "Block of Magnesium",
   "block.portalcubed.magnesium_ore": "Magnesium Ore",
   "block.portalcubed.deepslate_magnesium_ore": "Deepslate Magnesium Ore",
 
