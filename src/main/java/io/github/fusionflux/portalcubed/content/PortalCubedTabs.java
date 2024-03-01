@@ -50,6 +50,9 @@ public class PortalCubedTabs {
 		builder.icon(() -> new ItemStack(PortalCubedItems.HAMMER));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
+			output.accept(PortalCubedItems.RAW_MAGNESIUM);
+			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
+			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
 
 			// ----- portal guns -----
