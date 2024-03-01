@@ -1,7 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.registration.item;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -24,6 +26,11 @@ public interface ItemBuilder<T extends Item> {
 	 * Add this item to the given item group.
 	 */
 	ItemBuilder<T> group(ResourceKey<CreativeModeTab> key);
+
+	/**
+	 * Register a color provider for this item.
+	 */
+	ItemBuilder<T> colored(Supplier<Supplier<ItemColor>> colorProvider);
 
 	/**
 	 * Build this builder into an item.

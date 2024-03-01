@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
@@ -182,8 +183,12 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		if (!level.isClientSide) {
 			var originPos = getOriginPos(pos, state);
 			boolean entityPressing = entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox());
-			if (entityPressing && !state.getValue(ACTIVE))
-				toggle(state, level, originPos, entity, false);
+			if (entityPressing) {
+				if (!state.getValue(ACTIVE))
+					toggle(state, level, originPos, entity, false);
+				if (entity instanceof ButtonActivatedProp buttonActivated)
+					buttonActivated.setActivated(true);
+			}
 		}
 	}
 

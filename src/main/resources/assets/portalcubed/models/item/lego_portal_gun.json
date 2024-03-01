@@ -8,6 +8,7 @@
 	},
 	"elements": [
 		{
+			"name": "cutout",
 			"from": [7.5, 0, 0.7],
 			"to": [8.5, 5, 1.7],
 			"rotation": {"angle": -45, "axis": "y", "origin": [8, 3, 1.2]},
@@ -20,6 +21,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [5.5, 4.1, 2.7],
 			"to": [6.5, 5.1, 3.7],
 			"rotation": {"angle": -45, "axis": "y", "origin": [6, 3.1, 3.2]},
@@ -31,6 +33,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [9.5, 4.1, 2.7],
 			"to": [10.5, 5.1, 3.7],
 			"rotation": {"angle": 45, "axis": "y", "origin": [10, 3.1, 3.2]},
@@ -42,6 +45,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [6, 3, -0.25],
 			"to": [10, 7, 6.75],
 			"faces": {
@@ -54,6 +58,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [6, 3.025, 8.65],
 			"to": [10, 5.025, 11.65],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4.025, 10.15]},
@@ -67,6 +72,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [6.5, 3.65, 3.75],
 			"to": [9.5, 4.65, 8.75],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0.15, 0]},
@@ -78,6 +84,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [8, 3.95, 5.75],
 			"to": [9, 4.95, 11.75],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 3.95, 8.75]},
@@ -87,7 +94,7 @@
 			}
 		},
 		{
-			"name": "vanilla inflates cubes too, so this isn't illegal",
+			"name": "cutout",
 			"from": [6.9, 3.6, 10.6],
 			"to": [9.1, 5.8, 12.8],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 4.7, 15.7]},
@@ -101,6 +108,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [7.25, 3.6, 12.75],
 			"to": [9.25, 5.6, 13.75],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 4.35, 16.75]},
@@ -112,6 +120,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [7.999, 6.24632, 11.225],
 			"to": [7.999, 9.24632, 16.225],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.001, 3.24632, 1.475]},
@@ -121,6 +130,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [4.4218, 3.3786, 11.225],
 			"to": [7.4218, 3.3786, 16.225],
 			"rotation": {"angle": 22.5, "axis": "z", "origin": [5.7468, 3.3786, 13.725]},
@@ -130,6 +140,7 @@
 			}
 		},
 		{
+			"name": "cutout",
 			"from": [8.5782, 3.3786, 11.225],
 			"to": [11.5782, 3.3786, 16.225],
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [10.2532, 3.3786, 13.725]},
@@ -139,7 +150,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [10, 4, 0.75],
 			"to": [6, 3, 0.75],
 			"faces": {
@@ -147,7 +158,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [7, 4, -0.25],
 			"to": [9, 5, -0.25],
 			"faces": {
@@ -155,7 +166,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [10, 4, 0.75],
 			"to": [6, 4, -0.25],
 			"rotation": {"angle": 0, "axis": "x", "origin": [8, 4, 1.25]},
@@ -164,7 +175,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [10, 5, 6.75],
 			"to": [6, 5, 5.75],
 			"rotation": {"angle": 0, "axis": "x", "origin": [8, 4, 1.25]},
@@ -173,7 +184,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [10, 4, 5.75],
 			"to": [6, 4, 3.75],
 			"rotation": {"angle": 0, "axis": "x", "origin": [8, 4, 1.25]},
@@ -182,7 +193,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [10, 4, 3.75],
 			"to": [6, 3, 3.75],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 16]},
@@ -191,7 +202,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [10, 5, 5.75],
 			"to": [6, 4, 5.75],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 16]},
@@ -200,7 +211,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [9, 4.975, 3.75],
 			"to": [7, 2.975, 1.75],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, -0.525, -2]},
@@ -213,7 +224,7 @@
 			}
 		},
 		{
-			"name": "cube inverted",
+			"name": "cutout",
 			"from": [9.25, 5.6, 13.75],
 			"to": [7.25, 3.6, 12.75],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 4.35, 16.75]},
@@ -342,6 +353,6 @@
 		}
 	],
 	"portalcubed:render_types": {
-		"translucent": ["transparent"]
+		"cutout": ["cutout"]
 	}
 }
