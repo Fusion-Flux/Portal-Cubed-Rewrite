@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.content.cannon.screen.widget;
 
 import org.joml.Matrix4f;
 
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -36,16 +35,9 @@ public class ConstructPreviewWidget extends AbstractWidget {
 	}
 
 	private void prepareForBlockRendering(PoseStack matrices) {
-		matrices.pushPose();
 		matrices.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
 		matrices.translate(0, -2, 0);
 		RenderSystem.enableDepthTest();
-		Lighting.setupFor3DItems();
-	}
-
-	private void cleanupFromBlockRendering(PoseStack matrices) {
-		matrices.popPose();
-		Lighting.setupFor3DItems();
 	}
 
 	@Override
@@ -63,6 +55,7 @@ public class ConstructPreviewWidget extends AbstractWidget {
 			var constructCenter = AABB.of(construct.getBounds(Rotation.NONE)).deflate(.5).getCenter();
 			var renderOffset = constructCenter.vectorTo(ORIGIN);
 			constructCenter = constructCenter.add(renderOffset);
+			matrices.pushPose();
 			prepareForBlockRendering(matrices);
 			matrices.translate(constructCenter.x, constructCenter.y, constructCenter.z);
 			matrices.mulPose(Axis.YP.rotationDegrees(animRot));
@@ -77,7 +70,8 @@ public class ConstructPreviewWidget extends AbstractWidget {
 				);
 				matrices.popPose();
 			});
-			cleanupFromBlockRendering(matrices);
+			matrices.popPose();
+			graphics.flush();
 			matrices.popPose();
 		});
 	}
