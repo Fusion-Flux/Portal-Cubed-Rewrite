@@ -17,6 +17,24 @@
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
   },
+  "pedestal_button_press": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/pedestal/pedestal_button_press",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_press"
+  },
+  "pedestal_button_release": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/pedestal/pedestal_button_release",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_release"
+  },
   "portal_1_floor_button_press": {
     "sounds": [
       {
@@ -70,6 +88,24 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
+  },
+  "old_ap_pedestal_button_press": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/old_ap_pedestal/old_ap_pedestal_button_press",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_press"
+  },
+  "old_ap_pedestal_button_release": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/old_ap_pedestal/old_ap_pedestal_button_release",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_release"
   },
   "radio": {
     "sounds": [
