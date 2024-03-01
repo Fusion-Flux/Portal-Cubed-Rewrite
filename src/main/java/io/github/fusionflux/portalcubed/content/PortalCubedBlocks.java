@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -17,6 +18,22 @@ import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 
 public class PortalCubedBlocks {
+	// ----- magnesium -----
+	public static final Block MAGNESIUM_ORE = REGISTRAR.blocks.create("magnesium_ore", Block::new)
+			.copyFrom(Blocks.IRON_ORE)
+			.build();
+	public static final Block DEEPSLATE_MAGNESIUM_ORE = REGISTRAR.blocks.create("deepslate_magnesium_ore", Block::new)
+			.copyFrom(Blocks.DEEPSLATE_IRON_ORE)
+			.build();
+	public static final Block MAGNESIUM_BLOCK = REGISTRAR.blocks.create("magnesium_block", Block::new)
+			.copyFrom(Blocks.IRON_BLOCK)
+			.settings(settings -> settings.mapColor(MapColor.CLAY))
+			.build();
+	public static final Block RAW_MAGNESIUM_BLOCK = REGISTRAR.blocks.create("raw_magnesium_block", Block::new)
+			.copyFrom(Blocks.IRON_BLOCK)
+			.settings(settings -> settings.mapColor(MapColor.CLAY))
+			.build();
+	// ----- cake -----
 	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
 			"black_forest_cake", REGISTRAR, QuiltBlockSettings.copyOf(Blocks.CAKE)
 	);
