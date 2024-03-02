@@ -13,6 +13,8 @@
 
   "block/pedestal_button": "block/pedestal_button_e",
   "block/pedestal_button_active": "block/pedestal_button_e",
+  "block/wall_pedestal_button": "block/pedestal_button_e",
+  "block/wall_pedestal_button_active": "block/pedestal_button_e",
   "item/pedestal_button": "block/pedestal_button_e",
 
   "block/portal_1_floor_button": "block/button_emissives",
