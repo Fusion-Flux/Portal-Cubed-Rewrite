@@ -1,0 +1,23 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "portalcubed:block/pedestal_button",
+		"particle": "portalcubed:block/pedestal_button"
+	},
+	"elements": [
+		{
+			"from": [3.5, 3.5, 0],
+			"to": [12.5, 12.5, 1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [11.516, 6.016, 15.984, 10.484], "rotation": 180, "texture": "#0", "cullface": "north"},
+				"east": {"uv": [15.984, 11.016, 11.516, 11.484], "rotation": 270, "texture": "#0"},
+				"south": {"uv": [11.516, 6.016, 15.984, 10.484], "texture": "#0"},
+				"west": {"uv": [15.984, 11.016, 11.516, 11.484], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [15.984, 11.016, 11.516, 11.484], "rotation": 180, "texture": "#0"},
+				"down": {"uv": [15.984, 11.016, 11.516, 11.484], "texture": "#0"}
+			}
+		}
+	]
+}
