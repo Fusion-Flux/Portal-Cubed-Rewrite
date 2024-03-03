@@ -95,9 +95,11 @@ public class DecalParticle extends TextureSheetParticle {
 	@Override
 	public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
 		Vec3 vec3 = camera.getPosition();
-		float f = (float)(Mth.lerp(tickDelta, xo, x) - vec3.x());
-		float g = (float)(Mth.lerp(tickDelta, yo, y) - vec3.y());
-		float h = (float)(Mth.lerp(tickDelta, zo, z) - vec3.z());
+
+		// We don't need to lerp it as it's always static.
+		float f = (float)(x - vec3.x());
+		float g = (float)(y - vec3.y());
+		float h = (float)(z - vec3.z());
 
 		Vector3f[] vector3fs = new Vector3f[]{
 				new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)
@@ -111,30 +113,30 @@ public class DecalParticle extends TextureSheetParticle {
 			vector3f.add(f, g, h);
 		}
 
-		float k = getU0();
-		float l = getU1();
-		float m = getV0();
-		float n = getV1();
-		int o = getLightColor(tickDelta);
+		float u0 = getU0();
+		float u1 = getU1();
+		float v0 = getV0();
+		float v1 = getV1();
+		int lightColor = getLightColor(tickDelta);
 		vertexConsumer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z())
-				.uv(l, n)
+				.uv(u1, v1)
 				.color(rCol, gCol, bCol, alpha)
-				.uv2(o)
+				.uv2(lightColor)
 				.endVertex();
 		vertexConsumer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z())
-				.uv(l, m)
+				.uv(u1, v0)
 				.color(rCol, gCol, bCol, alpha)
-				.uv2(o)
+				.uv2(lightColor)
 				.endVertex();
 		vertexConsumer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z())
-				.uv(k, m)
+				.uv(u0, v0)
 				.color(rCol, gCol, bCol, alpha)
-				.uv2(o)
+				.uv2(lightColor)
 				.endVertex();
 		vertexConsumer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z())
-				.uv(k, n)
+				.uv(u0, v1)
 				.color(rCol, gCol, bCol, alpha)
-				.uv2(o)
+				.uv2(lightColor)
 				.endVertex();
 	}
 
@@ -144,7 +146,7 @@ public class DecalParticle extends TextureSheetParticle {
 	}
 
 	public static double snap(double d) {
-		return Math.round(d * 4) / 4d;
+		return Math.round(d * 16) / 16d;
 	}
 
 	public static class Provider implements ParticleProvider<SimpleParticleType> {

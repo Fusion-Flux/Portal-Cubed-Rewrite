@@ -36,7 +36,6 @@ public class PortalCubed implements ModInitializer {
 
 		PortalCubedGameRules.init();
 		PortalCubedBlockTags.init();
-		PortalCubedEntityTags.init();
 
 		PortalCubedBlocks.init();
 		PortalCubedItems.init();

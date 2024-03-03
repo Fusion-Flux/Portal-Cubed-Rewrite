@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedColorProviders;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticlesClient;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyBindings;
@@ -24,7 +23,6 @@ public class PortalCubedClient implements ClientModInitializer {
 	public void onInitializeClient(ModContainer mod) {
 		PortalRenderer.init();
 		PortalCubedKeyBindings.init();
-		PortalCubedColorProviders.init();
 		PortalCubedParticlesClient.init();
 
 		PropModels.register();

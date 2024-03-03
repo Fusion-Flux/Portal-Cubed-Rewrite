@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.crowbar;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import net.minecraft.core.BlockPos;
@@ -28,7 +29,6 @@ public class CrowbarItem extends Item {
 
 		Vec3 location = result.getLocation();
 		Direction dir = result.getDirection();
-
 		world.addParticle(
 				PortalCubedParticles.DECAL,
 				location.x, location.y, location.z,
