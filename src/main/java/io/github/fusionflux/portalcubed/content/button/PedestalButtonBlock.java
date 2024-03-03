@@ -27,7 +27,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -37,7 +39,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class PedestalButtonBlock extends HorizontalDirectionalBlock {
+public class PedestalButtonBlock extends HorizontalDirectionalBlock implements EntityBlock {
 	public static final EnumProperty<Direction> FACE = EnumProperty.create("face", Direction.class);
 	public static final EnumProperty<Offset> OFFSET = EnumProperty.create("offset", Offset.class);
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
@@ -117,12 +119,18 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock {
 	private void press(@Nullable Player player, BlockState state, Level world, BlockPos pos) {
 		world.setBlock(pos, state.setValue(ACTIVE, true), Block.UPDATE_ALL);
 		world.gameEvent(player, GameEvent.BLOCK_ACTIVATE, pos);
-		world.scheduleTick(pos, this, 20);
+		if (world.getBlockEntity(pos) instanceof PedestalButtonBlockEntity pedestalButton)
+			world.scheduleTick(pos, this, pedestalButton.getPressTime());
 		playSound(player, world, pos, true);
 	}
 
 	private void playSound(@Nullable Player player, LevelAccessor world, BlockPos pos, boolean pressed) {
 		world.playSound(player, pos, pressed ? pressSound : releaseSound, SoundSource.BLOCKS);
+	}
+
+	@Override
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new PedestalButtonBlockEntity(pos, state);
 	}
 
 	public enum Offset implements StringRepresentable {
