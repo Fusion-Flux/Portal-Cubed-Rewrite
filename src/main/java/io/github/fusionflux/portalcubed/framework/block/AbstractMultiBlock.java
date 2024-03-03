@@ -79,8 +79,8 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		return BlockPos.betweenClosed(pos, pos.offset(rotatedSize.x() - 1, rotatedSize.y() - 1, rotatedSize.z() - 1));
 	}
 
-	public void playSoundAtCenter(SoundEvent sound, float volume, float pitch, BlockPos pos, BlockState state, Level level) {
-		var center = size.rotated(state.getValue(FACING)).center()
+	public void playSoundAtCenter(SoundEvent sound, double xOff, double yOff, double zOff, float volume, float pitch, BlockPos pos, BlockState state, Level level) {
+		var center = size.rotated(state.getValue(FACING)).center(xOff, yOff, zOff)
 			.add(pos.getX(), pos.getY(), pos.getZ());
 		level.playSound(null, center.x, center.y, center.z, sound, SoundSource.BLOCKS, volume, pitch);
 	}
@@ -133,24 +133,27 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 			new Direction[]{Direction.NORTH, Direction.SOUTH}
 		};
 
-		public Vec3 center() {
-			return new Vec3(x / 2, y / 2, z / 2);
+		public Vec3 center(double xOff, double yOff, double zOff) {
+			double xOffRotated = direction.getAxis() == Direction.Axis.X ? zOff : xOff;
+			double yOffRotated = direction.getAxis() == Direction.Axis.Y ? zOff : yOff;
+			double zOffRotated = direction.getAxis() == Direction.Axis.X ? xOff : direction.getAxis() == Direction.Axis.Y ? yOff : zOff;
+			return new Vec3((x / 2) + xOffRotated, (y / 2) + yOffRotated, (z / 2) + zOffRotated);
 		}
 
 		public Vec3i relative(Vec3i origin, Vec3i pos) {
 			var relative = pos.subtract(origin);
-			return switch (direction) {
-				case DOWN, UP ->   new Vec3i(relative.getX(), relative.getZ(), relative.getY());
-				case WEST, EAST -> new Vec3i(relative.getZ(), relative.getY(), relative.getX());
-				default ->         relative;
+			return switch (direction.getAxis()) {
+				case Y -> new Vec3i(relative.getX(), relative.getZ(), relative.getY());
+				case X -> new Vec3i(relative.getZ(), relative.getY(), relative.getX());
+				case Z -> relative;
 			};
 		}
 
 		public Size rotated(Direction direction) {
-			return switch (direction) {
-				case DOWN, UP ->   new Size(direction, x, z, y);
-				case WEST, EAST -> new Size(direction, z, y, x);
-				default ->         new Size(direction, x, y, z);
+			return switch (direction.getAxis()) {
+				case Y -> new Size(direction, x, z, y);
+				case X -> new Size(direction, z, y, x);
+				case Z -> new Size(direction, x, y, z);
 			};
 		}
 

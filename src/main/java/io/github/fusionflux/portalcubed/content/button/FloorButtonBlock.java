@@ -4,7 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
@@ -14,12 +18,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -30,6 +37,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);
 	public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 	public static final int PRESSED_TIME = 5;
+	public static int easterEggTrigger = 0;
 
 	public final VoxelShaper[][] shapes;
 	public final Map<Direction, AABB> buttonBounds = new HashMap<>();
@@ -56,14 +64,14 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 			buttonShape.max(Direction.Axis.Z)
 		).move(-buttonShape.min(Direction.Axis.X), -buttonShape.min(Direction.Axis.Y), 0));
 		for (Direction direction : Direction.values()) getButtonBounds(direction);
-		this.entityPredicate = entityPredicate;
+		this.entityPredicate = EntitySelector.NO_SPECTATORS.and(entity -> !entity.isIgnoringBlockTriggers()).and(entityPredicate);
 		this.pressSound = pressSound;
 		this.releaseSound = releaseSound;
 		this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false));
 	}
 
 	public FloorButtonBlock(Properties properties, VoxelShaper[][] shapes, VoxelShape buttonShape, SoundEvent pressSound, SoundEvent releaseSound) {
-		this(properties, shapes, buttonShape, entity -> entity.getType().is(PortalCubedEntityTags.PRESSES_FLOOR_BUTTONS), pressSound, releaseSound);
+		this(properties, shapes, buttonShape, entity -> entity instanceof LivingEntity || entity.getType().is(PortalCubedEntityTags.PRESSES_FLOOR_BUTTONS), pressSound, releaseSound);
 	}
 
 	public FloorButtonBlock(Properties properties, SoundEvent pressSound, SoundEvent releaseSound) {
@@ -94,13 +102,32 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 				max = VoxelShaper.rotate(max.subtract(1, 0, .5), 180, Direction.Axis.Y).add(1, 0, .5);
 			}
 
-			var rotatedBounds = switch (direction) {
-				case DOWN, UP ->   new AABB(min.x, min.z, min.y, max.x, max.z, max.y);
-				case WEST, EAST -> new AABB(min.z, min.y, min.x, max.z, max.y, max.x);
-				default ->         new AABB(min.x, min.y, min.z, max.x, max.y, max.z);
+			var rotatedBounds = switch (direction.getAxis()) {
+				case Y -> new AABB(min.x, min.z, min.y, max.x, max.z, max.y);
+				case X -> new AABB(min.z, min.y, min.x, max.z, max.y, max.x);
+				case Z -> new AABB(min.x, min.y, min.z, max.x, max.y, max.z);
 			};
 			return rotatedBounds;
 		});
+	}
+
+	public void toggle(BlockState state, Level level, BlockPos pos, @Nullable Entity entity, boolean currentState) {
+		for (BlockPos quadrantPos : quadrantIterator(pos, state, level)) {
+			var quadrantState = level.getBlockState(quadrantPos);
+			if (!quadrantState.is(this)) return;
+			level.setBlock(quadrantPos, quadrantState.setValue(ACTIVE, !currentState), UPDATE_ALL);
+		}
+
+		SoundEvent toggleSound;
+		if (currentState) {
+			level.gameEvent(entity, GameEvent.BLOCK_DEACTIVATE, pos);
+			toggleSound = releaseSound;
+		} else {
+			level.scheduleTick(pos, this, PRESSED_TIME);
+			level.gameEvent(entity, GameEvent.BLOCK_ACTIVATE, pos);
+			toggleSound = pressSound;
+		}
+		playSoundAtCenter(toggleSound, 0, 0, -.5, 1f, 1f, pos, state, level);
 	}
 
 	@Override
@@ -133,32 +160,41 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	@Override
+	public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return state.getValue(ACTIVE) ? 15 : 0;
+	}
+
+	@Override
+	public boolean isSignalSource(BlockState state) {
+		return true;
+	}
+
+	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-		boolean entitiesPressing = level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate).size() > 0;
-		if (entitiesPressing) {
+		if (level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate).size() > 0) {
 			level.scheduleTick(pos, this, PRESSED_TIME);
-		} else {
-			for (BlockPos quadrantPos : quadrantIterator(pos, state, level)) {
-				var quadrantState = level.getBlockState(quadrantPos);
-				if (!quadrantState.is(this)) return;
-				level.setBlock(quadrantPos, quadrantState.setValue(ACTIVE, false), UPDATE_ALL);
-			}
-			playSoundAtCenter(releaseSound, 1f, 1f, pos, state, level);
+		} else if (state.getValue(ACTIVE)) {
+			toggle(state, level, pos, null, true);
 		}
 	}
 
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-		if (!level.isClientSide && !state.getValue(ACTIVE)) {
+		if (!level.isClientSide) {
 			var originPos = getOriginPos(pos, state);
-			if (entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox())) {
-				for (BlockPos quadrantPos : quadrantIterator(originPos, state, level)) {
-					var newQuadrantState = level.getBlockState(quadrantPos).setValue(ACTIVE, true);
-					level.setBlock(quadrantPos, newQuadrantState, UPDATE_ALL);
-				}
-				level.scheduleTick(originPos, this, PRESSED_TIME);
-				playSoundAtCenter(pressSound, 1f, 1f, originPos, state, level);
+			boolean entityPressing = entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox());
+			if (entityPressing) {
+				if (!state.getValue(ACTIVE))
+					toggle(state, level, originPos, entity, false);
+				if (entity instanceof ButtonActivatedProp buttonActivated)
+					buttonActivated.setActivated(true);
 			}
 		}
+	}
+
+	@Override
+	public String getDescriptionId() {
+		boolean hasEasterEgg = this == PortalCubedBlocks.FLOOR_BUTTON_BLOCK || this == PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK;
+		return (easterEggTrigger == 1 && hasEasterEgg) ? "block.portalcubed.floor_button.easter_egg" : super.getDescriptionId();
 	}
 }

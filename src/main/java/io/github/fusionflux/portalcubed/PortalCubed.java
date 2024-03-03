@@ -1,20 +1,20 @@
 package io.github.fusionflux.portalcubed;
 
-import java.util.List;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+import io.github.fusionflux.portalcubed.content.PortalCubedFeatures;
+import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
+import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.ModMetadata;
@@ -32,10 +32,9 @@ public class PortalCubed implements ModInitializer {
 	public void onInitialize(ModContainer mod) {
 		ModMetadata metadata = mod.metadata();
 		LOGGER.info("Portal Cubed (" + metadata.version() + ") initializing...");
-		Util.getRandomSafe(List.copyOf(metadata.contributors()), RandomSource.create()).ifPresent(contributor -> {
-			LOGGER.info("I loved the part when " + contributor.name() + " said \"It's Portaln' time\" and portal'd all over the place");
-		});
+		LOGGER.info(MOTL.get());
 
+		PortalCubedGameRules.init();
 		PortalCubedBlockTags.init();
 		PortalCubedEntityTags.init();
 
@@ -45,8 +44,10 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
 		PortalCubedSerializers.init();
-
+		PortalCubedFeatures.init();
 		PortalCubedSounds.init();
+
+		LOGGER.info("Portal Cubed (" + metadata.version() + ") initialized!");
 	}
 
 	public static ResourceLocation id(String path) {

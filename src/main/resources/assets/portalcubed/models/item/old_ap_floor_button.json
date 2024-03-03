@@ -3,7 +3,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"7": "portalcubed:block/old_ap_floor_button",
-		"8": "portalcubed:block/old_ap_floor_button_e"
+		"8": "portalcubed:block/button_emissives"
 	},
 	"elements": [
 		{
@@ -25,7 +25,7 @@
 			"to": [20.02, 3.095, 20.02],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 1.325, 8]},
 			"faces": {
-				"up": {"uv": [11.984, 11.984, 0.016, 0.016], "texture": "#8"}
+				"up": {"uv": [5.968, 16, 0, 10.032], "texture": "#8"}
 			}
 		},
 		{
