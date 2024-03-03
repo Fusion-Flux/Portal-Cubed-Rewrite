@@ -23,6 +23,9 @@ import org.joml.Vector3f;
 @Environment(EnvType.CLIENT)
 public abstract class AbstractPathedParticle extends TextureSheetParticle {
 	public double sx, sy, sz;
+	public float rolld;
+
+	public float deltaOffset;
 
 	protected AbstractPathedParticle(ClientLevel world, double x, double y, double z) {
 		super(world, x, y, z);
@@ -32,14 +35,11 @@ public abstract class AbstractPathedParticle extends TextureSheetParticle {
 		float angle = world.random.nextFloat() * Mth.TWO_PI;
 		xd = Mth.sin(angle) * 0.0625;
 		zd = Mth.cos(angle) * 0.0625;
+		rolld = Math.signum((world.random.nextFloat() * 2 - 1)) * Mth.PI * (1/32f);
+		roll = angle;
+		oRoll = angle;
 
-		double xmin = -0.125f;
-		double xmax = 0.125f;
-		double ymin = getYOffsetForDeltaPercentage(xmin);
-		double ymax = getYOffsetForDeltaPercentage(xmax);
-
-		roll = (float) Mth.atan2(ymin - ymax, xmin - xmax) + (Mth.PI / 2);
-		oRoll = roll;
+		deltaOffset = world.random.nextFloat() * 0.01f - 0.025f;
 	}
 
 	/**
@@ -56,27 +56,15 @@ public abstract class AbstractPathedParticle extends TextureSheetParticle {
 		if (getLifetime() == 0)
 			return;
 
-		y = sy + getYOffsetForDeltaPercentage(age / (double)getLifetime());
+		y = sy + getYOffsetForDeltaPercentage(age / (double)getLifetime() + deltaOffset);
+
+		oRoll = roll;
+
+		roll += rolld;
 	}
 
 	@Override
 	public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-		float camRot = camera.getXRot();
-		float dir = (float)(xd*Mth.cos(camRot)+zd*Mth.sin(camRot));
-		if (dir > 0)
-			dir = 1;
-		if (dir < 0)
-			dir = -1;
-
-		float ageDelta = age + tickDelta;
-
-		double xmin = ageDelta / (double)getLifetime() - 0.125f;
-		double xmax = ageDelta / (double)getLifetime() + 0.125f;
-		double ymin = getYOffsetForDeltaPercentage(xmin);
-		double ymax = getYOffsetForDeltaPercentage(xmax);
-
-		roll = (float) (Mth.atan2(ymin - ymax, xmin - xmax) * dir + (Mth.PI / 2));
-		oRoll = roll;
 		super.render(vertexConsumer, camera, tickDelta);
 	}
 

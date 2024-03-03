@@ -30,7 +30,7 @@ public class ParticleEngineMixin {
 	) {
 		return Stream.concat(
 				original.call(e1, e2, e3, e4, e5).stream(),
-				Stream.of(DecalParticle.PARTICLE_SHEET_MULTIPLY)
+				Stream.of(DecalParticle.PARTICLE_SHEET_MULTIPLY, DecalParticle.PARTICLE_SHEET_TRANSLUCENT)
 		).collect(ImmutableList.toImmutableList());
 	}
 }
