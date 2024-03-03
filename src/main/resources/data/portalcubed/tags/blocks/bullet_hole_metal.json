@@ -43,6 +43,8 @@
     "#minecraft:anvil",
     "minecraft:bell",
     "minecraft:hopper",
-    "minecraft:cauldron"
+    "minecraft:cauldron",
+
+    "portalcubed:magnesium_block"
   ]
 }
