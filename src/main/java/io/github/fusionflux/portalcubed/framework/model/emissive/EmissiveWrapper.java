@@ -2,8 +2,9 @@ package io.github.fusionflux.portalcubed.framework.model.emissive;
 
 import java.util.Collection;
 
-import io.github.fusionflux.portalcubed.framework.model.rendertype.MultiRenderTypeBakedModel;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier.AfterBake;
+import net.fabricmc.fabric.api.renderer.v1.model.WrapperBakedModel;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.resources.model.BakedModel;
@@ -25,10 +26,8 @@ public record EmissiveWrapper(EmissiveData data) implements AfterBake {
 	}
 
 	private SimpleBakedModel getSimpleBakedModel(BakedModel model) {
-		if (model instanceof SimpleBakedModel simple) {
+		if (WrapperBakedModel.unwrap(model) instanceof SimpleBakedModel simple) {
 			return simple;
-		} else if (model instanceof MultiRenderTypeBakedModel multi) {
-			return (SimpleBakedModel) multi.getWrappedModel();
 		}
 		return null;
 	}

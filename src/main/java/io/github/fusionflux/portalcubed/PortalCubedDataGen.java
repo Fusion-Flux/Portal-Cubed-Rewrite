@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed;
 
+import io.github.fusionflux.portalcubed.data.models.PedestalButtonBlockStates;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
@@ -25,5 +26,6 @@ public class PortalCubedDataGen implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator generator) {
 		var pack = generator.createPack();
 //		pack.addProvider(FloorButtonBlockStates::new);
+		pack.addProvider(PedestalButtonBlockStates::new);
 	}
 }

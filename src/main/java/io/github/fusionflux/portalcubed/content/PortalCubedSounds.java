@@ -10,8 +10,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 
 public class PortalCubedSounds {
+	public static final SoundEvent PEDESTAL_BUTTON_PRESS = register("pedestal_button_press");
+	public static final SoundEvent PEDESTAL_BUTTON_RELEASE = register("pedestal_button_release");
 	public static final SoundEvent FLOOR_BUTTON_PRESS = register("floor_button_press");
 	public static final SoundEvent FLOOR_BUTTON_RELEASE = register("floor_button_release");
+	public static final SoundEvent OLD_AP_PEDESTAL_BUTTON_PRESS = register("old_ap_pedestal_button_press");
+	public static final SoundEvent OLD_AP_PEDESTAL_BUTTON_RELEASE = register("old_ap_pedestal_button_release");
 	public static final SoundEvent OLD_AP_FLOOR_BUTTON_PRESS = register("old_ap_floor_button_press");
 	public static final SoundEvent OLD_AP_FLOOR_BUTTON_RELEASE = register("old_ap_floor_button_release");
 	public static final SoundEvent PORTAL_1_FLOOR_BUTTON_PRESS = register("portal_1_floor_button_press");

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
@@ -35,7 +36,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FloorButtonBlock extends AbstractMultiBlock {
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);
-	public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 	public static final int PRESSED_TIME = 5;
 	public static int easterEggTrigger = 0;
 
