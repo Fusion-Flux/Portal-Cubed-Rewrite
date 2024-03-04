@@ -21,6 +21,7 @@
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
     "client.CreativeModeInventoryScreenMixin",
+    "client.GameRendererMixin",
     "client.ItemRendererAccessor",
     "client.MinecraftMixin",
     "client.SimpleBakedModelAccessor",
