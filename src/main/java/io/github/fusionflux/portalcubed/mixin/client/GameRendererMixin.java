@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.github.fusionflux.portalcubed.content.button.PedestalButtonBlock;
+import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 

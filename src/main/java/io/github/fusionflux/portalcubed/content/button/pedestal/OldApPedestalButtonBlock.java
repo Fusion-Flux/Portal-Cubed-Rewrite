@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.button;
+package io.github.fusionflux.portalcubed.content.button.pedestal;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;

@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.packet;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.PropHoldPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
@@ -17,6 +18,7 @@ import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
 public class PortalCubedPackets {
 	// clientbound
+	public static final ResourceLocation OPEN_PEDESTAL_BUTTON_CONFIG = clientbound("open_pedestal_button_config", OpenPedestalButtonConfigPacket::new);
 	public static final ResourceLocation PROP_HOLD = clientbound("prop_hold", PropHoldPacket::new);
 	public static final ResourceLocation CREATE_PORTAL = clientbound("create_portal", CreatePortalPacket::new);
 	// serverbound

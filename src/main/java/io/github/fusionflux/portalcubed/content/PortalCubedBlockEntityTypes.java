@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
-import io.github.fusionflux.portalcubed.content.button.PedestalButtonBlockEntity;
+import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class PortalCubedBlockEntityTypes {

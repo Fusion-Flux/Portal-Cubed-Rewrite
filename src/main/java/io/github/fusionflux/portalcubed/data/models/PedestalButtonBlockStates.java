@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.data.models;
 import com.google.gson.JsonPrimitive;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
-import io.github.fusionflux.portalcubed.content.button.PedestalButtonBlock;
+import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.core.Direction;

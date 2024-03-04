@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.button;
+package io.github.fusionflux.portalcubed.content.button.pedestal;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -9,8 +9,11 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
+import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper.DefaultRotationValues;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -18,6 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -114,12 +118,17 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (state.getValue(ACTIVE)) {
-			return InteractionResult.CONSUME;
+		if (HammerItem.usingHammer(player)) {
+			if (player instanceof ServerPlayer hammerUser)
+				PortalCubedPackets.sendToClient(hammerUser, new OpenPedestalButtonConfigPacket(pos));
 		} else {
-			press(player, state, world, pos);
-			return InteractionResult.sidedSuccess(world.isClientSide);
+			if (state.getValue(ACTIVE)) {
+				return InteractionResult.CONSUME;
+			} else {
+				press(player, state, world, pos);
+			}
 		}
+		return InteractionResult.sidedSuccess(world.isClientSide);
 	}
 
 	private void press(@Nullable Player player, BlockState state, Level world, BlockPos pos) {

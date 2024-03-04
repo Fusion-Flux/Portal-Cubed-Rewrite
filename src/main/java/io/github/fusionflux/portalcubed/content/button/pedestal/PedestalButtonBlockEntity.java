@@ -1,8 +1,11 @@
-package io.github.fusionflux.portalcubed.content.button;
+package io.github.fusionflux.portalcubed.content.button.pedestal;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -34,5 +37,15 @@ public class PedestalButtonBlockEntity extends BlockEntity {
 	@Override
 	protected void saveAdditional(CompoundTag nbt) {
 		nbt.putInt("press_time", pressTime);
+	}
+
+	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
+
+	@Override
+	public CompoundTag getUpdateTag() {
+		return saveWithoutMetadata();
 	}
 }
