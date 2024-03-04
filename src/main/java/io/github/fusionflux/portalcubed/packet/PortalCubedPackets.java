@@ -1,9 +1,10 @@
 package io.github.fusionflux.portalcubed.packet;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.cannon.OpenCannonConfigPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
 import net.fabricmc.api.EnvType;
@@ -24,6 +25,7 @@ public class PortalCubedPackets {
 	// serverbound
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);
 	public static final ResourceLocation KEY_PRESS = serverbound("key_press", KeyPressPacket::new);
+	public static final ResourceLocation CONFIGURE_CANNON = serverbound("configure_cannon", ConfigureCannonPacket::new);
 
 	public static void init() {
 	}

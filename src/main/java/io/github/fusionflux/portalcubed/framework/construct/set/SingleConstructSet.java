@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
+import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -22,17 +23,12 @@ public class SingleConstructSet extends ConstructSet {
 	private final Construct construct;
 
 	public SingleConstructSet(TagKey<Item> material, Construct construct) {
-		super(Type.SINGLE, material);
+		super(Type.SINGLE, material, construct);
 		this.construct = construct;
 	}
 
 	@Override
-	public Construct choose(ConstructPlacementContext ctx) {
-		return this.construct;
-	}
-
-	@Override
-	public Construct getDefault() {
-		return this.construct;
+	public ConfiguredConstruct choose(ConstructPlacementContext ctx) {
+		return new ConfiguredConstruct(this.construct);
 	}
 }

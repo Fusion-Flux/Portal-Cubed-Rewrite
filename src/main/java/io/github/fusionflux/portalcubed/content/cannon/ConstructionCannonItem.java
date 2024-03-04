@@ -1,11 +1,12 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
-import io.github.fusionflux.portalcubed.framework.construct.Construct;
+import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -21,8 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-
-import net.minecraft.world.level.block.Rotation;
 
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
@@ -67,8 +66,6 @@ public class ConstructionCannonItem extends Item {
 		if (settings == null) // invalid state
 			return CannonUseResult.INVALID;
 
-		Rotation rotation = this.getRotation(ctx);
-
 		CannonSettings.Configured configured = settings.validate();
 		if (configured == null) // not configured
 			return CannonUseResult.NOT_CONFIGURED;
@@ -77,16 +74,16 @@ public class ConstructionCannonItem extends Item {
 		if (constructSet == null) // fake construct
 			return CannonUseResult.INVALID;
 
-		Construct construct = constructSet.choose(ConstructPlacementContext.of(ctx));
+		ConfiguredConstruct construct = constructSet.choose(ConstructPlacementContext.of(ctx));
 
 		BlockPos clicked = new BlockPlaceContext(ctx).getClickedPos();
-		BoundingBox bounds = construct.getBounds(rotation);
+		BoundingBox bounds = construct.getAbsoluteBounds(clicked);
 
 		if (!this.mayBuild(ctx, bounds))
 			return CannonUseResult.NO_PERMS;
 
 		if (ctx.getLevel() instanceof ServerLevel level) {
-			construct.place(level, clicked, rotation);
+			construct.place(level, clicked);
 		}
 
 		return CannonUseResult.PLACED;
@@ -103,15 +100,6 @@ public class ConstructionCannonItem extends Item {
 		);
 	}
 
-	protected Rotation getRotation(UseOnContext ctx) {
-		return switch (ctx.getHorizontalDirection()) {
-			case NORTH -> Rotation.CLOCKWISE_180;
-			default /* SOUTH */ -> Rotation.NONE;
-			case EAST -> Rotation.CLOCKWISE_90;
-			case WEST -> Rotation.COUNTERCLOCKWISE_90;
-		};
-	}
-
 	@Nullable
 	public static CannonSettings getCannonSettings(ItemStack stack) {
 		CompoundTag nbt = stack.getTag();
@@ -120,5 +108,10 @@ public class ConstructionCannonItem extends Item {
 			return CannonSettings.CODEC.parse(NbtOps.INSTANCE, dataNbt).result().orElse(null);
 		}
 		return null;
+	}
+
+	public static void setCannonSettings(ItemStack stack, CannonSettings settings) {
+		CannonSettings.CODEC.encodeStart(NbtOps.INSTANCE, settings).result()
+				.ifPresent(nbt -> stack.addTagElement(CannonSettings.NBT_KEY, nbt));
 	}
 }

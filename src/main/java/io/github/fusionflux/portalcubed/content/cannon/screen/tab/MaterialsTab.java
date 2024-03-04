@@ -31,6 +31,7 @@ public class MaterialsTab {
                         slots.forEach(MaterialSlotWidget::deselect);
 						data.update(settings -> settings.withConstruct(
 								ConstructManager.INSTANCE.getConstructSetsForMaterial(tag).stream()
+										.filter(s -> s.preview.blocks.size() > 1)
 										.limit(1)
 										.map(ConstructManager.INSTANCE::getId)
 										.filter(Objects::nonNull)

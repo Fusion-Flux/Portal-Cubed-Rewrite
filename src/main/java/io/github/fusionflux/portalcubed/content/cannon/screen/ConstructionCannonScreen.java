@@ -9,13 +9,18 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDispl
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageWidget;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Collections;
@@ -31,12 +36,14 @@ public class ConstructionCannonScreen extends Screen {
 	public static final Component TITLE = Component.translatable("container.portalcubed.construction_cannon");
 	public static final ResourceLocation BACKGROUND = PortalCubed.id("textures/gui/container/construction_cannon/materials_tab.png");
 
+	private final InteractionHand sourceHand;
 	private final CannonDataHolder settings;
 
 	private Tab tab;
 
-	public ConstructionCannonScreen(CannonSettings settings) {
+	public ConstructionCannonScreen(InteractionHand hand, CannonSettings settings) {
 		super(TITLE);
+		this.sourceHand = hand;
 		this.settings = new CannonDataHolder(settings);
 		this.tab = Tab.MATERIALS;
 	}
@@ -79,7 +86,8 @@ public class ConstructionCannonScreen extends Screen {
 
 		// cannon view
 		rightSide.addChild(new CannonDisplayWidget(140, 60, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON)));
-
+		// save button
+		rightSide.addChild(Button.builder(CommonComponents.GUI_DONE, this::save).size(80, 20).build());
 		// first arrangement, set bounds
 		root.arrangeElements();
 		// center whole thing
@@ -105,7 +113,9 @@ public class ConstructionCannonScreen extends Screen {
 		}
 	}
 
-	private void save() {
+	private void save(Button saveButton) {
+		ConfigureCannonPacket packet = new ConfigureCannonPacket(this.sourceHand, this.settings.get());
+		PortalCubedPackets.sendToServer(packet);
 		this.onClose();
 	}
 

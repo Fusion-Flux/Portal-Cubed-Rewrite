@@ -8,12 +8,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.fusionflux.portalcubed.framework.util.EvenMoreCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -68,19 +66,6 @@ public class Construct {
 		return this.boundsCache.computeIfAbsent(rotation, $ -> {
 			Map<BlockPos, BlockInfo> blocks = this.getBlocks(rotation);
 			return BoundingBox.encapsulatingPositions(blocks.keySet()).orElseThrow();
-		});
-	}
-
-	public void place(ServerLevel level, BlockPos origin, Rotation rotation) {
-		this.getBlocks(rotation).forEach((relativePos, info) -> {
-			BlockPos pos = origin.offset(relativePos);
-			level.setBlockAndUpdate(pos, info.state());
-			info.maybeNbt.ifPresent(nbt -> {
-				BlockEntity be = level.getBlockEntity(pos);
-				if (be != null) {
-					be.load(nbt);
-				}
-			});
 		});
 	}
 

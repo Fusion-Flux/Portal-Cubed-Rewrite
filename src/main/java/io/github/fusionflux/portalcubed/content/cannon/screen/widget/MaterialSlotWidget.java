@@ -25,18 +25,14 @@ public class MaterialSlotWidget extends TexturedStickyButton {
 			PortalCubed.id("construction_cannon/materials_tab/slot_selected")
 	);
 
-	private final TagKey<Item> tag;
-	private final CannonDataHolder data;
 	private final ItemStack rendered;
 
 	public MaterialSlotWidget(TagKey<Item> tag, CannonDataHolder data, Runnable onSelect) {
-		this(tag, data, 0, 0, onSelect);
+		this(tag, 0, 0, onSelect);
 	}
 
-	public MaterialSlotWidget(TagKey<Item> tag, CannonDataHolder data, int x, int y, Runnable onSelect) {
+	public MaterialSlotWidget(TagKey<Item> tag, int x, int y, Runnable onSelect) {
 		super(x, y, SIZE, SIZE, translateTag(tag.location()), TEXTURES, onSelect);
-		this.tag = tag;
-		this.data = data;
 
 		Item renderedItem = BuiltInRegistries.ITEM.getTag(tag)
 				.map(named -> Iterators.getNext(named.iterator(), null))
@@ -51,12 +47,6 @@ public class MaterialSlotWidget extends TexturedStickyButton {
 		if (this.isActive()) {
 			graphics.renderItem(this.rendered, this.getX() + OFFSET, this.getY() + OFFSET);
 		}
-	}
-
-	@Override
-	public void onClick(double mouseX, double mouseY) {
-		this.data.update(data -> data.withMaterial(this.tag));
-		super.onClick(mouseX, mouseY);
 	}
 
 	private static Component translateTag(ResourceLocation id) {

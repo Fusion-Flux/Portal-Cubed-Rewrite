@@ -1,6 +1,7 @@
-package io.github.fusionflux.portalcubed.content.cannon;
+package io.github.fusionflux.portalcubed.packet.clientbound;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
@@ -18,15 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
-public class OpenCannonConfigPacket implements ClientboundPacket {
-	private final InteractionHand hand;
-
-	public OpenCannonConfigPacket(InteractionHand hand) {
-		this.hand = hand;
-	}
-
+public record OpenCannonConfigPacket(InteractionHand hand) implements ClientboundPacket {
 	public OpenCannonConfigPacket(FriendlyByteBuf buf) {
-		this.hand = buf.readEnum(InteractionHand.class);
+		this(buf.readEnum(InteractionHand.class));
 	}
 
 	@Override
@@ -42,7 +37,7 @@ public class OpenCannonConfigPacket implements ClientboundPacket {
 			CannonSettings settings = ConstructionCannonItem.getCannonSettings(stack);
 			if (settings == null)
 				settings = CannonSettings.DEFAULT;
-			Minecraft.getInstance().setScreen(new ConstructionCannonScreen(settings));
+			Minecraft.getInstance().setScreen(new ConstructionCannonScreen(this.hand, settings));
 		}
 	}
 

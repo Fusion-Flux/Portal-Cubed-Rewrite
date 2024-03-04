@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public record ConstructPlacementContext(
-		Level level, Direction clickedFace, Direction placerFacing
+		Level level, Direction clickedFace, Direction placerFacing, Direction placerHorizontalFacing
 ) {
 	public static ConstructPlacementContext of(UseOnContext ctx) {
 		Direction clickedFace = ctx.getClickedFace();
@@ -22,7 +22,8 @@ public record ConstructPlacementContext(
 		return new ConstructPlacementContext(
 				ctx.getLevel(),
 				clickedFace,
-				placerFacing
+				placerFacing,
+				ctx.getHorizontalDirection()
 		);
 	}
 }

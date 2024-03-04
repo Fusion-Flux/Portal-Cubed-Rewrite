@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
+import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
@@ -26,15 +27,19 @@ public abstract class ConstructSet {
 
 	public final Type type;
 	public final TagKey<Item> material;
+	public final ConfiguredConstruct preview;
 
-	public ConstructSet(Type type, TagKey<Item> material) {
+	public ConstructSet(Type type, TagKey<Item> material, ConfiguredConstruct preview) {
 		this.type = type;
 		this.material = material;
+		this.preview = preview;
 	}
 
-	public abstract Construct choose(ConstructPlacementContext ctx);
+	public ConstructSet(Type type, TagKey<Item> material, Construct preview) {
+		this(type, material, new ConfiguredConstruct(preview));
+	}
 
-	public abstract Construct getDefault();
+	public abstract ConfiguredConstruct choose(ConstructPlacementContext ctx);
 
 	public record Holder(ResourceLocation id, ConstructSet constructSet) {
 		public Holder(Map.Entry<ResourceLocation, ConstructSet> entry) {
@@ -44,8 +49,7 @@ public abstract class ConstructSet {
 
 	public enum Type implements StringRepresentable {
 		SINGLE(() -> SingleConstructSet.CODEC),
-		DUAL_FACE(() -> DualFaceConstructSet.CODEC),
-		DUAL_FACING(() -> DualFacingConstructSet.CODEC);
+		PILLAR(() -> PillarConstructSet.CODEC);
 
 		public static Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
 

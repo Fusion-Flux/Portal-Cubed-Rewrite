@@ -1,6 +1,7 @@
 {
   "material": "#portalcubed:aged_padded_gray_panel_materials",
-  "type": "dual_facing",
+  "type": "pillar",
+  "chooser": "placer_facing",
   "vertical": {
     "0,0,0": {
       "Properties": {

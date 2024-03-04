@@ -1,6 +1,7 @@
 {
   "material": "#portalcubed:aged_padded_gray_panel_materials",
-  "type": "dual_face",
+  "type": "pillar",
+  "chooser": "clicked_face",
   "vertical": {
     "0,0,0": "portalcubed:aged_padded_gray_2x1_panel_bottom",
     "0,1,0": "portalcubed:aged_padded_gray_2x1_panel_top"
