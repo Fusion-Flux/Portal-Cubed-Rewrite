@@ -147,6 +147,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		var level = client.level;
 
 		var start = player.getEyePosition(tickDelta);
+		reach = (client.hitResult != null && client.hitResult.getType() != HitResult.Type.MISS) ? client.hitResult.getLocation().distanceTo(start) : reach;
 		var end = start.add(player.getViewVector(tickDelta).scale(reach));
 
 		var clipContext = new ClipContext(start, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player);
