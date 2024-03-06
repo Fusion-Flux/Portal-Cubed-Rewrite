@@ -11,8 +11,10 @@ import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBl
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
 import io.github.fusionflux.portalcubed.framework.gui.widget.SimpleButtonWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.SimpleButtonWidget.Sprites;
+import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +29,7 @@ public class PedestalButtonConfigScreen extends Screen {
 	private static final int SEGMENT_WIDTH = 13;
 	private static final int SEGMENT_HEIGHT = 23;
 	private static final float MAX_TIMER_BUTTON_CLICK_DELAY = 1f / 2f;
-	private static final float MAX_TIMER_BUTTON_CLICK_SPEED = 2.5f;
+	private static final float MAX_TIMER_BUTTON_CLICK_SPEED = 5f;
 
 	private final PedestalButtonBlockEntity pedestalButton;
 	private int pressTime;
@@ -38,6 +40,7 @@ public class PedestalButtonConfigScreen extends Screen {
 	private int leftPos;
 	private int topPos;
 
+	private SimpleButtonWidget[] timerButtons;
 	private SimpleButtonWidget heldTimerButton;
 	private int heldTimerButtonCounter;
 	private float heldTimerButtonSpeed;
@@ -52,14 +55,14 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	private SimpleButtonWidget createTimerAdjustButton(boolean up) {
 		var spriteId = PortalCubed.id("pedestal_button/" + "timer_adjust_" + (up ? "up" : "down"));
-		return new SimpleButtonWidget(19, 8, new Sprites(spriteId, spriteId.withSuffix("_hover")), button -> {
+		return new SimpleButtonWidget(19, 8, new Sprites(spriteId), button -> {
 			if (heldTimerButton == null) {
 				heldTimerButton = button;
 				heldTimerButtonCounter = 0;
 				heldTimerButtonSpeed = 1;
 				heldTimerButtonDelay = MAX_TIMER_BUTTON_CLICK_DELAY;
 			}
-			pressTime = Mth.clamp(pressTime + (up ? 20 : -20), PedestalButtonBlockEntity.MINIMUM_PRESS_TIME, PedestalButtonBlockEntity.MAXIMUM_PRESS_TIME);
+			pressTime = Mth.clamp(pressTime + (up ? 20 : -20), PedestalButtonBlockEntity.MIN_PRESS_TIME, PedestalButtonBlockEntity.MAX_PRESS_TIME);
 		}, button -> {
 			heldTimerButton = null;
 			dirty = true;
@@ -71,6 +74,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		style = Style.choose(this);
 		leftPos = (width - BACKGROUND_WIDTH) / 2;
 		topPos = (height - BACKGROUND_HEIGHT) / 2;
+		timerButtons = new SimpleButtonWidget[2];
 
 		var root = LinearLayout.vertical();
 		root.defaultCellSetting().paddingLeft(CONTENT_X_OFFSET);
@@ -97,8 +101,11 @@ public class PedestalButtonConfigScreen extends Screen {
 				{
 					var pressTimeDisplayButtons = pressTimeDisplay.addChild(LinearLayout.horizontal());
 
-					pressTimeDisplayButtons.addChild(createTimerAdjustButton(false));
-					pressTimeDisplayButtons.addChild(createTimerAdjustButton(true));
+					for (int i = 0; i < timerButtons.length; i++) {
+						var button = createTimerAdjustButton(i > 0);
+						pressTimeDisplayButtons.addChild(button);
+						timerButtons[i] = button;
+					}
 				}
 			}
 		}
@@ -123,6 +130,13 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	@Override
 	public void tick() {
+		for (int i = 0; i < timerButtons.length; i++) {
+			var button = timerButtons[i];
+			boolean wasActive = button.active;
+			button.active = pressTime != (i > 0 ? PedestalButtonBlockEntity.MAX_PRESS_TIME : PedestalButtonBlockEntity.MIN_PRESS_TIME);
+			if (wasActive && !button.active)
+				button.onRelease(0, 0);
+		}
 		if (heldTimerButton != null) {
 			heldTimerButtonDelay -= .1;
 			if (heldTimerButtonDelay <= 0) {
@@ -134,7 +148,10 @@ public class PedestalButtonConfigScreen extends Screen {
 					heldTimerButtonCounter = 0;
 				}
 			}
-			if (!heldTimerButton.isHovered()) heldTimerButton = null;
+			if (!heldTimerButton.isHovered()) {
+				heldTimerButton.pressed = false;
+				heldTimerButton = null;
+			}
 		}
 
 		if (dirty) {
@@ -145,6 +162,11 @@ public class PedestalButtonConfigScreen extends Screen {
 	@Override
 	public boolean isPauseScreen() {
 		return false;
+	}
+
+	@Override
+	public ComponentPath nextFocusPath(FocusNavigationEvent event) {
+		return null;
 	}
 
 	@Override
