@@ -27,12 +27,14 @@ public class ConstructPreviewWidget extends AbstractWidget {
 	public static final Vec3 ORIGIN = new Vec3(1, .5, 1);
 
 	private final CannonDataHolder data;
+	private final boolean rotate;
 
-	private float animRot = 0;
+	private float animRot = 30;
 
-	public ConstructPreviewWidget(int size, CannonDataHolder data) {
+	public ConstructPreviewWidget(int size, boolean rotate, CannonDataHolder data) {
 		super(0, 0, size, size, MESSAGE);
 		this.data = data;
+		this.rotate = rotate;
 	}
 
 	private void prepareForBlockRendering(PoseStack matrices) {
@@ -61,7 +63,9 @@ public class ConstructPreviewWidget extends AbstractWidget {
 			matrices.translate(constructCenter.x, constructCenter.y, constructCenter.z);
 			matrices.mulPose(Axis.XP.rotationDegrees(30));
 			matrices.mulPose(Axis.YP.rotationDegrees(this.animRot));
-			this.animRot = (this.animRot + (delta * 2f)) % 360f;
+			if (this.rotate) {
+				this.animRot = (this.animRot + (delta * 2f)) % 360f;
+			}
 			matrices.translate(-constructCenter.x, -constructCenter.y, -constructCenter.z);
 			preview.blocks.forEach((pos, info) -> {
 				matrices.pushPose();

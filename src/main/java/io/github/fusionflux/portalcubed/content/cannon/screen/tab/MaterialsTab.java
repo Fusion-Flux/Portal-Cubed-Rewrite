@@ -4,12 +4,14 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.CannonDataHolder;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.MaterialSlotWidget;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class MaterialsTab {
 	public static final int COLUMNS = 6;
@@ -29,14 +31,14 @@ public class MaterialsTab {
 					tag, data,
 					() -> {
                         slots.forEach(MaterialSlotWidget::deselect);
-						data.update(settings -> settings.withConstruct(
-								ConstructManager.INSTANCE.getConstructSetsForMaterial(tag).stream()
-										.filter(s -> s.preview.blocks.size() > 1)
-										.limit(1)
-										.map(ConstructManager.INSTANCE::getId)
-										.filter(Objects::nonNull)
-										.findFirst()
-						));
+
+						Optional<ResourceLocation> defaultConstruct = ConstructManager.INSTANCE
+								.getConstructSetsForMaterial(tag)
+								.stream()
+								.map(ConstructManager.INSTANCE::getId)
+								.filter(Objects::nonNull)
+								.findFirst();
+						data.update(settings -> settings.withConstruct(defaultConstruct));
                     }
 			);
 			layout.addChild(slotX, slotY, slot);
