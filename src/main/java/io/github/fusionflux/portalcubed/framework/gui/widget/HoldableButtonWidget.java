@@ -6,14 +6,14 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 
-public class SimpleButtonWidget extends AbstractWidget {
+public class HoldableButtonWidget extends AbstractWidget {
 	private final Sprites sprites;
 	private final ButtonEvent onClick;
 	private final ButtonEvent onRelease;
 
 	public boolean pressed;
 
-	public SimpleButtonWidget(int width, int height, Sprites sprites, ButtonEvent onClick, ButtonEvent onRelease) {
+	public HoldableButtonWidget(int width, int height, Sprites sprites, ButtonEvent onClick, ButtonEvent onRelease) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 		this.sprites = sprites;
 		this.onClick = onClick;
@@ -44,7 +44,7 @@ public class SimpleButtonWidget extends AbstractWidget {
 
 	@FunctionalInterface
 	public static interface ButtonEvent {
-		void handle(SimpleButtonWidget button);
+		void handle(HoldableButtonWidget button);
 	}
 
 	public static record Sprites(

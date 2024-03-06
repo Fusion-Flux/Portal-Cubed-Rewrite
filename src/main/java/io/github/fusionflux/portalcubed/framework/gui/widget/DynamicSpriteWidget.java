@@ -1,7 +1,7 @@
-package io.github.fusionflux.portalcubed.content.button.pedestal.screen;
+package io.github.fusionflux.portalcubed.framework.gui.widget;
 
 import java.util.function.Function;
-import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -14,11 +14,11 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 
-public class ValueSpriteWidget extends AbstractWidget {
-	private final IntSupplier valueGetter;
-	private final Function<Integer, ResourceLocation> spriteGetter;
+public class DynamicSpriteWidget<T> extends AbstractWidget {
+	private final Supplier<T> valueGetter;
+	private final Function<T, ResourceLocation> spriteGetter;
 
-	public ValueSpriteWidget(int width, int height, IntSupplier valueGetter, Function<Integer, ResourceLocation> spriteGetter) {
+	public DynamicSpriteWidget(int width, int height, Supplier<T> valueGetter, Function<T, ResourceLocation> spriteGetter) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 		this.valueGetter = valueGetter;
 		this.spriteGetter = spriteGetter;
@@ -26,7 +26,7 @@ public class ValueSpriteWidget extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		graphics.blitSprite(spriteGetter.apply(valueGetter.getAsInt()), getX(), getY(), getWidth(), getHeight());
+		graphics.blitSprite(spriteGetter.apply(valueGetter.get()), getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override

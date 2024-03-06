@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.button.pedestal.screen;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -9,8 +10,11 @@ import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
-import io.github.fusionflux.portalcubed.framework.gui.widget.SimpleButtonWidget;
-import io.github.fusionflux.portalcubed.framework.gui.widget.SimpleButtonWidget.Sprites;
+import io.github.fusionflux.portalcubed.content.button.pedestal.screen.widget.TimerButtonWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.DynamicSpriteWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.HoldableButtonWidget;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.layouts.LinearLayout;
@@ -18,7 +22,6 @@ import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 
 public class PedestalButtonConfigScreen extends Screen {
 	private static final int BACKGROUND_WIDTH = 131;
@@ -28,23 +31,16 @@ public class PedestalButtonConfigScreen extends Screen {
 	private static final int CONTENT_X_OFFSET = 13;
 	private static final int SEGMENT_WIDTH = 13;
 	private static final int SEGMENT_HEIGHT = 23;
-	private static final float MAX_TIMER_BUTTON_CLICK_DELAY = 1f / 2f;
-	private static final float MAX_TIMER_BUTTON_CLICK_SPEED = 5f;
 
 	private final PedestalButtonBlockEntity pedestalButton;
-	private int pressTime;
+	public int pressTime;
 	private Offset offset;
-	private boolean dirty;
+	public boolean dirty;
 
 	private Style style;
 	private int leftPos;
 	private int topPos;
-
-	private SimpleButtonWidget[] timerButtons;
-	private SimpleButtonWidget heldTimerButton;
-	private int heldTimerButtonCounter;
-	private float heldTimerButtonSpeed;
-	private float heldTimerButtonDelay;
+	private EnumMap<Offset, HoldableButtonWidget> offsetSelectButtons;
 
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
@@ -53,28 +49,12 @@ public class PedestalButtonConfigScreen extends Screen {
 		this.offset = pedestalButton.getBlockState().getValue(PedestalButtonBlock.OFFSET);
 	}
 
-	private SimpleButtonWidget createTimerAdjustButton(boolean up) {
-		var spriteId = PortalCubed.id("pedestal_button/" + "timer_adjust_" + (up ? "up" : "down"));
-		return new SimpleButtonWidget(19, 8, new Sprites(spriteId), button -> {
-			if (heldTimerButton == null) {
-				heldTimerButton = button;
-				heldTimerButtonCounter = 0;
-				heldTimerButtonSpeed = 1;
-				heldTimerButtonDelay = MAX_TIMER_BUTTON_CLICK_DELAY;
-			}
-			pressTime = Mth.clamp(pressTime + (up ? 20 : -20), PedestalButtonBlockEntity.MIN_PRESS_TIME, PedestalButtonBlockEntity.MAX_PRESS_TIME);
-		}, button -> {
-			heldTimerButton = null;
-			dirty = true;
-		});
-	}
-
 	@Override
 	protected void init() {
 		style = Style.choose(this);
 		leftPos = (width - BACKGROUND_WIDTH) / 2;
 		topPos = (height - BACKGROUND_HEIGHT) / 2;
-		timerButtons = new SimpleButtonWidget[2];
+		offsetSelectButtons = new EnumMap<>(Offset.class);
 
 		var root = LinearLayout.vertical();
 		root.defaultCellSetting().paddingLeft(CONTENT_X_OFFSET);
@@ -93,19 +73,16 @@ public class PedestalButtonConfigScreen extends Screen {
 					pressTimeDisplaySegments.spacing(2);
 
 					cellSettings.paddingLeft(5);
-					pressTimeDisplaySegments.addChild(new ValueSpriteWidget(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)));
+					pressTimeDisplaySegments.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)));
 					cellSettings.paddingLeft(0);
-					pressTimeDisplaySegments.addChild(new ValueSpriteWidget(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)));
+					pressTimeDisplaySegments.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)));
 				}
 
 				{
 					var pressTimeDisplayButtons = pressTimeDisplay.addChild(LinearLayout.horizontal());
 
-					for (int i = 0; i < timerButtons.length; i++) {
-						var button = createTimerAdjustButton(i > 0);
-						pressTimeDisplayButtons.addChild(button);
-						timerButtons[i] = button;
-					}
+					pressTimeDisplayButtons.addChild(new TimerButtonWidget(this, false));
+					pressTimeDisplayButtons.addChild(new TimerButtonWidget(this, true));
 				}
 			}
 		}
@@ -130,31 +107,13 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	@Override
 	public void tick() {
-		for (int i = 0; i < timerButtons.length; i++) {
-			var button = timerButtons[i];
-			boolean wasActive = button.active;
-			button.active = pressTime != (i > 0 ? PedestalButtonBlockEntity.MAX_PRESS_TIME : PedestalButtonBlockEntity.MIN_PRESS_TIME);
-			if (wasActive && !button.active)
-				button.onRelease(0, 0);
-		}
-		if (heldTimerButton != null) {
-			heldTimerButtonDelay -= .1;
-			if (heldTimerButtonDelay <= 0) {
-				heldTimerButton.playDownSound(minecraft.getSoundManager());
-				heldTimerButton.onClick(0, 0);
-				heldTimerButtonDelay = MAX_TIMER_BUTTON_CLICK_DELAY / heldTimerButtonSpeed;
-				if (++heldTimerButtonCounter == 5) {
-					heldTimerButtonSpeed = Math.min(heldTimerButtonSpeed + .4f, MAX_TIMER_BUTTON_CLICK_SPEED);
-					heldTimerButtonCounter = 0;
-				}
-			}
-			if (!heldTimerButton.isHovered()) {
-				heldTimerButton.pressed = false;
-				heldTimerButton = null;
-			}
+		for (var widget : children()) {
+			if (widget instanceof TimerButtonWidget timerButton)
+				timerButton.tick();
 		}
 
 		if (dirty) {
+			PortalCubedPackets.sendToServer(new ConfigurePedestalButtonPacket(pedestalButton.getBlockPos(), pressTime, offset));
 			dirty = false;
 		}
 	}
