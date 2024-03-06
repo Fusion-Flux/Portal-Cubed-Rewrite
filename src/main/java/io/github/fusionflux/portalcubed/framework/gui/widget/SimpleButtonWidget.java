@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.gui.widget;
 
+import java.util.function.Consumer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -10,30 +12,38 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SimpleButtonWidget extends AbstractWidget {
 	private final Sprites sprites;
-	private final Runnable onClick;
+	private final Consumer<SimpleButtonWidget> onClick;
+	private final Consumer<SimpleButtonWidget> onRelease;
 
-	public SimpleButtonWidget(int width, int height, Sprites sprites, Runnable onClick) {
+	public SimpleButtonWidget(int width, int height, Sprites sprites, Consumer<SimpleButtonWidget> onClick, Consumer<SimpleButtonWidget> onRelease) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 		this.sprites = sprites;
 		this.onClick = onClick;
+		this.onRelease = onRelease;
 	}
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		if (!isActive()) return;
-		graphics.blitSprite(sprites.choose(isHovered()), getX(), getY(), getWidth(), getHeight());
+		if (isActive())
+			graphics.blitSprite(sprites.choose(isHovered()), getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override
 	public void onClick(double mouseX, double mouseY) {
-		onClick.run();
+		onClick.accept(this);
+	}
+
+	@Override
+	public void onRelease(double mouseX, double mouseY) {
+		onRelease.accept(this);
 	}
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if ((active && visible) && CommonInputs.selected(keyCode)) {
 			playDownSound(Minecraft.getInstance().getSoundManager());
-			onClick.run();
+			onClick.accept(this);
+			onRelease.accept(this);
 			return true;
 		}
 		return false;

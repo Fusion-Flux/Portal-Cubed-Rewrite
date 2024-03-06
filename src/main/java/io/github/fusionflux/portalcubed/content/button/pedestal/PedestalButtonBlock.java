@@ -118,7 +118,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (HammerItem.usingHammer(player)) {
+		if (player.getAbilities().mayBuild && HammerItem.usingHammer(player)) {
 			if (player instanceof ServerPlayer hammerUser)
 				PortalCubedPackets.sendToClient(hammerUser, new OpenPedestalButtonConfigPacket(pos));
 		} else {

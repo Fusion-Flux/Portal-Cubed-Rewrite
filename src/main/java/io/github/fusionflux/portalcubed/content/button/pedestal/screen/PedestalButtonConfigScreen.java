@@ -12,9 +12,6 @@ import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBl
 import io.github.fusionflux.portalcubed.framework.gui.widget.SimpleButtonWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.SimpleButtonWidget.Sprites;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.ImageWidget;
-import net.minecraft.client.gui.components.StringWidget;
-import net.minecraft.client.gui.layouts.LayoutSettings;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -29,6 +26,7 @@ public class PedestalButtonConfigScreen extends Screen {
 	private static final int CONTENT_X_OFFSET = 13;
 	private static final int SEGMENT_WIDTH = 13;
 	private static final int SEGMENT_HEIGHT = 23;
+	private static final float TIMER_BUTTON_CLICK_DELAY = 1 / 3;
 
 	private final PedestalButtonBlockEntity pedestalButton;
 	private int pressTime;
@@ -39,6 +37,9 @@ public class PedestalButtonConfigScreen extends Screen {
 	private int leftPos;
 	private int topPos;
 
+	private SimpleButtonWidget heldTimerButton;
+	private float heldTimerButtonDelay;
+
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
 		this.pedestalButton = pedestalButton;
@@ -48,8 +49,14 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	private SimpleButtonWidget createTimerAdjustButton(boolean up) {
 		var spriteId = PortalCubed.id("pedestal_button/" + "timer_adjust_" + (up ? "up" : "down"));
-		return new SimpleButtonWidget(19, 8, new Sprites(spriteId, spriteId.withSuffix("_hover")), () -> {
-			pressTime = Mth.clamp(pressTime + (up ? 20 : -20), 20, 99 * 20);
+		return new SimpleButtonWidget(19, 8, new Sprites(spriteId, spriteId.withSuffix("_hover")), button -> {
+			if (heldTimerButton == null) {
+				heldTimerButton = button;
+				heldTimerButtonDelay = TIMER_BUTTON_CLICK_DELAY;
+			}
+			pressTime = Mth.clamp(pressTime + (up ? 20 : -20), PedestalButtonBlockEntity.MINIMUM_PRESS_TIME, PedestalButtonBlockEntity.MAXIMUM_PRESS_TIME);
+		}, button -> {
+			heldTimerButton = null;
 			dirty = true;
 		});
 	}
@@ -61,15 +68,15 @@ public class PedestalButtonConfigScreen extends Screen {
 		topPos = (height - BACKGROUND_HEIGHT) / 2;
 
 		var root = LinearLayout.vertical();
-		root.defaultCellSetting().paddingLeft(13);
+		root.defaultCellSetting().paddingLeft(CONTENT_X_OFFSET);
 		root.spacing(5);
 
 		{
 			var contents = root.addChild(LinearLayout.horizontal());
-			contents.defaultCellSetting();
 
 			{
 				var pressTimeDisplay = contents.addChild(LinearLayout.vertical());
+				pressTimeDisplay.spacing(2);
 
 				{
 					var pressTimeDisplaySegments = pressTimeDisplay.addChild(LinearLayout.horizontal());
@@ -84,10 +91,9 @@ public class PedestalButtonConfigScreen extends Screen {
 
 				{
 					var pressTimeDisplayButtons = pressTimeDisplay.addChild(LinearLayout.horizontal());
-					pressTimeDisplayButtons.defaultCellSetting().paddingTop(2);
 
-					pressTimeDisplayButtons.addChild(createTimerAdjustButton(true));
 					pressTimeDisplayButtons.addChild(createTimerAdjustButton(false));
+					pressTimeDisplayButtons.addChild(createTimerAdjustButton(true));
 				}
 			}
 		}
@@ -112,6 +118,16 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	@Override
 	public void tick() {
+		if (heldTimerButton != null) {
+			heldTimerButtonDelay -= minecraft.getFrameTime();
+			if (heldTimerButtonDelay <= 0) {
+				heldTimerButton.playDownSound(minecraft.getSoundManager());
+				heldTimerButton.onClick(0, 0);
+				heldTimerButtonDelay = TIMER_BUTTON_CLICK_DELAY;
+			}
+			if (!heldTimerButton.isHovered()) heldTimerButton = null;
+		}
+
 		if (dirty) {
 			dirty = false;
 		}

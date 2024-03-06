@@ -6,11 +6,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class PedestalButtonBlockEntity extends BlockEntity {
 	public static final int DEFAULT_PRESS_TIME = 20 * 3;
+	public static final int MINIMUM_PRESS_TIME = 20 * 1;
+	public static final int MAXIMUM_PRESS_TIME = 20 * 99;
 
 	private int pressTime = DEFAULT_PRESS_TIME;
 
@@ -20,7 +23,7 @@ public class PedestalButtonBlockEntity extends BlockEntity {
 
 	public boolean setPressTime(int pressTime) {
 		boolean changed = this.pressTime != pressTime;
-		this.pressTime = pressTime;
+		this.pressTime = Mth.clamp(pressTime, MINIMUM_PRESS_TIME, MAXIMUM_PRESS_TIME);
 		if (changed) setChanged();
 		return changed;
 	}
@@ -31,7 +34,7 @@ public class PedestalButtonBlockEntity extends BlockEntity {
 
 	@Override
 	public void load(CompoundTag nbt) {
-		pressTime = nbt.getInt("press_time");
+		setPressTime(nbt.getInt("press_time"));
 	}
 
 	@Override
