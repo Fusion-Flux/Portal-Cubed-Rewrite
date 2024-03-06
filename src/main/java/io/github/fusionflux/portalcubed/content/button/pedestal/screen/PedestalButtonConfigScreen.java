@@ -26,7 +26,8 @@ public class PedestalButtonConfigScreen extends Screen {
 	private static final int CONTENT_X_OFFSET = 13;
 	private static final int SEGMENT_WIDTH = 13;
 	private static final int SEGMENT_HEIGHT = 23;
-	private static final float TIMER_BUTTON_CLICK_DELAY = 1 / 3;
+	private static final float MAX_TIMER_BUTTON_CLICK_DELAY = 1f / 2f;
+	private static final float MAX_TIMER_BUTTON_CLICK_SPEED = 2.5f;
 
 	private final PedestalButtonBlockEntity pedestalButton;
 	private int pressTime;
@@ -38,6 +39,8 @@ public class PedestalButtonConfigScreen extends Screen {
 	private int topPos;
 
 	private SimpleButtonWidget heldTimerButton;
+	private int heldTimerButtonCounter;
+	private float heldTimerButtonSpeed;
 	private float heldTimerButtonDelay;
 
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
@@ -52,7 +55,9 @@ public class PedestalButtonConfigScreen extends Screen {
 		return new SimpleButtonWidget(19, 8, new Sprites(spriteId, spriteId.withSuffix("_hover")), button -> {
 			if (heldTimerButton == null) {
 				heldTimerButton = button;
-				heldTimerButtonDelay = TIMER_BUTTON_CLICK_DELAY;
+				heldTimerButtonCounter = 0;
+				heldTimerButtonSpeed = 1;
+				heldTimerButtonDelay = MAX_TIMER_BUTTON_CLICK_DELAY;
 			}
 			pressTime = Mth.clamp(pressTime + (up ? 20 : -20), PedestalButtonBlockEntity.MINIMUM_PRESS_TIME, PedestalButtonBlockEntity.MAXIMUM_PRESS_TIME);
 		}, button -> {
@@ -119,11 +124,15 @@ public class PedestalButtonConfigScreen extends Screen {
 	@Override
 	public void tick() {
 		if (heldTimerButton != null) {
-			heldTimerButtonDelay -= minecraft.getFrameTime();
+			heldTimerButtonDelay -= .1;
 			if (heldTimerButtonDelay <= 0) {
 				heldTimerButton.playDownSound(minecraft.getSoundManager());
 				heldTimerButton.onClick(0, 0);
-				heldTimerButtonDelay = TIMER_BUTTON_CLICK_DELAY;
+				heldTimerButtonDelay = MAX_TIMER_BUTTON_CLICK_DELAY / heldTimerButtonSpeed;
+				if (++heldTimerButtonCounter == 5) {
+					heldTimerButtonSpeed = Math.min(heldTimerButtonSpeed + .4f, MAX_TIMER_BUTTON_CLICK_SPEED);
+					heldTimerButtonCounter = 0;
+				}
 			}
 			if (!heldTimerButton.isHovered()) heldTimerButton = null;
 		}
