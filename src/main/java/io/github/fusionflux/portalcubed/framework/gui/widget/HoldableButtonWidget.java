@@ -22,7 +22,7 @@ public class HoldableButtonWidget extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		graphics.blitSprite(sprites.choose(isHovered(), pressed, !active), getX(), getY(), getWidth(), getHeight());
+		graphics.blitSprite(sprites.choose(isHovered(), pressed, !isActive()), getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override

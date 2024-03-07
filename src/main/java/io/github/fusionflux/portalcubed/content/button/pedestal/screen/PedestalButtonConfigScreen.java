@@ -13,10 +13,12 @@ import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBl
 import io.github.fusionflux.portalcubed.content.button.pedestal.screen.widget.TimerButtonWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.DynamicSpriteWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.HoldableButtonWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ValueSelectionWidget;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
@@ -31,6 +33,9 @@ public class PedestalButtonConfigScreen extends Screen {
 	private static final int CONTENT_X_OFFSET = 13;
 	private static final int SEGMENT_WIDTH = 13;
 	private static final int SEGMENT_HEIGHT = 23;
+	private static final int OFFSET_SELECT_WIDTH = 13;
+	private static final int OFFSET_SELECT_HEIGHT = OFFSET_SELECT_WIDTH;
+	private static final ResourceLocation OFFSET_SELECT_BASE = PortalCubed.id("pedestal_button/offset_select");
 
 	private final PedestalButtonBlockEntity pedestalButton;
 	public int pressTime;
@@ -40,7 +45,7 @@ public class PedestalButtonConfigScreen extends Screen {
 	private Style style;
 	private int leftPos;
 	private int topPos;
-	private EnumMap<Offset, HoldableButtonWidget> offsetSelectButtons;
+	private EnumMap<Offset, ValueSelectionWidget<Offset>> offsetSelectButtons;
 
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
@@ -62,6 +67,8 @@ public class PedestalButtonConfigScreen extends Screen {
 
 		{
 			var contents = root.addChild(LinearLayout.horizontal());
+			contents.defaultCellSetting().paddingTop(25);
+			contents.spacing(24);
 
 			{
 				var pressTimeDisplay = contents.addChild(LinearLayout.vertical());
@@ -69,7 +76,7 @@ public class PedestalButtonConfigScreen extends Screen {
 
 				{
 					var pressTimeDisplaySegments = pressTimeDisplay.addChild(LinearLayout.horizontal());
-					var cellSettings = pressTimeDisplaySegments.defaultCellSetting().paddingTop(30).paddingBottom(5);
+					var cellSettings = pressTimeDisplaySegments.defaultCellSetting().paddingTop(5).paddingBottom(5);
 					pressTimeDisplaySegments.spacing(2);
 
 					cellSettings.paddingLeft(5);
@@ -83,6 +90,24 @@ public class PedestalButtonConfigScreen extends Screen {
 
 					pressTimeDisplayButtons.addChild(new TimerButtonWidget(this, false));
 					pressTimeDisplayButtons.addChild(new TimerButtonWidget(this, true));
+				}
+			}
+
+			{
+				var offsetSelectButtonGrid = contents.addChild(new GridLayout());
+				offsetSelectButtonGrid.spacing(2);
+
+				for (var offset : Offset.values()) {
+					var button = new ValueSelectionWidget<Offset>(
+						OFFSET_SELECT_WIDTH, OFFSET_SELECT_HEIGHT, OFFSET_SELECT_BASE,
+						offset, () -> this.offset, v -> {
+							this.offset = v;
+							this.dirty = true;
+						}, offsetSelectButtons::get
+					);
+					button.active = offset != this.offset;
+					offsetSelectButtonGrid.addChild(button, offset.stepY + 1, offset.stepX + 1);
+					offsetSelectButtons.put(offset, button);
 				}
 			}
 		}
