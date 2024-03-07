@@ -225,10 +225,10 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 			int sign = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? -1 : 1;
 			return (switch (face.getAxis()) {
 				case X -> switch (facing) {
-					case SOUTH -> new Vec3i(0, stepX, -stepY * sign);
-					case WEST -> new Vec3i(0, -stepY * sign, -stepX);
-					case EAST -> new Vec3i(0, stepY * sign, stepX);
-					default -> new Vec3i(0, -stepX, stepY * sign);
+					case SOUTH -> new Vec3i(0, -stepX, -stepY * sign);
+					case WEST -> new Vec3i(0, -stepY * sign, stepX);
+					case EAST -> new Vec3i(0, stepY * sign, -stepX);
+					default -> new Vec3i(0, stepX, stepY * sign);
 				};
 				case Y -> switch (facing) {
 					case SOUTH -> new Vec3i(-stepX, 0, -stepY);
@@ -237,10 +237,10 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 					default -> new Vec3i(stepX, 0, stepY);
 				};
 				case Z -> switch (facing) {
-					case SOUTH -> new Vec3i(-stepX * sign, -stepY, 0);
-					case WEST -> new Vec3i(stepY, -stepX * sign, 0);
-					case EAST -> new Vec3i(-stepY, stepX * sign, 0);
-					default -> new Vec3i(stepX * sign, stepY, 0);
+					case SOUTH -> new Vec3i(stepX * sign, -stepY, 0);
+					case WEST -> new Vec3i(stepY, stepX * sign, 0);
+					case EAST -> new Vec3i(-stepY, -stepX * sign, 0);
+					default -> new Vec3i(-stepX * sign, stepY, 0);
 				};
 			}).multiply(SHIFT_DIST);
 		}
