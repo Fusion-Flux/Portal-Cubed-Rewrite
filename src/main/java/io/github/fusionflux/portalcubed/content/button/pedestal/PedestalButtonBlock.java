@@ -210,17 +210,38 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		}
 
 		public Vec3i relative(Direction face, Direction facing) {
-			var shift = switch (facing) {
-				case SOUTH -> IntIntPair.of(-stepX, -stepY);
-				case WEST -> IntIntPair.of(stepY, -stepX);
-				case EAST -> IntIntPair.of(-stepY, stepX);
-				default -> IntIntPair.of(stepX, stepY);
-			};
+			// var shift = switch (facing) {
+			// 	case SOUTH -> IntIntPair.of(-stepX, -stepY);
+			// 	case WEST -> IntIntPair.of(stepY, -stepX);
+			// 	case EAST -> IntIntPair.of(-stepY, stepX);
+			// 	default -> IntIntPair.of(stepX, stepY);
+			// };
+			// int sign = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? -1 : 1;
+			// return (switch (face.getAxis()) {
+			// 	case X -> new Vec3i(0, shift.rightInt(), shift.leftInt() * sign);
+			// 	case Y -> new Vec3i(shift.leftInt(), 0, shift.rightInt());
+			// 	case Z -> new Vec3i(-shift.leftInt() * sign, shift.rightInt(), 0);
+			// }).multiply(SHIFT_DIST);
 			int sign = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? -1 : 1;
 			return (switch (face.getAxis()) {
-				case X -> new Vec3i(0, shift.rightInt(), shift.leftInt() * sign);
-				case Y -> new Vec3i(shift.leftInt(), 0, shift.rightInt());
-				case Z -> new Vec3i(-shift.leftInt() * sign, shift.rightInt(), 0);
+				case X -> switch (facing) {
+					case SOUTH -> new Vec3i(0, stepX, -stepY * sign);
+					case WEST -> new Vec3i(0, -stepY * sign, -stepX);
+					case EAST -> new Vec3i(0, stepY * sign, stepX);
+					default -> new Vec3i(0, -stepX, stepY * sign);
+				};
+				case Y -> switch (facing) {
+					case SOUTH -> new Vec3i(-stepX, 0, -stepY);
+					case WEST -> new Vec3i(stepY, 0, -stepX);
+					case EAST -> new Vec3i(-stepY, 0, stepX);
+					default -> new Vec3i(stepX, 0, stepY);
+				};
+				case Z -> switch (facing) {
+					case SOUTH -> new Vec3i(-stepX * sign, -stepY, 0);
+					case WEST -> new Vec3i(stepY, -stepX * sign, 0);
+					case EAST -> new Vec3i(-stepY, stepX * sign, 0);
+					default -> new Vec3i(stepX * sign, stepY, 0);
+				};
 			}).multiply(SHIFT_DIST);
 		}
 	}
