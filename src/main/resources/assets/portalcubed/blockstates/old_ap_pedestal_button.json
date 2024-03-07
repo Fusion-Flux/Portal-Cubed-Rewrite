@@ -697,7 +697,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": -4,
+      "portalcubed:shift_x": 4,
       "x": 90,
       "y": 180
     },
@@ -705,8 +705,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -714,8 +714,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -723,7 +723,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -738,7 +738,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -746,7 +746,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": 4,
+      "portalcubed:shift_x": -4,
       "x": 90,
       "y": 180
     },
@@ -754,8 +754,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -763,38 +763,38 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=south,facing=north,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=south,facing=north,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=south,facing=north,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=south,facing=north,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": -4,
+      "portalcubed:shift_x": 4,
       "x": 90,
       "y": 180
     },
@@ -807,30 +807,30 @@
     "active=false,face=south,facing=north,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": 4,
+      "portalcubed:shift_x": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=south,facing=north,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
     "active=false,face=south,facing=north,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
     "active=false,face=south,facing=north,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -838,7 +838,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -846,8 +846,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -855,8 +855,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -864,7 +864,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": 4,
+      "portalcubed:shift_x": -4,
       "x": 90,
       "y": 180
     },
@@ -879,7 +879,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": -4,
+      "portalcubed:shift_x": 4,
       "x": 90,
       "y": 180
     },
@@ -887,7 +887,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -895,8 +895,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -904,8 +904,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -913,7 +913,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": 4,
+      "portalcubed:shift_x": -4,
       "x": 90,
       "y": 180
     },
@@ -921,8 +921,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -930,8 +930,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -939,7 +939,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -954,7 +954,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -962,7 +962,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": -4,
+      "portalcubed:shift_x": 4,
       "x": 90,
       "y": 180
     },
@@ -970,8 +970,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -979,8 +979,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -1170,27 +1170,27 @@
     "active=false,face=west,facing=east,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_z": 4,
       "y": 180
     },
     "active=false,face=west,facing=east,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": 4,
       "y": 180
     },
     "active=false,face=west,facing=east,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": 4,
       "y": 180
     },
     "active=false,face=west,facing=east,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "y": 180
     },
     "active=false,face=west,facing=east,offset=none": {
@@ -1201,56 +1201,56 @@
     "active=false,face=west,facing=east,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "y": 180
     },
     "active=false,face=west,facing=east,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_z": -4,
       "y": 180
     },
     "active=false,face=west,facing=east,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": -4,
       "y": 180
     },
     "active=false,face=west,facing=east,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": -4,
       "y": 180
     },
     "active=false,face=west,facing=north,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=west,facing=north,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": 4,
       "x": 90,
       "y": 180
     },
     "active=false,face=west,facing=north,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=west,facing=north,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_z": 4,
       "x": 90,
       "y": 180
     },
@@ -1263,60 +1263,60 @@
     "active=false,face=west,facing=north,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_z": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=west,facing=north,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
     "active=false,face=west,facing=north,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": 4,
       "x": 90,
       "y": 180
     },
     "active=false,face=west,facing=north,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": -4,
       "x": 90,
       "y": 180
     },
     "active=false,face=west,facing=south,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 270,
       "y": 180
     },
     "active=false,face=west,facing=south,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": -4,
       "x": 270,
       "y": 180
     },
     "active=false,face=west,facing=south,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": 4,
       "x": 270,
       "y": 180
     },
     "active=false,face=west,facing=south,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_z": -4,
       "x": 270,
       "y": 180
     },
@@ -1329,60 +1329,60 @@
     "active=false,face=west,facing=south,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_z": 4,
       "x": 270,
       "y": 180
     },
     "active=false,face=west,facing=south,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 270,
       "y": 180
     },
     "active=false,face=west,facing=south,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": -4,
       "x": 270,
       "y": 180
     },
     "active=false,face=west,facing=south,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": 4,
       "x": 270,
       "y": 180
     },
     "active=false,face=west,facing=west,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_z": -4,
       "x": 180,
       "y": 180
     },
     "active=false,face=west,facing=west,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": -4,
       "x": 180,
       "y": 180
     },
     "active=false,face=west,facing=west,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": -4,
       "x": 180,
       "y": 180
     },
     "active=false,face=west,facing=west,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 180,
       "y": 180
     },
@@ -1395,30 +1395,30 @@
     "active=false,face=west,facing=west,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 180,
       "y": 180
     },
     "active=false,face=west,facing=west,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_z": 4,
       "x": 180,
       "y": 180
     },
     "active=false,face=west,facing=west,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": 4,
       "x": 180,
       "y": 180
     },
     "active=false,face=west,facing=west,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": 4,
       "x": 180,
       "y": 180
     },
@@ -2119,7 +2119,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": -4,
+      "portalcubed:shift_x": 4,
       "x": 90,
       "y": 180
     },
@@ -2127,8 +2127,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2136,8 +2136,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -2145,7 +2145,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2160,7 +2160,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -2168,7 +2168,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": 4,
+      "portalcubed:shift_x": -4,
       "x": 90,
       "y": 180
     },
@@ -2176,8 +2176,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2185,38 +2185,38 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=south,facing=north,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=south,facing=north,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=south,facing=north,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=south,facing=north,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": -4,
+      "portalcubed:shift_x": 4,
       "x": 90,
       "y": 180
     },
@@ -2229,30 +2229,30 @@
     "active=true,face=south,facing=north,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": 4,
+      "portalcubed:shift_x": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=south,facing=north,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
     "active=true,face=south,facing=north,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
     "active=true,face=south,facing=north,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2260,7 +2260,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2268,8 +2268,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2277,8 +2277,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2286,7 +2286,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": 4,
+      "portalcubed:shift_x": -4,
       "x": 90,
       "y": 180
     },
@@ -2301,7 +2301,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": -4,
+      "portalcubed:shift_x": 4,
       "x": 90,
       "y": 180
     },
@@ -2309,7 +2309,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -2317,8 +2317,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -2326,8 +2326,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -2335,7 +2335,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": 4,
+      "portalcubed:shift_x": -4,
       "x": 90,
       "y": 180
     },
@@ -2343,8 +2343,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -2352,8 +2352,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": 4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2361,7 +2361,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -2376,7 +2376,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2384,7 +2384,7 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": -4,
+      "portalcubed:shift_x": 4,
       "x": 90,
       "y": 180
     },
@@ -2392,8 +2392,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
@@ -2401,8 +2401,8 @@
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_x": -4,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_x": 4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
@@ -2592,27 +2592,27 @@
     "active=true,face=west,facing=east,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_z": 4,
       "y": 180
     },
     "active=true,face=west,facing=east,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": 4,
       "y": 180
     },
     "active=true,face=west,facing=east,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": 4,
       "y": 180
     },
     "active=true,face=west,facing=east,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "y": 180
     },
     "active=true,face=west,facing=east,offset=none": {
@@ -2623,56 +2623,56 @@
     "active=true,face=west,facing=east,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "y": 180
     },
     "active=true,face=west,facing=east,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_z": -4,
       "y": 180
     },
     "active=true,face=west,facing=east,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": -4,
       "y": 180
     },
     "active=true,face=west,facing=east,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": -4,
       "y": 180
     },
     "active=true,face=west,facing=north,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=west,facing=north,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": 4,
       "x": 90,
       "y": 180
     },
     "active=true,face=west,facing=north,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=west,facing=north,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_z": 4,
       "x": 90,
       "y": 180
     },
@@ -2685,60 +2685,60 @@
     "active=true,face=west,facing=north,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_z": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=west,facing=north,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 90,
       "y": 180
     },
     "active=true,face=west,facing=north,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": 4,
       "x": 90,
       "y": 180
     },
     "active=true,face=west,facing=north,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": -4,
       "x": 90,
       "y": 180
     },
     "active=true,face=west,facing=south,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 270,
       "y": 180
     },
     "active=true,face=west,facing=south,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": -4,
       "x": 270,
       "y": 180
     },
     "active=true,face=west,facing=south,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": 4,
       "x": 270,
       "y": 180
     },
     "active=true,face=west,facing=south,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_z": -4,
       "x": 270,
       "y": 180
     },
@@ -2751,60 +2751,60 @@
     "active=true,face=west,facing=south,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_z": 4,
       "x": 270,
       "y": 180
     },
     "active=true,face=west,facing=south,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 270,
       "y": 180
     },
     "active=true,face=west,facing=south,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": -4,
       "x": 270,
       "y": 180
     },
     "active=true,face=west,facing=south,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": 4,
       "x": 270,
       "y": 180
     },
     "active=true,face=west,facing=west,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_z": -4,
       "x": 180,
       "y": 180
     },
     "active=true,face=west,facing=west,offset=down_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": -4,
       "x": 180,
       "y": 180
     },
     "active=true,face=west,facing=west,offset=down_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": 4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": -4,
       "x": 180,
       "y": 180
     },
     "active=true,face=west,facing=west,offset=left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
+      "portalcubed:shift_y": -4,
       "x": 180,
       "y": 180
     },
@@ -2817,30 +2817,30 @@
     "active=true,face=west,facing=west,offset=right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
+      "portalcubed:shift_y": 4,
       "x": 180,
       "y": 180
     },
     "active=true,face=west,facing=west,offset=up": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_z": 4,
       "x": 180,
       "y": 180
     },
     "active=true,face=west,facing=west,offset=up_left": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": 4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": -4,
+      "portalcubed:shift_z": 4,
       "x": 180,
       "y": 180
     },
     "active=true,face=west,facing=west,offset=up_right": {
       "model": "portalcubed:block/old_ap_pedestal_button_active",
       "portalcubed:rot_z": 90,
-      "portalcubed:shift_y": -4,
-      "portalcubed:shift_z": -4,
+      "portalcubed:shift_y": 4,
+      "portalcubed:shift_z": 4,
       "x": 180,
       "y": 180
     }

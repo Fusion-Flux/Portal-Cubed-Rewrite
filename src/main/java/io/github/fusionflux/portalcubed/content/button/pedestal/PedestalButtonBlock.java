@@ -216,10 +216,11 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 				case EAST -> IntIntPair.of(-stepY, stepX);
 				default -> IntIntPair.of(stepX, stepY);
 			};
+			int sign = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? -1 : 1;
 			return (switch (face.getAxis()) {
-				case X -> new Vec3i(0, shift.rightInt(), shift.leftInt());
+				case X -> new Vec3i(0, shift.rightInt(), shift.leftInt()).multiply(sign);
 				case Y -> new Vec3i(shift.leftInt(), 0, shift.rightInt());
-				case Z -> new Vec3i(shift.leftInt(), shift.rightInt(), 0);
+				case Z -> new Vec3i(-shift.leftInt(), -shift.rightInt(), 0).multiply(sign);
 			}).multiply(SHIFT_DIST);
 		}
 	}
