@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "group": "iron_ingot",
+  "group": "magnesium_ingot",
   "ingredients": [
     {
       "item": "portalcubed:magnesium_block"
