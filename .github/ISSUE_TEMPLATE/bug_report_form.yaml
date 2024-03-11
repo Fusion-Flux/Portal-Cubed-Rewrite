@@ -1,5 +1,5 @@
 name: Bug Report
-description: For reporting a bug with Portal Cubed
+description: For reporting a bug with Portal Cubed.  If what you are submitting a report for is not a bug, use the other template.
 labels: ["Bug"]
 body:
   - type: markdown
@@ -11,7 +11,7 @@ body:
     id: bug_description
     attributes:
       label: Describe the Bug
-      description: Tell us about the bug you're encountering.  Include details about what you expected to happen, and what actually happened instead.
+      description: Tell us about the bug you're encountering.  Include details about what you expected to happen, and what actually happened instead.  If you have screenshots or videos of the bug happening, you can include them here.
     validations:
       required: true
 
@@ -29,7 +29,7 @@ body:
     validations:
         required: true
 
-  - type: textarea
+  - type: input
     id: game_log
     attributes:
         label: Game Log
@@ -37,7 +37,7 @@ body:
     validations:
         required: true
 
-  - type: textarea
+  - type: input
     id: crash_log
     attributes:
         label: Crash Log
