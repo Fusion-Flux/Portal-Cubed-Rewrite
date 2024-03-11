@@ -1,0 +1,67 @@
+name: Bug Report
+description: For reporting a bug with Portal Cubed
+labels: ["Bug"]
+body:
+  - type: markdown
+    attributes:
+      value:
+        Please fill out the details below for the bug you are encountering.
+
+  - type: dropdown
+    id: mod_version
+    attributes:
+        label: Portal Cubed Version
+        description: What version of Portal Cubed are you using?
+        options:
+            - Alpha 1
+        default: 0
+    validations:
+        required: true
+
+  - type: dropdown
+    id: game_version
+    attributes:
+        label: Minecraft Version
+        description: What version of Minecraft are you using?
+        options:
+            - 1.20.1
+        default: 0
+    validations:
+        required: true
+
+  - type: textarea
+    id: bug_description
+    attributes:
+      label: Describe the Bug
+      description: Tell us about the bug you're encountering.  Include details about what you expected to happen, and what actually happened instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+        label: Reproduction Steps
+        description: List the steps to recreate the bug.  Make sure you double check your list to be sure it produces the outcome described above.
+        placeholder:
+            1. I was told there would be cake at the end of the tests
+            2. I reached the end of the tests
+            3.
+    validations:
+        required: true
+
+  - type: textarea
+    id: log
+    attributes:
+        label: Game Logs
+        description: Please attach the log file found at `.minecraft/logs/latest.log` after encountering the issue.  If the bug results in a crash, check `.minecraft/crash-reports` to see if a crash report was generated as well, and attach if here if so.
+    validations:
+        required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      description: Once you've confirmed all the above information is filled out and correct, check this box and submit the issue.
+      options:
+        - label: I have verified everything above is filled out correctly for the issue I am having.
+          required: true
