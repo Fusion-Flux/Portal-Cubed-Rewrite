@@ -7,7 +7,6 @@ import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBl
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.blockstates.Condition;
@@ -16,11 +15,12 @@ import net.minecraft.data.models.blockstates.Variant;
 import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.blockstates.VariantProperty;
 import net.minecraft.data.models.model.ModelLocationUtils;
+import net.minecraft.world.phys.Vec3;
 
 public class PedestalButtonBlockStates extends FabricModelProvider {
-	public static final VariantProperty<Integer> SHIFT_X = new VariantProperty<>("portalcubed:shift_x", JsonPrimitive::new);
-	public static final VariantProperty<Integer> SHIFT_Y = new VariantProperty<>("portalcubed:shift_y", JsonPrimitive::new);
-	public static final VariantProperty<Integer> SHIFT_Z = new VariantProperty<>("portalcubed:shift_z", JsonPrimitive::new);
+	public static final VariantProperty<Float> SHIFT_X = new VariantProperty<>("portalcubed:shift_x", JsonPrimitive::new);
+	public static final VariantProperty<Float> SHIFT_Y = new VariantProperty<>("portalcubed:shift_y", JsonPrimitive::new);
+	public static final VariantProperty<Float> SHIFT_Z = new VariantProperty<>("portalcubed:shift_z", JsonPrimitive::new);
 	public static final VariantProperty<Integer> Z_ROT = new VariantProperty<>("portalcubed:rot_z", JsonPrimitive::new);
 	public static final VariantProperty<Boolean> LOCAL_Z_ROT = new VariantProperty<>("portalcubed:local_rot_z", JsonPrimitive::new);
 
@@ -92,11 +92,11 @@ public class PedestalButtonBlockStates extends FabricModelProvider {
 				.term(PedestalButtonBlock.OFFSET, offset)
 				.term(PedestalButtonBlock.BASE, base);
 
-			var baseShift = offset.relative(face, facing);
+			var baseShift = offset.relative(face, facing, base);
 			if (base)
 				generator.with(condition, shiftedVariantCopy(variant, baseShift).with(VariantProperties.MODEL, offset.centered ? centerBaseModelId : edgeBaseModelId));
 
-			var buttonShift = baseShift.offset(face.getNormal());
+			var buttonShift = baseShift.add(Vec3.atLowerCornerOf(face.getNormal()));
 			for (boolean active : PedestalButtonBlock.ACTIVE.getPossibleValues()) {
 				generator.with(
 					Condition.and(condition, Condition.condition().term(PedestalButtonBlock.ACTIVE, active)),
@@ -109,14 +109,14 @@ public class PedestalButtonBlockStates extends FabricModelProvider {
 		blockStateModelGenerator.skipAutoItemBlock(pedestalButtonBlock);
 	}
 
-	public static Variant shiftedVariantCopy(Variant variant, Vec3i shift) {
+	public static Variant shiftedVariantCopy(Variant variant, Vec3 shift) {
 		variant = Variant.merge(variant, Variant.variant());
-		if (shift.getX() != 0)
-			variant.with(SHIFT_X, shift.getX());
-		if (shift.getY() != 0)
-			variant.with(SHIFT_Y, shift.getY());
-		if (shift.getZ() != 0)
-			variant.with(SHIFT_Z, shift.getZ());
+		if (shift.x() != 0)
+			variant.with(SHIFT_X, (float) shift.x());
+		if (shift.y() != 0)
+			variant.with(SHIFT_Y, (float) shift.y());
+		if (shift.z() != 0)
+			variant.with(SHIFT_Z, (float) shift.z());
 		return variant;
 	}
 

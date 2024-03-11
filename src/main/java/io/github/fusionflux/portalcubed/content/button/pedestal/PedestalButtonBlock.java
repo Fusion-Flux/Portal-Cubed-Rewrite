@@ -18,7 +18,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -71,10 +70,10 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		for (var state : this.stateDefinition.getPossibleStates()) {
 			var face = state.getValue(FACE);
 			var facing = state.getValue(FACING);
-			var shift = state.getValue(OFFSET).relative(face, facing);
 			boolean base = state.getValue(BASE);
+			var shift = state.getValue(OFFSET).relative(face, facing, base);
 			var rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
-			this.shapes.put(state, rotated.move(shift.getX() / 16d, shift.getY() / 16d, shift.getZ() / 16d));
+			this.shapes.put(state, rotated.move(shift.x() / 16d, shift.y() / 16d, shift.z() / 16d));
 		}
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACE, Direction.UP).setValue(FACING, Direction.SOUTH).setValue(OFFSET, Offset.NONE).setValue(BASE, false).setValue(ACTIVE, false));
 	}
@@ -194,7 +193,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		LEFT(-1, 0),
 		RIGHT(1, 0);
 
-		public static final int SHIFT_DIST = 4;
+		public static final float SHIFT_DIST = 4;
 
 		public final String name;
 		public final int stepX;
@@ -213,7 +212,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 			return name;
 		}
 
-		public Vec3i relative(Direction face, Direction facing) {
+		public Vec3 relative(Direction face, Direction facing, boolean pad) {
 			// var shift = switch (facing) {
 			// 	case SOUTH -> IntIntPair.of(-stepX, -stepY);
 			// 	case WEST -> IntIntPair.of(stepY, -stepX);
@@ -229,24 +228,24 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 			int sign = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? -1 : 1;
 			return (switch (face.getAxis()) {
 				case X -> switch (facing) {
-					case SOUTH -> new Vec3i(0, -stepX, -stepY * sign);
-					case WEST -> new Vec3i(0, -stepY * sign, stepX);
-					case EAST -> new Vec3i(0, stepY * sign, -stepX);
-					default -> new Vec3i(0, stepX, stepY * sign);
+					case SOUTH -> new Vec3(0, -stepX, -stepY * sign);
+					case WEST -> new Vec3(0, -stepY * sign, stepX);
+					case EAST -> new Vec3(0, stepY * sign, -stepX);
+					default -> new Vec3(0, stepX, stepY * sign);
 				};
 				case Y -> switch (facing) {
-					case SOUTH -> new Vec3i(-stepX, 0, -stepY);
-					case WEST -> new Vec3i(stepY, 0, -stepX);
-					case EAST -> new Vec3i(-stepY, 0, stepX);
-					default -> new Vec3i(stepX, 0, stepY);
+					case SOUTH -> new Vec3(-stepX, 0, -stepY);
+					case WEST -> new Vec3(stepY, 0, -stepX);
+					case EAST -> new Vec3(-stepY, 0, stepX);
+					default -> new Vec3(stepX, 0, stepY);
 				};
 				case Z -> switch (facing) {
-					case SOUTH -> new Vec3i(stepX * sign, -stepY, 0);
-					case WEST -> new Vec3i(stepY, stepX * sign, 0);
-					case EAST -> new Vec3i(-stepY, -stepX * sign, 0);
-					default -> new Vec3i(-stepX * sign, stepY, 0);
+					case SOUTH -> new Vec3(stepX * sign, -stepY, 0);
+					case WEST -> new Vec3(stepY, stepX * sign, 0);
+					case EAST -> new Vec3(-stepY, -stepX * sign, 0);
+					default -> new Vec3(-stepX * sign, stepY, 0);
 				};
-			}).multiply(SHIFT_DIST);
+			}).scale(pad ? SHIFT_DIST - .5 : SHIFT_DIST);
 		}
 	}
 }

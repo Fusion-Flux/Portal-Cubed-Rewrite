@@ -21,9 +21,9 @@ public class Variant_DeserializerMixin {
 	@Inject(method = "deserialize", at = @At("RETURN"))
 	private void deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext, CallbackInfoReturnable<Variant> cir) {
 		var jsonObject = jsonElement.getAsJsonObject();
-		int shiftX = GsonHelper.getAsInt(jsonObject, "portalcubed:shift_x", 0);
-		int shiftY = GsonHelper.getAsInt(jsonObject, "portalcubed:shift_y", 0);
-		int shiftZ = GsonHelper.getAsInt(jsonObject, "portalcubed:shift_z", 0);
+		float shiftX = GsonHelper.getAsFloat(jsonObject, "portalcubed:shift_x", 0);
+		float shiftY = GsonHelper.getAsFloat(jsonObject, "portalcubed:shift_y", 0);
+		float shiftZ = GsonHelper.getAsFloat(jsonObject, "portalcubed:shift_z", 0);
 		int rotZ = GsonHelper.getAsInt(jsonObject, "portalcubed:rot_z", 0);
 		boolean isRotZLocal = GsonHelper.getAsBoolean(jsonObject, "portalcubed:local_rot_z", false);
 
