@@ -29,6 +29,8 @@ public class ValueSelectionWidget<T extends StringRepresentable> extends Abstrac
 		this.valueGetter = valueGetter;
 		this.valueSetter = valueSetter;
 		this.widgetMap = widgetMap;
+
+		if (widgetValue == valueGetter.get()) active = false;
 	}
 
 	public ValueSelectionWidget(int width, int height, ResourceLocation baseSprite, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectionWidget<T>> widgetMap) {

@@ -14,7 +14,6 @@ import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper.DefaultRotationValues;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
-import it.unimi.dsi.fastutil.ints.IntIntPair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -52,6 +51,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class PedestalButtonBlock extends HorizontalDirectionalBlock implements EntityBlock {
 	public static final EnumProperty<Direction> FACE = EnumProperty.create("face", Direction.class);
 	public static final EnumProperty<Offset> OFFSET = EnumProperty.create("offset", Offset.class);
+	public static final BooleanProperty BASE = BooleanProperty.create("base");
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 
 	private final Map<BlockState, VoxelShape> shapes;
@@ -67,19 +67,21 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		this.pressSound = pressSound;
 		this.releaseSound = releaseSound;
 		this.shapes = new HashMap<>();
+		System.out.println("Number of pedestal buttons: " + this.stateDefinition.getPossibleStates().size());
 		for (var state : this.stateDefinition.getPossibleStates()) {
 			var face = state.getValue(FACE);
 			var facing = state.getValue(FACING);
 			var shift = state.getValue(OFFSET).relative(face, facing);
-			var rotated = VoxelShaper.rotate(shape.get(facing), Direction.UP, face, new DefaultRotationValues());
-			shapes.put(state, rotated.move(shift.getX() / 16d, shift.getY() / 16d, shift.getZ() / 16d));
+			boolean base = state.getValue(BASE);
+			var rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
+			this.shapes.put(state, rotated.move(shift.getX() / 16d, shift.getY() / 16d, shift.getZ() / 16d));
 		}
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACE, Direction.UP).setValue(FACING, Direction.SOUTH).setValue(OFFSET, Offset.NONE).setValue(ACTIVE, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACE, Direction.UP).setValue(FACING, Direction.SOUTH).setValue(OFFSET, Offset.NONE).setValue(BASE, false).setValue(ACTIVE, false));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACE, FACING, OFFSET, ACTIVE);
+		builder.add(FACE, FACING, OFFSET, BASE, ACTIVE);
 	}
 
 	@Override
@@ -197,11 +199,13 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		public final String name;
 		public final int stepX;
 		public final int stepY;
+		public final boolean centered;
 
 		Offset(int stepX, int stepY) {
 			this.name = name().toLowerCase(Locale.ROOT);
 			this.stepX = stepX;
 			this.stepY = stepY;
+			this.centered = stepX == 0;
 		}
 
 		@Override

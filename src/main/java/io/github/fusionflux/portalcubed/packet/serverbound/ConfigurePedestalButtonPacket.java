@@ -17,9 +17,9 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 
-public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pressTime, Offset offset) implements ServerboundPacket {
+public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pressTime, Offset offset, boolean base) implements ServerboundPacket {
 	public ConfigurePedestalButtonPacket(FriendlyByteBuf buf) {
-		this(buf.readBlockPos(), buf.readVarInt(), buf.readEnum(Offset.class));
+		this(buf.readBlockPos(), buf.readVarInt(), buf.readEnum(Offset.class), buf.readBoolean());
 	}
 
 	@Override
@@ -27,6 +27,7 @@ public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pres
 		buf.writeBlockPos(pedestalButtonPos);
 		buf.writeVarInt(pressTime);
 		buf.writeEnum(offset);
+		buf.writeBoolean(base);
 	}
 
 	@Override
@@ -41,7 +42,9 @@ public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pres
 			var level = player.level();
 			if (level.getBlockEntity(pedestalButtonPos) instanceof PedestalButtonBlockEntity pedestalButton) {
 				var oldState = level.getBlockState(pedestalButtonPos);
-				level.setBlock(pedestalButtonPos, oldState.setValue(PedestalButtonBlock.OFFSET, offset), Block.UPDATE_ALL);
+				level.setBlock(pedestalButtonPos, oldState
+					.setValue(PedestalButtonBlock.OFFSET, offset)
+					.setValue(PedestalButtonBlock.BASE, base), Block.UPDATE_ALL);
 				pedestalButton.setPressTime(pressTime);
 			}
 		} else {

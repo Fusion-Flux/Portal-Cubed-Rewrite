@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBl
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
 import io.github.fusionflux.portalcubed.content.button.pedestal.screen.widget.TimerButtonWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.DynamicSpriteWidget;
-import io.github.fusionflux.portalcubed.framework.gui.widget.HoldableButtonWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButtonWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ValueSelectionWidget;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
@@ -36,10 +36,14 @@ public class PedestalButtonConfigScreen extends Screen {
 	private static final int OFFSET_SELECT_WIDTH = 13;
 	private static final int OFFSET_SELECT_HEIGHT = OFFSET_SELECT_WIDTH;
 	private static final ResourceLocation OFFSET_SELECT_BASE = PortalCubed.id("pedestal_button/offset_select");
+	private static final int BASE_TOGGLE_WIDTH = 11;
+	private static final int BASE_TOGGLE_HEIGHT = BASE_TOGGLE_WIDTH;
+	private static final ResourceLocation BASE_TOGGLE_BASE = PortalCubed.id("pedestal_button/base_toggle");
 
 	private final PedestalButtonBlockEntity pedestalButton;
 	public int pressTime;
 	private Offset offset;
+	private boolean base;
 	public boolean dirty;
 
 	private Style style;
@@ -51,7 +55,9 @@ public class PedestalButtonConfigScreen extends Screen {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
 		this.pedestalButton = pedestalButton;
 		this.pressTime = pedestalButton.getPressTime();
-		this.offset = pedestalButton.getBlockState().getValue(PedestalButtonBlock.OFFSET);
+		var state = pedestalButton.getBlockState();
+		this.offset = state.getValue(PedestalButtonBlock.OFFSET);
+		this.base = state.getValue(PedestalButtonBlock.BASE);
 	}
 
 	@Override
@@ -105,11 +111,20 @@ public class PedestalButtonConfigScreen extends Screen {
 							this.dirty = true;
 						}, offsetSelectButtons::get
 					);
-					button.active = offset != this.offset;
 					offsetSelectButtonGrid.addChild(button, offset.stepY + 1, offset.stepX + 1);
 					offsetSelectButtons.put(offset, button);
 				}
 			}
+		}
+
+		{
+			root.addChild(new ToggleButtonWidget(
+				BASE_TOGGLE_WIDTH, BASE_TOGGLE_HEIGHT, BASE_TOGGLE_BASE,
+				() -> base, v -> {
+					base = v;
+					dirty = true;
+				}
+			));
 		}
 
 		root.arrangeElements();
@@ -138,7 +153,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		}
 
 		if (dirty) {
-			PortalCubedPackets.sendToServer(new ConfigurePedestalButtonPacket(pedestalButton.getBlockPos(), pressTime, offset));
+			PortalCubedPackets.sendToServer(new ConfigurePedestalButtonPacket(pedestalButton.getBlockPos(), pressTime, offset, base));
 			dirty = false;
 		}
 	}
