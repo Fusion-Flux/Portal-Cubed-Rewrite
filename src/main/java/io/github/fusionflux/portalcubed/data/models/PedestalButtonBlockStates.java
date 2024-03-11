@@ -96,10 +96,11 @@ public class PedestalButtonBlockStates extends FabricModelProvider {
 			if (base)
 				generator.with(condition, shiftedVariantCopy(variant, baseShift).with(VariantProperties.MODEL, offset.centered ? centerBaseModelId : edgeBaseModelId));
 
+			var buttonShift = baseShift.offset(face.getNormal());
 			for (boolean active : PedestalButtonBlock.ACTIVE.getPossibleValues()) {
 				generator.with(
 					Condition.and(condition, Condition.condition().term(PedestalButtonBlock.ACTIVE, active)),
-					shiftedVariantCopy(variant, base ? baseShift.above() : baseShift).with(VariantProperties.MODEL, active ? activeModelId : regularModelId)
+					shiftedVariantCopy(variant, base ? buttonShift : baseShift).with(VariantProperties.MODEL, active ? activeModelId : regularModelId)
 				);
 			}
 		}
