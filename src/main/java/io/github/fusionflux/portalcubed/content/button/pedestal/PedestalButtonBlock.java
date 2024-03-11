@@ -104,9 +104,34 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 	}
 
 	@Override
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+		if (!moved && !state.is(newState.getBlock())) {
+			if (state.getValue(ACTIVE))
+				updateNeighbours(state, world, pos);
+			super.onRemove(state, world, pos, newState, moved);
+		}
+	}
+
+	@Override
+	public int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+		return state.getValue(ACTIVE) ? 15 : 0;
+	}
+
+	@Override
+	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+		return state.getValue(ACTIVE) && state.getValue(FACE) == direction ? 15 : 0;
+	}
+
+	@Override
+	public boolean isSignalSource(BlockState state) {
+		return true;
+	}
+
+	@Override
 	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 		if (state.getValue(ACTIVE)) {
 			world.setBlock(pos, state.setValue(ACTIVE, false), Block.UPDATE_ALL);
+			updateNeighbours(state, world, pos);
 			world.gameEvent(null, GameEvent.BLOCK_DEACTIVATE, pos);
 			playSound(null, world, pos, false);
 		}
@@ -134,10 +159,16 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 
 	private void press(@Nullable Player player, BlockState state, Level world, BlockPos pos) {
 		world.setBlock(pos, state.setValue(ACTIVE, true), Block.UPDATE_ALL);
+		updateNeighbours(state, world, pos);
 		world.gameEvent(player, GameEvent.BLOCK_ACTIVATE, pos);
 		if (world.getBlockEntity(pos) instanceof PedestalButtonBlockEntity pedestalButton)
 			world.scheduleTick(pos, this, pedestalButton.getPressTime());
 		playSound(player, world, pos, true);
+	}
+
+	private void updateNeighbours(BlockState state, Level world, BlockPos pos) {
+		world.updateNeighborsAt(pos, this);
+		world.updateNeighborsAt(pos.relative(state.getValue(FACE).getOpposite()), this);
 	}
 
 	private void playSound(@Nullable Player player, LevelAccessor world, BlockPos pos, boolean pressed) {
