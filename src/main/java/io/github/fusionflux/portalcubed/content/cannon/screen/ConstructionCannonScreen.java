@@ -4,7 +4,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.MaterialsTab;
-import io.github.fusionflux.portalcubed.content.cannon.screen.widget.ConstructPreviewWidget;
+import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructPreviewWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;

@@ -22,6 +22,7 @@
     "client.CreativeModeInventoryScreenMixin",
     "client.ItemRendererAccessor",
     "client.MinecraftMixin",
+    "client.ScreenMixin",
     "client.SimpleBakedModelAccessor"
   ],
   "injectors": {
