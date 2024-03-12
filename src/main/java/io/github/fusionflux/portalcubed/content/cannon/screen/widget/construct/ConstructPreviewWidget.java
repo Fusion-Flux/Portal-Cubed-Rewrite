@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.cannon.screen.CannonDataHolder;
@@ -7,7 +8,6 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannon
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.widget.Tickable;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
@@ -36,13 +36,10 @@ public class ConstructPreviewWidget extends ConstructWidget implements Tickable 
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+	protected void applyConstructTransformations(PoseStack matrices, float delta) {
 		float fullTicks = this.ticks + delta;
 		float rotation = fullTicks * 2;
-		graphics.pose().pushPose();
-		graphics.pose().mulPose(Axis.YP.rotationDegrees(1));
-		super.renderWidget(graphics, mouseX, mouseY, delta);
-		graphics.pose().popPose();
+		matrices.mulPose(Axis.YP.rotationDegrees(rotation));
 	}
 
 	@Override

@@ -27,6 +27,8 @@ public abstract class ConstructWidget extends AbstractWidget {
 	@Nullable
 	protected abstract ConfiguredConstruct getConstruct();
 
+	protected abstract void applyConstructTransformations(PoseStack matrices, float delta);
+
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		ConfiguredConstruct preview = this.getConstruct();
@@ -34,7 +36,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 			return;
 		PoseStack matrices = graphics.pose();
 		matrices.pushPose();
-		matrices.translate(this.getX(), this.getY(), 0);
+		matrices.translate(this.getX(), this.getY(), 150);
 		matrices.scale(40, 40, 1);
 		Vec3 constructCenter = AABB.of(preview.bounds).deflate(.5).getCenter();
 		Vec3 renderOffset = constructCenter.vectorTo(ORIGIN);
@@ -42,6 +44,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 		matrices.pushPose();
 		prepareForBlockRendering(matrices);
 		matrices.translate(constructCenter.x, constructCenter.y, constructCenter.z);
+		applyConstructTransformations(matrices, delta);
 		matrices.mulPose(Axis.XP.rotationDegrees(30));
 		matrices.translate(-constructCenter.x, -constructCenter.y, -constructCenter.z);
 		preview.blocks.forEach((pos, info) -> {
