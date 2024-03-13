@@ -12,7 +12,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class ValueCounterButton extends AbstractWidget {
+public class ValueCounterButton extends AbstractWidget implements TickableWidget {
 	private static final int CLICKS_PER_SPEED = 5;
 	private static final float MAX_CLICK_DELAY = 1f / 2f;
 	private static final float MAX_CLICK_SPEED = 5f;
@@ -22,31 +22,31 @@ public class ValueCounterButton extends AbstractWidget {
 	protected final IntIntPair range;
 	private final IntSupplier valueGetter;
 	private final IntConsumer valueSetter;
+    private final Runnable onClickingStopped;
 
 	public boolean pressed;
-	private int value;
 	private int clickCounter;
 	private float clickSpeed;
 	private float clickDelay;
 
-	public ValueCounterButton(int width, int height, Sprites sprites, int changeBy, IntIntPair range, IntSupplier valueGetter, IntConsumer valueSetter) {
+	public ValueCounterButton(int width, int height, Sprites sprites, int changeBy, IntIntPair range, IntSupplier valueGetter, IntConsumer valueSetter, Runnable onClickingStopped) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 		this.sprites = sprites;
 		this.changeBy = changeBy;
 		this.range = range;
 		this.valueGetter = valueGetter;
 		this.valueSetter = valueSetter;
+		this.onClickingStopped = onClickingStopped;
 
-		this.value = valueGetter.getAsInt();
 		tick();
 	}
 
-	public ValueCounterButton(int width, int height, ResourceLocation baseSprite, int changeBy, IntIntPair range, IntSupplier valueGetter, IntConsumer valueSetter) {
+	public ValueCounterButton(int width, int height, ResourceLocation baseSprite, int changeBy, IntIntPair range, IntSupplier valueGetter, IntConsumer valueSetter, Runnable onClickingStopped) {
 		this(width, height, new Sprites(
 			baseSprite, baseSprite.withSuffix("_hover"),
 			baseSprite.withSuffix("_pressed"), baseSprite.withSuffix("_pressed_hover"),
 			baseSprite.withSuffix("_disabled"), baseSprite.withSuffix("_disabled_hover")
-		), changeBy, range, valueGetter, valueSetter);
+		), changeBy, range, valueGetter, valueSetter, onClickingStopped);
 	}
 
 	@Override
@@ -55,8 +55,16 @@ public class ValueCounterButton extends AbstractWidget {
 	}
 
 	@Override
-	public void onClick(double mouseX, double mouseY) {
-		value = valueGetter.getAsInt();
+	public final void onClick(double mouseX, double mouseY) {
+		startClicking();
+	}
+
+	@Override
+	public final void onRelease(double mouseX, double mouseY) {
+		stopClicking();
+	}
+
+	protected void startClicking() {
 		clickCounter = 0;
 		clickSpeed = 1;
 		clickDelay = MAX_CLICK_DELAY;
@@ -64,29 +72,27 @@ public class ValueCounterButton extends AbstractWidget {
 		pressed = true;
 	}
 
-	@Override
-	public void onRelease(double mouseX, double mouseY) {
-		release();
+	protected void click() {
+		valueSetter.accept(Mth.clamp(valueGetter.getAsInt() + changeBy, range.leftInt(), range.rightInt()));
+	}
+
+	public void stopClicking() {
+		onClickingStopped.run();
 		pressed = false;
 	}
 
-	protected void click() {
-		value = Mth.clamp(value + changeBy, range.leftInt(), range.rightInt());
-	}
-
-	protected void release() {
-		valueSetter.accept(value);
-	}
-
-	public void tick() {
-		if (active && value == (changeBy < 0 ? range.leftInt() : range.rightInt())) {
-			onRelease(0, 0);
+	@Override
+	public final void tick() {
+		if (valueGetter.getAsInt() == (changeBy < 0 ? range.leftInt() : range.rightInt())) {
+			stopClicking();
 			active = false;
+		} else {
+			active = true;
 		}
 
 		if (pressed) {
 			if (!isHovered()) {
-				onRelease(0, 0);
+				stopClicking();
 				return;
 			}
 			clickDelay -= .1;

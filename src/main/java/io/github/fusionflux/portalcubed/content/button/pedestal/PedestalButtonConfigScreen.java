@@ -9,6 +9,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
 import io.github.fusionflux.portalcubed.framework.gui.widget.DynamicSpriteWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ValueCounterButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ValueSelectButton;
@@ -60,10 +61,10 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	private ValueCounterButton pressTimeCounterButton(boolean up) {
 		var sprite = PortalCubed.id("pedestal_button/" + "timer_adjust_" + (up ? "up" : "down"));
-		return new ValueCounterButton(19, 8, sprite, height, PedestalButtonBlockEntity.PRESS_TIME_RANGE, () -> pressTime, v -> {
-			pressTime = v;
-			dirty = true;
-		});
+		return new ValueCounterButton(
+			19, 8, sprite,
+			up ? 20 : -20, PedestalButtonBlockEntity.PRESS_TIME_RANGE, () -> pressTime, v -> pressTime = v, () -> dirty = true
+		);
 	}
 
 	@Override
@@ -154,8 +155,8 @@ public class PedestalButtonConfigScreen extends Screen {
 	@Override
 	public void tick() {
 		for (var widget : children()) {
-			if (widget instanceof ValueCounterButton valueCounterButton)
-				valueCounterButton.tick();
+			if (widget instanceof TickableWidget tickable)
+				tickable.tick();
 		}
 
 		if (dirty) {
