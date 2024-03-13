@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
-import io.github.fusionflux.portalcubed.content.button.pedestal.screen.PedestalButtonConfigScreen;
+import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonConfigScreen;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;

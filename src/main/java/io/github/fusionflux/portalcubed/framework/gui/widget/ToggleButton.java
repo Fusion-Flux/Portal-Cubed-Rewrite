@@ -11,13 +11,13 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 
-public class ToggleButtonWidget extends AbstractWidget {
+public class ToggleButton extends AbstractWidget {
 	private final WidgetSprites sprites;
 
 	private final BooleanSupplier valueGetter;
 	private final BooleanConsumer valueSetter;
 
-	public ToggleButtonWidget(int width, int height, WidgetSprites sprites, BooleanSupplier valueGetter, BooleanConsumer valueSetter) {
+	public ToggleButton(int width, int height, WidgetSprites sprites, BooleanSupplier valueGetter, BooleanConsumer valueSetter) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 
 		this.sprites = sprites;
@@ -26,7 +26,7 @@ public class ToggleButtonWidget extends AbstractWidget {
 		this.valueSetter = valueSetter;
 	}
 
-	public ToggleButtonWidget(int width, int height, ResourceLocation baseSprite, BooleanSupplier valueGetter, BooleanConsumer valueSetter) {
+	public ToggleButton(int width, int height, ResourceLocation baseSprite, BooleanSupplier valueGetter, BooleanConsumer valueSetter) {
 		this(width, height, new WidgetSprites(
 			baseSprite.withSuffix("_enabled"),
 			baseSprite.withSuffix("_disabled"),

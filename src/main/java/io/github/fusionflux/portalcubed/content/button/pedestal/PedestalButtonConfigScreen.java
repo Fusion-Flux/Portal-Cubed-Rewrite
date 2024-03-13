@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.button.pedestal.screen;
+package io.github.fusionflux.portalcubed.content.button.pedestal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,13 +7,11 @@ import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
-import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
-import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
-import io.github.fusionflux.portalcubed.content.button.pedestal.screen.widget.TimerButtonWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.DynamicSpriteWidget;
-import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButtonWidget;
-import io.github.fusionflux.portalcubed.framework.gui.widget.ValueSelectionWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButton;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ValueCounterButton;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ValueSelectButton;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import net.minecraft.client.gui.ComponentPath;
@@ -49,7 +47,7 @@ public class PedestalButtonConfigScreen extends Screen {
 	private Style style;
 	private int leftPos;
 	private int topPos;
-	private EnumMap<Offset, ValueSelectionWidget<Offset>> offsetSelectButtons;
+	private EnumMap<Offset, ValueSelectButton<Offset>> offsetSelectButtons;
 
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
@@ -58,6 +56,14 @@ public class PedestalButtonConfigScreen extends Screen {
 		var state = pedestalButton.getBlockState();
 		this.offset = state.getValue(PedestalButtonBlock.OFFSET);
 		this.base = state.getValue(PedestalButtonBlock.BASE);
+	}
+
+	private ValueCounterButton pressTimeCounterButton(boolean up) {
+		var sprite = PortalCubed.id("pedestal_button/" + "timer_adjust_" + (up ? "up" : "down"));
+		return new ValueCounterButton(19, 8, sprite, height, PedestalButtonBlockEntity.PRESS_TIME_RANGE, () -> pressTime, v -> {
+			pressTime = v;
+			dirty = true;
+		});
 	}
 
 	@Override
@@ -77,25 +83,25 @@ public class PedestalButtonConfigScreen extends Screen {
 			contents.spacing(24);
 
 			{
-				var pressTimeDisplay = contents.addChild(LinearLayout.vertical());
-				pressTimeDisplay.spacing(2);
+				var pressTimeCounter = contents.addChild(LinearLayout.vertical());
+				pressTimeCounter.spacing(2);
 
 				{
-					var pressTimeDisplaySegments = pressTimeDisplay.addChild(LinearLayout.horizontal());
-					var cellSettings = pressTimeDisplaySegments.defaultCellSetting().paddingTop(5).paddingBottom(5);
-					pressTimeDisplaySegments.spacing(2);
+					var display = pressTimeCounter.addChild(LinearLayout.horizontal());
+					var cellSettings = display.defaultCellSetting().paddingTop(5).paddingBottom(5);
+					display.spacing(2);
 
 					cellSettings.paddingLeft(5);
-					pressTimeDisplaySegments.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)));
+					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)));
 					cellSettings.paddingLeft(0);
-					pressTimeDisplaySegments.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)));
+					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)));
 				}
 
 				{
-					var pressTimeDisplayButtons = pressTimeDisplay.addChild(LinearLayout.horizontal());
+					var buttons = pressTimeCounter.addChild(LinearLayout.horizontal());
 
-					pressTimeDisplayButtons.addChild(new TimerButtonWidget(this, false));
-					pressTimeDisplayButtons.addChild(new TimerButtonWidget(this, true));
+					buttons.addChild(pressTimeCounterButton(false));
+					buttons.addChild(pressTimeCounterButton(true));
 				}
 			}
 
@@ -104,7 +110,7 @@ public class PedestalButtonConfigScreen extends Screen {
 				offsetSelectButtonGrid.spacing(2);
 
 				for (var offset : Offset.values()) {
-					var button = new ValueSelectionWidget<Offset>(
+					var button = new ValueSelectButton<Offset>(
 						OFFSET_SELECT_WIDTH, OFFSET_SELECT_HEIGHT, OFFSET_SELECT_BASE,
 						offset, () -> this.offset, v -> {
 							this.offset = v;
@@ -118,7 +124,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		}
 
 		{
-			root.addChild(new ToggleButtonWidget(
+			root.addChild(new ToggleButton(
 				BASE_TOGGLE_WIDTH, BASE_TOGGLE_HEIGHT, BASE_TOGGLE_BASE,
 				() -> base, v -> {
 					base = v;
@@ -148,8 +154,8 @@ public class PedestalButtonConfigScreen extends Screen {
 	@Override
 	public void tick() {
 		for (var widget : children()) {
-			if (widget instanceof TimerButtonWidget timerButton)
-				timerButton.tick();
+			if (widget instanceof ValueCounterButton valueCounterButton)
+				valueCounterButton.tick();
 		}
 
 		if (dirty) {

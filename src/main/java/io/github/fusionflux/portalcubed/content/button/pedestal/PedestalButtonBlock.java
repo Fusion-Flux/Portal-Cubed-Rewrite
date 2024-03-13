@@ -66,7 +66,6 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		this.pressSound = pressSound;
 		this.releaseSound = releaseSound;
 		this.shapes = new HashMap<>();
-		System.out.println("Number of pedestal buttons: " + this.stateDefinition.getPossibleStates().size());
 		for (var state : this.stateDefinition.getPossibleStates()) {
 			var face = state.getValue(FACE);
 			var facing = state.getValue(FACING);
@@ -103,6 +102,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		return defaultBlockState().setValue(FACE, clickedFace).setValue(FACING, direction);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
 		if (!moved && !state.is(newState.getBlock())) {

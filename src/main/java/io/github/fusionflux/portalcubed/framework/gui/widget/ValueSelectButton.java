@@ -12,15 +12,15 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 
-public class ValueSelectionWidget<T extends StringRepresentable> extends AbstractWidget {
+public class ValueSelectButton<T extends StringRepresentable> extends AbstractWidget {
 	private final WidgetSprites sprites;
 
 	private final T widgetValue;
 	private final Supplier<T> valueGetter;
 	private final Consumer<T> valueSetter;
-	private final Function<T, ValueSelectionWidget<T>> widgetMap;
+	private final Function<T, ValueSelectButton<T>> widgetMap;
 
-	public ValueSelectionWidget(int width, int height, WidgetSprites sprites, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectionWidget<T>> widgetMap) {
+	public ValueSelectButton(int width, int height, WidgetSprites sprites, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectButton<T>> widgetMap) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 
 		this.sprites = sprites;
@@ -33,7 +33,7 @@ public class ValueSelectionWidget<T extends StringRepresentable> extends Abstrac
 		if (widgetValue == valueGetter.get()) active = false;
 	}
 
-	public ValueSelectionWidget(int width, int height, ResourceLocation baseSprite, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectionWidget<T>> widgetMap) {
+	public ValueSelectButton(int width, int height, ResourceLocation baseSprite, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectButton<T>> widgetMap) {
 		this(width, height, new WidgetSprites(
 			getSpriteId(baseSprite, widgetValue, ""),
 			getSpriteId(baseSprite, widgetValue, "pressed"),
