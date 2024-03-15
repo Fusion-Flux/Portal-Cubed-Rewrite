@@ -70,7 +70,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 			var face = state.getValue(FACE);
 			var facing = state.getValue(FACING);
 			boolean base = state.getValue(BASE);
-			var shift = state.getValue(OFFSET).relative(face, facing, base);
+			var shift = state.getValue(OFFSET).get(face, facing, base);
 			var rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
 			this.shapes.put(state, rotated.move(shift.x() / 16d, shift.y() / 16d, shift.z() / 16d));
 		}
@@ -243,39 +243,17 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 			return name;
 		}
 
-		public Vec3 relative(Direction face, Direction facing, boolean pad) {
-			// var shift = switch (facing) {
-			// 	case SOUTH -> IntIntPair.of(-stepX, -stepY);
-			// 	case WEST -> IntIntPair.of(stepY, -stepX);
-			// 	case EAST -> IntIntPair.of(-stepY, stepX);
-			// 	default -> IntIntPair.of(stepX, stepY);
-			// };
-			// int sign = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? -1 : 1;
-			// return (switch (face.getAxis()) {
-			// 	case X -> new Vec3i(0, shift.rightInt(), shift.leftInt() * sign);
-			// 	case Y -> new Vec3i(shift.leftInt(), 0, shift.rightInt());
-			// 	case Z -> new Vec3i(-shift.leftInt() * sign, shift.rightInt(), 0);
-			// }).multiply(SHIFT_DIST);
-			int sign = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? -1 : 1;
+		public Vec3 get(Direction face, Direction facing, boolean pad) {
+			boolean flip = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE;
 			return (switch (face.getAxis()) {
-				case X -> switch (facing) {
-					case SOUTH -> new Vec3(0, -stepX, -stepY * sign);
-					case WEST -> new Vec3(0, -stepY * sign, stepX);
-					case EAST -> new Vec3(0, stepY * sign, -stepX);
-					default -> new Vec3(0, stepX, stepY * sign);
-				};
+				case X -> new Vec3(0, -stepY, flip ? stepX : -stepX);
 				case Y -> switch (facing) {
 					case SOUTH -> new Vec3(-stepX, 0, -stepY);
 					case WEST -> new Vec3(stepY, 0, -stepX);
 					case EAST -> new Vec3(-stepY, 0, stepX);
 					default -> new Vec3(stepX, 0, stepY);
 				};
-				case Z -> switch (facing) {
-					case SOUTH -> new Vec3(stepX * sign, -stepY, 0);
-					case WEST -> new Vec3(stepY, stepX * sign, 0);
-					case EAST -> new Vec3(-stepY, -stepX * sign, 0);
-					default -> new Vec3(-stepX * sign, stepY, 0);
-				};
+				case Z -> new Vec3(flip ? -stepX : stepX, -stepY, 0);
 			}).scale(pad ? SHIFT_DIST - .5 : SHIFT_DIST);
 		}
 	}

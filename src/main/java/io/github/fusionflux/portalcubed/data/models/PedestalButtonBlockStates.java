@@ -92,7 +92,7 @@ public class PedestalButtonBlockStates extends FabricModelProvider {
 				.term(PedestalButtonBlock.OFFSET, offset)
 				.term(PedestalButtonBlock.BASE, base);
 
-			var baseShift = offset.relative(face, facing, base);
+			var baseShift = offset.get(face, facing, base);
 			if (base)
 				generator.with(condition, shiftedVariantCopy(variant, baseShift).with(VariantProperties.MODEL, offset.centered ? centerBaseModelId : edgeBaseModelId));
 
