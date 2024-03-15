@@ -35,23 +35,28 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class PedestalButtonBlock extends HorizontalDirectionalBlock implements EntityBlock {
+public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
 	public static final EnumProperty<Direction> FACE = EnumProperty.create("face", Direction.class);
 	public static final EnumProperty<Offset> OFFSET = EnumProperty.create("offset", Offset.class);
 	public static final BooleanProperty BASE = BooleanProperty.create("base");
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
 	private final Map<BlockState, VoxelShape> shapes;
 	private final SoundEvent pressSound;
@@ -74,12 +79,12 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 			var rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
 			this.shapes.put(state, rotated.move(shift.x() / 16d, shift.y() / 16d, shift.z() / 16d));
 		}
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACE, Direction.UP).setValue(FACING, Direction.SOUTH).setValue(OFFSET, Offset.NONE).setValue(BASE, false).setValue(ACTIVE, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACE, Direction.UP).setValue(FACING, Direction.SOUTH).setValue(OFFSET, Offset.NONE).setValue(BASE, false).setValue(ACTIVE, false).setValue(WATERLOGGED, false));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACE, FACING, OFFSET, BASE, ACTIVE);
+		builder.add(FACE, FACING, OFFSET, BASE, ACTIVE, WATERLOGGED);
 	}
 
 	@Override
@@ -87,6 +92,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		var clickedFace = ctx.getClickedFace();
 		boolean horizontal = clickedFace.getAxis().isHorizontal();
 		var direction = ctx.getHorizontalDirection().getAxisDirection() == Direction.AxisDirection.NEGATIVE ? Direction.NORTH : Direction.SOUTH;
+		var fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
 		for (var looking : ctx.getNearestLookingDirections()) {
 			if (looking.getAxis() != clickedFace.getAxis()) {
 				direction = switch (looking) {
@@ -99,7 +105,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 				break;
 			}
 		}
-		return defaultBlockState().setValue(FACE, clickedFace).setValue(FACING, direction);
+		return defaultBlockState().setValue(FACE, clickedFace).setValue(FACING, direction).setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -137,9 +143,23 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements E
 		}
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
+	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+		if (state.getValue(WATERLOGGED))
+			world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+	}
+
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return shapes.get(state);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public FluidState getFluidState(BlockState state) {
+		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Override
