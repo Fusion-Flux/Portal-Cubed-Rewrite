@@ -12,6 +12,7 @@ body:
     attributes:
       label: Describe the Bug
       description: Tell us about the bug you're encountering.  Include details about what you expected to happen, and what actually happened instead.  If you have screenshots or videos of the bug happening, you can include them here.
+      placeholder: The reward for completing the tests wasn't given to me when I reached the final chamber
     validations:
       required: true
 
@@ -25,7 +26,7 @@ body:
 
             2. I reached the end of the tests
 
-            3.
+            3. ...
     validations:
         required: true
 
@@ -34,6 +35,7 @@ body:
     attributes:
         label: Game Log
         description: Please take the log file found at `.minecraft/logs/latest.log` after encountering the issue and paste it into [mclo.gs](https://mclo.gs/).  Send the resulting link from [mclo.gs](https://mclo.gs/) in the text area below.  The game log includes vital information such as Minecraft version, Portal Cubed version, additional mods, etc., and [mclo.gs](https://mclo.gs/) reformats it and removes any personal data.
+        placeholder: https://mclo.gs/AAAAAA
     validations:
         required: true
 
@@ -42,4 +44,4 @@ body:
     attributes:
         label: Crash Log
         description: If the bug results in a crash, check `.minecraft/crash-reports` to see if a crash report was generated.  Check the most recently created crash report to see if it was created at the time your game crashed.  If one was, do the same thing as above and paste the [mclo.gs](https://mclo.gs/) output link in the field below.
-
+        placeholder: https://mclo.gs/AAAAAC
