@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
 import io.github.fusionflux.portalcubed.framework.gui.widget.DynamicSpriteWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ValueCounterButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ValueSelectButton;
@@ -19,6 +20,7 @@ import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -27,9 +29,6 @@ import net.minecraft.resources.ResourceLocation;
 public class PedestalButtonConfigScreen extends Screen {
 	private static final int BACKGROUND_WIDTH = 131;
 	private static final int BACKGROUND_HEIGHT = 91;
-	private static final int TITLE_X_OFFSET = 8;
-	private static final int TITLE_Y_OFFSET = 6;
-	private static final int CONTENT_X_OFFSET = 13;
 	private static final int SEGMENT_WIDTH = 13;
 	private static final int SEGMENT_HEIGHT = 23;
 	private static final int OFFSET_SELECT_WIDTH = 13;
@@ -75,28 +74,31 @@ public class PedestalButtonConfigScreen extends Screen {
 		offsetSelectButtons = new EnumMap<>(Offset.class);
 
 		var root = LinearLayout.vertical();
-		root.defaultCellSetting().paddingLeft(CONTENT_X_OFFSET);
-		root.spacing(5);
+		root.defaultCellSetting().paddingLeft(13);
+		root.addChild(new TitleWidget(title, font), settings -> settings.padding(8, 6));
 
 		{
+			root.addChild(SpacerElement.height(4));
 			var contents = root.addChild(LinearLayout.horizontal());
-			contents.defaultCellSetting().paddingTop(25);
-			contents.spacing(24);
 
 			{
 				var pressTimeCounter = contents.addChild(LinearLayout.vertical());
-				pressTimeCounter.spacing(2);
 
 				{
-					var display = pressTimeCounter.addChild(LinearLayout.horizontal());
-					var cellSettings = display.defaultCellSetting().paddingTop(5).paddingBottom(5);
-					display.spacing(2);
+					pressTimeCounter.addChild(SpacerElement.height(5));
 
-					cellSettings.paddingLeft(5);
+					var display = pressTimeCounter.addChild(LinearLayout.horizontal());
+
+					display.addChild(SpacerElement.width(5));
 					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)));
-					cellSettings.paddingLeft(0);
+					display.addChild(SpacerElement.width(2));
 					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)));
+					display.addChild(SpacerElement.width(5));
+
+					pressTimeCounter.addChild(SpacerElement.height(5));
 				}
+
+				pressTimeCounter.addChild(SpacerElement.height(2));
 
 				{
 					var buttons = pressTimeCounter.addChild(LinearLayout.horizontal());
@@ -105,6 +107,8 @@ public class PedestalButtonConfigScreen extends Screen {
 					buttons.addChild(pressTimeCounterButton(true));
 				}
 			}
+
+			contents.addChild(SpacerElement.width(24));
 
 			{
 				var offsetSelectButtonGrid = contents.addChild(new GridLayout());
@@ -125,6 +129,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		}
 
 		{
+			root.addChild(SpacerElement.height(5));
 			root.addChild(new ToggleButton(
 				BASE_TOGGLE_WIDTH, BASE_TOGGLE_HEIGHT, BASE_TOGGLE_BASE,
 				() -> base, v -> {
@@ -138,12 +143,6 @@ public class PedestalButtonConfigScreen extends Screen {
 		root.setPosition(leftPos, topPos);
 		root.visitWidgets(this::addRenderableWidget);
 		Collections.reverse(children());
-	}
-
-	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.render(graphics, mouseX, mouseY, delta);
-		graphics.drawString(font, title, leftPos + TITLE_X_OFFSET, topPos + TITLE_Y_OFFSET, 4210752, false);
 	}
 
 	@Override
