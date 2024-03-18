@@ -86,14 +86,12 @@ public class PedestalButtonConfigScreen extends Screen {
 
 				{
 					pressTimeCounter.addChild(SpacerElement.height(5));
-
 					var display = pressTimeCounter.addChild(LinearLayout.horizontal());
 
 					display.addChild(SpacerElement.width(5));
 					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)));
 					display.addChild(SpacerElement.width(2));
 					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)));
-					display.addChild(SpacerElement.width(5));
 
 					pressTimeCounter.addChild(SpacerElement.height(5));
 				}
@@ -130,13 +128,16 @@ public class PedestalButtonConfigScreen extends Screen {
 
 		{
 			root.addChild(SpacerElement.height(5));
-			root.addChild(new ToggleButton(
+			var footer = root.addChild(LinearLayout.horizontal());
+
+			footer.addChild(new ToggleButton(
 				BASE_TOGGLE_WIDTH, BASE_TOGGLE_HEIGHT, BASE_TOGGLE_BASE,
 				() -> base, v -> {
 					base = v;
 					dirty = true;
 				}
 			));
+			footer.addChild(new TitleWidget(Component.translatable("container.portalcubed.pedestal_button.base"), font), settings -> settings.alignVerticallyBottom().paddingLeft(2));
 		}
 
 		root.arrangeElements();
