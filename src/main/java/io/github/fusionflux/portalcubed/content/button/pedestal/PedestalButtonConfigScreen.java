@@ -91,16 +91,19 @@ public class PedestalButtonConfigScreen extends Screen {
 				var pressTimeCounter = contents.addChild(LinearLayout.vertical());
 
 				{
-					pressTimeCounter.addChild(SpacerElement.height(5));
-					var display = pressTimeCounter.addChild(LinearLayout.horizontal());
+					var display = pressTimeCounter.addChild(new GridLayout());
+					display.addChild(SpacerElement.height(5), 0, 0);
 					layoutsWithTooltip.add(Pair.of(Tooltip.create(Component.translatable("container.portalcubed.pedestal_button.press_length")), display));
 
-					display.addChild(SpacerElement.width(5));
-					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)));
-					display.addChild(SpacerElement.width(2));
-					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)));
+					{
+						display.addChild(SpacerElement.width(5), 1, 0);
+						display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)), 1, 1);
+						display.addChild(SpacerElement.width(2), 1, 2);
+						display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)), 1, 3);
+						display.addChild(SpacerElement.width(5), 1, 4);
+					}
 
-					pressTimeCounter.addChild(SpacerElement.height(5));
+					display.addChild(SpacerElement.height(5), 2, 0);
 				}
 
 				pressTimeCounter.addChild(SpacerElement.height(2));
