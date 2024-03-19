@@ -16,13 +16,17 @@ import io.github.fusionflux.portalcubed.framework.gui.widget.ValueCounterButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ValueSelectButton;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
+import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
+import net.minecraft.client.gui.layouts.Layout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -48,6 +52,7 @@ public class PedestalButtonConfigScreen extends Screen {
 	private int leftPos;
 	private int topPos;
 	private EnumMap<Offset, ValueSelectButton<Offset>> offsetSelectButtons;
+	private List<Pair<Tooltip, Layout>> layoutsWithTooltip;
 
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
@@ -72,6 +77,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		leftPos = (width - BACKGROUND_WIDTH) / 2;
 		topPos = (height - BACKGROUND_HEIGHT) / 2;
 		offsetSelectButtons = new EnumMap<>(Offset.class);
+		layoutsWithTooltip = new ArrayList<>();
 
 		var root = LinearLayout.vertical();
 		root.defaultCellSetting().paddingLeft(13);
@@ -87,6 +93,7 @@ public class PedestalButtonConfigScreen extends Screen {
 				{
 					pressTimeCounter.addChild(SpacerElement.height(5));
 					var display = pressTimeCounter.addChild(LinearLayout.horizontal());
+					layoutsWithTooltip.add(Pair.of(Tooltip.create(Component.translatable("container.portalcubed.pedestal_button.press_length")), display));
 
 					display.addChild(SpacerElement.width(5));
 					display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)));
@@ -111,6 +118,7 @@ public class PedestalButtonConfigScreen extends Screen {
 			{
 				var offsetSelectButtonGrid = contents.addChild(new GridLayout());
 				offsetSelectButtonGrid.spacing(2);
+				layoutsWithTooltip.add(Pair.of(Tooltip.create(Component.translatable("container.portalcubed.pedestal_button.offset")), offsetSelectButtonGrid));
 
 				for (var offset : Offset.values()) {
 					var button = new ValueSelectButton<Offset>(
@@ -144,6 +152,17 @@ public class PedestalButtonConfigScreen extends Screen {
 		root.setPosition(leftPos, topPos);
 		root.visitWidgets(this::addRenderableWidget);
 		Collections.reverse(children());
+	}
+
+	@Override
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		super.render(graphics, mouseX, mouseY, delta);
+		for (var layoutWithTooltip : layoutsWithTooltip) {
+			var layout = layoutWithTooltip.right();
+			boolean isHovered = mouseX >= layout.getX() && mouseY >= layout.getY() && mouseX < layout.getX() + layout.getWidth() && mouseY < layout.getY() + layout.getHeight();
+			if (isHovered)
+				setTooltipForNextRenderPass(layoutWithTooltip.left(), DefaultTooltipPositioner.INSTANCE, true);
+		}
 	}
 
 	@Override
