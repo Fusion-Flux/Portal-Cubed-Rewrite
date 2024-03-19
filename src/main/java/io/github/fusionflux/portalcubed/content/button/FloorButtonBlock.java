@@ -193,14 +193,17 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
 		if (!level.isClientSide) {
 			var originPos = getOriginPos(pos, state);
-			boolean entityPressing = entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox());
-			if (entityPressing) {
-				if (!state.getValue(ACTIVE))
-					toggle(state, level, originPos, entity, false);
-				if (entity instanceof ButtonActivatedProp buttonActivated)
-					buttonActivated.setActivated(true);
-			}
+			boolean entityInsideBounds = entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox());
+			if (entityInsideBounds)
+				entityPressing(state, level, originPos, entity);
 		}
+	}
+
+	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
+		if (!state.getValue(ACTIVE))
+			toggle(state, level, pos, entity, false);
+		if (entity instanceof ButtonActivatedProp buttonActivated)
+			buttonActivated.setActivated(true);
 	}
 
 	@Override
