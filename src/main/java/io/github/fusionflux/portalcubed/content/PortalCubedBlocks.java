@@ -32,7 +32,7 @@ public class PortalCubedBlocks {
 			.settings(settings -> settings.mapColor(MapColor.CLAY))
 			.build();
 	public static final Block RAW_MAGNESIUM_BLOCK = REGISTRAR.blocks.create("raw_magnesium_block", Block::new)
-			.copyFrom(Blocks.IRON_BLOCK)
+			.copyFrom(Blocks.RAW_IRON_BLOCK)
 			.settings(settings -> settings.mapColor(MapColor.CLAY))
 			.build();
 	// ----- cake -----

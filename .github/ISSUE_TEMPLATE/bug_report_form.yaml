@@ -1,0 +1,47 @@
+name: Bug Report
+description: For reporting a bug with Portal Cubed.  If what you are submitting a report for is not a bug, use a blank template instead.
+labels: ["Bug"]
+body:
+  - type: markdown
+    attributes:
+      value:
+        Please fill out the details below for the bug you are encountering.
+
+  - type: textarea
+    id: bug_description
+    attributes:
+      label: Describe the Bug
+      description: Tell us about the bug you're encountering.  Include details about what you expected to happen, and what actually happened instead.  If you have screenshots or videos of the bug happening, you can include them here.
+      placeholder: The reward for completing the tests wasn't given to me when I reached the final chamber
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+        label: Reproduction Steps
+        description: List the steps to recreate the bug.  Make sure you double check your list to be sure it produces the outcome described above.
+        placeholder:
+            1. I was told there would be cake at the end of the tests
+
+            2. I reached the end of the tests
+
+            3. ...
+    validations:
+        required: true
+
+  - type: input
+    id: game_log
+    attributes:
+        label: Game Log
+        description: Please take the log file found at `.minecraft/logs/latest.log` after encountering the issue and paste it into [mclo.gs](https://mclo.gs/).  Send the resulting link from [mclo.gs](https://mclo.gs/) in the text area below.  The game log includes vital information such as Minecraft version, Portal Cubed version, additional mods, etc., and [mclo.gs](https://mclo.gs/) reformats it and removes any personal data.
+        placeholder: https://mclo.gs/AAAAAA
+    validations:
+        required: true
+
+  - type: input
+    id: crash_log
+    attributes:
+        label: Crash Log
+        description: If the bug results in a crash, check `.minecraft/crash-reports` to see if a crash report was generated.  Check the most recently created crash report to see if it was created at the time your game crashed.  If one was, do the same thing as above and paste the [mclo.gs](https://mclo.gs/) output link in the field below.
+        placeholder: https://mclo.gs/AAAAAC

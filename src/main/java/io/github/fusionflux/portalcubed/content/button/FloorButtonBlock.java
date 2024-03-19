@@ -112,11 +112,12 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		});
 	}
 
-	public void toggle(BlockState state, Level level, BlockPos pos, @Nullable Entity entity, boolean currentState) {
+	protected void toggle(BlockState state, Level level, BlockPos pos, @Nullable Entity entity, boolean currentState) {
 		for (BlockPos quadrantPos : quadrantIterator(pos, state, level)) {
 			var quadrantState = level.getBlockState(quadrantPos);
 			if (!quadrantState.is(this)) return;
 			level.setBlock(quadrantPos, quadrantState.setValue(ACTIVE, !currentState), UPDATE_ALL);
+			updateNeighbours(quadrantState, level, quadrantPos);
 		}
 
 		SoundEvent toggleSound;
@@ -129,6 +130,11 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 			toggleSound = pressSound;
 		}
 		playSoundAtCenter(toggleSound, 0, 0, -.5, 1f, 1f, pos, state, level);
+	}
+
+	protected void updateNeighbours(BlockState state, Level world, BlockPos pos) {
+		world.updateNeighborsAt(pos, this);
+		world.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
 	}
 
 	@Override
@@ -166,6 +172,11 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	@Override
+	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+		return state.getValue(ACTIVE) && state.getValue(FACING) == direction ? 15 : 0;
+	}
+
+	@Override
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
@@ -183,14 +194,17 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
 		if (!level.isClientSide) {
 			var originPos = getOriginPos(pos, state);
-			boolean entityPressing = entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox());
-			if (entityPressing) {
-				if (!state.getValue(ACTIVE))
-					toggle(state, level, originPos, entity, false);
-				if (entity instanceof ButtonActivatedProp buttonActivated)
-					buttonActivated.setActivated(true);
-			}
+			boolean entityInsideBounds = entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox());
+			if (entityInsideBounds)
+				entityPressing(state, level, originPos, entity);
 		}
+	}
+
+	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
+		if (!state.getValue(ACTIVE))
+			toggle(state, level, pos, entity, false);
+		if (entity instanceof ButtonActivatedProp buttonActivated)
+			buttonActivated.setActivated(true);
 	}
 
 	@Override
