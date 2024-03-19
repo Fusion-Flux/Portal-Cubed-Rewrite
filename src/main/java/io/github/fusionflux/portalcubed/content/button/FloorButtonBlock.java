@@ -111,11 +111,12 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		});
 	}
 
-	public void toggle(BlockState state, Level level, BlockPos pos, @Nullable Entity entity, boolean currentState) {
+	protected void toggle(BlockState state, Level level, BlockPos pos, @Nullable Entity entity, boolean currentState) {
 		for (BlockPos quadrantPos : quadrantIterator(pos, state, level)) {
 			var quadrantState = level.getBlockState(quadrantPos);
 			if (!quadrantState.is(this)) return;
 			level.setBlock(quadrantPos, quadrantState.setValue(ACTIVE, !currentState), UPDATE_ALL);
+			updateNeighbours(quadrantState, level, quadrantPos);
 		}
 
 		SoundEvent toggleSound;
@@ -128,6 +129,11 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 			toggleSound = pressSound;
 		}
 		playSoundAtCenter(toggleSound, 0, 0, -.5, 1f, 1f, pos, state, level);
+	}
+
+	protected void updateNeighbours(BlockState state, Level world, BlockPos pos) {
+		world.updateNeighborsAt(pos, this);
+		world.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
 	}
 
 	@Override
@@ -162,6 +168,11 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	@Override
 	public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) ? 15 : 0;
+	}
+
+	@Override
+	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+		return state.getValue(ACTIVE) && state.getValue(FACING) == direction ? 15 : 0;
 	}
 
 	@Override
