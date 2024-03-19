@@ -67,16 +67,27 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		int x = getX(state);
 		int y = getY(state);
 		int z = getZ(state);
+		return switch (state.getValue(FACING).getAxis()) {
+			case X -> pos.subtract(new BlockPos(z, y, x));
+			case Y -> pos.subtract(new BlockPos(x, z, y));
+			case Z -> pos.subtract(new BlockPos(x, y, z));
+		};
+	}
+
+	public BlockPos getVisualOriginPos(BlockPos pos, BlockState state) {
+		var origin = getOriginPos(pos, state);
 		return switch (state.getValue(FACING)) {
-			case DOWN, UP ->   pos.subtract(new BlockPos(x, z, y));
-			case WEST, EAST -> pos.subtract(new BlockPos(z, y, x));
-			default ->         pos.subtract(new BlockPos(x, y, z));
+			case EAST -> origin.offset(size.z - 1, 0, size.x - 1);
+			case DOWN, UP -> origin.offset(size.x - 1, size.z - 1, 0);
+			case NORTH -> origin.offset(size.x - 1, 0, size.z - 1);
+			case WEST -> origin.offset(size.z - 1, 0, 0);
+			case SOUTH -> origin.offset(size.x - 1, size.y - 1, size.z - 1);
 		};
 	}
 
 	public Iterable<BlockPos> quadrantIterator(BlockPos pos, BlockState state, Level level) {
 		var rotatedSize = size.rotated(state.getValue(FACING));
-		return BlockPos.betweenClosed(pos, pos.offset(rotatedSize.x() - 1, rotatedSize.y() - 1, rotatedSize.z() - 1));
+		return BlockPos.betweenClosed(pos, pos.offset(rotatedSize.x - 1, rotatedSize.y - 1, rotatedSize.z - 1));
 	}
 
 	public void playSoundAtCenter(SoundEvent sound, double xOff, double yOff, double zOff, float volume, float pitch, BlockPos pos, BlockState state, Level level) {
