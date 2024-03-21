@@ -35,6 +35,15 @@
     ],
     "subtitle": "subtitles.portalcubed.pedestal_button_release"
   },
+  "pedestal_button_easter_egg": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/sad_party_horn",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_easter_egg"
+  },
   "portal_1_floor_button_press": {
     "sounds": [
       {
