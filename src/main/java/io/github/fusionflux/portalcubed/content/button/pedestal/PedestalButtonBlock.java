@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.content.button.pedestal;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -14,6 +13,7 @@ import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper.DefaultRotationValues;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -70,7 +70,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		super(properties);
 		this.pressSound = pressSound;
 		this.releaseSound = releaseSound;
-		this.shapes = new HashMap<>();
+		this.shapes = new Reference2ReferenceOpenHashMap<>();
 		for (var state : this.stateDefinition.getPossibleStates()) {
 			var face = state.getValue(FACE);
 			var facing = state.getValue(FACING);
