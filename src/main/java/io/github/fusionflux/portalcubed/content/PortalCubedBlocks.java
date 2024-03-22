@@ -13,7 +13,6 @@ import io.github.fusionflux.portalcubed.content.button.CubeButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.OldApFloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.P1FloorButtonBlock;
-import io.github.fusionflux.portalcubed.content.button.pedestal.OldApPedestalButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
 import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
 import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
@@ -39,12 +38,7 @@ public class PortalCubedBlocks {
 	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
 			"black_forest_cake", REGISTRAR, QuiltBlockSettings.copyOf(Blocks.CAKE)
 	);
-	// ----- buttons -----
-	public static final PedestalButtonBlock PEDESTAL_BUTTON = REGISTRAR.blocks.create("pedestal_button", PedestalButtonBlock::new)
-			.copyFrom(Blocks.STONE)
-			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
-			.renderType(RenderTypes.CUTOUT)
-			.build();
+	// ----- floor buttons -----
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("floor_button", FloorButtonBlock::new)
 			.copyFrom(Blocks.STONE)
 			.item(MultiBlockItem::new)
@@ -57,11 +51,6 @@ public class PortalCubedBlocks {
 			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.create("old_ap_pedestal_button", OldApPedestalButtonBlock::new)
-			.copyFrom(Blocks.STONE)
-			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
-			.renderType(RenderTypes.CUTOUT)
-			.build();
 	public static final FloorButtonBlock OLD_AP_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("old_ap_floor_button", OldApFloorButtonBlock::new)
 			.copyFrom(Blocks.STONE)
 			.item(MultiBlockItem::new)
@@ -71,6 +60,17 @@ public class PortalCubedBlocks {
 	public static final FloorButtonBlock PORTAL_1_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("portal_1_floor_button", P1FloorButtonBlock::new)
 			.copyFrom(Blocks.STONE)
 			.item(MultiBlockItem::new)
+			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	// ----- pedestal buttons -----
+	public static final PedestalButtonBlock PEDESTAL_BUTTON = REGISTRAR.blocks.create("pedestal_button", PedestalButtonBlock::new)
+			.copyFrom(Blocks.STONE)
+			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.create("old_ap_pedestal_button", PedestalButtonBlock::oldAp)
+			.copyFrom(Blocks.STONE)
 			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();

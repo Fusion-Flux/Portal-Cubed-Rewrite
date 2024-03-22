@@ -82,7 +82,8 @@ public class PedestalButtonConfigScreen extends Screen {
 		var sprite = PortalCubed.id("pedestal_button/" + "timer_adjust_" + (up ? "up" : "down"));
 		return new ValueCounterButton(
 			19, 8, sprite,
-			up ? 20 : -20, PedestalButtonBlockEntity.PRESS_TIME_RANGE, () -> pressTime, v -> pressTime = v, () -> dirty = true
+			up ? 20 : -20, PedestalButtonBlockEntity.MIN_PRESS_TIME, PedestalButtonBlockEntity.MAX_PRESS_TIME,
+			() -> pressTime, v -> pressTime = v, () -> dirty = true
 		);
 	}
 
@@ -167,9 +168,12 @@ public class PedestalButtonConfigScreen extends Screen {
 			footer.addChild(new TitleWidget(Component.translatable("container.portalcubed.pedestal_button.base"), font), settings -> settings.alignVerticallyBottom().paddingLeft(2));
 		}
 
+		// arrange elements
 		root.arrangeElements();
+		// position at the top left corner of the background
 		root.setPosition(leftPos, topPos);
 		root.visitWidgets(this::addRenderableWidget);
+		// reverse order of widgets so they go from top to bottom
 		Collections.reverse(children());
 	}
 

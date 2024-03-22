@@ -17,6 +17,11 @@ import net.minecraft.data.models.blockstates.VariantProperty;
 import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * generated files:
+ * assets\portalcubed\blockstates\old_ap_pedestal_button.json
+ * assets\portalcubed\blockstates\pedestal_button.json
+ */
 public class PedestalButtonBlockStates extends FabricModelProvider {
 	public static final VariantProperty<Float> SHIFT_X = new VariantProperty<>("portalcubed:shift_x", JsonPrimitive::new);
 	public static final VariantProperty<Float> SHIFT_Y = new VariantProperty<>("portalcubed:shift_y", JsonPrimitive::new);
@@ -53,34 +58,55 @@ public class PedestalButtonBlockStates extends FabricModelProvider {
 				boolean flip = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE;
 				variant = switch (faceAxis) {
 					case X -> switch (facing) {
-						case SOUTH -> flip ? variant.with(Z_ROT, 90).with(VariantProperties.X_ROT, VariantProperties.Rotation.R270).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180) :
-											variant.with(Z_ROT, 90).with(VariantProperties.X_ROT, VariantProperties.Rotation.R270);
-						case WEST -> flip ?  variant.with(Z_ROT, 90).with(VariantProperties.X_ROT, VariantProperties.Rotation.R180).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180) :
-											variant.with(Z_ROT, 90);
-						case EAST -> flip ?  variant.with(Z_ROT, 90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180) :
-											variant.with(Z_ROT, 90).with(VariantProperties.X_ROT, VariantProperties.Rotation.R180);
-						default -> flip ?	 variant.with(Z_ROT, 90).with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180) :
-											variant.with(Z_ROT, 90).with(VariantProperties.X_ROT, VariantProperties.Rotation.R90);
+						case SOUTH -> flip ? variant.with(Z_ROT, 90)
+												.with(VariantProperties.X_ROT, VariantProperties.Rotation.R270)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
+											: variant.with(Z_ROT, 90)
+												.with(VariantProperties.X_ROT, VariantProperties.Rotation.R270);
+						case WEST -> flip ?  variant.with(Z_ROT, 90)
+												.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
+											: variant.with(Z_ROT, 90);
+						case EAST -> flip ?  variant.with(Z_ROT, 90)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
+											: variant.with(Z_ROT, 90).with(VariantProperties.X_ROT, VariantProperties.Rotation.R180);
+						default -> flip ?    variant.with(Z_ROT, 90)
+												.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
+											: variant.with(Z_ROT, 90).with(VariantProperties.X_ROT, VariantProperties.Rotation.R90);
 					};
 					case Y -> switch (facing) {
-						case SOUTH -> flip ? variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180) :
-											variant.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
-						case WEST -> flip ?  variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90) :
-											variant.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
-						case EAST -> flip ?  variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270) :
-											variant.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90);
-						default -> flip ?	 variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180) :
-											variant;
+						case SOUTH -> flip ? variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
+											: variant.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
+						case WEST -> flip ?  variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+											: variant.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
+						case EAST -> flip ?  variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
+											: variant.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90);
+						default -> flip ?    variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
+											: variant;
 					};
 					case Z -> switch (facing) {
-						case SOUTH -> flip ? variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(Z_ROT, 180) :
-											variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(Z_ROT, 180).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180) ;
-						case WEST -> flip ?  variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(Z_ROT, 90) :
-											variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(Z_ROT, 90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
-						case EAST -> flip ?  variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(Z_ROT, 270) :
-											variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(Z_ROT, 270).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
-						default -> flip ?	 variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90) :
-											variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
+						case SOUTH -> flip ? variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+												.with(Z_ROT, 180)
+											: variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+												.with(Z_ROT, 180)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180) ;
+						case WEST -> flip ?  variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+												.with(Z_ROT, 90)
+											: variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+												.with(Z_ROT, 90)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
+						case EAST -> flip ?  variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+												.with(Z_ROT, 270)
+											: variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+												.with(Z_ROT, 270)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
+						default -> flip ?    variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+											: variant.with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+												.with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
 					};
 				};
 				if (faceAxis == Direction.Axis.Z) variant.with(LOCAL_Z_ROT, true);

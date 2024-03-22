@@ -49,6 +49,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
@@ -58,12 +59,19 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
+	private static final VoxelShaper BASE_SHAPE = VoxelShaper.forHorizontal(box(5.5, 1, 5.5, 10.5, 20, 10.5), Direction.UP);
+	private static final VoxelShaper OLD_AP_BASE_SHAPE = VoxelShaper.forHorizontal(Shapes.or(box(5.5, 0, 5.5, 10.5, 17.05, 10.5), box(6, 17, 6, 10, 19.05, 10)), Direction.UP);
+
 	private final Map<BlockState, VoxelShape> shapes;
 	private final SoundEvent pressSound;
 	private final SoundEvent releaseSound;
 
 	public PedestalButtonBlock(Properties properties) {
-		this(properties, VoxelShaper.forHorizontal(box(5.5, 1, 5.5, 10.5, 20, 10.5), Direction.UP), PortalCubedSounds.PEDESTAL_BUTTON_PRESS, PortalCubedSounds.PEDESTAL_BUTTON_RELEASE);
+		this(
+			properties,
+			BASE_SHAPE,
+			PortalCubedSounds.PEDESTAL_BUTTON_PRESS, PortalCubedSounds.PEDESTAL_BUTTON_RELEASE
+		);
 	}
 
 	public PedestalButtonBlock(Properties properties, VoxelShaper shape, SoundEvent pressSound, SoundEvent releaseSound) {
@@ -79,7 +87,22 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 			var rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
 			this.shapes.put(state, rotated.move(shift.x() / 16d, shift.y() / 16d, shift.z() / 16d));
 		}
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACE, Direction.UP).setValue(FACING, Direction.SOUTH).setValue(OFFSET, Offset.NONE).setValue(BASE, false).setValue(ACTIVE, false).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+			.setValue(FACE, Direction.UP)
+			.setValue(FACING, Direction.SOUTH)
+			.setValue(OFFSET, Offset.NONE)
+			.setValue(BASE, false)
+			.setValue(ACTIVE, false)
+			.setValue(WATERLOGGED, false)
+		);
+	}
+
+	public static PedestalButtonBlock oldAp(Properties properties) {
+		return new PedestalButtonBlock(
+			properties,
+			OLD_AP_BASE_SHAPE,
+			PortalCubedSounds.OLD_AP_PEDESTAL_BUTTON_PRESS, PortalCubedSounds.OLD_AP_PEDESTAL_BUTTON_RELEASE
+		);
 	}
 
 	@Override
@@ -105,7 +128,10 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 				break;
 			}
 		}
-		return defaultBlockState().setValue(FACE, clickedFace).setValue(FACING, direction).setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
+		return defaultBlockState()
+			.setValue(FACE, clickedFace)
+			.setValue(FACING, direction)
+			.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
 	}
 
 	@SuppressWarnings("deprecation")

@@ -19,6 +19,7 @@ import java.util.function.Function;
 public class VoxelShaper {
 	private static final Vec3 BLOCK_CENTER = new Vec3(8, 8, 8);
 
+	// Note: Difference to Create, HashMap -> EnumMap because it's better suited for this type of thing
 	private final EnumMap<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
 
 	public VoxelShape get(Direction direction) {

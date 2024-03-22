@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.framework.gui.widget;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 
-import it.unimi.dsi.fastutil.ints.IntIntPair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -19,7 +18,8 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 
 	protected final Sprites sprites;
 	protected final int changeBy;
-	protected final IntIntPair range;
+	protected final int min;
+	protected final int max;
 	private final IntSupplier valueGetter;
 	private final IntConsumer valueSetter;
     private final Runnable onClickingStopped;
@@ -29,11 +29,12 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 	private float clickSpeed;
 	private float clickDelay;
 
-	public ValueCounterButton(int width, int height, Sprites sprites, int changeBy, IntIntPair range, IntSupplier valueGetter, IntConsumer valueSetter, Runnable onClickingStopped) {
+	public ValueCounterButton(int width, int height, Sprites sprites, int changeBy, int min, int max, IntSupplier valueGetter, IntConsumer valueSetter, Runnable onClickingStopped) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 		this.sprites = sprites;
 		this.changeBy = changeBy;
-		this.range = range;
+		this.min = min;
+		this.max = max;
 		this.valueGetter = valueGetter;
 		this.valueSetter = valueSetter;
 		this.onClickingStopped = onClickingStopped;
@@ -41,12 +42,12 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 		tick();
 	}
 
-	public ValueCounterButton(int width, int height, ResourceLocation baseSprite, int changeBy, IntIntPair range, IntSupplier valueGetter, IntConsumer valueSetter, Runnable onClickingStopped) {
+	public ValueCounterButton(int width, int height, ResourceLocation baseSprite, int changeBy, int min, int max, IntSupplier valueGetter, IntConsumer valueSetter, Runnable onClickingStopped) {
 		this(width, height, new Sprites(
 			baseSprite, baseSprite.withSuffix("_hover"),
 			baseSprite.withSuffix("_pressed"), baseSprite.withSuffix("_pressed_hover"),
 			baseSprite.withSuffix("_disabled"), baseSprite.withSuffix("_disabled_hover")
-		), changeBy, range, valueGetter, valueSetter, onClickingStopped);
+		), changeBy, min, max, valueGetter, valueSetter, onClickingStopped);
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 	}
 
 	protected void click() {
-		valueSetter.accept(Mth.clamp(valueGetter.getAsInt() + changeBy, range.leftInt(), range.rightInt()));
+		valueSetter.accept(Mth.clamp(valueGetter.getAsInt() + changeBy, min, max));
 	}
 
 	public void stopClicking() {
@@ -83,7 +84,7 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 
 	@Override
 	public final void tick() {
-		if (valueGetter.getAsInt() == (changeBy < 0 ? range.leftInt() : range.rightInt())) {
+		if (valueGetter.getAsInt() == (changeBy < 0 ? min : max)) {
 			stopClicking();
 			active = false;
 		} else {

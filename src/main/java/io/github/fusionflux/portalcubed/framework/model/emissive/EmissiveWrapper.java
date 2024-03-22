@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.framework.model.emissive;
 import java.util.Collection;
 
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier.AfterBake;
-import net.fabricmc.fabric.api.renderer.v1.model.WrapperBakedModel;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +25,7 @@ public record EmissiveWrapper(EmissiveData data) implements AfterBake {
 	}
 
 	private SimpleBakedModel getSimpleBakedModel(BakedModel model) {
-		if (WrapperBakedModel.unwrap(model) instanceof SimpleBakedModel simple) {
+		if (model instanceof SimpleBakedModel simple) {
 			return simple;
 		}
 		return null;

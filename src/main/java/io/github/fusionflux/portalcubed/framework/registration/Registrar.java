@@ -9,14 +9,14 @@ import net.minecraft.resources.ResourceLocation;
 public class Registrar {
 	public final String modId;
 	public final BlockHelper blocks;
-	public final BlockEntityTypeHelper blockEntityTypes;
+	public final BlockEntityTypeHelper blockEntities;
 	public final ItemHelper items;
 	public final EntityHelper entities;
 
 	public Registrar(String modId) {
 		this.modId = modId;
 		this.blocks = new BlockHelper(this);
-		this.blockEntityTypes = new BlockEntityTypeHelper(this);
+		this.blockEntities = new BlockEntityTypeHelper(this);
 		this.items = new ItemHelper(this);
 		this.entities = new EntityHelper(this);
 	}

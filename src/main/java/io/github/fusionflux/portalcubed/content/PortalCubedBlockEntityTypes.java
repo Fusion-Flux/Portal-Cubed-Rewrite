@@ -6,7 +6,7 @@ import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBl
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class PortalCubedBlockEntityTypes {
-	public static final BlockEntityType<PedestalButtonBlockEntity> PEDESTAL_BUTTON = REGISTRAR.blockEntityTypes.simple(
+	public static final BlockEntityType<PedestalButtonBlockEntity> PEDESTAL_BUTTON = REGISTRAR.blockEntities.simple(
 		"pedestal_button",
 		PedestalButtonBlockEntity::new,
 		PortalCubedBlocks.PEDESTAL_BUTTON, PortalCubedBlocks.OLD_AP_PEDESTAL_BUTTON
