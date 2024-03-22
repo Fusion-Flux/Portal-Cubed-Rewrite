@@ -29,6 +29,8 @@ public class PortalCubedSounds {
 	public static final SoundEvent PORTAL_GUN_HOLD_LOOP = register("portal_gun_hold_loop");
 	public static final SoundEvent PORTAL_GUN_DROP = register("portal_gun_drop");
 
+	public static final SoundEvent SURPRISE = register("pedestal_button_easter_egg");
+
 	public static SoundEvent register(String name) {
 		var id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));

@@ -7,6 +7,7 @@ import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
 import io.github.fusionflux.portalcubed.framework.gui.widget.DynamicSpriteWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
@@ -27,6 +28,7 @@ import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -54,6 +56,17 @@ public class PedestalButtonConfigScreen extends Screen {
 	private EnumMap<Offset, ValueSelectButton<Offset>> offsetSelectButtons;
 	private List<Pair<Tooltip, Layout>> layoutsWithTooltip;
 
+	private static final List<Offset> KONAMI_CODE = List.of(
+		Offset.UP,
+		Offset.DOWN,
+		Offset.LEFT,
+		Offset.RIGHT,
+		Offset.LEFT,
+		Offset.RIGHT,
+		Offset.NONE
+	);
+	private List<Offset> konamiRecord;
+
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
 		this.pedestalButton = pedestalButton;
@@ -61,6 +74,8 @@ public class PedestalButtonConfigScreen extends Screen {
 		var state = pedestalButton.getBlockState();
 		this.offset = state.getValue(PedestalButtonBlock.OFFSET);
 		this.base = state.getValue(PedestalButtonBlock.BASE);
+
+		this.konamiRecord = new ArrayList<>(KONAMI_CODE.size());
 	}
 
 	private ValueCounterButton pressTimeCounterButton(boolean up) {
@@ -128,6 +143,7 @@ public class PedestalButtonConfigScreen extends Screen {
 						OFFSET_SELECT_WIDTH, OFFSET_SELECT_HEIGHT, OFFSET_SELECT_BASE,
 						offset, () -> this.offset, v -> {
 							this.offset = v;
+							konami(v);
 							this.dirty = true;
 						}, offsetSelectButtons::get
 					);
@@ -172,6 +188,16 @@ public class PedestalButtonConfigScreen extends Screen {
 	public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		super.renderBackground(graphics, mouseX, mouseY, delta);
 		graphics.blit(this.style.background, this.leftPos, this.topPos, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+	}
+
+	private void konami(Offset offset) {
+		konamiRecord.add(offset);
+		if (konamiRecord.equals(KONAMI_CODE)) {
+			minecraft.getSoundManager().play(SimpleSoundInstance.forUI(PortalCubedSounds.SURPRISE, 1));
+			konamiRecord.clear();
+		} else if (konamiRecord.size() >= KONAMI_CODE.size()) {
+			konamiRecord.clear();
+		}
 	}
 
 	@Override
