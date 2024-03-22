@@ -39,7 +39,7 @@
     "sounds": [
       {
         "name": "portalcubed:button/sad_party_horn",
-        "volume": 0.5
+        "volume": 0.8
       }
     ],
     "subtitle": "subtitles.portalcubed.pedestal_button_easter_egg"
