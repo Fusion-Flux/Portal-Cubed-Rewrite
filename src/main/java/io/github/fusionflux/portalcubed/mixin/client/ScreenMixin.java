@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
@@ -25,6 +26,11 @@ public class ScreenMixin implements ScreenExt {
 		if (child instanceof Tickable tickable) {
 			this.tickables.add(tickable);
 		}
+	}
+
+	@Inject(method = "clearWidgets", at = @At("TAIL"))
+	private void clearTickables(CallbackInfo ci) {
+		this.tickables.clear();
 	}
 
 	@Override

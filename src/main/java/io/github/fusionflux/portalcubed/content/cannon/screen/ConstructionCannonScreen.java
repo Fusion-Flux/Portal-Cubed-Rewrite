@@ -38,6 +38,8 @@ public class ConstructionCannonScreen extends Screen {
 
 	private final InteractionHand sourceHand;
 	private final CannonDataHolder settings;
+	// preview is persistent to maintain tick count between tabs
+	private final ConstructPreviewWidget constructPreview;
 
 	private Tab tab;
 
@@ -45,6 +47,7 @@ public class ConstructionCannonScreen extends Screen {
 		super(TITLE);
 		this.sourceHand = hand;
 		this.settings = new CannonDataHolder(settings);
+		this.constructPreview = new ConstructPreviewWidget(120, this.settings);
 		this.tab = Tab.MATERIALS;
 	}
 
@@ -54,7 +57,7 @@ public class ConstructionCannonScreen extends Screen {
 		LinearLayout root = LinearLayout.horizontal();
 		root.defaultCellSetting().paddingHorizontal(10).alignVerticallyMiddle();
 
-		root.addChild(new ConstructPreviewWidget(120, this.settings));
+		root.addChild(this.constructPreview);
 
 		LinearLayout rightSide = root.addChild(LinearLayout.vertical());
 		rightSide.defaultCellSetting().alignHorizontallyCenter().paddingVertical(5);

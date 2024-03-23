@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.widget.Tickable;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 
 import org.jetbrains.annotations.Nullable;
@@ -45,6 +46,11 @@ public class ConstructPreviewWidget extends ConstructWidget implements Tickable 
 	@Override
 	public void tick() {
 		this.ticks++;
+	}
+
+	@Override
+	public void playDownSound(SoundManager soundManager) {
+		// don't
 	}
 
 	@Override

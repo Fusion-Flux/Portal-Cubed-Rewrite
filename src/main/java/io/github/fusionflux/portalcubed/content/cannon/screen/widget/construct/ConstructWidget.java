@@ -44,8 +44,8 @@ public abstract class ConstructWidget extends AbstractWidget {
 		matrices.pushPose();
 		prepareForBlockRendering(matrices);
 		matrices.translate(constructCenter.x, constructCenter.y, constructCenter.z);
-		applyConstructTransformations(matrices, delta);
 		matrices.mulPose(Axis.XP.rotationDegrees(30));
+		applyConstructTransformations(matrices, delta);
 		matrices.translate(-constructCenter.x, -constructCenter.y, -constructCenter.z);
 		preview.blocks.forEach((pos, info) -> {
 			matrices.pushPose();
