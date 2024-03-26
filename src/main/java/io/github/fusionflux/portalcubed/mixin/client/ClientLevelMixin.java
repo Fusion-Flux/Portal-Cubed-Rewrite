@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
-import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
+import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.extension.ClientLevelExt;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -36,7 +36,9 @@ public class ClientLevelMixin implements ClientLevelExt {
 	private void destroyMultiBlockProgress(LevelRenderer instance, int entityId, BlockPos pos, int progress, Operation<Void> original) {
 		var state = ((BlockGetter) this).getBlockState(pos);
 		if (state.getBlock() instanceof AbstractMultiBlock multiBlock) {
-			original.call(instance, entityId, multiBlock.getVisualOriginPos(pos, state), progress);
+			for (var quadrantPos : multiBlock.quadrantIterator(multiBlock.getOriginPos(pos, state), state)) {
+				original.call(instance, entityId, quadrantPos, progress);
+			}
 		} else {
 			original.call(instance, entityId, pos, progress);
 		}
