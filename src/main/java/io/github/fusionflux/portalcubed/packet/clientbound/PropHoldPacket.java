@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 
 import java.util.OptionalInt;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
@@ -29,6 +30,7 @@ public record PropHoldPacket(int holderId, OptionalInt propId) implements Client
 		return PortalCubedPackets.PROP_HOLD;
 	}
 
+	@ClientOnly
 	@Override
 	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		var level = player.level();

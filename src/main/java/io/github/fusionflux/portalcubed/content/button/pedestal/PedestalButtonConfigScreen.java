@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.button.pedestal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -37,12 +38,10 @@ public class PedestalButtonConfigScreen extends Screen {
 	private static final int BACKGROUND_HEIGHT = 91;
 	private static final int SEGMENT_WIDTH = 13;
 	private static final int SEGMENT_HEIGHT = 23;
-	private static final int OFFSET_SELECT_WIDTH = 13;
-	private static final int OFFSET_SELECT_HEIGHT = OFFSET_SELECT_WIDTH;
-	private static final ResourceLocation OFFSET_SELECT_BASE = PortalCubed.id("pedestal_button/offset_select");
-	private static final int BASE_TOGGLE_WIDTH = 11;
-	private static final int BASE_TOGGLE_HEIGHT = BASE_TOGGLE_WIDTH;
-	private static final ResourceLocation BASE_TOGGLE_BASE = PortalCubed.id("pedestal_button/base_toggle");
+	private static final int OFFSET_SELECT_SIZE = 13;
+	private static final ResourceLocation OFFSET_SELECT_SPRITE = PortalCubed.id("pedestal_button/offset_select");
+	private static final int BASE_TOGGLE_SIZE = 11;
+	private static final ResourceLocation BASE_TOGGLE_SPRITE = PortalCubed.id("pedestal_button/base_toggle");
 
 	private final PedestalButtonBlockEntity pedestalButton;
 	public int pressTime;
@@ -65,7 +64,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		Offset.RIGHT,
 		Offset.NONE
 	);
-	private List<Offset> konamiRecord;
+	private LinkedList<Offset> konamiRecord;
 
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
@@ -75,7 +74,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		this.offset = state.getValue(PedestalButtonBlock.OFFSET);
 		this.base = state.getValue(PedestalButtonBlock.BASE);
 
-		this.konamiRecord = new ArrayList<>(KONAMI_CODE.size());
+		this.konamiRecord = new LinkedList<>();
 	}
 
 	private ValueCounterButton pressTimeCounterButton(boolean up) {
@@ -141,7 +140,7 @@ public class PedestalButtonConfigScreen extends Screen {
 
 				for (var offset : Offset.values()) {
 					var button = new ValueSelectButton<Offset>(
-						OFFSET_SELECT_WIDTH, OFFSET_SELECT_HEIGHT, OFFSET_SELECT_BASE,
+						OFFSET_SELECT_SIZE, OFFSET_SELECT_SIZE, OFFSET_SELECT_SPRITE,
 						offset, () -> this.offset, v -> {
 							this.offset = v;
 							konami(v);
@@ -159,7 +158,7 @@ public class PedestalButtonConfigScreen extends Screen {
 			var footer = root.addChild(LinearLayout.horizontal());
 
 			footer.addChild(new ToggleButton(
-				BASE_TOGGLE_WIDTH, BASE_TOGGLE_HEIGHT, BASE_TOGGLE_BASE,
+				BASE_TOGGLE_SIZE, BASE_TOGGLE_SIZE, BASE_TOGGLE_SPRITE,
 				() -> base, v -> {
 					base = v;
 					dirty = true;
@@ -196,10 +195,11 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	private void konami(Offset offset) {
 		konamiRecord.add(offset);
+		if (konamiRecord.size() > KONAMI_CODE.size())
+			konamiRecord.removeFirst();
+
 		if (konamiRecord.equals(KONAMI_CODE)) {
 			minecraft.getSoundManager().play(SimpleSoundInstance.forUI(PortalCubedSounds.SURPRISE, 1));
-			konamiRecord.clear();
-		} else if (konamiRecord.size() >= KONAMI_CODE.size()) {
 			konamiRecord.clear();
 		}
 	}

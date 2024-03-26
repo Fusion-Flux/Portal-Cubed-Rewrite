@@ -26,7 +26,7 @@ public class PedestalButtonBlockEntity extends BlockEntity implements QuiltBlock
 
 	public boolean setPressTime(int pressTime) {
 		boolean changed = this.pressTime != pressTime;
-		this.pressTime = Mth.clamp(pressTime, MIN_PRESS_TIME,MAX_PRESS_TIME);
+		this.pressTime = Mth.clamp(pressTime, MIN_PRESS_TIME, MAX_PRESS_TIME);
 		if (level instanceof ServerLevel && changed) {
 			sync();
 			level.blockEntityChanged(worldPosition);

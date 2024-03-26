@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
@@ -29,6 +30,7 @@ public record OpenPedestalButtonConfigPacket(BlockPos pedestalButtonPos) impleme
 		return PortalCubedPackets.OPEN_PEDESTAL_BUTTON_CONFIG;
 	}
 
+	@ClientOnly
 	@Override
 	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		var client = Minecraft.getInstance();

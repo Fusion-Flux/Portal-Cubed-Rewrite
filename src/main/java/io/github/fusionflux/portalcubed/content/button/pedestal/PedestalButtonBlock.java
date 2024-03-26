@@ -4,18 +4,16 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
+import io.github.fusionflux.portalcubed.framework.extension.BigShapeBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper.DefaultRotationValues;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -29,7 +27,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -46,13 +43,12 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
+public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, BigShapeBlock {
 	public static final EnumProperty<Direction> FACE = EnumProperty.create("face", Direction.class);
 	public static final EnumProperty<Offset> OFFSET = EnumProperty.create("offset", Offset.class);
 	public static final BooleanProperty BASE = BooleanProperty.create("base");
@@ -224,39 +220,6 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new PedestalButtonBlockEntity(pos, state);
-	}
-
-	@ClientOnly
-	public static void pick(double reach, float tickDelta) {
-		var client = Minecraft.getInstance();
-		if (!(client.cameraEntity instanceof LocalPlayer player))
-			return;
-		var level = client.level;
-
-		var start = player.getEyePosition(tickDelta);
-		reach = (client.hitResult != null && client.hitResult.getType() != HitResult.Type.MISS) ? client.hitResult.getLocation().distanceTo(start) : reach;
-		var end = start.add(player.getViewVector(tickDelta).scale(reach));
-
-		var clipContext = new ClipContext(start, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player);
-		var result = BlockGetter.traverseBlocks(start, end, clipContext, ($, pos) -> {
-			BlockHitResult currentHit = null;
-			for (var cur : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-				var state = level.getBlockState(cur);
-				if (state.getBlock() instanceof PedestalButtonBlock) {
-					var hit = state.getShape(level, cur).clip(start, end, cur);
-					if (hit == null || hit.getType() == HitResult.Type.MISS) continue;
-					if (currentHit != null && Vec3.atCenterOf(cur).distanceToSqr(start) >= Vec3.atCenterOf(currentHit.getBlockPos()).distanceTo(start)) continue;
-					currentHit = new BlockHitResult(Vec3.atCenterOf(cur), hit.getDirection(), cur.immutable(), hit.isInside());
-				}
-			}
-			return currentHit;
-		}, $ -> {
-			var dir = start.subtract(end);
-			return BlockHitResult.miss(end, Direction.getNearest(dir.x, dir.y, dir.z), BlockPos.containing(end));
-		});
-
-		if (result != null && result.getType() != HitResult.Type.MISS)
-			client.hitResult = result;
 	}
 
 	public enum Offset implements StringRepresentable {
