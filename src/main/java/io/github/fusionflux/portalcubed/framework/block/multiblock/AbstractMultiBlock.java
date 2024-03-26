@@ -1,7 +1,7 @@
-package io.github.fusionflux.portalcubed.framework.block;
+package io.github.fusionflux.portalcubed.framework.block.multiblock;
 
+import java.util.EnumMap;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,9 +10,11 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -67,16 +69,16 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		int x = getX(state);
 		int y = getY(state);
 		int z = getZ(state);
-		return switch (state.getValue(FACING)) {
-			case DOWN, UP ->   pos.subtract(new BlockPos(x, z, y));
-			case WEST, EAST -> pos.subtract(new BlockPos(z, y, x));
-			default ->         pos.subtract(new BlockPos(x, y, z));
+		return switch (state.getValue(FACING).getAxis()) {
+			case X -> pos.subtract(new BlockPos(z, y, x));
+			case Y -> pos.subtract(new BlockPos(x, z, y));
+			case Z -> pos.subtract(new BlockPos(x, y, z));
 		};
 	}
 
-	public Iterable<BlockPos> quadrantIterator(BlockPos pos, BlockState state, Level level) {
+	public Iterable<BlockPos> quadrantIterator(BlockPos pos, BlockState state) {
 		var rotatedSize = size.rotated(state.getValue(FACING));
-		return BlockPos.betweenClosed(pos, pos.offset(rotatedSize.x() - 1, rotatedSize.y() - 1, rotatedSize.z() - 1));
+		return BlockPos.betweenClosed(pos, pos.offset(rotatedSize.x - 1, rotatedSize.y - 1, rotatedSize.z - 1));
 	}
 
 	public void playSoundAtCenter(SoundEvent sound, double xOff, double yOff, double zOff, float volume, float pitch, BlockPos pos, BlockState state, Level level) {
@@ -95,16 +97,14 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-		if (!state.is(newState.getBlock())) {
-			if (isOrigin(state, level)) {
-				for (BlockPos quadrantPos : quadrantIterator(pos, state, level)) level.destroyBlock(quadrantPos, false);
-			} else {
-				var originPos = getOriginPos(pos, state);
-				level.getBlockState(originPos).onRemove(level, originPos, Blocks.AIR.defaultBlockState(), false);
-			}
+	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+		var rotatedSize = size.rotated(state.getValue(FACING));
+		if (rotatedSize.contains(getOriginPos(pos, state), pos.relative(direction)) && !neighborState.is(this)) {
+			world.levelEvent(null, LevelEvent.PARTICLES_DESTROY_BLOCK, pos, getId(state));
+			return Blocks.AIR.defaultBlockState();
+		} else {
+			return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 		}
-		super.onRemove(state, level, pos, newState, moved);
 	}
 
 	@Override
@@ -119,25 +119,34 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return this.defaultBlockState().setValue(FACING, ctx.getClickedFace());
+		return defaultBlockState().setValue(FACING, ctx.getClickedFace());
 	}
 
 	public record Size(Direction direction, int x, int y, int z) {
-		public static final BlockPos.MutableBlockPos TEST_POS = new BlockPos.MutableBlockPos();
-		public static final Direction[][] HORIZONTAL_DIRECTIONS = new Direction[][]{
-			new Direction[]{Direction.WEST, Direction.EAST},
-			new Direction[]{Direction.NORTH, Direction.SOUTH}
-		};
-		public static final Direction[][] VERTICAL_DIRECTIONS = new Direction[][]{
-			new Direction[]{Direction.DOWN, Direction.UP},
-			new Direction[]{Direction.NORTH, Direction.SOUTH}
-		};
+		private static final EnumMap<Direction, Size> ROTATED = new EnumMap<>(Direction.class);
 
-		public Vec3 center(double xOff, double yOff, double zOff) {
-			double xOffRotated = direction.getAxis() == Direction.Axis.X ? zOff : xOff;
-			double yOffRotated = direction.getAxis() == Direction.Axis.Y ? zOff : yOff;
-			double zOffRotated = direction.getAxis() == Direction.Axis.X ? xOff : direction.getAxis() == Direction.Axis.Y ? yOff : zOff;
-			return new Vec3((x / 2) + xOffRotated, (y / 2) + yOffRotated, (z / 2) + zOffRotated);
+		public Vec3 center(double xOffset, double yOffset, double zOffset) {
+			var axis = direction.getAxis();
+			return new Vec3(
+				(x / 2) + axis.choose(zOffset, xOffset, xOffset),
+				(y / 2) + axis.choose(yOffset, zOffset, yOffset),
+				(z / 2) + axis.choose(xOffset, yOffset, zOffset)
+			);
+		}
+
+		public boolean contains(Vec3i origin, Vec3i pos) {
+			int testX = pos.getX();
+			int testY = pos.getY();
+			int testZ = pos.getZ();
+			int minX = origin.getX();
+			int minY = origin.getY();
+			int minZ = origin.getZ();
+			int maxX = minX + x - 1;
+			int maxY = minY + y - 1;
+			int maxZ = minZ + z - 1;
+			return testX >= minX && testX <= maxX &&
+				   testZ >= minZ && testZ <= maxZ &&
+				   testY >= minY && testY <= maxY;
 		}
 
 		public Vec3i relative(Vec3i origin, Vec3i pos) {
@@ -150,42 +159,15 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		}
 
 		public Size rotated(Direction direction) {
-			return switch (direction.getAxis()) {
-				case Y -> new Size(direction, x, z, y);
+			return ROTATED.computeIfAbsent(direction, $ -> switch (direction.getAxis()) {
 				case X -> new Size(direction, z, y, x);
+				case Y -> new Size(direction, x, z, y);
 				case Z -> new Size(direction, x, y, z);
-			};
-		}
-
-		public boolean canFit(Level level, Vec3i origin, Predicate<BlockPos> placePredicate) {
-			for (int y = 0; y < this.y; y++) {
-				for (int x = 0; x < this.x; x++) {
-					for (int z = 0; z < this.z; z++) {
-						TEST_POS.set(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
-						if (!placePredicate.test(TEST_POS)) return false;
-					}
-				}
-			}
-			return true;
-		}
-
-		public Optional<BlockPos> moveToFit(BlockPlaceContext context, BlockPos origin, Predicate<BlockPos> placePredicate) {
-			var level = context.getLevel();
-			var testOrigin = origin;
-			if (canFit(level, testOrigin, placePredicate)) return Optional.of(testOrigin);
-			for (int i = 0; i < 2; i++) {
-				if (canFit(level, testOrigin, placePredicate)) return Optional.of(testOrigin);
-				testOrigin = testOrigin.relative(HORIZONTAL_DIRECTIONS[direction.getAxis() == Direction.Axis.X ? 1 : 0][i]);
-				for (int j = 0; j < 2; j++) {
-					if (canFit(level, testOrigin, placePredicate)) return Optional.of(testOrigin);
-					testOrigin = testOrigin.relative(VERTICAL_DIRECTIONS[direction.getAxis().isVertical() ? 1 : 0][j]);
-				}
-			}
-			return Optional.empty();
+			});
 		}
 	}
 
-	public record SizeProperties(int xMax, int yMax, int zMax, Optional<IntegerProperty> x, Optional<IntegerProperty> y, Optional<IntegerProperty> z) {
+	public static record SizeProperties(int xMax, int yMax, int zMax, Optional<IntegerProperty> x, Optional<IntegerProperty> y, Optional<IntegerProperty> z) {
 		public static SizeProperties create(int x, int y, int z) {
 			return new SizeProperties(
 				x, y, z,

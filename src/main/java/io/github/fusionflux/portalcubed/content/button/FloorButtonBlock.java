@@ -11,7 +11,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
-import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
+import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -93,7 +93,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	public AABB getButtonBounds(Direction direction) {
-		return buttonBounds.computeIfAbsent(direction, blah -> {
+		return buttonBounds.computeIfAbsent(direction, $ -> {
 			var baseButtonBounds = buttonBounds.get(Direction.SOUTH);
 
 			var min = new Vec3(baseButtonBounds.minX, baseButtonBounds.minY, baseButtonBounds.minZ);
@@ -113,7 +113,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	protected void toggle(BlockState state, Level level, BlockPos pos, @Nullable Entity entity, boolean currentState) {
-		for (BlockPos quadrantPos : quadrantIterator(pos, state, level)) {
+		for (BlockPos quadrantPos : quadrantIterator(pos, state)) {
 			var quadrantState = level.getBlockState(quadrantPos);
 			if (!quadrantState.is(this)) return;
 			level.setBlock(quadrantPos, quadrantState.setValue(ACTIVE, !currentState), UPDATE_ALL);
