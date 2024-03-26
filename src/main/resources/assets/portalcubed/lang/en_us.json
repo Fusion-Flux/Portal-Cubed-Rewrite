@@ -18,6 +18,13 @@
   "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
 
 
+  "container.portalcubed.pedestal_button": "Pedestal Button",
+  "container.portalcubed.pedestal_button.press_length": "Press Length",
+  "container.portalcubed.pedestal_button.offset": "Position Offset",
+  "container.portalcubed.pedestal_button.base": "Include Base",
+
+  "subtitles.portalcubed.surprise": "Party Horn Blows",
+
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
   "subtitles.portalcubed.gel_blob_splash": "Gel blob splashes",

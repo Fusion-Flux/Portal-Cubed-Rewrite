@@ -3,8 +3,10 @@ package io.github.fusionflux.portalcubed.mixin.client;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.extension.ClientLevelExt;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 
@@ -30,6 +32,11 @@ public class ClientLevelMixin implements ClientLevelExt {
 	@Override
 	public ClientPortalManager pc$portalManager() {
 		return this.portalManager;
+	}
+
+	// Overrides pc$playSoundInstance from LevelExt
+	public void pc$playSoundInstance(Object soundInstance) {
+		Minecraft.getInstance().getSoundManager().play((SoundInstance) soundInstance);
 	}
 
 	@WrapOperation(method = "destroyBlockProgress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;destroyBlockProgress(ILnet/minecraft/core/BlockPos;I)V"))
