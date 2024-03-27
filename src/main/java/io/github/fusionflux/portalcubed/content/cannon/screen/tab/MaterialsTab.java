@@ -15,7 +15,6 @@ import java.util.Optional;
 
 public class MaterialsTab {
 	public static final int COLUMNS = 6;
-	public static final int ROWS = 6;
 	public static final int X_OFF = 15;
 	public static final int Y_OFF = 44;
 
@@ -23,7 +22,7 @@ public class MaterialsTab {
 		int i = 0;
 		List<MaterialSlotWidget> slots = new ArrayList<>();
 		for (TagKey<Item> tag : ConstructManager.INSTANCE.getMaterialsSorted()) {
-			int row = i / ROWS;
+			int row = i / COLUMNS;
 			int col = i % COLUMNS;
 			int slotX = col * MaterialSlotWidget.SIZE + X_OFF;
 			int slotY = row * MaterialSlotWidget.SIZE + Y_OFF;
@@ -31,14 +30,7 @@ public class MaterialsTab {
 					tag, data,
 					() -> {
                         slots.forEach(MaterialSlotWidget::deselect);
-
-						Optional<ResourceLocation> defaultConstruct = ConstructManager.INSTANCE
-								.getConstructSetsForMaterial(tag)
-								.stream()
-								.map(ConstructManager.INSTANCE::getId)
-								.filter(Objects::nonNull)
-								.findFirst();
-						data.update(settings -> settings.withConstruct(defaultConstruct));
+						data.update(settings -> settings.withMaterial(tag));
                     }
 			);
 			layout.addChild(slotX, slotY, slot);

@@ -47,14 +47,4 @@ public class ConstructPreviewWidget extends ConstructWidget implements Tickable 
 	public void tick() {
 		this.ticks++;
 	}
-
-	@Override
-	public void playDownSound(SoundManager soundManager) {
-		// don't
-	}
-
-	@Override
-	protected void updateWidgetNarration(NarrationElementOutput builder) {
-		builder.add(NarratedElementType.TITLE, MESSAGE);
-	}
 }

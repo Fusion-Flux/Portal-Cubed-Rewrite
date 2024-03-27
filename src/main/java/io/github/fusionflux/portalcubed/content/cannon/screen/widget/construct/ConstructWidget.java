@@ -8,8 +8,11 @@ import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarratedElementType;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +30,8 @@ public abstract class ConstructWidget extends AbstractWidget {
 	@Nullable
 	protected abstract ConfiguredConstruct getConstruct();
 
-	protected abstract void applyConstructTransformations(PoseStack matrices, float delta);
+	protected void applyConstructTransformations(PoseStack matrices, float delta) {
+	}
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
@@ -36,17 +40,33 @@ public abstract class ConstructWidget extends AbstractWidget {
 			return;
 		PoseStack matrices = graphics.pose();
 		matrices.pushPose();
+		// translate to position in screen
 		matrices.translate(this.getX(), this.getY(), 150);
-		matrices.scale(40, 40, 1);
-		Vec3 constructCenter = AABB.of(preview.bounds).deflate(.5).getCenter();
-		Vec3 renderOffset = constructCenter.vectorTo(ORIGIN);
-		constructCenter = constructCenter.add(renderOffset);
+		// scale to fit area
+		// un-rotated, a block is 1 pixel.
+		matrices.scale(this.getWidth(), this.getHeight(), 1);
+//		// translate to center
+//		Vec3 center = AABB.of(preview.bounds).getCenter();
+//		matrices.translate(center.x, center.y, center.z);
+		// scale so that no matter the orientation, it fits inside the area
+		float sizeOnLargestAxis = Math.max(
+				preview.bounds.getYSpan(),
+				Math.max(preview.bounds.getXSpan(), preview.bounds.getZSpan())
+		);
+		float maxWidth = (float) Math.sqrt(2 * (sizeOnLargestAxis * sizeOnLargestAxis));
+		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
+		// currently perfectly fits in square. add some padding
+//		matrices.scale(0.9f, 0.9f, 1);
+
+
+		Vec3 renderOffset = Vec3.ZERO;//constructCenter.vectorTo(ORIGIN);
+//		constructCenter = constructCenter.add(renderOffset);
 		matrices.pushPose();
 		prepareForBlockRendering(matrices);
-		matrices.translate(constructCenter.x, constructCenter.y, constructCenter.z);
+//		matrices.translate(constructCenter.x, constructCenter.y, constructCenter.z);
 		matrices.mulPose(Axis.XP.rotationDegrees(30));
 		applyConstructTransformations(matrices, delta);
-		matrices.translate(-constructCenter.x, -constructCenter.y, -constructCenter.z);
+//		matrices.translate(-constructCenter.x, -constructCenter.y, -constructCenter.z);
 		preview.blocks.forEach((pos, info) -> {
 			matrices.pushPose();
 			matrices.translate(pos.getX() + renderOffset.x, pos.getY() + renderOffset.y, pos.getZ() + renderOffset.z);
@@ -62,7 +82,16 @@ public abstract class ConstructWidget extends AbstractWidget {
 
 	private void prepareForBlockRendering(PoseStack matrices) {
 		matrices.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
-		matrices.translate(0, -2, 0);
 		RenderSystem.enableDepthTest();
+	}
+
+	@Override
+	protected void updateWidgetNarration(NarrationElementOutput builder) {
+		builder.add(NarratedElementType.TITLE, this.getMessage());
+	}
+
+	@Override
+	public void playDownSound(SoundManager soundManager) {
+		// don't
 	}
 }

@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.cannon.screen;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
+import io.github.fusionflux.portalcubed.content.cannon.screen.tab.ConstructsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.MaterialsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructPreviewWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
@@ -83,7 +84,7 @@ public class ConstructionCannonScreen extends Screen {
 
 		switch (this.tab) {
 			case MATERIALS -> MaterialsTab.init(this.settings, menu);
-			case CONSTRUCTS -> {}
+			case CONSTRUCTS -> ConstructsTab.init(this.settings, menu);
 			case SETTINGS -> {}
 		}
 
