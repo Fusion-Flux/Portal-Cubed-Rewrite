@@ -3,8 +3,6 @@ package io.github.fusionflux.portalcubed.content.prop.entity;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import org.quiltmc.qsl.base.api.util.TriState;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
@@ -93,7 +91,7 @@ public class Prop extends Entity implements CollisionListener {
 
 	public boolean hold(Player player) {
 		var heldBy = getHeldBy();
-		boolean notHeld = heldBy.isEmpty() || level().getGameRules().getBoolean(PortalCubedGameRules.PROP_SNATCHING);
+		boolean notHeld = !player.is(getControllingPassenger()) && (heldBy.isEmpty() || level().getGameRules().getBoolean(PortalCubedGameRules.PROP_SNATCHING));
 		if (!level().isClientSide && notHeld) {
 			heldBy.ifPresent(holder -> ((PlayerExt) holder).pc$heldProp(OptionalInt.empty()));
 			entityData.set(HELD_BY, OptionalInt.of(player.getId()));
