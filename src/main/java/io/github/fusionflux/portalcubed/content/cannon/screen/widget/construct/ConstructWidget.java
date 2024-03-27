@@ -35,6 +35,12 @@ public abstract class ConstructWidget extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		// so you can actually see what's happening
+		if (this instanceof ConstructPreviewWidget)
+			return;
+		if (!this.isHovered())
+			return;
+
 		ConfiguredConstruct preview = this.getConstruct();
 		if (preview == null)
 			return;
@@ -45,16 +51,18 @@ public abstract class ConstructWidget extends AbstractWidget {
 		// scale to fit area
 		// un-rotated, a block is 1 pixel.
 		matrices.scale(this.getWidth(), this.getHeight(), 1);
-//		// translate to center
-//		Vec3 center = AABB.of(preview.bounds).getCenter();
-//		matrices.translate(center.x, center.y, center.z);
+		// translate center to pivot
+		Vec3 center = AABB.of(preview.bounds).getCenter();
+		matrices.translate(-center.x, center.y, 0);
+		// translate pivot to center of area
+		matrices.translate(1 / 2f, 1 / 2f, 0);
 		// scale so that no matter the orientation, it fits inside the area
 		float sizeOnLargestAxis = Math.max(
 				preview.bounds.getYSpan(),
 				Math.max(preview.bounds.getXSpan(), preview.bounds.getZSpan())
 		);
 		float maxWidth = (float) Math.sqrt(2 * (sizeOnLargestAxis * sizeOnLargestAxis));
-		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
+//		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
 		// currently perfectly fits in square. add some padding
 //		matrices.scale(0.9f, 0.9f, 1);
 
@@ -64,8 +72,8 @@ public abstract class ConstructWidget extends AbstractWidget {
 		matrices.pushPose();
 		prepareForBlockRendering(matrices);
 //		matrices.translate(constructCenter.x, constructCenter.y, constructCenter.z);
-		matrices.mulPose(Axis.XP.rotationDegrees(30));
-		applyConstructTransformations(matrices, delta);
+//		matrices.mulPose(Axis.XP.rotationDegrees(30));
+//		applyConstructTransformations(matrices, delta);
 //		matrices.translate(-constructCenter.x, -constructCenter.y, -constructCenter.z);
 		preview.blocks.forEach((pos, info) -> {
 			matrices.pushPose();
