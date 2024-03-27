@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.button;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
@@ -38,10 +37,33 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 	public static final int PRESSED_TIME = 5;
-	public static int easterEggTrigger = 0;
+	public static boolean easterEgg = true;
+
+	private static final VoxelShaper[][] SHAPES = new VoxelShaper[][]{
+		new VoxelShaper[]{
+			VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(4, 1, 4, 16, 3, 16)), Direction.UP),
+			VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(0, 1, 4, 12, 3, 16)), Direction.UP)
+		},
+		new VoxelShaper[]{
+			VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(4, 1, 0, 16, 3, 12)), Direction.UP),
+			VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(0, 1, 0, 12, 3, 12)), Direction.UP)
+		}
+	};
+	private static final VoxelShape BUTTON_SHAPE = box(7.5, 7.5, 3, 16, 16, 4);
+	private static final VoxelShaper[][] OLD_AP_SHAPES = new VoxelShaper[][]{
+		new VoxelShaper[]{
+			VoxelShaper.forDirectional(box(2, 0, 2, 16, 2, 16), Direction.UP),
+			VoxelShaper.forDirectional(box(0, 0, 2, 14, 2, 16), Direction.UP)
+		},
+		new VoxelShaper[]{
+			VoxelShaper.forDirectional(box(2, 0, 0, 16, 2, 14), Direction.UP),
+			VoxelShaper.forDirectional(box(0, 0, 0, 14, 2, 14), Direction.UP)
+		}
+	};
+	private static final VoxelShape OLD_AP_BUTTON_SHAPE = box(4, 4, 2, 16, 16, 3);
 
 	public final VoxelShaper[][] shapes;
-	public final Map<Direction, AABB> buttonBounds = new HashMap<>();
+	public final EnumMap<Direction, AABB> buttonBounds = new EnumMap<>(Direction.class);
 	public final Predicate<? super Entity> entityPredicate;
 	public final SoundEvent pressSound;
 	public final SoundEvent releaseSound;
@@ -64,7 +86,6 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 			buttonShape.max(Direction.Axis.Y) * 2,
 			buttonShape.max(Direction.Axis.Z)
 		).move(-buttonShape.min(Direction.Axis.X), -buttonShape.min(Direction.Axis.Y), 0));
-		for (Direction direction : Direction.values()) getButtonBounds(direction);
 		this.entityPredicate = EntitySelector.NO_SPECTATORS.and(entity -> !entity.isIgnoringBlockTriggers()).and(entityPredicate);
 		this.pressSound = pressSound;
 		this.releaseSound = releaseSound;
@@ -76,20 +97,19 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	public FloorButtonBlock(Properties properties, SoundEvent pressSound, SoundEvent releaseSound) {
-		this(properties, new VoxelShaper[][]{
-			new VoxelShaper[]{
-				VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(4, 1, 4, 16, 3, 16)), Direction.UP),
-				VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(0, 1, 4, 12, 3, 16)), Direction.UP)
-			},
-			new VoxelShaper[]{
-				VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(4, 1, 0, 16, 3, 12)), Direction.UP),
-				VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(0, 1, 0, 12, 3, 12)), Direction.UP)
-			}
-		}, box(7.5, 7.5, 3, 16, 16, 4), pressSound, releaseSound);
+		this(properties, SHAPES, BUTTON_SHAPE, pressSound, releaseSound);
 	}
 
 	public FloorButtonBlock(Properties properties) {
 		this(properties, PortalCubedSounds.FLOOR_BUTTON_PRESS, PortalCubedSounds.FLOOR_BUTTON_RELEASE);
+	}
+
+	public static FloorButtonBlock oldAp(Properties properties) {
+		return new FloorButtonBlock(properties, OLD_AP_SHAPES, OLD_AP_BUTTON_SHAPE, PortalCubedSounds.OLD_AP_FLOOR_BUTTON_PRESS, PortalCubedSounds.OLD_AP_FLOOR_BUTTON_RELEASE);
+	}
+
+	public static FloorButtonBlock p1(Properties properties) {
+		return new FloorButtonBlock(properties, PortalCubedSounds.PORTAL_1_FLOOR_BUTTON_PRESS, PortalCubedSounds.PORTAL_1_FLOOR_BUTTON_RELEASE);
 	}
 
 	public AABB getButtonBounds(Direction direction) {
@@ -103,12 +123,11 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 				max = VoxelShaper.rotate(max.subtract(1, 0, .5), 180, Direction.Axis.Y).add(1, 0, .5);
 			}
 
-			var rotatedBounds = switch (direction.getAxis()) {
-				case Y -> new AABB(min.x, min.z, min.y, max.x, max.z, max.y);
+			return switch (direction.getAxis()) {
 				case X -> new AABB(min.z, min.y, min.x, max.z, max.y, max.x);
+				case Y -> new AABB(min.x, min.z, min.y, max.x, max.z, max.y);
 				case Z -> new AABB(min.x, min.y, min.z, max.x, max.y, max.z);
 			};
-			return rotatedBounds;
 		});
 	}
 
@@ -210,6 +229,6 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	@Override
 	public String getDescriptionId() {
 		boolean hasEasterEgg = this == PortalCubedBlocks.FLOOR_BUTTON_BLOCK || this == PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK;
-		return (easterEggTrigger == 1 && hasEasterEgg) ? "block.portalcubed.floor_button.easter_egg" : super.getDescriptionId();
+		return (easterEgg && hasEasterEgg) ? "block.portalcubed.floor_button.easter_egg" : super.getDescriptionId();
 	}
 }

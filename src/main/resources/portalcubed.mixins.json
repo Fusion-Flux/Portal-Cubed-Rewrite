@@ -20,7 +20,7 @@
     "client.BlockModelMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
-    "client.CreativeModeInventoryScreenMixin",
+    "client.AbstractContainerScreenMixin",
     "client.GameRendererMixin",
     "client.ItemRendererAccessor",
     "client.MinecraftMixin",

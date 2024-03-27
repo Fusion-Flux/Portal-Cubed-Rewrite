@@ -39,7 +39,7 @@ public class MultiBlockItem extends BlockItem {
 			if (
 				!level.isUnobstructed(state, quadrantPos, collisionContext) ||
 				!level.getWorldBorder().isWithinBounds(quadrantPos) ||
-				!level.getBlockState(quadrantPos).canBeReplaced()
+				!level.getBlockState(quadrantPos).canBeReplaced(new FakeBlockPlaceContext(context, quadrantPos))
 			) return false;
 		}
 		return true;
@@ -61,7 +61,7 @@ public class MultiBlockItem extends BlockItem {
 		if (!quadrantPlacementTest(context, origin, state)) {
 			var leftDir = getLeftDirection(facingAxis);
 			var downDir = getDownDirection(facingAxis);
-			horizontal: for (int i = 0; i < 3; i++) {
+			horizontal: for (int i = 0; i < 2; i++) {
 				var horizontalDir = i == 0 ? leftDir : leftDir.getOpposite();
 				var testOrigin = origin.relative(horizontalDir);
 				if (quadrantPlacementTest(context, testOrigin, state)) {

@@ -6,13 +6,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
-import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 
-@Mixin(CreativeModeInventoryScreen.class)
-public class CreativeModeInventoryScreenMixin {
-	@Inject(method = "<init>", at = @At("RETURN"))
+@Mixin(AbstractContainerScreen.class)
+public class AbstractContainerScreenMixin {
+	@Inject(method = "onClose", at = @At("RETURN"))
 	private void floorButtonEasterEgg(CallbackInfo ci) {
-		if (FloorButtonBlock.easterEggTrigger < 2)
-			++FloorButtonBlock.easterEggTrigger;
+		FloorButtonBlock.easterEgg = false;
 	}
 }
