@@ -6,7 +6,6 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.BlockGetter;
@@ -31,7 +30,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 			VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(0, 1, 0, 10, 3, 10), box(0, 3, 5.5, 6.5, 6, 6.5), box(5.5, 3, 0, 6.5, 6, 6.5)), Direction.UP)
 		}
 	};
-	private static final VoxelShape BUTTON_SHAPE = box(9.5, 9.5, 3, 16, 16, 6);
+	private static final VoxelShape BUTTON_SHAPE = box(9.5, 9.5, 3, 16, 16, 7);
 	private static final VoxelShaper[] BOTTOM_NO_WALL_SHAPES = new VoxelShaper[]{
 		VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(6, 1, 0, 16, 3, 10)), Direction.UP),
 		VoxelShaper.forDirectional(Shapes.or(box(0, 0, 0, 16, 1, 16), box(0, 1, 0, 10, 3, 10)), Direction.UP)
@@ -67,7 +66,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 			return;
 		if (entity instanceof PathfinderMob pathfinderMob)
 			pathfinderMob.getNavigation().stop();
-		entity.setYRot(Mth.floor(entity.getYRot() / 90) * 90);
+		entity.setYRot(Math.round(entity.getYRot() / 90) * 90);
 		var facing = state.getValue(FACING);
 		var facingAxis = facing.getAxis();
 		var buttonBounds = getButtonBounds(facing).move(pos);

@@ -90,10 +90,7 @@ public class EntityMixin {
 				ext.pc$heldProp(OptionalInt.empty());
 			});
 		} else if ((Object) this instanceof Prop prop) {
-			prop.getHeldBy().ifPresent(playerHoldingId -> {
-				var playerHolding = (PlayerExt) prop.level().getEntity(playerHoldingId);
-				((PlayerExt) playerHolding).pc$heldProp(OptionalInt.empty());
-			});
+			prop.getHeldBy().ifPresent(holder -> ((PlayerExt) holder).pc$heldProp(OptionalInt.empty()));
 		}
 	}
 }
