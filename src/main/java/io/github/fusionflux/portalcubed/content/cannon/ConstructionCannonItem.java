@@ -77,10 +77,13 @@ public class ConstructionCannonItem extends Item {
 		ConfiguredConstruct construct = constructSet.choose(ConstructPlacementContext.of(ctx));
 
 		BlockPos clicked = new BlockPlaceContext(ctx).getClickedPos();
-		BoundingBox bounds = construct.getAbsoluteBounds(clicked);
 
+		BoundingBox bounds = construct.getAbsoluteBounds(clicked);
 		if (!this.mayBuild(ctx, bounds))
 			return CannonUseResult.NO_PERMS;
+
+		if (construct.isObstructed(ctx.getLevel(), clicked))
+			return CannonUseResult.OBSTRUCTED;
 
 		if (ctx.getLevel() instanceof ServerLevel level) {
 			construct.place(level, clicked);
