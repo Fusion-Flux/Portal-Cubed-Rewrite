@@ -13,12 +13,10 @@ public class FloatingWidget {
 
 		PanelLayout layout = new PanelLayout();
 
-		// border
-		layout.addChild(0, 0, ImageWidget.sprite(94, 94, border));
-		// background
+		// background first for right render order
 		layout.addChild(7, 7, ImageWidget.sprite(80, 80, background));
-		// main thing
-		layout.addChild(0, 0, element);
+		layout.addChild(0, 0, ImageWidget.sprite(94, 94, border));
+		layout.addChild(7, 7, element);
 
 		return layout;
 	}

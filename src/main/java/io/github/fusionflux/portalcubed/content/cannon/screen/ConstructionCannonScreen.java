@@ -99,9 +99,12 @@ public class ConstructionCannonScreen extends Screen {
 		);
 
 		// cannon view
-		root.addChild(FloatingWidget.create(
-				"cannon",
-				new CannonDisplayWidget(80, 80, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON)))
+		root.addChild(
+				FloatingWidget.create(
+						"cannon",
+						new CannonDisplayWidget(80, 80, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON))
+				),
+				root.newCellSettings().alignVertically(0.6f)
 		);
 
 		// first arrangement, set bounds
