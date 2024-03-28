@@ -18,6 +18,7 @@ import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -32,12 +33,14 @@ public class ConstructionCannonScreen extends Screen {
 	public static final int BACKGROUND_Y_OFFSET = TabWidget.HEIGHT - 4; // tabs are supposed to slightly overlap the top
 	public static final int TAB_TITLE_Y_OFFSET = BACKGROUND_Y_OFFSET + 5;
 	public static final int TAB_TITLE_X_OFFSET = 14;
+	public static final int SAVE_BUTTON_WIDTH = 80;
+	public static final int SAVE_BUTTON_Y = 145;
 
 	public static final Component TITLE = Component.translatable("container.portalcubed.construction_cannon");
 	public static final ResourceLocation BACKGROUND = PortalCubed.id("textures/gui/container/construction_cannon/materials_tab.png");
 
 	private final InteractionHand sourceHand;
-	private final CannonDataHolder settings;
+	private final CannonSettingsHolder settings;
 	// preview is persistent to maintain tick count between tabs
 	private final ConstructPreviewWidget constructPreview;
 
@@ -46,7 +49,7 @@ public class ConstructionCannonScreen extends Screen {
 	public ConstructionCannonScreen(InteractionHand hand, CannonSettings settings) {
 		super(TITLE);
 		this.sourceHand = hand;
-		this.settings = new CannonDataHolder(settings);
+		this.settings = new CannonSettingsHolder(settings);
 		this.constructPreview = new ConstructPreviewWidget(80, this.settings);
 		this.tab = Tab.MATERIALS;
 	}
@@ -57,7 +60,7 @@ public class ConstructionCannonScreen extends Screen {
 		LinearLayout root = LinearLayout.horizontal();
 		root.defaultCellSetting().paddingHorizontal(3).alignVerticallyMiddle();
 
-		root.addChild(this.constructPreview, root.newCellSettings().alignVertically(0.75f));
+		root.addChild(this.constructPreview, root.newCellSettings().alignVertically(0.6f));
 
 		PanelLayout menu = root.addChild(new PanelLayout());
 
@@ -84,10 +87,15 @@ public class ConstructionCannonScreen extends Screen {
 			case SETTINGS -> {}
 		}
 
+		// save button
+		menu.addChild(
+				(WIDTH / 2) - (SAVE_BUTTON_WIDTH / 2),
+				SAVE_BUTTON_Y,
+				Button.builder(CommonComponents.GUI_DONE, this::save).size(80, 20).build()
+		);
+
 		// cannon view
 		root.addChild(new CannonDisplayWidget(60, 60, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON)));
-		// save button
-//		root.addChild(Button.builder(CommonComponents.GUI_DONE, this::save).size(80, 20).build());
 
 		// first arrangement, set bounds
 		root.arrangeElements();

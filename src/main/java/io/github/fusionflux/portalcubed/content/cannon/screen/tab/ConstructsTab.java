@@ -1,8 +1,7 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.tab;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.cannon.screen.CannonDataHolder;
-import io.github.fusionflux.portalcubed.content.cannon.screen.widget.MaterialSlotWidget;
+import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHolder;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructButtonWidget;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
@@ -31,11 +30,11 @@ public class ConstructsTab {
 			PortalCubed.id("construction_cannon/constructs_tab/slot_selected")
 	);
 
-	public static void init(CannonDataHolder data, PanelLayout layout) {
-		if (data.get().material().isEmpty())
+	public static void init(CannonSettingsHolder settings, PanelLayout layout) {
+		if (settings.get().material().isEmpty())
 			return;
 
-		TagKey<Item> material = data.get().material().get();
+		TagKey<Item> material = settings.get().material().get();
 		// wrap in list for indexing
 		List<ConstructSet> constructs = new ArrayList<>(ConstructManager.INSTANCE.getConstructSetsForMaterial(material));
 
@@ -51,8 +50,15 @@ public class ConstructsTab {
 			TexturedStickyButton button = new TexturedStickyButton(0, 0, SLOT_SIZE, SLOT_SIZE, CommonComponents.EMPTY, BUTTON_TEXTURES, () -> {
 				buttons.forEach(TexturedStickyButton::deselect);
 				ResourceLocation id = ConstructManager.INSTANCE.getId(set);
-				data.update(settings -> settings.withConstruct(id));
+				settings.update(s -> s.withConstruct(id));
 			});
+
+			ResourceLocation id = ConstructManager.INSTANCE.getId(set);
+			Optional<ResourceLocation> selected = settings.get().construct();
+			if (selected.isPresent() && selected.get().equals(id)) {
+				button.select();
+			}
+
 			buttons.add(button);
 			// add construct first to not block button clicks
 			layout.addChild(slotX, slotY, construct);

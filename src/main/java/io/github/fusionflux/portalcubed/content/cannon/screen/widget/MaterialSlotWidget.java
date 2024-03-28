@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.cannon.screen.widget;
 import com.google.common.collect.Iterators;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.cannon.screen.CannonDataHolder;
+import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHolder;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Holder;
@@ -27,7 +27,7 @@ public class MaterialSlotWidget extends TexturedStickyButton {
 
 	private final ItemStack rendered;
 
-	public MaterialSlotWidget(TagKey<Item> tag, CannonDataHolder data, Runnable onSelect) {
+	public MaterialSlotWidget(TagKey<Item> tag, CannonSettingsHolder settings, Runnable onSelect) {
 		this(tag, 0, 0, onSelect);
 	}
 

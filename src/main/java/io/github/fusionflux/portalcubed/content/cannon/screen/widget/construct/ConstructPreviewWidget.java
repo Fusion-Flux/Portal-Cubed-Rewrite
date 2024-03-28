@@ -3,14 +3,11 @@ package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
-import io.github.fusionflux.portalcubed.content.cannon.screen.CannonDataHolder;
+import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHolder;
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.widget.Tickable;
-import net.minecraft.client.gui.narration.NarratedElementType;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 
 import org.jetbrains.annotations.Nullable;
@@ -18,11 +15,11 @@ import org.jetbrains.annotations.Nullable;
 public class ConstructPreviewWidget extends ConstructWidget implements Tickable {
 	public static final Component MESSAGE = ConstructionCannonScreen.translate("construct_preview");
 
-	private final CannonDataHolder settings;
+	private final CannonSettingsHolder settings;
 
 	private int ticks = 0;
 
-	public ConstructPreviewWidget(int size, CannonDataHolder settings) {
+	public ConstructPreviewWidget(int size, CannonSettingsHolder settings) {
 		super(size, MESSAGE);
 		this.settings = settings;
 	}

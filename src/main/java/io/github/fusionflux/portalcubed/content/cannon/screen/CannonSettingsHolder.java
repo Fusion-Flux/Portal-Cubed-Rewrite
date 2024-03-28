@@ -4,10 +4,10 @@ import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 
 import java.util.function.UnaryOperator;
 
-public class CannonDataHolder {
+public class CannonSettingsHolder {
 	private CannonSettings settings;
 
-	public CannonDataHolder(CannonSettings settings) {
+	public CannonSettingsHolder(CannonSettings settings) {
 		this.settings = settings;
 	}
 
