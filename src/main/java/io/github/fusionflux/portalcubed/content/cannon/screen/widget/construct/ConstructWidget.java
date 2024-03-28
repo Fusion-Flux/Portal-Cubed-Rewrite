@@ -35,12 +35,6 @@ public abstract class ConstructWidget extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		// so you can actually see what's happening
-		if (this instanceof ConstructPreviewWidget)
-			return;
-		if (!this.isHovered())
-			return;
-
 		ConfiguredConstruct preview = this.getConstruct();
 		if (preview == null)
 			return;
@@ -48,14 +42,24 @@ public abstract class ConstructWidget extends AbstractWidget {
 		matrices.pushPose();
 		// translate to position in screen
 		matrices.translate(this.getX(), this.getY(), 150);
+		// align with slot
+		matrices.translate(this.getWidth() / 2f, this.getHeight(), 0);
+		// magic additional offset
+		matrices.translate(0, 2, 0);
+
 		// scale to fit area
 		// un-rotated, a block is 1 pixel.
 		matrices.scale(this.getWidth(), this.getHeight(), 1);
-		// translate center to pivot
-		Vec3 center = AABB.of(preview.bounds).getCenter();
-		matrices.translate(-center.x, center.y, 0);
-		// translate pivot to center of area
-		matrices.translate(1 / 2f, 1 / 2f, 0);
+		// scale down slightly for padding
+		matrices.scale(0.9f, 0.9f, 0.9f);
+
+		if (preview.blocks.size() == 1) {
+			// special case: further scale down single blocks, looks nicer
+			matrices.scale(0.8f, 0.8f, 0.8f);
+			// magic offset back to center
+			matrices.translate(0, -0.14f, 0);
+		}
+
 		// scale so that no matter the orientation, it fits inside the area
 		float sizeOnLargestAxis = Math.max(
 				preview.bounds.getYSpan(),
@@ -64,20 +68,16 @@ public abstract class ConstructWidget extends AbstractWidget {
 		float maxWidth = (float) Math.sqrt(2 * (sizeOnLargestAxis * sizeOnLargestAxis));
 		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
 
-//		constructCenter = constructCenter.add(renderOffset);
-		matrices.pushPose();
 		prepareForBlockRendering(matrices);
-		float zOffset = (preview.bounds.getZSpan() - 1) / 2f;
-		matrices.translate(0, 0, zOffset);
+		// tilt construct downwards, like items
 		matrices.mulPose(Axis.XP.rotationDegrees(30));
-		matrices.mulPose(Axis.YP.rotationDegrees(45));
-//		applyConstructTransformations(matrices, delta);
-		matrices.translate(0, 0, -zOffset);
-		matrices.translate(1 / preview.bounds.getXSpan(), maxWidth / 1.5, 0);
-		// currently perfectly fits in square. add some padding
-		matrices.scale(0.9f, 0.9f, 1);
-		// matrices.translate(0, 0.1f + (zOffset * 0.1f), 0);
-		matrices.translate(0, 0.1f, 0);
+		// apply custom transformations
+		applyConstructTransformations(matrices, delta);
+
+		// make the center the pivot point
+		Vec3 center = AABB.of(preview.bounds).getCenter();
+		matrices.translate(-center.x, center.y, -center.z);
+
 		preview.blocks.forEach((pos, info) -> {
 			matrices.pushPose();
 			matrices.translate(pos.getX(), pos.getY(), pos.getZ());
@@ -86,8 +86,6 @@ public abstract class ConstructWidget extends AbstractWidget {
 			);
 			matrices.popPose();
 		});
-		matrices.popPose();
-		graphics.flush();
 		matrices.popPose();
 	}
 
