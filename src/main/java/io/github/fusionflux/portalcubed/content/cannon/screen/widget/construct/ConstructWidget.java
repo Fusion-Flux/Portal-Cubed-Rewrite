@@ -62,22 +62,25 @@ public abstract class ConstructWidget extends AbstractWidget {
 				Math.max(preview.bounds.getXSpan(), preview.bounds.getZSpan())
 		);
 		float maxWidth = (float) Math.sqrt(2 * (sizeOnLargestAxis * sizeOnLargestAxis));
-//		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
-		// currently perfectly fits in square. add some padding
-//		matrices.scale(0.9f, 0.9f, 1);
+		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
 
-
-		Vec3 renderOffset = Vec3.ZERO;//constructCenter.vectorTo(ORIGIN);
 //		constructCenter = constructCenter.add(renderOffset);
 		matrices.pushPose();
 		prepareForBlockRendering(matrices);
-//		matrices.translate(constructCenter.x, constructCenter.y, constructCenter.z);
-//		matrices.mulPose(Axis.XP.rotationDegrees(30));
+		float zOffset = (preview.bounds.getZSpan() - 1) / 2f;
+		matrices.translate(0, 0, zOffset);
+		matrices.mulPose(Axis.XP.rotationDegrees(30));
+		matrices.mulPose(Axis.YP.rotationDegrees(45));
 //		applyConstructTransformations(matrices, delta);
-//		matrices.translate(-constructCenter.x, -constructCenter.y, -constructCenter.z);
+		matrices.translate(0, 0, -zOffset);
+		matrices.translate(1 / preview.bounds.getXSpan(), maxWidth / 1.5, 0);
+		// currently perfectly fits in square. add some padding
+		matrices.scale(0.9f, 0.9f, 1);
+		// matrices.translate(0, 0.1f + (zOffset * 0.1f), 0);
+		matrices.translate(0, 0.1f, 0);
 		preview.blocks.forEach((pos, info) -> {
 			matrices.pushPose();
-			matrices.translate(pos.getX() + renderOffset.x, pos.getY() + renderOffset.y, pos.getZ() + renderOffset.z);
+			matrices.translate(pos.getX(), pos.getY(), pos.getZ());
 			Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
 					info.state(), matrices, graphics.bufferSource(), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY
 			);
