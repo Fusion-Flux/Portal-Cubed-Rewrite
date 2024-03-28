@@ -18,7 +18,6 @@ import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -48,7 +47,7 @@ public class ConstructionCannonScreen extends Screen {
 		super(TITLE);
 		this.sourceHand = hand;
 		this.settings = new CannonDataHolder(settings);
-		this.constructPreview = new ConstructPreviewWidget(120, this.settings);
+		this.constructPreview = new ConstructPreviewWidget(80, this.settings);
 		this.tab = Tab.MATERIALS;
 	}
 
@@ -56,14 +55,11 @@ public class ConstructionCannonScreen extends Screen {
 	protected void init() {
 		super.init();
 		LinearLayout root = LinearLayout.horizontal();
-		root.defaultCellSetting().paddingHorizontal(10).alignVerticallyMiddle();
+		root.defaultCellSetting().paddingHorizontal(3).alignVerticallyMiddle();
 
-		root.addChild(this.constructPreview);
+		root.addChild(this.constructPreview, root.newCellSettings().alignVertically(0.75f));
 
-		LinearLayout rightSide = root.addChild(LinearLayout.vertical());
-		rightSide.defaultCellSetting().alignHorizontallyCenter().paddingVertical(5);
-
-		PanelLayout menu = rightSide.addChild(new PanelLayout());
+		PanelLayout menu = root.addChild(new PanelLayout());
 
 		LinearLayout tabs = LinearLayout.horizontal();
 		for (int i = 0; i < Tab.values().length; i++) {
@@ -89,19 +85,26 @@ public class ConstructionCannonScreen extends Screen {
 		}
 
 		// cannon view
-		rightSide.addChild(new CannonDisplayWidget(140, 60, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON)));
+		root.addChild(new CannonDisplayWidget(60, 60, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON)));
 		// save button
-		rightSide.addChild(Button.builder(CommonComponents.GUI_DONE, this::save).size(80, 20).build());
+//		root.addChild(Button.builder(CommonComponents.GUI_DONE, this::save).size(80, 20).build());
+
 		// first arrangement, set bounds
 		root.arrangeElements();
-		// center whole thing
-		int xOff = (this.width - root.getWidth()) / 2;
-		int yOff = (this.height - root.getHeight()) / 2;
-		root.setPosition(xOff, yOff);
+		// center whole thing on main menu
+		int x = this.width / 2;
+		x -= menu.getWidth() / 2;
+		int dx = menu.getX() - root.getX();
+		x -= dx;
+
+		int y = this.height / 2;
+		y -= menu.getHeight() / 2;
+
+		root.setPosition(x, y);
 		// second arrangement, apply new position
 		root.arrangeElements();
 		root.visitWidgets(this::addRenderableWidget);
-		// reverse order of children so they iterate highest to lowest
+		// reverse order of children so that they iterate highest to lowest, allows clicking layered elements
 		Collections.reverse(this.children());
 	}
 
