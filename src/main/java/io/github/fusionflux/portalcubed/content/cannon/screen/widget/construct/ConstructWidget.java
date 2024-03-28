@@ -21,8 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 public abstract class ConstructWidget extends AbstractWidget {
-	public static final Vec3 ORIGIN = new Vec3(1, .5, 1);
-
 	public ConstructWidget(int size, Component message) {
 		super(0, 0, size, size, message);
 	}
@@ -35,6 +33,8 @@ public abstract class ConstructWidget extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		graphics.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height,  0xFFFFFFFF);
+		graphics.flush();
 		ConfiguredConstruct preview = this.getConstruct();
 		if (preview == null)
 			return;

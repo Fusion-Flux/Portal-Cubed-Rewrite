@@ -35,6 +35,8 @@ public class CannonDisplayWidget extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		graphics.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height,  0xFFFFFFFF);
+		graphics.flush();
 		PoseStack matrices = graphics.pose();
 		matrices.pushPose();
 

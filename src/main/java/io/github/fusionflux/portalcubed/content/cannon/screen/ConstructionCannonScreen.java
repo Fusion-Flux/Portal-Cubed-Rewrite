@@ -5,6 +5,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.ConstructsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.MaterialsTab;
+import io.github.fusionflux.portalcubed.content.cannon.screen.widget.FloatingWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructPreviewWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.TabWidget;
@@ -29,12 +30,12 @@ import java.util.Locale;
 
 public class ConstructionCannonScreen extends Screen {
 	public static final int WIDTH = 176;
-	public static final int HEIGHT = 120;
+	public static final int HEIGHT = 136;
 	public static final int BACKGROUND_Y_OFFSET = TabWidget.HEIGHT - 4; // tabs are supposed to slightly overlap the top
 	public static final int TAB_TITLE_Y_OFFSET = BACKGROUND_Y_OFFSET + 5;
 	public static final int TAB_TITLE_X_OFFSET = 14;
 	public static final int SAVE_BUTTON_WIDTH = 80;
-	public static final int SAVE_BUTTON_Y = 145;
+	public static final int SAVE_BUTTON_Y = 137;
 
 	public static final Component TITLE = Component.translatable("container.portalcubed.construction_cannon");
 	public static final ResourceLocation BACKGROUND = PortalCubed.id("textures/gui/container/construction_cannon/materials_tab.png");
@@ -60,7 +61,10 @@ public class ConstructionCannonScreen extends Screen {
 		LinearLayout root = LinearLayout.horizontal();
 		root.defaultCellSetting().paddingHorizontal(3).alignVerticallyMiddle();
 
-		root.addChild(this.constructPreview, root.newCellSettings().alignVertically(0.6f));
+		root.addChild(
+				FloatingWidget.create("construct_preview", this.constructPreview),
+				root.newCellSettings().alignVertically(0.6f)
+		);
 
 		PanelLayout menu = root.addChild(new PanelLayout());
 
@@ -95,7 +99,10 @@ public class ConstructionCannonScreen extends Screen {
 		);
 
 		// cannon view
-		root.addChild(new CannonDisplayWidget(60, 60, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON)));
+		root.addChild(FloatingWidget.create(
+				"cannon",
+				new CannonDisplayWidget(80, 80, new ItemStack(PortalCubedItems.CONSTRUCTION_CANNON)))
+		);
 
 		// first arrangement, set bounds
 		root.arrangeElements();
