@@ -24,13 +24,10 @@ public class MaterialsTab {
 			int col = i % COLUMNS;
 			int slotX = col * MaterialSlotWidget.SIZE + X_OFF;
 			int slotY = row * MaterialSlotWidget.SIZE + Y_OFF;
-			MaterialSlotWidget slot = new MaterialSlotWidget(
-					tag, settings,
-					() -> {
+			MaterialSlotWidget slot = new MaterialSlotWidget(tag, () -> {
                         slots.forEach(MaterialSlotWidget::deselect);
 						settings.update(s -> s.withMaterial(tag));
-                    }
-			);
+			});
 
 			Optional<TagKey<Item>> material = settings.get().material();
 			if (material.isPresent() && material.get() == tag) {
