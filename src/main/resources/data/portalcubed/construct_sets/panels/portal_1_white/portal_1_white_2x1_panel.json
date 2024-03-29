@@ -1,22 +1,33 @@
 {
   "material": "#portalcubed:portal_1_white_panel_materials",
-  "type": "dual_face",
+  "type": "pillar",
+  "chooser": "clicked_face",
   "vertical": {
-    "0,0,0": "portalcubed:portal_1_white_2x1_panel_bottom",
-    "0,1,0": "portalcubed:portal_1_white_2x1_panel_top"
-  },
-  "horizontal": {
     "0,0,0": {
       "Properties": {
-        "axis": "z"
+        "facing": "up"
       },
-      "Name": "portalcubed:portal_1_white_2x1_panel_top"
+      "Name": "portalcubed:portal_1_white_2x1_panel"
     },
-    "0,0,1": {
+    "0,1,0": {
       "Properties": {
-        "axis": "z"
+        "facing": "down"
       },
-      "Name": "portalcubed:portal_1_white_2x1_panel_bottom"
+      "Name": "portalcubed:portal_1_white_2x1_panel"
+    }
+  },
+  "horizontal": {
+    "-1,0,0": {
+      "Properties": {
+        "facing": "east"
+      },
+      "Name": "portalcubed:portal_1_white_2x1_panel"
+    },
+    "0,0,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:portal_1_white_2x1_panel"
     }
   }
 }
