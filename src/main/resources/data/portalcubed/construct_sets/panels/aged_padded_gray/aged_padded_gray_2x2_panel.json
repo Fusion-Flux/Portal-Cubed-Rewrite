@@ -2,33 +2,8 @@
   "material": "#portalcubed:aged_padded_gray_panel_materials",
   "type": "pillar",
   "chooser": "placer_facing",
+  "preview": "horizontal",
   "vertical": {
-    "0,0,0": {
-      "Properties": {
-        "facing": "west"
-      },
-      "Name": "portalcubed:aged_padded_gray_2x2_panel_bottom_left"
-    },
-    "0,1,1": {
-      "Properties": {
-        "facing": "west"
-      },
-      "Name": "portalcubed:aged_padded_gray_2x2_panel_top_right"
-    },
-    "0,0,1": {
-      "Properties": {
-        "facing": "west"
-      },
-      "Name": "portalcubed:aged_padded_gray_2x2_panel_bottom_right"
-    },
-    "0,1,0": {
-      "Properties": {
-        "facing": "west"
-      },
-      "Name": "portalcubed:aged_padded_gray_2x2_panel_top_left"
-    }
-  },
-  "horizontal": {
     "0,0,0": {
       "Properties": {
         "facing": "west"
@@ -50,6 +25,32 @@
     "1,0,1": {
       "Properties": {
         "facing": "east"
+      },
+      "Name": "portalcubed:aged_padded_gray_2x2_panel_top_left"
+    }
+  },
+  "horizontal": {
+    "0,0,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:aged_padded_gray_2x2_panel_bottom_left"
+    },
+    "0,1,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:aged_padded_gray_2x2_panel_top_right"
+    },
+    "0,0,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:aged_padded_gray_2x2_panel_bottom_right"
+    },
+    "0,1,0": {
+      "Properties": {
+        "facing": "west"
       },
       "Name": "portalcubed:aged_padded_gray_2x2_panel_top_left"
     }
