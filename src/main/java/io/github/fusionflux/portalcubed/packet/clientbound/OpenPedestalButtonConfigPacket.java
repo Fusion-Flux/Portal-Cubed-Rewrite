@@ -26,7 +26,7 @@ public record OpenPedestalButtonConfigPacket(BlockPos pedestalButtonPos) impleme
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.OPEN_PEDESTAL_BUTTON_CONFIG;
 	}
 

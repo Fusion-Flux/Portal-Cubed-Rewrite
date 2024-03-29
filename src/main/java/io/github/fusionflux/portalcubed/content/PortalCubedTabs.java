@@ -16,7 +16,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -68,13 +68,10 @@ public class PortalCubedTabs {
 		builder.icon(() -> new ItemStack(PortalCubedItems.HAMMER));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
-<<<<<<< HEAD
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
-=======
 			output.accept(PortalCubedItems.RAW_MAGNESIUM);
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
->>>>>>> origin/1.20
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
 
 			// ----- portal guns -----
