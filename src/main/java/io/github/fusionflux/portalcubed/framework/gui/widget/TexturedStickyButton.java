@@ -29,8 +29,10 @@ public class TexturedStickyButton extends AbstractWidget {
 
 	@Override
 	public void onClick(double mouseX, double mouseY) {
-		this.onSelect.run();
-		this.selected = true;
+		if (!this.selected) {
+			this.onSelect.run();
+			this.selected = true;
+		}
 	}
 
 	public void select() {
