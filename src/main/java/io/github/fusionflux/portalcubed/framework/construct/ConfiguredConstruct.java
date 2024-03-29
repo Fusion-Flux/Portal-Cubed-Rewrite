@@ -1,17 +1,27 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A construct that has been configured with a rotation and offset, ready for placement.
@@ -41,15 +51,31 @@ public class ConfiguredConstruct {
 		);
 	}
 
-	public void place(ServerLevel level, BlockPos pos) {
+	public void place(ServerLevel level, BlockPos pos, @Nullable Player player, @Nullable ItemStack cannonStack) {
 		this.getAbsoluteBlocks(pos).forEach((blockPos, info) -> {
-			level.setBlockAndUpdate(blockPos, info.state());
+			BlockState state = info.state();
+			level.setBlockAndUpdate(blockPos, state);
 			info.maybeNbt().ifPresent(nbt -> {
 				BlockEntity be = level.getBlockEntity(blockPos);
 				if (be != null) {
 					be.load(nbt);
 				}
 			});
+
+			// post-processing
+			if (cannonStack != null) {
+				state.getBlock().setPlacedBy(level, blockPos, state, player, cannonStack);
+				if (player instanceof ServerPlayer serverPlayer) {
+					CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, blockPos, cannonStack);
+				}
+			}
+			// sounds
+			SoundType soundType = state.getSoundType();
+			level.playSound(
+					null, blockPos, soundType.getPlaceSound(), SoundSource.BLOCKS,
+					(soundType.getVolume() + 1) / 2f, soundType.getPitch() * 0.8f
+			);
+			level.gameEvent(GameEvent.BLOCK_PLACE, blockPos, Context.of(player, state));
 		});
 	}
 
