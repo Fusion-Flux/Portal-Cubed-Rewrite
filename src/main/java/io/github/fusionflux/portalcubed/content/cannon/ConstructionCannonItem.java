@@ -69,7 +69,7 @@ public class ConstructionCannonItem extends Item {
 						null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 0.4f,
 						level.getRandom().nextIntBetweenInclusive(120, 270) / 100f
 				);
-				Vec3 source = getParticleSource(player);;
+				Vec3 source = getParticleSource(player);
 				level.sendParticles(
 						new DustParticleOptions(Vec3.fromRGB24(0xFFFFFF).toVector3f(), 1),
 						source.x, source.y, source.z,
