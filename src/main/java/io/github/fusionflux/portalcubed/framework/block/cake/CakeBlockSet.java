@@ -8,8 +8,6 @@ import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockHelper;
 
-import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemFactory;
-
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 
 import org.jetbrains.annotations.Nullable;

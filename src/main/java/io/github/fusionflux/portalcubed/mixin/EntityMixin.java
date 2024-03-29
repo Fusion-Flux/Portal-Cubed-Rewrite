@@ -29,9 +29,11 @@ public class EntityMixin {
 	@Shadow private boolean verticalCollision;
 	@Shadow private boolean verticalCollisionBelow;
 
-	@Unique
-	private boolean isColliding = false;
+	@Unique private boolean isHorizontalColliding = false;
+	@Unique private boolean isTopColliding = false;
+	@Unique private boolean isBelowColliding = false;
 
+	@SuppressWarnings("resource")
 	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("RETURN"))
 	private void startSoundWhenUnSilenced(EntityDataAccessor<?> data, CallbackInfo ci) {
 		var self = (Entity) (Object) this;
@@ -51,11 +53,25 @@ public class EntityMixin {
 	)
 	private void listenForCollisions(MoverType movementType, Vec3 movement, CallbackInfo ci) {
 		if (this instanceof CollisionListener collisionListener) {
-			if (horizontalCollision || verticalCollision || verticalCollisionBelow) {
-				if (!isColliding) collisionListener.onCollision();
-				isColliding = true;
+			if (horizontalCollision) {
+				if (!isHorizontalColliding) collisionListener.onCollision();
+				isHorizontalColliding = true;
 			} else {
-				isColliding = false;
+				isHorizontalColliding = false;
+			}
+
+			if (verticalCollision) {
+				if (!isTopColliding) collisionListener.onCollision();
+				isTopColliding = true;
+			} else {
+				isTopColliding = false;
+			}
+
+			if (verticalCollisionBelow) {
+				if (!isBelowColliding) collisionListener.onCollision();
+				isBelowColliding = true;
+			} else {
+				isBelowColliding = false;
 			}
 		}
 	}
@@ -75,10 +91,7 @@ public class EntityMixin {
 				ext.pc$heldProp(OptionalInt.empty());
 			});
 		} else if ((Object) this instanceof Prop prop) {
-			prop.getHeldBy().ifPresent(playerHoldingId -> {
-				var playerHolding = (PlayerExt) prop.level().getEntity(playerHoldingId);
-				((PlayerExt) playerHolding).pc$heldProp(OptionalInt.empty());
-			});
+			prop.getHeldBy().ifPresent(holder -> ((PlayerExt) holder).pc$heldProp(OptionalInt.empty()));
 		}
 	}
 }

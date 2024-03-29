@@ -6,7 +6,7 @@
 		"version": "${version}",
 		"metadata": {
 			"name": "Portal Cubed",
-			"description": "A short description of your mod.",
+			"description": "A Portal mod for Quilt.",
 			"contributors": {
         "Fusion Flux": "Owner",
         "Maximum": "Developer",

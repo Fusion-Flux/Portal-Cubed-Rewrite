@@ -5,15 +5,18 @@ import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -30,6 +33,8 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
+			output.accept(PortalCubedBlocks.PEDESTAL_BUTTON);
+			output.accept(PortalCubedBlocks.OLD_AP_PEDESTAL_BUTTON);
 			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
 			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
 			addProp(output, PropType.STORAGE_CUBE);
@@ -63,7 +68,13 @@ public class PortalCubedTabs {
 		builder.icon(() -> new ItemStack(PortalCubedItems.HAMMER));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
+<<<<<<< HEAD
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+=======
+			output.accept(PortalCubedItems.RAW_MAGNESIUM);
+			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
+			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
+>>>>>>> origin/1.20
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
 
 			// ----- portal guns -----
@@ -160,11 +171,11 @@ public class PortalCubedTabs {
 	});
 
 	private static void addProp(CreativeModeTab.Output output, PropType type) {
-		output.accept(PortalCubedItems.PROPS.get(type));
+		output.accept(type.item());
 	}
 
 	private static void addVariant(CreativeModeTab.Output output, PropType type, int cmd) {
-		addVariant(output, PortalCubedItems.PROPS.get(type), cmd);
+		addVariant(output, type.item(), cmd);
 	}
 
 	private static void addVariant(CreativeModeTab.Output output, Item item, int cmd) {
@@ -194,5 +205,20 @@ public class PortalCubedTabs {
 	}
 
 	public static void init() {
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
+			entries.addAfter(Items.DEEPSLATE_IRON_ORE, PortalCubedBlocks.MAGNESIUM_ORE);
+			entries.addAfter(PortalCubedBlocks.MAGNESIUM_ORE, PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
+			entries.addAfter(Items.RAW_IRON_BLOCK, PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
+			entries.addAfter(Items.CHAIN, PortalCubedBlocks.MAGNESIUM_BLOCK);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
+			entries.addAfter(Items.RAW_IRON, PortalCubedItems.RAW_MAGNESIUM);
+			entries.addAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
+			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
+		});
 	}
 }

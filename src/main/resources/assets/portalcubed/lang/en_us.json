@@ -26,6 +26,12 @@
 
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
 
+  "container.portalcubed.pedestal_button": "Pedestal Button",
+  "container.portalcubed.pedestal_button.press_length": "Press Length",
+  "container.portalcubed.pedestal_button.offset": "Position Offset",
+  "container.portalcubed.pedestal_button.base": "Include Base",
+
+  "subtitles.portalcubed.surprise": "Party Horn Blows",
 
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
@@ -249,6 +255,18 @@
   "item.portalcubed.construction_cannon": "Construction Cannon",
 
   "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
+
+  "item.portalcubed.magnesium_nugget": "Magnesium Nugget",
+  "item.portalcubed.magnesium_ingot": "Magnesium Ingot",
+  "item.portalcubed.raw_magnesium": "Raw Magnesium",
+  "block.portalcubed.raw_magnesium_block": "Block of Raw Magnesium",
+  "block.portalcubed.magnesium_block": "Block of Magnesium",
+  "block.portalcubed.magnesium_ore": "Magnesium Ore",
+  "block.portalcubed.deepslate_magnesium_ore": "Deepslate Magnesium Ore",
+
+  "trim_material.portalcubed.magnesium": "Magnesium Material",
+
+  "block.portalcubed.magnesium_fire": "Magnesium Fire",
 
   "item.portalcubed.turret": "Sentry Turret",
   "block.portalcubed.rocket_turret": "Rocket Turret",

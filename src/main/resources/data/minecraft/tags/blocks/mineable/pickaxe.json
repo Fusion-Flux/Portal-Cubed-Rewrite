@@ -83,6 +83,10 @@
     "portalcubed:dirty_portal_1_white_panel",
     "portalcubed:dirty_portal_1_white_half_panel",
     "portalcubed:dirty_portal_1_white_checkered_panel",
-    "portalcubed:dirty_portal_1_white_2x1_panel"
+    "portalcubed:dirty_portal_1_white_2x1_panel",
+    "portalcubed:magnesium_ore",
+    "portalcubed:deepslate_magnesium_ore",
+    "portalcubed:magnesium_block",
+    "portalcubed:raw_magnesium_block"
   ]
 }
