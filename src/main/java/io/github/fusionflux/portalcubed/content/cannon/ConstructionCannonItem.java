@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -31,9 +32,6 @@ import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
 public class ConstructionCannonItem extends Item {
 	public static final int PARTICLES = 10;
 
@@ -71,7 +69,7 @@ public class ConstructionCannonItem extends Item {
 						null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 0.4f,
 						level.getRandom().nextIntBetweenInclusive(120, 270) / 100f
 				);
-				Vec3 source = getParticleSource(player);
+				Vec3 source = getParticleSource(player);;
 				level.sendParticles(
 						new DustParticleOptions(Vec3.fromRGB24(0xFFFFFF).toVector3f(), 1),
 						source.x, source.y, source.z,
@@ -80,7 +78,7 @@ public class ConstructionCannonItem extends Item {
 						0.1
 				);
 			}
-			return InteractionResult.SUCCESS;
+			return InteractionResult.CONSUME;
 		}
 
 		return InteractionResult.FAIL;
@@ -145,18 +143,9 @@ public class ConstructionCannonItem extends Item {
 	}
 
 	private static Vec3 getParticleSource(Player player) {
-		// based on Camera
-		float pitch = player.getXRot();
-		float yaw = player.getYRot();
-		Quaternionf rotation = new Quaternionf().rotationXYZ(
-				-yaw * (float) (Math.PI / 180.0),
-				pitch * (float) (Math.PI / 180.0),
-				0.0F
-		);
-		Vector3f offset = new Vector3f(0, 1, 0);
-		offset.rotate(rotation);
-		return player.getEyePosition().add(
-				offset.x, offset.y, offset.z
-		);
+		var offset = new Vec3(-.5f, -.4f, 1f)
+			.xRot(-player.getXRot() * Mth.DEG_TO_RAD)
+			.yRot(-player.getYRot() * Mth.DEG_TO_RAD);
+		return player.getEyePosition().add(offset);
 	}
 }
