@@ -17,7 +17,6 @@ import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PropHoldPacket;
 import net.fabricmc.api.EnvType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 

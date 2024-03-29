@@ -33,6 +33,7 @@ public class EntityMixin {
 	@Unique private boolean isTopColliding = false;
 	@Unique private boolean isBelowColliding = false;
 
+	@SuppressWarnings("resource")
 	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("RETURN"))
 	private void startSoundWhenUnSilenced(EntityDataAccessor<?> data, CallbackInfo ci) {
 		var self = (Entity) (Object) this;

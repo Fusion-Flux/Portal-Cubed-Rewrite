@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.serialization.MapCodec;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
@@ -49,6 +51,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, BigShapeBlock {
+	// TODO: When data driven blocks drop this should probably be a more advanced codec
+	public static final MapCodec<PedestalButtonBlock> CODEC = simpleCodec(PedestalButtonBlock::new);
+
 	public static final EnumProperty<Direction> FACE = EnumProperty.create("face", Direction.class);
 	public static final EnumProperty<Offset> OFFSET = EnumProperty.create("offset", Offset.class);
 	public static final BooleanProperty BASE = BooleanProperty.create("base");
@@ -99,6 +104,11 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 			OLD_AP_BASE_SHAPE,
 			PortalCubedSounds.OLD_AP_PEDESTAL_BUTTON_PRESS, PortalCubedSounds.OLD_AP_PEDESTAL_BUTTON_RELEASE
 		);
+	}
+
+	@Override
+	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+		return CODEC;
 	}
 
 	@Override

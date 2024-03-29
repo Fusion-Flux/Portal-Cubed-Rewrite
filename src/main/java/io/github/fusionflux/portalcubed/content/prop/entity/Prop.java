@@ -74,6 +74,7 @@ public class Prop extends Entity implements CollisionListener {
 		return entityData.get(VARIANT);
 	}
 
+	@SuppressWarnings("resource")
 	public void setVariant(int variant) {
 		if (!level().isClientSide) entityData.set(VARIANT, variant);
 	}
@@ -89,6 +90,7 @@ public class Prop extends Entity implements CollisionListener {
 		return Optional.empty();
 	}
 
+	@SuppressWarnings("resource")
 	public boolean hold(Player player) {
 		var heldBy = getHeldBy();
 		boolean notHeld = !player.is(getControllingPassenger()) && (heldBy.isEmpty() || level().getGameRules().getBoolean(PortalCubedGameRules.PROP_SNATCHING));
@@ -99,6 +101,7 @@ public class Prop extends Entity implements CollisionListener {
 		return notHeld;
 	}
 
+	@SuppressWarnings("resource")
 	public void drop(Player player) {
 		if (!level().isClientSide && getHeldBy().map(heldBy -> heldBy == player).orElse(false))
 			entityData.set(HELD_BY, OptionalInt.empty());
@@ -200,6 +203,7 @@ public class Prop extends Entity implements CollisionListener {
 		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		if (!isInvulnerableTo(source)) {

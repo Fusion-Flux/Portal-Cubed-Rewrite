@@ -32,6 +32,7 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 		entityData.define(TRACK, PortalCubedSounds.RADIO_SONG);
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
 		super.onSyncedDataUpdated(data);
