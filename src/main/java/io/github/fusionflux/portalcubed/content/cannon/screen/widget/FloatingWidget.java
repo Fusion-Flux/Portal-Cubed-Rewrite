@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.cannon.screen.widget;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
-import net.minecraft.client.gui.components.ImageWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TranslucentSpriteWidget;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.resources.ResourceLocation;
 
@@ -14,9 +14,9 @@ public class FloatingWidget {
 		PanelLayout layout = new PanelLayout();
 
 		// background first for right render order
-		layout.addChild(7, 7, ImageWidget.sprite(80, 80, background));
-		layout.addChild(0, 0, ImageWidget.sprite(94, 94, border));
+		layout.addChild(7, 7, new TranslucentSpriteWidget(80, 80, background));
 		layout.addChild(7, 7, element);
+		layout.addChild(0, 0, new TranslucentSpriteWidget(94, 94, border));
 
 		return layout;
 	}

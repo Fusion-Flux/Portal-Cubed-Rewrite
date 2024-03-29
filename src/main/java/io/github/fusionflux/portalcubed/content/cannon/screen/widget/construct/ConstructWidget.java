@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
@@ -66,7 +65,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 		float maxWidth = (float) Math.sqrt(2 * (sizeOnLargestAxis * sizeOnLargestAxis));
 		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
 
-		prepareForBlockRendering(matrices);
+		matrices.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
 		// tilt construct downwards, like items
 		matrices.mulPose(Axis.XP.rotationDegrees(30));
 		// apply custom transformations
@@ -75,7 +74,6 @@ public abstract class ConstructWidget extends AbstractWidget {
 		// make the center the pivot point
 		Vec3 center = AABB.of(preview.bounds).getCenter();
 		matrices.translate(-center.x, center.y, -center.z);
-
 		preview.blocks.forEach((pos, info) -> {
 			matrices.pushPose();
 			matrices.translate(pos.getX(), pos.getY(), pos.getZ());
@@ -84,12 +82,9 @@ public abstract class ConstructWidget extends AbstractWidget {
 			);
 			matrices.popPose();
 		});
+		// this make translucent textures rendered over constructs work
+		graphics.flush();
 		matrices.popPose();
-	}
-
-	private void prepareForBlockRendering(PoseStack matrices) {
-		matrices.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
-		RenderSystem.enableDepthTest();
 	}
 
 	@Override
