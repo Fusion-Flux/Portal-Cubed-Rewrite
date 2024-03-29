@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -54,7 +55,7 @@ public class ConfiguredConstruct {
 	public void place(ServerLevel level, BlockPos pos, @Nullable Player player, @Nullable ItemStack cannonStack) {
 		this.getAbsoluteBlocks(pos).forEach((blockPos, info) -> {
 			BlockState state = info.state();
-			level.setBlockAndUpdate(blockPos, state);
+			level.setBlock(blockPos, state, Block.UPDATE_ALL_IMMEDIATE);
 			info.maybeNbt().ifPresent(nbt -> {
 				BlockEntity be = level.getBlockEntity(blockPos);
 				if (be != null) {
