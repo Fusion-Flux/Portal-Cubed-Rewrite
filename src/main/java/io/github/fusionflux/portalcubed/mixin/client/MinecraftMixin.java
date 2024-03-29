@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
 import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
-import io.github.fusionflux.portalcubed.framework.gui.widget.Tickable;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
@@ -41,7 +41,7 @@ public class MinecraftMixin {
 	private void handleScreenTickables(CallbackInfo ci) {
 		// this is done because injecting into screen#tick is unreliable, most don't call super.
 		if (this.screen instanceof ScreenExt ext) {
-			ext.pc$tickables().forEach(Tickable::tick);
+			ext.pc$tickables().forEach(TickableWidget::tick);
 		}
 	}
 

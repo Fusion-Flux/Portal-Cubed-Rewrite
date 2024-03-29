@@ -7,12 +7,12 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHold
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import io.github.fusionflux.portalcubed.framework.gui.widget.Tickable;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import net.minecraft.network.chat.Component;
 
 import org.jetbrains.annotations.Nullable;
 
-public class ConstructPreviewWidget extends ConstructWidget implements Tickable {
+public class ConstructPreviewWidget extends ConstructWidget implements TickableWidget {
 	public static final Component MESSAGE = ConstructionCannonScreen.translate("construct_preview");
 
 	private final CannonSettingsHolder settings;

@@ -11,7 +11,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
 import io.github.fusionflux.portalcubed.framework.gui.widget.DynamicSpriteWidget;
-import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ValueCounterButton;
@@ -206,11 +205,6 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	@Override
 	public void tick() {
-		for (var widget : children()) {
-			if (widget instanceof TickableWidget tickable)
-				tickable.tick();
-		}
-
 		if (dirty) {
 			PortalCubedPackets.sendToServer(new ConfigurePedestalButtonPacket(pedestalButton.getBlockPos(), pressTime, offset, base));
 			dirty = false;

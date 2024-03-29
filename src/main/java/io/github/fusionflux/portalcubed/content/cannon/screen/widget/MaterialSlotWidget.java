@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
-import io.github.fusionflux.portalcubed.framework.gui.widget.Tickable;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class MaterialSlotWidget extends TexturedStickyButton implements Tickable {
+public class MaterialSlotWidget extends TexturedStickyButton implements TickableWidget {
 	public static final int SIZE = 22;
 	public static final int OFFSET = 3;
 
@@ -57,6 +57,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 		this.ticks++;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		super.renderWidget(graphics, mouseX, mouseY, delta);

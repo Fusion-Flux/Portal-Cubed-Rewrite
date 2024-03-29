@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
 import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
-import io.github.fusionflux.portalcubed.framework.gui.widget.Tickable;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -19,11 +19,11 @@ import java.util.List;
 @Mixin(Screen.class)
 public class ScreenMixin implements ScreenExt {
 	@Unique
-	private final List<Tickable> tickables = new ArrayList<>();
+	private final List<TickableWidget> tickables = new ArrayList<>();
 
 	@Inject(method = "addWidget", at = @At("TAIL"))
 	private <T extends GuiEventListener & NarratableEntry> void addTickable(T child, CallbackInfoReturnable<T> cir) {
-		if (child instanceof Tickable tickable) {
+		if (child instanceof TickableWidget tickable) {
 			this.tickables.add(tickable);
 		}
 	}
@@ -34,7 +34,7 @@ public class ScreenMixin implements ScreenExt {
 	}
 
 	@Override
-	public List<Tickable> pc$tickables() {
+	public List<TickableWidget> pc$tickables() {
 		return this.tickables;
 	}
 }

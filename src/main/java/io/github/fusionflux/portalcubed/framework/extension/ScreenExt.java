@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import io.github.fusionflux.portalcubed.framework.gui.widget.Tickable;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
@@ -8,5 +8,5 @@ import java.util.List;
 
 @ClientOnly
 public interface ScreenExt {
-	List<Tickable> pc$tickables();
+	List<TickableWidget> pc$tickables();
 }

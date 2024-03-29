@@ -26,7 +26,8 @@ public class CannonDisplayWidget extends AbstractWidget {
 	private final BakedModel itemModel;
 	private final float scale;
 
-	public CannonDisplayWidget(int width, int height, ItemStack item) {
+	@SuppressWarnings("resource")
+    public CannonDisplayWidget(int width, int height, ItemStack item) {
 		super(0, 0, width, height, item.getDisplayName());
 		this.item = item;
 		this.itemModel = ITEM_RENDERER.getModel(item, Minecraft.getInstance().level, null, 0);
