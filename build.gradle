@@ -73,6 +73,8 @@ sourceSets {
 }
 
 loom {
+	accessWidenerPath = file("src/main/resources/portalcubed.accesswidener")
+
 	runs {
 		datagen {
 			client()
