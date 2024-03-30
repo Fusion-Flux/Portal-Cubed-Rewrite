@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.construct.Construct.BlockInfo;
@@ -35,6 +36,7 @@ public final class VirtualConstructEnvironment extends VirtualBlockGetter {
 	}
 
 	@Override
+	@NotNull
 	public BlockState getBlockState(BlockPos pos) {
 		return getBlockInfo(pos).state();
 	}
@@ -52,23 +54,11 @@ public final class VirtualConstructEnvironment extends VirtualBlockGetter {
 	@Override
 	public float getShade(Direction direction, boolean shaded) {
 		// Vanilla shading values pulled from ClientLevel
-		if (!shaded) {
-			return 1f;
-		} else {
-			switch(direction) {
-				case DOWN:
-					return .5f;
-				case UP:
-					return 1f;
-				case NORTH:
-				case SOUTH:
-					return .8f;
-				case WEST:
-				case EAST:
-					return .6f;
-				default:
-					return 1f;
-			}
-		}
+		return !shaded ? 1 : switch (direction) {
+			case DOWN -> .5f;
+			case NORTH, SOUTH -> .8f;
+			case WEST, EAST -> .6f;
+			case UP -> 1;
+		};
 	}
 }
