@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X",
+        "X"
+    ],
+    "key": {
+        "X": {
+            "tag": "portalcubed:aged_white_panel_materials"
+        }
+    },
+    "result": {
+        "item": "portalcubed:aged_white_2x1_panel",
+        "count": 2
+    },
+  "group": "aged_white_2x1_panel"
+}
