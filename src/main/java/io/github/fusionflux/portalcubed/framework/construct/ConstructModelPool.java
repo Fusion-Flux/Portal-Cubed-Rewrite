@@ -90,8 +90,6 @@ public final class ConstructModelPool implements AutoCloseable {
 			RenderSystem.disableDepthTest();
 
 			GL11.glEnable(GL32.GL_DEPTH_CLAMP);
-			matrices.pushPose();
-			matrices.translate(0.0F, 0.0F, -11000.0F);
 			for (var entry : buffers.reference2ReferenceEntrySet()) {
 				var renderType = entry.getKey();
 				var buffer = entry.getValue();
@@ -101,7 +99,6 @@ public final class ConstructModelPool implements AutoCloseable {
 				renderType.clearRenderState();
 			}
 			GL11.glDisable(GL32.GL_DEPTH_CLAMP);
-			matrices.popPose();
 			VertexBuffer.unbind();
 
 			var blockEntityRenderDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
