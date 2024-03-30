@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.construct;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL32;
@@ -12,13 +13,18 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public final class ConstructModelPool implements AutoCloseable {
 	private static final Map<RenderType, BufferBuilder> BUILDERS = new Object2ReferenceOpenHashMap<>();
@@ -27,6 +33,7 @@ public final class ConstructModelPool implements AutoCloseable {
 	public static ModelInfo buildModel(ConfiguredConstruct construct) {
 		var environment = new VirtualConstructEnvironment(construct);
 		var usedRenderTypes = new HashSet<RenderType>();
+		var blockEntities = new HashSet<BlockEntity>();
 		var buffers = new Reference2ReferenceOpenHashMap<RenderType, VertexBuffer>();
 		var blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
 		var randomSource = RandomSource.create();
@@ -36,6 +43,8 @@ public final class ConstructModelPool implements AutoCloseable {
 		var matrices = new PoseStack();
 		construct.blocks.forEach((pos, info) -> {
 			var state = info.state();
+			if (state.hasBlockEntity())
+				blockEntities.add(environment.getBlockEntity(pos));
 			if (state.getRenderShape() == RenderShape.MODEL) {
 				var renderType = ItemBlockRenderTypes.getChunkRenderType(state);
 				var builder = BUILDERS.computeIfAbsent(renderType, $ -> new BufferBuilder(renderType.bufferSize()));
@@ -62,7 +71,7 @@ public final class ConstructModelPool implements AutoCloseable {
 
 		ModelBlockRenderer.clearCache();
 
-		return new ModelInfo(buffers);
+		return new ModelInfo(blockEntities, buffers);
 	}
 
 	@SuppressWarnings("resource")
@@ -76,10 +85,13 @@ public final class ConstructModelPool implements AutoCloseable {
 		models.clear();
 	}
 
-	public static record ModelInfo(Reference2ReferenceOpenHashMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
-		public void render(PoseStack matrices) {
+	public static record ModelInfo(Set<BlockEntity> blockEntities, Reference2ReferenceMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
+		public void render(PoseStack matrices, MultiBufferSource bufferSource) {
 			RenderSystem.disableDepthTest();
+
 			GL11.glEnable(GL32.GL_DEPTH_CLAMP);
+			matrices.pushPose();
+			matrices.translate(0.0F, 0.0F, -11000.0F);
 			for (var entry : buffers.reference2ReferenceEntrySet()) {
 				var renderType = entry.getKey();
 				var buffer = entry.getValue();
@@ -89,7 +101,20 @@ public final class ConstructModelPool implements AutoCloseable {
 				renderType.clearRenderState();
 			}
 			GL11.glDisable(GL32.GL_DEPTH_CLAMP);
+			matrices.popPose();
 			VertexBuffer.unbind();
+
+			var blockEntityRenderDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
+			for (var blockEntity : blockEntities) {
+				var pos = blockEntity.getBlockPos();
+				matrices.pushPose();
+				matrices.translate(pos.getX(), pos.getY(), pos.getZ());
+				blockEntityRenderDispatcher.renderItem(blockEntity, matrices, bufferSource, LightTexture.FULL_SKY, OverlayTexture.NO_OVERLAY);
+				matrices.popPose();
+			}
+			if (bufferSource instanceof MultiBufferSource.BufferSource immediate)
+				immediate.endBatch();
+
 			RenderSystem.enableDepthTest();
 		}
 

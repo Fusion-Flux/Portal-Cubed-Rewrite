@@ -75,7 +75,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 		// make the center the pivot point
 		Vec3 center = AABB.of(preview.bounds).getCenter();
 		matrices.translate(-center.x, center.y, -center.z);
-		modelPool.getOrBuildModel(preview).render(matrices);
+		modelPool.getOrBuildModel(preview).render(matrices, graphics.bufferSource());
 		matrices.popPose();
 	}
 
