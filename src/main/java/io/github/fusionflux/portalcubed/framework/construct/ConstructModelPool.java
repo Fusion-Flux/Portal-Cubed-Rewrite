@@ -74,7 +74,6 @@ public final class ConstructModelPool implements AutoCloseable {
 		return new ModelInfo(blockEntities, buffers);
 	}
 
-	@SuppressWarnings("resource")
 	public ModelInfo getOrBuildModel(ConfiguredConstruct construct) {
 		return models.computeIfAbsent(construct, $ -> buildModel(construct));
 	}
@@ -85,7 +84,7 @@ public final class ConstructModelPool implements AutoCloseable {
 		models.clear();
 	}
 
-	public static record ModelInfo(Set<BlockEntity> blockEntities, Reference2ReferenceMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
+	public record ModelInfo(Set<BlockEntity> blockEntities, Reference2ReferenceMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
 		public void render(PoseStack matrices, MultiBufferSource bufferSource) {
 			RenderSystem.disableDepthTest();
 
