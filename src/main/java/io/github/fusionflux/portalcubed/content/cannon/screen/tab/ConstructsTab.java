@@ -46,14 +46,13 @@ public class ConstructsTab {
 			int slotY = row * SLOT_SIZE + Y_OFF;
 
 			ConstructSet set = constructs.get(i);
-			ConstructButtonWidget construct = new ConstructButtonWidget(set.preview, SLOT_SIZE);
+			ResourceLocation id = ConstructManager.INSTANCE.getId(set);
+			ConstructButtonWidget construct = new ConstructButtonWidget(set, id, material, SLOT_SIZE);
 			TexturedStickyButton button = new TexturedStickyButton(0, 0, SLOT_SIZE, SLOT_SIZE, CommonComponents.EMPTY, BUTTON_TEXTURES, () -> {
 				buttons.forEach(TexturedStickyButton::deselect);
-				ResourceLocation id = ConstructManager.INSTANCE.getId(set);
 				settings.update(s -> s.withConstruct(id));
 			});
 
-			ResourceLocation id = ConstructManager.INSTANCE.getId(set);
 			Optional<ResourceLocation> selected = settings.get().construct();
 			if (selected.isPresent() && selected.get().equals(id)) {
 				button.select();
