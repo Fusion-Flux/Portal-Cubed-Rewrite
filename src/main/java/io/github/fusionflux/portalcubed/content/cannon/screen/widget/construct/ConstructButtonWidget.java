@@ -19,7 +19,7 @@ public class ConstructButtonWidget extends ConstructWidget {
 
 	@Override
 	protected void applyConstructTransformations(PoseStack matrices, float delta) {
-		matrices.mulPose(Axis.YP.rotationDegrees(45));
+		matrices.mulPose(Axis.YN.rotationDegrees(45));
 	}
 
 	@Override

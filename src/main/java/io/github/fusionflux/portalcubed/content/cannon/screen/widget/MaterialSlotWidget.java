@@ -1,26 +1,31 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
+import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
+import io.github.fusionflux.portalcubed.framework.gui.util.ItemListTooltipComponent;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet.ListBacked;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class MaterialSlotWidget extends TexturedStickyButton implements TickableWidget {
+	public static final int TICKS_PER_ITEM = 20;
 	public static final int SIZE = 22;
 	public static final int OFFSET = 3;
 
@@ -33,6 +38,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 	private static final List<ItemStack> emptyPlaceholder = List.of(new ItemStack(Items.BARRIER));
 
 	private final List<ItemStack> items;
+	private final AdvancedTooltip tooltip;
 
 	private int ticks;
 
@@ -41,7 +47,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 	}
 
 	public MaterialSlotWidget(TagKey<Item> tag, int x, int y, Runnable onSelect) {
-		super(x, y, SIZE, SIZE, translateTag(tag.location()), TEXTURES, onSelect);
+		super(x, y, SIZE, SIZE, translateTag(tag), TEXTURES, onSelect);
 
 		List<ItemStack> items = BuiltInRegistries.ITEM.getTag(tag)
 				.map(ListBacked::stream)
@@ -50,6 +56,20 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 				.map(ItemStack::new)
 				.toList();
 		this.items = items.isEmpty() ? emptyPlaceholder : items;
+
+		this.tooltip = new AdvancedTooltip(builder -> {
+			builder.add(translateTag(tag));
+
+			if (builder.advanced) {
+				builder.add(Component.literal('#' + tag.location().toString()).withStyle(ChatFormatting.DARK_GRAY));
+			}
+
+			if (this.items == emptyPlaceholder) {
+				builder.add(ConstructionCannonScreen.translate("tag.empty").withStyle(ChatFormatting.RED));
+			} else {
+				builder.add(new ItemListTooltipComponent(this.items));
+			}
+		});
 	}
 
 	@Override
@@ -57,28 +77,35 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 		this.ticks++;
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		super.renderWidget(graphics, mouseX, mouseY, delta);
 		if (this.isActive()) {
 			graphics.renderItem(this.getRenderedItem(), this.getX() + OFFSET, this.getY() + OFFSET);
-			if (this.isHoveredOrFocused()) {
-				Font font = Minecraft.getInstance().font;
-				graphics.renderTooltip(font, List.of(Component.literal("Tooled Tipped")), Optional.empty(), mouseX, mouseY);
+			if (this.isHovered()) {
+				PoseStack matrices = graphics.pose();
+				matrices.pushPose();
+				// extra Z to render on top of the really high side panels
+				matrices.translate(0, 0, 500);
+				this.tooltip.render(graphics, mouseX, mouseY);
+				matrices.popPose();
 			}
 		}
 	}
 
 	private ItemStack getRenderedItem() {
-		int index = this.ticks / 20;
+		int index = this.ticks / TICKS_PER_ITEM;
 		return this.items.get(index % this.items.size());
 	}
 
-	private static Component translateTag(ResourceLocation id) {
-		String key = "tag.item." + id.toString()
-				.replace(':', '.')
-				.replace('/', '.');
-		return Component.translatable(key);
+	private static Component translateTag(TagKey<Item> tag) {
+		String id = tag.location().toString();
+		String key = "tag.item." + id.replace(':', '.').replace('/', '.');
+
+		if (I18n.exists(key)) {
+			return Component.translatable(key);
+		} else {
+			return Component.literal('#' + id);
+		}
 	}
 }

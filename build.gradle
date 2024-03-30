@@ -30,10 +30,13 @@ dependencies {
 	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:$qfapi_version")
 
 	// dev env
-	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version") {
-		exclude group: "net.fabricmc"
-		exclude group: "net.fabricmc.fabric-api"
-	}
+	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version")
+	modLocalRuntime("dev.emi:emi-fabric:$emi_version")
+}
+
+configurations.configureEach {
+	exclude(group: "net.fabricmc", module: "fabric-loader")
+	exclude(group: "net.fabricmc.fabric-api")
 }
 
 tasks.register("buildOrPublish") {

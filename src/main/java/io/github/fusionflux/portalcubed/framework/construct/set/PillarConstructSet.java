@@ -26,17 +26,20 @@ public class PillarConstructSet extends ConstructSet {
 	public static Codec<PillarConstructSet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			TagKey.hashedCodec(Registries.ITEM).fieldOf("material").forGetter(c -> c.material),
 			Chooser.CODEC.fieldOf("chooser").forGetter(c -> c.chooser),
+			Preview.CODEC.optionalFieldOf("preview", Preview.VERTICAL).forGetter(c -> c.preview),
 			Construct.CODEC.fieldOf("horizontal").forGetter(c -> c.horizontal),
 			Construct.CODEC.fieldOf("vertical").forGetter(c -> c.vertical)
 	).apply(instance, PillarConstructSet::new));
 
 	public final Chooser chooser;
+	private final Preview preview;
 	private final Construct horizontal;
 	private final Construct vertical;
 
-	public PillarConstructSet(TagKey<Item> material, Chooser chooser, Construct horizontal, Construct vertical) {
-		super(Type.PILLAR, material, vertical);
+	public PillarConstructSet(TagKey<Item> material, Chooser chooser, Preview preview, Construct horizontal, Construct vertical) {
+		super(Type.PILLAR, material, preview.choose(horizontal, vertical));
 		this.chooser = chooser;
+		this.preview = preview;
 		this.horizontal = horizontal;
 		this.vertical = vertical;
 	}
@@ -84,6 +87,24 @@ public class PillarConstructSet extends ConstructSet {
 		public static final Codec<Chooser> CODEC = StringRepresentable.fromEnum(Chooser::values);
 
 		public final String name = this.name().toLowerCase(Locale.ROOT);
+
+		@Override
+		@NotNull
+		public String getSerializedName() {
+			return this.name;
+		}
+	}
+
+	public enum Preview implements StringRepresentable {
+		HORIZONTAL, VERTICAL;
+
+		public static final Codec<Preview> CODEC = StringRepresentable.fromEnum(Preview::values);
+
+		public final String name = this.name().toLowerCase(Locale.ROOT);
+
+		public Construct choose(Construct horizontal, Construct vertical) {
+			return this == HORIZONTAL ? horizontal : vertical;
+		}
 
 		@Override
 		@NotNull
