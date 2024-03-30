@@ -4,13 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
-import net.minecraft.client.Minecraft;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.AABB;
@@ -20,8 +18,11 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 public abstract class ConstructWidget extends AbstractWidget {
-	public ConstructWidget(int size, Component message) {
+	private final ConstructModelPool modelPool;
+
+	public ConstructWidget(int size, Component message, ConstructModelPool modelPool) {
 		super(0, 0, size, size, message);
+		this.modelPool = modelPool;
 	}
 
 	@Nullable
@@ -74,16 +75,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 		// make the center the pivot point
 		Vec3 center = AABB.of(preview.bounds).getCenter();
 		matrices.translate(-center.x, center.y, -center.z);
-		preview.blocks.forEach((pos, info) -> {
-			matrices.pushPose();
-			matrices.translate(pos.getX(), pos.getY(), pos.getZ());
-			Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
-					info.state(), matrices, graphics.bufferSource(), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY
-			);
-			matrices.popPose();
-		});
-		// this make translucent textures rendered over constructs work
-		graphics.flush();
+		modelPool.getOrBuildModel(preview).render(matrices);
 		matrices.popPose();
 	}
 

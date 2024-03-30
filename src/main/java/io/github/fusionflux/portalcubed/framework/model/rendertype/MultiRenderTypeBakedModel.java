@@ -16,6 +16,9 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.Nullable;
 
+import com.google.common.collect.ImmutableList;
+
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.core.BlockPos;
@@ -53,6 +56,12 @@ public class MultiRenderTypeBakedModel extends ForwardingBakedModel {
 
 	public void forEachQuad(TriConsumer<BakedQuad, RenderMaterial, Direction> consumer) {
 		quads.forEach(triple -> consumer.accept(triple.getLeft(), triple.getMiddle(), triple.getRight()));
+	}
+
+	public Iterable<RenderType> getRenderTypes() {
+		var renderTypes = ImmutableList.<RenderType>builder();
+		forEachQuad((quad, material, cullFace) -> renderTypes.add(material.blendMode().blockRenderLayer));
+		return renderTypes.build();
 	}
 
 	private TriConsumer<BakedQuad, RenderMaterial, Direction> emitTo(QuadEmitter emitter) {
