@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -125,6 +126,8 @@ public class Construct {
 		public static final Codec<BlockInfo> CODEC = EvenMoreCodecs.multiFormat(
 				byState, fullCodec, info -> info.maybeNbt.isPresent()
 		);
+
+		public static final BlockInfo EMPTY = new BlockInfo(Blocks.AIR.defaultBlockState());
 
 		public BlockInfo(BlockState state, @Nullable CompoundTag nbt) {
 			this(state, Optional.ofNullable(nbt));
