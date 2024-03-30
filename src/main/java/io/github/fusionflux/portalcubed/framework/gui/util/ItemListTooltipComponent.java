@@ -19,7 +19,7 @@ public class ItemListTooltipComponent implements ClientTooltipComponent {
 
 	@Override
 	public int getHeight() {
-		int rows = 1 + (this.items.size() / (MAX_ITEMS_WIDE + 1));
+		int rows = (int) Math.ceil(this.items.size() / (float) MAX_ITEMS_WIDE);
 		return rows * ITEM_SIZE;
 	}
 
