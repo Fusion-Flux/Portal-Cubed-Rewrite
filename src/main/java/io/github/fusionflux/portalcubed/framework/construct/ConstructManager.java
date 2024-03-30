@@ -105,7 +105,7 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		ConstructSet constructSet = holder.constructSet();
 		this.constructSets.put(holder.id(), constructSet);
 		this.byMaterial.computeIfAbsent(constructSet.material, $ -> {
-			Comparator<ConstructSet> comparator = Comparator.comparing(this.constructSets.inverse()::get);
+			Comparator<ConstructSet> comparator = Comparator.comparingInt(set -> set.preview.blocks.size());
 			return new TreeSet<>(comparator);
 		}).add(constructSet);
 	}
