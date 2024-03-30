@@ -25,6 +25,7 @@
     "client.GuiGraphicsAccessor",
     "client.ItemRendererAccessor",
     "client.MinecraftMixin",
+    "client.PlayerRendererMixin",
     "client.ScreenMixin",
     "client.SimpleBakedModelAccessor",
     "client.Variant_DeserializerMixin",

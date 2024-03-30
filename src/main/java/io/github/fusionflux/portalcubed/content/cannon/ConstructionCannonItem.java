@@ -2,11 +2,13 @@ package io.github.fusionflux.portalcubed.content.cannon;
 
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
+import io.github.fusionflux.portalcubed.framework.extension.CustomHoldPoseItem;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
+import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
@@ -32,7 +34,8 @@ import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-public class ConstructionCannonItem extends Item {
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+public class ConstructionCannonItem extends Item implements @ClientOnly CustomHoldPoseItem {
 	public static final int PARTICLES = 10;
 
 	public ConstructionCannonItem(Properties settings) {
@@ -82,6 +85,12 @@ public class ConstructionCannonItem extends Item {
 		}
 
 		return InteractionResult.FAIL;
+	}
+
+	@ClientOnly
+	@Override
+	public ArmPose getHoldPose(ItemStack stack) {
+		return ArmPose.CROSSBOW_HOLD;
 	}
 
 	protected CannonUseResult tryPlace(UseOnContext ctx) {
