@@ -33,9 +33,7 @@ public class Construct {
 					EvenMoreCodecs.BLOCKPOS_STRING,
 					BlockInfo.CODEC
 			).xmap(Construct::new, construct -> construct.blocks),
-			construct -> construct.blocks.isEmpty()
-					? DataResult.error(() -> "Construct contains no blocks")
-					: DataResult.success(construct)
+			Construct::validate
 	);
 
 	private final Map<BlockPos, BlockInfo> blocks;
@@ -67,6 +65,17 @@ public class Construct {
 			Map<BlockPos, BlockInfo> blocks = this.getBlocks(rotation);
 			return BoundingBox.encapsulatingPositions(blocks.keySet()).orElseThrow();
 		});
+	}
+
+	private static DataResult<Construct> validate(Construct construct) {
+		if (construct.blocks.isEmpty())
+			return DataResult.error(() -> "Construct contains no blocks");
+		for (BlockInfo info : construct.blocks.values()) {
+			if (info.state.isAir()) {
+				return DataResult.error(() -> "Construct contains air; check for incorrect block IDs");
+			}
+		}
+		return DataResult.success(construct);
 	}
 
 	public static class Builder {
