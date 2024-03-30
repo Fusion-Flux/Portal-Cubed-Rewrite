@@ -21,6 +21,7 @@ import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -154,7 +155,7 @@ public class ConstructionCannonScreen extends Screen {
 		this.onClose();
 	}
 
-	public static Component translate(String key) {
+	public static MutableComponent translate(String key) {
 		return Component.translatable("container.portalcubed.construction_cannon." + key);
 	}
 

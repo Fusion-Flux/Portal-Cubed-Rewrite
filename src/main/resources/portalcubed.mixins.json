@@ -9,10 +9,11 @@
     "EntityMixin",
     "LevelMixin",
     "PlayerMixin",
-    "ServerLevelMixin",
-    "ServerEntityMixin"
+    "ServerEntityMixin",
+    "ServerLevelMixin"
   ],
   "client": [
+    "client.AbstractContainerScreenMixin",
     "client.BakedQuadMixin",
     "client.BlockElement_DeserializerMixin",
     "client.BlockElementMixin",
@@ -20,14 +21,14 @@
     "client.BlockModelMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
-    "client.AbstractContainerScreenMixin",
     "client.GameRendererMixin",
+    "client.GuiGraphicsAccessor",
     "client.ItemRendererAccessor",
     "client.MinecraftMixin",
     "client.ScreenMixin",
     "client.SimpleBakedModelAccessor",
-    "client.VariantMixin",
-    "client.Variant_DeserializerMixin"
+    "client.Variant_DeserializerMixin",
+    "client.VariantMixin"
   ],
   "injectors": {
     "defaultRequire": 1
