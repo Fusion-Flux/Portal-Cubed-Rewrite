@@ -23,13 +23,29 @@
   "container.portalcubed.construction_cannon.tab.constructs": "Constructs",
   "container.portalcubed.construction_cannon.tab.settings": "Settings",
 
-
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
+
+  "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
+  "tag.item.portalcubed.aged_smooth_gray_panel_materials": "Aged Smooth Gray Panels",
+  "tag.item.portalcubed.aged_white_panel_materials": "Aged White Panels",
+  "tag.item.portalcubed.dirty_portal_1_metal_panel_materials": "Dirty Portal 1 Metal Panels",
+  "tag.item.portalcubed.dirty_portal_1_white_panel_materials": "Dirty Portal 1 White Panels",
+  "tag.item.portalcubed.old_ap_blue_panel_materials": "Old Aperture Blue Panels",
+  "tag.item.portalcubed.old_ap_green_panel_materials": "Old Aperture Green Panels",
+  "tag.item.portalcubed.old_ap_white_panel_materials": "Old Aperture White Panels",
+  "tag.item.portalcubed.padded_gray_panel_materials": "Padded Gray Panels",
+  "tag.item.portalcubed.portal_1_metal_panel_materials": "Portal 1 Metal Panels",
+  "tag.item.portalcubed.portal_1_white_panel_materials": "Portal 1 White Panels",
+  "tag.item.portalcubed.smooth_gray_panel_materials": "Smooth Gray Panels",
+  "tag.item.portalcubed.white_panel_materials": "White Panels",
+  "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
+
 
   "container.portalcubed.pedestal_button": "Pedestal Button",
   "container.portalcubed.pedestal_button.press_length": "Press Length",
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
+
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
