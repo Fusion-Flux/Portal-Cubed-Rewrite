@@ -4,9 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL32;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -74,6 +71,7 @@ public final class ConstructModelPool implements AutoCloseable {
 		return new ModelInfo(blockEntities, buffers);
 	}
 
+	@SuppressWarnings("resource")
 	public ModelInfo getOrBuildModel(ConfiguredConstruct construct) {
 		return models.computeIfAbsent(construct, $ -> buildModel(construct));
 	}
@@ -86,9 +84,6 @@ public final class ConstructModelPool implements AutoCloseable {
 
 	public record ModelInfo(Set<BlockEntity> blockEntities, Reference2ReferenceMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
 		public void render(PoseStack matrices, MultiBufferSource bufferSource) {
-			RenderSystem.disableDepthTest();
-
-			GL11.glEnable(GL32.GL_DEPTH_CLAMP);
 			for (var entry : buffers.reference2ReferenceEntrySet()) {
 				var renderType = entry.getKey();
 				var buffer = entry.getValue();
@@ -97,7 +92,6 @@ public final class ConstructModelPool implements AutoCloseable {
 				buffer.drawWithShader(matrices.last().pose(), RenderSystem.getProjectionMatrix(), RenderSystem.getShader());
 				renderType.clearRenderState();
 			}
-			GL11.glDisable(GL32.GL_DEPTH_CLAMP);
 			VertexBuffer.unbind();
 
 			var blockEntityRenderDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
@@ -110,8 +104,6 @@ public final class ConstructModelPool implements AutoCloseable {
 			}
 			if (bufferSource instanceof MultiBufferSource.BufferSource immediate)
 				immediate.endBatch();
-
-			RenderSystem.enableDepthTest();
 		}
 
 		@Override

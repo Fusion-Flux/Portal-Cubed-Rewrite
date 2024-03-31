@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
@@ -75,7 +76,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 		// make the center the pivot point
 		Vec3 center = AABB.of(preview.bounds).getCenter();
 		matrices.translate(-center.x, center.y, -center.z);
-		modelPool.getOrBuildModel(preview).render(matrices, graphics.bufferSource());
+		RenderingUtil.drawGuiManaged(() -> modelPool.getOrBuildModel(preview).render(matrices, graphics.bufferSource()));
 		matrices.popPose();
 	}
 
