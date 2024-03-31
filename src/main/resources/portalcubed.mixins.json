@@ -24,6 +24,7 @@
     "client.GameRendererMixin",
     "client.GuiGraphicsAccessor",
     "client.ItemRendererAccessor",
+    "client.ItemInHandRendererMixin",
     "client.MinecraftMixin",
     "client.PlayerRendererMixin",
     "client.ScreenMixin",

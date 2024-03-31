@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementCo
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -80,6 +81,8 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 						0.1, 0.1, 0.1,
 						0.1
 				);
+
+				PortalCubedPackets.sendToClient(player, new ShootCannonPacket(context.getHand()));
 			}
 			return InteractionResult.CONSUME;
 		}

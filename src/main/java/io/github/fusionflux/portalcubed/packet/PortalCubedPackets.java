@@ -7,6 +7,7 @@ import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.PropHoldPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.KeyPressPacket;
@@ -26,6 +27,7 @@ public class PortalCubedPackets {
 	public static final ResourceLocation PROP_HOLD = clientbound("prop_hold", PropHoldPacket::new);
 	public static final ResourceLocation CREATE_PORTAL = clientbound("create_portal", CreatePortalPacket::new);
 	public static final ResourceLocation SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket::new);
+	public static final ResourceLocation SHOOT_CANNON = clientbound("shoot_cannon", ShootCannonPacket::new);
 	public static final ResourceLocation OPEN_CANNON_CONFIG = clientbound("open_cannon_config", OpenCannonConfigPacket::new);
 	// serverbound
 	public static final ResourceLocation CONFIGURE_PEDESTAL_BUTTON = serverbound("configure_pedestal_button", ConfigurePedestalButtonPacket::new);
