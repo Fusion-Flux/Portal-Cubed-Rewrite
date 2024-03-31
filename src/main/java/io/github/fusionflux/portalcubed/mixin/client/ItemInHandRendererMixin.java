@@ -51,6 +51,6 @@ public class ItemInHandRendererMixin implements ItemInHandRendererExt {
 	) {
 		if (stack.getItem() instanceof ConstructionCannonItem)
 			matrices.mulPose(Axis.XP.rotationDegrees(recoil));
-		recoil = Math.max(0, recoil - (tickDelta * .7f));
+		recoil = Math.max(0, recoil - (tickDelta * 1.4f));
 	}
 }

@@ -78,7 +78,7 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 						new DustParticleOptions(Vec3.fromRGB24(0xFFFFFF).toVector3f(), 1),
 						source.x, source.y, source.z,
 						PARTICLES,
-						0.1, 0.1, 0.1,
+						.1, .2, .1,
 						0.1
 				);
 
