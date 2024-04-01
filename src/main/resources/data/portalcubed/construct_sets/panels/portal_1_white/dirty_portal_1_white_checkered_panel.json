@@ -1,7 +1,0 @@
-{
-  "material": "#portalcubed:dirty_portal_1_white_panel_materials",
-  "type": "single",
-  "construct": {
-     "0,0,0": "portalcubed:dirty_portal_1_white_checkered_panel"
-  }
-}
