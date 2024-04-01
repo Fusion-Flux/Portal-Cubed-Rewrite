@@ -15,9 +15,11 @@ import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementCo
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.Optionull;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -62,7 +64,7 @@ public class ConstructRenderer {
 					RenderSystem.setShaderColor(1f, .5f, .5f, 1f);
 				RenderSystem.enableBlend();
 				RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
-				GL14C.glBlendColor(0, 0, 0, .4f);
+				GL14C.glBlendColor(0, 0, 0, .55f + (Mth.cos(Util.getMillis() / 500f) * .1f));
 			});
 			RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 			RenderSystem.disableBlend();
