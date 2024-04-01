@@ -9,6 +9,10 @@ import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -18,6 +22,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,6 +40,9 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
+
+import java.util.Objects;
+
 public class ConstructionCannonItem extends Item implements @ClientOnly CustomHoldPoseItem {
 	public static final int PARTICLES = 10;
 
@@ -64,6 +72,10 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 			return InteractionResult.PASS; // fall back to use
 
 		var player = context.getPlayer();
+		// player is required for material consumption
+		if (player == null)
+			return InteractionResult.PASS;
+
 		CannonUseResult result = this.tryPlace(context);
 		if (player instanceof ServerPlayer)
 			PortalCubedPackets.sendToClient((ServerPlayer) player, new ShootCannonPacket(context.getHand(), result));
@@ -118,8 +130,12 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		if (construct.isObstructed(ctx.getLevel(), clicked))
 			return CannonUseResult.OBSTRUCTED;
 
+		Player player = Objects.requireNonNull(ctx.getPlayer()); // null is checked on use
+		if (!this.consumeMaterials(player, constructSet.material, constructSet.cost))
+			return CannonUseResult.MISSING_MATERIALS;
+
 		if (ctx.getLevel() instanceof ServerLevel level) {
-			construct.place(level, clicked, ctx.getPlayer(), stack);
+			construct.place(level, clicked, player, stack);
 		}
 
 		return CannonUseResult.PLACED;
@@ -134,6 +150,35 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		return BlockPos.betweenClosedStream(box).allMatch(
 				pos -> player.mayInteract(level, pos)
 		);
+	}
+
+	@SuppressWarnings("deprecation")
+	protected boolean consumeMaterials(Player player, TagKey<Item> tag, int count) {
+		// creative players always have enough.
+		if (player.isCreative())
+			return true;
+
+		try (Transaction t = Transaction.openOuter()) {
+			PlayerInventoryStorage storage = PlayerInventoryStorage.of(player);
+			for (StorageView<ItemVariant> view : storage.nonEmptyViews()) {
+				ItemVariant variant = view.getResource();
+				//noinspection deprecation - builtInRegistryHolder
+				if (variant.getItem().builtInRegistryHolder().is(tag)) {
+					// matches
+					long extract = Math.min(count, view.getAmount());
+					long extracted = view.extract(variant, extract, t);
+					count -= (int) extracted;
+
+					if (count <= 0) {
+						// got enough
+						t.commit();
+						return true;
+					}
+				}
+			}
+		}
+		// did not find enough resources.
+		return false;
 	}
 
 	@Nullable
