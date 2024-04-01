@@ -48,8 +48,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class ConstructionCannonItem extends Item implements @ClientOnly CustomHoldPoseItem {
-	public static final String MATERIAL_TOOLTIP_KEY = "item.portalcubed.construction_cannon.material";
-	public static final String CONSTRUCT_TOOLTIP_KEY = "item.portalcubed.construction_cannon.construct_set";
+	public static final String TRANSLATION_KEY_BASE = "item.portalcubed.construction_cannon.";
+	public static final String MATERIAL_TOOLTIP_KEY = TRANSLATION_KEY_BASE + "material";
+	public static final String CONSTRUCT_TOOLTIP_KEY = TRANSLATION_KEY_BASE + "construct_set";
 	public static final int PARTICLES = 10;
 
 	public ConstructionCannonItem(Properties settings) {
@@ -61,9 +62,7 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
 		ItemStack held = user.getItemInHand(hand);
 		if (user.isSecondaryUseActive()) {
-			if (user instanceof ServerPlayer serverPlayer) {
-				PortalCubedPackets.sendToClient(serverPlayer, new OpenCannonConfigPacket(hand));
-			}
+			tryOpenConfig(user, hand);
 			return InteractionResultHolder.success(held);
 		}
 
@@ -84,13 +83,18 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 
 		CannonUseResult result = this.tryPlace(context);
 
+		// feedback
+		result.sound().ifPresent(player::playSound);
+		result.feedback(player.getRandom()).ifPresent(
+				feedback -> player.displayClientMessage(feedback, true)
+		);
 		if (player instanceof ServerPlayer serverPlayer) {
 			PortalCubedPackets.sendToClient(serverPlayer, new ShootCannonPacket(context.getHand(), result));
 		}
 
-		result.sound().ifPresent(player::playSound);
-
-		if (result == CannonUseResult.PLACED) {
+		if (result == CannonUseResult.MISCONFIGURED) {
+			tryOpenConfig(player, context.getHand());
+		} else if (result == CannonUseResult.PLACED) {
 			// kaboom
 			player.playSound(SoundEvents.GENERIC_EXPLODE, 0.4f, player.getRandom().nextIntBetweenInclusive(120, 270) / 100f);
 			if (context.getLevel() instanceof ServerLevel level) {
@@ -135,15 +139,15 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		ItemStack stack = ctx.getItemInHand();
 		CannonSettings settings = getCannonSettings(stack);
 		if (settings == null) // invalid state
-			return CannonUseResult.INVALID;
+			return CannonUseResult.MISCONFIGURED;
 
 		CannonSettings.Configured configured = settings.validate();
 		if (configured == null) // not configured
-			return CannonUseResult.NOT_CONFIGURED;
+			return CannonUseResult.MISCONFIGURED;
 
 		ConstructSet constructSet = ConstructManager.INSTANCE.getConstructSet(configured.construct());
 		if (constructSet == null) // fake construct
-			return CannonUseResult.INVALID;
+			return CannonUseResult.MISCONFIGURED;
 
 		ConfiguredConstruct construct = constructSet.choose(ConstructPlacementContext.of(ctx));
 
@@ -222,10 +226,20 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 				.ifPresent(nbt -> stack.addTagElement(CannonSettings.NBT_KEY, nbt));
 	}
 
+	public static Component translate(String key) {
+		return Component.translatable(TRANSLATION_KEY_BASE + key);
+	}
+
 	private static Vec3 getParticleSource(Player player) {
 		var offset = new Vec3(-.5f, -.4f, 1f)
 			.xRot(-player.getXRot() * Mth.DEG_TO_RAD)
 			.yRot(-player.getYRot() * Mth.DEG_TO_RAD);
 		return player.getEyePosition().add(offset);
+	}
+
+	private static void tryOpenConfig(Player player, InteractionHand hand) {
+		if (player instanceof ServerPlayer serverPlayer) {
+			PortalCubedPackets.sendToClient(serverPlayer, new OpenCannonConfigPacket(hand));
+		}
 	}
 }
