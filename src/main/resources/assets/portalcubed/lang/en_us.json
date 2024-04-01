@@ -44,10 +44,11 @@
 
   "item.portalcubed.construction_cannon.material": "Material: ",
   "item.portalcubed.construction_cannon.construct_set": "Construct: ",
-  "item.portalcubed.construction_cannon.obstructed": "Placement location obstructed",
-  "item.portalcubed.construction_cannon.missing_materials": "Not enough materials",
-  "item.portalcubed.construction_cannon.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
-  "item.portalcubed.construction_cannon.no_perms": "Insufficient permissions",
+
+  "item.portalcubed.construction_cannon.feedback.obstructed": "Placement location obstructed",
+  "item.portalcubed.construction_cannon.feedback.missing_materials": "Not enough materials",
+  "item.portalcubed.construction_cannon.feedback.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
+  "item.portalcubed.construction_cannon.feedback.no_perms": "You do not have permission to build here",
 
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_panel": "Aged Padded Gray Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_half_panel": "Aged Padded Gray Half Panel",
