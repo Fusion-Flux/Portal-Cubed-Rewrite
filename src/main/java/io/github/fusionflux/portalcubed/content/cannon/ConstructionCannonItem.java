@@ -18,7 +18,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -64,15 +63,15 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		if (context.isSecondaryUseActive())
 			return InteractionResult.PASS; // fall back to use
 
+		var player = context.getPlayer();
 		CannonUseResult result = this.tryPlace(context);
+		if (player instanceof ServerPlayer)
+			PortalCubedPackets.sendToClient((ServerPlayer) player, new ShootCannonPacket(context.getHand(), result));
+		result.sound().ifPresent(player::playSound);
 		if (result == CannonUseResult.PLACED) {
-			if (context.getPlayer() instanceof ServerPlayer player) {
-				ServerLevel level = player.serverLevel();
-				// kaboom
-				level.playSound(
-						null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 0.4f,
-						level.getRandom().nextIntBetweenInclusive(120, 270) / 100f
-				);
+			// kaboom
+			player.playSound(SoundEvents.GENERIC_EXPLODE, 0.4f, player.getRandom().nextIntBetweenInclusive(120, 270) / 100f);
+			if (context.getLevel() instanceof ServerLevel level) {
 				Vec3 source = getParticleSource(player);
 				level.sendParticles(
 						new DustParticleOptions(Vec3.fromRGB24(0xFFFFFF).toVector3f(), 1),
@@ -81,8 +80,6 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 						0.1, 0.1, 0.1,
 						0.1
 				);
-
-				PortalCubedPackets.sendToClient(player, new ShootCannonPacket(context.getHand()));
 			}
 			return InteractionResult.CONSUME;
 		}

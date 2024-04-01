@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import org.joml.Math;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
+import io.github.fusionflux.portalcubed.content.cannon.CannonUseResult;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.framework.extension.ItemInHandRendererExt;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -20,11 +22,29 @@ import net.minecraft.world.item.ItemStack;
 @Mixin(ItemInHandRenderer.class)
 public class ItemInHandRendererMixin implements ItemInHandRendererExt {
 	@Unique
-	private float recoil;
+	private static final float WIGGLE_STOP = (float) Math.PI * 16;
+
+	@Unique
+	private float constructionCannonRecoil;
+
+	@Unique
+	private float constructionCannonWiggle;
+	@Unique
+	private boolean constructionCannonWiggling;
 
 	@Override
-	public void pc$recoil() {
-		recoil = 25;
+	public void pc$constructionCannonShoot(CannonUseResult useResult) {
+		if (useResult.shouldRecoil()) {
+			constructionCannonRecoil = 25;
+		} else {
+			constructionCannonRecoil = 0;
+		}
+
+		if (useResult.shouldWiggle()) {
+			constructionCannonWiggle = WIGGLE_STOP;
+		} else {
+			constructionCannonWiggle = 0;
+		}
 	}
 
 	@Inject(
@@ -49,8 +69,13 @@ public class ItemInHandRendererMixin implements ItemInHandRendererExt {
 		int light,
 		CallbackInfo ci
 	) {
-		if (stack.getItem() instanceof ConstructionCannonItem)
-			matrices.mulPose(Axis.XP.rotationDegrees(recoil));
-		recoil = Math.max(0, recoil - (tickDelta * 1.4f));
+		if (stack.getItem() instanceof ConstructionCannonItem) {
+			matrices.mulPose(Axis.XP.rotationDegrees(constructionCannonRecoil));
+			matrices.translate(.1875, 0, 0);
+			matrices.mulPose(Axis.ZP.rotationDegrees(Math.sin(constructionCannonWiggle / 6) * 6));
+			matrices.translate(-.1875, 0, 0);
+		}
+		constructionCannonRecoil = Math.max(0, constructionCannonRecoil - (tickDelta * 1.4f));
+		constructionCannonWiggle = Math.max(0, constructionCannonWiggle - tickDelta);
 	}
 }

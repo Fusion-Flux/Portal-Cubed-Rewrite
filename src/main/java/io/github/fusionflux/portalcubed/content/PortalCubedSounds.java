@@ -29,6 +29,9 @@ public class PortalCubedSounds {
 	public static final SoundEvent PORTAL_GUN_HOLD_LOOP = register("portal_gun_hold_loop");
 	public static final SoundEvent PORTAL_GUN_DROP = register("portal_gun_drop");
 
+	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon_obstructed");
+	public static final SoundEvent CONSTRUCTION_CANNON_NO_MATERIALS = register("construction_cannon_no_materials");
+
 	public static final SoundEvent SURPRISE = register("surprise");
 
 	public static SoundEvent register(String name) {
