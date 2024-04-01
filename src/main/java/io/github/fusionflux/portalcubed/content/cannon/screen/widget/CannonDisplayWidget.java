@@ -29,7 +29,7 @@ public class CannonDisplayWidget extends AbstractWidget {
 	public CannonDisplayWidget(int width, int height, ItemStack item) {
 		super(0, 0, width, height, item.getDisplayName());
 		this.item = item;
-		this.itemModel = ITEM_RENDERER.getModel(item, Minecraft.getInstance().level, null, 0);
+		this.itemModel = ITEM_RENDERER.getModel(item, null, null, 0);
 		this.scale = Math.min(width / 16f, height / 16f);
 	}
 

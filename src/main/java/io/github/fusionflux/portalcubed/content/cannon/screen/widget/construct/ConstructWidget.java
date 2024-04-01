@@ -3,8 +3,8 @@ package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
+import io.github.fusionflux.portalcubed.content.cannon.ConstructRenderer;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -19,11 +19,8 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 public abstract class ConstructWidget extends AbstractWidget {
-	private final ConstructModelPool modelPool;
-
-	public ConstructWidget(int size, Component message, ConstructModelPool modelPool) {
+	public ConstructWidget(int size, Component message) {
 		super(0, 0, size, size, message);
-		this.modelPool = modelPool;
 	}
 
 	@Nullable
@@ -76,7 +73,14 @@ public abstract class ConstructWidget extends AbstractWidget {
 		// make the center the pivot point
 		Vec3 center = AABB.of(preview.bounds).getCenter();
 		matrices.translate(-center.x, center.y, -center.z);
-		RenderingUtil.drawGuiManaged(() -> modelPool.getOrBuildModel(preview).render(matrices, graphics.bufferSource()));
+
+		if (ConstructRenderer.MODEL_POOL != null) {
+			var model = ConstructRenderer.MODEL_POOL.getOrBuildModel(preview);
+			RenderingUtil.drawGuiManaged(() -> model.draw(matrices, () -> {}));
+			model.bufferBlockEntities(matrices, graphics.bufferSource());
+			graphics.flush();
+		}
+
 		matrices.popPose();
 	}
 

@@ -4,7 +4,6 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHolder;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructButtonWidget;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
@@ -31,7 +30,7 @@ public class ConstructsTab {
 			PortalCubed.id("construction_cannon/constructs_tab/slot_selected")
 	);
 
-	public static void init(CannonSettingsHolder settings, ConstructModelPool constructModelPool, PanelLayout layout) {
+	public static void init(CannonSettingsHolder settings, PanelLayout layout) {
 		if (settings.get().material().isEmpty())
 			return;
 
@@ -48,7 +47,7 @@ public class ConstructsTab {
 
 			ConstructSet set = constructs.get(i);
 			ResourceLocation id = ConstructManager.INSTANCE.getId(set);
-			ConstructButtonWidget construct = new ConstructButtonWidget(set, id, material, SLOT_SIZE, constructModelPool);
+			ConstructButtonWidget construct = new ConstructButtonWidget(set, id, material, SLOT_SIZE);
 			TexturedStickyButton button = new TexturedStickyButton(0, 0, SLOT_SIZE, SLOT_SIZE, CommonComponents.EMPTY, BUTTON_TEXTURES, () -> {
 				buttons.forEach(TexturedStickyButton::deselect);
 				settings.update(s -> s.withConstruct(id));

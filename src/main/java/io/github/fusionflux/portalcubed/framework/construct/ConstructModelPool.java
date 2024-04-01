@@ -49,7 +49,7 @@ public final class ConstructModelPool implements AutoCloseable {
 					builder.begin(renderType.mode(), renderType.format());
 
 				matrices.pushPose();
-				matrices.translate(pos.getX() & 0xF, pos.getY() & 0xF, pos.getZ() & 0xF);
+				matrices.translate(pos.getX(), pos.getY(), pos.getZ());
 				blockRenderDispatcher.renderBatched(state, pos, environment, matrices, builder, true, randomSource);
 				matrices.popPose();
 			}
@@ -83,17 +83,20 @@ public final class ConstructModelPool implements AutoCloseable {
 	}
 
 	public record ModelInfo(Set<BlockEntity> blockEntities, Reference2ReferenceMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
-		public void render(PoseStack matrices, MultiBufferSource bufferSource) {
+		public void draw(PoseStack matrices, Runnable extraRenderState) {
 			for (var entry : buffers.reference2ReferenceEntrySet()) {
 				var renderType = entry.getKey();
 				var buffer = entry.getValue();
 				renderType.setupRenderState();
+				extraRenderState.run();
 				buffer.bind();
 				buffer.drawWithShader(matrices.last().pose(), RenderSystem.getProjectionMatrix(), RenderSystem.getShader());
 				renderType.clearRenderState();
 			}
 			VertexBuffer.unbind();
+		}
 
+		public void bufferBlockEntities(PoseStack matrices, MultiBufferSource.BufferSource bufferSource) {
 			var blockEntityRenderDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
 			for (var blockEntity : blockEntities) {
 				var pos = blockEntity.getBlockPos();
@@ -102,8 +105,6 @@ public final class ConstructModelPool implements AutoCloseable {
 				blockEntityRenderDispatcher.renderItem(blockEntity, matrices, bufferSource, LightTexture.FULL_SKY, OverlayTexture.NO_OVERLAY);
 				matrices.popPose();
 			}
-			if (bufferSource instanceof MultiBufferSource.BufferSource immediate)
-				immediate.endBatch();
 		}
 
 		@Override

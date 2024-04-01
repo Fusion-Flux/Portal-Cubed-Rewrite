@@ -9,7 +9,6 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.widget.FloatingWid
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructPreviewWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.TabWidget;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -46,7 +45,6 @@ public class ConstructionCannonScreen extends Screen {
 	private final CannonSettingsHolder settings;
 	// preview is persistent to maintain tick count between tabs
 	private final ConstructPreviewWidget constructPreview;
-	private final ConstructModelPool constructModelPool;
 
 	private Tab tab;
 
@@ -54,8 +52,7 @@ public class ConstructionCannonScreen extends Screen {
 		super(TITLE);
 		this.sourceHand = hand;
 		this.settings = new CannonSettingsHolder(settings);
-		this.constructModelPool = new ConstructModelPool();
-		this.constructPreview = new ConstructPreviewWidget(80, this.settings, constructModelPool);
+		this.constructPreview = new ConstructPreviewWidget(80, this.settings);
 		this.tab = Tab.MATERIALS;
 	}
 
@@ -91,7 +88,7 @@ public class ConstructionCannonScreen extends Screen {
 
 		switch (this.tab) {
 			case MATERIALS -> MaterialsTab.init(this.settings, menu);
-			case CONSTRUCTS -> ConstructsTab.init(this.settings, constructModelPool, menu);
+			case CONSTRUCTS -> ConstructsTab.init(this.settings, menu);
 			case SETTINGS -> {}
 		}
 
@@ -138,12 +135,6 @@ public class ConstructionCannonScreen extends Screen {
 			return true;
 		}
 		return super.keyPressed(keyCode, scanCode, modifiers);
-	}
-
-	@Override
-	public void onClose() {
-		super.onClose();
-		constructModelPool.close();
 	}
 
 	@Override

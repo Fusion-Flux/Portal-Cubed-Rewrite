@@ -6,7 +6,6 @@ import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.util.TagWithCountTooltipComponent;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -21,8 +20,8 @@ public class ConstructButtonWidget extends ConstructWidget {
 	private final ConfiguredConstruct construct;
 	private final AdvancedTooltip tooltip;
 
-	public ConstructButtonWidget(ConstructSet constructSet, ResourceLocation id, TagKey<Item> material, int size, ConstructModelPool modelPool) {
-		super(size, ConstructSet.getName(id), modelPool);
+	public ConstructButtonWidget(ConstructSet constructSet, ResourceLocation id, TagKey<Item> material, int size) {
+		super(size, ConstructSet.getName(id));
 		this.construct = constructSet.preview;
 		this.tooltip = new AdvancedTooltip(builder -> {
 			builder.add(ConstructSet.getName(id));
