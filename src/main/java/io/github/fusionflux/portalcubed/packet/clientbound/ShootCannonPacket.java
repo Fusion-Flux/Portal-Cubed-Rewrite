@@ -55,7 +55,7 @@ public record ShootCannonPacket(InteractionHand hand, CannonUseResult useResult)
 	@ClientOnly
 	public static void spawnParticlesForPlayer(Player player) {
 		boolean thirdPerson = isThirdPerson(player);
-		Vec3 source = thirdPerson ? getFirstPersonParticleSource(player) : getThirdPersonParticleSource(player);
+		Vec3 source = thirdPerson ? getThirdPersonParticleSource(player) : getFirstPersonParticleSource(player);
 
 		for (int i = 0; i < PARTICLES; i++) {
 			Vec3 target = getParticleTarget(player);
