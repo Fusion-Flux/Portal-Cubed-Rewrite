@@ -17,6 +17,7 @@ import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -28,6 +29,10 @@ import java.util.function.Supplier;
 public abstract class ConstructSet {
 	public static final Codec<ConstructSet> CODEC = Type.CODEC.dispatch(
 			construct -> construct.type, Type::codec
+	);
+
+	public static final Comparator<ConstructSet> BY_SIZE_COMPARATOR = Comparator.comparingInt(
+			set -> set.preview.blocks.size()
 	);
 
 	public final Type type;

@@ -32,7 +32,7 @@ import org.quiltmc.qsl.resource.loader.api.reloader.IdentifiableResourceReloader
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -49,13 +49,11 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 
 	private static final Logger logger = LoggerFactory.getLogger(ConstructManager.class);
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	@SuppressWarnings("SortedCollectionWithNonComparableKeys") // never contains anything, this is safe
-	private static final SortedSet<ConstructSet> emptySet = Collections.unmodifiableSortedSet(new TreeSet<>());
 
 	public static ConstructManager INSTANCE = new ConstructManager();
 
 	private final BiMap<ResourceLocation, ConstructSet> constructSets = HashBiMap.create();
-	private final Map<TagKey<Item>, SortedSet<ConstructSet>> byMaterial = new IdentityHashMap<>();
+	private final Map<TagKey<Item>, List<ConstructSet>> byMaterial = new IdentityHashMap<>();
 
 	private ConstructManager() {
 		super(gson, DIR);
@@ -73,6 +71,7 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		cache.forEach(
 				(id, json) -> tryParseConstruct(id, JsonOps.INSTANCE, json).ifPresent(this::addConstruct)
 		);
+		this.byMaterial.values().forEach(list -> list.sort(ConstructSet.BY_SIZE_COMPARATOR));
 	}
 
 	public void syncToPlayer(ServerPlayer player) {
@@ -87,6 +86,7 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 	public void readFromPacket(ConstructSyncPacket packet) {
 		this.reset();
 		packet.getConstructs().forEach(this::addConstruct);
+		this.byMaterial.values().forEach(list -> list.sort(ConstructSet.BY_SIZE_COMPARATOR));
 	}
 
 	protected static <T> Optional<ConstructSet.Holder> tryParseConstruct(ResourceLocation id, DynamicOps<T> ops, T data) {
@@ -104,10 +104,9 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 	private void addConstruct(ConstructSet.Holder holder) {
 		ConstructSet constructSet = holder.constructSet();
 		this.constructSets.put(holder.id(), constructSet);
-		this.byMaterial.computeIfAbsent(constructSet.material, $ -> {
-			Comparator<ConstructSet> comparator = Comparator.comparingInt(set -> set.preview.blocks.size());
-			return new TreeSet<>(comparator);
-		}).add(constructSet);
+		this.byMaterial.computeIfAbsent(
+				constructSet.material, $ -> new ArrayList<>()
+		).add(constructSet);
 	}
 
 	private void reset() {
@@ -148,15 +147,15 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		return Optional.ofNullable(this.getConstructSet(id));
 	}
 
-	public SortedSet<ConstructSet> getConstructSetsForMaterial(TagKey<Item> tag) {
-		return this.byMaterial.getOrDefault(tag, emptySet);
+	public List<ConstructSet> getConstructSetsForMaterial(TagKey<Item> tag) {
+		return this.byMaterial.getOrDefault(tag, List.of());
 	}
 
 	@SuppressWarnings("deprecation") // builtInRegistryHolder
 	public List<ConstructSet> getConstructSetsForMaterial(Item material) {
 		return material.builtInRegistryHolder().tags()
 				.map(this::getConstructSetsForMaterial)
-				.flatMap(Set::stream)
+				.flatMap(List::stream)
 				.toList();
 	}
 
