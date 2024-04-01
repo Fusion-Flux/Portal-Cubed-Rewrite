@@ -12,9 +12,9 @@ import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet.ListBacked;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,7 +47,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 	}
 
 	public MaterialSlotWidget(TagKey<Item> tag, int x, int y, Runnable onSelect) {
-		super(x, y, SIZE, SIZE, translateTag(tag), TEXTURES, onSelect);
+		super(x, y, SIZE, SIZE, TagTranslation.translate(tag), TEXTURES, onSelect);
 
 		List<ItemStack> items = BuiltInRegistries.ITEM.getTag(tag)
 				.map(ListBacked::stream)
@@ -58,7 +58,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 		this.items = items.isEmpty() ? emptyPlaceholder : items;
 
 		this.tooltip = new AdvancedTooltip(builder -> {
-			builder.add(translateTag(tag));
+			builder.add(TagTranslation.translate(tag));
 
 			if (builder.advanced) {
 				builder.add(Component.literal('#' + tag.location().toString()).withStyle(ChatFormatting.DARK_GRAY));
@@ -96,16 +96,5 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 	private ItemStack getRenderedItem() {
 		int index = this.ticks / TICKS_PER_ITEM;
 		return this.items.get(index % this.items.size());
-	}
-
-	private static Component translateTag(TagKey<Item> tag) {
-		String id = tag.location().toString();
-		String key = "tag.item." + id.replace(':', '.').replace('/', '.');
-
-		if (I18n.exists(key)) {
-			return Component.translatable(key);
-		} else {
-			return Component.literal('#' + id);
-		}
 	}
 }

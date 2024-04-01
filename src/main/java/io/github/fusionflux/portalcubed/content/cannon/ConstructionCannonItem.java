@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.framework.extension.CustomHoldPoseItem;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
+import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
@@ -19,6 +20,7 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -30,6 +32,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -41,9 +44,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ConstructionCannonItem extends Item implements @ClientOnly CustomHoldPoseItem {
+	public static final String MATERIAL_TOOLTIP_KEY = "item.portalcubed.construction_cannon.material";
+	public static final String CONSTRUCT_TOOLTIP_KEY = "item.portalcubed.construction_cannon.construct_set";
 	public static final int PARTICLES = 10;
 
 	public ConstructionCannonItem(Properties settings) {
@@ -71,15 +77,19 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		if (context.isSecondaryUseActive())
 			return InteractionResult.PASS; // fall back to use
 
-		var player = context.getPlayer();
+		Player player = context.getPlayer();
 		// player is required for material consumption
 		if (player == null)
 			return InteractionResult.PASS;
 
 		CannonUseResult result = this.tryPlace(context);
-		if (player instanceof ServerPlayer)
-			PortalCubedPackets.sendToClient((ServerPlayer) player, new ShootCannonPacket(context.getHand(), result));
+
+		if (player instanceof ServerPlayer serverPlayer) {
+			PortalCubedPackets.sendToClient(serverPlayer, new ShootCannonPacket(context.getHand(), result));
+		}
+
 		result.sound().ifPresent(player::playSound);
+
 		if (result == CannonUseResult.PLACED) {
 			// kaboom
 			player.playSound(SoundEvents.GENERIC_EXPLODE, 0.4f, player.getRandom().nextIntBetweenInclusive(120, 270) / 100f);
@@ -97,6 +107,22 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		}
 
 		return InteractionResult.FAIL;
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+		CannonSettings settings = getCannonSettings(stack);
+		if (settings == null)
+			return;
+
+		if (settings.material().isPresent()) {
+			Component name = TagTranslation.translate(settings.material().get());
+			tooltip.add(Component.translatable(MATERIAL_TOOLTIP_KEY, name));
+		}
+		if (settings.construct().isPresent()) {
+			Component name = ConstructSet.getName(settings.construct().get());
+			tooltip.add(Component.translatable(CONSTRUCT_TOOLTIP_KEY, name));
+		}
 	}
 
 	@ClientOnly
