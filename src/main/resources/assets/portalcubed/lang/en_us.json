@@ -107,6 +107,9 @@
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
+  "subtitles.portalcubed.construction_cannon_obstructed": "Construction cannon obstructed",
+  "subtitles.portalcubed.construction_cannon_no_materials": "Construction cannon empty",
+
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
   "subtitles.portalcubed.gel_blob_splash": "Gel blob splashes",
