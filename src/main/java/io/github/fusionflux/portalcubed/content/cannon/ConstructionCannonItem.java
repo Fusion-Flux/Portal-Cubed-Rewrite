@@ -104,7 +104,7 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 						source.x, source.y, source.z,
 						PARTICLES,
 						0.1, 0.1, 0.1,
-						0.1
+						1
 				);
 			}
 			return InteractionResult.CONSUME;
@@ -231,7 +231,7 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 	}
 
 	private static Vec3 getParticleSource(Player player) {
-		var offset = new Vec3(-.5f, -.4f, 1f)
+		var offset = new Vec3(-.5f, -.1f, 1.2f)
 			.xRot(-player.getXRot() * Mth.DEG_TO_RAD)
 			.yRot(-player.getYRot() * Mth.DEG_TO_RAD);
 		return player.getEyePosition().add(offset);
