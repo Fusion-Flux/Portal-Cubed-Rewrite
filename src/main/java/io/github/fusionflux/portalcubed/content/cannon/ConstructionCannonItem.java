@@ -15,13 +15,15 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -48,9 +50,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class ConstructionCannonItem extends Item implements @ClientOnly CustomHoldPoseItem {
-	public static final String TRANSLATION_KEY_BASE = "item.portalcubed.construction_cannon.";
-	public static final String MATERIAL_TOOLTIP_KEY = TRANSLATION_KEY_BASE + "material";
-	public static final String CONSTRUCT_TOOLTIP_KEY = TRANSLATION_KEY_BASE + "construct_set";
+	public static final Component MATERIAL_TOOLTIP = translate("material").withStyle(ChatFormatting.GRAY);
+	public static final Component CONSTRUCT_TOOLTIP = translate("construct_set").withStyle(ChatFormatting.GRAY);
 
 	public ConstructionCannonItem(Properties settings) {
 		super(settings);
@@ -116,12 +117,14 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 			return;
 
 		if (settings.material().isPresent()) {
+			tooltip.add(MATERIAL_TOOLTIP);
 			Component name = TagTranslation.translate(settings.material().get());
-			tooltip.add(Component.translatable(MATERIAL_TOOLTIP_KEY, name));
+			tooltip.add(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
 		}
 		if (settings.construct().isPresent()) {
+			tooltip.add(CONSTRUCT_TOOLTIP);
 			Component name = ConstructSet.getName(settings.construct().get());
-			tooltip.add(Component.translatable(CONSTRUCT_TOOLTIP_KEY, name));
+			tooltip.add(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
 		}
 	}
 
@@ -222,8 +225,8 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 				.ifPresent(nbt -> stack.addTagElement(CannonSettings.NBT_KEY, nbt));
 	}
 
-	public static Component translate(String key) {
-		return Component.translatable(TRANSLATION_KEY_BASE + key);
+	public static MutableComponent translate(String key) {
+		return Component.translatable("item.portalcubed.construction_cannon." + key);
 	}
 
 	private static void tryOpenConfig(Player player, InteractionHand hand) {
