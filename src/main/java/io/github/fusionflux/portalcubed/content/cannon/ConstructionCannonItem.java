@@ -9,6 +9,7 @@ import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
@@ -25,7 +26,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -38,11 +38,11 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +51,6 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 	public static final String TRANSLATION_KEY_BASE = "item.portalcubed.construction_cannon.";
 	public static final String MATERIAL_TOOLTIP_KEY = TRANSLATION_KEY_BASE + "material";
 	public static final String CONSTRUCT_TOOLTIP_KEY = TRANSLATION_KEY_BASE + "construct_set";
-	public static final int PARTICLES = 10;
 
 	public ConstructionCannonItem(Properties settings) {
 		super(settings);
@@ -94,17 +93,14 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 
 		if (result == CannonUseResult.MISCONFIGURED) {
 			tryOpenConfig(player, context.getHand());
+			return InteractionResult.CONSUME;
 		} else if (result == CannonUseResult.PLACED) {
 			// kaboom
 			player.playSound(SoundEvents.GENERIC_EXPLODE, 0.4f, player.getRandom().nextIntBetweenInclusive(120, 270) / 100f);
-			if (context.getLevel() instanceof ServerLevel level) {
-				Vec3 source = getParticleSource(player);
-				level.sendParticles(
-						new DustParticleOptions(Vec3.fromRGB24(0xFFFFFF).toVector3f(), 1),
-						source.x, source.y, source.z,
-						PARTICLES,
-						0.1, 0.1, 0.1,
-						1
+			if (player instanceof ServerPlayer) {
+				OtherPlayerShootCannonPacket packet = new OtherPlayerShootCannonPacket(player);
+				PlayerLookup.tracking(player).forEach(
+						tracking -> PortalCubedPackets.sendToClient(tracking, packet)
 				);
 			}
 			return InteractionResult.CONSUME;
@@ -228,13 +224,6 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 
 	public static Component translate(String key) {
 		return Component.translatable(TRANSLATION_KEY_BASE + key);
-	}
-
-	private static Vec3 getParticleSource(Player player) {
-		var offset = new Vec3(-.5f, -.1f, 1.2f)
-			.xRot(-player.getXRot() * Mth.DEG_TO_RAD)
-			.yRot(-player.getYRot() * Mth.DEG_TO_RAD);
-		return player.getEyePosition().add(offset);
 	}
 
 	private static void tryOpenConfig(Player player, InteractionHand hand) {
