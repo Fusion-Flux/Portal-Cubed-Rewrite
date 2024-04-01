@@ -42,6 +42,13 @@
   "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
   "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
 
+  "item.portalcubed.construction_cannon.material": "Material: ",
+  "item.portalcubed.construction_cannon.construct_set": "Construct: ",
+  "item.portalcubed.construction_cannon.obstructed": "Placement location obstructed",
+  "item.portalcubed.construction_cannon.missing_materials": "Not enough materials",
+  "item.portalcubed.construction_cannon.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
+  "item.portalcubed.construction_cannon.no_perms": "Insufficient permissions",
+
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_panel": "Aged Padded Gray Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_half_panel": "Aged Padded Gray Half Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_2x1_panel": "Aged Padded Gray 2x1 Panel",
@@ -99,6 +106,7 @@
   "pillar_construct_set.chooser.placer_facing.tooltip": "Oriented based on facing direction",
   "pillar_construct_set.chooser.clicked_face.tooltip": "Oriented based on clicked block face",
 
+
   "container.portalcubed.pedestal_button": "Pedestal Button",
   "container.portalcubed.pedestal_button.press_length": "Press Length",
   "container.portalcubed.pedestal_button.offset": "Position Offset",
@@ -107,8 +115,8 @@
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
-  "subtitles.portalcubed.construction_cannon_obstructed": "Construction cannon obstructed",
-  "subtitles.portalcubed.construction_cannon_no_materials": "Construction cannon empty",
+  "subtitles.portalcubed.construction_cannon_obstructed": "Construction cannon fails to place",
+  "subtitles.portalcubed.construction_cannon_missing_materials": "Construction cannon fails to place",
 
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
