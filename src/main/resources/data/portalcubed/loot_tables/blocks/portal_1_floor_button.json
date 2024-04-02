@@ -2,12 +2,22 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "portalcubed:portal_1_floor_button"
+          "name": "portalcubed:portal_1_floor_button",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "portalcubed:portal_1_floor_button",
+              "properties": {
+                "x": "0",
+                "y": "0"
+              }
+            }
+          ]
         }
       ],
       "conditions": [
