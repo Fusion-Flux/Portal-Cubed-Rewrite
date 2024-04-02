@@ -222,6 +222,16 @@ public class PedestalButtonConfigScreen extends Screen {
 	}
 
 	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		// close on E
+		if (this.minecraft != null && this.minecraft.options.keyInventory.matches(keyCode, scanCode)) {
+			this.onClose();
+			return true;
+		}
+		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
+
+	@Override
 	public void onClose() {
 		super.onClose();
 		tick();
