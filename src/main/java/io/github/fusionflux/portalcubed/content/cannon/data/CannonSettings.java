@@ -36,7 +36,7 @@ public record CannonSettings(
 	).apply(instance, CannonSettings::new));
 
 	public static final CannonSettings DEFAULT = new CannonSettings(
-			Optional.empty(), Optional.empty(), PlacementMode.WHOLE, Optional.empty(), false, true
+			Optional.empty(), Optional.empty(), PlacementMode.WHOLE, Optional.empty(), true, false
 	);
 
 	@Nullable
