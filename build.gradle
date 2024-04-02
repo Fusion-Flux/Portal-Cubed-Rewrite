@@ -52,17 +52,10 @@ tasks.register("buildOrPublish") {
 }
 
 processResources {
-	Map<String, Object> properties = [
-		"version": version,
-		"minecraft_version": minecraft_version,
-		"loader_version": loader_version,
-		"qfapi_version": qfapi_version
-	]
-
-	properties.forEach(inputs::property)
+	inputs.properties 'version': version, "minecraft_version": minecraft_version, "loader_version": loader_version, "qfapi_version": qfapi_version
 
 	filesMatching("quilt.mod.json") {
-		expand properties
+		expand inputs.properties
 	}
 }
 

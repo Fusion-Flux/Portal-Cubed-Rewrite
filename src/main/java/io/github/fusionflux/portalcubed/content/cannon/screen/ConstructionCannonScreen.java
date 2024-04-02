@@ -5,6 +5,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.ConstructsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.MaterialsTab;
+import io.github.fusionflux.portalcubed.content.cannon.screen.tab.SettingsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.FloatingWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructPreviewWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
@@ -39,7 +40,6 @@ public class ConstructionCannonScreen extends Screen {
 	public static final int SAVE_BUTTON_Y = 137;
 
 	public static final Component TITLE = Component.translatable("container.portalcubed.construction_cannon");
-	public static final ResourceLocation BACKGROUND = PortalCubed.id("textures/gui/container/construction_cannon/materials_tab.png");
 
 	private final InteractionHand sourceHand;
 	private final CannonSettingsHolder settings;
@@ -82,14 +82,14 @@ public class ConstructionCannonScreen extends Screen {
 
 		menu.addChild(TAB_TITLE_X_OFFSET, TAB_TITLE_Y_OFFSET, new StringWidget(this.tab.title, this.font))
 				.setColor(4210752); // magic number from InventoryScreen
-		menu.addChild(0, BACKGROUND_Y_OFFSET, ImageWidget.texture(WIDTH, HEIGHT, BACKGROUND, 256, 256));
+		menu.addChild(0, BACKGROUND_Y_OFFSET, ImageWidget.texture(WIDTH, HEIGHT, this.tab.background, 256, 256));
 		// add tabs after so they're on top
 		menu.addChild(0, 0, tabs);
 
 		switch (this.tab) {
 			case MATERIALS -> MaterialsTab.init(this.settings, menu);
 			case CONSTRUCTS -> ConstructsTab.init(this.settings, menu);
-			case SETTINGS -> {}
+			case SETTINGS -> SettingsTab.init(this.settings, menu);
 		}
 
 		// save button
@@ -164,6 +164,7 @@ public class ConstructionCannonScreen extends Screen {
 
 		public final String name = this.name().toLowerCase(Locale.ROOT);
 		public final Component title = translate("tab." + this.name);
+		public final ResourceLocation background = PortalCubed.id("textures/gui/container/construction_cannon/" + this.name + "_tab.png");
 		public final TexturedStickyButton.Textures textures = TexturedStickyButton.Textures.noHover(
 				PortalCubed.id("construction_cannon/tab_" + this.name + "_unselected"),
 				PortalCubed.id("construction_cannon/tab_" + this.name + "_selected")
