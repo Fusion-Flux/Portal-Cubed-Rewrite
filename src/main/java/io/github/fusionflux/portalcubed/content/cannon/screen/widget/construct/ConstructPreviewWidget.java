@@ -18,6 +18,9 @@ public class ConstructPreviewWidget extends ConstructWidget implements TickableW
 	private final CannonSettingsHolder settings;
 
 	private int ticks = 0;
+	private float rotationOld = 0;
+	private float rotation = 0;
+	private float rotationAcceleration = 0;
 
 	public ConstructPreviewWidget(int size, CannonSettingsHolder settings) {
 		super(size, MESSAGE);
@@ -34,10 +37,21 @@ public class ConstructPreviewWidget extends ConstructWidget implements TickableW
 	}
 
 	@Override
+	public void onClick(double mouseX, double mouseY) {
+		rotationAcceleration += 50;
+	}
+
+	@Override
 	protected void applyConstructTransformations(PoseStack matrices, float delta) {
 		float fullTicks = this.ticks + delta;
-		float rotation = fullTicks * 2;
-		matrices.mulPose(Axis.YP.rotationDegrees(rotation));
+		float spin = fullTicks * 2;
+
+		float vel = rotation - rotationOld;
+		rotationOld = rotation;
+		rotation += Math.max(0, vel - ((delta * delta) / 2)) + rotationAcceleration * delta * delta;
+		rotationAcceleration = 0;
+
+		matrices.mulPose(Axis.YP.rotationDegrees(spin + rotation));
 	}
 
 	@Override

@@ -19,6 +19,7 @@ public class TranslucentSpriteWidget extends AbstractWidget {
 	public TranslucentSpriteWidget(int width, int height, ResourceLocation sprite) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 		this.sprite = sprite;
+		this.active = false;
 	}
 
 	@Override
@@ -36,11 +37,6 @@ public class TranslucentSpriteWidget extends AbstractWidget {
 
 	@Override
 	public void playDownSound(SoundManager soundManager) {
-	}
-
-	@Override
-	public boolean isActive() {
-		return false;
 	}
 
 	@Nullable
