@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14C;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
 
@@ -30,7 +31,7 @@ import net.minecraft.world.phys.Vec3;
 public class ConstructRenderer {
 	public static ConstructModelPool MODEL_POOL = new ConstructModelPool();
 
-	private static void renderOverlay(WorldRenderContext context) {
+	private static void renderPreview(WorldRenderContext context) {
 		if (MODEL_POOL == null)
 			return;
 		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource bufferSource))
@@ -48,6 +49,8 @@ public class ConstructRenderer {
 		var hand = getHandHoldingCannon(player);
 		var itemInHand = Optionull.map(hand, $ -> player.getItemInHand(hand));
 		var heldCannon = Optionull.map(hand, $ -> ConstructionCannonItem.getCannonSettings(itemInHand));
+		if (!heldCannon.preview())
+			return;
 		if ((heldCannon != null && heldCannon.construct().isPresent()) && minecraft.hitResult instanceof BlockHitResult hit && hit.getType() == HitResult.Type.BLOCK) {
 			var placeContext = new BlockPlaceContext(minecraft.level, player, hand, itemInHand, hit);
 			var construct = ConstructManager.INSTANCE.getConstructSet(heldCannon.construct().get())
@@ -65,10 +68,12 @@ public class ConstructRenderer {
 				RenderSystem.enableBlend();
 				RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
 				GL14C.glBlendColor(0, 0, 0, .55f + (Mth.cos(Util.getMillis() / 500f) * .1f));
+				RenderSystem.depthFunc(GL11.GL_ALWAYS);
 			});
 			RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 			RenderSystem.disableBlend();
 			RenderSystem.defaultBlendFunc();
+			RenderSystem.depthFunc(GL11.GL_LEQUAL);
 			model.bufferBlockEntities(matrices, bufferSource);
 			bufferSource.endBatch();
 
@@ -101,7 +106,7 @@ public class ConstructRenderer {
 	}
 
 	public static void init() {
-		WorldRenderEvents.AFTER_TRANSLUCENT.register(ConstructRenderer::renderOverlay);
+		WorldRenderEvents.AFTER_TRANSLUCENT.register(ConstructRenderer::renderPreview);
 		ResourceLoaderEvents.END_DATA_PACK_RELOAD.register(ctx -> {
 			if (ctx.server() instanceof IntegratedServer)
 				reload();

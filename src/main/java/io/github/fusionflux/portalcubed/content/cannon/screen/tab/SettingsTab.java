@@ -1,8 +1,11 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.tab;
 
 import java.util.Locale;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHolder;
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
@@ -29,8 +32,7 @@ public class SettingsTab {
 			button.spacing(3);
 			button.addChild(new ToggleButton(
 				SETTING_TOGGLE_SIZE, SETTING_TOGGLE_SIZE, setting.sprite,
-				() -> false, v -> {
-				}
+				() -> setting.settingGetter.test(settings.get()), v -> settings.update(s -> setting.settingSetter.apply(s, v))
 			)).setTooltip(Tooltip.create(setting.description));
 			button.addChild(new TitleWidget(setting.title, Minecraft.getInstance().font));
 			tab.addChild(button);
@@ -40,11 +42,19 @@ public class SettingsTab {
 	}
 
 	public enum Setting {
-		PREVIEW, REPLACE_MODE;
+		PREVIEW(CannonSettings::preview, CannonSettings::withPreview),
+		REPLACE_MODE(CannonSettings::replaceMode, CannonSettings::withReplaceMode);
 
 		public final String name = this.name().toLowerCase(Locale.ROOT);
 		public final Component title = ConstructionCannonScreen.translate("tab.settings." + this.name);
 		public final Component description = ConstructionCannonScreen.translate("tab.settings." + this.name + ".description");
 		public final ResourceLocation sprite = PortalCubed.id("construction_cannon/settings_tab/" + this.name + "_toggle");
+		public final Predicate<CannonSettings> settingGetter;
+		public final BiFunction<CannonSettings, Boolean, CannonSettings> settingSetter;
+
+		Setting(Predicate<CannonSettings> settingGetter, BiFunction<CannonSettings, Boolean, CannonSettings> settingSetter) {
+			this.settingGetter = settingGetter;
+			this.settingSetter = settingSetter;
+		}
 	}
 }
