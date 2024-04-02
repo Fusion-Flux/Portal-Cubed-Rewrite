@@ -71,11 +71,12 @@ public class ItemInHandRendererMixin implements ItemInHandRendererExt {
 	) {
 		if (stack.getItem() instanceof ConstructionCannonItem) {
 			matrices.mulPose(Axis.XP.rotationDegrees(constructionCannonRecoil));
-			matrices.translate(.1875, 0, 0);
+			float offset = .1875f * (hand == InteractionHand.MAIN_HAND ? 1 : -1);
+			matrices.translate(offset, 0, 0);
 			matrices.mulPose(Axis.ZP.rotationDegrees(Math.sin(constructionCannonWiggle / 6) * 6));
-			matrices.translate(-.1875, 0, 0);
+			matrices.translate(-offset, 0, 0);
 		}
 		constructionCannonRecoil = Math.max(0, constructionCannonRecoil - (tickDelta * 1.4f));
-		constructionCannonWiggle = Math.max(0, constructionCannonWiggle - tickDelta);
+		constructionCannonWiggle = Math.max(0, constructionCannonWiggle - (tickDelta * 2));
 	}
 }
