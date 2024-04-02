@@ -15,7 +15,7 @@ public enum CannonUseResult {
 	MISCONFIGURED;
 
 	public boolean shouldRecoil() {
-		return this == PLACED;
+		return this == PLACED || this == MISSING_MATERIALS;
 	}
 
 	public boolean shouldWiggle() {

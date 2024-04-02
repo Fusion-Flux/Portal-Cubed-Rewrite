@@ -35,7 +35,7 @@ public class ItemInHandRendererMixin implements ItemInHandRendererExt {
 	@Override
 	public void pc$constructionCannonShoot(CannonUseResult useResult) {
 		if (useResult.shouldRecoil()) {
-			constructionCannonRecoil = 25;
+			constructionCannonRecoil = useResult == CannonUseResult.MISSING_MATERIALS ? 17 : 25;
 		} else {
 			constructionCannonRecoil = 0;
 		}
