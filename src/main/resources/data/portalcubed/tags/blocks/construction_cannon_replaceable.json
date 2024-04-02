@@ -1,0 +1,17 @@
+{
+  "values": [
+    "#portalcubed:aged_padded_gray_panel_materials",
+    "#portalcubed:padded_gray_panel_materials",
+    "#portalcubed:aged_smooth_gray_panel_materials",
+    "#portalcubed:smooth_gray_panel_materials",
+    "#portalcubed:aged_white_panel_materials",
+    "#portalcubed:white_panel_materials",
+    "#portalcubed:old_ap_white_panel_materials",
+    "#portalcubed:old_ap_blue_panel_materials",
+    "#portalcubed:old_ap_green_panel_materials",
+    "#portalcubed:portal_1_white_panel_materials",
+    "#portalcubed:dirty_portal_1_white_panel_materials",
+    "#portalcubed:portal_1_metal_panel_materials",
+    "#portalcubed:dirty_portal_1_metal_panel_materials"
+  ]
+}
