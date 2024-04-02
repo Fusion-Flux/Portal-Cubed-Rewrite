@@ -22,8 +22,10 @@
   "container.portalcubed.construction_cannon.tab.materials": "Materials",
   "container.portalcubed.construction_cannon.tab.constructs": "Constructs",
   "container.portalcubed.construction_cannon.tab.settings": "Settings",
-  "container.portalcubed.construction_cannon.tab.settings.preview": "Show translucent placement preview",
+  "container.portalcubed.construction_cannon.tab.settings.preview": "Placement preview",
+  "container.portalcubed.construction_cannon.tab.settings.preview.description": "Shows a translucent preview of how the selected construct will be placed",
   "container.portalcubed.construction_cannon.tab.settings.replace_mode": "Replace mode",
+  "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces blocks that are already there when placing the construct.  Most blocks cannot be replaced, but any that can be placed by the Construction Cannon can be.",
 
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
 
