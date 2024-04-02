@@ -53,10 +53,12 @@ public class MultiBlockItem extends BlockItem {
 
 		var horizontalDirection = facingAxis.isHorizontal() ? facing.getOpposite() : context.getHorizontalDirection();
 		var origin = context.getClickedPos();
-		if (horizontalDirection == Direction.SOUTH || horizontalDirection == Direction.WEST)
-			origin = origin.relative(horizontalDirection.getClockWise());
-		if (facingAxis.isVertical() && horizontalDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
-			origin = origin.relative(horizontalDirection);
+		if (facingAxis.isVertical()) {
+			if (horizontalDirection == Direction.SOUTH || horizontalDirection == Direction.WEST)
+				origin = origin.relative(horizontalDirection.getClockWise());
+			if (horizontalDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
+				origin = origin.relative(horizontalDirection);
+		}
 
 		if (!quadrantPlacementTest(context, origin, state)) {
 			boolean isCorrectNow = false;
