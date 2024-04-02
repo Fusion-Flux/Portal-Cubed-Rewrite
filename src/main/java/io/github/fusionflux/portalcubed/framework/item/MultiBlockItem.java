@@ -62,11 +62,11 @@ public class MultiBlockItem extends BlockItem {
 
 		if (!quadrantPlacementTest(context, origin, state)) {
 			boolean isCorrectNow = false;
-			var leftDir = getLeftDirection(facingAxis);
 			var downDir = getDownDirection(facingAxis);
-			horizontal: for (int i = 0; i < 2; i++) {
-				var horizontalDir = i == 0 ? leftDir : leftDir.getOpposite();
-				var testOrigin = origin.relative(horizontalDir);
+			var leftDir = getLeftDirection(facingAxis);
+			vertical: for (int i = 0; i < 2; i++) {
+				var verticalDir = i == 0 ? downDir : downDir.getOpposite();
+				var testOrigin = origin.relative(verticalDir);
 				if (quadrantPlacementTest(context, testOrigin, state)) {
 					origin = testOrigin;
 					isCorrectNow = true;
@@ -74,11 +74,11 @@ public class MultiBlockItem extends BlockItem {
 				}
 
 				for (int j = 0; j < 2; j++) {
-					var verticalDir = j == 0 ? downDir : downDir.getOpposite();
-					if (quadrantPlacementTest(context, testOrigin.relative(verticalDir), state)) {
-						origin = testOrigin.relative(verticalDir);
+					var horizontalDir = j == 0 ? leftDir : leftDir.getOpposite();
+					if (quadrantPlacementTest(context, testOrigin.relative(horizontalDir), state)) {
+						origin = testOrigin.relative(horizontalDir);
 						isCorrectNow = true;
-						break horizontal;
+						break vertical;
 					}
 				}
 			}
