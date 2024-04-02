@@ -15,7 +15,6 @@ import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.minecraft.Optionull;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -32,14 +31,12 @@ public class ConstructRenderer {
 	public static ConstructModelPool MODEL_POOL = new ConstructModelPool();
 
 	private static void renderPreview(WorldRenderContext context) {
-		if (MODEL_POOL == null)
-			return;
+		if (MODEL_POOL == null) return;
 		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource bufferSource))
 			return;
 		var minecraft = Minecraft.getInstance();
 		var player = minecraft.player;
-		if (player == null)
-			return;
+		if (player == null) return;
 
 		PoseStack matrices = context.matrixStack();
 		Vec3 camPos = context.camera().getPosition();
@@ -47,10 +44,10 @@ public class ConstructRenderer {
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 
 		var hand = getHandHoldingCannon(player);
-		var itemInHand = Optionull.map(hand, $ -> player.getItemInHand(hand));
-		var heldCannon = Optionull.map(hand, $ -> ConstructionCannonItem.getCannonSettings(itemInHand));
-		if (!heldCannon.preview())
-			return;
+		if (hand == null) return;
+		var itemInHand = player.getItemInHand(hand);
+		var heldCannon = ConstructionCannonItem.getCannonSettings(itemInHand);
+		if (!heldCannon.preview()) return;
 		if ((heldCannon != null && heldCannon.construct().isPresent()) && minecraft.hitResult instanceof BlockHitResult hit && hit.getType() == HitResult.Type.BLOCK) {
 			var placeContext = new BlockPlaceContext(minecraft.level, player, hand, itemInHand, hit);
 			var construct = ConstructManager.INSTANCE.getConstructSet(heldCannon.construct().get())
