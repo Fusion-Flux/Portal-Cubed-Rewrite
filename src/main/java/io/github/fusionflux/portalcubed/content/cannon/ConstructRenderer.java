@@ -55,7 +55,7 @@ public class ConstructRenderer {
 			var pos = placeContext.getClickedPos();
 
 			matrices.pushPose();
-			matrices.translate(pos.getX(), pos.getY(), pos.getZ());
+			matrices.translate(pos.getX() + construct.offset.getX(), pos.getY() + construct.offset.getY(), pos.getZ() + construct.offset.getZ());
 
 			boolean obstructed = construct.isObstructed(minecraft.level, pos);
 			var model = MODEL_POOL.getOrBuildModel(construct);
