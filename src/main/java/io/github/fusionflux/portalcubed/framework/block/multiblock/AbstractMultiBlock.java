@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.block.multiblock;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Optional;
 
 import net.minecraft.core.BlockPos;
@@ -8,6 +9,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -20,6 +23,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractMultiBlock extends DirectionalBlock {
@@ -61,18 +65,18 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		return sizeProperties.z.map(prop -> state.setValue(prop, z)).orElse(state);
 	}
 
-	public boolean isOrigin(BlockState state, Level level) {
+	public boolean isOrigin(BlockState state) {
 		return getX(state) == 0 && getY(state) == 0 && getZ(state) == 0;
 	}
 
 	public BlockPos getOriginPos(BlockPos pos, BlockState state) {
-		int x = getX(state);
-		int y = getY(state);
-		int z = getZ(state);
+		int x = -getX(state);
+		int y = -getY(state);
+		int z = -getZ(state);
 		return switch (state.getValue(FACING).getAxis()) {
-			case X -> pos.subtract(new BlockPos(z, y, x));
-			case Y -> pos.subtract(new BlockPos(x, z, y));
-			case Z -> pos.subtract(new BlockPos(x, y, z));
+			case X -> pos.offset(z, y, x);
+			case Y -> pos.offset(x, z, y);
+			case Z -> pos.offset(x, y, z);
 		};
 	}
 
@@ -105,6 +109,24 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		} else {
 			return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 		}
+	}
+
+	@Override
+	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+		if (player.getAbilities().instabuild) {
+			for (var quadrantPos : quadrantIterator(getOriginPos(pos, state), state)) {
+				world.destroyBlock(quadrantPos, false, player);
+			}
+		}
+		return state;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public List<ItemStack> getDrops(BlockState state, Builder lootParameterBuilder) {
+		if (isOrigin(state))
+			return super.getDrops(state, lootParameterBuilder);
+		return List.of();
 	}
 
 	@Override
