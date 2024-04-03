@@ -48,12 +48,12 @@ public enum PanelMaterial {
 		Set<Flags> set = Set.of(flags);
 		this.parts = Arrays.stream(PanelPart.values())
 				.filter(part -> switch (part) {
-					case CHECKERED -> set.contains(CHECKERED);
+					case CHECKERED, CHECKERED_SLAB, CHECKERED_STAIRS, CHECKERED_FACADE -> set.contains(CHECKERED);
 					case JOINER -> set.contains(JOINER);
 					case MULTI_2x2_BOTTOM_LEFT, MULTI_2x2_BOTTOM_RIGHT,
 							MULTI_2x2_TOP_LEFT, MULTI_2x2_TOP_RIGHT -> !set.contains(NO_2x2);
 					case MULTI_1x2 -> !set.contains(NO_1x2);
-					case HALF -> !set.contains(NO_HALF);
+					case HALF, HALF_SLAB, HALF_STAIRS, HALF_FACADE -> !set.contains(NO_HALF);
 					default -> true;
 				})
 				.toList();
