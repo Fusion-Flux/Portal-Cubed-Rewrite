@@ -52,6 +52,10 @@ public class PortalCubedTabs {
 		});
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+			output.accept(PortalCubedBlocks.MAGNESIUM_ORE);
+			output.accept(PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
+			output.accept(PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
+			output.accept(PortalCubedBlocks.MAGNESIUM_BLOCK);
 			for (PanelMaterial material : PanelMaterial.values()) {
 				Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
 				for (PanelPart part : PanelPart.values()) {
