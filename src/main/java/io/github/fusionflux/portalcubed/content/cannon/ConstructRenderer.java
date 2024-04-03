@@ -48,7 +48,7 @@ public class ConstructRenderer {
 		var itemInHand = player.getItemInHand(hand);
 		var heldCannon = ConstructionCannonItem.getCannonSettings(itemInHand);
 		if (heldCannon == null || !heldCannon.preview()) return;
-		if ((heldCannon != null && heldCannon.construct().isPresent()) && minecraft.hitResult instanceof BlockHitResult hit && hit.getType() == HitResult.Type.BLOCK) {
+		if (heldCannon.construct().isPresent() && minecraft.hitResult instanceof BlockHitResult hit && hit.getType() == HitResult.Type.BLOCK) {
 			var placeContext = new BlockPlaceContext(minecraft.level, player, hand, itemInHand, hit);
 			var construct = ConstructManager.INSTANCE.getConstructSet(heldCannon.construct().get())
 				.choose(ConstructPlacementContext.of(placeContext));
