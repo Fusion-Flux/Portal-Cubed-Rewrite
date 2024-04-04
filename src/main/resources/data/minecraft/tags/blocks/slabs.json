@@ -1,0 +1,33 @@
+{
+  "replace": false,
+  "values": [
+    "portalcubed:white_half_panel_slab",
+    "portalcubed:white_panel_slab",
+    "portalcubed:white_checkered_panel_slab",
+    "portalcubed:smooth_gray_half_panel_slab",
+    "portalcubed:smooth_gray_panel_slab",
+    "portalcubed:padded_gray_half_panel_slab",
+    "portalcubed:padded_gray_panel_slab",
+    "portalcubed:aged_white_half_panel_slab",
+    "portalcubed:aged_white_checkered_panel_slab",
+    "portalcubed:aged_white_panel_slab",
+    "portalcubed:aged_smooth_gray_half_panel_slab",
+    "portalcubed:aged_smooth_gray_panel_slab",
+    "portalcubed:aged_padded_gray_half_panel_slab",
+    "portalcubed:aged_padded_gray_panel_slab",
+    "portalcubed:old_ap_blue_panel_slab",
+    "portalcubed:old_ap_green_panel_slab",
+    "portalcubed:portal_1_metal_panel_slab",
+    "portalcubed:portal_1_metal_half_panel_slab",
+    "portalcubed:dirty_portal_1_metal_panel_slab",
+    "portalcubed:dirty_portal_1_metal_half_panel_slab",
+    "portalcubed:portal_1_white_panel_slab",
+    "portalcubed:portal_1_white_half_panel_slab",
+    "portalcubed:portal_1_white_checkered_panel_slab",
+    "portalcubed:dirty_portal_1_white_panel_slab",
+    "portalcubed:dirty_portal_1_white_half_panel_slab",
+    "portalcubed:dirty_portal_1_white_checkered_panel_slab",
+    "portalcubed:old_ap_white_checkered_panel_slab",
+    "portalcubed:old_ap_white_panel_slab"
+  ]
+}

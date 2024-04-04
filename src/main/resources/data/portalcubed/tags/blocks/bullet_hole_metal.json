@@ -7,6 +7,7 @@
     "portalcubed:old_ap_blue_2x2_panel_top_right",
     "portalcubed:old_ap_blue_2x2_panel_bottom_left",
     "portalcubed:old_ap_blue_2x2_panel_bottom_right",
+    "portalcubed:old_ap_blue_panel_facade",
 
     "portalcubed:old_ap_green_panel",
     "portalcubed:old_ap_green_2x1_panel",
@@ -14,6 +15,7 @@
     "portalcubed:old_ap_green_2x2_panel_top_right",
     "portalcubed:old_ap_green_2x2_panel_bottom_left",
     "portalcubed:old_ap_green_2x2_panel_bottom_right",
+    "portalcubed:old_ap_green_panel_facade",
 
     "portalcubed:portal_1_metal_panel",
     "portalcubed:portal_1_metal_half_panel",
@@ -23,6 +25,8 @@
     "portalcubed:portal_1_metal_2x2_panel_top_right",
     "portalcubed:portal_1_metal_2x2_panel_bottom_left",
     "portalcubed:portal_1_metal_2x2_panel_bottom_right",
+    "portalcubed:portal_1_metal_panel_facade",
+    "portalcubed:portal_1_metal_half_panel_facade",
 
     "portalcubed:dirty_portal_1_metal_panel",
     "portalcubed:dirty_portal_1_metal_half_panel",
@@ -32,6 +36,8 @@
     "portalcubed:dirty_portal_1_metal_2x2_panel_top_right",
     "portalcubed:dirty_portal_1_metal_2x2_panel_bottom_left",
     "portalcubed:dirty_portal_1_metal_2x2_panel_bottom_right",
+    "portalcubed:dirty_portal_1_metal_panel_facade",
+    "portalcubed:dirty_portal_1_metal_half_panel_facade",
 
     "minecraft:iron_block",
     "minecraft:gold_block",
@@ -75,6 +81,19 @@
     "#minecraft:anvil",
     "minecraft:bell",
     "minecraft:hopper",
-    "minecraft:cauldron"
+    "minecraft:cauldron",
+
+    "portalcubed:old_ap_blue_panel_stairs",
+    "portalcubed:old_ap_green_panel_stairs",
+    "portalcubed:portal_1_metal_panel_stairs",
+    "portalcubed:portal_1_metal_half_panel_stairs",
+    "portalcubed:dirty_portal_1_metal_panel_stairs",
+    "portalcubed:dirty_portal_1_metal_half_panel_stairs",
+    "portalcubed:old_ap_blue_panel_slab",
+    "portalcubed:old_ap_green_panel_slab",
+    "portalcubed:portal_1_metal_panel_slab",
+    "portalcubed:portal_1_metal_half_panel_slab",
+    "portalcubed:dirty_portal_1_metal_panel_slab",
+    "portalcubed:dirty_portal_1_metal_half_panel_slab"
   ]
 }
