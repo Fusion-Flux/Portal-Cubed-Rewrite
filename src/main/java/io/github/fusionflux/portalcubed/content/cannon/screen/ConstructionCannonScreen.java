@@ -92,7 +92,7 @@ public class ConstructionCannonScreen extends Screen {
 		menu.addChild(0, 0, tabs);
 		switch (this.tab) {
 			case MATERIALS -> MaterialsTab.init(this.settings, menu, this.scrollBar);
-			case CONSTRUCTS -> ConstructsTab.init(this.settings, menu);
+			case CONSTRUCTS -> ConstructsTab.init(this.settings, menu, this.scrollBar);
 			case SETTINGS -> SettingsTab.init(this.settings, menu);
 		}
 		if (this.tab != Tab.SETTINGS)

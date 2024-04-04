@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannon
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 
 import org.jetbrains.annotations.Nullable;
@@ -52,6 +53,11 @@ public class ConstructPreviewWidget extends ConstructWidget implements TickableW
 		rotationAcceleration = 0;
 
 		matrices.mulPose(Axis.YP.rotationDegrees(spin + rotation));
+	}
+
+	@Override
+	public void playDownSound(SoundManager soundManager) {
+		// don't
 	}
 
 	@Override

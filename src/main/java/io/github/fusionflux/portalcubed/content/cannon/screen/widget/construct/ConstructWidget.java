@@ -10,7 +10,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -87,10 +86,5 @@ public abstract class ConstructWidget extends AbstractWidget {
 	@Override
 	protected void updateWidgetNarration(NarrationElementOutput builder) {
 		builder.add(NarratedElementType.TITLE, this.getMessage());
-	}
-
-	@Override
-	public void playDownSound(SoundManager soundManager) {
-		// don't
 	}
 }

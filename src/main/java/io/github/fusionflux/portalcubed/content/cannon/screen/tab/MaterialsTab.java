@@ -23,7 +23,8 @@ public class MaterialsTab {
 		var slots = new GridLayout();
 		var materials = ConstructManager.INSTANCE.getMaterialsSorted();
 		int rowCount = Mth.positiveCeilDiv(materials.size(), COLUMNS) - ROWS;
-		int i = -(COLUMNS * Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0));
+		int scrollRowPos = Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0);
+		int i = -(COLUMNS * scrollRowPos);
 		scrollBar.active = materials.size() >= SIZE;
 		for (TagKey<Item> tag : materials) {
 			if (i >= 0) {

@@ -6,19 +6,20 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.C
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
-import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton.Textures;
-import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class ConstructsTab {
+	public static final int ROWS = 2;
 	public static final int COLUMNS = 3;
+	public static final int SIZE = COLUMNS * ROWS;
 	public static final int X_OFF = 15;
 	public static final int Y_OFF = 44;
 
@@ -30,38 +31,33 @@ public class ConstructsTab {
 			PortalCubed.id("construction_cannon/constructs_tab/slot_selected")
 	);
 
-	public static void init(CannonSettingsHolder settings, PanelLayout layout) {
+	public static void init(CannonSettingsHolder settings, PanelLayout layout, ScrollbarWidget scrollBar) {
 		if (settings.get().material().isEmpty())
 			return;
-
 		TagKey<Item> material = settings.get().material().get();
-		// wrap in list for indexing
-		List<ConstructSet> constructs = new ArrayList<>(ConstructManager.INSTANCE.getConstructSetsForMaterial(material));
 
-		List<TexturedStickyButton> buttons = new ArrayList<>();
-		for (int i = 0; i < constructs.size(); i++) {
-			int row = i / COLUMNS;
-			int col = i % COLUMNS;
-			int slotX = col * SLOT_SIZE + X_OFF;
-			int slotY = row * SLOT_SIZE + Y_OFF;
+		var buttons = new GridLayout();
+		var constructs = ConstructManager.INSTANCE.getConstructSetsForMaterial(material);
+		int rowCount = Mth.positiveCeilDiv(constructs.size(), COLUMNS) - ROWS;
+		int scrollRowPos = Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0);
+		int i = -(COLUMNS * scrollRowPos);
+		scrollBar.active = constructs.size() >= SIZE;
+		for (ConstructSet set : constructs) {
+			if (i >= 0) {
+				ResourceLocation id = ConstructManager.INSTANCE.getId(set);
+				ConstructButtonWidget button = new ConstructButtonWidget(() -> {
+					buttons.visitWidgets(widget -> ((ConstructButtonWidget) widget).deselect());
+					settings.update(s -> s.withConstruct(id));
+				}, set, id, material, BUTTON_TEXTURES, SLOT_SIZE);
 
-			ConstructSet set = constructs.get(i);
-			ResourceLocation id = ConstructManager.INSTANCE.getId(set);
-			ConstructButtonWidget construct = new ConstructButtonWidget(set, id, material, SLOT_SIZE);
-			TexturedStickyButton button = new TexturedStickyButton(0, 0, SLOT_SIZE, SLOT_SIZE, CommonComponents.EMPTY, BUTTON_TEXTURES, () -> {
-				buttons.forEach(TexturedStickyButton::deselect);
-				settings.update(s -> s.withConstruct(id));
-			});
+				Optional<ResourceLocation> selected = settings.get().construct();
+				if (selected.isPresent() && selected.get().equals(id))
+					button.select();
 
-			Optional<ResourceLocation> selected = settings.get().construct();
-			if (selected.isPresent() && selected.get().equals(id)) {
-				button.select();
+				buttons.addChild(button, i / COLUMNS, i % COLUMNS);
 			}
-
-			buttons.add(button);
-			// add construct first to not block button clicks
-			layout.addChild(slotX, slotY, construct);
-			layout.addChild(slotX, slotY, button);
+			if (++i >= SIZE) break;
 		}
+		layout.addChild(X_OFF, Y_OFF, buttons);
 	}
 }

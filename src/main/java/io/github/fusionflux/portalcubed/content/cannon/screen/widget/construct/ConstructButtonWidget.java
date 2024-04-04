@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.util.TagWithCountTooltipComponent;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton.Textures;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -18,11 +19,17 @@ import net.minecraft.world.item.Item;
 
 public class ConstructButtonWidget extends ConstructWidget {
 	private final ConfiguredConstruct construct;
+	private final Textures textures;
+	private final Runnable onSelect;
 	private final AdvancedTooltip tooltip;
 
-	public ConstructButtonWidget(ConstructSet constructSet, ResourceLocation id, TagKey<Item> material, int size) {
+	private boolean selected;
+
+	public ConstructButtonWidget(Runnable onSelect, ConstructSet constructSet, ResourceLocation id, TagKey<Item> material, Textures textures, int size) {
 		super(size, ConstructSet.getName(id));
 		this.construct = constructSet.preview;
+		this.textures = textures;
+		this.onSelect = onSelect;
 		this.tooltip = new AdvancedTooltip(builder -> {
 			builder.add(ConstructSet.getName(id));
 			if (builder.advanced) {
@@ -35,7 +42,13 @@ public class ConstructButtonWidget extends ConstructWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		if (!this.isActive())
+			return;
+
 		super.renderWidget(graphics, mouseX, mouseY, delta);
+		ResourceLocation texture = this.textures.choose(this.isHovered(), this.selected);
+		graphics.blitSprite(texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
 		if (this.isHovered()) {
 			PoseStack matrices = graphics.pose();
 			matrices.pushPose();
@@ -44,6 +57,22 @@ public class ConstructButtonWidget extends ConstructWidget {
 			this.tooltip.render(graphics, mouseX, mouseY);
 			matrices.popPose();
 		}
+	}
+
+	@Override
+	public void onClick(double mouseX, double mouseY) {
+		if (!this.selected) {
+			this.onSelect.run();
+			this.selected = true;
+		}
+	}
+
+	public void select() {
+		this.selected = true;
+	}
+
+	public void deselect() {
+		this.selected = false;
 	}
 
 	@Override
