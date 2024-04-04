@@ -1,10 +1,18 @@
-package io.github.fusionflux.portalcubed.content.decoration;
+package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
 import com.mojang.serialization.MapCodec;
 
+import io.github.fusionflux.portalcubed.content.prop.HammerItem;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenLargeSignageConfigPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -13,14 +21,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.jetbrains.annotations.NotNull;
 
-public class SignagePanelLarge extends FaceAttachedHorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+public class LargeSignagePanel extends FaceAttachedHorizontalDirectionalBlock implements SimpleWaterloggedBlock {
 
-	public static final MapCodec<SignagePanelLarge> CODEC = simpleCodec(SignagePanelLarge::new);
+	public static final MapCodec<LargeSignagePanel> CODEC = simpleCodec(LargeSignagePanel::new);
 
 	protected static final BooleanProperty WATERLOGGED;
 	protected static final VoxelShape FLOOR_AABB;
@@ -30,13 +39,13 @@ public class SignagePanelLarge extends FaceAttachedHorizontalDirectionalBlock im
 	protected static final VoxelShape WEST_AABB;
 	protected static final VoxelShape EAST_AABB;
 
-	public SignagePanelLarge(Properties properties) {
+	public LargeSignagePanel(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL));
 	}
 
 	@Override
-	protected MapCodec<SignagePanelLarge> codec() {
+	protected MapCodec<LargeSignagePanel> codec() {
 		return CODEC;
 	}
 
@@ -72,6 +81,16 @@ public class SignagePanelLarge extends FaceAttachedHorizontalDirectionalBlock im
 			default:
 				return NORTH_AABB;
 		}
+	}
+
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (player.getAbilities().mayBuild && HammerItem.usingHammer(player)) {
+			if (player instanceof ServerPlayer hammerUser)
+				PortalCubedPackets.sendToClient(hammerUser, new OpenLargeSignageConfigPacket(pos));
+		} else {
+			return InteractionResult.CONSUME;
+		}
+		return InteractionResult.sidedSuccess(world.isClientSide);
 	}
 
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

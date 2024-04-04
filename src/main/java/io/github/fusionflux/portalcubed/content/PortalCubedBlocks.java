@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
-import io.github.fusionflux.portalcubed.content.decoration.SignagePanelLarge;
+import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignagePanel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.MapColor;
@@ -76,7 +76,7 @@ public class PortalCubedBlocks {
 
 	// ----- signage panels -----
 
-	public static final SignagePanelLarge LARGE_SIGNAGE_PANEL = REGISTRAR.blocks.create("large_signage_panel", SignagePanelLarge::new)
+	public static final LargeSignagePanel LARGE_SIGNAGE_PANEL = REGISTRAR.blocks.create("large_signage_panel", LargeSignagePanel::new)
 			.copyFrom(Blocks.GLASS_PANE)
 			.settings(settings -> settings.mapColor(MapColor.COLOR_BLACK))
 			.build();
