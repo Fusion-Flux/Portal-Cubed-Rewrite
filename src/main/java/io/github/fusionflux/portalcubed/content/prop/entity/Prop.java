@@ -1,12 +1,12 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
+import java.util.Optional;
 import java.util.OptionalInt;
-
-import org.quiltmc.qsl.base.api.util.TriState;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
@@ -61,9 +61,9 @@ public class Prop extends Entity implements CollisionListener {
 		this.type = type;
 	}
 
-	protected TriState isDirty() {
+	protected Optional<Boolean> isDirty() {
 		int variant = getVariant();
-		return variant > 1 ? TriState.DEFAULT : TriState.fromBoolean(variant != 0);
+		return variant > 1 ? Optional.empty() : Optional.of(variant != 0);
 	}
 
 	protected void setDirty(boolean dirty) {
@@ -74,6 +74,7 @@ public class Prop extends Entity implements CollisionListener {
 		return entityData.get(VARIANT);
 	}
 
+	@SuppressWarnings("resource")
 	public void setVariant(int variant) {
 		if (!level().isClientSide) entityData.set(VARIANT, variant);
 	}
@@ -82,48 +83,44 @@ public class Prop extends Entity implements CollisionListener {
 		this.variantFromItem = variant;
 	}
 
-	public OptionalInt getHeldBy() {
-		return entityData.get(HELD_BY);
+	public Optional<Player> getHeldBy() {
+		var heldBy = entityData.get(HELD_BY);
+		if (heldBy.isPresent())
+			return Optional.of((Player) level().getEntity(heldBy.getAsInt()));
+		return Optional.empty();
 	}
 
+	@SuppressWarnings("resource")
 	public boolean hold(Player player) {
 		var heldBy = getHeldBy();
-		boolean notHeld = heldBy.isEmpty() || level().getGameRules().getBoolean(PortalCubedGameRules.PROP_SNATCHING);
+		boolean notHeld = !player.is(getControllingPassenger()) && (heldBy.isEmpty() || level().getGameRules().getBoolean(PortalCubedGameRules.PROP_SNATCHING));
 		if (!level().isClientSide && notHeld) {
-			heldBy.ifPresent(holderId -> {
-				if (level().getEntity(holderId) instanceof PlayerExt holder)
-					holder.pc$heldProp(OptionalInt.empty());
-			});
+			heldBy.ifPresent(holder -> ((PlayerExt) holder).pc$heldProp(OptionalInt.empty()));
 			entityData.set(HELD_BY, OptionalInt.of(player.getId()));
 		}
 		return notHeld;
 	}
 
+	@SuppressWarnings("resource")
 	public void drop(Player player) {
-		if (!level().isClientSide && getHeldBy().orElse(-1) == player.getId())
+		if (!level().isClientSide && getHeldBy().map(heldBy -> heldBy == player).orElse(false))
 			entityData.set(HELD_BY, OptionalInt.empty());
-	}
-
-	@Override
-	public boolean isControlledByLocalInstance() {
-		if (getHeldBy().isPresent()) {
-			var playerHolding = ((Player) level().getEntity(getHeldBy().getAsInt()));
-			return isEffectiveAi() || playerHolding.isLocalPlayer();
-		}
-		return isEffectiveAi();
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		if (!level().isClientSide && ((type.hasDirtyVariant || type == PropType.PORTAL_1_COMPANION_CUBE) && isDirty() == TriState.TRUE) && isInWaterOrRain())
+		var level = level();
+		if (!level.isClientSide && (getType().is(PortalCubedEntityTags.CAN_BE_WASHED) && isDirty().orElse(false)) && isInWaterOrRain())
 			setDirty(false);
-		if (isControlledByLocalInstance()) {
+
+		var heldBy = getHeldBy();
+		if (!level.isClientSide || heldBy.map(holder -> holder.isLocalPlayer()).orElse(false)) {
 			lerpSteps = 0;
 			syncPacketPositionCodec(getX(), getY(), getZ());
 
 			var vel = getDeltaMovement();
-			if (getHeldBy().isEmpty()) {
+			if (heldBy.isEmpty()) {
 				if (!isNoGravity())
 					vel = vel.subtract(0, LivingEntity.DEFAULT_BASE_GRAVITY / (isInWater() ? 16 : 1), 0);
 				var posBelow = getBlockPosBelowThatAffectsMyMovement();
@@ -133,16 +130,16 @@ public class Prop extends Entity implements CollisionListener {
 				setDeltaMovement(vel);
 				move(MoverType.SELF, vel);
 			} else {
-				var player = ((Player) level().getEntity(getHeldBy().getAsInt()));
-				var holdPoint = player.getEyePosition().add(Vec3.directionFromRotation(player.getXRot(), player.getYRot()).scale(2));
+				var holder = heldBy.get();
+				var holdPoint = holder.getEyePosition().add(Vec3.directionFromRotation(holder.getXRot(), holder.getYRot()).scale(2));
 				float holdYOffset = -getBbHeight() / 2;
 				setDeltaMovement(Vec3.ZERO);
 				move(MoverType.PLAYER, position().vectorTo(holdPoint.add(0, holdYOffset, 0)));
 				if (type != PropType.THE_TACO)
-					setYRot(-player.getYRot() % 360);
-				if (position().distanceToSqr(player.getEyePosition()) >= 4.5 * 4.5) {
-					drop(player);
-					((PlayerExt) player).pc$heldProp(OptionalInt.empty());
+					setYRot((holder.getYRot() + 180) % 360);
+				if (position().distanceToSqr(holder.getEyePosition()) >= 4.5 * 4.5) {
+					drop(holder);
+					((PlayerExt) holder).pc$heldProp(OptionalInt.empty());
 				}
 			}
 		} else if (lerpSteps > 0) {
@@ -171,8 +168,8 @@ public class Prop extends Entity implements CollisionListener {
 	public InteractionResult interact(Player player, InteractionHand hand) {
 		var itemInHand = player.getItemInHand(hand);
 		var level = level();
-		if (type.hasDirtyVariant) {
-			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && isDirty() == TriState.FALSE) {
+		if (getType().is(PortalCubedEntityTags.CAN_BE_DIRTY)) {
+			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && isDirty().map(v -> !v).orElse(false)) {
 				if (level instanceof ServerLevel serverLevel) {
 					setDirty(true);
 					serverLevel.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
@@ -192,6 +189,12 @@ public class Prop extends Entity implements CollisionListener {
 	}
 
 	@Override
+	public void setRemainingFireTicks(int ticks) {
+		super.setRemainingFireTicks(ticks);
+		if (getType().is(PortalCubedEntityTags.CAN_BE_CHARRED) && getRemainingFireTicks() > 0) setDirty(true);
+	}
+
+	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
 		if (source.getDirectEntity() instanceof Player player) {
 			var abilities = player.getAbilities();
@@ -200,6 +203,7 @@ public class Prop extends Entity implements CollisionListener {
 		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		if (!isInvulnerableTo(source)) {
@@ -227,7 +231,7 @@ public class Prop extends Entity implements CollisionListener {
 
 	@Override
 	public boolean canCollideWith(Entity other) {
-		return other.getId() != getHeldBy().orElse(-1) && Boat.canVehicleCollide(this, other);
+		return getHeldBy().map(holder -> other != holder).orElse(true) && Boat.canVehicleCollide(this, other);
 	}
 
 	@Override

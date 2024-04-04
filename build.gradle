@@ -1,5 +1,5 @@
 plugins {
-	id "org.quiltmc.loom" version "1.4.+"
+	id "org.quiltmc.loom" version "1.6.+"
 	id "maven-publish"
 }
 

@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.Unique;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
+import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PropHoldPacket;
 import net.fabricmc.api.EnvType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -35,7 +35,7 @@ public class PlayerMixin implements PlayerExt {
 		if (newHeldProp.isPresent() && heldProp.isEmpty() && grabSound == null) {
 			grabSoundTimer = 28;
 			grabSound = new FollowingSoundInstance(PortalCubedSounds.PORTAL_GUN_GRAB, self.getSoundSource(), self);
-			Minecraft.getInstance().getSoundManager().play(grabSound);
+			((LevelExt) self.level()).pc$playSoundInstance(grabSound);
 		} else if (newHeldProp.isEmpty() && heldProp.isPresent()) {
 			if (grabSound != null) {
 				grabSound.forceStop();

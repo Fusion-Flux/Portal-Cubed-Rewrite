@@ -76,6 +76,13 @@
   "container.portalcubed.small_signage.exit": "Exit",
 
 
+  "container.portalcubed.pedestal_button": "Pedestal Button",
+  "container.portalcubed.pedestal_button.press_length": "Press Length",
+  "container.portalcubed.pedestal_button.offset": "Position Offset",
+  "container.portalcubed.pedestal_button.base": "Include Base",
+
+  "subtitles.portalcubed.surprise": "Party Horn Blows",
+
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
   "subtitles.portalcubed.gel_blob_splash": "Gel blob splashes",
@@ -308,6 +315,7 @@
 
   "trim_material.portalcubed.magnesium": "Magnesium Material",
 
+  "block.portalcubed.magnesium_fire": "Magnesium Fire",
 
   "item.portalcubed.turret": "Sentry Turret",
   "block.portalcubed.rocket_turret": "Rocket Turret",

@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
-import org.quiltmc.qsl.base.api.util.TriState;
+import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
@@ -38,8 +38,8 @@ public class ButtonActivatedProp extends Prop {
 	}
 
 	@Override
-	protected TriState isDirty() {
-		return TriState.fromBoolean(getVariantFlag(DIRTY_FLAG_INDEX));
+	protected Optional<Boolean> isDirty() {
+		return Optional.of(getVariantFlag(DIRTY_FLAG_INDEX));
 	}
 
 	@Override
