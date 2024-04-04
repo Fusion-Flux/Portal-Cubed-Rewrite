@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.decoration;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -11,13 +13,14 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.jetbrains.annotations.NotNull;
 
 public class SignagePanelLarge extends FaceAttachedHorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+
+	public static final MapCodec<SignagePanelLarge> CODEC = simpleCodec(SignagePanelLarge::new);
 
 	protected static final BooleanProperty WATERLOGGED;
 	protected static final VoxelShape FLOOR_AABB;
@@ -30,6 +33,11 @@ public class SignagePanelLarge extends FaceAttachedHorizontalDirectionalBlock im
 	public SignagePanelLarge(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL));
+	}
+
+	@Override
+	protected MapCodec<SignagePanelLarge> codec() {
+		return CODEC;
 	}
 
 	public @NotNull VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
