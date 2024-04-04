@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:dirty_portal_1_white_checkered_panel"
+        }
+    },
+    "result": {
+        "item": "portalcubed:dirty_portal_1_white_checkered_panel_stairs",
+        "count": 4
+    },
+  "group": "dirty_portal_1_white_checkered_panel_stairs"
+}

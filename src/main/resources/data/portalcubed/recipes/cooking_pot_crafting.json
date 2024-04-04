@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "XXX",
+        " XX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:magnesium_ingot"
+        }
+    },
+    "result": {
+        "item": "portalcubed:cooking_pot",
+        "count": 1
+    }
+}

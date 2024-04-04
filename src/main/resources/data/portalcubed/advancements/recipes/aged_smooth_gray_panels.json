@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portalcubed:aged_smooth_gray_2x1_panel_crafting",
+      "portalcubed:aged_smooth_gray_2x1_panel_crafting_from_plants",
+
+      "portalcubed:aged_smooth_gray_half_panel_crafting_from_plants",
+      "portalcubed:aged_smooth_gray_half_panel_crafting",
+      "portalcubed:aged_smooth_gray_half_panel_slab_crafting_from_plants",
+      "portalcubed:aged_smooth_gray_half_panel_slab_crafting",
+      "portalcubed:aged_smooth_gray_half_panel_slab_stonecutting",
+      "portalcubed:aged_smooth_gray_half_panel_stairs_crafting_from_plants",
+      "portalcubed:aged_smooth_gray_half_panel_stairs_crafting",
+      "portalcubed:aged_smooth_gray_half_panel_stairs_stonecutting",
+      "portalcubed:aged_smooth_gray_half_panel_facade_stonecutting",
+
+      "portalcubed:aged_smooth_gray_panel_crafting_from_plants",
+      "portalcubed:aged_smooth_gray_panel_slab_crafting_from_plants",
+      "portalcubed:aged_smooth_gray_panel_slab_crafting",
+      "portalcubed:aged_smooth_gray_panel_slab_stonecutting",
+      "portalcubed:aged_smooth_gray_panel_stairs_crafting_from_plants",
+      "portalcubed:aged_smooth_gray_panel_stairs_crafting",
+      "portalcubed:aged_smooth_gray_panel_stairs_stonecutting",
+      "portalcubed:aged_smooth_gray_panel_facade_stonecutting"
+
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"portalcubed:smooth_gray_panel"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "Y",
+        "Z",
+        "X"
+    ],
+    "key": {
+        "X": {
+            "tag": "minecraft:planks"
+        },
+        "Y": {
+            "item": "portalcubed:magnesium_nugget"
+        },
+        "Z": {
+            "item": "minecraft:paper"
+        }
+    },
+    "result": {
+        "item": "portalcubed:clipboard",
+        "count": 2
+    }
+}

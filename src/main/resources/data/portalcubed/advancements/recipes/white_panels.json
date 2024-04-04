@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portalcubed:white_2x1_panel_crafting",
+
+      "portalcubed:white_half_panel_crafting",
+      "portalcubed:white_half_panel_slab_crafting",
+      "portalcubed:white_half_panel_slab_stonecutting",
+      "portalcubed:white_half_panel_stairs_crafting",
+      "portalcubed:white_half_panel_stairs_stonecutting",
+      "portalcubed:white_half_panel_facade_stonecutting",
+
+      "portalcubed:white_checkered_panel_crafting",
+      "portalcubed:white_checkered_panel_slab_crafting",
+      "portalcubed:white_checkered_panel_slab_stonecutting",
+      "portalcubed:white_checkered_panel_stairs_crafting",
+      "portalcubed:white_checkered_panel_stairs_stonecutting",
+      "portalcubed:white_checkered_panel_facade_stonecutting",
+
+      "portalcubed:white_panel_slab_crafting",
+      "portalcubed:white_panel_slab_stonecutting",
+      "portalcubed:white_panel_stairs_crafting",
+      "portalcubed:white_panel_stairs_stonecutting",
+      "portalcubed:white_panel_facade_stonecutting",
+      "portalcubed:white_panel_crafting_from_diorite",
+      "portalcubed:white_panel_crafting_from_end_stone"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"minecraft:diorite",
+		"minecraft:calcite",
+		"minecraft:end_stone"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}
