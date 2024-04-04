@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.C
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
@@ -38,6 +39,8 @@ public class ConstructionCannonScreen extends Screen {
 	public static final int TAB_TITLE_X_OFFSET = 14;
 	public static final int SAVE_BUTTON_WIDTH = 80;
 	public static final int SAVE_BUTTON_Y = 137;
+	public static final int SCROLLBAR_X_OFFSET = 149;
+	public static final int SCROLLBAR_Y_OFFSET = 44;
 
 	public static final Component TITLE = Component.translatable("container.portalcubed.construction_cannon");
 
@@ -45,6 +48,7 @@ public class ConstructionCannonScreen extends Screen {
 	private final CannonSettingsHolder settings;
 	// preview is persistent to maintain tick count between tabs
 	private final ConstructPreviewWidget constructPreview;
+	private ScrollbarWidget scrollBar;
 
 	private Tab tab;
 
@@ -54,6 +58,7 @@ public class ConstructionCannonScreen extends Screen {
 		this.settings = new CannonSettingsHolder(settings);
 		this.constructPreview = new ConstructPreviewWidget(80, this.settings);
 		this.tab = Tab.MATERIALS;
+		this.resetScrollBar();
 	}
 
 	@Override
@@ -85,12 +90,13 @@ public class ConstructionCannonScreen extends Screen {
 		menu.addChild(0, BACKGROUND_Y_OFFSET, ImageWidget.texture(WIDTH, HEIGHT, this.tab.background, 256, 256));
 		// add tabs after so they're on top
 		menu.addChild(0, 0, tabs);
-
 		switch (this.tab) {
-			case MATERIALS -> MaterialsTab.init(this.settings, menu);
+			case MATERIALS -> MaterialsTab.init(this.settings, menu, this.scrollBar);
 			case CONSTRUCTS -> ConstructsTab.init(this.settings, menu);
 			case SETTINGS -> SettingsTab.init(this.settings, menu);
 		}
+		if (this.tab != Tab.SETTINGS)
+			menu.addChild(SCROLLBAR_X_OFFSET, SCROLLBAR_Y_OFFSET, this.scrollBar);
 
 		// save button
 		menu.addChild(
@@ -142,9 +148,18 @@ public class ConstructionCannonScreen extends Screen {
 		return false;
 	}
 
+	private void resetScrollBar() {
+		this.scrollBar = new ScrollbarWidget(this.tab.scroller, () -> {
+			boolean wasFocused = this.getFocused() == this.scrollBar;
+			this.rebuildWidgets();
+			if (wasFocused) this.setFocused(this.scrollBar);
+		});
+	}
+
 	private void switchToTab(Tab tab) {
 		if (this.tab != tab) {
 			this.tab = tab;
+			this.resetScrollBar();
 			this.rebuildWidgets();
 		}
 	}
@@ -169,5 +184,6 @@ public class ConstructionCannonScreen extends Screen {
 				PortalCubed.id("construction_cannon/tab_" + this.name + "_unselected"),
 				PortalCubed.id("construction_cannon/tab_" + this.name + "_selected")
 		);
+		public final ResourceLocation scroller = PortalCubed.id("construction_cannon/" + this.name + "_tab/" + "scroller");
 	}
 }
