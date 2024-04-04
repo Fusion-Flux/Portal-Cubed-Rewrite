@@ -10,6 +10,9 @@
 
 
   "gamerule.category.portalcubed": "Portal Cubed",
+  "gamerule.propSnatching": "Prop Snatching",
+  "gamerule.propSnatching.description": "Allow held props to be grabbed by other players without the holder dropping it first.",
+
   "gamerule.allowCrouchFlyGlitch": "Allow Crouch Fly Glitch",
   "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
   "gamerule.disablePortalValidation": "Disable Portal Validation",
