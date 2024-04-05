@@ -9,6 +9,7 @@
     "CandleCakeBlockMixin",
     "EntityMixin",
     "LevelMixin",
+    "MultifaceBlockAccessor",
     "PlayerMixin",
     "ServerEntityMixin",
     "ServerLevelMixin"

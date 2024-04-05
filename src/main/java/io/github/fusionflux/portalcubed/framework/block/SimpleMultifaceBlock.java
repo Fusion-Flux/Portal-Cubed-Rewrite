@@ -2,12 +2,14 @@ package io.github.fusionflux.portalcubed.framework.block;
 
 import com.mojang.serialization.MapCodec;
 
+import io.github.fusionflux.portalcubed.mixin.MultifaceBlockAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.MultifaceSpreader;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -58,8 +60,24 @@ public class SimpleMultifaceBlock extends MultifaceBlock implements SimpleWaterl
 	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
 		if (state.getValue(WATERLOGGED))
 			world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+
+		if (!hasAnyFace(state)) {
+			return Blocks.AIR.defaultBlockState();
+		} else {
+			boolean faceRemoved = hasFace(state, direction) && !canAttachTo(world, direction, neighborPos, neighborState);
+			if (faceRemoved) {
+				var newState = MultifaceBlockAccessor.callRemoveFace(state, getFaceProperty(direction));
+				if (hasAnyFace(newState)) {
+					var fakeDropState = defaultBlockState()
+						.setValue(getFaceProperty(direction), true);
+					Block.dropResources(fakeDropState, world, pos, null);
+				}
+				return newState;
+			}
+			return state;
+		}
 	}
+
 
 	@SuppressWarnings("deprecation")
 	@Override
