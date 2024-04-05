@@ -41,7 +41,9 @@ public class MinecraftMixin {
 	private void handleScreenTickables(CallbackInfo ci) {
 		// this is done because injecting into screen#tick is unreliable, most don't call super.
 		if (this.screen instanceof ScreenExt ext) {
-			ext.pc$tickables().forEach(TickableWidget::tick);
+			var tickables = ext.pc$tickables();
+			if (tickables != null)
+				tickables.forEach(TickableWidget::tick);
 		}
 	}
 

@@ -11,11 +11,14 @@ public class ScrollbarWidget extends AbstractWidget {
 	public static final int BAR_HEIGHT = 88;
 	public static final int SCROLLER_WIDTH = 12;
 	public static final int SCROLLER_HEIGHT = 15;
+	public static final int SCROLLER_BOUND = BAR_HEIGHT - SCROLLER_HEIGHT;
 
 	private final ResourceLocation sprite;
 	private final ResourceLocation disabledSprite;
 	private final Runnable onScroll;
 	private float scrollPos;
+
+	public float scrollRate;
 
 	public ScrollbarWidget(ResourceLocation sprite, Runnable onScroll) {
 		super(0, 0, SCROLLER_WIDTH, BAR_HEIGHT, CommonComponents.EMPTY);
@@ -24,25 +27,35 @@ public class ScrollbarWidget extends AbstractWidget {
 		this.onScroll = onScroll;
 	}
 
-	public void scroll(double mouseY) {
-		float oldScrollPos = this.scrollPos;
-		this.scrollPos = Mth.clamp((float) ((mouseY - getY() - (SCROLLER_HEIGHT / 2)) / (BAR_HEIGHT - SCROLLER_HEIGHT)), 0, 1);
-		if (this.scrollPos != oldScrollPos) onScroll.run();
-	}
-
-	public float scrollPos() {
-		return this.scrollPos;
+	@Override
+	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		int yOffset = Mth.floor(scrollPos * SCROLLER_BOUND);
+		graphics.blitSprite(this.isActive() ? this.sprite : this.disabledSprite, this.getX(), this.getY() + yOffset, SCROLLER_WIDTH, SCROLLER_HEIGHT);
 	}
 
 	@Override
 	protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-		scroll(mouseY);
+		double scrollerY = mouseY - getY() - (SCROLLER_HEIGHT / 2);
+		setScrollPos(Mth.clamp((float) (scrollerY / SCROLLER_BOUND), 0, 1));
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		int yOffset = Mth.floor(scrollPos * (BAR_HEIGHT - SCROLLER_HEIGHT));
-		graphics.blitSprite(isActive() ? this.sprite : this.disabledSprite, getX(), getY() + yOffset, SCROLLER_WIDTH, SCROLLER_HEIGHT);
+	public boolean mouseScrolled(double mouseX, double mouseY, double amount, double d) {
+		float newScrollPos = (float) (this.scrollPos - (this.scrollRate * d));
+		return setScrollPos(Mth.clamp(newScrollPos, 0, 1));
+	}
+
+	private boolean setScrollPos(float scrollPos) {
+		if (this.scrollPos != scrollPos) {
+			this.scrollPos = scrollPos;
+			onScroll.run();
+			return true;
+		}
+		return false;
+	}
+
+	public float scrollPos() {
+		return this.scrollPos;
 	}
 
 	@Override
