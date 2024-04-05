@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget;
 
-import com.mojang.math.Axis;
-
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -50,9 +48,7 @@ public class CannonDisplayWidget extends AbstractWidget {
 
 		matrices.translate(8, 8, 150);
 		matrices.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
-		matrices.scale(16, 16, 16);
-		matrices.mulPose(Axis.YP.rotationDegrees(180));
-		matrices.mulPose(Axis.XN.rotationDegrees(30));
+		matrices.scale(14, 14, 14);
 		ITEM_RENDERER.render(item, ItemDisplayContext.GUI, true, matrices, graphics.bufferSource(), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, itemModel);
 		graphics.flush();
 
