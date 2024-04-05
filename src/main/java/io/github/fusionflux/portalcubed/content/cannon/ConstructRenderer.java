@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
+import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
+
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14C;
@@ -48,16 +50,16 @@ public class ConstructRenderer {
 		var itemInHand = player.getItemInHand(hand);
 		var heldCannon = ConstructionCannonItem.getCannonSettings(itemInHand);
 		if (heldCannon == null || !heldCannon.preview()) return;
-		if (heldCannon.construct().isPresent() && minecraft.hitResult instanceof BlockHitResult hit && hit.getType() == HitResult.Type.BLOCK) {
-			var placeContext = new BlockPlaceContext(minecraft.level, player, hand, itemInHand, hit);
-			var construct = ConstructManager.INSTANCE.getConstructSet(heldCannon.construct().get())
-				.choose(ConstructPlacementContext.of(placeContext));
+		ConstructSet constructSet = heldCannon.construct().map(ConstructManager.INSTANCE::getConstructSet).orElse(null);
+		if (constructSet != null && minecraft.hitResult instanceof BlockHitResult hit && hit.getType() == HitResult.Type.BLOCK) {
+			var placeContext = new BlockPlaceContext(context.world(), player, hand, itemInHand, hit);
+			var construct = constructSet.choose(ConstructPlacementContext.of(placeContext));
 			var pos = placeContext.getClickedPos();
 
 			matrices.pushPose();
 			matrices.translate(pos.getX() + construct.offset.getX(), pos.getY() + construct.offset.getY(), pos.getZ() + construct.offset.getZ());
 
-			boolean obstructed = construct.isObstructed(minecraft.level, pos);
+			boolean obstructed = construct.isObstructed(context.world(), pos);
 			var model = MODEL_POOL.getOrBuildModel(construct);
 			model.draw(matrices, () -> {
 				if (obstructed)
