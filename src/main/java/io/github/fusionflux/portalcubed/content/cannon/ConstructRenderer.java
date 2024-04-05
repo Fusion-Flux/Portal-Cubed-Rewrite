@@ -42,8 +42,6 @@ public class ConstructRenderer {
 
 		PoseStack matrices = context.matrixStack();
 		Vec3 camPos = context.camera().getPosition();
-		matrices.pushPose();
-		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 
 		var hand = getHandHoldingCannon(player);
 		if (hand == null) return;
@@ -57,6 +55,7 @@ public class ConstructRenderer {
 			var pos = placeContext.getClickedPos();
 
 			matrices.pushPose();
+			matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 			matrices.translate(pos.getX() + construct.offset.getX(), pos.getY() + construct.offset.getY(), pos.getZ() + construct.offset.getZ());
 
 			boolean obstructed = construct.isObstructed(context.world(), pos);
@@ -78,8 +77,6 @@ public class ConstructRenderer {
 
 			matrices.popPose();
 		}
-
-		matrices.popPose();
 	}
 
 	@Nullable
