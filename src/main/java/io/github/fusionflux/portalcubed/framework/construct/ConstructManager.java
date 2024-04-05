@@ -33,14 +33,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.function.Function;
 
 public class ConstructManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloader {
@@ -161,12 +158,5 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 
 	public Set<TagKey<Item>> getMaterials() {
 		return this.byMaterial.keySet();
-	}
-
-	public SortedSet<TagKey<Item>> getMaterialsSorted() {
-		Set<TagKey<Item>> materials = this.getMaterials();
-		SortedSet<TagKey<Item>> sorted = new TreeSet<>(Comparator.comparing(TagKey::location));
-		sorted.addAll(materials);
-		return sorted;
 	}
 }

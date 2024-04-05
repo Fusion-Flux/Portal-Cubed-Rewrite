@@ -6,10 +6,15 @@ import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import net.minecraft.client.gui.layouts.GridLayout;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 public class MaterialsTab {
@@ -21,7 +26,7 @@ public class MaterialsTab {
 
 	public static void init(CannonSettingsHolder settings, PanelLayout layout, ScrollbarWidget scrollBar) {
 		var slots = new GridLayout();
-		var materials = ConstructManager.INSTANCE.getMaterialsSorted();
+		var materials = getMaterials();
 		int rowCount = Mth.positiveCeilDiv(materials.size(), COLUMNS) - ROWS;
 		int scrollRowPos = Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0);
 		int i = -(COLUMNS * scrollRowPos);
@@ -45,5 +50,22 @@ public class MaterialsTab {
 			if (++i >= SIZE) break;
 		}
 		layout.addChild(X_OFF, Y_OFF, slots);
+	}
+
+	private static List<TagKey<Item>> getMaterials() {
+		// cursed idea: get a weight for a tag by averaging the raw int IDs of its contents
+		ArrayList<TagKey<Item>> materials = new ArrayList<>(ConstructManager.INSTANCE.getMaterials());
+		materials.sort(Comparator.comparingInt(key -> BuiltInRegistries.ITEM.getTag(key).map(tag -> {
+			if (tag.size() == 0)
+				return 0;
+
+			int total = 0;
+			for (Holder<Item> holder : tag) {
+				Item item = holder.value();
+				total += BuiltInRegistries.ITEM.getId(item);
+			}
+			return total / tag.size();
+		}).orElse(0)));
+		return materials;
 	}
 }
