@@ -32,8 +32,10 @@ public class ConstructsTab {
 	);
 
 	public static void init(CannonSettingsHolder settings, PanelLayout layout, ScrollbarWidget scrollBar) {
-		if (settings.get().material().isEmpty())
+		if (settings.get().material().isEmpty()) {
+			scrollBar.active = false;
 			return;
+		}
 		TagKey<Item> material = settings.get().material().get();
 
 		var buttons = new GridLayout();
@@ -41,7 +43,7 @@ public class ConstructsTab {
 		int rowCount = Mth.positiveCeilDiv(constructs.size(), COLUMNS) - ROWS;
 		int scrollRowPos = Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0);
 		int i = -(COLUMNS * scrollRowPos);
-		scrollBar.active = constructs.size() >= SIZE;
+		scrollBar.active = rowCount > 0;
 		if (scrollBar.active)
 			scrollBar.scrollRate = 1 / rowCount;
 		for (ConstructSet set : constructs) {

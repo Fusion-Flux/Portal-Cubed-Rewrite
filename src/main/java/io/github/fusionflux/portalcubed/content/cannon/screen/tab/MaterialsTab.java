@@ -25,7 +25,7 @@ public class MaterialsTab {
 		int rowCount = Mth.positiveCeilDiv(materials.size(), COLUMNS) - ROWS;
 		int scrollRowPos = Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0);
 		int i = -(COLUMNS * scrollRowPos);
-		scrollBar.active = materials.size() >= SIZE;
+		scrollBar.active = rowCount > 0;
 		if (scrollBar.active)
 			scrollBar.scrollRate = 1 / rowCount;
 		for (TagKey<Item> tag : materials) {
