@@ -41,6 +41,8 @@ public class ScrollbarWidget extends AbstractWidget {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double amount, double d) {
+		if (!this.isActive())
+			return false;
 		float newScrollPos = (float) (this.scrollPos - (this.scrollRate * d));
 		return setScrollPos(Mth.clamp(newScrollPos, 0, 1));
 	}

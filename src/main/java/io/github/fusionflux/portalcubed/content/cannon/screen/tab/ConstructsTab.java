@@ -41,8 +41,9 @@ public class ConstructsTab {
 		int rowCount = Mth.positiveCeilDiv(constructs.size(), COLUMNS) - ROWS;
 		int scrollRowPos = Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0);
 		int i = -(COLUMNS * scrollRowPos);
-		scrollBar.scrollRate = 1 / rowCount;
 		scrollBar.active = constructs.size() >= SIZE;
+		if (scrollBar.active)
+			scrollBar.scrollRate = 1 / rowCount;
 		for (ConstructSet set : constructs) {
 			if (i >= 0) {
 				ResourceLocation id = ConstructManager.INSTANCE.getId(set);
