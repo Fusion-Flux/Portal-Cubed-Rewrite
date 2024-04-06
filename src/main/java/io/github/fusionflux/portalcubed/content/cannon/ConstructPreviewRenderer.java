@@ -66,13 +66,14 @@ public class ConstructPreviewRenderer {
 
 		BlockPlaceContext placeContext = new BlockPlaceContext(context.world(), player, hand, stack, hit);
 		ConfiguredConstruct construct = configured.construct().choose(ConstructPlacementContext.of(placeContext));
-		BlockPos pos = placeContext.getClickedPos();
+		boolean replaceMode = settings.replaceMode();
+		BlockPos pos = ConstructionCannonItem.getPlacementPos(placeContext, replaceMode);
 
 		matrices.pushPose();
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 		matrices.translate(pos.getX() + construct.offset.getX(), pos.getY() + construct.offset.getY(), pos.getZ() + construct.offset.getZ());
 
-		boolean obstructed = construct.isObstructed(context.world(), pos);
+		boolean obstructed = construct.isObstructed(context.world(), pos, replaceMode);
 		ModelInfo model = modelPool.getOrBuildModel(construct);
 		model.draw(matrices, () -> {
 			if (obstructed)

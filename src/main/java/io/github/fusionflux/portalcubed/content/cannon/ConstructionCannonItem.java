@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.extension.CustomHoldPoseItem;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -34,10 +34,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 import org.jetbrains.annotations.NotNull;
@@ -146,13 +146,14 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		ConstructSet constructSet = configured.construct();
 		ConfiguredConstruct construct = constructSet.choose(ConstructPlacementContext.of(ctx));
 
-		BlockPos clicked = new BlockPlaceContext(ctx).getClickedPos();
+		boolean replaceMode = settings.replaceMode();
+		BlockPos clicked = getPlacementPos(ctx, replaceMode);
 
 		BoundingBox bounds = construct.getAbsoluteBounds(clicked);
 		if (!this.mayBuild(ctx, bounds))
 			return CannonUseResult.NO_PERMS;
 
-		if (construct.isObstructed(ctx.getLevel(), clicked))
+		if (construct.isObstructed(ctx.getLevel(), clicked, replaceMode))
 			return CannonUseResult.OBSTRUCTED;
 
 		Player player = Objects.requireNonNull(ctx.getPlayer()); // null is checked on use
@@ -187,7 +188,6 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 			PlayerInventoryStorage storage = PlayerInventoryStorage.of(player);
 			for (StorageView<ItemVariant> view : storage.nonEmptyViews()) {
 				ItemVariant variant = view.getResource();
-				//noinspection deprecation - builtInRegistryHolder
 				if (variant.getItem().builtInRegistryHolder().is(tag)) {
 					// matches
 					long extract = Math.min(count, view.getAmount());
@@ -204,6 +204,15 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		}
 		// did not find enough resources.
 		return false;
+	}
+
+	public static BlockPos getPlacementPos(UseOnContext ctx, boolean replaceMode) {
+		BlockPos clicked = ctx.getClickedPos();
+		BlockState state = ctx.getLevel().getBlockState(clicked);
+		if (cantBeReplaced(state, replaceMode)) {
+			clicked = clicked.relative(ctx.getClickedFace());
+		}
+		return clicked;
 	}
 
 	@Nullable
@@ -223,6 +232,13 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 
 	public static MutableComponent translate(String key) {
 		return Component.translatable("item.portalcubed.construction_cannon." + key);
+	}
+
+	public static boolean cantBeReplaced(BlockState state, boolean replaceMode) {
+		if (state.canBeReplaced())
+			return false;
+
+		return !replaceMode || !state.is(PortalCubedBlockTags.CANNON_REPLACEABLE);
 	}
 
 	private static void tryOpenConfig(Player player, InteractionHand hand) {

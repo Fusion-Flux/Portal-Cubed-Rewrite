@@ -22,6 +22,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
+
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -80,11 +82,11 @@ public class ConfiguredConstruct {
 		});
 	}
 
-	public boolean isObstructed(Level level, BlockPos pos) {
+	public boolean isObstructed(Level level, BlockPos pos, boolean replaceMode) {
 		for (Map.Entry<BlockPos, Construct.BlockInfo> entry : this.getAbsoluteBlocks(pos).entrySet()) {
 			BlockPos blockPos = entry.getKey();
 			BlockState existingState = level.getBlockState(blockPos);
-			if (!existingState.canBeReplaced())
+			if (ConstructionCannonItem.cantBeReplaced(existingState, replaceMode))
 				return true;
 
 			// check entity collision
