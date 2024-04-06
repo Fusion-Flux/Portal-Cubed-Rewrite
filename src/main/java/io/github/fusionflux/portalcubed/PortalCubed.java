@@ -1,7 +1,10 @@
 package io.github.fusionflux.portalcubed;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+import io.github.fusionflux.portalcubed.content.PortalCubedFeatures;
+import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
@@ -28,12 +31,14 @@ public class PortalCubed implements ModInitializer {
 		LOGGER.info("Portal Cubed (" + metadata.version() + ") initializing...");
 		LOGGER.info(MOTL.get());
 
+		PortalCubedGameRules.init();
 		PortalCubedBlocks.init();
+		PortalCubedBlockEntityTypes.init();
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
 		PortalCubedSerializers.init();
-
+		PortalCubedFeatures.init();
 		PortalCubedSounds.init();
 
 		LOGGER.info("Portal Cubed (" + metadata.version() + ") initialized!");

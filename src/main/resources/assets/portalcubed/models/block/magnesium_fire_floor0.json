@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_fire_floor",
+  "textures": {
+    "fire": "portalcubed:block/magnesium_fire_0"
+  }
+}

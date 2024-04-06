@@ -42,9 +42,9 @@ public class PortalCubedDamageSources {
 		public Component getLocalizedDeathMessage(LivingEntity attacked) {
 			var id = "death.attack." + type().msgId();
 			var sourceName = getDirectEntity().getDisplayName();
-			var causeName = getEntity().getDisplayName();
-			if (getEntity() == null || !(getEntity() instanceof LivingEntity attacker))
+			if (!(getEntity() instanceof LivingEntity attacker))
 				return Component.translatable(id, attacked.getDisplayName(), sourceName);
+			var causeName = getEntity().getDisplayName();
 			var attackerHeldStack = attacker.getMainHandItem();
 			return !attackerHeldStack.isEmpty() && attackerHeldStack.hasCustomHoverName()
 				? Component.translatable(id + ".item", attacked.getDisplayName(), sourceName, causeName, attackerHeldStack.getDisplayName())

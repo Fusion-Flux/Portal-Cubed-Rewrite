@@ -18,6 +18,13 @@
   "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
 
 
+  "container.portalcubed.pedestal_button": "Pedestal Button",
+  "container.portalcubed.pedestal_button.press_length": "Press Length",
+  "container.portalcubed.pedestal_button.offset": "Position Offset",
+  "container.portalcubed.pedestal_button.base": "Include Base",
+
+  "subtitles.portalcubed.surprise": "Party Horn Blows",
+
   "subtitles.portalcubed.gel_bounce": "Something bounces on propulsion gel",
   "subtitles.portalcubed.gel_run": "Something slides on propulsion gel",
   "subtitles.portalcubed.gel_blob_splash": "Gel blob splashes",
@@ -239,6 +246,18 @@
   "item.portalcubed.paint_gun": "Paint Gun",
 
   "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
+
+  "item.portalcubed.magnesium_nugget": "Magnesium Nugget",
+  "item.portalcubed.magnesium_ingot": "Magnesium Ingot",
+  "item.portalcubed.raw_magnesium": "Raw Magnesium",
+  "block.portalcubed.raw_magnesium_block": "Block of Raw Magnesium",
+  "block.portalcubed.magnesium_block": "Block of Magnesium",
+  "block.portalcubed.magnesium_ore": "Magnesium Ore",
+  "block.portalcubed.deepslate_magnesium_ore": "Deepslate Magnesium Ore",
+
+  "trim_material.portalcubed.magnesium": "Magnesium Material",
+
+  "block.portalcubed.magnesium_fire": "Magnesium Fire",
 
   "item.portalcubed.turret": "Sentry Turret",
   "block.portalcubed.rocket_turret": "Rocket Turret",
