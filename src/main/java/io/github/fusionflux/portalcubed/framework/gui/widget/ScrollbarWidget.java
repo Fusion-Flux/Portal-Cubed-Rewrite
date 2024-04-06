@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.gui.widget;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -45,6 +46,11 @@ public class ScrollbarWidget extends AbstractWidget {
 			return false;
 		float newScrollPos = (float) (this.scrollPos - (this.scrollRate * d));
 		return setScrollPos(Mth.clamp(newScrollPos, 0, 1));
+	}
+
+	@Override
+	public void playDownSound(SoundManager soundManager) {
+		// don't
 	}
 
 	private boolean setScrollPos(float scrollPos) {
