@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
-import io.github.fusionflux.portalcubed.content.cannon.ConstructRenderer;
+import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -45,7 +45,7 @@ public class ConstructSyncPacket implements ClientboundPacket {
 	@ClientOnly
 	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		ConstructManager.INSTANCE.readFromPacket(this);
-		ConstructRenderer.reload();
+		ConstructPreviewRenderer.reload();
 	}
 
 	@Override

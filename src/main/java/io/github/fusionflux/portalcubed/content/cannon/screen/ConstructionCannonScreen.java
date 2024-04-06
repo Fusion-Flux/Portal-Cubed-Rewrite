@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.cannon.screen;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
+import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.ConstructsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.MaterialsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.SettingsTab;

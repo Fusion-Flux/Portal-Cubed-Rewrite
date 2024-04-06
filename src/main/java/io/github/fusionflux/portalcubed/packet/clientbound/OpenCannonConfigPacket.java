@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
-import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
+import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;

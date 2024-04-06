@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
-import io.github.fusionflux.portalcubed.content.cannon.ConstructRenderer;
+import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.minecraft.client.gui.GuiGraphics;
@@ -73,8 +73,8 @@ public abstract class ConstructWidget extends AbstractWidget {
 		Vec3 center = AABB.of(preview.bounds).getCenter();
 		matrices.translate(-center.x, center.y, -center.z);
 
-		if (ConstructRenderer.MODEL_POOL != null) {
-			var model = ConstructRenderer.MODEL_POOL.getOrBuildModel(preview);
+		if (ConstructPreviewRenderer.getModelPool() != null) {
+			var model = ConstructPreviewRenderer.getModelPool().getOrBuildModel(preview);
 			RenderingUtil.drawGuiManaged(() -> model.draw(matrices, () -> {}));
 			model.bufferBlockEntities(matrices, graphics.bufferSource());
 			graphics.flush();

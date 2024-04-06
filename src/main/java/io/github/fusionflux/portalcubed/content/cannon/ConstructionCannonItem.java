@@ -5,7 +5,6 @@ import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.extension.CustomHoldPoseItem;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
-import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
 import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
@@ -144,10 +143,7 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		if (configured == null) // not configured
 			return CannonUseResult.MISCONFIGURED;
 
-		ConstructSet constructSet = ConstructManager.INSTANCE.getConstructSet(configured.construct());
-		if (constructSet == null) // fake construct
-			return CannonUseResult.MISCONFIGURED;
-
+		ConstructSet constructSet = configured.construct();
 		ConfiguredConstruct construct = constructSet.choose(ConstructPlacementContext.of(ctx));
 
 		BlockPos clicked = new BlockPlaceContext(ctx).getClickedPos();

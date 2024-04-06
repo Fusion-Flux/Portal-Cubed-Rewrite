@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen;
 
-import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
+import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 
 import java.util.function.UnaryOperator;
 

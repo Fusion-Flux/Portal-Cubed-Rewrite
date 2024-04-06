@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
+import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHolder;
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;

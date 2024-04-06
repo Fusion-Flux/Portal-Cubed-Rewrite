@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyBindings;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.cannon.ConstructRenderer;
+import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropModels;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
@@ -22,7 +22,7 @@ public class PortalCubedClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient(ModContainer mod) {
 		PortalRenderer.init();
-		ConstructRenderer.init();
+		ConstructPreviewRenderer.init();
 		PortalCubedKeyBindings.init();
 
 		PropModels.register();

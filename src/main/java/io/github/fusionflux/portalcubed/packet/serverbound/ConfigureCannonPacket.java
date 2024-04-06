@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.packet.serverbound;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
-import io.github.fusionflux.portalcubed.content.cannon.data.CannonSettings;
+import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
 import net.minecraft.network.FriendlyByteBuf;
