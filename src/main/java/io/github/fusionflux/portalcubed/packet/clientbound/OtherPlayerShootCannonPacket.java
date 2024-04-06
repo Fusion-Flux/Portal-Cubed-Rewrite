@@ -30,7 +30,7 @@ public record OtherPlayerShootCannonPacket(UUID player) implements ClientboundPa
 
 	@Override
 	public ResourceLocation getId() {
-		return PortalCubedPackets.SHOOT_CANNON;
+		return PortalCubedPackets.SHOOT_CANNON_OTHER;
 	}
 
 	@Override
