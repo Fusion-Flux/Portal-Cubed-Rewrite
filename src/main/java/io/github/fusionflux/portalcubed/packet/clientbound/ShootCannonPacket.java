@@ -23,6 +23,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 
 public record ShootCannonPacket(InteractionHand hand, CannonUseResult useResult) implements ClientboundPacket {
+	// offsets found through trial and error
+	public static final Vec3 FIRST_PERSON_OFFSET = new Vec3(-.5f, -.1f, 1.2f);
+	public static final Vec3 THIRD_PERSON_OFFSET = new Vec3(-0.1f, -0.4f, 1.9f);
 	public static final int PARTICLES = 10;
 
 	public ShootCannonPacket(FriendlyByteBuf buf) {
@@ -55,7 +58,11 @@ public record ShootCannonPacket(InteractionHand hand, CannonUseResult useResult)
 	@ClientOnly
 	public static void spawnParticlesForPlayer(Player player) {
 		boolean thirdPerson = isThirdPerson(player);
-		Vec3 source = thirdPerson ? getThirdPersonParticleSource(player) : getFirstPersonParticleSource(player);
+		Vec3 baseOffset = thirdPerson ? THIRD_PERSON_OFFSET : FIRST_PERSON_OFFSET;
+		Vec3 rotatedOffset = baseOffset
+				.xRot(-player.getXRot() * Mth.DEG_TO_RAD)
+				.yRot(-player.getYRot() * Mth.DEG_TO_RAD);
+		Vec3 source = player.getEyePosition().add(rotatedOffset);
 
 		for (int i = 0; i < PARTICLES; i++) {
 			Vec3 target = getParticleTarget(player);
@@ -74,21 +81,6 @@ public record ShootCannonPacket(InteractionHand hand, CannonUseResult useResult)
 			return true;
 		CameraType cameraType = Minecraft.getInstance().options.getCameraType();
 		return !cameraType.isFirstPerson();
-	}
-
-	private static Vec3 getFirstPersonParticleSource(Player player) {
-		var offset = new Vec3(-.5f, -.1f, 1.2f)
-				.xRot(-player.getXRot() * Mth.DEG_TO_RAD)
-				.yRot(-player.getYRot() * Mth.DEG_TO_RAD);
-		return player.getEyePosition().add(offset);
-	}
-
-	private static Vec3 getThirdPersonParticleSource(Player player) {
-		// FIXME figure these out in multiplayer
-		var offset = new Vec3(0.5f, 0f, 1.9f)
-				.xRot(-player.getXRot() * Mth.DEG_TO_RAD)
-				.yRot(-player.getYRot() * Mth.DEG_TO_RAD);
-		return player.getEyePosition().add(offset);
 	}
 
 	private static Vec3 getParticleTarget(Player player) {
