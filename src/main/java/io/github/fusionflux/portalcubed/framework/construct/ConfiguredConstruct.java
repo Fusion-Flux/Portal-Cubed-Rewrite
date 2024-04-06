@@ -55,8 +55,10 @@ public class ConfiguredConstruct {
 	}
 
 	public void place(ServerLevel level, BlockPos pos, @Nullable Player player, @Nullable ItemStack cannonStack) {
+		boolean dropReplacedBlocks = player == null || !player.getAbilities().instabuild;
 		this.getAbsoluteBlocks(pos).forEach((blockPos, info) -> {
 			BlockState state = info.state();
+			level.destroyBlock(blockPos, dropReplacedBlocks, player);
 			level.setBlock(blockPos, state, Block.UPDATE_ALL_IMMEDIATE);
 			info.maybeNbt().ifPresent(nbt -> {
 				BlockEntity be = level.getBlockEntity(blockPos);

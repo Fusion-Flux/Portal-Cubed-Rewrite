@@ -27,7 +27,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -64,7 +64,7 @@ public class ConstructPreviewRenderer {
 		PoseStack matrices = context.matrixStack();
 		Vec3 camPos = context.camera().getPosition();
 
-		BlockPlaceContext placeContext = new BlockPlaceContext(context.world(), player, hand, stack, hit);
+		UseOnContext placeContext = new UseOnContext(context.world(), player, hand, stack, hit);
 		ConfiguredConstruct construct = configured.construct().choose(ConstructPlacementContext.of(placeContext));
 		boolean replaceMode = settings.replaceMode();
 		BlockPos pos = ConstructionCannonItem.getPlacementPos(placeContext, replaceMode);
