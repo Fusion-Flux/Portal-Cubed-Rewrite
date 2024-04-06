@@ -18,6 +18,9 @@ import net.minecraft.resources.ResourceLocation;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.ModMetadata;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +46,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedFeatures.init();
 		PortalCubedSounds.init();
 		PortalCubedCommands.init();
+		PortalCubedPackets.init();
 
 		ConstructManager.init();
 
