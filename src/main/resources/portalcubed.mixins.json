@@ -23,8 +23,12 @@
     "client.AbstractContainerScreenMixin",
     "client.GameRendererMixin",
     "client.ItemRendererAccessor",
+    "client.KeyValueConditionAccessor",
     "client.MinecraftMixin",
+    "client.MultiPartMixin",
+    "client.OrConditionAccessor",
     "client.SimpleBakedModelAccessor",
+    "client.SelectorAccessor",
     "client.VariantMixin",
     "client.Variant_DeserializerMixin"
   ],
