@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.framework.model;
 
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.Context;
 import net.minecraft.client.renderer.block.model.multipart.Selector;
-import net.minecraft.resources.ResourceLocation;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveData;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveWrapper;
@@ -33,11 +32,16 @@ public enum PortalCubedModelLoadingPlugin implements PreparableModelLoadingPlugi
 			PortalCubed.id("block/magnesium_fire_up1")
 		);
 		ctx.modifyModelAfterBake().register(ModelModifier.OVERRIDE_PHASE, (model, context) -> {
-			var id = context.id().toString();
-			if (currentSelectorBaking != null && (id.startsWith("minecraft:block/fire") && !id.contains("coral"))) {
-				var magnesiumVariant = ResourceLocation.tryParse(id.replace("minecraft", PortalCubed.ID).replace("fire", "magnesium_fire"));
-				if (magnesiumVariant != null)
-					return new MagnesiumFireModel(model, context.baker().bake(magnesiumVariant, context.settings()), currentSelectorBaking);
+			var id = context.id();
+			var namespace = id.getNamespace();
+			var path = id.getPath();
+			if (currentSelectorBaking != null && (namespace.equals("minecraft") && path.startsWith("block/fire") && !path.contains("coral"))) {
+				var magnesiumVariantId = PortalCubed.id(path.replace("fire", "magnesium_fire"));
+				if (magnesiumVariantId != null) {
+					var magnesiumVariant = context.baker().bake(magnesiumVariantId, context.settings());
+					if (magnesiumVariant != null)
+						return new MagnesiumFireModel(model, magnesiumVariant, currentSelectorBaking);
+				}
 			}
 			return model;
 		});

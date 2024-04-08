@@ -1,9 +1,11 @@
 package io.github.fusionflux.portalcubed.framework.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.mixin.client.KeyValueConditionAccessor;
@@ -22,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class MagnesiumFireModel extends ForwardingBakedModel {
 	private final BakedModel magnesiumVariant;
-	private final Collection<Direction> directions;
+	private final Iterable<Direction> directions;
 
 	MagnesiumFireModel(BakedModel wrapped, BakedModel magnesiumVariant, Selector selector) {
 		this.wrapped = wrapped;
@@ -30,33 +32,28 @@ public class MagnesiumFireModel extends ForwardingBakedModel {
 		this.directions = directionsFromCondition(((SelectorAccessor) selector).getCondition());
 	}
 
-	private static Collection<Direction> directionsFromCondition(Condition condition) {
-		if (condition instanceof KeyValueConditionAccessor keyValue && keyValue.getValue().equals("true")) {
-			var dir = Direction.byName(keyValue.getKey());
-			if (dir != null)
-				return Collections.singleton(dir);
+	private Iterable<Direction> directionsFromCondition(Condition condition) {
+		if (condition instanceof KeyValueConditionAccessor keyValue && Boolean.parseBoolean(keyValue.getValue())) {
+			return Collections.singleton(Direction.byName(keyValue.getKey()));
 		} else if (condition instanceof OrConditionAccessor or) {
-			var directions = new ArrayList<Direction>();
-			for (var subCondition : or.getConditions()) {
-				directions.addAll(directionsFromCondition(subCondition));
-			}
-			return directions;
+			return Iterables.concat(Streams.stream(or.getConditions())
+				.map(this::directionsFromCondition)
+				.collect(Collectors.toUnmodifiableSet()));
 		}
 		return Collections.singleton(Direction.DOWN);
 	}
 
 	@Override
 	public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
-		boolean onMagnesium = false;
+		var testPos = new BlockPos.MutableBlockPos();
 		for (var dir : directions) {
-			onMagnesium |= blockView.getBlockState(pos.relative(dir)).is(PortalCubedBlockTags.MAGNESIUM_FIRE_BASE_BLOCKS);
+			testPos.set(pos).move(dir);
+			if (blockView.getBlockState(testPos).is(PortalCubedBlockTags.MAGNESIUM_FIRE_BASE_BLOCKS)) {
+				magnesiumVariant.emitBlockQuads(blockView, state, pos, randomSupplier, context);
+				return;
+			}
 		}
-
-		if (onMagnesium) {
-			magnesiumVariant.emitBlockQuads(blockView, state, pos, randomSupplier, context);
-		} else {
-			super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
-		}
+		super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
 	}
 
 	@Override
