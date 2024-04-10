@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
 import java.util.ArrayList;
-import java.util.OptionalInt;
 import java.util.function.Consumer;
 import java.util.function.IntSupplier;
 
@@ -54,16 +53,13 @@ public class PortalCubedKeyBindings {
 
 				var hit = ProjectileUtil.getEntityHitResult(player, startPos, endPos, checkBox, entity -> !entity.isSpectator() && entity.isPickable(), 3 * 3);
 				if (hit != null && hit.getEntity() instanceof Prop prop) {
-					if (prop.hold(player)) {
-						((PlayerExt) player).pc$heldProp(OptionalInt.of(prop.getId()));
+					if (prop.hold(player))
 						return;
-					}
 				}
 				if (isHoldingPortalGun) player.playSound(PortalCubedSounds.PORTAL_GUN_CANNOT_GRAB);
 			} else {
 				if (level.getEntity(heldPropId.getAsInt()) instanceof Prop heldProp)
 					heldProp.drop(player);
-				((PlayerExt) player).pc$heldProp(OptionalInt.empty());
 			}
 		});
 

@@ -97,14 +97,17 @@ public class Prop extends Entity implements CollisionListener {
 		if (!level().isClientSide && notHeld) {
 			heldBy.ifPresent(holder -> ((PlayerExt) holder).pc$heldProp(OptionalInt.empty()));
 			entityData.set(HELD_BY, OptionalInt.of(player.getId()));
+			((PlayerExt) player).pc$heldProp(OptionalInt.of(getId()));
 		}
 		return notHeld;
 	}
 
 	@SuppressWarnings("resource")
 	public void drop(Player player) {
-		if (!level().isClientSide && getHeldBy().map(heldBy -> heldBy == player).orElse(false))
+		if (!level().isClientSide && getHeldBy().map(heldBy -> heldBy == player).orElse(false)) {
 			entityData.set(HELD_BY, OptionalInt.empty());
+			((PlayerExt) player).pc$heldProp(OptionalInt.empty());
+		}
 	}
 
 	@Override
@@ -117,10 +120,8 @@ public class Prop extends Entity implements CollisionListener {
 		var heldBy = getHeldBy();
 		if (!level.isClientSide || heldBy.map(holder -> holder.isLocalPlayer()).orElse(false)) {
 			lerpSteps = 0;
-			syncPacketPositionCodec(getX(), getY(), getZ());
-
-			var vel = getDeltaMovement();
 			if (heldBy.isEmpty()) {
+				var vel = getDeltaMovement();
 				if (!isNoGravity())
 					vel = vel.subtract(0, LivingEntity.DEFAULT_BASE_GRAVITY / (isInWater() ? 16 : 1), 0);
 				var posBelow = getBlockPosBelowThatAffectsMyMovement();
@@ -131,16 +132,15 @@ public class Prop extends Entity implements CollisionListener {
 				move(MoverType.SELF, vel);
 			} else {
 				var holder = heldBy.get();
-				var holdPoint = holder.getEyePosition().add(Vec3.directionFromRotation(holder.getXRot(), holder.getYRot()).scale(2));
-				float holdYOffset = -getBbHeight() / 2;
+				var holdPoint = holder.getEyePosition()
+					.add(Vec3.directionFromRotation(holder.getXRot(), holder.getYRot()).scale(2))
+					.add(0, -getBbHeight() / 2, 0);
 				setDeltaMovement(Vec3.ZERO);
-				move(MoverType.PLAYER, position().vectorTo(holdPoint.add(0, holdYOffset, 0)));
+				move(MoverType.PLAYER, position().vectorTo(holdPoint));
 				if (type != PropType.THE_TACO)
 					setYRot((holder.getYRot() + 180) % 360);
-				if (position().distanceToSqr(holder.getEyePosition()) >= 4.5 * 4.5) {
+				if (position().distanceToSqr(holder.getEyePosition()) >= Mth.square(4.5))
 					drop(holder);
-					((PlayerExt) holder).pc$heldProp(OptionalInt.empty());
-				}
 			}
 		} else if (lerpSteps > 0) {
 			double delta = 1.0 / lerpSteps;
