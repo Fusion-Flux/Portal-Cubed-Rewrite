@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portalcubed:portal_1_metal_2x1_panel_crafting",
+      "portalcubed:portal_1_metal_2x1_panel_joiner_crafting",
+
+      "portalcubed:portal_1_metal_half_panel_crafting",
+      "portalcubed:portal_1_metal_half_panel_slab_crafting",
+      "portalcubed:portal_1_metal_half_panel_slab_stonecutting",
+      "portalcubed:portal_1_metal_half_panel_stairs_crafting",
+      "portalcubed:portal_1_metal_half_panel_stairs_stonecutting",
+      "portalcubed:portal_1_metal_half_panel_facade_stonecutting",
+
+      "portalcubed:portal_1_metal_panel_slab_crafting",
+      "portalcubed:portal_1_metal_panel_slab_stonecutting",
+      "portalcubed:portal_1_metal_panel_stairs_crafting",
+      "portalcubed:portal_1_metal_panel_stairs_stonecutting",
+      "portalcubed:portal_1_metal_panel_facade_stonecutting",
+      "portalcubed:portal_1_metal_panel_crafting_from_deepslate",
+      "portalcubed:portal_1_metal_panel_crafting_from_cobbled_deepslate"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"minecraft:deepslate",
+		"minecraft:cobbled_deepslate",
+		"minecraft:copper_block"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

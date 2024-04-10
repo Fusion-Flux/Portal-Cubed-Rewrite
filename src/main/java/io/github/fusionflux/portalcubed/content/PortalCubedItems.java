@@ -6,6 +6,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
+import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
 import net.minecraft.world.item.Item;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
@@ -33,6 +34,10 @@ public class PortalCubedItems {
 
 	public static final HammerItem HAMMER = REGISTRAR.items.create("hammer", HammerItem::new)
 			.settings(s -> s.stacksTo(1))
+			.build();
+
+	public static final ConstructionCannonItem CONSTRUCTION_CANNON = REGISTRAR.items.create("construction_cannon", ConstructionCannonItem::new)
+			.settings(s -> s.stacksTo(1).fireResistant())
 			.build();
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {

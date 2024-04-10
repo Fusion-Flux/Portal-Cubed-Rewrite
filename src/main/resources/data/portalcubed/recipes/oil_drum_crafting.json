@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "XYX",
+        "X X",
+        "XYX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:magnesium_ingot"
+        },
+        "Y": {
+            "item": "portalcubed:magnesium_nugget"
+        }
+    },
+    "result": {
+        "item": "portalcubed:oil_drum",
+        "count": 2
+    }
+}

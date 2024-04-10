@@ -293,5 +293,23 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun_cannot_grab"
+  },
+  "construction_cannon_obstructed": {
+    "sounds": [
+      {
+        "name": "portalcubed:construction_cannon/obstructed",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.construction_cannon_obstructed"
+  },
+  "construction_cannon_missing_materials": {
+    "sounds": [
+      {
+        "name": "portalcubed:construction_cannon/missing_materials",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.construction_cannon_missing_materials"
   }
 }

@@ -4,15 +4,18 @@
   "package": "io.github.fusionflux.portalcubed.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BlockMixin",
     "CakeBlockMixin",
     "CandleCakeBlockMixin",
     "EntityMixin",
     "LevelMixin",
+    "MultifaceBlockAccessor",
     "PlayerMixin",
-    "ServerLevelMixin",
-    "ServerEntityMixin"
+    "ServerEntityMixin",
+    "ServerLevelMixin"
   ],
   "client": [
+    "client.AbstractContainerScreenMixin",
     "client.BakedQuadMixin",
     "client.BlockElement_DeserializerMixin",
     "client.BlockElementMixin",
@@ -20,17 +23,22 @@
     "client.BlockModelMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
-    "client.AbstractContainerScreenMixin",
+    "client.ContainerEventHandlerMixin",
     "client.GameRendererMixin",
+    "client.GuiGraphicsAccessor",
     "client.ItemRendererAccessor",
+    "client.ItemInHandRendererMixin",
     "client.KeyValueConditionAccessor",
+    "client.LevelRendererMixin",
     "client.MinecraftMixin",
     "client.MultiPartMixin",
     "client.OrConditionAccessor",
+    "client.PlayerRendererMixin",
+    "client.ScreenMixin",
     "client.SimpleBakedModelAccessor",
     "client.SelectorAccessor",
-    "client.VariantMixin",
-    "client.Variant_DeserializerMixin"
+    "client.Variant_DeserializerMixin",
+    "client.VariantMixin"
   ],
   "injectors": {
     "defaultRequire": 1

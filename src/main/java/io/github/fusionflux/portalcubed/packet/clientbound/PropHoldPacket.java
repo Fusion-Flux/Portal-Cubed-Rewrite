@@ -26,7 +26,7 @@ public record PropHoldPacket(int holderId, OptionalInt propId) implements Client
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.PROP_HOLD;
 	}
 

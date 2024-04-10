@@ -40,5 +40,6 @@
 			}
 		]
 	},
-	"mixin": "portalcubed.mixins.json"
+	"mixin": "portalcubed.mixins.json",
+  "access_widener": "portalcubed.accesswidener"
 }

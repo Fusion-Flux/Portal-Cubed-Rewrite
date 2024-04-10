@@ -24,7 +24,7 @@ public record DirectClickItemPacket(boolean attack, InteractionHand hand) implem
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.DIRECT_CLICK_ITEM;
 	}
 

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "portalcubed:block/portal_1_white_panel",
+    "side": "portalcubed:block/portal_1_white_panel",
+    "top": "portalcubed:block/portal_1_white_panel"
+  }
+}

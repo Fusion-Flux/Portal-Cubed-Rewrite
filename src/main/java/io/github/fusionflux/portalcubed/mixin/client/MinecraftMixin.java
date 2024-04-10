@@ -1,10 +1,13 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import net.minecraft.client.Minecraft;
 
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
@@ -29,6 +32,20 @@ public class MinecraftMixin {
 	@Shadow
 	@Nullable
 	public LocalPlayer player;
+
+	@Shadow
+	@Nullable
+	public Screen screen;
+
+	@Inject(method = "method_1572", at = @At("TAIL"))
+	private void handleScreenTickables(CallbackInfo ci) {
+		// this is done because injecting into screen#tick is unreliable, most don't call super.
+		if (this.screen instanceof ScreenExt ext) {
+			var tickables = ext.pc$tickables();
+			if (tickables != null)
+				tickables.forEach(TickableWidget::tick);
+		}
+	}
 
 	@Inject(
 			method = "startAttack",

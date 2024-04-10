@@ -50,6 +50,8 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	public ItemBuilder<T> settings(Consumer<QuiltItemSettings> consumer) {
 		if (this.originalSettings != this.settings) {
 			throw new IllegalArgumentException("Cannot modify replaced item settings.");
+		} else {
+			consumer.accept(this.settings);
 		}
 		return this;
 	}

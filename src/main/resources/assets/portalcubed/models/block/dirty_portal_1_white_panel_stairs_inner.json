@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "portalcubed:block/dirty_portal_1_white_panel",
+    "side": "portalcubed:block/dirty_portal_1_white_panel",
+    "top": "portalcubed:block/dirty_portal_1_white_panel"
+  }
+}
