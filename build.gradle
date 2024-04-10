@@ -5,10 +5,7 @@ plugins {
 
 archivesBaseName = archives_base_name
 group = maven_group
-
-String runNumber = System.getenv("GITHUB_RUN_NUMBER")
-String build = runNumber != null ? "build.$runNumber" : "local"
-version = "$mod_version-$build+mc$minecraft_version"
+version = mod_version
 
 repositories {
 	maven { url = "https://api.modrinth.com/maven" }
@@ -86,18 +83,6 @@ loom {
 			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
 			vmArg "-Dfabric-api.datagen.modid=portalcubed"
 		}
-		testmodClient {
-			client()
-			name "Testmod Client"
-			source sourceSets.testmod
-			runDir "run/test"
-		}
-		testmodServer {
-			server()
-			name "Testmod Server"
-			source sourceSets.testmod
-			runDir "run/test_server"
-		}
 		gametest {
 			server()
 			name "Test"
@@ -123,7 +108,6 @@ java {
 	targetCompatibility = JavaVersion.VERSION_17
 
 	withSourcesJar()
-	withJavadocJar()
 }
 
 jar {
