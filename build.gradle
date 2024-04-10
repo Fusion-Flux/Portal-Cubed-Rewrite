@@ -79,18 +79,6 @@ loom {
 			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
 			vmArg "-Dfabric-api.datagen.modid=portalcubed"
 		}
-		testmodClient {
-			client()
-			name "Testmod Client"
-			source sourceSets.testmod
-			runDir "run/test"
-		}
-		testmodServer {
-			server()
-			name "Testmod Server"
-			source sourceSets.testmod
-			runDir "run/test_server"
-		}
 		gametest {
 			server()
 			name "Test"
@@ -116,7 +104,6 @@ java {
 	targetCompatibility = JavaVersion.VERSION_17
 
 	withSourcesJar()
-	withJavadocJar()
 }
 
 jar {
