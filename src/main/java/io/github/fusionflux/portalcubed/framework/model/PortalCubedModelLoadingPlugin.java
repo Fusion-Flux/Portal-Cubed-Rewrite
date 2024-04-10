@@ -39,6 +39,7 @@ public enum PortalCubedModelLoadingPlugin implements PreparableModelLoadingPlugi
 		return builder.build();
 	});
 
+	// The selector that is currently being used within multipart model baking, null when not. Never use this outside of modifyModelAfterBake
 	public static Selector currentSelectorBaking;
 
 	@Override

@@ -23,8 +23,6 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MagnesiumFireModel extends ForwardingBakedModel {
-	private static final ThreadLocal<BlockPos.MutableBlockPos> BASE_TEST_POS = ThreadLocal.withInitial(BlockPos.MutableBlockPos::new);
-
 	private final BakedModel magnesiumVariant;
 	private final Iterable<Direction> directions;
 
@@ -47,7 +45,7 @@ public class MagnesiumFireModel extends ForwardingBakedModel {
 
 	@Override
 	public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
-		var testPos = BASE_TEST_POS.get();
+		var testPos = new BlockPos.MutableBlockPos();
 		for (var dir : directions) {
 			testPos.set(pos).move(dir);
 			if (blockView.getBlockState(testPos).is(PortalCubedBlockTags.MAGNESIUM_FIRE_BASE_BLOCKS)) {
