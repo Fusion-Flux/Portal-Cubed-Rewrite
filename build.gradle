@@ -5,10 +5,7 @@ plugins {
 
 archivesBaseName = archives_base_name
 group = maven_group
-
-String runNumber = System.getenv("GITHUB_RUN_NUMBER")
-String build = runNumber != null ? "build.$runNumber" : "local"
-version = "$mod_version-$build+mc$minecraft_version"
+version = mod_version
 
 repositories {
 	maven { url = "https://api.modrinth.com/maven" }
