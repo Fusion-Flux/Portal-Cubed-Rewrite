@@ -3,7 +3,9 @@ package io.github.fusionflux.portalcubed.framework.construct;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
+import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,6 +20,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.RenderShape;
@@ -25,6 +28,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public final class ConstructModelPool implements AutoCloseable {
 	private static final Map<RenderType, BufferBuilder> BUILDERS = new Object2ReferenceOpenHashMap<>();
+	private static final Supplier<DynamicTexture> FAKE_LIGHT_TEXTURE = Suppliers.memoize(() -> {
+		var texture = new DynamicTexture(16, 16, false);
+		var pixels = texture.getPixels();
+
+		for(int x = 0; x < 16; x++) {
+			for(int y = 0; y < 16; y++) {
+				pixels.setPixelRGBA(x, y, 0xFFFFFF);
+			}
+		}
+
+		texture.upload();
+		return texture;
+	});
 	private final Reference2ReferenceOpenHashMap<ConfiguredConstruct, ModelInfo> models = new Reference2ReferenceOpenHashMap<>();
 
 	public static ModelInfo buildModel(ConfiguredConstruct construct) {
@@ -83,16 +99,19 @@ public final class ConstructModelPool implements AutoCloseable {
 	}
 
 	public record ModelInfo(Set<BlockEntity> blockEntities, Reference2ReferenceMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
+		@SuppressWarnings("resource")
 		public void draw(PoseStack matrices, Runnable extraRenderState) {
 			for (var entry : buffers.reference2ReferenceEntrySet()) {
 				var renderType = entry.getKey();
 				var buffer = entry.getValue();
 				renderType.setupRenderState();
+				RenderSystem.setShaderTexture(2, FAKE_LIGHT_TEXTURE.get().getId());
 				extraRenderState.run();
 				buffer.bind();
 				buffer.drawWithShader(matrices.last().pose(), RenderSystem.getProjectionMatrix(), RenderSystem.getShader());
 				renderType.clearRenderState();
 			}
+			Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
 			VertexBuffer.unbind();
 		}
 
