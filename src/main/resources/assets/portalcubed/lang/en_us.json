@@ -179,6 +179,7 @@
   "subtitles.portalcubed.cube_impact": "Cube bumps into something",
   "subtitles.portalcubed.portal_1_cube_impact": "Cube bumps into something",
   "subtitles.portalcubed.old_ap_cube_impact": "Cube bumps into something",
+  "subtitles.portalcubed.error_impact": "Oh fiddlesticks, what now?",
 
   "subtitles.portalcubed.faith_plate": "Faith plate activates",
 
@@ -285,6 +286,7 @@
   "item.portalcubed.chair": "Office Chair",
   "item.portalcubed.hoopy": "Hoopy",
   "item.portalcubed.the_taco": "The Taco",
+  "item.portalcubed.error": "Error",
 
   "item.portalcubed.clipboard": "Clipboard",
   "item.portalcubed.clipboard.1": "Blank Clipboard",
@@ -358,8 +360,6 @@
   "block.portalcubed.deepslate_magnesium_ore": "Deepslate Magnesium Ore",
 
   "trim_material.portalcubed.magnesium": "Magnesium Material",
-
-  "block.portalcubed.magnesium_fire": "Magnesium Fire",
 
   "item.portalcubed.turret": "Sentry Turret",
   "block.portalcubed.rocket_turret": "Rocket Turret",
@@ -643,6 +643,7 @@
   "entity.portalcubed.oil_drum": "Oil Drum",
   "entity.portalcubed.radio": "Radio",
   "entity.portalcubed.the_taco": "The Taco",
+  "entity.portalcubed.error": "Error",
 
   "entity.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
   "entity.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",

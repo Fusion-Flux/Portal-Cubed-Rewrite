@@ -168,6 +168,7 @@ public class PortalCubedTabs {
 			addVariant(output, PropType.LIL_PINEAPPLE, 10);
 
 			addProp(output, PropType.THE_TACO);
+			addProp(output, PropType.ERROR);
 		});
 	});
 

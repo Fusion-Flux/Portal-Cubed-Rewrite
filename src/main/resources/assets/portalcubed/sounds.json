@@ -258,6 +258,15 @@
     ],
     "subtitle": "subtitles.portalcubed.portal_1_cube_impact"
   },
+  "error_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/error_impact",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.error_impact"
+  },
   "portal_gun_grab": {
     "sounds": [
       {

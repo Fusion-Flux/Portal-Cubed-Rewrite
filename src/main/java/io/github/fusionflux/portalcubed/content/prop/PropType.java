@@ -48,7 +48,8 @@ public enum PropType {
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, SoundType.CUBE),
-	THE_TACO(new TacoDimensions(), SoundType.PORTAL_1_CUBE);
+	THE_TACO			   (new TacoDimensions(), SoundType.PORTAL_1_CUBE),
+	ERROR                  (EntityDimensions.fixed(1f, 1f), SoundType.ERROR);
 
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;
@@ -101,7 +102,8 @@ public enum PropType {
 		METAL,
 		CUBE,
 		OLD_AP_CUBE,
-		PORTAL_1_CUBE;
+		PORTAL_1_CUBE,
+		ERROR;
 
 		public final SoundEvent impactSound;
 
