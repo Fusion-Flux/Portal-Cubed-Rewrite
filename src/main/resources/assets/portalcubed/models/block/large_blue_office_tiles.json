@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "portalcubed:block/large_blue_office_tiles"
+  }
+}

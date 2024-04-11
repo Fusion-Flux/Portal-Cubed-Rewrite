@@ -28,6 +28,13 @@
     "portalcubed:dirty_portal_1_white_half_panel_stairs",
     "portalcubed:dirty_portal_1_white_checkered_panel_stairs",
     "portalcubed:old_ap_white_checkered_panel_stairs",
-    "portalcubed:old_ap_white_panel_stairs"
+    "portalcubed:old_ap_white_panel_stairs",
+    "portalcubed:small_blue_office_tile_stairs",
+    "portalcubed:large_blue_office_tile_stairs",
+    "portalcubed:gray_office_tile_stairs",
+    "portalcubed:black_office_tile_stairs",
+    "portalcubed:brown_office_tile_stairs",
+    "portalcubed:orange_office_tile_stairs",
+    "portalcubed:portal_1_metal_tile_stairs"
   ]
 }

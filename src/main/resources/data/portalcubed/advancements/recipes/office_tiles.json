@@ -1,0 +1,71 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portalcubed:small_blue_office_tile_slab_crafting",
+      "portalcubed:small_blue_office_tile_slab_stonecutting",
+      "portalcubed:small_blue_office_tile_stairs_crafting",
+      "portalcubed:small_blue_office_tile_stairs_stonecutting",
+      "portalcubed:small_blue_office_tile_facade_stonecutting",
+      "portalcubed:small_blue_office_tiles_crafting",
+
+      "portalcubed:large_blue_office_tile_slab_crafting",
+      "portalcubed:large_blue_office_tile_slab_stonecutting",
+      "portalcubed:large_blue_office_tile_stairs_crafting",
+      "portalcubed:large_blue_office_tile_stairs_stonecutting",
+      "portalcubed:large_blue_office_tile_facade_stonecutting",
+      "portalcubed:large_blue_office_tiles_crafting",
+
+      "portalcubed:black_office_tile_slab_crafting",
+      "portalcubed:black_office_tile_slab_stonecutting",
+      "portalcubed:black_office_tile_stairs_crafting",
+      "portalcubed:black_office_tile_stairs_stonecutting",
+      "portalcubed:black_office_tile_facade_stonecutting",
+      "portalcubed:black_office_tiles_crafting",
+
+      "portalcubed:brown_office_tile_slab_crafting",
+      "portalcubed:brown_office_tile_slab_stonecutting",
+      "portalcubed:brown_office_tile_stairs_crafting",
+      "portalcubed:brown_office_tile_stairs_stonecutting",
+      "portalcubed:brown_office_tile_facade_stonecutting",
+      "portalcubed:brown_office_tiles_crafting",
+
+      "portalcubed:gray_office_tile_slab_crafting",
+      "portalcubed:gray_office_tile_slab_stonecutting",
+      "portalcubed:gray_office_tile_stairs_crafting",
+      "portalcubed:gray_office_tile_stairs_stonecutting",
+      "portalcubed:gray_office_tile_facade_stonecutting",
+      "portalcubed:gray_office_tiles_crafting",
+
+      "portalcubed:orange_office_tile_slab_crafting",
+      "portalcubed:orange_office_tile_slab_stonecutting",
+      "portalcubed:orange_office_tile_stairs_crafting",
+      "portalcubed:orange_office_tile_stairs_stonecutting",
+      "portalcubed:orange_office_tile_facade_stonecutting",
+      "portalcubed:orange_office_tiles_crafting"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"minecraft:blue_concrete",
+		"minecraft:blue_terracotta",
+		"minecraft:cyan_terracotta",
+		"minecraft:black_terracotta",
+		"minecraft:brown_concrete",
+		"minecraft:brown_terracotta",
+		"minecraft:gray_concrete",
+		"minecraft:light_gray_concrete",
+		"minecraft:orange_terracotta",
+		"minecraft:yellow_terracotta"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

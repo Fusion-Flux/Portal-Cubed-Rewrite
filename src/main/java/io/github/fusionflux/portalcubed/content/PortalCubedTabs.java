@@ -65,7 +65,38 @@ public class PortalCubedTabs {
 					}
 				}
 			}
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILES);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILE_SLAB);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILE_FACADE);
+			output.accept(PortalCubedBlocks.LARGE_BLUE_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.LARGE_BLUE_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.LARGE_BLUE_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.LARGE_BLUE_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.SMALL_BLUE_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.SMALL_BLUE_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.SMALL_BLUE_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.SMALL_BLUE_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.BLACK_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.BLACK_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.BLACK_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.BLACK_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_FACADE);
+
 		});
+
+
 	 });
 
 	public static final ResourceKey<CreativeModeTab> PROPS_AND_ITEMS = create("props_and_items", builder -> {

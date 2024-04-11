@@ -139,6 +139,32 @@
     "portalcubed:dirty_portal_1_white_half_panel_stairs",
     "portalcubed:dirty_portal_1_white_checkered_panel_stairs",
     "portalcubed:old_ap_white_checkered_panel_stairs",
-    "portalcubed:old_ap_white_panel_stairs"
+    "portalcubed:old_ap_white_panel_stairs",
+
+    "portalcubed:large_blue_office_tiles",
+    "portalcubed:large_blue_office_tile_slab",
+    "portalcubed:large_blue_office_tile_stairs",
+    "portalcubed:large_blue_office_tile_facade",
+    "portalcubed:small_blue_office_tiles",
+    "portalcubed:small_blue_office_tile_slab",
+    "portalcubed:small_blue_office_tile_stairs",
+    "portalcubed:small_blue_office_tile_facade",
+    "portalcubed:gray_office_tiles",
+    "portalcubed:gray_office_tile_slab",
+    "portalcubed:gray_office_tile_stairs",
+    "portalcubed:gray_office_tile_facade",
+    "portalcubed:black_office_tiles",
+    "portalcubed:black_office_tile_slab",
+    "portalcubed:black_office_tile_stairs",
+    "portalcubed:black_office_tile_facade",
+    "portalcubed:brown_office_tiles",
+    "portalcubed:brown_office_tile_slab",
+    "portalcubed:brown_office_tile_stairs",
+    "portalcubed:brown_office_tile_facade",
+    "portalcubed:orange_office_tiles",
+    "portalcubed:orange_office_tile_slab",
+    "portalcubed:orange_office_tile_stairs",
+    "portalcubed:orange_office_tile_facade"
+
   ]
 }

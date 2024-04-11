@@ -2,9 +2,12 @@ package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
+import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
+import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
 import net.minecraft.Util;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
@@ -78,7 +81,7 @@ public class PortalCubedBlocks {
 			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-
+	// ----- panels -----
 	public static final Map<PanelMaterial, Map<PanelPart, Block>> PANELS = Util.make(
 			new EnumMap<>(PanelMaterial.class),
 			materials -> {
@@ -102,6 +105,92 @@ public class PortalCubedBlocks {
 					}
 				}
 			});
+	// ----- misc blocks -----
+	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
+			.build();
+	public static final SlabBlock PORTAL_1_METAL_TILE_SLAB = REGISTRAR.blocks.create("portal_1_metal_tile_slab", SlabBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.build();
+	public static final SaneStairBlock PORTAL_1_METAL_TILE_STAIRS = REGISTRAR.blocks.create("portal_1_metal_tile_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.build();
+	public static final SimpleMultifaceBlock PORTAL_1_METAL_TILE_FACADE = REGISTRAR.blocks.create("portal_1_metal_tile_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.build();
+	public static final Block LARGE_BLUE_OFFICE_TILES = REGISTRAR.blocks.create("large_blue_office_tiles", Block::new)
+			.copyFrom(Blocks.CYAN_TERRACOTTA)
+			.build();
+	public static final SlabBlock LARGE_BLUE_OFFICE_TILE_SLAB = REGISTRAR.blocks.create("large_blue_office_tile_slab", SlabBlock::new)
+			.copyFrom(Blocks.CYAN_TERRACOTTA)
+			.build();
+	public static final SaneStairBlock LARGE_BLUE_OFFICE_TILE_STAIRS = REGISTRAR.blocks.create("large_blue_office_tile_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.CYAN_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock LARGE_BLUE_OFFICE_TILE_FACADE = REGISTRAR.blocks.create("large_blue_office_tile_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.CYAN_TERRACOTTA)
+			.build();
+	public static final Block SMALL_BLUE_OFFICE_TILES = REGISTRAR.blocks.create("small_blue_office_tiles", Block::new)
+			.copyFrom(Blocks.CYAN_TERRACOTTA)
+			.build();
+	public static final SlabBlock SMALL_BLUE_OFFICE_TILE_SLAB = REGISTRAR.blocks.create("small_blue_office_tile_slab", SlabBlock::new)
+			.copyFrom(Blocks.CYAN_TERRACOTTA)
+			.build();
+	public static final SaneStairBlock SMALL_BLUE_OFFICE_TILE_STAIRS = REGISTRAR.blocks.create("small_blue_office_tile_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.CYAN_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock SMALL_BLUE_OFFICE_TILE_FACADE = REGISTRAR.blocks.create("small_blue_office_tile_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.CYAN_TERRACOTTA)
+			.build();
+	public static final Block BLACK_OFFICE_TILES = REGISTRAR.blocks.create("black_office_tiles", Block::new)
+			.copyFrom(Blocks.BLACK_TERRACOTTA)
+			.build();
+	public static final SlabBlock BLACK_OFFICE_TILE_SLAB = REGISTRAR.blocks.create("black_office_tile_slab", SlabBlock::new)
+			.copyFrom(Blocks.BLACK_TERRACOTTA)
+			.build();
+	public static final SaneStairBlock BLACK_OFFICE_TILE_STAIRS = REGISTRAR.blocks.create("black_office_tile_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.BLACK_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock BLACK_OFFICE_TILE_FACADE = REGISTRAR.blocks.create("black_office_tile_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.BLACK_TERRACOTTA)
+			.build();
+	public static final Block GRAY_OFFICE_TILES = REGISTRAR.blocks.create("gray_office_tiles", Block::new)
+			.copyFrom(Blocks.LIGHT_GRAY_TERRACOTTA)
+			.build();
+	public static final SlabBlock GRAY_OFFICE_TILE_SLAB = REGISTRAR.blocks.create("gray_office_tile_slab", SlabBlock::new)
+			.copyFrom(Blocks.LIGHT_GRAY_TERRACOTTA)
+			.build();
+	public static final SaneStairBlock GRAY_OFFICE_TILE_STAIRS = REGISTRAR.blocks.create("gray_office_tile_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.LIGHT_GRAY_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock GRAY_OFFICE_TILE_FACADE = REGISTRAR.blocks.create("gray_office_tile_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.LIGHT_GRAY_TERRACOTTA)
+			.build();
+	public static final Block BROWN_OFFICE_TILES = REGISTRAR.blocks.create("brown_office_tiles", Block::new)
+			.copyFrom(Blocks.BROWN_TERRACOTTA)
+			.build();
+	public static final SlabBlock BROWN_OFFICE_TILE_SLAB = REGISTRAR.blocks.create("brown_office_tile_slab", SlabBlock::new)
+			.copyFrom(Blocks.BROWN_TERRACOTTA)
+			.build();
+	public static final SaneStairBlock BROWN_OFFICE_TILE_STAIRS = REGISTRAR.blocks.create("brown_office_tile_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.BROWN_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock BROWN_OFFICE_TILE_FACADE = REGISTRAR.blocks.create("brown_office_tile_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.BROWN_TERRACOTTA)
+			.build();
+	public static final Block ORANGE_OFFICE_TILES = REGISTRAR.blocks.create("orange_office_tiles", Block::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final SlabBlock ORANGE_OFFICE_TILE_SLAB = REGISTRAR.blocks.create("orange_office_tile_slab", SlabBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final SaneStairBlock ORANGE_OFFICE_TILE_STAIRS = REGISTRAR.blocks.create("orange_office_tile_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock ORANGE_OFFICE_TILE_FACADE = REGISTRAR.blocks.create("orange_office_tile_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
 
 	public static void init() {
 	}
