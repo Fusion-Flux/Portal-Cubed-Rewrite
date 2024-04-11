@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.prop.entity;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
@@ -25,6 +26,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -45,6 +47,12 @@ public class Prop extends Entity implements CollisionListener {
 	private static final EntityDataAccessor<OptionalInt> HELD_BY = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 	//this value was obtained by converting the terminal velocity of props in source engine units to mc blocks
 	private static final double TERMINAL_VELOCITY = 66.6667f;
+	//arbitrary limit to prevent use against high-health mobs, for example; wardens
+	private static float MAX_FALL_DAMAGE = 2 * 30;
+	//makes it so it takes roughly the same amount of fall distance as portal 1 to kill a player
+	private static float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
+	//makes it so the damage applies even when the collision box is outside the target
+	private static double CHECK_BOX_EPSILON = 1E-7;
 
 	private int variantFromItem;
 	private int lerpSteps;
@@ -256,9 +264,24 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void onCollision() {
 		var level = level();
-		if (!level.isClientSide && !isSilent()) {
-			level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
-			level.gameEvent(this, GameEvent.HIT_GROUND, position());
+		if (!level.isClientSide) {
+			if (!isSilent()) {
+				level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
+				level.gameEvent(this, GameEvent.HIT_GROUND, position());
+			}
+
+			if (getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && verticalCollisionBelow) {
+				int blocksFallen = Mth.ceil(fallDistance);
+				if (blocksFallen > 0) {
+					float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
+					var selector =
+						EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(
+						EntitySelector.LIVING_ENTITY_STILL_ALIVE).and(
+						entity -> !(entity instanceof PlayerExt ext && ext.pc$heldProp().orElse(-1) == getId()));
+					level.getEntities(this, getBoundingBox().inflate(CHECK_BOX_EPSILON), selector)
+						.forEach(entity -> entity.hurt(PortalCubedDamageSources.landingDamage(level, this, entity), damage));
+				}
+			}
 		}
 	}
 
