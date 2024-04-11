@@ -69,10 +69,12 @@ public class CubeButtonBlock extends FloorButtonBlock {
 		entity.setYRot(Math.round(entity.getYRot() / 90) * 90);
 		var facing = state.getValue(FACING);
 		var facingAxis = facing.getAxis();
+		if (facingAxis.isHorizontal() && !entity.isNoGravity())
+			return;
 		var buttonBounds = getButtonBounds(facing).move(pos);
 		var nudgeSpeed = new Vec3(
 			facingAxis.choose(0, NUDGE_SPEED, NUDGE_SPEED),
-			0,
+			facingAxis.choose(NUDGE_SPEED, 0, NUDGE_SPEED),
 			facingAxis.choose(NUDGE_SPEED, NUDGE_SPEED, 0)
 		);
 		entity.setDeltaMovement(entity.position().vectorTo(buttonBounds.getCenter()).multiply(nudgeSpeed));
