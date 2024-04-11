@@ -36,7 +36,7 @@ public class ScrollbarWidget extends AbstractWidget {
 
 	@Override
 	protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-		double scrollerY = mouseY - getY() - (SCROLLER_HEIGHT / 2);
+		double scrollerY = mouseY - getY() - ((double) SCROLLER_HEIGHT / 2);
 		setScrollPos(Mth.clamp((float) (scrollerY / SCROLLER_BOUND), 0, 1));
 	}
 

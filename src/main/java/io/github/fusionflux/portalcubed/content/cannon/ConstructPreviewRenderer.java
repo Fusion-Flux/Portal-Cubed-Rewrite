@@ -80,7 +80,7 @@ public class ConstructPreviewRenderer {
 				RenderSystem.setShaderColor(1f, .5f, .5f, 1f);
 			RenderSystem.enableBlend();
 			RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
-			GL14C.glBlendColor(0, 0, 0, .55f + (Mth.cos(Util.getMillis() / 500f) * .1f));
+			GL14C.glBlendColor(0, 0, 0, settings.previewOpacity() + (Mth.cos(Util.getMillis() / 500f) * .1f));
 			RenderSystem.depthFunc(GL11.GL_ALWAYS);
 		});
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
