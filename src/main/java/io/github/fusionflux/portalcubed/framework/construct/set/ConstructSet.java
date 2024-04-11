@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.construct.set;
 import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import net.minecraft.network.chat.Component;
@@ -31,9 +32,24 @@ public abstract class ConstructSet {
 			construct -> construct.type, Type::codec
 	);
 
-	public static final Comparator<ConstructSet> BY_SIZE_COMPARATOR = Comparator.comparingInt(
-			set -> set.preview.blocks.size()
-	);
+	public static final Comparator<ConstructSet> BY_SIZE_COMPARATOR = (a, b) -> {
+		// go by size first
+		int bySize = Integer.compare(a.preview.blocks.size(), b.preview.blocks.size());
+		if (bySize != 0)
+			return bySize;
+
+		// use ID as fallback
+		ResourceLocation aId = ConstructManager.INSTANCE.getId(a);
+		ResourceLocation bId = ConstructManager.INSTANCE.getId(b);
+		// sort nulls before non-nulls, just in case
+		if (aId == null) {
+			return bId == null ? 0 : 1;
+		} else if (bId == null) {
+			return -1;
+		} else {
+			return aId.compareTo(bId);
+		}
+	};
 
 	public final Type type;
 	public final TagKey<Item> material;

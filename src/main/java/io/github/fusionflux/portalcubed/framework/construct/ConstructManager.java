@@ -68,7 +68,7 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		cache.forEach(
 				(id, json) -> tryParseConstruct(id, JsonOps.INSTANCE, json).ifPresent(this::addConstruct)
 		);
-		this.byMaterial.values().forEach(list -> list.sort(ConstructSet.BY_SIZE_COMPARATOR));
+		this.sortConstructs();
 	}
 
 	public void syncToPlayer(ServerPlayer player) {
@@ -83,7 +83,7 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 	public void readFromPacket(ConstructSyncPacket packet) {
 		this.reset();
 		packet.getConstructs().forEach(this::addConstruct);
-		this.byMaterial.values().forEach(list -> list.sort(ConstructSet.BY_SIZE_COMPARATOR));
+		this.sortConstructs();
 	}
 
 	protected static <T> Optional<ConstructSet.Holder> tryParseConstruct(ResourceLocation id, DynamicOps<T> ops, T data) {
@@ -96,6 +96,10 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 		);
 
 		return constructSet == null ? Optional.empty() : Optional.of(new ConstructSet.Holder(id, constructSet));
+	}
+
+	private void sortConstructs() {
+		this.byMaterial.values().forEach(list -> list.sort(ConstructSet.BY_SIZE_COMPARATOR));
 	}
 
 	private void addConstruct(ConstructSet.Holder holder) {
