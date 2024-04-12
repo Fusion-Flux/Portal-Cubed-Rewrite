@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.gui.widget;
 
-import it.unimi.dsi.fastutil.floats.FloatConsumer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -10,6 +9,8 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
+import java.util.function.Consumer;
+
 public class SliderWidget extends AbstractWidget {
 	public static final int BACKGROUND_HEIGHT = 14;
 	public static final int HANDLE_WIDTH = 9;
@@ -17,11 +18,11 @@ public class SliderWidget extends AbstractWidget {
 	private final ResourceLocation sprite;
 	private final ResourceLocation disabledSprite;
 	private final WidgetSprites handleSprites;
-	private final FloatConsumer onSlide;
+	private final Consumer<SliderWidget> onSlide;
 	private final int bound;
 	private float handlePos;
 
-	public SliderWidget(ResourceLocation sprite, ResourceLocation disabledSprite, WidgetSprites handleSprites, int width, float defaultHandlePos, FloatConsumer onSlide) {
+	public SliderWidget(ResourceLocation sprite, ResourceLocation disabledSprite, WidgetSprites handleSprites, int width, float defaultHandlePos, Consumer<SliderWidget> onSlide) {
 		super(0, 0, width, BACKGROUND_HEIGHT, CommonComponents.EMPTY);
 		this.sprite = sprite;
 		this.disabledSprite = disabledSprite;
@@ -31,7 +32,7 @@ public class SliderWidget extends AbstractWidget {
 		this.handlePos = defaultHandlePos;
 	}
 
-	public SliderWidget(ResourceLocation sprite, int width, float defaultHandlePos, FloatConsumer onSlide) {
+	public SliderWidget(ResourceLocation sprite, int width, float defaultHandlePos, Consumer<SliderWidget> onSlide) {
 		this(sprite.withSuffix("_background"), sprite.withSuffix("_background_disabled"), new WidgetSprites(
 				sprite.withSuffix("_handle"),
 				sprite.withSuffix("_handle_disabled"),
@@ -68,7 +69,7 @@ public class SliderWidget extends AbstractWidget {
 	private void setHandlePos(float handlePos) {
 		if (this.handlePos != handlePos) {
 			this.handlePos = handlePos;
-			onSlide.accept(handlePos);
+			onSlide.accept(this);
 		}
 	}
 

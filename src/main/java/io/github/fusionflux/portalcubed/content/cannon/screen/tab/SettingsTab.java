@@ -19,22 +19,28 @@ import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class SettingsTab {
 	public static final int X_OFF = 9;
 	public static final int Y_OFF = 47;
 	public static final int SETTING_TOGGLE_SIZE = 13;
 	public static final Component PREVIEW_OPACITY_SLIDER_TITLE = ConstructionCannonScreen.translate("tab.settings.preview_opacity");
-	public static final Component PREVIEW_OPACITY_SLIDER_DESCRIPTION = ConstructionCannonScreen.translate("tab.settings.preview_opacity.description");
+	public static final String PREVIEW_OPACITY_SLIDER_DESCRIPTION = "tab.settings.preview_opacity.description";
 	public static final ResourceLocation PREVIEW_OPACITY_SLIDER_SPRITE = PortalCubed.id("construction_cannon/settings_tab/preview_opacity_slider");
 	public static final int PREVIEW_OPACITY_SLIDER_WIDTH = 158;
 
 	public static void init(CannonSettingsHolder settings, PanelLayout layout) {
 		Font font = Minecraft.getInstance().font;
+
 		SliderWidget previewOpacitySlider = new SliderWidget(
 				PREVIEW_OPACITY_SLIDER_SPRITE, PREVIEW_OPACITY_SLIDER_WIDTH,
-				settings.get().previewOpacity(), handlePos -> settings.update(s -> s.withPreviewOpacity(handlePos))
+				settings.get().previewOpacity(), slider -> {
+					settings.update(s -> s.withPreviewOpacity(slider.handlePos()));
+					slider.setTooltip(createPreviewOpacityTooltip(settings));
+				}
 		);
+		previewOpacitySlider.setTooltip(createPreviewOpacityTooltip(settings));
 
 		LinearLayout tab = LinearLayout.vertical();
 		{
@@ -64,10 +70,14 @@ public class SettingsTab {
 		{
 			LinearLayout slider = tab.addChild(LinearLayout.vertical());
 			slider.addChild(new TitleWidget(PREVIEW_OPACITY_SLIDER_TITLE, font));
-			slider.addChild(previewOpacitySlider);
-			previewOpacitySlider.active = settings.get().preview();
+			slider.addChild(previewOpacitySlider)
+					.active = settings.get().preview();
 		}
 		layout.addChild(X_OFF, Y_OFF, tab);
+	}
+
+	private static Tooltip createPreviewOpacityTooltip(CannonSettingsHolder settings) {
+		return Tooltip.create(ConstructionCannonScreen.translate(PREVIEW_OPACITY_SLIDER_DESCRIPTION, Mth.floor((double) settings.get().previewOpacity() * 100)));
 	}
 
 	public enum ToggleSetting {

@@ -28,7 +28,7 @@
   "container.portalcubed.construction_cannon.tab.settings.preview": "Placement preview",
   "container.portalcubed.construction_cannon.tab.settings.preview.description": "Shows a translucent preview of how the selected construct will be placed",
   "container.portalcubed.construction_cannon.tab.settings.preview_opacity": "Placement Preview Opacity",
-  "container.portalcubed.construction_cannon.tab.settings.preview_opacity.description": "Changes the opacity of the placement preview, if enabled",
+  "container.portalcubed.construction_cannon.tab.settings.preview_opacity.description": "%s%%",
   "container.portalcubed.construction_cannon.tab.settings.replace_mode": "Replace mode",
   "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks can not be replaced.",
 
