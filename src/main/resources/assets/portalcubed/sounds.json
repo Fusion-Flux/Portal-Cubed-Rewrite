@@ -38,7 +38,7 @@
   "surprise": {
     "sounds": [
       {
-        "name": "portalcubed:button/sad_party_horn",
+        "name": "portalcubed:sad_party_horn",
         "volume": 0.8
       }
     ],
