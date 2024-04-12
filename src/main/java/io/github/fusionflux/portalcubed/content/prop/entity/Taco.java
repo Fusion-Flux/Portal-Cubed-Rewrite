@@ -29,10 +29,11 @@ public class Taco extends Prop {
 
 	private static final int MIN_CONFETTI_AMOUNT = 10;
 	private static final int MAX_CONFETTI_AMOUNT = 30;
+	private static final double CONFETTI_RADIUS = 2.3;
 	private static final float MIN_EXPLOSION_POWER = 1;
 	private static final float MAX_EXPLOSION_POWER = 2;
-	private static final float MIN_PUSH_POWER = 3;
-	private static final float PUSH_RADIUS = 7;
+	private static final double MIN_PUSH_POWER = 3;
+	private static final double PUSH_RADIUS = 7;
 	private static final AABB PUSH_AABB = AABB.ofSize(Vec3.ZERO, PUSH_RADIUS + 1, PUSH_RADIUS + 1, PUSH_RADIUS + 1);
 
 	private int explodeTicks;
@@ -76,12 +77,14 @@ public class Taco extends Prop {
 
 				for (int i = 0; i < this.random.nextInt(MIN_CONFETTI_AMOUNT, MAX_CONFETTI_AMOUNT); i++) {
 					Vec3 randomAreaPos = position.add(new Vec3(
-							(this.random.nextDouble() * 2 - 1) * (PUSH_RADIUS / 2),
-							(this.random.nextDouble() * 2 - 1) * (PUSH_RADIUS / 2),
-							(this.random.nextDouble() * 2 - 1) * (PUSH_RADIUS / 2)
+							(this.random.nextDouble() * 2 - 1) * CONFETTI_RADIUS,
+							(this.random.nextDouble() * 2 - 1) * CONFETTI_RADIUS,
+							(this.random.nextDouble() * 2 - 1) * CONFETTI_RADIUS
 					));
-					BlockParticleOption particleOption = new BlockParticleOption(ParticleTypes.BLOCK, ColorUtil.randomConcrete(this.random).defaultBlockState());
-					level.sendParticles(particleOption, randomAreaPos.x, randomAreaPos.y, randomAreaPos.z, 20, 0, 0, 0, 1);
+					ColorUtil.randomConfettiBlock(this.random).ifPresent(confettiBlock -> {
+						BlockParticleOption particleOption = new BlockParticleOption(ParticleTypes.BLOCK, confettiBlock.defaultBlockState());
+						level.sendParticles(particleOption, randomAreaPos.x, randomAreaPos.y, randomAreaPos.z, 20, 0, 0, 0, 1);
+					});
 				}
 				playSound(PortalCubedSounds.SURPRISE);
 
