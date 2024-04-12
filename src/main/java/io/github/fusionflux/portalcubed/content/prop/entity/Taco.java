@@ -36,8 +36,7 @@ public class Taco extends Prop {
 	public void tick() {
 		Level level = level();
 		if (!level.isClientSide && isIgnited()) {
-			explodeTicks--;
-			if (explodeTicks == 0) {
+			if (--explodeTicks == 0) {
 				level.explode(this, this.getX(), this.getY(), this.getZ(), this.random.nextInt(10, 20), true, Level.ExplosionInteraction.MOB);
 				discard();
 				return;
