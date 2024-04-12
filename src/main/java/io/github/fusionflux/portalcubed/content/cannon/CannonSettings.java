@@ -23,6 +23,7 @@ public record CannonSettings(
 		Optional<TagKey<Item>> material,
 		Optional<ResourceLocation> construct,
 		boolean preview,
+		float previewOpacity,
 		boolean replaceMode
 ) {
 	public static final String NBT_KEY = "cannon_settings";
@@ -31,11 +32,12 @@ public record CannonSettings(
 			TagKey.codec(Registries.ITEM).optionalFieldOf("material").forGetter(CannonSettings::material),
 			ResourceLocation.CODEC.optionalFieldOf("construct").forGetter(CannonSettings::construct),
 			Codec.BOOL.fieldOf("preview").forGetter(CannonSettings::preview),
+			Codec.FLOAT.fieldOf("preview_opacity").forGetter(CannonSettings::previewOpacity),
 			Codec.BOOL.fieldOf("replace_mode").forGetter(CannonSettings::replaceMode)
 	).apply(instance, CannonSettings::new));
 
 	public static final CannonSettings DEFAULT = new CannonSettings(
-			Optional.empty(), Optional.empty(), true, false
+			Optional.empty(), Optional.empty(), true, .55f, false
 	);
 
 	@Nullable
@@ -47,19 +49,23 @@ public record CannonSettings(
     }
 
 	public CannonSettings withConstruct(ResourceLocation construct) {
-		return new CannonSettings(this.material, Optional.ofNullable(construct), this.preview, this.replaceMode);
+		return new CannonSettings(this.material, Optional.ofNullable(construct), this.preview, this.previewOpacity, this.replaceMode);
 	}
 
 	public CannonSettings withMaterial(TagKey<Item> tag) {
-		return new CannonSettings(Optional.ofNullable(tag), Optional.empty(), this.preview, this.replaceMode);
+		return new CannonSettings(Optional.ofNullable(tag), Optional.empty(), this.preview, this.previewOpacity, this.replaceMode);
 	}
 
 	public CannonSettings withPreview(boolean preview) {
-		return new CannonSettings(this.material, this.construct, preview, this.replaceMode);
+		return new CannonSettings(this.material, this.construct, preview, this.previewOpacity, this.replaceMode);
+	}
+
+	public CannonSettings withPreviewOpacity(float previewOpacity) {
+		return new CannonSettings(this.material, this.construct, this.preview, previewOpacity, this.replaceMode);
 	}
 
 	public CannonSettings withReplaceMode(boolean replaceMode) {
-		return new CannonSettings(this.material, this.construct, this.preview, replaceMode);
+		return new CannonSettings(this.material, this.construct, this.preview, this.previewOpacity, replaceMode);
 	}
 
 	public record Configured(TagKey<Item> material, ConstructSet construct) {

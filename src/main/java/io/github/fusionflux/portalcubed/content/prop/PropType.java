@@ -12,6 +12,8 @@ import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 
 import io.github.fusionflux.portalcubed.content.prop.entity.Radio;
 
+import io.github.fusionflux.portalcubed.content.prop.entity.Taco;
+
 import org.apache.commons.lang3.stream.IntStreams;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -47,7 +49,7 @@ public enum PropType {
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, SoundType.CUBE),
-	THE_TACO			   (new TacoDimensions(), SoundType.PORTAL_1_CUBE),
+	THE_TACO			   (2, false, new TacoDimensions(), Taco::new, SoundType.PORTAL_1_CUBE),
 	ERROR                  (EntityDimensions.fixed(1f, 1f), SoundType.ERROR);
 
 	public final int[] variants;

@@ -170,8 +170,8 @@ public class ConstructionCannonScreen extends Screen {
 		this.onClose();
 	}
 
-	public static MutableComponent translate(String key) {
-		return Component.translatable("container.portalcubed.construction_cannon." + key);
+	public static MutableComponent translate(String key, Object... args) {
+		return Component.translatable("container.portalcubed.construction_cannon." + key, args);
 	}
 
 	public enum Tab {
