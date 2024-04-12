@@ -31,6 +31,10 @@ public class SettingsTab {
 
 	public static void init(CannonSettingsHolder settings, PanelLayout layout) {
 		Font font = Minecraft.getInstance().font;
+		SliderWidget previewOpacitySlider = new SliderWidget(
+				PREVIEW_OPACITY_SLIDER_SPRITE, PREVIEW_OPACITY_SLIDER_WIDTH,
+				settings.get().previewOpacity(), handlePos -> settings.update(s -> s.withPreviewOpacity(handlePos))
+		);
 
 		LinearLayout tab = LinearLayout.vertical();
 		{
@@ -40,10 +44,16 @@ public class SettingsTab {
 				LinearLayout button = LinearLayout.horizontal();
 				button.defaultCellSetting().alignVertically(.7f);
 				button.spacing(3);
-				button.addChild(new ToggleButton(
+				button.addChild(
+					new ToggleButton(
 						SETTING_TOGGLE_SIZE, SETTING_TOGGLE_SIZE, setting.sprite,
-						() -> setting.settingGetter.test(settings.get()), v -> settings.update(s -> setting.settingSetter.apply(s, v))
-				)).setTooltip(Tooltip.create(setting.description));
+						() -> setting.settingGetter.test(settings.get()), v -> {
+							if (setting == ToggleSetting.PREVIEW)
+								previewOpacitySlider.active = v;
+							settings.update(s -> setting.settingSetter.apply(s, v));
+						}
+					)
+				).setTooltip(Tooltip.create(setting.description));
 				button.addChild(new TitleWidget(setting.title, font));
 				toggles.addChild(button);
 			}
@@ -54,13 +64,8 @@ public class SettingsTab {
 		{
 			LinearLayout slider = tab.addChild(LinearLayout.vertical());
 			slider.addChild(new TitleWidget(PREVIEW_OPACITY_SLIDER_TITLE, font));
-			SliderWidget sliderWidget = slider.addChild(
-				new SliderWidget(
-					PREVIEW_OPACITY_SLIDER_SPRITE, PREVIEW_OPACITY_SLIDER_WIDTH,
-					settings.get().previewOpacity(), handlePos -> settings.update(s -> s.withPreviewOpacity(handlePos))
-				)
-			);
-			sliderWidget.active = settings.get().preview();
+			slider.addChild(previewOpacitySlider);
+			previewOpacitySlider.active = settings.get().preview();
 		}
 		layout.addChild(X_OFF, Y_OFF, tab);
 	}

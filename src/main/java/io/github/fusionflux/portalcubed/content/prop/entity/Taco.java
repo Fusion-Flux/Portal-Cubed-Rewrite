@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 public class Taco extends Prop {
 	private static final EntityDataAccessor<Boolean> DATA_IS_IGNITED = SynchedEntityData.defineId(Taco.class, EntityDataSerializers.BOOLEAN);
 
-	private int explodeTicks = 0;
+	private int explodeTicks;
 
 	public Taco(PropType type, EntityType<?> entityType, Level level) {
 		super(type, entityType, level);
