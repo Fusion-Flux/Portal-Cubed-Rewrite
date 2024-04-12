@@ -20,13 +20,20 @@ import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractMultiBlock extends DirectionalBlock {
+public abstract class AbstractMultiBlock extends DirectionalBlock implements SimpleWaterloggedBlock {
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
 	public final SizeProperties sizeProperties;
 	public final Size size;
 
@@ -36,7 +43,7 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 		this.sizeProperties = sizeProperties();
 		this.size = new Size(Direction.SOUTH, sizeProperties.xMax, sizeProperties.yMax, sizeProperties.zMax);
 
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, size.direction));
+		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACING, size.direction));
 	}
 
 	public abstract SizeProperties sizeProperties();
@@ -93,7 +100,7 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING);
+		builder.add(WATERLOGGED, FACING);
 		sizeProperties().x.map(builder::add);
 		sizeProperties().y.map(builder::add);
 		sizeProperties().z.map(builder::add);
@@ -102,6 +109,9 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+		if (state.getValue(WATERLOGGED))
+			world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+
 		var rotatedSize = size.rotated(state.getValue(FACING));
 		if (rotatedSize.contains(getOriginPos(pos, state), pos.relative(direction)) && !neighborState.is(this)) {
 			world.levelEvent(null, LevelEvent.PARTICLES_DESTROY_BLOCK, pos, getId(state));
@@ -130,6 +140,11 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 	}
 
 	@Override
+	public FluidState getFluidState(BlockState state) {
+		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	}
+
+	@Override
 	public BlockState rotate(BlockState state, Rotation rotation) {
 		return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
 	}
@@ -141,7 +156,8 @@ public abstract class AbstractMultiBlock extends DirectionalBlock {
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return defaultBlockState().setValue(FACING, ctx.getClickedFace());
+		FluidState fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
+		return defaultBlockState().setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER).setValue(FACING, ctx.getClickedFace());
 	}
 
 	public record Size(Direction direction, int x, int y, int z) {
