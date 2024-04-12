@@ -594,7 +594,7 @@
   "block.portalcubed.large_blue_office_tile_slab": "Large Blue Office Tile Slab",
   "block.portalcubed.large_blue_office_tile_stairs": "Large Blue Office Tile Stairs",
   "block.portalcubed.small_blue_office_tiles": "Small Blue Office Tiles",
-  "block.portalcubed.small_blue_office_tiles_slab": "Small Blue Office Tile Slab",
+  "block.portalcubed.small_blue_office_tile_slab": "Small Blue Office Tile Slab",
   "block.portalcubed.small_blue_office_tile_stairs": "Small Blue Office Tile Stairs",
   "block.portalcubed.black_office_tiles": "Black Office Tiles",
   "block.portalcubed.black_office_tile_slab": "Black Office Tile Slab",
@@ -612,6 +612,29 @@
   "block.portalcubed.portal_1_metal_tile_slab": "Portal 1 Metal Tile Slab",
   "block.portalcubed.portal_1_metal_tile_stairs": "Portal 1 Metal Tile Stairs",
 
+  "block.portalcubed.office_concrete": "Office Concrete",
+  "block.portalcubed.office_concrete_slab": "Office Concrete Slab",
+  "block.portalcubed.office_concrete_facade": "Office Concrete Facade",
+
+  "block.portalcubed.blue_office_concrete": "Blue Office Concrete",
+  "block.portalcubed.blue_office_concrete_slab": "Blue Office Concrete Slab",
+  "block.portalcubed.blue_office_concrete_facade": "Blue Office Concrete Facade",
+
+  "block.portalcubed.striped_office_concrete": "Striped Office Concrete",
+  "block.portalcubed.striped_office_concrete_slab": "Striped Office Concrete Slab",
+  "block.portalcubed.striped_office_concrete_facade": "Striped Office Concrete Facade",
+
+  "block.portalcubed.white_borderless_office_concrete": "White Office Concrete",
+  "block.portalcubed.white_borderless_office_concrete_slab": "White Office Concrete Slab",
+  "block.portalcubed.white_borderless_office_concrete_stairs": "White Office Concrete Stairs",
+  "block.portalcubed.white_borderless_office_concrete_facade": "White Office Concrete Facade",
+
+  "block.portalcubed.light_gray_borderless_office_concrete": "Light Gray Office Concrete",
+  "block.portalcubed.light_gray_borderless_office_concrete_slab": "Light Gray Office Concrete Slab",
+  "block.portalcubed.light_gray_borderless_office_concrete_stairs": "Light Gray Office Concrete Stairs",
+  "block.portalcubed.light_gray_borderless_office_concrete_facade": "Light Gray Office Concrete Facade",
+
+  "block.portalcubed.vertical_office_concrete": "Vertical Office Concrete",
 
 
   "block.portalcubed.neurotoxin_emitter": "Neurotoxin Emitter",

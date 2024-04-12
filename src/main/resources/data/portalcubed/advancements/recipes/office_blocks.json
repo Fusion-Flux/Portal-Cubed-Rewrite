@@ -42,7 +42,38 @@
       "portalcubed:orange_office_tile_stairs_crafting",
       "portalcubed:orange_office_tile_stairs_stonecutting",
       "portalcubed:orange_office_tile_facade_stonecutting",
-      "portalcubed:orange_office_tiles_crafting"
+      "portalcubed:orange_office_tiles_crafting",
+
+      "portalcubed:office_concrete_slab_crafting",
+      "portalcubed:office_concrete_slab_stonecutting",
+      "portalcubed:office_concrete_facade_stonecutting",
+      "portalcubed:office_concrete_crafting",
+
+      "portalcubed:blue_office_concrete_slab_crafting",
+      "portalcubed:blue_office_concrete_slab_stonecutting",
+      "portalcubed:blue_office_concrete_facade_stonecutting",
+      "portalcubed:blue_office_concrete_crafting",
+
+      "portalcubed:striped_office_concrete_slab_crafting",
+      "portalcubed:striped_office_concrete_slab_stonecutting",
+      "portalcubed:striped_office_concrete_facade_stonecutting",
+      "portalcubed:striped_office_concrete_crafting",
+
+      "portalcubed:white_borderless_office_concrete_slab_crafting",
+      "portalcubed:white_borderless_office_concrete_slab_stonecutting",
+      "portalcubed:white_borderless_office_concrete_stairs_crafting",
+      "portalcubed:white_borderless_office_concrete_stairs_stonecutting",
+      "portalcubed:white_borderless_office_concrete_facade_stonecutting",
+      "portalcubed:white_borderless_office_concrete_crafting",
+
+      "portalcubed:light_gray_borderless_office_concrete_slab_crafting",
+      "portalcubed:light_gray_borderless_office_concrete_slab_stonecutting",
+      "portalcubed:light_gray_borderless_office_concrete_stairs_crafting",
+      "portalcubed:light_gray_borderless_office_concrete_stairs_stonecutting",
+      "portalcubed:light_gray_borderless_office_concrete_facade_stonecutting",
+      "portalcubed:light_gray_borderless_office_concrete_crafting",
+
+      "portalcubed:vertical_office_concrete_crafting"
     ]
   },
   "criteria": {
@@ -61,7 +92,9 @@
 		"minecraft:gray_concrete",
 		"minecraft:light_gray_concrete",
 		"minecraft:orange_terracotta",
-		"minecraft:yellow_terracotta"
+		"minecraft:yellow_terracotta",
+		"minecraft:white_concrete",
+		"minecraft:white_terracotta"
 	    ]
           }
         ]

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "portalcubed:block/vertical_office_concrete_top"
+    },
+    "facing=east": {
+      "model": "portalcubed:block/vertical_office_concrete_bottom_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "portalcubed:block/vertical_office_concrete_bottom_horizontal",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "portalcubed:block/vertical_office_concrete_bottom"
+    },
+    "facing=west": {
+      "model": "portalcubed:block/vertical_office_concrete_top_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "facing=south": {
+      "model": "portalcubed:block/vertical_office_concrete_top_horizontal",
+      "x": 90
+    }
+  }
+}

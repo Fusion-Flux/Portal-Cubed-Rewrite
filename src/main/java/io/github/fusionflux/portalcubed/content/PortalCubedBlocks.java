@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
+import io.github.fusionflux.portalcubed.framework.block.RealDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
 import net.minecraft.Util;
@@ -105,19 +106,22 @@ public class PortalCubedBlocks {
 					}
 				}
 			});
-	// ----- misc blocks -----
+	// ----- misc blocks - tiles -----
 	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
 			.build();
 	public static final SlabBlock PORTAL_1_METAL_TILE_SLAB = REGISTRAR.blocks.create("portal_1_metal_tile_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
 			.build();
 	public static final SaneStairBlock PORTAL_1_METAL_TILE_STAIRS = REGISTRAR.blocks.create("portal_1_metal_tile_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
 			.build();
 	public static final SimpleMultifaceBlock PORTAL_1_METAL_TILE_FACADE = REGISTRAR.blocks.create("portal_1_metal_tile_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
 			.build();
 	public static final Block LARGE_BLUE_OFFICE_TILES = REGISTRAR.blocks.create("large_blue_office_tiles", Block::new)
 			.copyFrom(Blocks.CYAN_TERRACOTTA)
@@ -190,6 +194,66 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SimpleMultifaceBlock ORANGE_OFFICE_TILE_FACADE = REGISTRAR.blocks.create("orange_office_tile_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	// ----- misc blocks - office concrete -----
+	public static final Block OFFICE_CONCRETE = REGISTRAR.blocks.create("office_concrete", Block::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+	public static final SlabBlock OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("office_concrete_slab", SlabBlock::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("office_concrete_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+
+	public static final Block BLUE_OFFICE_CONCRETE = REGISTRAR.blocks.create("blue_office_concrete", Block::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+	public static final SlabBlock BLUE_OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("blue_office_concrete_slab", SlabBlock::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock BLUE_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("blue_office_concrete_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+
+	public static final Block STRIPED_OFFICE_CONCRETE = REGISTRAR.blocks.create("striped_office_concrete", Block::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+	public static final SlabBlock STRIPED_OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("striped_office_concrete_slab", SlabBlock::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+	public static final SimpleMultifaceBlock STRIPED_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("striped_office_concrete_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.WHITE_TERRACOTTA)
+			.build();
+
+	public static final Block WHITE_BORDERLESS_OFFICE_CONCRETE = REGISTRAR.blocks.create("white_borderless_office_concrete", Block::new)
+			.copyFrom(Blocks.WHITE_CONCRETE)
+			.build();
+	public static final SlabBlock WHITE_BORDERLESS_OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("white_borderless_office_concrete_slab", SlabBlock::new)
+			.copyFrom(Blocks.WHITE_CONCRETE)
+			.build();
+	public static final SaneStairBlock WHITE_BORDERLESS_OFFICE_CONCRETE_STAIRS = REGISTRAR.blocks.create("white_borderless_office_concrete_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.WHITE_CONCRETE)
+			.build();
+	public static final SimpleMultifaceBlock WHITE_BORDERLESS_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("white_borderless_office_concrete_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.WHITE_CONCRETE)
+			.build();
+
+	public static final Block LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE = REGISTRAR.blocks.create("light_gray_borderless_office_concrete", Block::new)
+			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
+			.build();
+	public static final SlabBlock LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("light_gray_borderless_office_concrete_slab", SlabBlock::new)
+			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
+			.build();
+	public static final SaneStairBlock LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_STAIRS = REGISTRAR.blocks.create("light_gray_borderless_office_concrete_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
+			.build();
+	public static final SimpleMultifaceBlock LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("light_gray_borderless_office_concrete_facade", SimpleMultifaceBlock::new)
+			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
+			.build();
+
+	public static final RealDirectionalBlock VERTICAL_OFFICE_CONCRETE = REGISTRAR.blocks.create("vertical_office_concrete", RealDirectionalBlock::new)
+			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
 
 	public static void init() {

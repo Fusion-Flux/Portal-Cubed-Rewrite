@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "portalcubed:block/blank_borderless_office_concrete",
+    "side": "portalcubed:block/blank_borderless_office_concrete",
+    "top": "portalcubed:block/blank_borderless_office_concrete"
+  }
+}

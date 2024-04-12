@@ -94,6 +94,30 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_STAIRS);
 			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_FACADE);
 
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE_STAIRS);
+			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_STAIRS);
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.VERTICAL_OFFICE_CONCRETE);
+
 		});
 
 

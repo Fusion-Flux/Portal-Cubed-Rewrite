@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/white_borderless_office_concrete_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/white_borderless_office_concrete"
+    },
+    "type=top": {
+      "model": "portalcubed:block/white_borderless_office_concrete_slab_top"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "portalcubed:blank_borderless_office_concrete"
+  },
+  "result": "portalcubed:blank_borderless_office_concrete_stairs"
+}

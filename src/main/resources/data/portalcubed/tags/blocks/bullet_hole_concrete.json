@@ -164,7 +164,23 @@
     "portalcubed:orange_office_tiles",
     "portalcubed:orange_office_tile_slab",
     "portalcubed:orange_office_tile_stairs",
-    "portalcubed:orange_office_tile_facade"
+    "portalcubed:orange_office_tile_facade",
+
+    "portalcubed:office_concrete",
+    "portalcubed:striped_office_concrete",
+    "portalcubed:blue_office_concrete",
+    "portalcubed:light_gray_borderless_office_concrete",
+    "portalcubed:white_borderless_office_concrete",
+    "portalcubed:vertical_office_concrete",
+
+    "portalcubed:light_gray_borderless_office_concrete_stairs",
+    "portalcubed:white_borderless_office_concrete_stairs",
+
+    "portalcubed:office_concrete_facade",
+    "portalcubed:striped_office_concrete_facade",
+    "portalcubed:blue_office_concrete_facade",
+    "portalcubed:light_gray_borderless_office_concrete_facade",
+    "portalcubed:white_borderless_office_concrete_facade"
 
   ]
 }

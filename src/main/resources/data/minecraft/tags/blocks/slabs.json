@@ -35,6 +35,11 @@
     "portalcubed:black_office_tile_slab",
     "portalcubed:brown_office_tile_slab",
     "portalcubed:orange_office_tile_slab",
-    "portalcubed:portal_1_metal_tile_slab"
+    "portalcubed:portal_1_metal_tile_slab",
+    "portalcubed:office_concrete_slab",
+    "portalcubed:striped_office_concrete_slab",
+    "portalcubed:blue_office_concrete_slab",
+    "portalcubed:light_gray_borderless_office_concrete_slab",
+    "portalcubed:white_borderless_office_concrete_slab"
   ]
 }

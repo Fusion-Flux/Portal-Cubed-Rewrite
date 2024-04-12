@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "portalcubed:block/office_concrete_top",
+    "side": "portalcubed:block/office_concrete",
+    "top": "portalcubed:block/office_concrete_top"
+  }
+}
