@@ -1,23 +1,39 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.framework.util.ColorUtil;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 public class Taco extends Prop {
 	private static final EntityDataAccessor<Boolean> DATA_IS_IGNITED = SynchedEntityData.defineId(Taco.class, EntityDataSerializers.BOOLEAN);
+
+	private static final int MIN_CONFETTI_AMOUNT = 10;
+	private static final int MAX_CONFETTI_AMOUNT = 30;
+	private static final float MIN_EXPLOSION_POWER = 1;
+	private static final float MAX_EXPLOSION_POWER = 2;
+	private static final float MIN_PUSH_POWER = 3;
+	private static final float PUSH_RADIUS = 7;
+	private static final AABB PUSH_AABB = AABB.ofSize(Vec3.ZERO, PUSH_RADIUS + 1, PUSH_RADIUS + 1, PUSH_RADIUS + 1);
 
 	private int explodeTicks;
 
@@ -34,10 +50,41 @@ public class Taco extends Prop {
 
 	@Override
 	public void tick() {
-		Level level = level();
-		if (!level.isClientSide && isIgnited()) {
+		if (level() instanceof ServerLevel level && isIgnited()) {
 			if (--explodeTicks == 0) {
-				level.explode(this, this.getX(), this.getY(), this.getZ(), this.random.nextInt(10, 20), true, Level.ExplosionInteraction.MOB);
+				Vec3 position = position();
+				level.explode(
+						this,
+						position.x,
+						position.y,
+						position.z,
+						Math.max(this.random.nextFloat() * MAX_EXPLOSION_POWER, MIN_EXPLOSION_POWER),
+						false,
+						Level.ExplosionInteraction.MOB
+				);
+				for (Entity entityToPush : level.getEntities(this, PUSH_AABB.move(position))) {
+					if (!entityToPush.isInvulnerable() && !entityToPush.isNoGravity()) {
+						Vec3 vectorToThis = position.vectorTo(entityToPush.position());
+						double dist = vectorToThis.length();
+						if (dist <= PUSH_RADIUS) {
+							Vec3 pushDirection = vectorToThis.add(0, dist / PUSH_RADIUS, 0).normalize();
+							double pushForce = Math.max((this.random.nextDouble() * PUSH_RADIUS) / (dist / 2), MIN_PUSH_POWER);
+							entityToPush.setDeltaMovement(entityToPush.getDeltaMovement().add(pushDirection.scale(pushForce)));
+						}
+					}
+				}
+
+				for (int i = 0; i < this.random.nextInt(MIN_CONFETTI_AMOUNT, MAX_CONFETTI_AMOUNT); i++) {
+					Vec3 randomAreaPos = position.add(new Vec3(
+							(this.random.nextDouble() * 2 - 1) * (PUSH_RADIUS / 2),
+							(this.random.nextDouble() * 2 - 1) * (PUSH_RADIUS / 2),
+							(this.random.nextDouble() * 2 - 1) * (PUSH_RADIUS / 2)
+					));
+					BlockParticleOption particleOption = new BlockParticleOption(ParticleTypes.BLOCK, ColorUtil.randomConcrete(this.random).defaultBlockState());
+					level.sendParticles(particleOption, randomAreaPos.x, randomAreaPos.y, randomAreaPos.z, 20, 0, 0, 0, 1);
+				}
+				playSound(PortalCubedSounds.SURPRISE);
+
 				discard();
 				return;
 			} else {
