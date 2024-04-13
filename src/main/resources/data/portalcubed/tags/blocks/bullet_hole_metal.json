@@ -99,10 +99,6 @@
     "portalcubed:portal_1_metal_tiles",
     "portalcubed:portal_1_metal_tile_slab",
     "portalcubed:portal_1_metal_tile_stairs",
-    "portalcubed:portal_1_metal_tile_facade",
-
-    "portalcubed:metal_grate",
-    "portalcubed:old_ap_metal_grate",
-    "portalcubed:portal_1_metal_grate"
+    "portalcubed:portal_1_metal_tile_facade"
   ]
 }

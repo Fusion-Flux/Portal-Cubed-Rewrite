@@ -33,7 +33,11 @@
       "portalcubed:metal_grate_crafting",
       "portalcubed:portal_1_metal_grate_crafting",
       "portalcubed:old_ap_metal_grate_crafting",
-      "portalcubed:mesh_grate_crafting"
+      "portalcubed:mesh_grate_crafting",
+      "portalcubed:metal_grate_facade_stonecutting",
+      "portalcubed:portal_1_metal_grate_facade_stonecutting",
+      "portalcubed:old_ap_metal_grate_facade_stonecutting",
+      "portalcubed:mesh_grate_facade_stonecutting"
     ]
   }
 }

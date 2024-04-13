@@ -210,6 +210,9 @@
     "portalcubed:white_borderless_office_concrete_facade",
     "portalcubed:metal_grate",
     "portalcubed:portal_1_metal_grate",
-    "portalcubed:old_ap_metal_grate"
+    "portalcubed:old_ap_metal_grate",
+    "portalcubed:metal_grate_facade",
+    "portalcubed:portal_1_metal_grate_facade",
+    "portalcubed:old_ap_metal_grate_facade"
   ]
 }

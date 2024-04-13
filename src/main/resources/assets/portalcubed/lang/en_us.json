@@ -640,6 +640,10 @@
   "block.portalcubed.old_ap_metal_grate": "Old Aperture Metal Grate",
   "block.portalcubed.portal_1_metal_grate": "Portal 1 Metal Grate",
   "block.portalcubed.mesh_grate": "Mesh Grate",
+  "block.portalcubed.metal_grate_facade": "Metal Grate Facade",
+  "block.portalcubed.old_ap_metal_grate_facade": "Old Aperture Metal Grate Facade",
+  "block.portalcubed.portal_1_metal_grate_facade": "Portal 1 Metal Grate Facade",
+  "block.portalcubed.mesh_grate_facade": "Mesh Grate Facade",
 
 
   "block.portalcubed.neurotoxin_emitter": "Neurotoxin Emitter",
