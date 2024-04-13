@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.entity;
 
 import java.util.OptionalInt;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -21,6 +22,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
+
 // hold state
 // - client keybind triggers sending a GrabPacket, calls grab(player)
 // - server sets ID field on player, updates tracked data
@@ -30,6 +33,7 @@ import net.minecraft.world.phys.Vec3;
 // - client keybind sends DropPacket, calls drop()
 // - field is set, tracked data updated
 // - HoldStatusPackets sent, clients update
+// - For existing holds, additional HoldStatusPackets are sent in AFTER_START_TRACKING.
 public abstract class HoldableEntity extends LerpableEntity {
 	private static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 
@@ -108,8 +112,14 @@ public abstract class HoldableEntity extends LerpableEntity {
 	}
 
 	public void grab(ServerPlayer player) {
-		if (this.holder != null)
+		if (this.holder != null) {
+			// check if the new player can steal it
+			if (!player.serverLevel().getGameRules().getBoolean(PortalCubedGameRules.PROP_SNATCHING))
+				return; // can't, don't do anything
+
+			// can, drop first, then re-grab
 			this.drop();
+		}
 
 		this.entityData.set(HOLDER, OptionalInt.of(player.getId()));
 		((PlayerExt) player).pc$setHeldProp(OptionalInt.of(this.getId()));
@@ -130,5 +140,16 @@ public abstract class HoldableEntity extends LerpableEntity {
 		for (ServerPlayer toUpdate : PortalCubedPackets.trackingAndSelf(holder)) {
 			PortalCubedPackets.sendToClient(toUpdate, packet);
 		}
+	}
+
+	public static void registerEventListeners() {
+		EntityTrackingEvents.AFTER_START_TRACKING.register((tracked, player) -> {
+			if (tracked instanceof PlayerExt otherPlayer) {
+				OptionalInt held = otherPlayer.pc$getHeldProp();
+				if (held.isPresent()) {
+					PortalCubedPackets.sendToClient(player, new HoldStatusPacket(tracked.getId(), held));
+				}
+			}
+		});
 	}
 }
