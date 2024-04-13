@@ -4,7 +4,6 @@ import java.util.OptionalInt;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -15,7 +14,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -38,7 +36,7 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 			EntityHitResult hit = ProjectileUtil.getEntityHitResult(
 					player, startPos, endPos, checkBox,
 					EntitySelector.NO_SPECTATORS.and(Entity::isPickable),
-					GrabPacket.MAX_DIST_SQR
+					HoldableEntity.MAX_DIST_SQR
 			);
 
 			if (hit != null && hit.getEntity() instanceof HoldableEntity holdable) {

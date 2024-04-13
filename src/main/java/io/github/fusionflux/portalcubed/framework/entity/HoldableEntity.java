@@ -14,7 +14,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
@@ -35,7 +34,9 @@ import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 // - HoldStatusPackets sent, clients update
 // - For existing holds, additional HoldStatusPackets are sent in AFTER_START_TRACKING.
 public abstract class HoldableEntity extends LerpableEntity {
-	private static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
+	public static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
+	public static final double MAX_DIST_SQR = 3 * 3;
+	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
 
 	@Nullable
 	private Player holder;
@@ -73,20 +74,22 @@ public abstract class HoldableEntity extends LerpableEntity {
 			return;
 
 		// move in front of player
-		Vec3 holdPoint = holder.getEyePosition()
-				.add(Vec3.directionFromRotation(holder.getXRot(), holder.getYRot()).scale(2))
-				.add(0, -getBbHeight() / 2, 0);
+		Vec3 holdPoint = holder.getLookAngle().scale(2)
+				.add(holder.getEyePosition())
+				.subtract(0, this.getBbHeight() / 2, 0);
 		Vec3 toPoint = this.position().vectorTo(holdPoint);
-//		this.setDeltaMovement(toPoint.scale(1 / 20f));
-		this.move(MoverType.SELF, toPoint);
+		if (toPoint.length() > MAX_SPEED_SQR)
+			toPoint = toPoint.normalize().scale(MAX_SPEED_SQR);
+		this.setDeltaMovement(toPoint);
+		this.move(MoverType.PLAYER, this.getDeltaMovement());
 
-		// rotate to face player, unless taco
+		// rotate to face player
 		if (this.facesHolder()) {
 			this.setYRot((holder.getYRot() + 180) % 360);
 		}
 
 		// drop when too far away
-		if (!this.level().isClientSide && position().distanceToSqr(holder.getEyePosition()) >= Mth.square(4.5))
+		if (!this.level().isClientSide && position().distanceToSqr(holder.getEyePosition()) >= MAX_DIST_SQR)
 			this.drop();
 	}
 

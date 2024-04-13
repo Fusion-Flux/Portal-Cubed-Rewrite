@@ -42,7 +42,7 @@ public abstract class LerpableEntity extends Entity {
 		this.lerpZ = z;
 		this.lerpYRot = yaw;
 		this.lerpXRot = pitch;
-		this.lerpSteps = interpolationSteps;
+		this.lerpSteps = interpolationSteps * 3; // I don't know why 3x, it makes it smoother
 	}
 
 	@Override

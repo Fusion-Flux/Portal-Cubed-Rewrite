@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
-import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
@@ -14,8 +13,6 @@ import net.minecraft.world.entity.Entity;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record GrabPacket(int grabbed) implements ServerboundPacket {
-	public static final double MAX_DIST_SQR = 3 * 3;
-
 	public GrabPacket(HoldableEntity grabbed) {
 		this(grabbed.getId());
 	}
@@ -39,7 +36,7 @@ public record GrabPacket(int grabbed) implements ServerboundPacket {
 		ServerLevel level = player.serverLevel();
 		Entity entity = level.getEntity(this.grabbed);
 		if (entity instanceof HoldableEntity holdable) {
-			if (entity.position().distanceToSqr(player.getEyePosition()) < MAX_DIST_SQR) {
+			if (entity.position().distanceToSqr(player.getEyePosition()) < HoldableEntity.MAX_DIST_SQR) {
 				holdable.grab(player);
 			}
 		}
