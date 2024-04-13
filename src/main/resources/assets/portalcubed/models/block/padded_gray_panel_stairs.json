@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/stairs",
   "textures": {
-    "bottom": "portalcubed:block/padded_gray_half_panel",
-    "side": "portalcubed:block/padded_gray_half_panel",
-    "top": "portalcubed:block/padded_gray_half_panel"
+    "bottom": "portalcubed:block/padded_gray_panel",
+    "side": "portalcubed:block/padded_gray_panel",
+    "top": "portalcubed:block/padded_gray_panel"
   }
 }

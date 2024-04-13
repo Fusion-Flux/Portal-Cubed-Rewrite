@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "portalcubed:block/aged_padded_gray_half_panel_1",
-    "side": "portalcubed:block/aged_padded_gray_half_panel_1",
-    "top": "portalcubed:block/aged_padded_gray_half_panel_1"
+    "bottom": "portalcubed:block/aged_padded_gray_panel_1",
+    "side": "portalcubed:block/aged_padded_gray_panel_1",
+    "top": "portalcubed:block/aged_padded_gray_panel_1"
   }
 }
