@@ -9,6 +9,8 @@ import net.minecraft.Util;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.WaterloggedTransparentBlock;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
@@ -205,7 +207,6 @@ public class PortalCubedBlocks {
 	public static final SimpleMultifaceBlock OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("office_concrete_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.WHITE_TERRACOTTA)
 			.build();
-
 	public static final Block BLUE_OFFICE_CONCRETE = REGISTRAR.blocks.create("blue_office_concrete", Block::new)
 			.copyFrom(Blocks.WHITE_TERRACOTTA)
 			.build();
@@ -215,7 +216,6 @@ public class PortalCubedBlocks {
 	public static final SimpleMultifaceBlock BLUE_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("blue_office_concrete_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.WHITE_TERRACOTTA)
 			.build();
-
 	public static final Block STRIPED_OFFICE_CONCRETE = REGISTRAR.blocks.create("striped_office_concrete", Block::new)
 			.copyFrom(Blocks.WHITE_TERRACOTTA)
 			.build();
@@ -225,7 +225,6 @@ public class PortalCubedBlocks {
 	public static final SimpleMultifaceBlock STRIPED_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("striped_office_concrete_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.WHITE_TERRACOTTA)
 			.build();
-
 	public static final Block WHITE_BORDERLESS_OFFICE_CONCRETE = REGISTRAR.blocks.create("white_borderless_office_concrete", Block::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
@@ -238,7 +237,6 @@ public class PortalCubedBlocks {
 	public static final SimpleMultifaceBlock WHITE_BORDERLESS_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("white_borderless_office_concrete_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
-
 	public static final Block LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE = REGISTRAR.blocks.create("light_gray_borderless_office_concrete", Block::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
@@ -251,11 +249,34 @@ public class PortalCubedBlocks {
 	public static final SimpleMultifaceBlock LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("light_gray_borderless_office_concrete_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
-
 	public static final RealDirectionalBlock VERTICAL_OFFICE_CONCRETE = REGISTRAR.blocks.create("vertical_office_concrete", RealDirectionalBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
-
+	// ----- misc blocks - grates -----
+	public static final WaterloggedTransparentBlock METAL_GRATE = REGISTRAR.blocks.create("metal_grate", WaterloggedTransparentBlock::new)
+			.copyFrom(Blocks.COPPER_GRATE)
+			.settings(settings -> settings.mapColor(MapColor.COLOR_GRAY))
+			.settings(QuiltBlockSettings::noOcclusion)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final WaterloggedTransparentBlock OLD_AP_METAL_GRATE = REGISTRAR.blocks.create("old_ap_metal_grate", WaterloggedTransparentBlock::new)
+			.copyFrom(Blocks.COPPER_GRATE)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.settings(QuiltBlockSettings::noOcclusion)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final WaterloggedTransparentBlock PORTAL_1_METAL_GRATE = REGISTRAR.blocks.create("portal_1_metal_grate", WaterloggedTransparentBlock::new)
+			.copyFrom(Blocks.COPPER_GRATE)
+			.settings(settings -> settings.mapColor(MapColor.SAND))
+			.settings(QuiltBlockSettings::noOcclusion)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final WaterloggedTransparentBlock MESH_GRATE = REGISTRAR.blocks.create("mesh_grate", WaterloggedTransparentBlock::new)
+			.copyFrom(Blocks.BLACK_WOOL)
+			.settings(settings -> settings.sounds(SoundType.VINE))
+			.settings(QuiltBlockSettings::noOcclusion)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
 	public static void init() {
 	}
 }

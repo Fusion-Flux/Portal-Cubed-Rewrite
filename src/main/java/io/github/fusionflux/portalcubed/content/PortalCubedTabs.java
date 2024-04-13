@@ -118,6 +118,11 @@ public class PortalCubedTabs {
 
 			output.accept(PortalCubedBlocks.VERTICAL_OFFICE_CONCRETE);
 
+			output.accept(PortalCubedBlocks.METAL_GRATE);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE);
+			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE);
+			output.accept(PortalCubedBlocks.MESH_GRATE);
+
 		});
 
 

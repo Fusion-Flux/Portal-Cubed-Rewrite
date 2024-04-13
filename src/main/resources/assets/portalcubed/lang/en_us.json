@@ -636,6 +636,11 @@
 
   "block.portalcubed.vertical_office_concrete": "Vertical Office Concrete",
 
+  "block.portalcubed.metal_grate": "Metal Grate",
+  "block.portalcubed.old_ap_metal_grate": "Old Aperture Metal Grate",
+  "block.portalcubed.portal_1_metal_grate": "Portal 1 Metal Grate",
+  "block.portalcubed.mesh_grate": "Mesh Grate",
+
 
   "block.portalcubed.neurotoxin_emitter": "Neurotoxin Emitter",
 
