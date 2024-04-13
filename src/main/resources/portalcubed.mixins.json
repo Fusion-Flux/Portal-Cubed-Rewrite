@@ -12,7 +12,8 @@
     "MultifaceBlockAccessor",
     "PlayerMixin",
     "ServerEntityMixin",
-    "ServerLevelMixin"
+    "ServerLevelMixin",
+    "SlabBlockMixin"
   ],
   "client": [
     "client.AbstractContainerScreenMixin",
@@ -26,8 +27,8 @@
     "client.ContainerEventHandlerMixin",
     "client.GameRendererMixin",
     "client.GuiGraphicsAccessor",
-    "client.ItemRendererAccessor",
     "client.ItemInHandRendererMixin",
+    "client.ItemRendererAccessor",
     "client.KeyValueConditionAccessor",
     "client.LevelRendererMixin",
     "client.MinecraftMixin",
@@ -35,8 +36,8 @@
     "client.OrConditionAccessor",
     "client.PlayerRendererMixin",
     "client.ScreenMixin",
-    "client.SimpleBakedModelAccessor",
     "client.SelectorAccessor",
+    "client.SimpleBakedModelAccessor",
     "client.Variant_DeserializerMixin",
     "client.VariantMixin"
   ],

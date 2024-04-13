@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
+import io.github.fusionflux.portalcubed.framework.block.DoubleWaterloggableSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.RealDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
@@ -272,7 +273,7 @@ public class PortalCubedBlocks {
 			.settings(QuiltBlockSettings::noOcclusion)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final SlabBlock METAL_GRATE_SLAB = REGISTRAR.blocks.create("metal_grate_slab", SlabBlock::new)
+	public static final SlabBlock METAL_GRATE_SLAB = REGISTRAR.blocks.create("metal_grate_slab", DoubleWaterloggableSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
 			.settings(settings -> settings.mapColor(MapColor.COLOR_GRAY))
@@ -293,7 +294,7 @@ public class PortalCubedBlocks {
 			.settings(QuiltBlockSettings::noOcclusion)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final SlabBlock OLD_AP_METAL_GRATE_SLAB = REGISTRAR.blocks.create("old_ap_metal_grate_slab", SlabBlock::new)
+	public static final SlabBlock OLD_AP_METAL_GRATE_SLAB = REGISTRAR.blocks.create("old_ap_metal_grate_slab", DoubleWaterloggableSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
 			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
@@ -314,7 +315,7 @@ public class PortalCubedBlocks {
 			.settings(QuiltBlockSettings::noOcclusion)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final SlabBlock PORTAL_1_METAL_GRATE_SLAB = REGISTRAR.blocks.create("portal_1_metal_grate_slab", SlabBlock::new)
+	public static final SlabBlock PORTAL_1_METAL_GRATE_SLAB = REGISTRAR.blocks.create("portal_1_metal_grate_slab", DoubleWaterloggableSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
 			.settings(settings -> settings.mapColor(MapColor.SAND))
@@ -334,7 +335,7 @@ public class PortalCubedBlocks {
 			.settings(QuiltBlockSettings::noOcclusion)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final SlabBlock MESH_GRATE_SLAB = REGISTRAR.blocks.create("mesh_grate_slab", SlabBlock::new)
+	public static final SlabBlock MESH_GRATE_SLAB = REGISTRAR.blocks.create("mesh_grate_slab", DoubleWaterloggableSlabBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
 			.settings(settings -> settings.sounds(SoundType.VINE))
 			.settings(QuiltBlockSettings::noOcclusion)
