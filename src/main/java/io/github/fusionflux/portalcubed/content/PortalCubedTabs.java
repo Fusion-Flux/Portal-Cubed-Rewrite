@@ -118,13 +118,13 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_WALL);
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_FACADE);
 
+			output.accept(PortalCubedBlocks.VERTICAL_OFFICE_CONCRETE);
+
 			output.accept(PortalCubedBlocks.PLYWOOD);
 			output.accept(PortalCubedBlocks.PLYWOOD_SLAB);
 			output.accept(PortalCubedBlocks.PLYWOOD_STAIRS);
 			output.accept(PortalCubedBlocks.PLYWOOD_WALL);
 			output.accept(PortalCubedBlocks.PLYWOOD_FACADE);
-
-			output.accept(PortalCubedBlocks.VERTICAL_OFFICE_CONCRETE);
 
 			output.accept(PortalCubedBlocks.INSULATION);
 			output.accept(PortalCubedBlocks.INSULATION_FACADE);
