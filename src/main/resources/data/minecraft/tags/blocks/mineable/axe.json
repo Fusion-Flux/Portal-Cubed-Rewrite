@@ -46,6 +46,11 @@
     "portalcubed:white_checkered_panel_stairs",
     "portalcubed:white_half_panel_facade",
     "portalcubed:white_panel_facade",
-    "portalcubed:white_checkered_panel_facade"
+    "portalcubed:white_checkered_panel_facade",
+    "portalcubed:plywood",
+    "portalcubed:plywood_slab",
+    "portalcubed:plywood_stairs",
+    "portalcubed:plywood_wall",
+    "portalcubed:plywood_facade"
   ]
 }

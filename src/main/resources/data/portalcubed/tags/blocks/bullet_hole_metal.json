@@ -99,6 +99,13 @@
     "portalcubed:portal_1_metal_tiles",
     "portalcubed:portal_1_metal_tile_slab",
     "portalcubed:portal_1_metal_tile_stairs",
-    "portalcubed:portal_1_metal_tile_facade"
+    "portalcubed:portal_1_metal_tile_facade",
+
+    "portalcubed:tread_plate",
+    "portalcubed:tread_plate_slab",
+    "portalcubed:tread_plate_facade",
+    "portalcubed:dirty_tread_plate",
+    "portalcubed:dirty_tread_plate_slab",
+    "portalcubed:dirty_tread_plate_facade"
   ]
 }

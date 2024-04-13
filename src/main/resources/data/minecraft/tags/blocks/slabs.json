@@ -40,6 +40,13 @@
     "portalcubed:striped_office_concrete_slab",
     "portalcubed:blue_office_concrete_slab",
     "portalcubed:light_gray_borderless_office_concrete_slab",
-    "portalcubed:white_borderless_office_concrete_slab"
+    "portalcubed:white_borderless_office_concrete_slab",
+    "portalcubed:tread_plate_slab",
+    "portalcubed:dirty_tread_plate_slab",
+    "portalcubed:plywood_slab",
+    "portalcubed:metal_grate_slab",
+    "portalcubed:portal_1_metal_grate_slab",
+    "portalcubed:old_ap_metal_grate_slab",
+    "portalcubed:mesh_grate_slab"
   ]
 }

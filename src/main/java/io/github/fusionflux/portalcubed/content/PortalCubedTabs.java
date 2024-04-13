@@ -109,23 +109,45 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE);
 			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE_SLAB);
 			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE_STAIRS);
+			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE_WALL);
 			output.accept(PortalCubedBlocks.WHITE_BORDERLESS_OFFICE_CONCRETE_FACADE);
 
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE);
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_SLAB);
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_STAIRS);
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_WALL);
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.PLYWOOD);
+			output.accept(PortalCubedBlocks.PLYWOOD_SLAB);
+			output.accept(PortalCubedBlocks.PLYWOOD_STAIRS);
+			output.accept(PortalCubedBlocks.PLYWOOD_WALL);
+			output.accept(PortalCubedBlocks.PLYWOOD_FACADE);
 
 			output.accept(PortalCubedBlocks.VERTICAL_OFFICE_CONCRETE);
 
+			output.accept(PortalCubedBlocks.INSULATION);
+			output.accept(PortalCubedBlocks.INSULATION_FACADE);
+
 			output.accept(PortalCubedBlocks.METAL_GRATE);
+			output.accept(PortalCubedBlocks.METAL_GRATE_SLAB);
 			output.accept(PortalCubedBlocks.METAL_GRATE_FACADE);
 			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE_SLAB);
 			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE_FACADE);
 			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE);
+			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE_SLAB);
 			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE_FACADE);
 			output.accept(PortalCubedBlocks.MESH_GRATE);
+			output.accept(PortalCubedBlocks.MESH_GRATE_SLAB);
 			output.accept(PortalCubedBlocks.MESH_GRATE_FACADE);
+
+			output.accept(PortalCubedBlocks.TREAD_PLATE);
+			output.accept(PortalCubedBlocks.TREAD_PLATE_SLAB);
+			output.accept(PortalCubedBlocks.TREAD_PLATE_FACADE);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_SLAB);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_FACADE);
 
 		});
 

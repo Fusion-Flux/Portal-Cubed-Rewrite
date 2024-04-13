@@ -34,10 +34,20 @@
       "portalcubed:portal_1_metal_grate_crafting",
       "portalcubed:old_ap_metal_grate_crafting",
       "portalcubed:mesh_grate_crafting",
+      "portalcubed:metal_grate_slab_crafting",
+      "portalcubed:portal_1_metal_grate_slab_crafting",
+      "portalcubed:old_ap_metal_grate_slab_crafting",
+      "portalcubed:mesh_grate_slab_crafting",
+      "portalcubed:metal_grate_slab_stonecutting",
+      "portalcubed:portal_1_metal_grate_slab_stonecutting",
+      "portalcubed:old_ap_metal_grate_slab_stonecutting",
+      "portalcubed:mesh_grate_slab_stonecutting",
       "portalcubed:metal_grate_facade_stonecutting",
       "portalcubed:portal_1_metal_grate_facade_stonecutting",
       "portalcubed:old_ap_metal_grate_facade_stonecutting",
-      "portalcubed:mesh_grate_facade_stonecutting"
+      "portalcubed:mesh_grate_facade_stonecutting",
+      "portalcubed:insulation_crafting",
+      "portalcubed:insulation_facade_stonecutting"
     ]
   }
 }

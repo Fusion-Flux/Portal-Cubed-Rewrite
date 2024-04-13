@@ -211,8 +211,17 @@
     "portalcubed:metal_grate",
     "portalcubed:portal_1_metal_grate",
     "portalcubed:old_ap_metal_grate",
+    "portalcubed:metal_grate_slab",
+    "portalcubed:portal_1_metal_grate_slab",
+    "portalcubed:old_ap_metal_grate_slab",
     "portalcubed:metal_grate_facade",
     "portalcubed:portal_1_metal_grate_facade",
-    "portalcubed:old_ap_metal_grate_facade"
+    "portalcubed:old_ap_metal_grate_facade",
+    "portalcubed:tread_plate",
+    "portalcubed:tread_plate_slab",
+    "portalcubed:tread_plate_facade",
+    "portalcubed:dirty_tread_plate",
+    "portalcubed:dirty_tread_plate_slab",
+    "portalcubed:dirty_tread_plate_facade"
   ]
 }

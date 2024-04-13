@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YY",
+        "XX"
+    ],
+    "key": {
+        "Y": {
+            "item": "minecraft:iron_nugget"
+        },
+        "X": {
+            "item": "minecraft:iron_block"
+        }
+    },
+    "result": {
+        "item": "portalcubed:tread_plate",
+        "count": 4
+    }
+}

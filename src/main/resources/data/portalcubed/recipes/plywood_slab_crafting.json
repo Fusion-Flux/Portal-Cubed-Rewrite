@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:plywood"
+        }
+    },
+    "result": {
+        "item": "portalcubed:plywood_slab",
+        "count": 6
+    }
+}
