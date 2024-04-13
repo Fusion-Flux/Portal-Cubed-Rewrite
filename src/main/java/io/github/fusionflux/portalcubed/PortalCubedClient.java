@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.PortalCubedKeyBindings;
+import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
@@ -23,7 +23,7 @@ public class PortalCubedClient implements ClientModInitializer {
 	public void onInitializeClient(ModContainer mod) {
 		PortalRenderer.init();
 		ConstructPreviewRenderer.init();
-		PortalCubedKeyBindings.init();
+		PortalCubedKeyMappings.init();
 
 		PropModels.register();
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
@@ -59,7 +59,7 @@ public class PortalCubedClient implements ClientModInitializer {
 				if (holdLoopSound != null && !holdingPortalGun) {
 					holdLoopSound.forceStop();
 					ext.pc$holdLoopSound(null);
-				} else if (holdingPortalGun && (holdLoopSound == null && grabSound == null) && ext.pc$heldProp().isPresent()) {
+				} else if (holdingPortalGun && (holdLoopSound == null && grabSound == null) && ext.pc$getHeldProp().isPresent()) {
 					holdLoopSound = PortalCubedSounds.createPortalGunHoldLoop(player);
 					soundManager.play(holdLoopSound);
 					ext.pc$holdLoopSound(holdLoopSound);
