@@ -30,7 +30,7 @@
   "container.portalcubed.construction_cannon.tab.settings.preview_opacity": "Placement Preview Opacity",
   "container.portalcubed.construction_cannon.tab.settings.preview_opacity.description": "%s%%",
   "container.portalcubed.construction_cannon.tab.settings.replace_mode": "Replace mode",
-  "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks can not be replaced.",
+  "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
 
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
 
