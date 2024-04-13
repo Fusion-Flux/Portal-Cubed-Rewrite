@@ -23,6 +23,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import org.jetbrains.annotations.NotNull;
+
 public class SimpleMultifaceBlock extends MultifaceBlock implements SimpleWaterloggedBlock {
 	public static final MapCodec<SimpleMultifaceBlock> CODEC = simpleCodec(SimpleMultifaceBlock::new);
 
@@ -36,6 +38,7 @@ public class SimpleMultifaceBlock extends MultifaceBlock implements SimpleWaterl
 	}
 
 	@Override
+	@NotNull
 	protected MapCodec<? extends MultifaceBlock> codec() {
 		return CODEC;
 	}
@@ -47,16 +50,13 @@ public class SimpleMultifaceBlock extends MultifaceBlock implements SimpleWaterl
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return Shapes.empty();
-	}
-
-	@Override
+	@NotNull
 	public VoxelShape getOcclusionShape(BlockState state, BlockGetter world, BlockPos pos) {
 		return Shapes.empty();
 	}
 
 	@Override
+	@NotNull
 	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
 		if (state.getValue(WATERLOGGED))
 			world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -81,6 +81,7 @@ public class SimpleMultifaceBlock extends MultifaceBlock implements SimpleWaterl
 
 	@SuppressWarnings("deprecation")
 	@Override
+	@NotNull
 	public FluidState getFluidState(BlockState state) {
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
@@ -91,6 +92,7 @@ public class SimpleMultifaceBlock extends MultifaceBlock implements SimpleWaterl
 	}
 
 	@Override
+	@NotNull
 	public MultifaceSpreader getSpreader() {
 		return spreader;
 	}
