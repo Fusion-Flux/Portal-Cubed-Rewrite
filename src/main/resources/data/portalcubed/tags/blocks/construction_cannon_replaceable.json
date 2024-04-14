@@ -13,6 +13,7 @@
     "#portalcubed:dirty_portal_1_white_panels",
     "#portalcubed:portal_1_metal_panels",
     "#portalcubed:dirty_portal_1_metal_panels",
+    "#portalcubed:crossbars",
 
     "portalcubed:white_half_panel_slab",
     "portalcubed:white_panel_slab",
@@ -166,5 +167,6 @@
 
     "portalcubed:insulation",
     "portalcubed:insulation_facade"
+
   ]
 }

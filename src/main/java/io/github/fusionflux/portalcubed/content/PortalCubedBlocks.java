@@ -11,6 +11,8 @@ import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.GlazedTerracottaBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
@@ -376,6 +378,88 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.BLACK_WOOL)
 			.settings(settings -> settings
 					.sounds(SoundType.VINE)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	// ----- misc blocks - crossbars -----
+	public static final RotatedPillarBlock CROSSBAR_PILLAR = REGISTRAR.blocks.create("crossbar_pillar", RotatedPillarBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final GlazedTerracottaBlock DOUBLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_top_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final GlazedTerracottaBlock DOUBLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_top_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final GlazedTerracottaBlock DOUBLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final GlazedTerracottaBlock DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final GlazedTerracottaBlock SINGLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("2x2_crossbar_top_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final GlazedTerracottaBlock SINGLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_top_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final GlazedTerracottaBlock SINGLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("2x2_crossbar_bottom_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final GlazedTerracottaBlock SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_bottom_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.sounds(SoundType.LANTERN)
+					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 			)
 			.renderType(RenderTypes.CUTOUT)

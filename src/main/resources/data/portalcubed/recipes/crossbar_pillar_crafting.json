@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X Y",
+        "YXY",
+        "Y X"
+    ],
+    "key": {
+        "X": {
+            "item": "minecraft:iron_ingot"
+        },
+        "Y": {
+            "item": "portalcubed:magnesium_ingot"
+        }
+    },
+    "result": {
+        "item": "portalcubed:crossbar_pillar",
+        "count": 4
+    }
+}
