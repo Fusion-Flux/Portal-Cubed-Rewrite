@@ -25,7 +25,9 @@
       "portalcubed:portal_1_metal_tile_stairs_crafting",
       "portalcubed:portal_1_metal_tile_stairs_stonecutting",
       "portalcubed:portal_1_metal_tile_facade_stonecutting",
-      "portalcubed:portal_1_metal_tiles_crafting"
+      "portalcubed:portal_1_metal_tiles_crafting",
+
+      "portalcubed:sewage_crafting"
     ]
   },
   "criteria": {

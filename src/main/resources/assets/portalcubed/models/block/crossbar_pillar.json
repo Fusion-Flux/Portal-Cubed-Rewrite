@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top_inner_faces",
+  "textures": {
+    "bottom": "portalcubed:block/crossbar_pillar_top",
+    "side": "portalcubed:block/crossbar_pillar",
+    "top": "portalcubed:block/crossbar_pillar_top"
+  }
+}

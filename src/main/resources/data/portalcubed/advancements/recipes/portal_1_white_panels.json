@@ -24,7 +24,9 @@
       "portalcubed:portal_1_white_panel_stairs_stonecutting",
       "portalcubed:portal_1_white_panel_facade_stonecutting",
       "portalcubed:portal_1_white_panel_crafting_from_diorite",
-      "portalcubed:portal_1_white_panel_crafting_from_end_stone"
+      "portalcubed:portal_1_white_panel_crafting_from_end_stone",
+
+      "portalcubed:sewage_crafting"
     ]
   },
   "criteria": {

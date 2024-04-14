@@ -34,6 +34,8 @@ public class PortalCubedSounds {
 
 	public static final SoundEvent SURPRISE = register("surprise");
 
+	public static final SoundEvent SEWAGE_STEP = register("sewage_step");
+
 	public static SoundEvent register(String name) {
 		var id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));

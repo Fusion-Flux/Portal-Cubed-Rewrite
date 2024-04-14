@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "portalcubed:block/white_borderless_office_concrete",
-    "side": "portalcubed:block/white_borderless_office_concrete",
-    "top": "portalcubed:block/white_borderless_office_concrete"
-  }
-}

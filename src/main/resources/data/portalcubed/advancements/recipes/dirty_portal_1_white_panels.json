@@ -3,24 +3,33 @@
   "rewards": {
     "recipes": [
       "portalcubed:dirty_portal_1_white_2x1_panel_crafting",
+      "portalcubed:dirty_portal_1_white_2x1_panel_crafting_from_sewage",
 
       "portalcubed:dirty_portal_1_white_half_panel_crafting",
       "portalcubed:dirty_portal_1_white_half_panel_slab_crafting",
+      "portalcubed:dirty_portal_1_white_half_panel_slab_crafting_from_sewage",
       "portalcubed:dirty_portal_1_white_half_panel_slab_stonecutting",
       "portalcubed:dirty_portal_1_white_half_panel_stairs_crafting",
+      "portalcubed:dirty_portal_1_white_half_panel_stairs_crafting_from_sewage",
       "portalcubed:dirty_portal_1_white_half_panel_stairs_stonecutting",
       "portalcubed:dirty_portal_1_white_half_panel_facade_stonecutting",
 
       "portalcubed:dirty_portal_1_white_checkered_panel_crafting",
+      "portalcubed:dirty_portal_1_white_checkered_panel_crafting_from_sewage",
       "portalcubed:dirty_portal_1_white_checkered_panel_slab_crafting",
+      "portalcubed:dirty_portal_1_white_checkered_panel_slab_crafting_from_sewage",
       "portalcubed:dirty_portal_1_white_checkered_panel_slab_stonecutting",
       "portalcubed:dirty_portal_1_white_checkered_panel_stairs_crafting",
+      "portalcubed:dirty_portal_1_white_checkered_panel_stairs_crafting_from_sewage",
       "portalcubed:dirty_portal_1_white_checkered_panel_stairs_stonecutting",
       "portalcubed:dirty_portal_1_white_checkered_panel_facade_stonecutting",
 
+      "portalcubed:dirty_portal_1_white_panel_crafting",
       "portalcubed:dirty_portal_1_white_panel_slab_crafting",
+      "portalcubed:dirty_portal_1_white_panel_slab_crafting_from_sewage",
       "portalcubed:dirty_portal_1_white_panel_slab_stonecutting",
       "portalcubed:dirty_portal_1_white_panel_stairs_crafting",
+      "portalcubed:dirty_portal_1_white_panel_stairs_crafting_from_sewage",
       "portalcubed:dirty_portal_1_white_panel_stairs_stonecutting",
       "portalcubed:dirty_portal_1_white_panel_facade_stonecutting"
     ]

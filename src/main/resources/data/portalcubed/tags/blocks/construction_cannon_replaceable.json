@@ -13,6 +13,7 @@
     "#portalcubed:dirty_portal_1_white_panels",
     "#portalcubed:portal_1_metal_panels",
     "#portalcubed:dirty_portal_1_metal_panels",
+    "#portalcubed:crossbars",
 
     "portalcubed:white_half_panel_slab",
     "portalcubed:white_panel_slab",
@@ -132,24 +133,24 @@
     "portalcubed:office_concrete",
     "portalcubed:striped_office_concrete",
     "portalcubed:blue_office_concrete",
-    "portalcubed:light_gray_borderless_office_concrete",
-    "portalcubed:white_borderless_office_concrete",
+    "portalcubed:light_gray_office_concrete",
+    "portalcubed:white_office_concrete",
     "portalcubed:vertical_office_concrete",
 
     "portalcubed:office_concrete_slab",
     "portalcubed:striped_office_concrete_slab",
     "portalcubed:blue_office_concrete_slab",
-    "portalcubed:light_gray_borderless_office_concrete_slab",
-    "portalcubed:white_borderless_office_concrete_slab",
+    "portalcubed:light_gray_office_concrete_slab",
+    "portalcubed:white_office_concrete_slab",
 
-    "portalcubed:light_gray_borderless_office_concrete_stairs",
-    "portalcubed:white_borderless_office_concrete_stairs",
+    "portalcubed:light_gray_office_concrete_stairs",
+    "portalcubed:white_office_concrete_stairs",
 
     "portalcubed:office_concrete_facade",
     "portalcubed:striped_office_concrete_facade",
     "portalcubed:blue_office_concrete_facade",
-    "portalcubed:light_gray_borderless_office_concrete_facade",
-    "portalcubed:white_borderless_office_concrete_facade",
+    "portalcubed:light_gray_office_concrete_facade",
+    "portalcubed:white_office_concrete_facade",
 
     "portalcubed:tread_plate",
     "portalcubed:tread_plate_slab",
@@ -166,5 +167,6 @@
 
     "portalcubed:insulation",
     "portalcubed:insulation_facade"
+
   ]
 }
