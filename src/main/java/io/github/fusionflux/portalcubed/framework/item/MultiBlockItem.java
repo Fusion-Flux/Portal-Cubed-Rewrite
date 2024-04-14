@@ -13,6 +13,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
 public class MultiBlockItem extends BlockItem {
@@ -23,26 +24,21 @@ public class MultiBlockItem extends BlockItem {
 		this.multiBlock = multiBlock;
 	}
 
-	private Set<Direction> quadrantPlacementTest(BlockPlaceContext context, BlockPos origin, BlockState state) {
+	private Set<BlockPos> quadrantPlacementTest(BlockPlaceContext context, BlockPos origin, BlockState state) {
 		Level level = context.getLevel();
 		Player player = context.getPlayer();
 		CollisionContext collisionContext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
-		Set<Direction> collidingDirections = new HashSet<>();
+		Set<BlockPos> collisionDeltas = new HashSet<>();
 		for (var quadrantPos : multiBlock.quadrantIterator(origin, state)) {
 			if (
 				!level.isUnobstructed(state, quadrantPos, collisionContext) ||
 				!level.getWorldBorder().isWithinBounds(quadrantPos) ||
 				!level.getBlockState(quadrantPos).canBeReplaced(new FakeBlockPlaceContext(context, quadrantPos))
 			) {
-				Direction dir = Direction.getNearest(
-					quadrantPos.getX() - origin.getX(),
-					quadrantPos.getY() - origin.getY(),
-					quadrantPos.getZ() - origin.getZ()
-				).getOpposite();
-				collidingDirections.add(dir);
+				collisionDeltas.add(quadrantPos.subtract(origin));
 			}
 		}
-		return collidingDirections;
+		return collisionDeltas;
 	}
 
 	@Override
@@ -60,10 +56,24 @@ public class MultiBlockItem extends BlockItem {
 				origin.move(horizontalDirection);
 		}
 
-		Set<Direction> colliding = quadrantPlacementTest(context, origin, state);
-		colliding.forEach(origin::move);
-		if (!quadrantPlacementTest(context, origin, state).isEmpty())
-			return false;
+		Set<BlockPos> collisionDeltas = quadrantPlacementTest(context, origin, state);
+		if (!collisionDeltas.isEmpty()) {
+			Vec3 collisionNormal = new Vec3( 0, 0, 0);
+			for (BlockPos collisionDelta : collisionDeltas) {
+				collisionNormal = collisionNormal.add(Vec3.atLowerCornerOf(collisionDelta));
+			}
+			collisionNormal = collisionNormal.scale(1d / collisionDeltas.size()).normalize();
+
+			if (Math.abs(collisionNormal.x) > .5)
+				origin.move(collisionNormal.x < 0 ? Direction.EAST : Direction.WEST);
+			if (Math.abs(collisionNormal.y) > .5)
+				origin.move(collisionNormal.y < 0 ? Direction.UP : Direction.DOWN);
+			if (Math.abs(collisionNormal.z) > .5)
+				origin.move(collisionNormal.z < 0 ? Direction.SOUTH : Direction.NORTH);
+
+			if (!quadrantPlacementTest(context, origin, state).isEmpty())
+				return false;
+		}
 
 		for (BlockPos quadrantPos : multiBlock.quadrantIterator(origin, state)) {
 			FakeBlockPlaceContext quadrantPlacementContext = new FakeBlockPlaceContext(context, quadrantPos);
