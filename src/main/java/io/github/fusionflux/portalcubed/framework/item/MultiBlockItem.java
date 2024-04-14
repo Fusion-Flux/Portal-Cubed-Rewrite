@@ -62,14 +62,21 @@ public class MultiBlockItem extends BlockItem {
 			for (BlockPos collisionDelta : collisionDeltas) {
 				collisionNormal = collisionNormal.add(Vec3.atLowerCornerOf(collisionDelta));
 			}
-			collisionNormal = collisionNormal.scale(1d / collisionDeltas.size()).normalize();
 
-			if (Math.abs(collisionNormal.x) > .5)
-				origin.move(collisionNormal.x < 0 ? Direction.EAST : Direction.WEST);
-			if (Math.abs(collisionNormal.y) > .5)
-				origin.move(collisionNormal.y < 0 ? Direction.UP : Direction.DOWN);
-			if (Math.abs(collisionNormal.z) > .5)
-				origin.move(collisionNormal.z < 0 ? Direction.SOUTH : Direction.NORTH);
+			collisionNormal = collisionNormal.scale(1d / collisionDeltas.size()).normalize();
+			boolean collideX = Math.abs(collisionNormal.x) > .5;
+			boolean collideY = Math.abs(collisionNormal.y) > .5;
+			boolean collideZ = Math.abs(collisionNormal.z) > .5;
+			if ((facingAxis == Direction.Axis.X ? collideZ : collideX) && collideY) {
+				origin.move(Direction.DOWN);
+			} else {
+				if (collideX)
+					origin.move(collisionNormal.x < 0 ? Direction.EAST : Direction.WEST);
+				if (collideY)
+					origin.move(collisionNormal.y < 0 ? Direction.UP : Direction.DOWN);
+				if (collideZ)
+					origin.move(collisionNormal.z < 0 ? Direction.SOUTH : Direction.NORTH);
+			}
 
 			if (!quadrantPlacementTest(context, origin, state).isEmpty())
 				return false;
