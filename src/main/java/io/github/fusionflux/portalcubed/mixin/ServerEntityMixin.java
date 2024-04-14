@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.clientbound.PropHoldPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerEntity;
@@ -25,6 +25,6 @@ public abstract class ServerEntityMixin {
 	@Inject(method = "sendPairingData", at = @At("RETURN"))
 	private void sendPropHoldPacket(ServerPlayer player, Consumer<Packet<ClientGamePacketListener>> sender, CallbackInfo ci) {
 		if (entity instanceof PlayerExt ext)
-			PortalCubedPackets.sendToClient(player, new PropHoldPacket(entity.getId(), ext.pc$heldProp()));
+			PortalCubedPackets.sendToClient(player, new HoldStatusPacket(entity.getId(), ext.pc$getHeldProp()));
 	}
 }

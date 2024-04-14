@@ -49,7 +49,7 @@ public enum PropType {
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, SoundType.CUBE),
-	THE_TACO			   (2, false, new TacoDimensions(), Taco::new, SoundType.PORTAL_1_CUBE),
+	THE_TACO			   (2, false, new TacoDimensions(), Taco::new, SoundType.PORTAL_1_CUBE, false),
 	ERROR                  (EntityDimensions.fixed(1f, 1f), SoundType.ERROR);
 
 	public final int[] variants;
@@ -57,6 +57,7 @@ public enum PropType {
 	public final EntityDimensions dimensions;
 	public final EntityFactory<Prop> factory;
 	public final SoundType soundType;
+	public final boolean facesPlayer;
 
 	PropType(EntityDimensions dimensions, SoundType soundType) {
 		this(1, false, dimensions, soundType);
@@ -67,11 +68,16 @@ public enum PropType {
 	}
 
 	PropType(int variants, boolean randomVariantOnSpawn, EntityDimensions dimensions, PropFactory factory, SoundType soundType) {
+		this(variants, randomVariantOnSpawn, dimensions, factory, soundType, true);
+	}
+
+	PropType(int variants, boolean randomVariantOnSpawn, EntityDimensions dimensions, PropFactory factory, SoundType soundType, boolean facesPlayer) {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnSpawn = randomVariantOnSpawn;
 		this.dimensions = dimensions;
 		this.factory = (entityType, level) -> factory.create(this, entityType, level);
 		this.soundType = soundType;
+		this.facesPlayer = facesPlayer;
 	}
 
 	public Item item() {

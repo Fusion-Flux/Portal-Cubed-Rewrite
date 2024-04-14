@@ -70,7 +70,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 	@Override
 	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
 		super.entityPressing(state, level, pos, entity);
-		if (entity instanceof Prop prop && prop.getHeldBy().isPresent())
+		if (entity instanceof Prop prop && prop.isHeld())
 			return;
 		if (entity instanceof PathfinderMob pathfinderMob)
 			pathfinderMob.getNavigation().stop();

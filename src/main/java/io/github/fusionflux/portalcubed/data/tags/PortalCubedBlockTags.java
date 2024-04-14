@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 public class PortalCubedBlockTags {
 	public static final TagKey<Block> MAGNESIUM_FIRE_BASE_BLOCKS = create("magnesium_fire_base_blocks");
 	public static final TagKey<Block> CANNON_REPLACEABLE = create("construction_cannon_replaceable");
+	public static final TagKey<Block> CONFETTI = create("confetti");
 
 	private static TagKey<Block> create(String name) {
 		return TagKey.create(Registries.BLOCK, PortalCubed.id(name));

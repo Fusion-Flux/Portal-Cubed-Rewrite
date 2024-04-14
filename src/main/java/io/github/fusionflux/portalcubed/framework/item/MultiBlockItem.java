@@ -7,9 +7,13 @@ import io.github.fusionflux.portalcubed.framework.block.FakeBlockPlaceContext;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
 public class MultiBlockItem extends BlockItem {
@@ -20,54 +24,84 @@ public class MultiBlockItem extends BlockItem {
 		this.multiBlock = multiBlock;
 	}
 
-	private Set<Direction> quadrantPlacementTest(BlockPlaceContext context, BlockPos origin, BlockState state) {
-		var level = context.getLevel();
-		var player = context.getPlayer();
-		var collisionContext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
-		var collidingDirections = new HashSet<Direction>();
+	private Set<BlockPos> quadrantCollide(BlockPlaceContext context, BlockPos origin, BlockState state) {
+		Level level = context.getLevel();
+		Player player = context.getPlayer();
+		CollisionContext collisionContext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
+		Set<BlockPos> collisions = new HashSet<>();
 		for (var quadrantPos : multiBlock.quadrantIterator(origin, state)) {
 			if (
 				!level.isUnobstructed(state, quadrantPos, collisionContext) ||
 				!level.getWorldBorder().isWithinBounds(quadrantPos) ||
 				!level.getBlockState(quadrantPos).canBeReplaced(new FakeBlockPlaceContext(context, quadrantPos))
 			) {
-				var dir = Direction.getNearest(
-					quadrantPos.getX() - origin.getX(),
-					quadrantPos.getY() - origin.getY(),
-					quadrantPos.getZ() - origin.getZ()
-				).getOpposite();
-				collidingDirections.add(dir);
+				collisions.add(quadrantPos.immutable());
 			}
 		}
-		return collidingDirections;
+		return collisions;
+	}
+
+	private boolean canNotFit(BlockPlaceContext context, BlockPos origin, BlockState state) {
+		return !quadrantCollide(context, origin, state).isEmpty();
 	}
 
 	@Override
 	protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
-		var facing = state.getValue(AbstractMultiBlock.FACING);
-		var facingAxis = facing.getAxis();
-		var rotatedSize = multiBlock.size.rotated(facing);
+		Direction facing = state.getValue(AbstractMultiBlock.FACING);
+		Direction.Axis facingAxis = facing.getAxis();
+		AbstractMultiBlock.Size rotatedSize = multiBlock.size.rotated(facing);
 
-		var horizontalDirection = facingAxis.isHorizontal() ? facing.getOpposite() : context.getHorizontalDirection();
-		var origin = context.getClickedPos().mutable();
-		if (facingAxis.isVertical()) {
-			if (horizontalDirection == Direction.SOUTH || horizontalDirection == Direction.WEST)
-				origin.move(horizontalDirection.getClockWise());
-			if (horizontalDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
-				origin.move(horizontalDirection);
+		Direction perspectiveDirection = facingAxis.isHorizontal() ? facing.getOpposite() : context.getHorizontalDirection();
+		Direction.Axis perspectiveAxis = perspectiveDirection.getAxis();
+
+		BlockPos.MutableBlockPos origin = context.getClickedPos().mutable();
+		BlockPos collisionOrigin = origin.immutable();
+
+		if (perspectiveDirection == Direction.SOUTH || perspectiveDirection == Direction.WEST)
+			origin.move(perspectiveDirection.getClockWise());
+		if (facingAxis.isVertical() && perspectiveDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
+			origin.move(perspectiveDirection);
+
+		Set<BlockPos> collisions = quadrantCollide(context, origin, state);
+		if (!collisions.isEmpty()) {
+			Vec3 collisionNormal = Vec3.ZERO;
+			for (BlockPos collision : collisions) {
+				collisionNormal = collisionNormal.add(Vec3.atLowerCornerOf(collision.subtract(collisionOrigin)));
+			}
+			collisionNormal = collisionNormal.scale(1d / collisions.size()).normalize();
+
+			boolean collideX = Math.abs(collisionNormal.x) > .5;
+			boolean collideY = Math.abs(collisionNormal.y) > .5;
+			boolean collideZ = Math.abs(collisionNormal.z) > .5;
+
+			boolean collideHorizontal = perspectiveAxis == Direction.Axis.X ? collideZ : collideX;
+			boolean collideVertical = facingAxis.isHorizontal() ? collideY : (perspectiveAxis == Direction.Axis.X ? collideX : collideZ);
+
+			if (collideHorizontal && collideVertical) {
+				origin.move(facingAxis.isHorizontal() ? Direction.DOWN : perspectiveDirection.getOpposite());
+				if (canNotFit(context, origin, state))
+					origin.move(perspectiveDirection.getCounterClockWise());
+			} else {
+				if (collideX)
+					origin.move(collisionNormal.x < 0 ? Direction.EAST : Direction.WEST);
+				if (collideY)
+					origin.move(collisionNormal.y < 0 ? Direction.UP : Direction.DOWN);
+				if (collideZ)
+					origin.move(collisionNormal.z < 0 ? Direction.SOUTH : Direction.NORTH);
+			}
+
+			if (canNotFit(context, origin, state))
+				return false;
 		}
 
-		var colliding = quadrantPlacementTest(context, origin, state);
-		colliding.forEach(origin::move);
-		if (!quadrantPlacementTest(context, origin, state).isEmpty())
-			return false;
-
-		for (var quadrantPos : multiBlock.quadrantIterator(origin, state)) {
-			var relativePos = rotatedSize.relative(origin, quadrantPos);
-			state = multiBlock.setX(state, relativePos.getX());
-			state = multiBlock.setY(state, relativePos.getY());
-			state = multiBlock.setZ(state, relativePos.getZ());
-			if (!super.placeBlock(new FakeBlockPlaceContext(context, quadrantPos), state)) return false;
+		for (BlockPos quadrantPos : multiBlock.quadrantIterator(origin, state)) {
+			FakeBlockPlaceContext quadrantPlacementContext = new FakeBlockPlaceContext(context, quadrantPos);
+			BlockState quadrantState = multiBlock.getStateForPlacement(quadrantPlacementContext);
+			Vec3i relativePos = rotatedSize.relative(origin, quadrantPos);
+			quadrantState = multiBlock.setX(quadrantState, relativePos.getX());
+			quadrantState = multiBlock.setY(quadrantState, relativePos.getY());
+			quadrantState = multiBlock.setZ(quadrantState, relativePos.getZ());
+			if (!super.placeBlock(quadrantPlacementContext, quadrantState)) return false;
 		}
 
 		return true;
