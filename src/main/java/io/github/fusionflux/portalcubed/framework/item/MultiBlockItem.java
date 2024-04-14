@@ -24,21 +24,21 @@ public class MultiBlockItem extends BlockItem {
 		this.multiBlock = multiBlock;
 	}
 
-	private Set<BlockPos> quadrantPlacementTest(BlockPlaceContext context, BlockPos origin, BlockState state) {
+	private Set<BlockPos> quadrantPlacementTest(BlockPlaceContext context, BlockPos origin, BlockPos collisionOrigin, BlockState state) {
 		Level level = context.getLevel();
 		Player player = context.getPlayer();
 		CollisionContext collisionContext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
-		Set<BlockPos> collisionDeltas = new HashSet<>();
+		Set<BlockPos> collisions = new HashSet<>();
 		for (var quadrantPos : multiBlock.quadrantIterator(origin, state)) {
 			if (
 				!level.isUnobstructed(state, quadrantPos, collisionContext) ||
 				!level.getWorldBorder().isWithinBounds(quadrantPos) ||
 				!level.getBlockState(quadrantPos).canBeReplaced(new FakeBlockPlaceContext(context, quadrantPos))
 			) {
-				collisionDeltas.add(quadrantPos.subtract(origin));
+				collisions.add(quadrantPos.subtract(collisionOrigin));
 			}
 		}
-		return collisionDeltas;
+		return collisions;
 	}
 
 	@Override
@@ -47,28 +47,34 @@ public class MultiBlockItem extends BlockItem {
 		Direction.Axis facingAxis = facing.getAxis();
 		AbstractMultiBlock.Size rotatedSize = multiBlock.size.rotated(facing);
 
-		Direction horizontalDirection = facingAxis.isHorizontal() ? facing.getOpposite() : context.getHorizontalDirection();
-		BlockPos.MutableBlockPos origin = context.getClickedPos().mutable();
-		if (facingAxis.isVertical()) {
-			if (horizontalDirection == Direction.SOUTH || horizontalDirection == Direction.WEST)
-				origin.move(horizontalDirection.getClockWise());
-			if (horizontalDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
-				origin.move(horizontalDirection);
-		}
+		Direction perspectiveDirection = facingAxis.isHorizontal() ? facing.getOpposite() : context.getHorizontalDirection();
+		Direction.Axis perspectiveAxis = perspectiveDirection.getAxis();
 
-		Set<BlockPos> collisionDeltas = quadrantPlacementTest(context, origin, state);
-		if (!collisionDeltas.isEmpty()) {
+		BlockPos.MutableBlockPos origin = context.getClickedPos().mutable();
+		BlockPos collisionOrigin = origin.immutable();
+
+		if (perspectiveDirection == Direction.SOUTH || perspectiveDirection == Direction.WEST)
+			origin.move(perspectiveDirection.getClockWise());
+		if (facingAxis.isVertical() && perspectiveDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
+			origin.move(perspectiveDirection);
+
+		Set<BlockPos> collisions = quadrantPlacementTest(context, origin, collisionOrigin, state);
+		if (!collisions.isEmpty()) {
 			Vec3 collisionNormal = new Vec3( 0, 0, 0);
-			for (BlockPos collisionDelta : collisionDeltas) {
+			for (BlockPos collisionDelta : collisions) {
 				collisionNormal = collisionNormal.add(Vec3.atLowerCornerOf(collisionDelta));
 			}
 
-			collisionNormal = collisionNormal.scale(1d / collisionDeltas.size()).normalize();
+			collisionNormal = collisionNormal
+					.scale(1d / collisions.size())
+					.normalize();
 			boolean collideX = Math.abs(collisionNormal.x) > .5;
 			boolean collideY = Math.abs(collisionNormal.y) > .5;
 			boolean collideZ = Math.abs(collisionNormal.z) > .5;
-			if ((facingAxis == Direction.Axis.X ? collideZ : collideX) && collideY) {
-				origin.move(Direction.DOWN);
+			if ((perspectiveAxis == Direction.Axis.X ? collideZ : collideX) && (facingAxis.isHorizontal() ? collideY : (perspectiveAxis == Direction.Axis.X ? collideX : collideZ))) {
+				origin.move(facingAxis.isHorizontal() ? Direction.DOWN : perspectiveDirection.getOpposite());
+				if (!quadrantPlacementTest(context, origin, collisionOrigin, state).isEmpty())
+					origin.move(perspectiveDirection.getCounterClockWise());
 			} else {
 				if (collideX)
 					origin.move(collisionNormal.x < 0 ? Direction.EAST : Direction.WEST);
@@ -78,7 +84,7 @@ public class MultiBlockItem extends BlockItem {
 					origin.move(collisionNormal.z < 0 ? Direction.SOUTH : Direction.NORTH);
 			}
 
-			if (!quadrantPlacementTest(context, origin, state).isEmpty())
+			if (!quadrantPlacementTest(context, origin, collisionOrigin, state).isEmpty())
 				return false;
 		}
 
