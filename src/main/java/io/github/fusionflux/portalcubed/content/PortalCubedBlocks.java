@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
 import net.minecraft.Util;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
@@ -114,23 +115,31 @@ public class PortalCubedBlocks {
 	// ----- misc blocks - tiles -----
 	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
-			.settings(settings -> settings.sounds(SoundType.STONE))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
+					.sounds(SoundType.STONE)
+			)
 			.build();
 	public static final SlabBlock PORTAL_1_METAL_TILE_SLAB = REGISTRAR.blocks.create("portal_1_metal_tile_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
-			.settings(settings -> settings.sounds(SoundType.STONE))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
+					.sounds(SoundType.STONE)
+			)
 			.build();
 	public static final SaneStairBlock PORTAL_1_METAL_TILE_STAIRS = REGISTRAR.blocks.create("portal_1_metal_tile_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
-			.settings(settings -> settings.sounds(SoundType.STONE))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
+					.sounds(SoundType.STONE)
+			)
 			.build();
 	public static final NoCollisionMultifaceBlock PORTAL_1_METAL_TILE_FACADE = REGISTRAR.blocks.create("portal_1_metal_tile_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
-			.settings(settings -> settings.sounds(SoundType.STONE))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
+					.sounds(SoundType.STONE)
+			)
 			.build();
 	public static final Block LARGE_BLUE_OFFICE_TILES = REGISTRAR.blocks.create("large_blue_office_tiles", Block::new)
 			.copyFrom(Blocks.CYAN_TERRACOTTA)
@@ -232,34 +241,34 @@ public class PortalCubedBlocks {
 	public static final NoCollisionMultifaceBlock STRIPED_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("striped_office_concrete_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.WHITE_TERRACOTTA)
 			.build();
-	public static final Block WHITE_BORDERLESS_OFFICE_CONCRETE = REGISTRAR.blocks.create("white_borderless_office_concrete", Block::new)
+	public static final Block WHITE_OFFICE_CONCRETE = REGISTRAR.blocks.create("white_office_concrete", Block::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
-	public static final SlabBlock WHITE_BORDERLESS_OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("white_borderless_office_concrete_slab", SlabBlock::new)
+	public static final SlabBlock WHITE_OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("white_office_concrete_slab", SlabBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
-	public static final SaneStairBlock WHITE_BORDERLESS_OFFICE_CONCRETE_STAIRS = REGISTRAR.blocks.create("white_borderless_office_concrete_stairs", SaneStairBlock::new)
+	public static final SaneStairBlock WHITE_OFFICE_CONCRETE_STAIRS = REGISTRAR.blocks.create("white_office_concrete_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
-	public static final WallBlock WHITE_BORDERLESS_OFFICE_CONCRETE_WALL = REGISTRAR.blocks.create("white_borderless_office_concrete_wall", WallBlock::new)
+	public static final WallBlock WHITE_OFFICE_CONCRETE_WALL = REGISTRAR.blocks.create("white_office_concrete_wall", WallBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
-	public static final NoCollisionMultifaceBlock WHITE_BORDERLESS_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("white_borderless_office_concrete_facade", NoCollisionMultifaceBlock::new)
+	public static final NoCollisionMultifaceBlock WHITE_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("white_office_concrete_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
-	public static final Block LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE = REGISTRAR.blocks.create("light_gray_borderless_office_concrete", Block::new)
+	public static final Block LIGHT_GRAY_OFFICE_CONCRETE = REGISTRAR.blocks.create("light_gray_office_concrete", Block::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
-	public static final SlabBlock LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("light_gray_borderless_office_concrete_slab", SlabBlock::new)
+	public static final SlabBlock LIGHT_GRAY_OFFICE_CONCRETE_SLAB = REGISTRAR.blocks.create("light_gray_office_concrete_slab", SlabBlock::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
-	public static final SaneStairBlock LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_STAIRS = REGISTRAR.blocks.create("light_gray_borderless_office_concrete_stairs", SaneStairBlock::new)
+	public static final SaneStairBlock LIGHT_GRAY_OFFICE_CONCRETE_STAIRS = REGISTRAR.blocks.create("light_gray_office_concrete_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
-	public static final WallBlock LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_WALL = REGISTRAR.blocks.create("light_gray_borderless_office_concrete_wall", WallBlock::new)
+	public static final WallBlock LIGHT_GRAY_OFFICE_CONCRETE_WALL = REGISTRAR.blocks.create("light_gray_office_concrete_wall", WallBlock::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
-	public static final NoCollisionMultifaceBlock LIGHT_GRAY_BORDERLESS_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("light_gray_borderless_office_concrete_facade", NoCollisionMultifaceBlock::new)
+	public static final NoCollisionMultifaceBlock LIGHT_GRAY_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("light_gray_office_concrete_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
 	public static final RealDirectionalBlock VERTICAL_OFFICE_CONCRETE = REGISTRAR.blocks.create("vertical_office_concrete", RealDirectionalBlock::new)
@@ -268,83 +277,107 @@ public class PortalCubedBlocks {
 	// ----- misc blocks - grates -----
 	public static final WaterloggedTransparentBlock METAL_GRATE = REGISTRAR.blocks.create("metal_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.COLOR_GRAY))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SlabBlock METAL_GRATE_SLAB = REGISTRAR.blocks.create("metal_grate_slab", DoubleWaterloggableSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.COLOR_GRAY))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SimpleMultifaceBlock METAL_GRATE_FACADE = REGISTRAR.blocks.create("metal_grate_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.COLOR_GRAY))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.COLOR_GRAY)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final WaterloggedTransparentBlock OLD_AP_METAL_GRATE = REGISTRAR.blocks.create("old_ap_metal_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SlabBlock OLD_AP_METAL_GRATE_SLAB = REGISTRAR.blocks.create("old_ap_metal_grate_slab", DoubleWaterloggableSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SimpleMultifaceBlock OLD_AP_METAL_GRATE_FACADE = REGISTRAR.blocks.create("old_ap_metal_grate_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final WaterloggedTransparentBlock PORTAL_1_METAL_GRATE = REGISTRAR.blocks.create("portal_1_metal_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.SAND))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.SAND)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SlabBlock PORTAL_1_METAL_GRATE_SLAB = REGISTRAR.blocks.create("portal_1_metal_grate_slab", DoubleWaterloggableSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.SAND))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.SAND)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SimpleMultifaceBlock PORTAL_1_METAL_GRATE_FACADE = REGISTRAR.blocks.create("portal_1_metal_grate_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.sounds(SoundType.COPPER_GRATE))
-			.settings(settings -> settings.mapColor(MapColor.SAND))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.COPPER_GRATE)
+					.mapColor(MapColor.SAND)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final WaterloggedTransparentBlock MESH_GRATE = REGISTRAR.blocks.create("mesh_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
-			.settings(settings -> settings.sounds(SoundType.VINE))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.VINE)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SlabBlock MESH_GRATE_SLAB = REGISTRAR.blocks.create("mesh_grate_slab", DoubleWaterloggableSlabBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
-			.settings(settings -> settings.sounds(SoundType.VINE))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.VINE)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SimpleMultifaceBlock MESH_GRATE_FACADE = REGISTRAR.blocks.create("mesh_grate_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
-			.settings(settings -> settings.sounds(SoundType.VINE))
-			.settings(QuiltBlockSettings::noOcclusion)
+			.settings(settings -> settings
+					.sounds(SoundType.VINE)
+					.noOcclusion()
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- misc blocks - random -----
@@ -356,33 +389,45 @@ public class PortalCubedBlocks {
 			.build();
 	public static final Block TREAD_PLATE = REGISTRAR.blocks.create("tread_plate", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_CYAN))
-			.settings(settings -> settings.sounds(SoundType.NETHERITE_BLOCK))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_CYAN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
 			.build();
 	public static final SlabBlock TREAD_PLATE_SLAB = REGISTRAR.blocks.create("tread_plate_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_CYAN))
-			.settings(settings -> settings.sounds(SoundType.NETHERITE_BLOCK))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_CYAN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
 			.build();
 	public static final NoCollisionMultifaceBlock TREAD_PLATE_FACADE = REGISTRAR.blocks.create("tread_plate_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_BROWN))
-			.settings(settings -> settings.sounds(SoundType.NETHERITE_BLOCK))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
 			.build();
 	public static final Block DIRTY_TREAD_PLATE = REGISTRAR.blocks.create("dirty_tread_plate", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_BROWN))
-			.settings(settings -> settings.sounds(SoundType.NETHERITE_BLOCK))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
 			.build();
 	public static final SlabBlock DIRTY_TREAD_PLATE_SLAB = REGISTRAR.blocks.create("dirty_tread_plate_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_BROWN))
-			.settings(settings -> settings.sounds(SoundType.NETHERITE_BLOCK))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
 			.build();
 	public static final NoCollisionMultifaceBlock DIRTY_TREAD_PLATE_FACADE = REGISTRAR.blocks.create("dirty_tread_plate_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_BROWN))
-			.settings(settings -> settings.sounds(SoundType.NETHERITE_BLOCK))
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
 			.build();
 	public static final Block PLYWOOD = REGISTRAR.blocks.create("plywood", Block::new)
 			.copyFrom(Blocks.OAK_PLANKS)
@@ -398,6 +443,23 @@ public class PortalCubedBlocks {
 			.build();
 	public static final NoCollisionMultifaceBlock PLYWOOD_FACADE = REGISTRAR.blocks.create("plywood_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.OAK_PLANKS)
+			.build();
+
+	public static final Block SEWAGE = REGISTRAR.blocks.create("sewage", Block::new)
+			.copyFrom(Blocks.MUD)
+			.settings(settings -> settings
+					.mapColor(MapColor.COLOR_BROWN)
+					.slipperiness(0.9f)
+					.jumpVelocityMultiplier(0.05f)
+					.sounds(new SoundType(
+						1.0F, 1.0F,
+						SoundEvents.MUD_BREAK,
+						PortalCubedSounds.SEWAGE_STEP,
+						SoundEvents.MUD_PLACE,
+						SoundEvents.MUD_HIT,
+						SoundEvents.MUD_FALL)
+					)
+			)
 			.build();
 	public static void init() {
 	}

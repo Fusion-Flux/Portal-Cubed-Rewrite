@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "portalcubed:block/light_gray_borderless_office_concrete",
-    "side": "portalcubed:block/light_gray_borderless_office_concrete"
-  }
-}

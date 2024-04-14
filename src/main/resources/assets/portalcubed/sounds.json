@@ -320,5 +320,26 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.construction_cannon_missing_materials"
+  },
+  "sewage_step": {
+    "sounds": [
+      {
+        "name": "portalcubed:block/sewage/step1",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step2",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step3",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
   }
 }

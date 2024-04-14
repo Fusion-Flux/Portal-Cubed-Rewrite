@@ -542,24 +542,24 @@
   "block.portalcubed.striped_office_concrete_slab": "Striped Office Concrete Slab",
   "block.portalcubed.striped_office_concrete_facade": "Striped Office Concrete Facade",
 
-  "block.portalcubed.white_borderless_office_concrete": "White Office Concrete",
-  "block.portalcubed.white_borderless_office_concrete_slab": "White Office Concrete Slab",
-  "block.portalcubed.white_borderless_office_concrete_stairs": "White Office Concrete Stairs",
-  "block.portalcubed.white_borderless_office_concrete_wall": "White Office Concrete Wall",
-  "block.portalcubed.white_borderless_office_concrete_facade": "White Office Concrete Facade",
+  "block.portalcubed.white_office_concrete": "White Office Concrete",
+  "block.portalcubed.white_office_concrete_slab": "White Office Concrete Slab",
+  "block.portalcubed.white_office_concrete_stairs": "White Office Concrete Stairs",
+  "block.portalcubed.white_office_concrete_wall": "White Office Concrete Wall",
+  "block.portalcubed.white_office_concrete_facade": "White Office Concrete Facade",
 
-  "block.portalcubed.light_gray_borderless_office_concrete": "Light Gray Office Concrete",
-  "block.portalcubed.light_gray_borderless_office_concrete_slab": "Light Gray Office Concrete Slab",
-  "block.portalcubed.light_gray_borderless_office_concrete_stairs": "Light Gray Office Concrete Stairs",
-  "block.portalcubed.light_gray_borderless_office_concrete_wall": "Light Gray Office Concrete Wall",
-  "block.portalcubed.light_gray_borderless_office_concrete_facade": "Light Gray Office Concrete Facade",
+  "block.portalcubed.light_gray_office_concrete": "Light Gray Office Concrete",
+  "block.portalcubed.light_gray_office_concrete_slab": "Light Gray Office Concrete Slab",
+  "block.portalcubed.light_gray_office_concrete_stairs": "Light Gray Office Concrete Stairs",
+  "block.portalcubed.light_gray_office_concrete_wall": "Light Gray Office Concrete Wall",
+  "block.portalcubed.light_gray_office_concrete_facade": "Light Gray Office Concrete Facade",
 
   "block.portalcubed.vertical_office_concrete": "Vertical Office Concrete",
 
   "block.portalcubed.sewage": "Sewage",
 
   "block.portalcubed.insulation": "Insulation",
-  "block.portalcubed.insulation_facade": "Insulation_facade",
+  "block.portalcubed.insulation_facade": "Insulation Facade",
 
   "block.portalcubed.plywood": "Plywood",
   "block.portalcubed.plywood_slab": "Plywood Slab",
