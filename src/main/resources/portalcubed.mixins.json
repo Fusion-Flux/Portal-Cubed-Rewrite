@@ -38,6 +38,7 @@
     "client.ScreenMixin",
     "client.SelectorAccessor",
     "client.SimpleBakedModelAccessor",
+    "client.TooltipAccessor",
     "client.Variant_DeserializerMixin",
     "client.VariantMixin"
   ],
