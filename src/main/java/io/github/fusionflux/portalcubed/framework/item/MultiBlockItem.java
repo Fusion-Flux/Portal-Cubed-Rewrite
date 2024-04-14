@@ -24,7 +24,7 @@ public class MultiBlockItem extends BlockItem {
 		this.multiBlock = multiBlock;
 	}
 
-	private Set<BlockPos> quadrantPlacementTest(BlockPlaceContext context, BlockPos origin, BlockPos collisionOrigin, BlockState state) {
+	private Set<BlockPos> quadrantCollide(BlockPlaceContext context, BlockPos origin, BlockState state) {
 		Level level = context.getLevel();
 		Player player = context.getPlayer();
 		CollisionContext collisionContext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
@@ -35,10 +35,14 @@ public class MultiBlockItem extends BlockItem {
 				!level.getWorldBorder().isWithinBounds(quadrantPos) ||
 				!level.getBlockState(quadrantPos).canBeReplaced(new FakeBlockPlaceContext(context, quadrantPos))
 			) {
-				collisions.add(quadrantPos.subtract(collisionOrigin));
+				collisions.add(quadrantPos.immutable());
 			}
 		}
 		return collisions;
+	}
+
+	private boolean canNotFit(BlockPlaceContext context, BlockPos origin, BlockState state) {
+		return !quadrantCollide(context, origin, state).isEmpty();
 	}
 
 	@Override
@@ -58,22 +62,24 @@ public class MultiBlockItem extends BlockItem {
 		if (facingAxis.isVertical() && perspectiveDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
 			origin.move(perspectiveDirection);
 
-		Set<BlockPos> collisions = quadrantPlacementTest(context, origin, collisionOrigin, state);
+		Set<BlockPos> collisions = quadrantCollide(context, origin, state);
 		if (!collisions.isEmpty()) {
-			Vec3 collisionNormal = new Vec3( 0, 0, 0);
-			for (BlockPos collisionDelta : collisions) {
-				collisionNormal = collisionNormal.add(Vec3.atLowerCornerOf(collisionDelta));
+			Vec3 collisionNormal = Vec3.ZERO;
+			for (BlockPos collision : collisions) {
+				collisionNormal = collisionNormal.add(Vec3.atLowerCornerOf(collision.subtract(collisionOrigin)));
 			}
+			collisionNormal = collisionNormal.scale(1d / collisions.size()).normalize();
 
-			collisionNormal = collisionNormal
-					.scale(1d / collisions.size())
-					.normalize();
 			boolean collideX = Math.abs(collisionNormal.x) > .5;
 			boolean collideY = Math.abs(collisionNormal.y) > .5;
 			boolean collideZ = Math.abs(collisionNormal.z) > .5;
-			if ((perspectiveAxis == Direction.Axis.X ? collideZ : collideX) && (facingAxis.isHorizontal() ? collideY : (perspectiveAxis == Direction.Axis.X ? collideX : collideZ))) {
+
+			boolean collideHorizontal = perspectiveAxis == Direction.Axis.X ? collideZ : collideX;
+			boolean collideVertical = facingAxis.isHorizontal() ? collideY : (perspectiveAxis == Direction.Axis.X ? collideX : collideZ);
+
+			if (collideHorizontal && collideVertical) {
 				origin.move(facingAxis.isHorizontal() ? Direction.DOWN : perspectiveDirection.getOpposite());
-				if (!quadrantPlacementTest(context, origin, collisionOrigin, state).isEmpty())
+				if (canNotFit(context, origin, state))
 					origin.move(perspectiveDirection.getCounterClockWise());
 			} else {
 				if (collideX)
@@ -84,7 +90,7 @@ public class MultiBlockItem extends BlockItem {
 					origin.move(collisionNormal.z < 0 ? Direction.SOUTH : Direction.NORTH);
 			}
 
-			if (!quadrantPlacementTest(context, origin, collisionOrigin, state).isEmpty())
+			if (canNotFit(context, origin, state))
 				return false;
 		}
 
