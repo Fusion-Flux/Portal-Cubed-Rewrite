@@ -1,8 +1,9 @@
 package io.github.fusionflux.portalcubed.content;
 
+import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
-import io.github.fusionflux.portalcubed.framework.block.CrossbarBlock;
+import io.github.fusionflux.portalcubed.content.misc.CrossbarBlock;
 import io.github.fusionflux.portalcubed.framework.block.DoubleWaterloggableSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.RealDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
@@ -12,8 +13,6 @@ import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.GlazedTerracottaBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
@@ -384,7 +383,7 @@ public class PortalCubedBlocks {
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- misc blocks - crossbars -----
-	public static final RotatedPillarBlock CROSSBAR_PILLAR = REGISTRAR.blocks.create("crossbar_pillar", RotatedPillarBlock::new)
+	public static final CrossbarPillarBlock CROSSBAR_PILLAR = REGISTRAR.blocks.create("crossbar_pillar", CrossbarPillarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
