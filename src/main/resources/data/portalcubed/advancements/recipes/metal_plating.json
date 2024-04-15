@@ -1,0 +1,62 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "magnesium": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:iron_ingot",
+              "portalcubed:magnesium_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "portalcubed:tread_plate_crafting",
+      "portalcubed:tread_plate_slab_crafting",
+      "portalcubed:tread_plate_slab_stonecutting",
+      "portalcubed:tread_plate_facade_stonecutting",
+
+      "portalcubed:dirty_tread_plate_crafting",
+      "portalcubed:dirty_tread_plate_crafting_from_sewage",
+      "portalcubed:dirty_tread_plate_slab_crafting",
+      "portalcubed:dirty_tread_plate_slab_crafting_from_sewage",
+      "portalcubed:dirty_tread_plate_slab_stonecutting",
+      "portalcubed:dirty_tread_plate_facade_stonecutting",
+
+      "portalcubed:metal_plating_crafting",
+      "portalcubed:metal_plating_slab_crafting",
+      "portalcubed:metal_plating_slab_stonecutting",
+      "portalcubed:metal_plating_stairs_crafting",
+      "portalcubed:metal_plating_stairs_stonecutting",
+      "portalcubed:metal_plating_facade_stonecutting",
+      "portalcubed:cut_metal_plating_crafting",
+      "portalcubed:cut_metal_plating_stonecutting",
+      "portalcubed:cut_metal_plating_slab_crafting",
+      "portalcubed:cut_metal_plating_slab_stonecutting",
+      "portalcubed:cut_metal_plating_slab_stonecutting_from_metal_plating",
+
+      "portalcubed:dirty_metal_plating_crafting",
+      "portalcubed:dirty_metal_plating_crafting_from_sewage",
+      "portalcubed:dirty_metal_plating_slab_crafting",
+      "portalcubed:dirty_metal_plating_slab_crafting_from_sewage",
+      "portalcubed:dirty_metal_plating_slab_stonecutting",
+      "portalcubed:dirty_metal_plating_stairs_crafting",
+      "portalcubed:dirty_metal_plating_stairs_crafting_from_sewage",
+      "portalcubed:dirty_metal_plating_stairs_stonecutting",
+      "portalcubed:dirty_metal_plating_facade_stonecutting",
+      "portalcubed:dirty_cut_metal_plating_crafting",
+      "portalcubed:dirty_cut_metal_plating_crafting_from_sewage",
+      "portalcubed:dirty_cut_metal_plating_stonecutting",
+      "portalcubed:dirty_cut_metal_plating_slab_crafting",
+      "portalcubed:dirty_cut_metal_plating_slab_crafting_from_sewage",
+      "portalcubed:dirty_cut_metal_plating_slab_stonecutting",
+      "portalcubed:dirty_cut_metal_plating_slab_stonecutting_from_dirty_metal_plating"
+    ]
+  }
+}

@@ -17,13 +17,6 @@
   "rewards": {
     "recipes": [
       "portalcubed:hammer_crafting",
-      "portalcubed:tread_plate_crafting",
-      "portalcubed:tread_plate_slab_crafting",
-      "portalcubed:tread_plate_slab_stonecutting",
-      "portalcubed:tread_plate_facade_stonecutting",
-      "portalcubed:dirty_tread_plate_slab_crafting",
-      "portalcubed:dirty_tread_plate_slab_stonecutting",
-      "portalcubed:dirty_tread_plate_facade_stonecutting",
       "portalcubed:crossbar_pillar_crafting"
 
     ]

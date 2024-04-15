@@ -7,10 +7,10 @@
     ],
     "key": {
         "Y": {
-            "item": "minecraft:iron_nugget"
+            "item": "portalcubed:magnesium_ingot"
         },
         "X": {
-            "item": "minecraft:iron_block"
+            "item": "portalcubed:metal_plating"
         }
     },
     "result": {

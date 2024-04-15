@@ -465,35 +465,113 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	// ----- misc blocks - random -----
-	public static final Block INSULATION = REGISTRAR.blocks.create("insulation", Block::new)
-			.copyFrom(Blocks.YELLOW_WOOL)
-			.build();
-	public static final NoCollisionMultifaceBlock INSULATION_FACADE = REGISTRAR.blocks.create("insulation_facade", NoCollisionMultifaceBlock::new)
-			.copyFrom(Blocks.YELLOW_WOOL)
-			.build();
-	public static final Block TREAD_PLATE = REGISTRAR.blocks.create("tread_plate", Block::new)
+	// ----- misc blocks - metal plating -----
+	public static final Block METAL_PLATING = REGISTRAR.blocks.create("metal_plating", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_CYAN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
-	public static final SlabBlock TREAD_PLATE_SLAB = REGISTRAR.blocks.create("tread_plate_slab", SlabBlock::new)
+	public static final SlabBlock METAL_PLATING_SLAB = REGISTRAR.blocks.create("metal_plating_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_CYAN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
-	public static final NoCollisionMultifaceBlock TREAD_PLATE_FACADE = REGISTRAR.blocks.create("tread_plate_facade", NoCollisionMultifaceBlock::new)
+	public static final SaneStairBlock METAL_PLATING_STAIRS = REGISTRAR.blocks.create("metal_plating_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_CYAN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final NoCollisionMultifaceBlock METAL_PLATING_FACADE = REGISTRAR.blocks.create("metal_plating_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
+	public static final Block CUT_METAL_PLATING = REGISTRAR.blocks.create("cut_metal_plating", Block::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_CYAN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final SlabBlock CUT_METAL_PLATING_SLAB = REGISTRAR.blocks.create("cut_metal_plating_slab", SlabBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_CYAN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final Block TREAD_PLATE = REGISTRAR.blocks.create("tread_plate", Block::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.COLOR_LIGHT_GRAY)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final SlabBlock TREAD_PLATE_SLAB = REGISTRAR.blocks.create("tread_plate_slab", SlabBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.COLOR_LIGHT_GRAY)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final NoCollisionMultifaceBlock TREAD_PLATE_FACADE = REGISTRAR.blocks.create("tread_plate_facade", NoCollisionMultifaceBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.COLOR_LIGHT_GRAY)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
 	public static final Block DIRTY_TREAD_PLATE = REGISTRAR.blocks.create("dirty_tread_plate", Block::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.COLOR_LIGHT_GRAY)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final Block DIRTY_METAL_PLATING = REGISTRAR.blocks.create("dirty_metal_plating", Block::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final SlabBlock DIRTY_METAL_PLATING_SLAB = REGISTRAR.blocks.create("dirty_metal_plating_slab", SlabBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final SaneStairBlock DIRTY_METAL_PLATING_STAIRS = REGISTRAR.blocks.create("dirty_metal_plating_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final NoCollisionMultifaceBlock DIRTY_METAL_PLATING_FACADE = REGISTRAR.blocks.create("dirty_metal_plating_facade", NoCollisionMultifaceBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final Block DIRTY_CUT_METAL_PLATING = REGISTRAR.blocks.create("dirty_cut_metal_plating", Block::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sounds(SoundType.NETHERITE_BLOCK)
+			)
+			.build();
+	public static final SlabBlock DIRTY_CUT_METAL_PLATING_SLAB = REGISTRAR.blocks.create("dirty_cut_metal_plating_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
@@ -503,16 +581,23 @@ public class PortalCubedBlocks {
 	public static final SlabBlock DIRTY_TREAD_PLATE_SLAB = REGISTRAR.blocks.create("dirty_tread_plate_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final NoCollisionMultifaceBlock DIRTY_TREAD_PLATE_FACADE = REGISTRAR.blocks.create("dirty_tread_plate_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
+			.build();
+	// ----- misc blocks - random -----
+	public static final Block INSULATION = REGISTRAR.blocks.create("insulation", Block::new)
+			.copyFrom(Blocks.YELLOW_WOOL)
+			.build();
+	public static final NoCollisionMultifaceBlock INSULATION_FACADE = REGISTRAR.blocks.create("insulation_facade", NoCollisionMultifaceBlock::new)
+			.copyFrom(Blocks.YELLOW_WOOL)
 			.build();
 	public static final Block PLYWOOD = REGISTRAR.blocks.create("plywood", Block::new)
 			.copyFrom(Blocks.OAK_PLANKS)

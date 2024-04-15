@@ -1,9 +1,12 @@
 {
   "values": [
     "portalcubed:old_ap_blue_panel",
+    "portalcubed:old_ap_blue_panel_stairs",
+    "portalcubed:old_ap_blue_panel_slab",
+    "portalcubed:old_ap_blue_panel_facade",
     "portalcubed:old_ap_blue_2x1_panel",
-    "portalcubed:old_ap_blue_2x2_panel_top_right",
     "portalcubed:old_ap_blue_2x2_panel_top_left",
+    "portalcubed:old_ap_blue_2x2_panel_top_right",
     "portalcubed:old_ap_blue_2x2_panel_bottom_left",
     "portalcubed:old_ap_blue_2x2_panel_bottom_right"
   ]
