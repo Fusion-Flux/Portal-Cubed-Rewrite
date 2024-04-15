@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "portalcubed:block/dirty_metal_plating",
+    "side": "portalcubed:block/dirty_cut_metal_plating",
+    "top": "portalcubed:block/dirty_metal_plating"
+  }
+}

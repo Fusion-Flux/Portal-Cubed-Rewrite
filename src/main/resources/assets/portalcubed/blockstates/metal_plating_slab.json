@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/metal_plating_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/metal_plating"
+    },
+    "type=top": {
+      "model": "portalcubed:block/metal_plating_slab_top"
+    }
+  }
+}

@@ -142,6 +142,25 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.MESH_GRATE_SLAB);
 			output.accept(PortalCubedBlocks.MESH_GRATE_FACADE);
 
+			output.accept(PortalCubedBlocks.METAL_PLATING);
+			output.accept(PortalCubedBlocks.METAL_PLATING_SLAB);
+			output.accept(PortalCubedBlocks.METAL_PLATING_STAIRS);
+			output.accept(PortalCubedBlocks.METAL_PLATING_FACADE);
+			output.accept(PortalCubedBlocks.CUT_METAL_PLATING);
+			output.accept(PortalCubedBlocks.CUT_METAL_PLATING_SLAB);
+			output.accept(PortalCubedBlocks.TREAD_PLATE);
+			output.accept(PortalCubedBlocks.TREAD_PLATE_SLAB);
+			output.accept(PortalCubedBlocks.TREAD_PLATE_FACADE);
+			output.accept(PortalCubedBlocks.DIRTY_METAL_PLATING);
+			output.accept(PortalCubedBlocks.DIRTY_METAL_PLATING_SLAB);
+			output.accept(PortalCubedBlocks.DIRTY_METAL_PLATING_STAIRS);
+			output.accept(PortalCubedBlocks.DIRTY_METAL_PLATING_FACADE);
+			output.accept(PortalCubedBlocks.DIRTY_CUT_METAL_PLATING);
+			output.accept(PortalCubedBlocks.DIRTY_CUT_METAL_PLATING_SLAB);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_SLAB);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_FACADE);
+
 			output.accept(PortalCubedBlocks.CROSSBAR_PILLAR);
 			output.accept(PortalCubedBlocks.SINGLE_2x2_CROSSBAR_BOTTOM_LEFT);
 			output.accept(PortalCubedBlocks.SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT);
@@ -151,13 +170,6 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT);
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_LEFT);
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_RIGHT);
-
-			output.accept(PortalCubedBlocks.TREAD_PLATE);
-			output.accept(PortalCubedBlocks.TREAD_PLATE_SLAB);
-			output.accept(PortalCubedBlocks.TREAD_PLATE_FACADE);
-			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE);
-			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_SLAB);
-			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_FACADE);
 
 			output.accept(PortalCubedBlocks.SEWAGE);
 

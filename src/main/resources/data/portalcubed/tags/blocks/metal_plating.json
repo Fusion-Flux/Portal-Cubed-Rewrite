@@ -1,0 +1,13 @@
+{
+  "values": [
+    "portalcubed:tread_plate",
+    "portalcubed:tread_plate_slab",
+    "portalcubed:tread_plate_facade",
+    "portalcubed:metal_plating",
+    "portalcubed:metal_plating_slab",
+    "portalcubed:metal_plating_stairs",
+    "portalcubed:metal_plating_facade",
+    "portalcubed:cut_metal_plating",
+    "portalcubed:cut_metal_plating_slab"
+  ]
+}

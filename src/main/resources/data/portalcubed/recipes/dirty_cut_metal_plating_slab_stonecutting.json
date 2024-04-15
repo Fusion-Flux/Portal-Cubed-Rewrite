@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "portalcubed:dirty_cut_metal_plating"
+  },
+  "result": "portalcubed:dirty_cut_metal_plating_slab"
+}

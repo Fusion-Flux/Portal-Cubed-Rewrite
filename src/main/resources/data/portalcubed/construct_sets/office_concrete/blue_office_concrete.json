@@ -1,0 +1,7 @@
+{
+  "material": "#portalcubed:office_concrete_materials",
+  "type": "single",
+  "construct": {
+     "0,0,0": "portalcubed:blue_office_concrete"
+  }
+}

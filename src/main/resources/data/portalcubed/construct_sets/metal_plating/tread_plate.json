@@ -1,0 +1,7 @@
+{
+  "material": "#portalcubed:metal_plating_materials",
+  "type": "single",
+  "construct": {
+     "0,0,0": "portalcubed:tread_plate"
+  }
+}
