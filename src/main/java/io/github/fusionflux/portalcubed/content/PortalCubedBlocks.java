@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
+import io.github.fusionflux.portalcubed.framework.block.CrossbarBlock;
 import io.github.fusionflux.portalcubed.framework.block.DoubleWaterloggableSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.RealDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
@@ -392,7 +393,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final GlazedTerracottaBlock DOUBLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_top_left", GlazedTerracottaBlock::new)
+	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_top_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
@@ -401,7 +402,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final GlazedTerracottaBlock DOUBLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_top_right", GlazedTerracottaBlock::new)
+	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_top_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
@@ -410,7 +411,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final GlazedTerracottaBlock DOUBLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_left", GlazedTerracottaBlock::new)
+	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
@@ -419,7 +420,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final GlazedTerracottaBlock DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_right", GlazedTerracottaBlock::new)
+	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
@@ -428,7 +429,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final GlazedTerracottaBlock SINGLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("2x2_crossbar_top_left", GlazedTerracottaBlock::new)
+	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("2x2_crossbar_top_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
@@ -437,7 +438,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final GlazedTerracottaBlock SINGLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_top_right", GlazedTerracottaBlock::new)
+	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_top_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
@@ -446,7 +447,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final GlazedTerracottaBlock SINGLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("2x2_crossbar_bottom_left", GlazedTerracottaBlock::new)
+	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("2x2_crossbar_bottom_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
@@ -455,7 +456,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final GlazedTerracottaBlock SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_bottom_right", GlazedTerracottaBlock::new)
+	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_bottom_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.LANTERN)
