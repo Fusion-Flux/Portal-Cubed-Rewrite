@@ -44,7 +44,7 @@ public class PortalCubedTabs {
 		});
 	});
 
-	 public static final ResourceKey<CreativeModeTab> PORTAL_BLOCKS = create("portal_blocks", builder -> {
+	 public static final ResourceKey<CreativeModeTab> PORTAL_CUBED_BLOCKS = create("portal_cubed_blocks", builder -> {
 		builder.icon(() -> {
 			Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE);
 			Block block = blocks.get(PanelPart.HALF);

@@ -5,7 +5,7 @@
   "vertical": {
     "0,0,0": {
       "Properties": {
-        "facing": "up"
+        "axis": "y"
       },
       "Name": "portalcubed:crossbar_pillar"
     }
@@ -13,7 +13,7 @@
   "horizontal": {
     "0,0,0": {
       "Properties": {
-        "facing": "west"
+        "axis": "x"
       },
       "Name": "portalcubed:crossbar_pillar"
     }
