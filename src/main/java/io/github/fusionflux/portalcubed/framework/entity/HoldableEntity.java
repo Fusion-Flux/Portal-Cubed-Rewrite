@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.framework.entity;
 import java.util.OptionalInt;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
-import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
@@ -114,6 +113,14 @@ public abstract class HoldableEntity extends LerpableEntity {
 		return this.holder != null;
 	}
 
+	public boolean isHeldBy(Entity entity) {
+		return this.holder == entity;
+	}
+
+	public boolean notHeldBy(Entity entity) {
+		return !this.isHeldBy(entity);
+	}
+
 	public void grab(ServerPlayer player) {
 		if (this.holder != null) {
 			// check if the new player can steal it
@@ -125,15 +132,15 @@ public abstract class HoldableEntity extends LerpableEntity {
 		}
 
 		this.entityData.set(HOLDER, OptionalInt.of(player.getId()));
-		((PlayerExt) player).pc$setHeldProp(OptionalInt.of(this.getId()));
+		player.setHeldEntity(this);
 		updateHoldStatus(player, this);
 	}
 
 	public void drop() {
 		// implicit null check
 		if (this.holder instanceof ServerPlayer player) {
-			((PlayerExt) player).pc$setHeldProp(OptionalInt.empty());
 			this.entityData.set(HOLDER, OptionalInt.empty());
+			player.setHeldEntity(null);
 			updateHoldStatus(player, null);
 		}
 	}
@@ -147,10 +154,10 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 	public static void registerEventListeners() {
 		EntityTrackingEvents.AFTER_START_TRACKING.register((tracked, player) -> {
-			if (tracked instanceof PlayerExt otherPlayer) {
-				OptionalInt held = otherPlayer.pc$getHeldProp();
-				if (held.isPresent()) {
-					PortalCubedPackets.sendToClient(player, new HoldStatusPacket(tracked.getId(), held));
+			if (tracked instanceof ServerPlayer otherPlayer) {
+				HoldableEntity held = otherPlayer.getHeldEntity();
+				if (held != null) {
+					PortalCubedPackets.sendToClient(player, new HoldStatusPacket(otherPlayer, held));
 				}
 			}
 		});

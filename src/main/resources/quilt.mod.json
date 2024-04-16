@@ -41,5 +41,13 @@
 		]
 	},
 	"mixin": "portalcubed.mixins.json",
-  "access_widener": "portalcubed.accesswidener"
+  "access_widener": "portalcubed.accesswidener",
+
+  "quilt_loom": {
+    "injected_interfaces": {
+      "net/minecraft/class_1657": [
+        "io/github/fusionflux/portalcubed/framework/extension/PlayerExt"
+      ]
+    }
+  }
 }
