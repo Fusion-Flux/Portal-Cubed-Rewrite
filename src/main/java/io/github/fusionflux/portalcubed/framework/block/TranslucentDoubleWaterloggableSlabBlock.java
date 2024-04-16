@@ -18,7 +18,7 @@ public class TranslucentDoubleWaterloggableSlabBlock extends DoubleWaterloggable
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {
-		return stateFrom.is(this) || super.skipRendering(state, stateFrom, direction);
+		return stateFrom.equals(state) || super.skipRendering(state, stateFrom, direction);
 	}
 
 	@SuppressWarnings("deprecation")
