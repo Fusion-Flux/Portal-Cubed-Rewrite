@@ -8,7 +8,7 @@ import io.github.fusionflux.portalcubed.framework.block.ConnectiveDirectionalBlo
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
-import io.github.fusionflux.portalcubed.framework.block.TranslucentDoubleWaterloggableSlabBlock;
+import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
@@ -287,7 +287,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final SlabBlock METAL_GRATE_SLAB = REGISTRAR.blocks.create("metal_grate_slab", TranslucentDoubleWaterloggableSlabBlock::new)
+	public static final SlabBlock METAL_GRATE_SLAB = REGISTRAR.blocks.create("metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
@@ -314,7 +314,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final SlabBlock OLD_AP_METAL_GRATE_SLAB = REGISTRAR.blocks.create("old_ap_metal_grate_slab", TranslucentDoubleWaterloggableSlabBlock::new)
+	public static final SlabBlock OLD_AP_METAL_GRATE_SLAB = REGISTRAR.blocks.create("old_ap_metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
@@ -341,7 +341,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final SlabBlock PORTAL_1_METAL_GRATE_SLAB = REGISTRAR.blocks.create("portal_1_metal_grate_slab", TranslucentDoubleWaterloggableSlabBlock::new)
+	public static final SlabBlock PORTAL_1_METAL_GRATE_SLAB = REGISTRAR.blocks.create("portal_1_metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
 			.settings(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
@@ -367,7 +367,7 @@ public class PortalCubedBlocks {
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final SlabBlock MESH_GRATE_SLAB = REGISTRAR.blocks.create("mesh_grate_slab", TranslucentDoubleWaterloggableSlabBlock::new)
+	public static final SlabBlock MESH_GRATE_SLAB = REGISTRAR.blocks.create("mesh_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
 			.settings(settings -> settings
 					.sounds(SoundType.VINE)
