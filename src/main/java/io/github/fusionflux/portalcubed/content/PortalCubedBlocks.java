@@ -13,6 +13,7 @@ import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.GlazedTerracottaBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
@@ -590,6 +591,61 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
+			.build();
+	// ----- misc blocks - chamber exteriors -----
+	public static final Block GRAY_CHAMBER_EXTERIOR = REGISTRAR.blocks.create("gray_chamber_exterior", Block::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_A_TOP_LEFT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_a_top_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_A_TOP_RIGHT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_a_top_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_A_BOTTOM_LEFT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_a_bottom_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_A_BOTTOM_RIGHT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_a_bottom_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_B_TOP_LEFT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_b_top_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_B_TOP_RIGHT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_b_top_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_B_BOTTOM_LEFT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_b_bottom_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_B_BOTTOM_RIGHT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_b_bottom_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
+	public static final Block YELLOW_CHAMBER_EXTERIOR = REGISTRAR.blocks.create("yellow_chamber_exterior", Block::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_A_TOP_LEFT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_a_top_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_A_TOP_RIGHT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_a_top_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_A_BOTTOM_LEFT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_a_bottom_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_A_BOTTOM_RIGHT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_a_bottom_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_B_TOP_LEFT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_b_top_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_B_TOP_RIGHT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_b_top_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_B_BOTTOM_LEFT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_b_bottom_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_B_BOTTOM_RIGHT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_b_bottom_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
 			.build();
 	// ----- misc blocks - random -----
 	public static final Block INSULATION = REGISTRAR.blocks.create("insulation", Block::new)

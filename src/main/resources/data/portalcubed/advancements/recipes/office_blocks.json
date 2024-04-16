@@ -77,7 +77,11 @@
       "portalcubed:light_gray_office_concrete_facade_stonecutting",
       "portalcubed:light_gray_office_concrete_crafting",
 
-      "portalcubed:vertical_office_concrete_crafting"
+      "portalcubed:vertical_office_concrete_crafting",
+
+      "portalcubed:gray_chamber_exterior_crafting",
+      "portalcubed:yellow_chamber_exterior_crafting"
+
     ]
   },
   "criteria": {
@@ -98,7 +102,9 @@
 		"minecraft:orange_terracotta",
 		"minecraft:yellow_terracotta",
 		"minecraft:white_concrete",
-		"minecraft:white_terracotta"
+		"minecraft:white_terracotta",
+		"minecraft:gray_terracotta",
+		"minecraft:yellow_concrete"
 	    ]
           }
         ]
