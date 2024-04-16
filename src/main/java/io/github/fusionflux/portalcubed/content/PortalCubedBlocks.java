@@ -5,7 +5,7 @@ import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarBlock;
 import io.github.fusionflux.portalcubed.framework.block.DoubleWaterloggableSlabBlock;
-import io.github.fusionflux.portalcubed.framework.block.RealDirectionalBlock;
+import io.github.fusionflux.portalcubed.framework.block.ConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
@@ -273,7 +273,7 @@ public class PortalCubedBlocks {
 	public static final NoCollisionMultifaceBlock LIGHT_GRAY_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("light_gray_office_concrete_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
-	public static final RealDirectionalBlock VERTICAL_OFFICE_CONCRETE = REGISTRAR.blocks.create("vertical_office_concrete", RealDirectionalBlock::new)
+	public static final ConnectiveDirectionalBlock VERTICAL_OFFICE_CONCRETE = REGISTRAR.blocks.create("vertical_office_concrete", ConnectiveDirectionalBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
 			.build();
 	// ----- misc blocks - grates -----

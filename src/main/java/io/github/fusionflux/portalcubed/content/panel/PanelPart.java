@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.content.panel;
 
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
-import io.github.fusionflux.portalcubed.framework.block.RealDirectionalBlock;
+import io.github.fusionflux.portalcubed.framework.block.ConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockFactory;
 import net.minecraft.world.level.block.Block;
@@ -24,7 +24,7 @@ public enum PanelPart {
 	SLAB("panel_slab", SlabBlock::new),
 	STAIRS("panel_stairs", SaneStairBlock::new),
 	FACADE("panel_facade", NoCollisionMultifaceBlock::new),
-	MULTI_1x2("2x1_panel", RealDirectionalBlock::new),
+	MULTI_1x2("2x1_panel", ConnectiveDirectionalBlock::new),
 	JOINER("2x1_panel_joiner", RotatedPillarBlock::new), // portal 1 metal only
 	MULTI_2x2_BOTTOM_LEFT("2x2_panel_bottom_left", GlazedTerracottaBlock::new),
 	MULTI_2x2_BOTTOM_RIGHT("2x2_panel_bottom_right", GlazedTerracottaBlock::new),

@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
+
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
@@ -14,14 +17,15 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 
-public class RealDirectionalBlock extends DirectionalBlock {
-	public static final MapCodec<RealDirectionalBlock> CODEC = simpleCodec(RealDirectionalBlock::new);
+public class ConnectiveDirectionalBlock extends DirectionalBlock {
+	public static final MapCodec<ConnectiveDirectionalBlock> CODEC = simpleCodec(ConnectiveDirectionalBlock::new);
 
-	public RealDirectionalBlock(Properties properties) {
+	public ConnectiveDirectionalBlock(Properties properties) {
 		super(properties);
 	}
 
 	@Override
+	@NotNull
 	protected MapCodec<? extends DirectionalBlock> codec() {
 		return CODEC;
 	}
@@ -37,9 +41,13 @@ public class RealDirectionalBlock extends DirectionalBlock {
 		Direction facing = ctx.getClickedFace();
 		BlockPos clickedOn = ctx.getClickedPos().relative(facing.getOpposite());
 		BlockState clickedState = ctx.getLevel().getBlockState(clickedOn);
-		if (clickedState.is(this) && clickedState.getValue(FACING) == facing)
+		if (this.connectsTo(clickedState) && clickedState.getValue(FACING) == facing)
 			facing = facing.getOpposite();
 		return this.defaultBlockState().setValue(FACING, facing);
+	}
+
+	protected boolean connectsTo(BlockState state) {
+		return state.hasProperty(FACING) && state.is(PortalCubedBlockTags.CONNECTING_DIRECTIONAL_BLOCKS);
 	}
 
 	@Override
