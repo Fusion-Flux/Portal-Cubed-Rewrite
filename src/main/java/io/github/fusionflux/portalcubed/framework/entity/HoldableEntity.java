@@ -35,7 +35,6 @@ import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 public abstract class HoldableEntity extends LerpableEntity {
 	public static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 	public static final double MAX_DIST_SQR = 3 * 3;
-	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
 
 	@Nullable
 	private Player holder;
@@ -87,8 +86,8 @@ public abstract class HoldableEntity extends LerpableEntity {
 			this.setYRot((holder.getYRot() + 180) % 360);
 		}
 
-		// drop when too far away
-		if (!this.level().isClientSide && position().distanceToSqr(holder.getEyePosition()) >= MAX_DIST_SQR)
+		// drop when holder changes to spectator or moves too far away
+		if (!this.level().isClientSide && (holder.isSpectator() || this.position().distanceToSqr(holder.getEyePosition()) >= MAX_DIST_SQR))
 			this.drop();
 	}
 
