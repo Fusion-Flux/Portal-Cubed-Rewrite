@@ -37,7 +37,7 @@ public class PortalProjectile extends UnsavedEntity {
 	}
 
 	public static PortalProjectile create(Level level, PortalData data, Direction shooterFacing) {
-		PortalProjectile projectile = new PortalProjectile(PortalCubedEntities.PORTAL_PROJECTILE, level);
+		PortalProjectile projectile = null;//new PortalProjectile(PortalCubedEntities.PORTAL_PROJECTILE, level);
 		projectile.entityData.set(PORTAL_DATA, data);
 		projectile.entityData.set(SHOOTER_FACING, shooterFacing);
 		return projectile;

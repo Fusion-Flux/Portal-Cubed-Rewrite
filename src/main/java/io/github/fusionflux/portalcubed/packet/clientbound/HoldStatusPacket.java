@@ -66,8 +66,9 @@ public record HoldStatusPacket(int holder, OptionalInt held) implements Clientbo
 		player.setHeldEntity(held);
 
 		// update sounds
-		if (!player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN))
-			return;
+		if (true) return;
+//		if (!player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN))
+//			return;
 
 		if (held != null && oldHeld == null && player.pc$grabSound() == null) { // grabbed, not currently playing a sound
 			player.pc$grabSoundTimer(28);

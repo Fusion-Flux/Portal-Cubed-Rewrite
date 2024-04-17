@@ -38,9 +38,9 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 
 			if (hit != null && hit.getEntity() instanceof HoldableEntity holdable) {
 				PortalCubedPackets.sendToServer(new GrabPacket(holdable));
-			} else if (player.isHolding(PortalCubedItems.PORTAL_GUN)) { // failed, play fail sound if holding portal gun
-				player.playSound(PortalCubedSounds.PORTAL_GUN_CANNOT_GRAB);
-			}
+			}// else if (player.isHolding(PortalCubedItems.PORTAL_GUN)) { // failed, play fail sound if holding portal gun
+//				player.playSound(PortalCubedSounds.PORTAL_GUN_CANNOT_GRAB);
+//			}
 		} else { // currently holding, drop
 			PortalCubedPackets.sendToServer(new DropPacket());
 		}

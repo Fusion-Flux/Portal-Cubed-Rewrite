@@ -29,7 +29,7 @@ public class PortalCubedClient implements ClientModInitializer {
 
 		ClientEntityTickCallback.EVENT.register((entity, isPassengerTick) -> {
 			if (entity instanceof Player player) {
-				boolean holdingPortalGun = player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN);
+				boolean holdingPortalGun = false;//player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN);
 
 				var soundManager = Minecraft.getInstance().getSoundManager();
 				int grabSoundTimer = player.pc$grabSoundTimer();

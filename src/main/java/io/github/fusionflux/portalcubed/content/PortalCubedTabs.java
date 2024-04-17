@@ -25,10 +25,10 @@ public class PortalCubedTabs {
 
 
 	public static final ResourceKey<CreativeModeTab> TEST_ELEMENTS = create("test_elements", builder -> {
-		builder.icon(() -> new ItemStack(PortalCubedItems.PORTAL_GUN));
+		builder.icon(() -> new ItemStack(PortalCubedItems.PROPS.get(PropType.STORAGE_CUBE)));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
-			output.accept(PortalCubedItems.PORTAL_GUN);
+//			output.accept(PortalCubedItems.PORTAL_GUN);
 			output.accept(PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
@@ -213,27 +213,27 @@ public class PortalCubedTabs {
 
 			// ----- portal guns -----
 
-			output.accept(PortalCubedItems.PORTAL_GUN);
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 3, "portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 4, "portal_gun_reloaded");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 101, "legacy_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 102, "legacy_portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 103, "legacy_portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 104, "legacy_portal_gun_reloaded");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 201, "mel_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 202, "2006_beta_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 203, "2005_beta_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 204, "bendy_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 205, "blueprint_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
+//			output.accept(PortalCubedItems.PORTAL_GUN);
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 3, "portal_gun_p_body");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 4, "portal_gun_reloaded");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 101, "legacy_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 102, "legacy_portal_gun_atlas");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 103, "legacy_portal_gun_p_body");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 104, "legacy_portal_gun_reloaded");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 201, "mel_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 202, "2006_beta_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 203, "2005_beta_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 204, "bendy_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 205, "blueprint_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
+//			addVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
 
 			// ----- props -----
 
