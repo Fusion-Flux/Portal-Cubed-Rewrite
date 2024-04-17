@@ -120,6 +120,9 @@ public class PortalCubedTabs {
 
 			output.accept(PortalCubedBlocks.VERTICAL_OFFICE_CONCRETE);
 
+			output.accept(PortalCubedBlocks.ELEVATOR_WALL_END);
+			output.accept(PortalCubedBlocks.ELEVATOR_WALL_MIDDLE);
+
 			output.accept(PortalCubedBlocks.PLYWOOD);
 			output.accept(PortalCubedBlocks.PLYWOOD_SLAB);
 			output.accept(PortalCubedBlocks.PLYWOOD_STAIRS);

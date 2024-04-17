@@ -5,13 +5,13 @@
   "vertical": {
     "0,0,0": {
       "Properties": {
-        "facing": "up"
+        "vertical_direction": "up"
       },
       "Name": "portalcubed:vertical_office_concrete"
     },
     "0,1,0": {
       "Properties": {
-        "facing": "down"
+        "vertical_direction": "down"
       },
       "Name": "portalcubed:vertical_office_concrete"
     }
@@ -19,13 +19,13 @@
   "horizontal": {
     "-1,0,0": {
       "Properties": {
-        "facing": "east"
+        "vertical_direction": "east"
       },
       "Name": "portalcubed:vertical_office_concrete"
     },
     "0,0,0": {
       "Properties": {
-        "facing": "west"
+        "vertical_direction": "west"
       },
       "Name": "portalcubed:vertical_office_concrete"
     }

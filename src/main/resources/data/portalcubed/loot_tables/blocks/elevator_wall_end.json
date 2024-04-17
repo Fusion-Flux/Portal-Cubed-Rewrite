@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
+          "name": "portalcubed:elevator_wall_end"
         }
       ],
       "conditions": [

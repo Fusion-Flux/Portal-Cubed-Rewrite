@@ -47,7 +47,9 @@
       "portalcubed:old_ap_metal_grate_facade_stonecutting",
       "portalcubed:mesh_grate_facade_stonecutting",
       "portalcubed:insulation_crafting",
-      "portalcubed:insulation_facade_stonecutting"
+      "portalcubed:insulation_facade_stonecutting",
+      "portalcubed:elevator_wall_end_crafting",
+      "portalcubed:elevator_wall_middle_crafting"
     ]
   }
 }

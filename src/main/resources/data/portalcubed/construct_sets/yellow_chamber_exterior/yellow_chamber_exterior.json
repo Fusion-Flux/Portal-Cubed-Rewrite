@@ -1,15 +1,7 @@
 {
   "material": "#portalcubed:yellow_chamber_exterior_materials",
-  "type": "pillar",
-  "chooser": "clicked_face",
-  "vertical": {
-    "0,0,0": {
-      "Name": "portalcubed:yellow_chamber_exterior"
-    }
-  },
-  "horizontal": {
-    "0,0,0": {
-      "Name": "portalcubed:yellow_chamber_exterior"
-    }
+  "type": "single",
+  "construct": {
+     "0,0,0": "portalcubed:yellow_chamber_exterior"
   }
 }

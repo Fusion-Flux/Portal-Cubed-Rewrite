@@ -4,11 +4,11 @@ import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarBlock;
-import io.github.fusionflux.portalcubed.framework.block.ConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
+import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
@@ -274,8 +274,19 @@ public class PortalCubedBlocks {
 	public static final NoCollisionMultifaceBlock LIGHT_GRAY_OFFICE_CONCRETE_FACADE = REGISTRAR.blocks.create("light_gray_office_concrete_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.LIGHT_GRAY_CONCRETE)
 			.build();
-	public static final ConnectiveDirectionalBlock VERTICAL_OFFICE_CONCRETE = REGISTRAR.blocks.create("vertical_office_concrete", ConnectiveDirectionalBlock::new)
+	public static final VerticalConnectiveDirectionalBlock VERTICAL_OFFICE_CONCRETE = REGISTRAR.blocks.create("vertical_office_concrete", VerticalConnectiveDirectionalBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
+			.build();
+	// ----- misc blocks - elevator_walls -----
+	public static final Block ELEVATOR_WALL_MIDDLE = REGISTRAR.blocks.create("elevator_wall_middle", Block::new)
+			.copyFrom(Blocks.WHITE_CONCRETE)
+			.settings(settings -> settings.mapColor(MapColor.CLAY))
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final VerticalConnectiveDirectionalBlock ELEVATOR_WALL_END = REGISTRAR.blocks.create("elevator_wall_end", VerticalConnectiveDirectionalBlock::new)
+			.copyFrom(Blocks.WHITE_CONCRETE)
+			.settings(settings -> settings.mapColor(MapColor.CLAY))
+			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- misc blocks - grates -----
 	public static final WaterloggedTransparentBlock METAL_GRATE = REGISTRAR.blocks.create("metal_grate", WaterloggedTransparentBlock::new)
@@ -284,6 +295,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -311,6 +324,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -338,6 +353,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.SAND)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -364,6 +381,8 @@ public class PortalCubedBlocks {
 			.settings(settings -> settings
 					.sounds(SoundType.VINE)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -390,6 +409,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -399,6 +420,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -408,6 +431,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -417,6 +442,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -426,6 +453,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -435,6 +464,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -444,6 +475,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -453,6 +486,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -462,6 +497,8 @@ public class PortalCubedBlocks {
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
+					.isSuffocating(Blocks::never)
+					.isViewBlocking(Blocks::never)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();

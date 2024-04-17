@@ -55,6 +55,9 @@
     "portalcubed:portal_1_metal_tiles",
     "portalcubed:portal_1_metal_tile_slab",
     "portalcubed:portal_1_metal_tile_stairs",
-    "portalcubed:portal_1_metal_tile_facade"
+    "portalcubed:portal_1_metal_tile_facade",
+
+    "portalcubed:elevator_wall_end",
+    "portalcubed:elevator_wall_middle"
   ]
 }

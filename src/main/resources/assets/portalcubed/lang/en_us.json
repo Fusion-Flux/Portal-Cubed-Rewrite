@@ -128,10 +128,10 @@
   "construct_set.portalcubed.gray_chamber_exterior.gray_2x2_chamber_exterior_a": "Gray 2x2 Chamber Exterior A",
   "construct_set.portalcubed.gray_chamber_exterior.gray_2x2_chamber_exterior_b": "Gray 2x2 Chamber Exterior B",
   "construct_set.portalcubed.gray_chamber_exterior.gray_4x4_chamber_exterior": "Gray 4x4 Chamber Exterior",
-  "construct_set.portalcubed.yellow_chamber_exterior.gray_chamber_exterior": "Yellow Chamber Exterior",
-  "construct_set.portalcubed.yellow_chamber_exterior.gray_2x2_chamber_exterior_a": "Yellow 2x2 Chamber Exterior A",
-  "construct_set.portalcubed.yellow_chamber_exterior.gray_2x2_chamber_exterior_b": "Yellow 2x2 Chamber Exterior B",
-  "construct_set.portalcubed.yellow_chamber_exterior.gray_4x4_chamber_exterior": "Yellow 4x4 Chamber Exterior",
+  "construct_set.portalcubed.yellow_chamber_exterior.yellow_chamber_exterior": "Yellow Chamber Exterior",
+  "construct_set.portalcubed.yellow_chamber_exterior.yellow_2x2_chamber_exterior_a": "Yellow 2x2 Chamber Exterior A",
+  "construct_set.portalcubed.yellow_chamber_exterior.yellow_2x2_chamber_exterior_b": "Yellow 2x2 Chamber Exterior B",
+  "construct_set.portalcubed.yellow_chamber_exterior.yellow_4x4_chamber_exterior": "Yellow 4x4 Chamber Exterior",
 
   "pillar_construct_set.chooser.placer_facing.tooltip": "Oriented based on facing direction",
   "pillar_construct_set.chooser.clicked_face.tooltip": "Oriented based on clicked block face",
@@ -586,6 +586,9 @@
 
   "block.portalcubed.vertical_office_concrete": "Vertical Office Concrete",
 
+  "block.portalcubed.elevator_wall_end": "Elevator Wall End",
+  "block.portalcubed.elevator_wall_middle": "Elevator Wall Middle",
+
   "block.portalcubed.sewage": "Sewage",
 
   "block.portalcubed.insulation": "Insulation",
@@ -644,21 +647,21 @@
 
   "block.portalcubed.gray_chamber_exterior": "Gray Chamber Exterior",
   "block.portalcubed.gray_2x2_chamber_exterior_a_bottom_left": "Gray 2x2 Chamber Exterior A Bottom Left",
-  "block.portalcubed.gray_2x2_chamber_exterior_a_top_left": "Gray 2x2 Chamber Exterior A Left",
+  "block.portalcubed.gray_2x2_chamber_exterior_a_top_left": "Gray 2x2 Chamber Exterior A Top Left",
   "block.portalcubed.gray_2x2_chamber_exterior_a_bottom_right": "Gray 2x2 Chamber Exterior A Bottom Right",
   "block.portalcubed.gray_2x2_chamber_exterior_a_top_right": "Gray 2x2 Chamber Exterior A Top Right",
   "block.portalcubed.gray_2x2_chamber_exterior_b_bottom_left": "Gray 2x2 Chamber Exterior B Bottom Left",
-  "block.portalcubed.gray_2x2_chamber_exterior_b_top_left": "Gray 2x2 Chamber Exterior B Left",
+  "block.portalcubed.gray_2x2_chamber_exterior_b_top_left": "Gray 2x2 Chamber Exterior B Top Left",
   "block.portalcubed.gray_2x2_chamber_exterior_b_bottom_right": "Gray 2x2 Chamber Exterior B Bottom Right",
   "block.portalcubed.gray_2x2_chamber_exterior_b_top_right": "Gray 2x2 Chamber Exterior B Top Right",
 
   "block.portalcubed.yellow_chamber_exterior": "Yellow Chamber Exterior",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_bottom_left": "Yellow 2x2 Chamber Exterior A Bottom Left",
-  "block.portalcubed.yellow_2x2_chamber_exterior_a_top_left": "Yellow 2x2 Chamber Exterior A Left",
+  "block.portalcubed.yellow_2x2_chamber_exterior_a_top_left": "Yellow 2x2 Chamber Exterior A Top Left",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_bottom_right": "Yellow 2x2 Chamber Exterior A Bottom Right",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_top_right": "Yellow 2x2 Chamber Exterior A Top Right",
   "block.portalcubed.yellow_2x2_chamber_exterior_b_bottom_left": "Yellow 2x2 Chamber Exterior B Bottom Left",
-  "block.portalcubed.yellow_2x2_chamber_exterior_b_top_left": "Yellow 2x2 Chamber Exterior B Left",
+  "block.portalcubed.yellow_2x2_chamber_exterior_b_top_left": "Yellow 2x2 Chamber Exterior B Top Left",
   "block.portalcubed.yellow_2x2_chamber_exterior_b_bottom_right": "Yellow 2x2 Chamber Exterior B Bottom Right",
   "block.portalcubed.yellow_2x2_chamber_exterior_b_top_right": "Yellow 2x2 Chamber Exterior B Top Right",
 

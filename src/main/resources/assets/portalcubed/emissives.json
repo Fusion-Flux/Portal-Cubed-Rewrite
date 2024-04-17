@@ -70,6 +70,26 @@
   "item/construction_cannon": "item/construction_cannon_screen_e",
 
   "item/error": "block/error",
-  "block/error": "block/error"
+  "block/error": "block/error",
 
+  "block/elevator_wall_top": [
+    "block/elevator_wall_upper_e",
+    "block/elevator_wall_middle_top_e"
+  ],
+  "block/elevator_wall_middle": [
+    "block/elevator_wall_middle_e",
+    "block/elevator_wall_middle_top_e"
+  ],
+  "block/elevator_wall_bottom": [
+    "block/elevator_wall_lower_e",
+    "block/elevator_wall_middle_top_e"
+  ],
+  "item/elevator_wall_end": [
+    "block/elevator_wall_upper_e",
+    "block/elevator_wall_middle_top_e"
+  ],
+  "item/elevator_wall_middle": [
+    "block/elevator_wall_middle_e",
+    "block/elevator_wall_middle_top_e"
+  ]
 }

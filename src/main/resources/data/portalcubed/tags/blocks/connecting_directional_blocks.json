@@ -14,6 +14,8 @@
     "portalcubed:portal_1_white_2x1_panel",
     "portalcubed:old_ap_blue_2x1_panel",
     "portalcubed:old_ap_green_2x1_panel",
-    "portalcubed:vertical_office_concrete"
+    "portalcubed:vertical_office_concrete",
+    "portalcubed:elevator_wall_end",
+    "portalcubed:elevator_wall_middle"
   ]
 }
