@@ -43,22 +43,9 @@ public class ConnectiveDirectionalBlock extends DirectionalBlock {
 		Direction facing = ctx.getClickedFace();
 		BlockPos clickedOn = ctx.getClickedPos().relative(facing.getOpposite());
 		BlockState clickedState = ctx.getLevel().getBlockState(clickedOn);
-		if (this.flip(facing, clickedState))
+		if (flip(facing, clickedState))
 			facing = facing.getOpposite();
 		return this.defaultBlockState().setValue(FACING, facing);
-	}
-
-	protected boolean flip(Direction facing, BlockState clickedState) {
-		if (!clickedState.is(PortalCubedBlockTags.CONNECTING_DIRECTIONAL_BLOCKS))
-			return false;
-
-		if (clickedState.hasProperty(FACING)) {
-			return clickedState.getValue(FACING) == facing;
-		} else if (clickedState.hasProperty(AXIS)) {
-			return facing.getAxis() == clickedState.getValue(AXIS);
-		} else {
-			return true;
-		}
 	}
 
 	@Override
@@ -71,5 +58,18 @@ public class ConnectiveDirectionalBlock extends DirectionalBlock {
 	public BlockState mirror(BlockState state, Mirror mirror) {
 		Direction newFacing = mirror.mirror(state.getValue(FACING));
 		return state.setValue(FACING, newFacing);
+	}
+
+	public static boolean flip(Direction facing, BlockState clickedState) {
+		if (!clickedState.is(PortalCubedBlockTags.CONNECTING_DIRECTIONAL_BLOCKS))
+			return false;
+
+		if (clickedState.hasProperty(FACING)) {
+			return clickedState.getValue(FACING) == facing;
+		} else if (clickedState.hasProperty(AXIS)) {
+			return facing.getAxis() == clickedState.getValue(AXIS);
+		} else {
+			return true;
+		}
 	}
 }
