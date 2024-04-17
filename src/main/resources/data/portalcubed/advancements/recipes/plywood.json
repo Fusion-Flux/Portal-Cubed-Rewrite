@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+
+      "portalcubed:plywood_slab_crafting",
+      "portalcubed:plywood_slab_stonecutting",
+      "portalcubed:plywood_stairs_crafting",
+      "portalcubed:plywood_stairs_stonecutting",
+      "portalcubed:plywood_wall_crafting",
+      "portalcubed:plywood_wall_stonecutting",
+      "portalcubed:plywood_facade_stonecutting",
+      "portalcubed:plywood_crafting"
+
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "minecraft:planks"
+          }
+        ]
+      }
+    }
+  }
+}

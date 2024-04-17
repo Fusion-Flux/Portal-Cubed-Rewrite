@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/dirty_tread_plate_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/dirty_tread_plate"
+    },
+    "type=top": {
+      "model": "portalcubed:block/dirty_tread_plate_slab_top"
+    }
+  }
+}

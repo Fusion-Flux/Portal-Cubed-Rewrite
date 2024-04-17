@@ -11,7 +11,9 @@
     "LevelMixin",
     "MultifaceBlockAccessor",
     "PlayerMixin",
-    "ServerLevelMixin"
+    "ServerEntityMixin",
+    "ServerLevelMixin",
+    "SlabBlockMixin"
   ],
   "client": [
     "client.AbstractContainerScreenMixin",

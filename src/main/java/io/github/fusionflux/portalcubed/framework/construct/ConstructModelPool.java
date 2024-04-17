@@ -31,10 +31,11 @@ public final class ConstructModelPool implements AutoCloseable {
 	private static final Supplier<DynamicTexture> FAKE_LIGHT_TEXTURE = Suppliers.memoize(() -> {
 		var texture = new DynamicTexture(16, 16, false);
 		var pixels = texture.getPixels();
+		assert pixels != null;
 
 		for(int x = 0; x < 16; x++) {
 			for(int y = 0; y < 16; y++) {
-				pixels.setPixelRGBA(x, y, 0xFFFFFF);
+				pixels.setPixelRGBA(x, y, 0xFFFFFFFF);
 			}
 		}
 
@@ -87,7 +88,6 @@ public final class ConstructModelPool implements AutoCloseable {
 		return new ModelInfo(blockEntities, buffers);
 	}
 
-	@SuppressWarnings("resource")
 	public ModelInfo getOrBuildModel(ConfiguredConstruct construct) {
 		return models.computeIfAbsent(construct, $ -> buildModel(construct));
 	}
@@ -99,7 +99,6 @@ public final class ConstructModelPool implements AutoCloseable {
 	}
 
 	public record ModelInfo(Set<BlockEntity> blockEntities, Reference2ReferenceMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
-		@SuppressWarnings("resource")
 		public void draw(PoseStack matrices, Runnable extraRenderState) {
 			for (var entry : buffers.reference2ReferenceEntrySet()) {
 				var renderType = entry.getKey();

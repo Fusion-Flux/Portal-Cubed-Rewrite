@@ -32,7 +32,7 @@ public class MaterialsTab {
 		int i = -(COLUMNS * scrollRowPos);
 		scrollBar.active = rowCount > 0;
 		if (scrollBar.active)
-			scrollBar.scrollRate = 1 / rowCount;
+			scrollBar.scrollRate = 1f / rowCount;
 		for (TagKey<Item> tag : materials) {
 			if (i >= 0) {
 				MaterialSlotWidget slot = new MaterialSlotWidget(tag, () -> {

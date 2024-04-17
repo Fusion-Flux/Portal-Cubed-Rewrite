@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:tread_plate"
+        }
+    },
+    "result": {
+        "item": "portalcubed:tread_plate_slab",
+        "count": 6
+    }
+}

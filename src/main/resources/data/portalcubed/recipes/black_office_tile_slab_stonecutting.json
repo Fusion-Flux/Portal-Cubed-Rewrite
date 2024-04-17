@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "portalcubed:black_office_tiles"
+  },
+  "result": "portalcubed:black_office_tile_slab"
+}

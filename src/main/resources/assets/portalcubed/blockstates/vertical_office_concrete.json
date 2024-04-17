@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "vertical_direction=down": {
+      "model": "portalcubed:block/vertical_office_concrete_top"
+    },
+    "vertical_direction=up": {
+      "model": "portalcubed:block/vertical_office_concrete_bottom"
+    }
+  }
+}

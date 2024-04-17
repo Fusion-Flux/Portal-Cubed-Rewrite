@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "ingredients": [
+        {
+            "item": "portalcubed:cut_metal_plating_slab"
+        },
+        {
+            "item": "portalcubed:sewage"
+        }
+    ],
+    "result": {
+        "item": "portalcubed:dirty_cut_metal_plating_slab",
+        "count": 1
+    },
+  "group": "dirty_cut_metal_plating_slab"
+}

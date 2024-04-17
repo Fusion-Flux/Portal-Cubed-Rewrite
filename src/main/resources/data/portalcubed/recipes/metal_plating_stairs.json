@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:metal_plating"
+        }
+    },
+    "result": {
+        "item": "portalcubed:metal_plating_stairs",
+        "count": 4
+    },
+  "group": "metal_plating_stairs"
+}

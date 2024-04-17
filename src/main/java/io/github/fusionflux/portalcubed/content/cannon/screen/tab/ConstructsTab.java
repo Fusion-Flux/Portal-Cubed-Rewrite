@@ -45,7 +45,7 @@ public class ConstructsTab {
 		int i = -(COLUMNS * scrollRowPos);
 		scrollBar.active = rowCount > 0;
 		if (scrollBar.active)
-			scrollBar.scrollRate = 1 / rowCount;
+			scrollBar.scrollRate = 1f / rowCount;
 		for (ConstructSet set : constructs) {
 			if (i >= 0) {
 				ResourceLocation id = ConstructManager.INSTANCE.getId(set);

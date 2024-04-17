@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:portal_1_metal_grate"
+        }
+    },
+    "result": {
+        "item": "portalcubed:portal_1_metal_grate_slab",
+        "count": 6
+    }
+}

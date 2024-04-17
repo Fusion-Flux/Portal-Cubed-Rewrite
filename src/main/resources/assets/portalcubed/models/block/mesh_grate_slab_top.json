@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "portalcubed:block/mesh_grate",
+    "side": "portalcubed:block/mesh_grate",
+    "top": "portalcubed:block/mesh_grate"
+  }
+}

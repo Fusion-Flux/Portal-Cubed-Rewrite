@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "portalcubed:block/dirty_tread_plate",
+    "side": "portalcubed:block/dirty_tread_plate_side",
+    "top": "portalcubed:block/dirty_tread_plate"
+  }
+}

@@ -44,7 +44,7 @@ public class PortalCubedTabs {
 		});
 	});
 
-	 public static final ResourceKey<CreativeModeTab> PORTAL_BLOCKS = create("portal_blocks", builder -> {
+	 public static final ResourceKey<CreativeModeTab> PORTAL_CUBED_BLOCKS = create("portal_cubed_blocks", builder -> {
 		builder.icon(() -> {
 			Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE);
 			Block block = blocks.get(PanelPart.HALF);
@@ -65,7 +65,140 @@ public class PortalCubedTabs {
 					}
 				}
 			}
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILES);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILE_SLAB);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILE_FACADE);
+			output.accept(PortalCubedBlocks.LARGE_BLUE_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.LARGE_BLUE_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.LARGE_BLUE_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.LARGE_BLUE_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.SMALL_BLUE_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.SMALL_BLUE_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.SMALL_BLUE_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.SMALL_BLUE_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.BLACK_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.BLACK_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.BLACK_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.BLACK_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_FACADE);
+
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE_STAIRS);
+			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE_WALL);
+			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE_STAIRS);
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE_WALL);
+			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE_FACADE);
+
+			output.accept(PortalCubedBlocks.VERTICAL_OFFICE_CONCRETE);
+
+			output.accept(PortalCubedBlocks.ELEVATOR_WALL_END);
+			output.accept(PortalCubedBlocks.ELEVATOR_WALL_MIDDLE);
+
+			output.accept(PortalCubedBlocks.PLYWOOD);
+			output.accept(PortalCubedBlocks.PLYWOOD_SLAB);
+			output.accept(PortalCubedBlocks.PLYWOOD_STAIRS);
+			output.accept(PortalCubedBlocks.PLYWOOD_WALL);
+			output.accept(PortalCubedBlocks.PLYWOOD_FACADE);
+
+			output.accept(PortalCubedBlocks.INSULATION);
+			output.accept(PortalCubedBlocks.INSULATION_FACADE);
+
+			output.accept(PortalCubedBlocks.METAL_GRATE);
+			output.accept(PortalCubedBlocks.METAL_GRATE_SLAB);
+			output.accept(PortalCubedBlocks.METAL_GRATE_FACADE);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE_SLAB);
+			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE_FACADE);
+			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE);
+			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE_SLAB);
+			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE_FACADE);
+			output.accept(PortalCubedBlocks.MESH_GRATE);
+			output.accept(PortalCubedBlocks.MESH_GRATE_SLAB);
+			output.accept(PortalCubedBlocks.MESH_GRATE_FACADE);
+
+			output.accept(PortalCubedBlocks.METAL_PLATING);
+			output.accept(PortalCubedBlocks.METAL_PLATING_SLAB);
+			output.accept(PortalCubedBlocks.METAL_PLATING_STAIRS);
+			output.accept(PortalCubedBlocks.METAL_PLATING_FACADE);
+			output.accept(PortalCubedBlocks.CUT_METAL_PLATING);
+			output.accept(PortalCubedBlocks.CUT_METAL_PLATING_SLAB);
+			output.accept(PortalCubedBlocks.TREAD_PLATE);
+			output.accept(PortalCubedBlocks.TREAD_PLATE_SLAB);
+			output.accept(PortalCubedBlocks.TREAD_PLATE_FACADE);
+			output.accept(PortalCubedBlocks.DIRTY_METAL_PLATING);
+			output.accept(PortalCubedBlocks.DIRTY_METAL_PLATING_SLAB);
+			output.accept(PortalCubedBlocks.DIRTY_METAL_PLATING_STAIRS);
+			output.accept(PortalCubedBlocks.DIRTY_METAL_PLATING_FACADE);
+			output.accept(PortalCubedBlocks.DIRTY_CUT_METAL_PLATING);
+			output.accept(PortalCubedBlocks.DIRTY_CUT_METAL_PLATING_SLAB);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_SLAB);
+			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_FACADE);
+
+			output.accept(PortalCubedBlocks.GRAY_CHAMBER_EXTERIOR);
+			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_A_BOTTOM_LEFT);
+			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_A_BOTTOM_RIGHT);
+			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_A_TOP_LEFT);
+			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_A_TOP_RIGHT);
+			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_B_BOTTOM_LEFT);
+			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_B_BOTTOM_RIGHT);
+			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_B_TOP_LEFT);
+			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_B_TOP_RIGHT);
+
+			output.accept(PortalCubedBlocks.YELLOW_CHAMBER_EXTERIOR);
+			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_A_BOTTOM_LEFT);
+			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_A_BOTTOM_RIGHT);
+			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_A_TOP_LEFT);
+			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_A_TOP_RIGHT);
+			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_B_BOTTOM_LEFT);
+			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_B_BOTTOM_RIGHT);
+			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_B_TOP_LEFT);
+			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_B_TOP_RIGHT);
+
+			output.accept(PortalCubedBlocks.CROSSBAR_PILLAR);
+			output.accept(PortalCubedBlocks.SINGLE_2x2_CROSSBAR_BOTTOM_LEFT);
+			output.accept(PortalCubedBlocks.SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT);
+			output.accept(PortalCubedBlocks.SINGLE_2x2_CROSSBAR_TOP_LEFT);
+			output.accept(PortalCubedBlocks.SINGLE_2x2_CROSSBAR_TOP_RIGHT);
+			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_BOTTOM_LEFT);
+			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT);
+			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_LEFT);
+			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_RIGHT);
+
+			output.accept(PortalCubedBlocks.SEWAGE);
+
 		});
+
+
 	 });
 
 	public static final ResourceKey<CreativeModeTab> PROPS_AND_ITEMS = create("props_and_items", builder -> {

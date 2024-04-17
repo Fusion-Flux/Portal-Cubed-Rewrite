@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YXY",
+        "X X",
+        "YXY"
+    ],
+    "key": {
+        "X": {
+            "item": "minecraft:string"
+        },
+        "Y": {
+            "item": "portalcubed:magnesium_nugget"
+        }
+    },
+    "result": {
+        "item": "portalcubed:mesh_grate",
+        "count": 4
+    }
+}

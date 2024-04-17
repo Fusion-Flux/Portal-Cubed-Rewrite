@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:white_office_concrete"
+        }
+    },
+    "result": {
+        "item": "portalcubed:white_office_concrete_slab",
+        "count": 6
+    }
+}
