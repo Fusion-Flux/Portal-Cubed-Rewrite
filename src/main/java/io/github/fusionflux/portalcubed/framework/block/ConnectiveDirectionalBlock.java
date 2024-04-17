@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class ConnectiveDirectionalBlock extends DirectionalBlock {
 	public static final MapCodec<ConnectiveDirectionalBlock> CODEC = simpleCodec(ConnectiveDirectionalBlock::new);
