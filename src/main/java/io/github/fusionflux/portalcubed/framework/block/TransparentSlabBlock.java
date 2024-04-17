@@ -42,7 +42,7 @@ public class TransparentSlabBlock extends SlabBlock {
 		if (stateFrom.is(this)) {
 			SlabType typeFrom = stateFrom.getValue(TYPE);
 			if (!direction.getAxis().isHorizontal() || state.getValue(TYPE) == typeFrom) {
-				Direction directionFrom = getSlabDirection(stateFrom.getValue(TYPE)).orElse(direction.getOpposite());
+				Direction directionFrom = getSlabDirection(typeFrom).orElse(direction.getOpposite());
 				return direction != directionFrom;
 			}
 		}
