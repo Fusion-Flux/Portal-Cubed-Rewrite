@@ -1,8 +1,9 @@
+
+
 {
   "material": "#portalcubed:office_concrete_materials",
-  "type": "pillar",
-  "chooser": "clicked_face",
-  "vertical": {
+  "type": "single",
+  "construct": {
     "0,0,0": {
       "Properties": {
         "vertical_direction": "up"
@@ -15,19 +16,6 @@
       },
       "Name": "portalcubed:vertical_office_concrete"
     }
-  },
-  "horizontal": {
-    "-1,0,0": {
-      "Properties": {
-        "vertical_direction": "east"
-      },
-      "Name": "portalcubed:vertical_office_concrete"
-    },
-    "0,0,0": {
-      "Properties": {
-        "vertical_direction": "west"
-      },
-      "Name": "portalcubed:vertical_office_concrete"
-    }
   }
 }
+
