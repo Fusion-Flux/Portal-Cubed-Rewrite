@@ -13,6 +13,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class GrabKeyMappingAction implements KeyMappingAction {
@@ -30,13 +31,13 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 			var startPos = player.getEyePosition();
 			var endPos = startPos.add(lookVec);
 
-			EntityHitResult hit = ProjectileUtil.getEntityHitResult(
-					player, startPos, endPos, checkBox,
+			HitResult hit = ProjectileUtil.getHitResultOnViewVector(
+					player,
 					EntitySelector.NO_SPECTATORS.and(Entity::isPickable),
-					HoldableEntity.MAX_DIST_SQR
+					3
 			);
 
-			if (hit != null && hit.getEntity() instanceof HoldableEntity holdable) {
+			if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof HoldableEntity holdable) {
 				PortalCubedPackets.sendToServer(new GrabPacket(holdable));
 			}// else if (player.isHolding(PortalCubedItems.PORTAL_GUN)) { // failed, play fail sound if holding portal gun
 //				player.playSound(PortalCubedSounds.PORTAL_GUN_CANNOT_GRAB);

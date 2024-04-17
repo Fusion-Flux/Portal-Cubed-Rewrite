@@ -86,7 +86,7 @@ public abstract class EntityMixin {
 			cir.setReturnValue(false);
 	}
 
-	@SuppressWarnings("ConstantValue")
+	@SuppressWarnings({"ConstantValue", "UnreachableCode"})
 	@Inject(method = "setRemoved", at = @At("HEAD"))
 	private void dropHeldWhenRemoved(RemovalReason reason, CallbackInfo ci) {
 		if (this.level().isClientSide)
