@@ -35,7 +35,6 @@ import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 public abstract class HoldableEntity extends LerpableEntity {
 	public static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 	public static final double MAX_DIST_SQR = 3 * 3;
-	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
 
 	@Nullable
 	private Player holder;
@@ -77,8 +76,6 @@ public abstract class HoldableEntity extends LerpableEntity {
 				.add(holder.getEyePosition())
 				.subtract(0, this.getBbHeight() / 2, 0);
 		Vec3 toPoint = this.position().vectorTo(holdPoint);
-		if (toPoint.length() > MAX_SPEED_SQR)
-			toPoint = toPoint.normalize().scale(MAX_SPEED_SQR);
 		this.setDeltaMovement(toPoint);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
 
