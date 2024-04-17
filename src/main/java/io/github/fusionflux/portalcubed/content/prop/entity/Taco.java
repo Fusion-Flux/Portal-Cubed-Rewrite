@@ -6,9 +6,6 @@ import io.github.fusionflux.portalcubed.framework.util.ColorUtil;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -25,8 +22,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class Taco extends Prop {
-	private static final EntityDataAccessor<Boolean> DATA_IS_IGNITED = SynchedEntityData.defineId(Taco.class, EntityDataSerializers.BOOLEAN);
-
 	private static final int MIN_CONFETTI_AMOUNT = 10;
 	private static final int MAX_CONFETTI_AMOUNT = 30;
 	private static final double CONFETTI_RADIUS = 2.3;
@@ -43,16 +38,9 @@ public class Taco extends Prop {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-
-		this.entityData.define(DATA_IS_IGNITED, false);
-	}
-
-	@Override
 	public void tick() {
 		if (level() instanceof ServerLevel level && isIgnited()) {
-			if (--explodeTicks == 0) {
+			if (--explodeTicks <= 0) {
 				Vec3 position = position();
 				level.explode(
 						this,
@@ -66,7 +54,7 @@ public class Taco extends Prop {
 				for (Entity entityToPush : level.getEntities(this, PUSH_AABB.move(position))) {
 					if (!entityToPush.isInvulnerable() && !entityToPush.isNoGravity()) {
 						Vec3 vectorToThis = position.vectorTo(entityToPush.position());
-						double dist = vectorToThis.length();
+						double dist = Math.max(1, vectorToThis.length());
 						if (dist <= PUSH_RADIUS) {
 							Vec3 pushDirection = vectorToThis.add(0, dist / PUSH_RADIUS, 0).normalize();
 							double pushForce = Math.max((this.random.nextDouble() * PUSH_RADIUS) / (dist / 2), MIN_PUSH_POWER);
@@ -100,16 +88,12 @@ public class Taco extends Prop {
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-
-		if (tag.getBoolean("ignited")) this.ignite();
 		this.explodeTicks = tag.getInt("explode_ticks");
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
-
-		tag.putBoolean("ignited", this.isIgnited());
 		tag.putInt("explode_ticks", this.explodeTicks);
 	}
 
@@ -134,11 +118,10 @@ public class Taco extends Prop {
 	}
 
 	public boolean isIgnited() {
-		return this.entityData.get(DATA_IS_IGNITED);
+		return this.explodeTicks > 0;
 	}
 
 	public void ignite() {
-		this.entityData.set(DATA_IS_IGNITED, true);
 		this.explodeTicks = 5 * 20;
 	}
 }
