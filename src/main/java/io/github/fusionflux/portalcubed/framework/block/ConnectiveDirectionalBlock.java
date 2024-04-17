@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.VERTICAL_DIRECTION;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class ConnectiveDirectionalBlock extends DirectionalBlock {
 	public static final MapCodec<ConnectiveDirectionalBlock> CODEC = simpleCodec(ConnectiveDirectionalBlock::new);
@@ -68,6 +70,8 @@ public class ConnectiveDirectionalBlock extends DirectionalBlock {
 			return clickedState.getValue(FACING) == facing;
 		} else if (clickedState.hasProperty(AXIS)) {
 			return facing.getAxis() == clickedState.getValue(AXIS);
+		} else if (clickedState.hasProperty(VERTICAL_DIRECTION)) {
+			return clickedState.getValue(VERTICAL_DIRECTION) == facing;
 		} else {
 			return true;
 		}
