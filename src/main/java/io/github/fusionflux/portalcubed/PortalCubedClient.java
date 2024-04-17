@@ -7,7 +7,6 @@ import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropModels;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
-import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
@@ -31,38 +30,37 @@ public class PortalCubedClient implements ClientModInitializer {
 		ClientEntityTickCallback.EVENT.register((entity, isPassengerTick) -> {
 			if (entity instanceof Player player) {
 				boolean holdingPortalGun = player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN);
-				var ext = (PlayerExt) player;
 
 				var soundManager = Minecraft.getInstance().getSoundManager();
-				int grabSoundTimer = ext.pc$grabSoundTimer();
-				var holdLoopSound = (FollowingSoundInstance) ext.pc$holdLoopSound();
-				var grabSound = (FollowingSoundInstance) ext.pc$grabSound();
+				int grabSoundTimer = player.pc$grabSoundTimer();
+				var holdLoopSound = (FollowingSoundInstance) player.pc$holdLoopSound();
+				var grabSound = (FollowingSoundInstance) player.pc$grabSound();
 
 				if (grabSound != null) {
 					grabSoundTimer--;
-					ext.pc$grabSoundTimer(grabSoundTimer);
+					player.pc$grabSoundTimer(grabSoundTimer);
 
 					if (!holdingPortalGun) {
 						grabSound.forceStop();
 						grabSound = null;
-						ext.pc$grabSound(grabSound);
+						player.pc$grabSound(grabSound);
 					} else if (grabSoundTimer <= 0) {
 						grabSound = null;
-						ext.pc$grabSound(grabSound);
+						player.pc$grabSound(grabSound);
 
 						holdLoopSound = PortalCubedSounds.createPortalGunHoldLoop(player);
 						soundManager.play(holdLoopSound);
-						ext.pc$holdLoopSound(holdLoopSound);
+						player.pc$holdLoopSound(holdLoopSound);
 					}
 				}
 
 				if (holdLoopSound != null && !holdingPortalGun) {
 					holdLoopSound.forceStop();
-					ext.pc$holdLoopSound(null);
-				} else if (holdingPortalGun && (holdLoopSound == null && grabSound == null) && ext.pc$getHeldProp().isPresent()) {
+					player.pc$holdLoopSound(null);
+				} else if (holdingPortalGun && (holdLoopSound == null && grabSound == null) && player.getHeldEntity() != null) {
 					holdLoopSound = PortalCubedSounds.createPortalGunHoldLoop(player);
 					soundManager.play(holdLoopSound);
-					ext.pc$holdLoopSound(holdLoopSound);
+					player.pc$holdLoopSound(holdLoopSound);
 				}
 			}
 		});

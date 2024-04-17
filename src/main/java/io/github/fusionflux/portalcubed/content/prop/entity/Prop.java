@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
@@ -9,7 +10,6 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
-import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -141,7 +141,7 @@ public class Prop extends HoldableEntity implements CollisionListener {
 					setDirty(true);
 					serverLevel.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
 					var particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
-					for (var dir : Direction.values()) {
+					for (Direction dir : Direction.values()) {
 						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
 						double y = getY() + (dir.getStepY() * getBbHeight() / 2);
 						double z = getZ() + (dir.getStepZ() * getBbWidth() / 2);
@@ -221,24 +221,25 @@ public class Prop extends HoldableEntity implements CollisionListener {
 
 	@Override
 	public void onCollision() {
-		var level = level();
-		if (!level.isClientSide) {
-			if (!isSilent()) {
-				level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
-				level.gameEvent(this, GameEvent.HIT_GROUND, position());
-			}
+		var level = this.level();
+		if (level.isClientSide)
+			return;
 
-			if (getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && verticalCollisionBelow) {
-				int blocksFallen = Mth.ceil(fallDistance);
-				if (blocksFallen > 0) {
-					float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
-					var selector =
-						EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(
-						EntitySelector.LIVING_ENTITY_STILL_ALIVE).and(
-						entity -> !(entity instanceof PlayerExt ext && ext.pc$getHeldProp().orElse(-1) == getId()));
-					level.getEntities(this, getBoundingBox().inflate(CHECK_BOX_EPSILON), selector)
-						.forEach(entity -> entity.hurt(PortalCubedDamageSources.landingDamage(level, this, entity), damage));
-				}
+		if (!this.isSilent()) {
+			level.playSound(null, this.getX(), this.getY(), this.getZ(), this.type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
+			level.gameEvent(this, GameEvent.HIT_GROUND, this.position());
+		}
+
+		if (this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && this.verticalCollisionBelow) {
+			int blocksFallen = Mth.ceil(this.fallDistance);
+			if (blocksFallen > 0) {
+				float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
+				Predicate<Entity> selector = EntitySelector.NO_CREATIVE_OR_SPECTATOR
+						.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)
+						.and(this::notHeldBy);
+				level.getEntities(this, this.getBoundingBox().inflate(CHECK_BOX_EPSILON), selector).forEach(
+						entity -> entity.hurt(PortalCubedDamageSources.landingDamage(level, this, entity), damage)
+				);
 			}
 		}
 	}

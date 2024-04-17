@@ -19,6 +19,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -81,17 +82,20 @@ public abstract class EntityMixin {
 
 	@Inject(method = "canCollideWith", at = @At("RETURN"), cancellable = true)
 	private void dontCollideWithHeldProp(Entity other, CallbackInfoReturnable<Boolean> cir) {
-		if (this instanceof PlayerExt ext && ext.pc$getHeldProp().isPresent() && ext.pc$getHeldProp().getAsInt() == other.getId())
+		if (this instanceof PlayerExt ext && ext.getHeldEntity() == other)
 			cir.setReturnValue(false);
 	}
 
+	@SuppressWarnings("ConstantValue")
 	@Inject(method = "setRemoved", at = @At("HEAD"))
-	private void dropPropWhenRemoved(RemovalReason reason, CallbackInfo ci) {
-		if (this instanceof PlayerExt ext && ext.pc$getHeldProp().isPresent()) {
-			Entity heldProp = this.level().getEntity(ext.pc$getHeldProp().getAsInt());
-			if (heldProp instanceof HoldableEntity prop) {
-				prop.drop();
-			}
+	private void dropHeldWhenRemoved(RemovalReason reason, CallbackInfo ci) {
+		if (this.level().isClientSide)
+			return;
+
+		if ((Object) this instanceof Player player && player.getHeldEntity() != null) {
+			player.getHeldEntity().drop();
+		} else if ((Object) this instanceof HoldableEntity holdable && holdable.isHeld()) {
+			holdable.drop();
 		}
 	}
 }
