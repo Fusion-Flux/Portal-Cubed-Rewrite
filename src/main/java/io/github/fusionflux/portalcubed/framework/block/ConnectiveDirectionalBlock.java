@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS;
+
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 
 import org.jetbrains.annotations.NotNull;
@@ -41,13 +43,22 @@ public class ConnectiveDirectionalBlock extends DirectionalBlock {
 		Direction facing = ctx.getClickedFace();
 		BlockPos clickedOn = ctx.getClickedPos().relative(facing.getOpposite());
 		BlockState clickedState = ctx.getLevel().getBlockState(clickedOn);
-		if (this.connectsTo(clickedState) && clickedState.getValue(FACING) == facing)
+		if (this.flip(facing, clickedState))
 			facing = facing.getOpposite();
 		return this.defaultBlockState().setValue(FACING, facing);
 	}
 
-	protected boolean connectsTo(BlockState state) {
-		return state.hasProperty(FACING) && state.is(PortalCubedBlockTags.CONNECTING_DIRECTIONAL_BLOCKS);
+	protected boolean flip(Direction facing, BlockState clickedState) {
+		if (!clickedState.is(PortalCubedBlockTags.CONNECTING_DIRECTIONAL_BLOCKS))
+			return false;
+
+		if (clickedState.hasProperty(FACING)) {
+			return clickedState.getValue(FACING) == facing;
+		} else if (clickedState.hasProperty(AXIS)) {
+			return facing.getAxis() == clickedState.getValue(AXIS);
+		} else {
+			return true;
+		}
 	}
 
 	@Override
