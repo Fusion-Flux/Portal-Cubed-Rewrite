@@ -39,9 +39,12 @@ public class TransparentSlabBlock extends SlabBlock {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {
-		if (stateFrom.equals(state)) {
-			Direction directionFrom = getSlabDirection(stateFrom.getValue(TYPE)).orElse(direction.getOpposite());
-			return direction != directionFrom;
+		if (stateFrom.is(this)) {
+			SlabType typeFrom = stateFrom.getValue(TYPE);
+			if (!direction.getAxis().isHorizontal() || state.getValue(TYPE) == typeFrom) {
+				Direction directionFrom = getSlabDirection(stateFrom.getValue(TYPE)).orElse(direction.getOpposite());
+				return direction != directionFrom;
+			}
 		}
 		return super.skipRendering(state, stateFrom, direction);
 	}
