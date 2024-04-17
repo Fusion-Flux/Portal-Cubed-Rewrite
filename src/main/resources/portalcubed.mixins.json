@@ -11,7 +11,6 @@
     "LevelMixin",
     "MultifaceBlockAccessor",
     "PlayerMixin",
-    "ServerEntityMixin",
     "ServerLevelMixin",
     "SlabBlockMixin"
   ],
