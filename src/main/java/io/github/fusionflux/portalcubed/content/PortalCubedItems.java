@@ -18,10 +18,10 @@ import net.minecraft.Util;
 import net.minecraft.world.level.block.DispenserBlock;
 
 public class PortalCubedItems {
-	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
-			.settings(s -> s.stacksTo(1).fireResistant())
-			.colored(() -> () -> PortalGunColorProvider.INSTANCE)
-			.build();
+//	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
+//			.settings(s -> s.stacksTo(1).fireResistant())
+//			.colored(() -> () -> PortalGunColorProvider.INSTANCE)
+//			.build();
 
 	public static final Item MAGNESIUM_INGOT = REGISTRAR.items.create("magnesium_ingot", Item::new)
 			.build();

@@ -18,11 +18,11 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class PortalCubedEntities {
-	public static final EntityType<PortalProjectile> PORTAL_PROJECTILE = REGISTRAR.entities.create("portal_projectile", PortalProjectile::new)
-			.configure(QuiltEntityTypeBuilder::disableSaving)
-			.size(EntityDimensions.fixed(0.5f, 0.5f))
-			.renderer(() -> () -> PortalProjectileRenderer::new)
-			.build();
+//	public static final EntityType<PortalProjectile> PORTAL_PROJECTILE = REGISTRAR.entities.create("portal_projectile", PortalProjectile::new)
+//			.configure(QuiltEntityTypeBuilder::disableSaving)
+//			.size(EntityDimensions.fixed(0.5f, 0.5f))
+//			.renderer(() -> () -> PortalProjectileRenderer::new)
+//			.build();
 
 	public static final Map<PropType, EntityType<Prop>> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
