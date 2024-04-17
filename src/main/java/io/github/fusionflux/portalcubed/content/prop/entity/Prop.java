@@ -46,14 +46,16 @@ import net.minecraft.world.phys.Vec3;
 
 public class Prop extends HoldableEntity implements CollisionListener {
 	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.INT);
-	//this value was obtained by converting the terminal velocity of props in source engine units to mc blocks
-	private static final double TERMINAL_VELOCITY = 66.6667f;
-	//arbitrary limit to prevent use against high-health mobs, for example; wardens
+	// Terminal velocity of props in source units converted to blocks/tick
+	private static final double TERMINAL_VELOCITY = 66.6667f / 20f;
+	// Arbitrary limit to prevent use against high-health mobs, for example; wardens
 	private static final float MAX_FALL_DAMAGE = 2 * 30;
-	//makes it so that it takes roughly the same amount of fall distance as portal 1 to kill a player
+	// Makes it so that it takes roughly the same amount of fall distance as portal 1 to kill a player
 	private static final float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
-	//makes it so the damage applies even when the collision box is outside the target
+	// Makes it so the damage applies even when the collision box is outside the target
 	private static final double CHECK_BOX_EPSILON = 1E-7;
+	// Max speed of a dropped prop, to avoid flinging things cross chambers
+	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
 
 	public final PropType type;
 	private int variantFromItem;
@@ -103,9 +105,15 @@ public class Prop extends HoldableEntity implements CollisionListener {
 			float friction = this.level().getBlockState(posBelow).getBlock().getFriction();
 			friction = this.onGround() ? friction * .91f : .91f;
 			vel = new Vec3(vel.x * friction, vel.y, vel.z * friction);
-			// terminal velocity
-			if (vel.y < -TERMINAL_VELOCITY) {
-				vel = vel.with(Axis.Y, -TERMINAL_VELOCITY);
+			// speed caps
+			if (vel.length() > MAX_SPEED_SQR) {
+				double y = vel.y;
+				vel = vel.normalize().scale(MAX_SPEED_SQR);
+				// downwards speed is special
+				if (y < 0) {
+					double newY = Math.max(y, -TERMINAL_VELOCITY);
+					vel = vel.with(Axis.Y, newY);
+				}
 			}
 
 			this.setDeltaMovement(vel);
