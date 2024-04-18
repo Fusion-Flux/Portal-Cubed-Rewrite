@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "portalcubed:yellow_2x2_chamber_exterior_b_bottom_right"
+          "name": "portalcubed:yellow_chamber_exterior"
         }
       ],
       "conditions": [
