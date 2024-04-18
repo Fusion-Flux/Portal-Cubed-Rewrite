@@ -53,7 +53,7 @@ public record HoldStatusPacket(int holder, OptionalInt held) implements Clientbo
 			if (this.held.isPresent()) {
 				Entity entity = level.getEntity(this.held.getAsInt());
 				if (entity instanceof HoldableEntity holdable) {
-					updateHeldEntity(player, holdable);
+					updateHeldEntity(otherPlayer, holdable);
 				}
 			} else {
 				updateHeldEntity(otherPlayer, null);
