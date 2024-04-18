@@ -245,7 +245,7 @@ public class Prop extends HoldableEntity implements CollisionListener {
 				Predicate<Entity> selector = EntitySelector.NO_CREATIVE_OR_SPECTATOR
 						.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)
 						.and(this::notHeldBy);
-				level.getEntities(this, this.getBoundingBox().inflate(CHECK_BOX_EPSILON), selector).forEach(
+				level.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector).forEach(
 						entity -> entity.hurt(PortalCubedDamageSources.landingDamage(level, this, entity), damage)
 				);
 			}
