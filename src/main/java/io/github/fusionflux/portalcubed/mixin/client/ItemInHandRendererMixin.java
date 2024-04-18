@@ -76,7 +76,7 @@ public class ItemInHandRendererMixin implements ItemInHandRendererExt {
 			matrices.mulPose(Axis.ZP.rotationDegrees(Math.sin(constructionCannonWiggle / 6f) * 6f));
 			matrices.translate(-offset, 0, 0);
 		}
-		float deltaTime = Minecraft.getInstance().getDeltaFrameTime() * 10f; // no idea why times 10 here, it just looks the closest to tick delta but not bugged
+		float deltaTime = Minecraft.getInstance().getDeltaFrameTime() * 8.5f; // no idea why times 8.5 here, it just looks the closest to tick delta but not bugged
 		constructionCannonRecoil = Math.max(0, constructionCannonRecoil - (deltaTime * 1.4f));
 		constructionCannonWiggle = Math.max(0, constructionCannonWiggle - (deltaTime * 2f));
 	}
