@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "portalcubed:block/dirty_metal_plating",
+    "side": "portalcubed:block/dirty_metal_plating",
+    "top": "portalcubed:block/dirty_metal_plating"
+  }
+}

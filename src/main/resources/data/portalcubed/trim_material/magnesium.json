@@ -1,0 +1,9 @@
+{
+  "asset_name": "magnesium",
+  "description": {
+    "color": "#A9B5BA",
+    "translate": "trim_material.portalcubed.magnesium"
+  },
+  "ingredient": "portalcubed:magnesium_ingot",
+  "item_model_index": 0.2
+}

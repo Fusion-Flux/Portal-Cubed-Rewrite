@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XX",
+        "XX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:large_blue_office_tiles"
+        }
+    },
+    "result": {
+        "item": "portalcubed:small_blue_office_tiles",
+        "count": 4
+    }
+}

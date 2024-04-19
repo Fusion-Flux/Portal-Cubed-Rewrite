@@ -5,13 +5,21 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockBehavior$BlockStateBaseMixin",
+    "BlockMixin",
+    "CakeBlockMixin",
+    "CandleCakeBlockMixin",
     "ClientboundTeleportEntityPacketMixin",
     "CubeVoxelShapeAccessor",
     "EntityMixin",
+    "LevelMixin",
+    "MultifaceBlockAccessor",
+    "PlayerMixin",
     "ServerLevelMixin",
+    "SlabBlockMixin",
     "ThrowableProjectileMixin"
   ],
   "client": [
+    "client.AbstractContainerScreenMixin",
     "client.BakedQuadMixin",
     "client.BlockElement_DeserializerMixin",
     "client.BlockElementMixin",
@@ -19,10 +27,25 @@
     "client.BlockModelMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
+    "client.ContainerEventHandlerMixin",
+    "client.GameRendererMixin",
+    "client.GuiGraphicsAccessor",
+    "client.ItemInHandRendererMixin",
+    "client.ItemRendererAccessor",
+    "client.KeyValueConditionAccessor",
+    "client.LevelRendererMixin",
     "client.LocalPlayerMixin",
     "client.MinecraftMixin",
+    "client.MultiPartMixin",
+    "client.OrConditionAccessor",
+    "client.PlayerRendererMixin",
     "client.ScreenEffectRendererMixin",
-    "client.SimpleBakedModelAccessor"
+    "client.ScreenMixin",
+    "client.SelectorAccessor",
+    "client.SimpleBakedModelAccessor",
+    "client.TooltipAccessor",
+    "client.Variant_DeserializerMixin",
+    "client.VariantMixin"
   ],
   "injectors": {
     "defaultRequire": 1

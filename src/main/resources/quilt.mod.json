@@ -6,7 +6,7 @@
 		"version": "${version}",
 		"metadata": {
 			"name": "Portal Cubed",
-			"description": "A short description of your mod.",
+			"description": "A Portal mod for Quilt.",
 			"contributors": {
         "Fusion Flux": "Owner",
         "Maximum": "Developer",
@@ -40,5 +40,14 @@
 			}
 		]
 	},
-	"mixin": "portalcubed.mixins.json"
+	"mixin": "portalcubed.mixins.json",
+  "access_widener": "portalcubed.accesswidener",
+
+  "quilt_loom": {
+    "injected_interfaces": {
+      "net/minecraft/class_1657": [
+        "io/github/fusionflux/portalcubed/framework/extension/PlayerExt"
+      ]
+    }
+  }
 }

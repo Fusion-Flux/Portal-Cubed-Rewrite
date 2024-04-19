@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "#portalcubed:aged_white_panels",
+    "#portalcubed:white_panels",
+    "#portalcubed:old_ap_white_panels",
+    "portalcubed:plywood",
+    "portalcubed:plywood_slab",
+    "portalcubed:plywood_stairs",
+    "portalcubed:plywood_wall",
+    "portalcubed:plywood_facade"
+  ]
+}

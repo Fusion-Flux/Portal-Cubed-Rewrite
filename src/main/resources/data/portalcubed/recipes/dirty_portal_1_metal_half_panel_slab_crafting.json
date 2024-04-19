@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:dirty_portal_1_metal_half_panel"
+        }
+    },
+    "result": {
+        "item": "portalcubed:dirty_portal_1_metal_half_panel_slab",
+        "count": 6
+    },
+  "group": "dirty_portal_1_metal_half_panel_slab"
+}

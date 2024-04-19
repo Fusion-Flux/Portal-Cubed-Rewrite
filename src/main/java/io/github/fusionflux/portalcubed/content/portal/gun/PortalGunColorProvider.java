@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import io.github.fusionflux.portalcubed.framework.util.ColorUtil;
 import net.minecraft.client.color.item.ItemColor;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 
 public class PortalGunColorProvider implements ItemColor {
@@ -12,19 +12,17 @@ public class PortalGunColorProvider implements ItemColor {
 
 	public static final int INVALID = -1;
 
+	public static final PortalGunColorProvider INSTANCE = new PortalGunColorProvider();
+
 	@Override
 	public int getColor(ItemStack stack, int tintIndex) {
 		PortalGunSettings data = PortalGunItem.getGunSettings(stack);
 		return switch (tintIndex) {
 			case ACTIVE_COLOR -> data.activeSettings().color();
-			case SHELL_COLOR -> getDyedColor(stack);
+			case SHELL_COLOR -> ColorUtil.getDyedColor(stack);
 			case PRIMARY_COLOR -> data.primary().color();
 			case SECONDARY_COLOR -> data.effectiveSecondary().color();
 			default -> INVALID;
 		};
-	}
-
-	private int getDyedColor(ItemStack stack) {
-		return stack.getItem() instanceof DyeableLeatherItem dyeable ? dyeable.getColor(stack) : INVALID;
 	}
 }

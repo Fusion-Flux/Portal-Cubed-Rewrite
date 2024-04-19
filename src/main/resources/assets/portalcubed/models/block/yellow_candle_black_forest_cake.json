@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/template_cake_with_candle",
+  "textures": {
+    "bottom": "portalcubed:block/black_forest_cake_bottom",
+    "candle": "minecraft:block/yellow_candle",
+    "particle": "portalcubed:block/black_forest_cake_side",
+    "side": "portalcubed:block/black_forest_cake_side",
+    "top": "portalcubed:block/black_forest_cake_top"
+  }
+}

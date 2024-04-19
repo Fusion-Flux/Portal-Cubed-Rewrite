@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portalcubed:old_ap_blue_2x1_panel_crafting",
+
+      "portalcubed:old_ap_blue_panel_slab_crafting",
+      "portalcubed:old_ap_blue_panel_slab_stonecutting",
+      "portalcubed:old_ap_blue_panel_stairs_crafting",
+      "portalcubed:old_ap_blue_panel_stairs_stonecutting",
+      "portalcubed:old_ap_blue_panel_facade_stonecutting",
+      "portalcubed:old_ap_blue_panel_crafting"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"minecraft:copper_block"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

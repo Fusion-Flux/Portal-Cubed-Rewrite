@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "redstone",
+    "pattern": [
+        "Y",
+        "X",
+        "X"
+    ],
+    "key": {
+        "X": {
+            "tag": "minecraft:planks"
+        },
+        "Y": {
+            "tag": "minecraft:wooden_buttons"
+        }
+    },
+    "result": {
+        "item": "portalcubed:old_ap_pedestal_button",
+        "count": 1
+    }
+}

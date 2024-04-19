@@ -28,3 +28,4 @@ workspace/
 
 # macOS
 *.DS_Store
+/resources_template/

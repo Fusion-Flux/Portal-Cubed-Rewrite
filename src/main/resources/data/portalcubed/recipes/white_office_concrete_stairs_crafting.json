@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:white_office_concrete"
+        }
+    },
+    "result": {
+        "item": "portalcubed:white_office_concrete_stairs",
+        "count": 4
+    }
+}

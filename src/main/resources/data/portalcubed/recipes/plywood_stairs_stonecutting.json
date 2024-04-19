@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "portalcubed:plywood"
+  },
+  "result": "portalcubed:plywood_stairs"
+}

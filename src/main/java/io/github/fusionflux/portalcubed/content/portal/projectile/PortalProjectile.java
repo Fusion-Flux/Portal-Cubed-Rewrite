@@ -6,7 +6,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
-import io.github.fusionflux.portalcubed.framework.UnsavedEntity;
+import io.github.fusionflux.portalcubed.framework.entity.UnsavedEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
 import net.minecraft.network.syncher.EntityDataAccessor;

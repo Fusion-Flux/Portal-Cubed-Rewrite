@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+
+      "portalcubed:black_forest_cake_crafting"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"minecraft:sugar",
+		"minecraft:egg",
+		"minecraft:milk_bucket",
+		"minecraft:cocoa_beans",
+		"minecraft:sweet_berries",
+		"minecraft:wheat"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

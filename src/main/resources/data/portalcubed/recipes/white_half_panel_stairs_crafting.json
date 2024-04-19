@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:white_half_panel"
+        }
+    },
+    "result": {
+        "item": "portalcubed:white_half_panel_stairs",
+        "count": 4
+    }
+}

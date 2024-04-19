@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/old_ap_metal_grate_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/old_ap_metal_grate"
+    },
+    "type=top": {
+      "model": "portalcubed:block/old_ap_metal_grate_slab_top"
+    }
+  }
+}

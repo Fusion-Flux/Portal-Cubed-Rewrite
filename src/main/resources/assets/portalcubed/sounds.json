@@ -17,11 +17,39 @@
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
   },
+  "pedestal_button_press": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/pedestal/pedestal_button_press",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_press"
+  },
+  "pedestal_button_release": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/pedestal/pedestal_button_release",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_release"
+  },
+  "surprise": {
+    "sounds": [
+      {
+        "name": "portalcubed:sad_party_horn",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.surprise"
+  },
   "portal_1_floor_button_press": {
     "sounds": [
       {
         "name": "portalcubed:button/portal_1_floor/portal_1_floor_button_press",
-        "volume": 0.5
+        "volume": 0.5,
+        "pitch": 0.9
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_press"
@@ -30,7 +58,8 @@
     "sounds": [
       {
         "name": "portalcubed:button/portal_1_floor/portal_1_floor_button_release",
-        "volume": 0.5
+        "volume": 0.5,
+        "pitch": 0.8
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
@@ -68,5 +97,249 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
+  },
+  "old_ap_pedestal_button_press": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/old_ap_pedestal/old_ap_pedestal_button_press",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_press"
+  },
+  "old_ap_pedestal_button_release": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/old_ap_pedestal/old_ap_pedestal_button_release",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_release"
+  },
+  "radio": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/radio",
+        "volume": 0.5,
+        "stream": true
+      }
+    ]
+  },
+  "companion_cube_ambiance": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/companion_cube_ambiance",
+        "stream": true
+      }
+    ]
+  },
+  "generic_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/generic_prop_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/generic_prop_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/generic_prop_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/generic_prop_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/generic_prop_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.generic_prop_impact"
+  },
+  "metal_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/metal_prop_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/metal_prop_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/metal_prop_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/metal_prop_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/metal_prop_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.metal_prop_impact"
+  },
+  "cube_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/cube_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/cube_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/cube_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/cube_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/cube_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.cube_impact"
+  },
+  "old_ap_cube_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_1",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_2",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_3",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_4",
+        "volume": 0.7
+      },
+      {
+        "name": "portalcubed:props/old_ap_cube_impact_5",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.old_ap_cube_impact"
+  },
+  "portal_1_cube_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_1",
+        "volume": 0.4
+      },
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_2",
+        "volume": 0.4
+      },
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_3",
+        "volume": 0.4
+      },
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_4",
+        "volume": 0.4
+      },
+      {
+        "name": "portalcubed:props/portal_1_cube_impact_5",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_1_cube_impact"
+  },
+  "error_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/error_impact",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.error_impact"
+  },
+  "portal_gun_grab": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_gun_grab",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_grab"
+  },
+  "portal_gun_hold_loop": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_gun_hold_loop",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_hold_loop"
+  },
+  "portal_gun_drop": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_gun_drop",
+        "volume": 0.85
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_drop"
+  },
+  "portal_gun_cannot_grab": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_gun_cannot_grab",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_cannot_grab"
+  },
+  "construction_cannon_obstructed": {
+    "sounds": [
+      {
+        "name": "portalcubed:construction_cannon/obstructed",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.construction_cannon_obstructed"
+  },
+  "construction_cannon_missing_materials": {
+    "sounds": [
+      {
+        "name": "portalcubed:construction_cannon/missing_materials",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.construction_cannon_missing_materials"
+  },
+  "sewage_step": {
+    "sounds": [
+      {
+        "name": "portalcubed:block/sewage/step1",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step2",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step3",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
   }
 }

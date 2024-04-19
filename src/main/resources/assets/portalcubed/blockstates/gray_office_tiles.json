@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "portalcubed:block/gray_office_tiles"
+      }
+    ]
+  }
+}

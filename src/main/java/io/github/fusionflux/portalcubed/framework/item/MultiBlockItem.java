@@ -1,58 +1,109 @@
 package io.github.fusionflux.portalcubed.framework.item;
 
-import java.util.function.Predicate;
+import java.util.HashSet;
+import java.util.Set;
 
-import io.github.fusionflux.portalcubed.framework.block.AbstractMultiBlock;
+import io.github.fusionflux.portalcubed.framework.block.FakeBlockPlaceContext;
+import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
 public class MultiBlockItem extends BlockItem {
-	public final AbstractMultiBlock block;
+	public final AbstractMultiBlock multiBlock;
 
-	public MultiBlockItem(AbstractMultiBlock block, Properties settings) {
-		super(block, settings);
-		this.block = block;
+	public MultiBlockItem(AbstractMultiBlock multiBlock, Properties settings) {
+		super(multiBlock, settings);
+		this.multiBlock = multiBlock;
+	}
+
+	private Set<BlockPos> quadrantCollide(BlockPlaceContext context, BlockPos origin, BlockState state) {
+		Level level = context.getLevel();
+		Player player = context.getPlayer();
+		CollisionContext collisionContext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
+		Set<BlockPos> collisions = new HashSet<>();
+		for (var quadrantPos : multiBlock.quadrantIterator(origin, state)) {
+			if (
+				!level.isUnobstructed(state, quadrantPos, collisionContext) ||
+				!level.getWorldBorder().isWithinBounds(quadrantPos) ||
+				!level.getBlockState(quadrantPos).canBeReplaced(new FakeBlockPlaceContext(context, quadrantPos))
+			) {
+				collisions.add(quadrantPos.immutable());
+			}
+		}
+		return collisions;
+	}
+
+	private boolean canNotFit(BlockPlaceContext context, BlockPos origin, BlockState state) {
+		return !quadrantCollide(context, origin, state).isEmpty();
 	}
 
 	@Override
 	protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
-		var direction = state.getValue(AbstractMultiBlock.FACING);
-		var rotatedSize = block.size.rotated(direction);
+		Direction facing = state.getValue(AbstractMultiBlock.FACING);
+		Direction.Axis facingAxis = facing.getAxis();
+		AbstractMultiBlock.Size rotatedSize = multiBlock.size.rotated(facing);
 
-		var horizontalDirection = context.getHorizontalDirection();
-		var correctedClickedPos = context.getClickedPos();
-		if (horizontalDirection == Direction.SOUTH || horizontalDirection == Direction.WEST)
-			correctedClickedPos = correctedClickedPos.relative(horizontalDirection.getClockWise());
-			if (direction.getAxis().isHorizontal() && context.getClickedFace() == Direction.DOWN) correctedClickedPos = correctedClickedPos.below();
-		if (direction.getAxis().isVertical() && horizontalDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
-			correctedClickedPos = correctedClickedPos.relative(context.getHorizontalDirection());
+		Direction perspectiveDirection = facingAxis.isHorizontal() ? facing.getOpposite() : context.getHorizontalDirection();
+		Direction.Axis perspectiveAxis = perspectiveDirection.getAxis();
 
-		var level = context.getLevel();
-		var collisionContext = CollisionContext.of(context.getPlayer());
-		Predicate<BlockPos> placePredicate = pos -> {
-			if (pos.getY() < level.getMinBuildHeight() || pos.getY() > level.getMaxBuildHeight() - 1 || !level.getWorldBorder().isWithinBounds(pos))
-				return false;
-			return level.isUnobstructed(state, pos, collisionContext) && level.getBlockState(pos).canBeReplaced();
-		};
-		var origin = rotatedSize.moveToFit(
-			context,
-			rotatedSize.canFit(level, correctedClickedPos, placePredicate) ? correctedClickedPos : context.getClickedPos(),
-			placePredicate
-		).orElse(null);
-		if (origin != null) {
-			for (BlockPos pos : BlockPos.betweenClosed(origin, origin.offset(rotatedSize.x() - 1, rotatedSize.y() - 1, rotatedSize.z() - 1))) {
-				var relativePos = rotatedSize.relative(origin, pos);
-				var quadrantState = block.setX(block.setY(block.setZ(state, relativePos.getZ()), relativePos.getY()), relativePos.getX());
-				level.setBlock(pos, quadrantState, Block.UPDATE_ALL_IMMEDIATE);
+		BlockPos.MutableBlockPos origin = context.getClickedPos().mutable();
+		BlockPos collisionOrigin = origin.immutable();
+
+		if (perspectiveDirection == Direction.SOUTH || perspectiveDirection == Direction.WEST)
+			origin.move(perspectiveDirection.getClockWise());
+		if (facingAxis.isVertical() && perspectiveDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
+			origin.move(perspectiveDirection);
+
+		Set<BlockPos> collisions = quadrantCollide(context, origin, state);
+		if (!collisions.isEmpty()) {
+			Vec3 collisionNormal = Vec3.ZERO;
+			for (BlockPos collision : collisions) {
+				collisionNormal = collisionNormal.add(Vec3.atLowerCornerOf(collision.subtract(collisionOrigin)));
 			}
-			return true;
+			collisionNormal = collisionNormal.scale(1d / collisions.size()).normalize();
+
+			boolean collideX = Math.abs(collisionNormal.x) > .5;
+			boolean collideY = Math.abs(collisionNormal.y) > .5;
+			boolean collideZ = Math.abs(collisionNormal.z) > .5;
+
+			boolean collideHorizontal = perspectiveAxis == Direction.Axis.X ? collideZ : collideX;
+			boolean collideVertical = facingAxis.isHorizontal() ? collideY : (perspectiveAxis == Direction.Axis.X ? collideX : collideZ);
+
+			if (collideHorizontal && collideVertical) {
+				origin.move(facingAxis.isHorizontal() ? Direction.DOWN : perspectiveDirection.getOpposite());
+				if (canNotFit(context, origin, state))
+					origin.move(perspectiveDirection.getCounterClockWise());
+			} else {
+				if (collideX)
+					origin.move(collisionNormal.x < 0 ? Direction.EAST : Direction.WEST);
+				if (collideY)
+					origin.move(collisionNormal.y < 0 ? Direction.UP : Direction.DOWN);
+				if (collideZ)
+					origin.move(collisionNormal.z < 0 ? Direction.SOUTH : Direction.NORTH);
+			}
+
+			if (canNotFit(context, origin, state))
+				return false;
 		}
 
-		return false;
+		for (BlockPos quadrantPos : multiBlock.quadrantIterator(origin, state)) {
+			FakeBlockPlaceContext quadrantPlacementContext = new FakeBlockPlaceContext(context, quadrantPos);
+			BlockState quadrantState = multiBlock.getStateForPlacement(quadrantPlacementContext);
+			Vec3i relativePos = rotatedSize.relative(origin, quadrantPos);
+			quadrantState = multiBlock.setX(quadrantState, relativePos.getX());
+			quadrantState = multiBlock.setY(quadrantState, relativePos.getY());
+			quadrantState = multiBlock.setZ(quadrantState, relativePos.getZ());
+			if (!super.placeBlock(quadrantPlacementContext, quadrantState)) return false;
+		}
+
+		return true;
 	}
 }

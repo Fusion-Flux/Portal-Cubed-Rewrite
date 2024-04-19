@@ -61,8 +61,8 @@
 			"to": [10.52, 2.52, 6.02],
 			"rotation": {"angle": 0, "axis": "y", "origin": [16, 1, -1.5]},
 			"faces": {
-				"east": {"uv": [15.984, 11.516, 14.016, 12.484], "texture": "#0"},
-				"west": {"uv": [14.484, 11.516, 12.516, 12.484], "texture": "#0"}
+				"east": {"uv": [1.984, 7.516, 0.016, 8.484], "texture": "#0"},
+				"west": {"uv": [1.984, 7.516, 0.016, 8.484], "texture": "#0"}
 			}
 		}
 	],
@@ -105,6 +105,6 @@
 		}
 	},
 	"portalcubed:render_types": {
-		"translucent": ["transparent"]
+		"cutout": ["cutout"]
 	}
 }
