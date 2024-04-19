@@ -39,7 +39,7 @@ public enum PropType {
 	COOKING_POT            (EntityDimensions.fixed(.43875f, .25125f), SoundType.METAL),
 	HOOPY                  (EntityDimensions.fixed(1.625f, .0625f), SoundType.METAL),
 	JUG                    (EntityDimensions.fixed(.375f, .5f), SoundType.GENERIC),
-	LIL_PINEAPPLE          (10, false, EntityDimensions.fixed(.5625f, .5f), SoundType.GENERIC),
+	LIL_PINEAPPLE          (11, false, EntityDimensions.fixed(.5625f, .5f), SoundType.GENERIC),
 	MUG                    (8, true, EntityDimensions.fixed(.1875f, .25f), SoundType.GENERIC),
 	OIL_DRUM               (4, true, EntityDimensions.fixed(.5625f, .9375f), SoundType.METAL),
 	OLD_AP_CUBE            (EntityDimensions.fixed(.625f, .625f), SoundType.OLD_AP_CUBE),
