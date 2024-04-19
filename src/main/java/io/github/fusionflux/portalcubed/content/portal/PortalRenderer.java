@@ -58,7 +58,7 @@ public class PortalRenderer {
 		Vec3 camPos = context.camera().getPosition();
 		Frustum frustum = context.frustum();
 		matrices.pushPose();
-		boolean renderDebug = Minecraft.getInstance().options.renderDebug;
+		boolean renderDebug = Minecraft.getInstance().getDebugOverlay().showDebugScreen();
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 		for (Portal portal : portals) {
 			if (frustum.isVisible(portal.plane)) {

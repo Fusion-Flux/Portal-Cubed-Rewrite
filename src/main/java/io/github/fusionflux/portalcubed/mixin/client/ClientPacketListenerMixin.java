@@ -28,20 +28,16 @@ public class ClientPacketListenerMixin {
 			method = "handleTeleportEntity",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/Entity;lerpTo(DDDFFIZ)V"
+					target = "Lnet/minecraft/world/entity/Entity;lerpTo(DDDFFI)V"
 			)
 	)
-	private void maybeDontLerp(Entity entity,
-							   double x, double y, double z,
-							   float yaw, float pitch,
-							   int interpolationSteps, boolean interpolate,
-							   Operation<Void> original,
+	private void maybeDontLerp(Entity entity, double x, double y, double z, float yaw, float pitch, int steps, Operation<Void> original,
 							   ClientboundTeleportEntityPacket packet) {
 		boolean lerp = ((ClientboundTeleportEntityPacketExt) packet).pc$shouldLerp();
 		Vec3 pos = new Vec3(x, y, z);
 		System.out.println("Handling teleport to " + pos + ". lerp: " + lerp);
 		if (lerp) {
-			original.call(entity, x, y, z, yaw, pitch, interpolationSteps, interpolate);
+			original.call(entity, x, y, z, yaw, pitch, steps);
 		} else {
 			entity.moveTo(x, y, z, yaw, pitch);
 		}

@@ -6,10 +6,13 @@ import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.LinkPortalsPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.PlainTeleportPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.RemovePortalPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
@@ -30,8 +33,12 @@ import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
 public class PortalCubedPackets {
 	// clientbound
-	public static final ResourceLocation OPEN_PEDESTAL_BUTTON_CONFIG = clientbound("open_pedestal_button_config", OpenPedestalButtonConfigPacket::new);
 	public static final ResourceLocation CREATE_PORTAL = clientbound("create_portal", CreatePortalPacket::new);
+	public static final ResourceLocation LINK_PORTALS = clientbound("link_portals", LinkPortalsPacket::new);
+	public static final ResourceLocation REMOVE_PORTAL = clientbound("remove_portal", RemovePortalPacket::new);
+	public static final ResourceLocation PLAIN_TELEPORT = clientbound("plain_teleport", PlainTeleportPacket::new);
+
+	public static final ResourceLocation OPEN_PEDESTAL_BUTTON_CONFIG = clientbound("open_pedestal_button_config", OpenPedestalButtonConfigPacket::new);
 	public static final ResourceLocation SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket::new);
 	public static final ResourceLocation SHOOT_CANNON = clientbound("shoot_cannon", ShootCannonPacket::new);
 	public static final ResourceLocation SHOOT_CANNON_OTHER = clientbound("shoot_cannon_other", OtherPlayerShootCannonPacket::new);
@@ -75,6 +82,10 @@ public class PortalCubedPackets {
 
 	public static <T extends ClientboundPacket> void sendToClient(ServerPlayer player, T packet) {
 		ServerPlayNetworking.getSender(player).sendPayload(packet);
+	}
+
+	public static <T extends ClientboundPacket> void sendToClients(Collection<ServerPlayer> players, T packet) {
+		players.forEach(player -> sendToClient(player, packet));
 	}
 
 	@ClientOnly

@@ -27,10 +27,9 @@ public record CreatePortalPacket(Portal portal) implements ClientboundManagePort
 		return PortalCubedPackets.CREATE_PORTAL;
 	}
 
-	@ClientOnly
 	@Override
-	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
-		ClientPortalManager manager = ClientPortalManager.of(player.clientLevel);
+	@ClientOnly
+	public void handle(LocalPlayer player, ClientPortalManager manager, PacketSender<CustomPacketPayload> responder) {
 		manager.addPortal(this.portal);
 	}
 }

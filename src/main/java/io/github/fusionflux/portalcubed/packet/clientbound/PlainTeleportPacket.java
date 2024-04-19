@@ -3,17 +3,19 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 import io.github.fusionflux.portalcubed.framework.util.PacketUtils;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 import net.minecraft.world.phys.Vec3;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.networking.api.PacketSender;
 
 /**
  * Teleport, don't lerp
@@ -47,13 +49,12 @@ public class PlainTeleportPacket implements ClientboundPacket {
 	}
 
 	@Override
-	public PacketType<?> getType() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.PLAIN_TELEPORT;
 	}
 
 	@Override
-	@ClientOnly
-	public void handle(LocalPlayer player, PacketSender responder) {
+	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		ClientLevel level = player.clientLevel;
 		Entity entity = level.getEntity(entityId);
 		if (entity != null) {

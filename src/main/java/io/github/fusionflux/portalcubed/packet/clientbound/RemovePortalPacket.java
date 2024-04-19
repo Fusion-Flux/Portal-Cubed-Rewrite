@@ -3,12 +3,13 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.networking.api.PacketSender;
 
 public class RemovePortalPacket implements ClientboundManagePortalsPacket {
 	private final int portalId;
@@ -27,13 +28,13 @@ public class RemovePortalPacket implements ClientboundManagePortalsPacket {
 	}
 
 	@Override
-	public PacketType<?> getType() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.REMOVE_PORTAL;
 	}
 
 	@Override
 	@ClientOnly
-	public void handle(LocalPlayer player, ClientPortalManager manager, PacketSender responder) {
+	public void handle(LocalPlayer player, ClientPortalManager manager, PacketSender<CustomPacketPayload> responder) {
 		manager.removePortal(portalId);
 	}
 }

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientLevel.class)
-public class ClientLevelMixin implements ClientLevelExt {
+public abstract class ClientLevelMixin implements ClientLevelExt {
 	@Unique
 	private ClientPortalManager portalManager;
 

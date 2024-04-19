@@ -6,6 +6,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 
+import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,7 +36,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin {
+public abstract class EntityMixin implements EntityExt {
 	@Shadow @Final private static EntityDataAccessor<Boolean> DATA_SILENT;
 	@Shadow private boolean horizontalCollision;
 	@Shadow private boolean verticalCollision;
