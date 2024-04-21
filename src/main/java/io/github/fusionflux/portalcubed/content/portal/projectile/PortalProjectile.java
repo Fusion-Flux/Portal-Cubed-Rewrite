@@ -1,8 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.projectile;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
-import io.github.fusionflux.portalcubed.content.portal.Portal;
-import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
@@ -30,17 +28,23 @@ public class PortalProjectile extends UnsavedEntity {
 
 	public static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(PortalProjectile.class, EntityDataSerializers.INT);
 
-	// server only
-	private PortalSettings portalSettings;
-	private Direction shooterFacing;
-	private UUID shooter;
-	private PortalType type;
-	// dual
+	// cached color for rendering
 	private int color;
+
+	// only tracked on the server
+	private PortalSettings portalSettings;
+	private Direction horizontalFacing;
+	private UUID pair;
+	private PortalType type;
 
 	public PortalProjectile(EntityType<?> variant, Level world) {
 		super(variant, world);
 		this.noPhysics = true;
+	}
+
+	public PortalProjectile(Level level, PortalSettings settings, Direction horizontalFacing, UUID pair, PortalType type) {
+		this(PortalCubedEntities.PORTAL_PROJECTILE, level);
+
 	}
 
 	public static PortalProjectile create(Level level, Player shooter, PortalSettings settings, PortalType type, Direction shooterFacing) {

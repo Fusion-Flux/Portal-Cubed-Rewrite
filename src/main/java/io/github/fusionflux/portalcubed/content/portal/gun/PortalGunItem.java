@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import java.util.UUID;
+
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
@@ -45,11 +47,13 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 		if (level instanceof ServerLevel serverLevel) {
 			PortalGunSettings gunSettings = getGunSettings(stack);
 			PortalSettings portalSettings = gunSettings.portalSettingsOf(type);
-			Vec3 lookAngle = player.getLookAngle().normalize();
-			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
-			Direction horizontalFacing = Direction.getNearest(lookAngle.x, 0, lookAngle.z);
 
-			PortalProjectile projectile = PortalProjectile.create(serverLevel, player, portalSettings, type, horizontalFacing);
+			Vec3 lookAngle = player.getLookAngle();
+			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
+			Direction horizontalFacing = player.getDirection();
+			UUID pair = gunSettings.pair().orElse(player.getUUID());
+
+			PortalProjectile projectile = new PortalProjectile(level, portalSettings, horizontalFacing, pair, type);
 			projectile.setDeltaMovement(velocity);
 			projectile.moveTo(player.getEyePosition());
 			level.addFreshEntity(projectile);
