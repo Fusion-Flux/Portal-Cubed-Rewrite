@@ -45,9 +45,9 @@
 
   "quilt_loom": {
     "injected_interfaces": {
-      "net/minecraft/class_1657": [
-        "io/github/fusionflux/portalcubed/framework/extension/PlayerExt"
-      ]
+      "net/minecraft/class_1657": [ "io/github/fusionflux/portalcubed/framework/extension/PlayerExt" ],
+      "net/minecraft/class_3218": [ "io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt" ],
+      "net/minecraft/class_638": [ "io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt" ]
     }
   }
 }

@@ -130,7 +130,6 @@ public final class Portal {
 	@ApiStatus.Internal
 	public void findLinkedPortal(PortalManager manager) {
 		if (this.linkedNetId != -1) {
-			this.setLinked(manager.getPortalByNetId(this.linkedNetId));
 		}
 	}
 

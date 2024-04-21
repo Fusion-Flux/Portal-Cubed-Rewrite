@@ -8,18 +8,23 @@ import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 
 import java.util.Optional;
+import java.util.UUID;
 
-public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings> secondary, PortalType active) {
+import net.minecraft.core.UUIDUtil;
+
+public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings> secondary, PortalType active, Optional<UUID> pair) {
 	public static final Codec<PortalGunSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			PortalSettings.CODEC.fieldOf("primary").forGetter(PortalGunSettings::primary),
 			PortalSettings.CODEC.optionalFieldOf("secondary").forGetter(PortalGunSettings::secondary),
-			PortalType.CODEC.fieldOf("active").forGetter(PortalGunSettings::active)
+			PortalType.CODEC.fieldOf("active").forGetter(PortalGunSettings::active),
+			UUIDUtil.CODEC.optionalFieldOf("pair").forGetter(PortalGunSettings::pair)
 	).apply(instance, PortalGunSettings::new));
 
 	public static final PortalGunSettings DEFAULT = new PortalGunSettings(
 			PortalSettings.DEFAULT_PRIMARY,
 			Optional.of(PortalSettings.DEFAULT_SECONDARY),
-			PortalType.PRIMARY
+			PortalType.PRIMARY,
+			Optional.empty()
 	);
 
 	public PortalSettings effectiveSecondary() {
@@ -35,6 +40,6 @@ public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings>
 	}
 
 	public PortalGunSettings withActive(PortalType type) {
-		return new PortalGunSettings(primary, secondary, type);
+		return new PortalGunSettings(primary, secondary, type, pair);
 	}
 }

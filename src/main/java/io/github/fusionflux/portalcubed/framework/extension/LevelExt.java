@@ -4,7 +4,8 @@ import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 
 public interface LevelExt {
-	default PortalManager pc$portalManager() {
+	// note: no prefix needed
+	default PortalManager portalManager() {
 		throw new AbstractMethodError();
 	}
 

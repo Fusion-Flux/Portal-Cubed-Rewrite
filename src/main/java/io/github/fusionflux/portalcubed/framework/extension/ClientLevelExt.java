@@ -4,10 +4,8 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManag
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 
 public interface ClientLevelExt extends LevelExt {
-	ClientPortalManager pc$clientPortalManager();
-
 	@Override
-	default PortalManager pc$portalManager() {
-		return pc$clientPortalManager();
+	default ClientPortalManager portalManager() {
+		throw new AbstractMethodError();
 	}
 }

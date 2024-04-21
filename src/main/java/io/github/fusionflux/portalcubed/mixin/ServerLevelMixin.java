@@ -21,7 +21,7 @@ public abstract class ServerLevelMixin implements ServerLevelExt {
 	}
 
 	@Override
-	public ServerPortalManager pc$serverPortalManager() {
+	public ServerPortalManager portalManager() {
 		return this.portalManager;
 	}
 }
