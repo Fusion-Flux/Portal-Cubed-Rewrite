@@ -214,91 +214,91 @@ public class PortalCubedTabs {
 			// ----- portal guns -----
 
 			output.accept(PortalCubedItems.PORTAL_GUN);
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 3, "portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 4, "portal_gun_reloaded");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 101, "legacy_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 102, "legacy_portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 103, "legacy_portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 104, "legacy_portal_gun_reloaded");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 201, "mel_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 202, "2006_beta_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 203, "2005_beta_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 204, "bendy_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 205, "blueprint_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 3, "portal_gun_p_body");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 4, "portal_gun_reloaded");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 101, "legacy_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 102, "legacy_portal_gun_atlas");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 103, "legacy_portal_gun_p_body");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 104, "legacy_portal_gun_reloaded");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 201, "mel_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 202, "2006_beta_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 203, "2005_beta_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 204, "bendy_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 205, "blueprint_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
 
 			// ----- props -----
 
 			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
 
 			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
-			addVariant(output, PropType.PORTAL_1_COMPANION_CUBE, 1);
+			addPropVariant(output, PropType.PORTAL_1_COMPANION_CUBE, 1);
 
 			addProp(output, PropType.STORAGE_CUBE);
-			addVariant(output, PropType.STORAGE_CUBE, 2);
+			addPropVariant(output, PropType.STORAGE_CUBE, 2);
 
 			addProp(output, PropType.COMPANION_CUBE);
-			addVariant(output, PropType.COMPANION_CUBE, 2);
+			addPropVariant(output, PropType.COMPANION_CUBE, 2);
 
 			addProp(output, PropType.OLD_AP_CUBE);
 
 			addProp(output, PropType.RADIO);
 
-			addVariant(output, PropType.RADIO, 1);
-			addVariant(output, PropType.RADIO, 2);
-			addVariant(output, PropType.RADIO, 3);
-			addVariant(output, PropType.RADIO, 4);
+			addPropVariant(output, PropType.RADIO, 1);
+			addPropVariant(output, PropType.RADIO, 2);
+			addPropVariant(output, PropType.RADIO, 3);
+			addPropVariant(output, PropType.RADIO, 4);
 
 			addProp(output, PropType.MUG);
-			addVariant(output, PropType.MUG, 1);
-			addVariant(output, PropType.MUG, 2);
-			addVariant(output, PropType.MUG, 3);
-			addVariant(output, PropType.MUG, 4);
-			addVariant(output, PropType.MUG, 5);
-			addVariant(output, PropType.MUG, 6);
-			addVariant(output, PropType.MUG, 7);
+			addPropVariant(output, PropType.MUG, 1);
+			addPropVariant(output, PropType.MUG, 2);
+			addPropVariant(output, PropType.MUG, 3);
+			addPropVariant(output, PropType.MUG, 4);
+			addPropVariant(output, PropType.MUG, 5);
+			addPropVariant(output, PropType.MUG, 6);
+			addPropVariant(output, PropType.MUG, 7);
 
 			addProp(output, PropType.CHAIR);
 			addProp(output, PropType.COMPUTER);
 
 			addProp(output, PropType.CLIPBOARD);
-			addVariant(output, PropType.CLIPBOARD, 1);
-			addVariant(output, PropType.CLIPBOARD, 2);
-			addVariant(output, PropType.CLIPBOARD, 3);
-			addVariant(output, PropType.CLIPBOARD, 4);
-			addVariant(output, PropType.CLIPBOARD, 5);
-			addVariant(output, PropType.CLIPBOARD, 6);
+			addPropVariant(output, PropType.CLIPBOARD, 1);
+			addPropVariant(output, PropType.CLIPBOARD, 2);
+			addPropVariant(output, PropType.CLIPBOARD, 3);
+			addPropVariant(output, PropType.CLIPBOARD, 4);
+			addPropVariant(output, PropType.CLIPBOARD, 5);
+			addPropVariant(output, PropType.CLIPBOARD, 6);
 
 			addProp(output, PropType.HOOPY);
 			addProp(output, PropType.BEANS);
 			addProp(output, PropType.JUG);
 
 			addProp(output, PropType.OIL_DRUM);
-			addVariant(output, PropType.OIL_DRUM, 1);
-			addVariant(output, PropType.OIL_DRUM, 2);
-			addVariant(output, PropType.OIL_DRUM, 3);
+			addPropVariant(output, PropType.OIL_DRUM, 1);
+			addPropVariant(output, PropType.OIL_DRUM, 2);
+			addPropVariant(output, PropType.OIL_DRUM, 3);
 
 			addProp(output, PropType.COOKING_POT);
 
 			addProp(output, PropType.LIL_PINEAPPLE);
-			addVariant(output, PropType.LIL_PINEAPPLE, 1);
-			addVariant(output, PropType.LIL_PINEAPPLE, 2);
-			addVariant(output, PropType.LIL_PINEAPPLE, 3);
-			addVariant(output, PropType.LIL_PINEAPPLE, 4);
-			addVariant(output, PropType.LIL_PINEAPPLE, 5);
-			addVariant(output, PropType.LIL_PINEAPPLE, 6);
-			addVariant(output, PropType.LIL_PINEAPPLE, 7);
-			addVariant(output, PropType.LIL_PINEAPPLE, 8);
-			addVariant(output, PropType.LIL_PINEAPPLE, 9);
-			addVariant(output, PropType.LIL_PINEAPPLE, 10);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 1);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 2);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 3);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 4);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 5);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 6);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 7);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 8);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 9);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 10);
 
 			addProp(output, PropType.THE_TACO);
 		});
@@ -308,17 +308,13 @@ public class PortalCubedTabs {
 		output.accept(type.item());
 	}
 
-	private static void addVariant(CreativeModeTab.Output output, PropType type, int cmd) {
-		addVariant(output, type.item(), cmd);
-	}
-
-	private static void addVariant(CreativeModeTab.Output output, Item item, int cmd) {
-		ItemStack stack = new ItemStack(item);
+	private static void addPropVariant(CreativeModeTab.Output output, PropType item, int cmd) {
+		ItemStack stack = new ItemStack(item.item());
 		stack.getOrCreateTag().putInt("CustomModelData", cmd);
 		output.accept(stack);
 	}
 
-	private static void addVariant(CreativeModeTab.Output output, Item item, int cmd, String lang) {
+	private static void addItemVariant(CreativeModeTab.Output output, Item item, int cmd, String lang) {
 		ItemStack stack = new ItemStack(item);
 		stack.getOrCreateTag().putInt("CustomModelData", cmd);
 		Component name = Component.translatable("item.portalcubed." + lang).withStyle(style -> style.withItalic(false));
