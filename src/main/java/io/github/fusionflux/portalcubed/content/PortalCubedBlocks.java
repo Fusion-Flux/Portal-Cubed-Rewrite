@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
+import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignagePanel;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
@@ -114,6 +115,13 @@ public class PortalCubedBlocks {
 					}
 				}
 			});
+
+	// ----- signage panels -----
+
+	public static final LargeSignagePanel LARGE_SIGNAGE_PANEL = REGISTRAR.blocks.create("large_signage_panel", LargeSignagePanel::new)
+			.copyFrom(Blocks.GLASS_PANE)
+			.settings(settings -> settings.mapColor(MapColor.COLOR_BLACK))
+			.build();
 	// ----- misc blocks - tiles -----
 	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)

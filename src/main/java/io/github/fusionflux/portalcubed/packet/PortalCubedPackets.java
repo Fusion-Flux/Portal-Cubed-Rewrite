@@ -17,6 +17,7 @@ import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButt
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DropPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.GrabPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenLargeSignageConfigPacket;
 import net.fabricmc.api.EnvType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,6 +38,7 @@ public class PortalCubedPackets {
 	public static final ResourceLocation SHOOT_CANNON_OTHER = clientbound("shoot_cannon_other", OtherPlayerShootCannonPacket::new);
 	public static final ResourceLocation OPEN_CANNON_CONFIG = clientbound("open_cannon_config", OpenCannonConfigPacket::new);
 	public static final ResourceLocation HOLD_STATUS = clientbound("hold_status", HoldStatusPacket::new);
+	public static final ResourceLocation OPEN_LARGE_SIGNAGE_PANEL_CONFIG = clientbound("open_large_signage_config", OpenLargeSignageConfigPacket::new);
 	// serverbound
 	public static final ResourceLocation CONFIGURE_PEDESTAL_BUTTON = serverbound("configure_pedestal_button", ConfigurePedestalButtonPacket::new);
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);

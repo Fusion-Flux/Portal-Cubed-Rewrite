@@ -34,7 +34,7 @@ public record OpenLargeSignageConfigPacket(BlockPos largeSignagePos) implements 
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.OPEN_LARGE_SIGNAGE_PANEL_CONFIG;
 	}
 }
