@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "particle": "portalcubed:block/yellow_2x2_chamber_exterior_a_top_right",
+    "north": "portalcubed:block/yellow_2x2_chamber_exterior_a_top_left",
+    "south": "portalcubed:block/yellow_2x2_chamber_exterior_a_top_right",
+    "east": "portalcubed:block/yellow_2x2_chamber_exterior_a_top_left",
+    "west": "portalcubed:block/yellow_2x2_chamber_exterior_a_top_left",
+    "up": "portalcubed:block/yellow_2x2_chamber_exterior_a_bottom_right",
+    "down": "portalcubed:block/yellow_2x2_chamber_exterior_a_top_right"
+  }
+}

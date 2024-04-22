@@ -1,17 +1,19 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
 import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
-import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
-import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
+
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -42,26 +44,21 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
-public class Prop extends Entity implements CollisionListener {
+public class Prop extends HoldableEntity implements CollisionListener {
 	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<OptionalInt> HELD_BY = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
-	//this value was obtained by converting the terminal velocity of props in source engine units to mc blocks
-	private static final double TERMINAL_VELOCITY = 66.6667f;
-	//arbitrary limit to prevent use against high-health mobs, for example; wardens
-	private static float MAX_FALL_DAMAGE = 2 * 30;
-	//makes it so it takes roughly the same amount of fall distance as portal 1 to kill a player
-	private static float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
-	//makes it so the damage applies even when the collision box is outside the target
-	private static double CHECK_BOX_EPSILON = 1E-7;
-
-	private int variantFromItem;
-	private int lerpSteps;
-	private double lerpX;
-	private double lerpY;
-	private double lerpZ;
-	private double lerpYRot;
+	// Terminal velocity of props in source units converted to blocks/tick
+	private static final double TERMINAL_VELOCITY = 66.6667f / 20f;
+	// Arbitrary limit to prevent use against high-health mobs, for example; wardens
+	private static final float MAX_FALL_DAMAGE = 2 * 30;
+	// Makes it so that it takes roughly the same amount of fall distance as portal 1 to kill a player
+	private static final float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
+	// Makes it so the damage applies even when the collision box is outside the target
+	private static final double CHECK_BOX_EPSILON = 1E-7;
+	// Max speed of a dropped prop, to avoid flinging things cross chambers
+	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
 
 	public final PropType type;
+	private int variantFromItem;
 
 	public Prop(PropType type, EntityType<?> entityType, Level level) {
 		super(entityType, level);
@@ -70,106 +67,76 @@ public class Prop extends Entity implements CollisionListener {
 	}
 
 	protected Optional<Boolean> isDirty() {
-		int variant = getVariant();
+		int variant = this.getVariant();
 		return variant > 1 ? Optional.empty() : Optional.of(variant != 0);
 	}
 
 	protected void setDirty(boolean dirty) {
-		setVariant(dirty ? 1 : 0);
+		this.setVariant(dirty ? 1 : 0);
 	}
 
 	public int getVariant() {
-		return entityData.get(VARIANT);
+		return this.entityData.get(VARIANT);
 	}
 
-	@SuppressWarnings("resource")
 	public void setVariant(int variant) {
-		if (!level().isClientSide) entityData.set(VARIANT, variant);
+		if (!this.level().isClientSide)
+			this.entityData.set(VARIANT, variant);
 	}
 
 	public void setVariantFromItem(int variant) {
 		this.variantFromItem = variant;
 	}
 
-	public Optional<Player> getHeldBy() {
-		var heldBy = entityData.get(HELD_BY);
-		if (heldBy.isPresent())
-			return Optional.of((Player) level().getEntity(heldBy.getAsInt()));
-		return Optional.empty();
-	}
-
-	@SuppressWarnings("resource")
-	public boolean hold(Player player) {
-		var heldBy = getHeldBy();
-		boolean notHeld = !player.is(getControllingPassenger()) && (heldBy.isEmpty() || level().getGameRules().getBoolean(PortalCubedGameRules.PROP_SNATCHING));
-		if (!level().isClientSide && notHeld) {
-			heldBy.ifPresent(holder -> ((PlayerExt) holder).pc$heldProp(OptionalInt.empty()));
-			entityData.set(HELD_BY, OptionalInt.of(player.getId()));
-			((PlayerExt) player).pc$heldProp(OptionalInt.of(getId()));
-		}
-		return notHeld;
-	}
-
-	@SuppressWarnings("resource")
-	public void drop(Player player) {
-		if (!level().isClientSide && getHeldBy().map(heldBy -> heldBy == player).orElse(false)) {
-			entityData.set(HELD_BY, OptionalInt.empty());
-			((PlayerExt) player).pc$heldProp(OptionalInt.empty());
-		}
-	}
-
 	@Override
 	public void tick() {
 		super.tick();
-		var level = level();
-		if (!level.isClientSide && (getType().is(PortalCubedEntityTags.CAN_BE_WASHED) && isDirty().orElse(false)) && isInWaterOrRain())
-			setDirty(false);
+		this.tickState();
 
-		var heldBy = getHeldBy();
-		if (!level.isClientSide || heldBy.map(holder -> holder.isLocalPlayer()).orElse(false)) {
-			lerpSteps = 0;
-			if (heldBy.isEmpty()) {
-				var vel = getDeltaMovement();
-				if (!isNoGravity())
-					vel = vel.subtract(0, LivingEntity.DEFAULT_BASE_GRAVITY / (isInWater() ? 16 : 1), 0);
-				var posBelow = getBlockPosBelowThatAffectsMyMovement();
-				float f = level().getBlockState(posBelow).getBlock().getFriction();
-				f = onGround() ? f * .91f : .91f;
-				vel = new Vec3(vel.x * f, Math.max(vel.y, -TERMINAL_VELOCITY), vel.z * f);
-				setDeltaMovement(vel);
-				move(MoverType.SELF, vel);
-			} else {
-				var holder = heldBy.get();
-				var holdPoint = holder.getEyePosition()
-					.add(Vec3.directionFromRotation(holder.getXRot(), holder.getYRot()).scale(2))
-					.add(0, -getBbHeight() / 2, 0);
-				setDeltaMovement(Vec3.ZERO);
-				move(MoverType.PLAYER, position().vectorTo(holdPoint));
-				if (type != PropType.THE_TACO)
-					setYRot((holder.getYRot() + 180) % 360);
-				if (position().distanceToSqr(holder.getEyePosition()) >= Mth.square(4.5))
-					drop(holder);
+		// apply gravity and friction when not held
+		if (!this.isHeld()) {
+			Vec3 vel = this.getDeltaMovement();
+			if (!this.isNoGravity()) { // gravity
+				double gravity = LivingEntity.DEFAULT_BASE_GRAVITY / (isInWater() ? 16 : 1);
+				vel = vel.subtract(0, gravity, 0);
 			}
-		} else if (lerpSteps > 0) {
-			double delta = 1.0 / lerpSteps;
-			setPos(
-				Mth.lerp(delta, getX(), lerpX),
-				Mth.lerp(delta, getY(), lerpY),
-				Mth.lerp(delta, getZ(), lerpZ)
-			);
-			setYRot((float) Mth.rotLerp(delta, getYRot(), lerpYRot));
+			// friction logic from LivingEntity
+			BlockPos posBelow = this.getBlockPosBelowThatAffectsMyMovement();
+			float friction = this.level().getBlockState(posBelow).getBlock().getFriction();
+			friction = this.onGround() ? friction * .91f : .91f;
+			vel = new Vec3(vel.x * friction, vel.y, vel.z * friction);
+			// speed caps
+			if (vel.length() > MAX_SPEED_SQR) {
+				double y = vel.y;
+				vel = vel.normalize().scale(MAX_SPEED_SQR);
+				// downwards speed is special
+				if (y < 0) {
+					double newY = Math.max(y, -TERMINAL_VELOCITY);
+					vel = vel.with(Axis.Y, newY);
+				}
+			}
 
-			--lerpSteps;
+			this.setDeltaMovement(vel);
+			this.move(MoverType.SELF, this.getDeltaMovement());
 		}
 	}
 
+	protected void tickState() {
+		Level level = this.level();
+		if (level.isClientSide)
+			return;
+
+		boolean dirty = this.isDirty().orElse(false);
+		if (!dirty)
+			return;
+
+		if (this.getType().is(PortalCubedEntityTags.CAN_BE_WASHED) && this.isInWaterOrRain())
+			this.setDirty(false);
+	}
+
 	@Override
-	public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {
-		lerpX = x;
-		lerpY = y;
-		lerpZ = z;
-		lerpYRot = yaw;
-		lerpSteps = interpolationSteps;
+	protected boolean facesHolder() {
+		return this.type.facesPlayer;
 	}
 
 	@Override
@@ -182,7 +149,7 @@ public class Prop extends Entity implements CollisionListener {
 					setDirty(true);
 					serverLevel.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
 					var particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
-					for (var dir : Direction.values()) {
+					for (Direction dir : Direction.values()) {
 						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
 						double y = getY() + (dir.getStepY() * getBbHeight() / 2);
 						double z = getZ() + (dir.getStepZ() * getBbWidth() / 2);
@@ -211,7 +178,6 @@ public class Prop extends Entity implements CollisionListener {
 		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		if (!isInvulnerableTo(source)) {
@@ -239,7 +205,7 @@ public class Prop extends Entity implements CollisionListener {
 
 	@Override
 	public boolean canCollideWith(Entity other) {
-		return getHeldBy().map(holder -> other != holder).orElse(true) && Boat.canVehicleCollide(this, other);
+		return other != this.getHolder() && Boat.canVehicleCollide(this, other);
 	}
 
 	@Override
@@ -263,32 +229,33 @@ public class Prop extends Entity implements CollisionListener {
 
 	@Override
 	public void onCollision() {
-		var level = level();
-		if (!level.isClientSide) {
-			if (!isSilent()) {
-				level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
-				level.gameEvent(this, GameEvent.HIT_GROUND, position());
-			}
+		var level = this.level();
+		if (level.isClientSide)
+			return;
 
-			if (getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && verticalCollisionBelow) {
-				int blocksFallen = Mth.ceil(fallDistance);
-				if (blocksFallen > 0) {
-					float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
-					var selector =
-						EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(
-						EntitySelector.LIVING_ENTITY_STILL_ALIVE).and(
-						entity -> !(entity instanceof PlayerExt ext && ext.pc$heldProp().orElse(-1) == getId()));
-					level.getEntities(this, getBoundingBox().inflate(CHECK_BOX_EPSILON), selector)
-						.forEach(entity -> entity.hurt(PortalCubedDamageSources.landingDamage(level, this, entity), damage));
-				}
+		if (!this.isSilent()) {
+			level.playSound(null, this.getX(), this.getY(), this.getZ(), this.type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
+			level.gameEvent(this, GameEvent.HIT_GROUND, this.position());
+		}
+
+		if (this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && this.verticalCollisionBelow) {
+			int blocksFallen = Mth.ceil(this.fallDistance);
+			if (blocksFallen > 0) {
+				float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
+				Predicate<Entity> selector = EntitySelector.NO_CREATIVE_OR_SPECTATOR
+						.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)
+						.and(this::notHeldBy);
+				level.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector).forEach(
+						entity -> entity.hurt(PortalCubedDamageSources.landingDamage(level, this, entity), damage)
+				);
 			}
 		}
 	}
 
 	@Override
 	protected void defineSynchedData() {
+		super.defineSynchedData();
 		entityData.define(VARIANT, 0);
-		entityData.define(HELD_BY, OptionalInt.empty());
 	}
 
 	@Override

@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "portalcubed:block/gray_chamber_exterior"
+      }
+    ]
+  }
+}

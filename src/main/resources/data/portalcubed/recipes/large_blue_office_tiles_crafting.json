@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YX",
+        "XY"
+    ],
+    "key": {
+        "X": {
+            "item": "minecraft:blue_terracotta"
+        },
+        "Y": {
+            "item": "minecraft:cyan_terracotta"
+        }
+    },
+    "result": {
+        "item": "portalcubed:large_blue_office_tiles",
+        "count": 8
+    }
+}

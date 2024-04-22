@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/small_blue_office_tile_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/small_blue_office_tiles"
+    },
+    "type=top": {
+      "model": "portalcubed:block/small_blue_office_tile_slab_top"
+    }
+  }
+}

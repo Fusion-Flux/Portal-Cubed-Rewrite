@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/plywood_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/plywood"
+    },
+    "type=top": {
+      "model": "portalcubed:block/plywood_slab_top"
+    }
+  }
+}

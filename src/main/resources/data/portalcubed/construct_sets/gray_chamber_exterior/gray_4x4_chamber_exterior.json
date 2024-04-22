@@ -1,0 +1,204 @@
+{
+  "material": "#portalcubed:gray_chamber_exterior_materials",
+  "type": "pillar",
+  "chooser": "placer_facing",
+  "preview": "horizontal",
+  "vertical": {
+    "0,0,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_bottom_left"
+    },
+    "0,1,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_top_right"
+    },
+    "0,0,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_bottom_right"
+    },
+    "0,1,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_top_left"
+    },
+    "0,0,2": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_left"
+    },
+    "0,1,3": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_right"
+    },
+    "0,0,3": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
+    },
+    "0,1,2": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_left"
+    },
+
+    "0,2,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_left"
+    },
+    "0,3,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_right"
+    },
+    "0,2,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
+    },
+    "0,3,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_left"
+    },
+    "0,2,2": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_bottom_left"
+    },
+    "0,3,3": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_top_right"
+    },
+    "0,2,3": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_bottom_right"
+    },
+    "0,3,2": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_top_left"
+    }
+  },
+  "horizontal": {
+    "0,0,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_bottom_left"
+    },
+    "0,1,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_top_right"
+    },
+    "0,0,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_bottom_right"
+    },
+    "0,1,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_top_left"
+    },
+    "0,0,2": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_left"
+    },
+    "0,1,3": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_right"
+    },
+    "0,0,3": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
+    },
+    "0,1,2": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_left"
+    },
+
+    "0,2,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_left"
+    },
+    "0,3,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_right"
+    },
+    "0,2,1": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
+    },
+    "0,3,0": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_left"
+    },
+    "0,2,2": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_bottom_left"
+    },
+    "0,3,3": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_top_right"
+    },
+    "0,2,3": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_bottom_right"
+    },
+    "0,3,2": {
+      "Properties": {
+        "facing": "west"
+      },
+      "Name": "portalcubed:gray_2x2_chamber_exterior_a_top_left"
+    }
+  }
+}

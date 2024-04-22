@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 public class PacketUtils {
 	public static void writeOptionalInt(FriendlyByteBuf buf, OptionalInt optionalInt) {
 		buf.writeBoolean(optionalInt.isPresent());
-		optionalInt.ifPresent(v -> buf.writeVarInt(v));
+		optionalInt.ifPresent(buf::writeVarInt);
 	}
 
 	public static OptionalInt readOptionalInt(FriendlyByteBuf buf) {

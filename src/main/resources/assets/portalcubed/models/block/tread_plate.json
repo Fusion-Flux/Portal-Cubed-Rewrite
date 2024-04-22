@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "portalcubed:block/tread_plate",
+    "side": "portalcubed:block/tread_plate_side"
+  }
+}

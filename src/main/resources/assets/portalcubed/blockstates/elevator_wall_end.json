@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "vertical_direction=down": {
+      "model": "portalcubed:block/elevator_wall_top"
+    },
+    "vertical_direction=up": {
+      "model": "portalcubed:block/elevator_wall_bottom"
+    }
+  }
+}

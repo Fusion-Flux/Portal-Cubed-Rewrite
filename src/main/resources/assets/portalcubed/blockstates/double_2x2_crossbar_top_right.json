@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "portalcubed:block/double_2x2_crossbar_top_right_2",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "portalcubed:block/double_2x2_crossbar_top_right_2",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "portalcubed:block/double_2x2_crossbar_top_right"
+    },
+    "facing=west": {
+      "model": "portalcubed:block/double_2x2_crossbar_top_right",
+      "y": 90
+    }
+  }
+}

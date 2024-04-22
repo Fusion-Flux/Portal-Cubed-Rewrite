@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:orange_office_tiles"
+        }
+    },
+    "result": {
+        "item": "portalcubed:orange_office_tile_slab",
+        "count": 6
+    }
+}

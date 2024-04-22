@@ -82,7 +82,7 @@ public enum PanelMaterial {
 	}
 
 	public static QuiltBlockSettings whiteSettings() {
-		return QuiltBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.WOOD).sounds(SoundType.CHERRY_WOOD);
+		return QuiltBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.WOOL).sounds(SoundType.CHERRY_WOOD);
 	}
 
 	public static QuiltBlockSettings agedWhiteSettings() {
