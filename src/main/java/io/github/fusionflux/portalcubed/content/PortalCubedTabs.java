@@ -1,6 +1,8 @@
 package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
+import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -14,8 +16,9 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class PortalCubedTabs {
@@ -42,17 +45,35 @@ public class PortalCubedTabs {
 		});
 	});
 
-	public static final ResourceKey<CreativeModeTab> PORTAL_BLOCKS = create("portal_blocks", builder -> {
-		builder.icon(() -> new ItemStack(Blocks.DIRT));
-		builder.displayItems((params, output) -> {
-			output.accept(Blocks.DIRT);
+	 public static final ResourceKey<CreativeModeTab> PORTAL_BLOCKS = create("portal_blocks", builder -> {
+		builder.icon(() -> {
+			Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE);
+			Block block = blocks.get(PanelPart.HALF);
+			return new ItemStack(block);
 		});
-	});
+		builder.displayItems((params, output) -> {
+			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+			output.accept(PortalCubedBlocks.MAGNESIUM_ORE);
+			output.accept(PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
+			output.accept(PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
+			output.accept(PortalCubedBlocks.MAGNESIUM_BLOCK);
+			for (PanelMaterial material : PanelMaterial.values()) {
+				Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
+				for (PanelPart part : PanelPart.values()) {
+					if (blocks.containsKey(part)) {
+						Block block = blocks.get(part);
+						output.accept(block);
+					}
+				}
+			}
+		});
+	 });
 
 	public static final ResourceKey<CreativeModeTab> PROPS_AND_ITEMS = create("props_and_items", builder -> {
 		builder.icon(() -> new ItemStack(PortalCubedItems.HAMMER));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
+			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
 			output.accept(PortalCubedItems.RAW_MAGNESIUM);
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);

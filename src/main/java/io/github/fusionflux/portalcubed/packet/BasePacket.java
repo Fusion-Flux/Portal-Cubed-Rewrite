@@ -2,6 +2,9 @@ package io.github.fusionflux.portalcubed.packet;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+
+import org.jetbrains.annotations.NotNull;
 
 public interface BasePacket extends CustomPacketPayload {
 	@FunctionalInterface
@@ -12,5 +15,13 @@ public interface BasePacket extends CustomPacketPayload {
 		default T apply(FriendlyByteBuf buf) {
 			return create(buf);
 		}
+	}
+
+	ResourceLocation getId();
+
+	@Override
+	@NotNull // I don't want to add this to every subclass
+	default ResourceLocation id() {
+		return this.getId();
 	}
 }

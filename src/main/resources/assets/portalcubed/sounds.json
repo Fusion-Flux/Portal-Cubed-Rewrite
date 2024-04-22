@@ -38,7 +38,7 @@
   "surprise": {
     "sounds": [
       {
-        "name": "portalcubed:button/sad_party_horn",
+        "name": "portalcubed:sad_party_horn",
         "volume": 0.8
       }
     ],
@@ -258,6 +258,15 @@
     ],
     "subtitle": "subtitles.portalcubed.portal_1_cube_impact"
   },
+  "error_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/error_impact",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.error_impact"
+  },
   "portal_gun_grab": {
     "sounds": [
       {
@@ -293,5 +302,23 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun_cannot_grab"
+  },
+  "construction_cannon_obstructed": {
+    "sounds": [
+      {
+        "name": "portalcubed:construction_cannon/obstructed",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.construction_cannon_obstructed"
+  },
+  "construction_cannon_missing_materials": {
+    "sounds": [
+      {
+        "name": "portalcubed:construction_cannon/missing_materials",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.construction_cannon_missing_materials"
   }
 }

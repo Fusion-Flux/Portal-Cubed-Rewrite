@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": {
+    "#portalcubed:magnesium_fire_base_blocks": {
+      "burn": 1,
+      "spread": 20
+    }
+  }
+}

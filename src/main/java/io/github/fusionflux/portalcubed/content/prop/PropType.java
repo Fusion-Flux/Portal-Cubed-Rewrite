@@ -8,10 +8,11 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.content.prop.entity.Chair;
 import io.github.fusionflux.portalcubed.content.prop.entity.CompanionCube;
-import io.github.fusionflux.portalcubed.content.prop.entity.P1Prop;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 
 import io.github.fusionflux.portalcubed.content.prop.entity.Radio;
+
+import io.github.fusionflux.portalcubed.content.prop.entity.Taco;
 
 import org.apache.commons.lang3.stream.IntStreams;
 
@@ -42,13 +43,14 @@ public enum PropType {
 	MUG                    (8, true, EntityDimensions.fixed(.1875f, .25f), SoundType.GENERIC),
 	OIL_DRUM               (4, true, EntityDimensions.fixed(.5625f, .9375f), SoundType.METAL),
 	OLD_AP_CUBE            (EntityDimensions.fixed(.625f, .625f), SoundType.OLD_AP_CUBE),
-	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.625f, .625f), P1Prop::new, SoundType.PORTAL_1_CUBE),
-	PORTAL_1_STORAGE_CUBE  (1, false, EntityDimensions.fixed(.625f, .625f), P1Prop::new, SoundType.PORTAL_1_CUBE),
+	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.625f, .625f), SoundType.PORTAL_1_CUBE),
+	PORTAL_1_STORAGE_CUBE  (1, false, EntityDimensions.fixed(.625f, .625f), SoundType.PORTAL_1_CUBE),
 	RADIO                  (5, false, EntityDimensions.fixed(.5625f, .3125f), Radio::new, SoundType.METAL),
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new, SoundType.CUBE),
-	THE_TACO(new TacoDimensions(), SoundType.PORTAL_1_CUBE);
+	THE_TACO			   (2, false, new TacoDimensions(), Taco::new, SoundType.PORTAL_1_CUBE),
+	ERROR                  (EntityDimensions.fixed(1f, 1f), SoundType.ERROR);
 
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;
@@ -101,7 +103,8 @@ public enum PropType {
 		METAL,
 		CUBE,
 		OLD_AP_CUBE,
-		PORTAL_1_CUBE;
+		PORTAL_1_CUBE,
+		ERROR;
 
 		public final SoundEvent impactSound;
 

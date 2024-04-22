@@ -60,6 +60,14 @@ public class CubeButtonBlock extends FloorButtonBlock {
 	}
 
 	@Override
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+		if (isOrigin(state)) {
+			world.getEntities((Entity) null, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate)
+				.forEach(e -> e.setDeltaMovement(Vec3.ZERO));
+		}
+	}
+
+	@Override
 	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
 		super.entityPressing(state, level, pos, entity);
 		if (entity instanceof Prop prop && prop.getHeldBy().isPresent())
@@ -69,12 +77,16 @@ public class CubeButtonBlock extends FloorButtonBlock {
 		entity.setYRot(Math.round(entity.getYRot() / 90) * 90);
 		var facing = state.getValue(FACING);
 		var facingAxis = facing.getAxis();
+		boolean horizontal = facingAxis.isHorizontal();
+		if (horizontal && !entity.isNoGravity())
+			return;
 		var buttonBounds = getButtonBounds(facing).move(pos);
 		var nudgeSpeed = new Vec3(
 			facingAxis.choose(0, NUDGE_SPEED, NUDGE_SPEED),
-			0,
+			facingAxis.choose(NUDGE_SPEED, 0, NUDGE_SPEED),
 			facingAxis.choose(NUDGE_SPEED, NUDGE_SPEED, 0)
 		);
-		entity.setDeltaMovement(entity.position().vectorTo(buttonBounds.getCenter()).multiply(nudgeSpeed));
+		float yOffset = horizontal ? -(entity.getBbHeight() / 2) : 0;
+		entity.setDeltaMovement(entity.position().vectorTo(buttonBounds.getCenter().add(0, yOffset, 0)).multiply(nudgeSpeed));
 	}
 }

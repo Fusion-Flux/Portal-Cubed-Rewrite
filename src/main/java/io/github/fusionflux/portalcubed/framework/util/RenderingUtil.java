@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -9,6 +10,8 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class RenderingUtil {
+	private static final Matrix4f MATRIX = new Matrix4f();
+
 	// mostly yoinked from DragonFireballRenderer
 	public static void renderQuad(PoseStack matrices, VertexConsumer vertices, int light, int color) {
 		PoseStack.Pose pose = matrices.last();
@@ -28,5 +31,14 @@ public class RenderingUtil {
 				.uv2(light)
 				.normal(normalMatrix, 0, 1, 0)
 				.endVertex();
+	}
+
+	public static void drawGuiManaged(Runnable runnable) {
+		RenderSystem.disableDepthTest();
+		RenderSystem.backupProjectionMatrix();
+		RenderSystem.setProjectionMatrix(RenderSystem.getProjectionMatrix().translate(0, 0, -11000, MATRIX), RenderSystem.getVertexSorting());
+		runnable.run();
+		RenderSystem.restoreProjectionMatrix();
+		RenderSystem.enableDepthTest();
 	}
 }

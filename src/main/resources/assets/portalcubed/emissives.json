@@ -63,5 +63,13 @@
   "item/radio": "item/radio_e",
   "item/radio_transmission_received": "item/radio_e",
   "item/radio_awaiting_transmission": "item/radio_e",
-  "item/dirty_radio": "item/radio_e"
+  "item/dirty_radio": "item/radio_e",
+
+  "item/taco_with_way_too_much_ranch_on_it_holy_shit_why_is_there_so_much": "item/the_taco",
+
+  "item/construction_cannon": "item/construction_cannon_screen_e",
+
+  "item/error": "block/error",
+  "block/error": "block/error"
+
 }

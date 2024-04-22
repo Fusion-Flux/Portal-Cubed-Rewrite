@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.prop.entity;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
@@ -25,6 +26,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -45,6 +47,12 @@ public class Prop extends Entity implements CollisionListener {
 	private static final EntityDataAccessor<OptionalInt> HELD_BY = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 	//this value was obtained by converting the terminal velocity of props in source engine units to mc blocks
 	private static final double TERMINAL_VELOCITY = 66.6667f;
+	//arbitrary limit to prevent use against high-health mobs, for example; wardens
+	private static float MAX_FALL_DAMAGE = 2 * 30;
+	//makes it so it takes roughly the same amount of fall distance as portal 1 to kill a player
+	private static float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
+	//makes it so the damage applies even when the collision box is outside the target
+	private static double CHECK_BOX_EPSILON = 1E-7;
 
 	private int variantFromItem;
 	private int lerpSteps;
@@ -97,14 +105,17 @@ public class Prop extends Entity implements CollisionListener {
 		if (!level().isClientSide && notHeld) {
 			heldBy.ifPresent(holder -> ((PlayerExt) holder).pc$heldProp(OptionalInt.empty()));
 			entityData.set(HELD_BY, OptionalInt.of(player.getId()));
+			((PlayerExt) player).pc$heldProp(OptionalInt.of(getId()));
 		}
 		return notHeld;
 	}
 
 	@SuppressWarnings("resource")
 	public void drop(Player player) {
-		if (!level().isClientSide && getHeldBy().map(heldBy -> heldBy == player).orElse(false))
+		if (!level().isClientSide && getHeldBy().map(heldBy -> heldBy == player).orElse(false)) {
 			entityData.set(HELD_BY, OptionalInt.empty());
+			((PlayerExt) player).pc$heldProp(OptionalInt.empty());
+		}
 	}
 
 	@Override
@@ -117,10 +128,8 @@ public class Prop extends Entity implements CollisionListener {
 		var heldBy = getHeldBy();
 		if (!level.isClientSide || heldBy.map(holder -> holder.isLocalPlayer()).orElse(false)) {
 			lerpSteps = 0;
-			syncPacketPositionCodec(getX(), getY(), getZ());
-
-			var vel = getDeltaMovement();
 			if (heldBy.isEmpty()) {
+				var vel = getDeltaMovement();
 				if (!isNoGravity())
 					vel = vel.subtract(0, LivingEntity.DEFAULT_BASE_GRAVITY / (isInWater() ? 16 : 1), 0);
 				var posBelow = getBlockPosBelowThatAffectsMyMovement();
@@ -131,16 +140,15 @@ public class Prop extends Entity implements CollisionListener {
 				move(MoverType.SELF, vel);
 			} else {
 				var holder = heldBy.get();
-				var holdPoint = holder.getEyePosition().add(Vec3.directionFromRotation(holder.getXRot(), holder.getYRot()).scale(2));
-				float holdYOffset = -getBbHeight() / 2;
+				var holdPoint = holder.getEyePosition()
+					.add(Vec3.directionFromRotation(holder.getXRot(), holder.getYRot()).scale(2))
+					.add(0, -getBbHeight() / 2, 0);
 				setDeltaMovement(Vec3.ZERO);
-				move(MoverType.PLAYER, position().vectorTo(holdPoint.add(0, holdYOffset, 0)));
+				move(MoverType.PLAYER, position().vectorTo(holdPoint));
 				if (type != PropType.THE_TACO)
 					setYRot((holder.getYRot() + 180) % 360);
-				if (position().distanceToSqr(holder.getEyePosition()) >= 4.5 * 4.5) {
+				if (position().distanceToSqr(holder.getEyePosition()) >= Mth.square(4.5))
 					drop(holder);
-					((PlayerExt) holder).pc$heldProp(OptionalInt.empty());
-				}
 			}
 		} else if (lerpSteps > 0) {
 			double delta = 1.0 / lerpSteps;
@@ -256,9 +264,24 @@ public class Prop extends Entity implements CollisionListener {
 	@Override
 	public void onCollision() {
 		var level = level();
-		if (!level.isClientSide && !isSilent()) {
-			level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
-			level.gameEvent(this, GameEvent.HIT_GROUND, position());
+		if (!level.isClientSide) {
+			if (!isSilent()) {
+				level.playSound(null, getX(), getY(), getZ(), type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
+				level.gameEvent(this, GameEvent.HIT_GROUND, position());
+			}
+
+			if (getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && verticalCollisionBelow) {
+				int blocksFallen = Mth.ceil(fallDistance);
+				if (blocksFallen > 0) {
+					float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
+					var selector =
+						EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(
+						EntitySelector.LIVING_ENTITY_STILL_ALIVE).and(
+						entity -> !(entity instanceof PlayerExt ext && ext.pc$heldProp().orElse(-1) == getId()));
+					level.getEntities(this, getBoundingBox().inflate(CHECK_BOX_EPSILON), selector)
+						.forEach(entity -> entity.hurt(PortalCubedDamageSources.landingDamage(level, this, entity), damage));
+				}
+			}
 		}
 	}
 

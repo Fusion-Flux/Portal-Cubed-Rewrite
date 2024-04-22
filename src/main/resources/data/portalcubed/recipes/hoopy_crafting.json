@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " X ",
+        "X X",
+        " X "
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:magnesium_ingot"
+        }
+    },
+    "result": {
+        "item": "portalcubed:hoopy",
+        "count": 1
+    }
+}

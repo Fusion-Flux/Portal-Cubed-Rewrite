@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.item;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import io.github.fusionflux.portalcubed.framework.block.FakeBlockPlaceContext;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import net.minecraft.core.BlockPos;
@@ -17,32 +20,26 @@ public class MultiBlockItem extends BlockItem {
 		this.multiBlock = multiBlock;
 	}
 
-	private static Direction getDownDirection(Direction.Axis axis) {
-		return switch (axis) {
-			case X, Z -> Direction.DOWN;
-			case Y -> Direction.NORTH;
-		};
-	}
-
-	private static Direction getLeftDirection(Direction.Axis axis) {
-		return switch (axis) {
-			case X, Y -> Direction.NORTH;
-			case Z -> Direction.WEST;
-		};
-	}
-
-	private boolean quadrantPlacementTest(BlockPlaceContext context, BlockPos origin, BlockState state) {
+	private Set<Direction> quadrantPlacementTest(BlockPlaceContext context, BlockPos origin, BlockState state) {
 		var level = context.getLevel();
 		var player = context.getPlayer();
 		var collisionContext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
+		var collidingDirections = new HashSet<Direction>();
 		for (var quadrantPos : multiBlock.quadrantIterator(origin, state)) {
 			if (
 				!level.isUnobstructed(state, quadrantPos, collisionContext) ||
 				!level.getWorldBorder().isWithinBounds(quadrantPos) ||
 				!level.getBlockState(quadrantPos).canBeReplaced(new FakeBlockPlaceContext(context, quadrantPos))
-			) return false;
+			) {
+				var dir = Direction.getNearest(
+					quadrantPos.getX() - origin.getX(),
+					quadrantPos.getY() - origin.getY(),
+					quadrantPos.getZ() - origin.getZ()
+				).getOpposite();
+				collidingDirections.add(dir);
+			}
 		}
-		return true;
+		return collidingDirections;
 	}
 
 	@Override
@@ -52,32 +49,18 @@ public class MultiBlockItem extends BlockItem {
 		var rotatedSize = multiBlock.size.rotated(facing);
 
 		var horizontalDirection = facingAxis.isHorizontal() ? facing.getOpposite() : context.getHorizontalDirection();
-		var origin = context.getClickedPos();
-		if (horizontalDirection == Direction.SOUTH || horizontalDirection == Direction.WEST)
-			origin = origin.relative(horizontalDirection.getClockWise());
-		if (facingAxis.isVertical() && horizontalDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
-			origin = origin.relative(horizontalDirection);
-
-		if (!quadrantPlacementTest(context, origin, state)) {
-			var leftDir = getLeftDirection(facingAxis);
-			var downDir = getDownDirection(facingAxis);
-			horizontal: for (int i = 0; i < 2; i++) {
-				var horizontalDir = i == 0 ? leftDir : leftDir.getOpposite();
-				var testOrigin = origin.relative(horizontalDir);
-				if (quadrantPlacementTest(context, testOrigin, state)) {
-					origin = testOrigin;
-					break;
-				}
-
-				for (int j = 0; j < 2; j++) {
-					var verticalDir = j == 0 ? downDir : downDir.getOpposite();
-					if (quadrantPlacementTest(context, testOrigin.relative(verticalDir), state)) {
-						origin = testOrigin.relative(verticalDir);
-						break horizontal;
-					}
-				}
-			}
+		var origin = context.getClickedPos().mutable();
+		if (facingAxis.isVertical()) {
+			if (horizontalDirection == Direction.SOUTH || horizontalDirection == Direction.WEST)
+				origin.move(horizontalDirection.getClockWise());
+			if (horizontalDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
+				origin.move(horizontalDirection);
 		}
+
+		var colliding = quadrantPlacementTest(context, origin, state);
+		colliding.forEach(origin::move);
+		if (!quadrantPlacementTest(context, origin, state).isEmpty())
+			return false;
 
 		for (var quadrantPos : multiBlock.quadrantIterator(origin, state)) {
 			var relativePos = rotatedSize.relative(origin, quadrantPos);
