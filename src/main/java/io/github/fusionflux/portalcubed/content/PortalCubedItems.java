@@ -40,6 +40,9 @@ public class PortalCubedItems {
 			.settings(s -> s.stacksTo(1).fireResistant())
 			.build();
 
+	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
+			.build();
+
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
 			PropItem item = REGISTRAR.items.simple(type.toString(), s -> new PropItem(s, type));

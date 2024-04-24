@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button",
+  "textures": {
+    "texture": "portalcubed:block/lemon_planks"
+  }
+}
