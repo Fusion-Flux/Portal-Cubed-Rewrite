@@ -13,7 +13,7 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "minecraft:lemon_door",
+              "block": "portalcubed:lemon_door",
               "condition": "minecraft:block_state_property",
               "properties": {
                 "half": "lower"
