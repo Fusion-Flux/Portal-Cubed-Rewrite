@@ -8,6 +8,7 @@ import java.util.Map;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
@@ -41,6 +42,7 @@ public class PortalCubedItems {
 			.build();
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
+			.settings(s -> s.food(Foods.APPLE))
 			.build();
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
