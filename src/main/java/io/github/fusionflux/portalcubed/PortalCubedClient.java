@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed;
 
+import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
@@ -24,6 +27,7 @@ public class PortalCubedClient implements ClientModInitializer {
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
 
+		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT.location(), false);
 		PropModels.register();
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 

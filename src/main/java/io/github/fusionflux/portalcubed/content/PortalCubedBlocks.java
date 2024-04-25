@@ -1,5 +1,12 @@
 package io.github.fusionflux.portalcubed.content;
 
+import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
+import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
+
+import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
+import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
+
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
@@ -11,6 +18,7 @@ import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -206,6 +214,37 @@ public class PortalCubedBlocks {
 			.settings(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 			)
+			.build();
+	private static final ResourceLocation LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
+	public static final TerraformSignBlock LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
+			.copyFrom(Blocks.OAK_SIGN)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+			)
+			.item(BlockItemProvider::noItem)
+			.build();
+	public static final TerraformWallSignBlock LEMON_WALL_SIGN = REGISTRAR.blocks.create("lemon_wall_sign", properties -> new TerraformWallSignBlock(LEMON_SIGN_TEXTURE, properties))
+			.copyFrom(Blocks.OAK_WALL_SIGN)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+			)
+			.item(BlockItemProvider::noItem)
+			.build();
+	private static final ResourceLocation LEMON_HANGING_SIGN_TEXTURE = PortalCubed.id("entity/signs/hanging/lemon");
+	private static final ResourceLocation LEMON_HANGING_SIGN_GUI_TEXTURE = PortalCubed.id("textures/gui/hanging_signs/lemon");
+	public static final TerraformHangingSignBlock LEMON_HANGING_SIGN = REGISTRAR.blocks.create("lemon_hanging_sign", properties -> new TerraformHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
+			.copyFrom(Blocks.OAK_HANGING_SIGN)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+			)
+			.item(BlockItemProvider::noItem)
+			.build();
+	public static final TerraformWallHangingSignBlock LEMON_WALL_HANGING_SIGN = REGISTRAR.blocks.create("lemon_wall_hanging_sign", properties -> new TerraformWallHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
+			.copyFrom(Blocks.OAK_WALL_HANGING_SIGN)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+			)
+			.item(BlockItemProvider::noItem)
 			.build();
 	public static final DoorBlock LEMON_DOOR = REGISTRAR.blocks.create("lemon_door", properties -> new DoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_DOOR)

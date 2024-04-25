@@ -25,6 +25,7 @@ dependencies {
 
 	// dependencies
 	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:$qfapi_version")
+	modImplementation("com.terraformersmc.terraform-api:terraform-wood-api-v1:$terraform_wood_api")
 
 	// dev env
 	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version")

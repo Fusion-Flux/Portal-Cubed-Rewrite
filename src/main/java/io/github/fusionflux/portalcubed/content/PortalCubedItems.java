@@ -5,6 +5,9 @@ import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 import java.util.EnumMap;
 import java.util.Map;
 
+import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
+
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
@@ -16,6 +19,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 
 import net.minecraft.Util;
+import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.DispenserBlock;
 
 public class PortalCubedItems {
@@ -44,6 +48,14 @@ public class PortalCubedItems {
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
 			.settings(s -> s.food(Foods.APPLE))
 			.build();
+	public static final Item LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new SignItem(s, PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN))
+			.settings(s -> s.stacksTo(16))
+			.build();
+	public static final Item LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new SignItem(s, PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN))
+			.settings(s -> s.stacksTo(16))
+			.build();
+	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_boat"), PortalCubedEntities.LEMON_BOAT, false);
+	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_chest_boat"), PortalCubedEntities.LEMON_BOAT, true);
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {

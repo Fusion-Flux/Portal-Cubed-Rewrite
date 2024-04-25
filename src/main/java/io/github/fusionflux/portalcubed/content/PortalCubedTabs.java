@@ -364,7 +364,6 @@ public class PortalCubedTabs {
 			entries.addAfter(Blocks.CHERRY_LOG, PortalCubedBlocks.LEMON_LOG);
 			entries.addAfter(Blocks.CHERRY_LEAVES, PortalCubedBlocks.LEMON_LEAVES);
 			entries.addAfter(Blocks.CHERRY_SAPLING, PortalCubedBlocks.LEMON_SAPLING);
-
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
@@ -395,14 +394,14 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.ENCHANTED_GOLDEN_APPLE, PortalCubedItems.LEMON);
 		});
 
-		//ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
-		//	entries.addAfter(Blocks.CHERRY_SIGN, PortalCubedItems.LEMON_SIGN);
-		//	entries.addAfter(Blocks.LEMON_SIGN, PortalCubedItems.LEMON_HANGING_SIGN);
-		//});
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
+			entries.addAfter(Blocks.CHERRY_HANGING_SIGN, PortalCubedItems.LEMON_SIGN);
+			entries.addAfter(PortalCubedItems.LEMON_SIGN, PortalCubedItems.LEMON_HANGING_SIGN);
+		});
 
-		//ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
-		//	entries.addAfter(Items.CHERRY_BOAT, PortalCubedItems.LEMON_BOAT);
-		//	entries.addAfter(Items.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
-		//});
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
+			entries.addAfter(Items.CHERRY_BOAT, PortalCubedItems.LEMON_BOAT);
+			entries.addAfter(PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
+		});
 	}
 }

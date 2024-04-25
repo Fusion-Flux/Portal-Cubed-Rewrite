@@ -1,11 +1,17 @@
 package io.github.fusionflux.portalcubed.content;
 
+import com.terraformersmc.terraform.boat.api.TerraformBoatType;
+import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
+
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectileRenderer;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.content.prop.PropRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.minecraft.Util;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -24,6 +30,8 @@ public class PortalCubedEntities {
 			.renderer(() -> () -> PortalProjectileRenderer::new)
 			.build();
 
+	public static final ResourceKey<TerraformBoatType> LEMON_BOAT = TerraformBoatTypeRegistry.createKey(PortalCubed.id("lemon"));
+
 	public static final Map<PropType, EntityType<Prop>> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
 			EntityType<Prop> entityType = REGISTRAR.entities.create(type.toString(), type.factory)
@@ -36,5 +44,12 @@ public class PortalCubedEntities {
 	});
 
 	public static void init() {
+		Registry.register(TerraformBoatTypeRegistry.INSTANCE, LEMON_BOAT,
+				new TerraformBoatType.Builder()
+						.item(PortalCubedItems.LEMON_BOAT)
+						.chestItem(PortalCubedItems.LEMON_CHEST_BOAT)
+						.planks(PortalCubedBlocks.LEMON_PLANKS.asItem())
+						.build()
+		);
 	}
 }
