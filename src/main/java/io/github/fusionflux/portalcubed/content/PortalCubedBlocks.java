@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.GlazedTerracottaBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -152,6 +153,10 @@ public class PortalCubedBlocks {
 			.build();
 	public static final LeavesBlock LEMON_LEAVES = REGISTRAR.blocks.create("lemon_leaves", LeavesBlock::new)
 			.copyFrom(Blocks.OAK_LEAVES)
+			.build();
+	public static final SaplingBlock LEMON_SAPLING = REGISTRAR.blocks.create("lemon_sapling", settings -> new SaplingBlock(PortalCubedFeatures.LEMON_TREE_GROWER, settings))
+			.copyFrom(Blocks.OAK_SAPLING)
+			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final Block LEMON_PLANKS = REGISTRAR.blocks.create("lemon_planks", Block::new)
 			.copyFrom(Blocks.OAK_PLANKS)

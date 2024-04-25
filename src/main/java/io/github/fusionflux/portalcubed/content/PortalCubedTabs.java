@@ -71,7 +71,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.LEMON_PRESSURE_PLATE);
 			output.accept(PortalCubedBlocks.LEMON_BUTTON);
 			output.accept(PortalCubedBlocks.LEMON_LEAVES);
-//			output.accept(PortalCubedBlocks.LEMON_SAPLING);
+			output.accept(PortalCubedBlocks.LEMON_SAPLING);
 //			output.accept(PortalCubedBlocks.LEMON_SIGN);
 //			output.accept(PortalCubedBlocks.LEMON_HANGING_SIGN);
 			for (PanelMaterial material : PanelMaterial.values()) {
