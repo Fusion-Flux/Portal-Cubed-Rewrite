@@ -29,11 +29,12 @@ import java.util.function.Function;
 public class LemonTruckPlacer extends TrunkPlacer {
 	public static final Codec<LemonTruckPlacer> CODEC = RecordCodecBuilder.create(
 			instance ->
+					// 32 is the max base height from trunk placer, 56 is the max base height plus max rand height, 4 is the number of horizontal directions, 16 is chunk size
 					instance.group(
-						Codec.intRange(0, Integer.MAX_VALUE).fieldOf("min_center_height").forGetter(placer -> placer.minCenterHeight),
-						Codec.intRange(0, Integer.MAX_VALUE).fieldOf("max_center_height").forGetter(placer -> placer.maxCenterHeight),
-						IntProvider.POSITIVE_CODEC.fieldOf("branch_count").forGetter(placer -> placer.branchCount),
-						IntProvider.POSITIVE_CODEC.fieldOf("branch_distance").forGetter(placer -> placer.branchDistance)
+						Codec.intRange(1, 32).fieldOf("min_center_height").forGetter(placer -> placer.minCenterHeight),
+						Codec.intRange(1, 56).fieldOf("max_center_height").forGetter(placer -> placer.maxCenterHeight),
+						IntProvider.codec(1, 4).fieldOf("branch_count").forGetter(placer -> placer.branchCount),
+						IntProvider.codec(1, 16).fieldOf("branch_distance").forGetter(placer -> placer.branchDistance)
 					)
 					.apply(instance, LemonTruckPlacer::new)
 	);
@@ -75,6 +76,7 @@ public class LemonTruckPlacer extends TrunkPlacer {
 		BlockPos.MutableBlockPos branchPos = new BlockPos.MutableBlockPos();
 		List<Direction> availableBranchDirections = new ArrayList<>(Direction.Plane.HORIZONTAL.stream().toList());
 		for (int i = 0; i < branchCount; i++) {
+			// There should always be at least one direction available but just to make sure lets default to north
 			Direction branchDir = Util.getRandomSafe(availableBranchDirections, random).orElse(Direction.NORTH);
 			availableBranchDirections.remove(branchDir);
 
@@ -87,7 +89,8 @@ public class LemonTruckPlacer extends TrunkPlacer {
 
 			int branchDist = this.branchDistance.sample(random);
 			for (int j = 0; j < branchDist; j++) {
-				foliageAttachments.add(new FoliagePlacer.FoliageAttachment(branchPos.above(), 1, false));
+				if (j == branchDist - 1)
+					foliageAttachments.add(new FoliagePlacer.FoliageAttachment(branchPos.above(), 1, false));
 				this.placeLog(world, replacer, random, branchPos, config, (j + 1) % 2 == 0 ? state -> state.trySetValue(RotatedPillarBlock.AXIS, branchDir.getAxis()) : Function.identity());
 				branchPos.move(branchDir).move(Direction.UP);
 			}
