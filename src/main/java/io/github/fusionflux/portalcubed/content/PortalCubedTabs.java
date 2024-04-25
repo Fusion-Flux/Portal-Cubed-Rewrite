@@ -72,8 +72,8 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.LEMON_BUTTON);
 			output.accept(PortalCubedBlocks.LEMON_LEAVES);
 			output.accept(PortalCubedBlocks.LEMON_SAPLING);
-//			output.accept(PortalCubedBlocks.LEMON_SIGN);
-//			output.accept(PortalCubedBlocks.LEMON_HANGING_SIGN);
+			output.accept(PortalCubedBlocks.LEMON_SIGN);
+			output.accept(PortalCubedBlocks.LEMON_HANGING_SIGN);
 			for (PanelMaterial material : PanelMaterial.values()) {
 				Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
 				for (PanelPart part : PanelPart.values()) {
@@ -230,8 +230,8 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
 			output.accept(PortalCubedItems.LEMON);
 //			output.accept(PortalCubedItems.LEMONADE);
-//			output.accept(PortalCubedItems.LEMON_BOAT);
-//			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
+			output.accept(PortalCubedItems.LEMON_BOAT);
+			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
 
 			// ----- portal guns -----
 
@@ -400,7 +400,7 @@ public class PortalCubedTabs {
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
-			entries.addAfter(Items.CHERRY_BOAT, PortalCubedItems.LEMON_BOAT);
+			entries.addAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT);
 			entries.addAfter(PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
 		});
 	}
