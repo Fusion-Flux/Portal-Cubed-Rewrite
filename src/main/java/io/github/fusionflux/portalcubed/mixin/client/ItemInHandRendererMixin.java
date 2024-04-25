@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import net.minecraft.client.Minecraft;
+
 import org.joml.Math;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -29,21 +31,19 @@ public class ItemInHandRendererMixin implements ItemInHandRendererExt {
 
 	@Unique
 	private float constructionCannonWiggle;
-	@Unique
-	private boolean constructionCannonWiggling;
 
 	@Override
 	public void pc$constructionCannonShoot(CannonUseResult useResult) {
 		if (useResult.shouldRecoil()) {
-			constructionCannonRecoil = useResult == CannonUseResult.MISSING_MATERIALS ? 17 : 25;
+			constructionCannonRecoil = useResult == CannonUseResult.MISSING_MATERIALS ? 17f : 25f;
 		} else {
-			constructionCannonRecoil = 0;
+			constructionCannonRecoil = 0f;
 		}
 
 		if (useResult.shouldWiggle()) {
 			constructionCannonWiggle = WIGGLE_STOP;
 		} else {
-			constructionCannonWiggle = 0;
+			constructionCannonWiggle = 0f;
 		}
 	}
 
@@ -71,12 +71,13 @@ public class ItemInHandRendererMixin implements ItemInHandRendererExt {
 	) {
 		if (stack.getItem() instanceof ConstructionCannonItem) {
 			matrices.mulPose(Axis.XP.rotationDegrees(constructionCannonRecoil));
-			float offset = .1875f * (hand == InteractionHand.MAIN_HAND ? 1 : -1);
+			float offset = .1875f * (hand == InteractionHand.MAIN_HAND ? 1f : -1f);
 			matrices.translate(offset, 0, 0);
-			matrices.mulPose(Axis.ZP.rotationDegrees(Math.sin(constructionCannonWiggle / 6) * 6));
+			matrices.mulPose(Axis.ZP.rotationDegrees(Math.sin(constructionCannonWiggle / 6f) * 6f));
 			matrices.translate(-offset, 0, 0);
 		}
-		constructionCannonRecoil = Math.max(0, constructionCannonRecoil - (tickDelta * 1.4f));
-		constructionCannonWiggle = Math.max(0, constructionCannonWiggle - (tickDelta * 2));
+		float deltaTime = Minecraft.getInstance().getDeltaFrameTime() * 8.5f; // no idea why times 8.5 here, it just looks the closest to tick delta but not bugged
+		constructionCannonRecoil = Math.max(0, constructionCannonRecoil - (deltaTime * 1.4f));
+		constructionCannonWiggle = Math.max(0, constructionCannonWiggle - (deltaTime * 2f));
 	}
 }

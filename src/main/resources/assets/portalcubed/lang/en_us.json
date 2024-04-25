@@ -7,6 +7,7 @@
   "key.categories.portalcubed": "Portal Cubed",
   "key.portalcubed.grab": "Grab",
 
+
   "gamerule.category.portalcubed": "Portal Cubed",
   "gamerule.propSnatching": "Prop Snatching",
   "gamerule.propSnatching.description": "Allow held props to be grabbed by other players without the holder dropping it first.",
@@ -26,7 +27,6 @@
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
 
   "item.portalcubed.construction_cannon.material": "Material: ",
-  "item.portalcubed.construction_cannon.construct_set": "Construct: ",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
   "tag.item.portalcubed.aged_smooth_gray_panel_materials": "Aged Smooth Gray Panels",
   "tag.item.portalcubed.aged_white_panel_materials": "Aged White Panels",
@@ -55,6 +55,7 @@
   "item.portalcubed.construction_cannon.feedback.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
   "item.portalcubed.construction_cannon.feedback.no_perms": "You do not have permission to build here",
 
+  "item.portalcubed.construction_cannon.construct_set": "Construct: ",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_panel": "Aged Padded Gray Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_half_panel": "Aged Padded Gray Half Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_2x1_panel": "Aged Padded Gray 2x1 Panel",
@@ -609,6 +610,7 @@
   "block.portalcubed.tread_plate": "Tread Plate",
   "block.portalcubed.tread_plate_slab": "Tread Plate Slab",
   "block.portalcubed.tread_plate_facade": "Tread Plate Facade",
+
   "block.portalcubed.dirty_metal_plating": "Dirty Metal Plating",
   "block.portalcubed.dirty_metal_plating_slab": "Dirty Metal Plating Slab",
   "block.portalcubed.dirty_metal_plating_stairs": "Dirty Metal Plating Stairs",
@@ -701,6 +703,23 @@
   "block.portalcubed.floor_button.easter_egg": "Fifteen Hundred Megawatt Aperture Science Heavy Duty Super-Colliding Super Button",
 
   "block.portalcubed.black_forest_cake": "Black Forest Cake",
+  "block.portalcubed.candle_black_forest_cake": "Black Forest Cake with Candle",
+  "block.portalcubed.black_candle_black_forest_cake": "Black Forest Cake with Black Candle",
+  "block.portalcubed.gray_candle_black_forest_cake": "Black Forest Cake with Gray Candle",
+  "block.portalcubed.light_gray_candle_black_forest_cake": "Black Forest Cake with Light Gray Candle",
+  "block.portalcubed.white_candle_black_forest_cake": "Black Forest Cake with White Candle",
+  "block.portalcubed.brown_candle_black_forest_cake": "Black Forest Cake with Brown Candle",
+  "block.portalcubed.red_candle_black_forest_cake": "Black Forest Cake with Red Candle",
+  "block.portalcubed.orange_candle_black_forest_cake": "Black Forest Cake with Orange Candle",
+  "block.portalcubed.yellow_candle_black_forest_cake": "Black Forest Cake with Yellow Candle",
+  "block.portalcubed.lime_candle_black_forest_cake": "Black Forest Cake with Lime Candle",
+  "block.portalcubed.green_candle_black_forest_cake": "Black Forest Cake with Green Candle",
+  "block.portalcubed.cyan_candle_black_forest_cake": "Black Forest Cake with Cyan Candle",
+  "block.portalcubed.light_blue_candle_black_forest_cake": "Black Forest Cake with Light Blue Candle",
+  "block.portalcubed.blue_candle_black_forest_cake": "Black Forest Cake with Blue Candle",
+  "block.portalcubed.purple_candle_black_forest_cake": "Black Forest Cake with Purple Candle",
+  "block.portalcubed.magenta_candle_black_forest_cake": "Black Forest Cake with Magenta Candle",
+  "block.portalcubed.pink_candle_black_forest_cake": "Black Forest Cake with Pink Candle",
 
   "death.attack.acid": "%s was dissolved in toxic goo",
   "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
