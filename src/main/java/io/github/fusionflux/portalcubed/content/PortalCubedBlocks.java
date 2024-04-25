@@ -227,6 +227,7 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.OAK_WALL_SIGN)
 			.settings(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
+					.dropsLike(LEMON_SIGN)
 			)
 			.item(BlockItemProvider::noItem)
 			.build();
@@ -243,6 +244,7 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.OAK_WALL_HANGING_SIGN)
 			.settings(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
+					.dropsLike(LEMON_HANGING_SIGN)
 			)
 			.item(BlockItemProvider::noItem)
 			.build();
