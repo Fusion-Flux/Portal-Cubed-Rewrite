@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
@@ -21,6 +22,8 @@ import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.minecraft.Util;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
@@ -67,5 +70,9 @@ public class PortalCubedItems {
 	});
 
 	public static void init() {
+		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+			if (BuiltInLootTables.SNIFFER_DIGGING.equals(id) && source.isBuiltin())
+				tableBuilder.modifyPools(builder -> builder.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));
+		});
 	}
 }
