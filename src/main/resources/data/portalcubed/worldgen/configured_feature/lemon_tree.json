@@ -37,8 +37,10 @@
     },
     "trunk_placer": {
       "type": "portalcubed:lemon_trunk_placer",
-      "min_center_height": 2,
-      "max_center_height": 2,
+      "center_height": {
+        "min_inclusive": 2,
+        "max_inclusive": 2
+      },
       "branch_count": {
         "type": "minecraft:uniform",
         "value": {

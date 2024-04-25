@@ -11,6 +11,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,10 +30,9 @@ import java.util.function.Function;
 public class LemonTruckPlacer extends TrunkPlacer {
 	public static final Codec<LemonTruckPlacer> CODEC = RecordCodecBuilder.create(
 			instance ->
-					// 32 is the max base height from trunk placer, 56 is the max base height plus max rand height, 4 is the number of horizontal directions, 16 is chunk size
+					// 32 is the max base height from trunk placer, 4 is the number of horizontal directions, 16 is chunk size
 					instance.group(
-						Codec.intRange(1, 32).fieldOf("min_center_height").forGetter(placer -> placer.minCenterHeight),
-						Codec.intRange(1, 56).fieldOf("max_center_height").forGetter(placer -> placer.maxCenterHeight),
+						IntProvider.codec(1, 32, UniformInt.CODEC).fieldOf("center_height").forGetter(placer -> placer.centerHeight),
 						IntProvider.codec(1, 4).fieldOf("branch_count").forGetter(placer -> placer.branchCount),
 						IntProvider.codec(1, 16).fieldOf("branch_distance").forGetter(placer -> placer.branchDistance)
 					)
@@ -40,15 +40,13 @@ public class LemonTruckPlacer extends TrunkPlacer {
 	);
 	public static final TrunkPlacerType<LemonTruckPlacer> TYPE = Registry.register(BuiltInRegistries.TRUNK_PLACER_TYPE, PortalCubed.id("lemon_trunk_placer"), new TrunkPlacerType<>(CODEC));
 
-	private final int minCenterHeight;
-	private final int maxCenterHeight;
+	private final UniformInt centerHeight;
 	private final IntProvider branchCount;
 	private final IntProvider branchDistance;
 
-	public LemonTruckPlacer(int minCenterHeight, int maxCenterHeight, IntProvider branchCount, IntProvider branchDistance) {
-		super(minCenterHeight, Math.max(0, maxCenterHeight - minCenterHeight), 0);
-		this.minCenterHeight = minCenterHeight;
-		this.maxCenterHeight = maxCenterHeight;
+	public LemonTruckPlacer(UniformInt centerHeight, IntProvider branchCount, IntProvider branchDistance) {
+		super(centerHeight.getMinValue(), centerHeight.getMaxValue() - centerHeight.getMaxValue(), 0);
+		this.centerHeight = centerHeight;
 		this.branchCount = branchCount;
 		this.branchDistance = branchDistance;
 	}
