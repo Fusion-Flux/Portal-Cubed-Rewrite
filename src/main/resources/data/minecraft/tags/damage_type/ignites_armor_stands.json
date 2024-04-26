@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "portalcubed:lemonade"
+    "portalcubed:lemonade",
+    "portalcubed:lemonade_player"
   ]
 }

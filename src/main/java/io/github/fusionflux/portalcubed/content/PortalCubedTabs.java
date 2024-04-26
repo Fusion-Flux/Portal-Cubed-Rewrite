@@ -403,5 +403,9 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT);
 			entries.addAfter(PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
 		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
+			entries.addAfter(Items.END_CRYSTAL, PortalCubedItems.LEMONADE);
+		});
 	}
 }
