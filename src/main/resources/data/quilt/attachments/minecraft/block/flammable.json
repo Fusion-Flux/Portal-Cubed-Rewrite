@@ -28,6 +28,10 @@
     "portalcubed:lemon_fence_gate": {
       "burn": 20,
       "spread": 5
+    },
+    "portalcubed:lemon_leaves": {
+      "burn": 60,
+      "spread": 30
     }
   }
 }

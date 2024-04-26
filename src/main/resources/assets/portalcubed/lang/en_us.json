@@ -770,6 +770,8 @@
   "entity.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "entity.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
-  "entity.portalcubed.portal_projectile": "Portal Projectile"
+  "entity.portalcubed.portal_projectile": "Portal Projectile",
+
+  "entity.portalcubed.lemonade": "Lemonade"
 
   }
