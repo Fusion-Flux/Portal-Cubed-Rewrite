@@ -163,6 +163,9 @@
   "subtitles.portalcubed.floor_button_press": "Button activates",
   "subtitles.portalcubed.floor_button_release": "Button deactivates",
 
+  "subtitles.portalcubed.old_ap_timer": "Timer ticks",
+  "subtitles.portalcubed.timer_ding": "Timer dings",
+
   "subtitles.portalcubed.crowbar_swoosh": "Crowbar swooshes",
   "subtitles.portalcubed.impact.concrete": "Concrete crumbles",
   "subtitles.portalcubed.impact.metal": "Metal clangs",
@@ -732,6 +735,8 @@
   "death.attack.landing_damage": "%1$s was hit on the head by a falling %2$s",
   "death.attack.landing_damage.player":  "%1$s was hit on the head by a falling %2$s trying to escape %3$s",
   "death.attack.landing_damage.item":  "%1$s was hit on the head by a falling %2$s trying to escape %3$s wielding %4$s",
+  "death.attack.lemonade": "%s combusted",
+  "death.attack.lemonade.player":  "%1$s combusted due to %2$s's lemonade",
 
   "entity.portalcubed.beans": "Bean Can",
   "entity.portalcubed.chair": "Office Chair",

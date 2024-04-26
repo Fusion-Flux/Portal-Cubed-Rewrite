@@ -321,6 +321,24 @@
     ],
     "subtitle": "subtitles.portalcubed.construction_cannon_missing_materials"
   },
+  "old_ap_timer": {
+    "sounds": [
+      {
+        "name": "portalcubed:old_ap_timer",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.old_ap_timer"
+  },
+  "timer_ding": {
+    "sounds": [
+      {
+        "name": "portalcubed:timer_ding",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.timer_ding"
+  },
   "sewage_step": {
     "sounds": [
       {
