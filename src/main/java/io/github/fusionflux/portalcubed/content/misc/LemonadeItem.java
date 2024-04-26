@@ -39,7 +39,7 @@ public class LemonadeItem extends Item {
 
 	public ItemStack finishArming(ItemStack stack, Level world, LivingEntity user, int armTime) {
 		if (!world.isClientSide) {
-			if ((user instanceof Player player && !player.getAbilities().mayBuild) || user.getRandom().nextInt(1000) < 19) {
+			if (user instanceof Player player && !player.getAbilities().mayBuild) {
 				world.playSound(null, user.getX(), user.getY(), user.getZ(), PortalCubedSounds.SURPRISE, user.getSoundSource(), 1f, 1f);
 			} else {
 				Lemonade lemonade = new Lemonade(world, user);
@@ -70,7 +70,7 @@ public class LemonadeItem extends Item {
 
 	@Override
 	public void onUseTick(Level world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-		if (remainingUseTicks == Lemonade.DING_TICK) user.playSound(PortalCubedSounds.TIMER_DING);
+		if (remainingUseTicks == Lemonade.DING_TICK) user.playSound(PortalCubedSounds.timerDing(user.getRandom()));
 		if (remainingUseTicks % Lemonade.TICKS_PER_TICK == 0 && (remainingUseTicks != 0 && remainingUseTicks != (this.getUseDuration(stack) - Lemonade.DING_TICK))) user.playSound(PortalCubedSounds.OLD_AP_TIMER);
 	}
 

@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content;
 
+import net.minecraft.util.RandomSource;
+
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -42,6 +44,10 @@ public class PortalCubedSounds {
 	public static SoundEvent register(String name) {
 		var id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
+	}
+
+	public static SoundEvent timerDing(RandomSource random) {
+		return random.nextInt(10) >= random.nextInt(100) ? SURPRISE : TIMER_DING;
 	}
 
 	@ClientOnly
