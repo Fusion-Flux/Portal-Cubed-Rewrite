@@ -25,14 +25,17 @@ import java.util.Objects;
 public class PortalCubedDamageSources {
 	public static final ResourceKey<DamageType> LANDING_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("landing_damage"));
 	public static final ResourceKey<DamageType> LEMONADE = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("lemonade"));
+	public static final ResourceKey<DamageType> LEMONADE_PLAYER = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("lemonade_player"));
 
 	private final Holder.Reference<DamageType> landingDamageType;
 	private final Holder.Reference<DamageType> lemonadeDamageType;
+	private final Holder.Reference<DamageType> lemonadePlayerDamageType;
 
 	public PortalCubedDamageSources(RegistryAccess registryAccess) {
 		Registry<DamageType> damageTypes = registryAccess.registryOrThrow(Registries.DAMAGE_TYPE);
 		this.landingDamageType = damageTypes.getHolderOrThrow(LANDING_DAMAGE);
 		this.lemonadeDamageType = damageTypes.getHolderOrThrow(LEMONADE);
+		this.lemonadePlayerDamageType = damageTypes.getHolderOrThrow(LEMONADE_PLAYER);
 	}
 
 	public static DamageSource landingDamage(Level level, @Nullable Entity source, @Nullable Entity attacked) {
@@ -43,7 +46,8 @@ public class PortalCubedDamageSources {
 	}
 
 	public static DamageSource lemonade(Level level, @Nullable Entity source, @Nullable Entity attacked) {
-		return new DamageSource(((LevelExt) level).pc$damageSources().lemonadeDamageType, source, attacked);
+		PortalCubedDamageSources damageSources = ((LevelExt) level).pc$damageSources();
+		return new DamageSource(attacked != null && source != null ? damageSources.lemonadePlayerDamageType : damageSources.lemonadeDamageType, source, attacked);
 	}
 
 	public static class LandingDamageSource extends DamageSource {

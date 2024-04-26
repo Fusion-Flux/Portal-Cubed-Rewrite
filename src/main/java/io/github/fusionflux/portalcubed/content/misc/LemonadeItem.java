@@ -78,6 +78,8 @@ public class LemonadeItem extends Item {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
+		if (isArmed(stack))
+			return InteractionResultHolder.consume(finishArming(stack, world, user, this.getUseDuration(stack)));
 		setArmed(true, stack);
 
 		// sounds
