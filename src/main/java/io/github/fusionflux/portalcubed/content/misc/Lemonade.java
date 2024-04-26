@@ -51,7 +51,7 @@ public class Lemonade extends ThrowableItemProjectile {
 				discard();
 				return;
 			}
-			if (explodeTicks == DING_TICK) playSound(PortalCubedSounds.TIMER_DING);
+			if (explodeTicks == DING_TICK) playSound(PortalCubedSounds.timerDing(random));
 			if (explodeTicks % TICKS_PER_TICK == 0 && explodeTicks != 0) playSound(PortalCubedSounds.OLD_AP_TIMER);
 		}
 		super.tick();
