@@ -182,6 +182,16 @@
   "advancement.portalcubed.root.title": "Portal Cubed",
   "advancement.portalcubed.root.description": "Welcome to Aperture Science! You're here because we want the best, and you are it.",
 
+  "advancement.portalcubed.portal_gun.title": "Thinking with Portals",
+  "advancement.portalcubed.portal_gun.description": "Obtain a Portal Gun",
+  "advancement.portalcubed.construction_cannon.title": "Trust me, I'm an Engineer",
+  "advancement.portalcubed.construction_cannon.description": "Use a Construction Cannon",
+
+  "advancement.portalcubed.lemon.title": "Get Mad!",
+  "advancement.portalcubed.lemon.description": "Obtain a Lemon",
+  "advancement.portalcubed.lemonade.title": "Burn life's house down!",
+  "advancement.portalcubed.lemonade.description": "Create a combustible lemon",
+
   "advancement.portalcubed.hammer_time.title": "Stop - Hammer Time!",
   "advancement.portalcubed.hammer_time.description": "Use a Hammer to configure a test element",
   "advancement.portalcubed.crowbar.title": "Crossover Episode",
@@ -190,7 +200,7 @@
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",
   "advancement.portalcubed.cubes.title": "Cubes to Keep You Company",
-  "advancement.portalcubed.cubes.description": "Obtain one of every cube type",
+  "advancement.portalcubed.cubes.description": "Obtain at least one of every cube type",
   "advancement.portalcubed.hoopy.title": "The Next Big Thing",
   "advancement.portalcubed.hoopy.description": "Hold Hoopy the Hoop",
   "advancement.portalcubed.rattmann.title": "I am Rattmann",
