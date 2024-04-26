@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "portalcubed:item/lemon"
+    "layer0": "portalcubed:item/lemonade"
     },
     "overrides": [
         {
             "predicate": {
-                "armed": 1
+                "portalcubed:armed": 1
             },
             "model": "portalcubed:item/lemonade_armed"
         }

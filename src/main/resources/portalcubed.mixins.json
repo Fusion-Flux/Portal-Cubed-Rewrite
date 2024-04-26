@@ -12,7 +12,8 @@
     "MultifaceBlockAccessor",
     "PlayerMixin",
     "ServerLevelMixin",
-    "SlabBlockMixin"
+    "SlabBlockMixin",
+    "ThrowableProjectileMixin"
   ],
   "client": [
     "client.AbstractContainerScreenMixin",
