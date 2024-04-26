@@ -229,7 +229,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
 			output.accept(PortalCubedItems.LEMON);
-//			output.accept(PortalCubedItems.LEMONADE);
+			output.accept(PortalCubedItems.LEMONADE);
 			output.accept(PortalCubedItems.LEMON_BOAT);
 			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
 
