@@ -25,12 +25,13 @@ public class LemonadeItem extends Item {
 		super(settings);
 	}
 
-	public static void setArmed(boolean armed, ItemStack stack) {
+	public static ItemStack setArmed(boolean armed, ItemStack stack) {
 		if (armed) {
 			stack.getOrCreateTag().putBoolean(ARMED_KEY, true);
 		} else if (stack.hasTag() && stack.getTag().contains(ARMED_KEY)) {
 			stack.getTag().remove(ARMED_KEY);
 		}
+		return stack;
 	}
 
 	public static boolean isArmed(ItemStack stack) {
@@ -45,7 +46,7 @@ public class LemonadeItem extends Item {
 				Lemonade lemonade = new Lemonade(world, user);
 				lemonade.setItem(stack);
 
-				lemonade.explodeTicks = this.getUseDuration(stack) - armTime;
+				lemonade.explodeTicks = stack.getUseDuration() - armTime;
 				float power = Mth.lerp(Math.min(1, armTime / Lemonade.TICKS_PER_TICK), MIN_THROW_POWER, MAX_THROW_POWER);
 				lemonade.shootFromRotation(user, user.getXRot(), user.getYRot(), 0f, power, 1f);
 
@@ -59,19 +60,19 @@ public class LemonadeItem extends Item {
 
 	@Override
 	public void releaseUsing(ItemStack stack, Level world, LivingEntity user, int remainingUseTicks) {
-		user.setItemInHand(user.getUsedItemHand(), finishArming(stack, world, user, this.getUseDuration(stack) - remainingUseTicks));
+		user.setItemInHand(user.getUsedItemHand(), finishArming(stack, world, user, user.getTicksUsingItem()));
 	}
 
 	@NotNull
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
-		return finishArming(stack, world, user, this.getUseDuration(stack));
+		return finishArming(stack, world, user, stack.getUseDuration());
 	}
 
 	@Override
 	public void onUseTick(Level world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if (remainingUseTicks == Lemonade.DING_TICK) user.playSound(PortalCubedSounds.timerDing(user.getRandom()));
-		if (remainingUseTicks % Lemonade.TICKS_PER_TICK == 0 && (remainingUseTicks != 0 && remainingUseTicks != (this.getUseDuration(stack) - Lemonade.DING_TICK))) user.playSound(PortalCubedSounds.OLD_AP_TIMER);
+		if (remainingUseTicks % Lemonade.TICKS_PER_TICK == 0 && remainingUseTicks != 0) user.playSound(PortalCubedSounds.OLD_AP_TIMER);
 	}
 
 	@NotNull

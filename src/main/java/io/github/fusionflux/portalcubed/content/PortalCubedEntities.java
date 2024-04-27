@@ -37,7 +37,7 @@ public class PortalCubedEntities {
 
 	public static final EntityType<Lemonade> LEMONADE = REGISTRAR.entities.create("lemonade", Lemonade::create)
 			.configure(b -> b.maxChunkTrackingRange(4).trackingTickInterval(10))
-			.size(EntityDimensions.fixed(0.25f, 0.25f))
+			.size(EntityDimensions.fixed(0.375f, 0.375f))
 			.renderer(() -> () -> ThrownItemRenderer::new)
 			.build();
 	public static final ResourceKey<TerraformBoatType> LEMON_BOAT = TerraformBoatTypeRegistry.createKey(PortalCubed.id("lemon"));

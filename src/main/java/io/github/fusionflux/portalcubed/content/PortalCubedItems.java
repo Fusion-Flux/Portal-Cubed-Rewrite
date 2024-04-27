@@ -8,6 +8,7 @@ import java.util.Map;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.misc.LemonadeDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
@@ -77,6 +78,7 @@ public class PortalCubedItems {
 	});
 
 	public static void init() {
+		DispenserBlock.registerBehavior(LEMONADE, new LemonadeDispenseBehavior());
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
 			if (BuiltInLootTables.SNIFFER_DIGGING.equals(id) && source.isBuiltin())
 				tableBuilder.modifyPools(builder -> builder.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));

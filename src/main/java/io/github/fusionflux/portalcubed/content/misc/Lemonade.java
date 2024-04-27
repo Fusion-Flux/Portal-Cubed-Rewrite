@@ -31,6 +31,10 @@ public class Lemonade extends ThrowableItemProjectile {
 		super(PortalCubedEntities.LEMONADE, owner, world);
 	}
 
+	public Lemonade(Level world, double x, double y, double z) {
+		super(PortalCubedEntities.LEMONADE, x, y, z, world);
+	}
+
 	public static Lemonade create(EntityType<Lemonade> entityType, Level level) {
 		return new Lemonade(entityType, level);
 	}

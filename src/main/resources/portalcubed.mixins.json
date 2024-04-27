@@ -9,8 +9,10 @@
     "CandleCakeBlockMixin",
     "EntityMixin",
     "LevelMixin",
+    "LivingEntityMixin",
     "MultifaceBlockAccessor",
     "PlayerMixin",
+    "ServerGamePacketListenerImplMixin",
     "ServerLevelMixin",
     "SlabBlockMixin",
     "ThrowableProjectileMixin"
