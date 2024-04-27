@@ -17,8 +17,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.item.Item;
 
-import net.minecraft.world.item.ItemStack;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -53,12 +51,7 @@ public class RangedBowAttackGoalMixin {
 
 	@WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/RangedAttackMob;performRangedAttack(Lnet/minecraft/world/entity/LivingEntity;F)V"))
 	private boolean finishArmingInsteadOfArrow(RangedAttackMob instance, LivingEntity target, float power) {
-		if (isLemonadeAttackGoal) {
-			// this is required because for some reason the setItemInHand from LivingEntityMixin does not work no matter what
-			this.mob.setItemInHand(this.mob.getUsedItemHand(), ItemStack.EMPTY);
-			return false;
-		}
-		return true;
+		return !isLemonadeAttackGoal;
 	}
 
 	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/ProjectileUtil;getWeaponHoldingHand(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/Item;)Lnet/minecraft/world/InteractionHand;"))
@@ -72,7 +65,7 @@ public class RangedBowAttackGoalMixin {
 	private void armLemonade(Monster actor, InteractionHand hand, Operation<Void> original) {
 		if (isLemonadeAttackGoal) {
 			// 1 second offset to make self explosion slightly less rare
-			((LemonadeAttackGoal<?>) (Object) this).timeUntilThrow = actor.getRandom().nextInt(Lemonade.TICKS_PER_TICK, LemonadeItem.MAX_ARM_TIME + Lemonade.TICKS_PER_TICK);
+			((LemonadeAttackGoal<?>) (Object) this).timeUntilThrow = actor.getRandom().nextInt(Lemonade.TICKS_PER_TICK, Lemonade.MAX_ARM_TIME + Lemonade.TICKS_PER_TICK);
 			actor.setItemInHand(hand, LemonadeItem.setArmed(true, actor.getItemInHand(hand)));
 		}
 		original.call(actor, hand);

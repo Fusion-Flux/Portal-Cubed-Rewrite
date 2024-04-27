@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class LemonadeItem extends Item {
-	public static final int MAX_ARM_TIME = (20 * 5) + Lemonade.DING_TICK;
 	public static final float MIN_THROW_POWER = 0.375f;
 	public static final float MAX_THROW_POWER = 0.8f;
 	public static final String ARMED_KEY = "armed";
@@ -50,7 +49,7 @@ public class LemonadeItem extends Item {
 				float power = Mth.lerp(Math.min(1, armTime / Lemonade.TICKS_PER_TICK), MIN_THROW_POWER, MAX_THROW_POWER);
 				lemonade.shootFromRotation(user, user.getXRot(), user.getYRot(), 0f, power, 1f);
 
-				if (world.addFreshEntity(lemonade) && (user instanceof Player player && !player.isCreative()))
+				if (world.addFreshEntity(lemonade) && (!(user instanceof Player player) || !player.isCreative()))
 					return ItemStack.EMPTY;
 			}
 			setArmed(false, stack);
@@ -64,7 +63,7 @@ public class LemonadeItem extends Item {
 	}
 
 	@NotNull
-	@Override
+ 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
 		return finishArming(stack, world, user, stack.getUseDuration());
 	}
@@ -98,7 +97,7 @@ public class LemonadeItem extends Item {
 
 	@Override
 	public int getUseDuration(ItemStack stack) {
-		return MAX_ARM_TIME;
+		return Lemonade.MAX_ARM_TIME;
 	}
 
 	@NotNull

@@ -15,7 +15,7 @@ public class LemonadeDispenseBehavior extends AbstractProjectileDispenseBehavior
 	protected Projectile getProjectile(Level world, Position position, ItemStack stack) {
 		return Util.make(new Lemonade(world, position.x(), position.y(), position.z()), lemonade -> {
 			lemonade.setItem(LemonadeItem.setArmed(true, stack));
-			lemonade.explodeTicks = LemonadeItem.MAX_ARM_TIME;
+			lemonade.explodeTicks = Lemonade.MAX_ARM_TIME;
 		});
 	}
 

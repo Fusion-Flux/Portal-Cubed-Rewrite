@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class Lemonade extends ThrowableItemProjectile {
 	public static final int TICKS_PER_TICK = 20;
 	public static final int DING_TICK = 10;
+	public static final int MAX_ARM_TIME = (20 * 5) + DING_TICK;
 	private static final float MIN_EXPLOSION_POWER = 1.5f;
 	private static final float MAX_EXPLOSION_POWER = 2.5f;
 
