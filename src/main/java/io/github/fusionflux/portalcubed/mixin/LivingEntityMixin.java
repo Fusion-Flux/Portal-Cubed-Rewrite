@@ -20,7 +20,7 @@ public class LivingEntityMixin {
 
 	@Inject(method = {"releaseUsingItem", "completeUsingItem"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;stopUsingItem()V"))
 	private void dontFinishLemonadeArmingAgain(CallbackInfo ci) {
-		lemonadeArmingFinished = true;
+		this.lemonadeArmingFinished = true;
 	}
 
 	@Inject(method = "stopUsingItem", at = @At("HEAD"))
