@@ -53,9 +53,12 @@ public class RangedBowAttackGoalMixin {
 
 	@WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/RangedAttackMob;performRangedAttack(Lnet/minecraft/world/entity/LivingEntity;F)V"))
 	private boolean finishArmingInsteadOfArrow(RangedAttackMob instance, LivingEntity target, float power) {
-		// this is required because for some reason the setItemInHand from LivingEntityMixin does not work no matter what
-		this.mob.setItemInHand(this.mob.getUsedItemHand(), ItemStack.EMPTY);
-		return !isLemonadeAttackGoal;
+		if (isLemonadeAttackGoal) {
+			// this is required because for some reason the setItemInHand from LivingEntityMixin does not work no matter what
+			this.mob.setItemInHand(this.mob.getUsedItemHand(), ItemStack.EMPTY);
+			return false;
+		}
+		return true;
 	}
 
 	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/ProjectileUtil;getWeaponHoldingHand(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/Item;)Lnet/minecraft/world/InteractionHand;"))
