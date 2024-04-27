@@ -29,9 +29,12 @@ public class LivingEntityMixin {
 		Level level = self.level();
 		if (!level.isClientSide && !lemonadeArmingFinished) {
 			ItemStack useItem = self.getUseItem();
-			if (useItem.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(useItem))
+			if (useItem.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(useItem)) {
+				// setting to true here isn't useless in some rare cases (skeletons for example) setItemInHand might cause another invoke of this method
+				this.lemonadeArmingFinished = true;
 				self.setItemInHand(self.getUsedItemHand(), lemonade.finishArming(useItem, level, self, self.getTicksUsingItem()));
+			}
 		}
-		lemonadeArmingFinished = false;
+		this.lemonadeArmingFinished = false;
 	}
 }
