@@ -30,7 +30,7 @@ public class LivingEntityMixin {
 		if (!level.isClientSide && !lemonadeArmingFinished) {
 			ItemStack useItem = self.getUseItem();
 			if (useItem.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(useItem))
-				self.setItemInHand(self.getUsedItemHand(), lemonade.finishArming(useItem, self.level(), self, self.getTicksUsingItem()));
+				self.setItemInHand(self.getUsedItemHand(), lemonade.finishArming(useItem, level, self, self.getTicksUsingItem()));
 		}
 		lemonadeArmingFinished = false;
 	}
