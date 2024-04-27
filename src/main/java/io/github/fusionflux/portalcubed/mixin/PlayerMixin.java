@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin implements PlayerExt {
+public class PlayerMixin implements PlayerExt {
 	@Unique
 	@Nullable
 	private HoldableEntity heldEntity;
