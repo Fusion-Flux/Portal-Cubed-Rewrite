@@ -4,6 +4,7 @@ import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarBlock;
+import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
@@ -723,6 +724,12 @@ public class PortalCubedBlocks {
 					)
 			)
 			.build();
+
+	public static final PropBarrierBlock PROP_BARRIER = REGISTRAR.blocks.create("prop_barrier", PropBarrierBlock::new)
+			.copyFrom(Blocks.BARRIER)
+			.settings(QuiltBlockSettings::dynamicShape)
+			.build();
+
 	public static void init() {
 	}
 }
