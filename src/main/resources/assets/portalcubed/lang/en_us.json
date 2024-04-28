@@ -695,6 +695,8 @@
   "block.portalcubed.magenta_candle_black_forest_cake": "Black Forest Cake with Magenta Candle",
   "block.portalcubed.pink_candle_black_forest_cake": "Black Forest Cake with Pink Candle",
 
+  "block.portalcubed.prop_blocker": "Prop Blocker",
+
   "death.attack.acid": "%s was dissolved in toxic goo",
   "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
   "death.attack.fizzle": "%s was fizzled",
