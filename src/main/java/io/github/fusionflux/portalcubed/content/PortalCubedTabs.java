@@ -352,5 +352,10 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
 			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
 		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.OP_BLOCKS).register(entries -> {
+			if (entries.shouldShowOpRestrictedItems())
+				entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER);
+		});
 	}
 }

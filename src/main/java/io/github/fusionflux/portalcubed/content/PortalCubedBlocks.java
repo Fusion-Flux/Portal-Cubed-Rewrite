@@ -12,6 +12,8 @@ import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GlazedTerracottaBlock;
@@ -728,6 +730,7 @@ public class PortalCubedBlocks {
 	public static final PropBarrierBlock PROP_BARRIER = REGISTRAR.blocks.create("prop_barrier", PropBarrierBlock::new)
 			.copyFrom(Blocks.BARRIER)
 			.settings(QuiltBlockSettings::dynamicShape)
+			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 
 	public static void init() {
