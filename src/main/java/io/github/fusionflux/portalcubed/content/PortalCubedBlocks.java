@@ -196,7 +196,7 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.OAK_PRESSURE_PLATE)
 			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
-	private static final ResourceLocation LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
+	public static final ResourceLocation LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
 	public static final TerraformSignBlock LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_SIGN)
 			.settings(settings -> settings
@@ -212,8 +212,8 @@ public class PortalCubedBlocks {
 			)
 			.item(BlockItemProvider::noItem)
 			.build();
-	private static final ResourceLocation LEMON_HANGING_SIGN_TEXTURE = PortalCubed.id("entity/signs/hanging/lemon");
-	private static final ResourceLocation LEMON_HANGING_SIGN_GUI_TEXTURE = PortalCubed.id("textures/gui/hanging_signs/lemon");
+	public static final ResourceLocation LEMON_HANGING_SIGN_TEXTURE = PortalCubed.id("entity/signs/hanging/lemon");
+	public static final ResourceLocation LEMON_HANGING_SIGN_GUI_TEXTURE = PortalCubed.id("textures/gui/hanging_signs/lemon");
 	public static final TerraformHangingSignBlock LEMON_HANGING_SIGN = REGISTRAR.blocks.create("lemon_hanging_sign", properties -> new TerraformHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_HANGING_SIGN)
 			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
