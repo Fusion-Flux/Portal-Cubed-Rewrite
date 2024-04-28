@@ -163,6 +163,9 @@
   "subtitles.portalcubed.floor_button_press": "Button activates",
   "subtitles.portalcubed.floor_button_release": "Button deactivates",
 
+  "subtitles.portalcubed.old_ap_timer": "Timer ticks",
+  "subtitles.portalcubed.timer_ding": "Timer dings",
+
   "subtitles.portalcubed.crowbar_swoosh": "Crowbar swooshes",
   "subtitles.portalcubed.impact.concrete": "Concrete crumbles",
   "subtitles.portalcubed.impact.metal": "Metal clangs",
@@ -179,6 +182,16 @@
   "advancement.portalcubed.root.title": "Portal Cubed",
   "advancement.portalcubed.root.description": "Welcome to Aperture Science! You're here because we want the best, and you are it.",
 
+  "advancement.portalcubed.portal_gun.title": "Thinking with Portals",
+  "advancement.portalcubed.portal_gun.description": "Obtain a Portal Gun",
+  "advancement.portalcubed.construction_cannon.title": "Trust me, I'm an Engineer",
+  "advancement.portalcubed.construction_cannon.description": "Use a Construction Cannon",
+
+  "advancement.portalcubed.lemon.title": "Get Mad!",
+  "advancement.portalcubed.lemon.description": "Obtain a Lemon",
+  "advancement.portalcubed.lemonade.title": "Burn life's house down!",
+  "advancement.portalcubed.lemonade.description": "Create a combustible lemon",
+
   "advancement.portalcubed.hammer_time.title": "Stop - Hammer Time!",
   "advancement.portalcubed.hammer_time.description": "Use a Hammer to configure a test element",
   "advancement.portalcubed.crowbar.title": "Crossover Episode",
@@ -187,7 +200,7 @@
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",
   "advancement.portalcubed.cubes.title": "Cubes to Keep You Company",
-  "advancement.portalcubed.cubes.description": "Obtain one of every cube type",
+  "advancement.portalcubed.cubes.description": "Obtain at least one of every cube type",
   "advancement.portalcubed.hoopy.title": "The Next Big Thing",
   "advancement.portalcubed.hoopy.description": "Hold Hoopy the Hoop",
   "advancement.portalcubed.rattmann.title": "I am Rattmann",
@@ -256,8 +269,8 @@
   "item.portalcubed.companion_cube.2": "Dirty Weighted Companion Cube",
   "item.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
   "item.portalcubed.portal_1_companion_cube.1": "Charred Portal 1 Weighted Companion Cube",
-  "item.portalcubed.redirection_cube": "Discouragement Redirection Cube",
-  "item.portalcubed.redirection_cube.2": "Dirty Discouragement Redirection Cube",
+  "item.portalcubed.redirection_cube": "Redirection Cube",
+  "item.portalcubed.redirection_cube.2": "Dirty Redirection Cube",
   "item.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "item.portalcubed.schrodinger_cube.2": "Schrödinger Cube",
   "item.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
@@ -667,6 +680,32 @@
   "block.portalcubed.yellow_2x2_chamber_exterior_b_bottom_right": "Yellow 2x2 Chamber Exterior B Bottom Right",
   "block.portalcubed.yellow_2x2_chamber_exterior_b_top_right": "Yellow 2x2 Chamber Exterior B Top Right",
 
+  "block.portalcubed.lemon_button": "Lemon Button",
+  "block.portalcubed.lemon_door": "Lemon Door",
+  "block.portalcubed.lemon_fence": "Lemon Fence",
+  "block.portalcubed.lemon_fence_gate": "Lemon Fence Gate",
+  "block.portalcubed.lemon_hanging_sign": "Lemon Hanging Sign",
+  "block.portalcubed.lemon_leaves": "Lemon Leaves",
+  "block.portalcubed.lemon_log": "Lemon Log",
+  "block.portalcubed.lemon_planks": "Lemon Planks",
+  "block.portalcubed.lemon_pressure_plate": "Lemon Pressure Plate",
+  "block.portalcubed.lemon_sapling": "Lemon Sapling",
+  "block.portalcubed.lemon_sign": "Lemon Sign",
+  "block.portalcubed.lemon_slab": "Lemon Slab",
+  "block.portalcubed.lemon_stairs": "Lemon Stairs",
+  "block.portalcubed.lemon_trapdoor": "Lemon Trapdoor",
+  "block.portalcubed.lemon_wall_hanging_sign": "Lemon Wall Hanging Sign",
+  "block.portalcubed.lemon_wall_sign": "Lemon Wall Sign",
+  "block.portalcubed.lemon_wood": "Lemon Wood",
+  "block.portalcubed.potted_lemon_sapling": "Potted Lemon Sapling",
+  "block.portalcubed.stripped_lemon_log": "Stripped Lemon Log",
+  "block.portalcubed.stripped_lemon_wood": "Stripped Lemon Wood",
+  "item.portalcubed.lemon_boat": "Lemon Boat",
+  "item.portalcubed.lemon_chest_boat": "Lemon Boat with Chest",
+  "item.portalcubed.lemon": "Lemon",
+  "item.portalcubed.lemonade": "Lemonade",
+
+
   "block.portalcubed.pedestal_button": "Pedestal Button",
   "block.portalcubed.old_ap_pedestal_button": "Old Aperture Pedestal Button",
 
@@ -708,6 +747,8 @@
   "death.attack.landing_damage": "%1$s was hit on the head by a falling %2$s",
   "death.attack.landing_damage.player":  "%1$s was hit on the head by a falling %2$s trying to escape %3$s",
   "death.attack.landing_damage.item":  "%1$s was hit on the head by a falling %2$s trying to escape %3$s wielding %4$s",
+  "death.attack.lemonade": "%s combusted",
+  "death.attack.lemonade.player":  "%1$s combusted due to %2$s's lemonade",
 
   "entity.portalcubed.beans": "Bean Can",
   "entity.portalcubed.chair": "Office Chair",
@@ -727,10 +768,12 @@
   "entity.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
   "entity.portalcubed.companion_cube": "Weighted Companion Cube",
   "entity.portalcubed.storage_cube": "Weighted Storage Cube",
-  "entity.portalcubed.redirection_cube": "Discouragement Redirection Cube",
+  "entity.portalcubed.redirection_cube": "Redirection Cube",
   "entity.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "entity.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
-  "entity.portalcubed.portal_projectile": "Portal Projectile"
+  "entity.portalcubed.portal_projectile": "Portal Projectile",
+
+  "entity.portalcubed.lemonade": "Lemonade"
 
   }

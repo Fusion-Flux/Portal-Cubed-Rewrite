@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_left_open",
+  "textures": {
+    "bottom": "portalcubed:block/lemon_door_bottom",
+    "top": "portalcubed:block/lemon_door_top"
+  }
+}

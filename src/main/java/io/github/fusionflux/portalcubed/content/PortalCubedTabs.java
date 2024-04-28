@@ -17,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -57,6 +58,23 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
 			output.accept(PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
 			output.accept(PortalCubedBlocks.MAGNESIUM_BLOCK);
+			output.accept(PortalCubedBlocks.LEMON_LOG);
+			output.accept(PortalCubedBlocks.LEMON_WOOD);
+			output.accept(PortalCubedBlocks.STRIPPED_LEMON_LOG);
+			output.accept(PortalCubedBlocks.STRIPPED_LEMON_WOOD);
+			output.accept(PortalCubedBlocks.LEMON_PLANKS);
+			output.accept(PortalCubedBlocks.LEMON_STAIRS);
+			output.accept(PortalCubedBlocks.LEMON_SLAB);
+			output.accept(PortalCubedBlocks.LEMON_FENCE);
+			output.accept(PortalCubedBlocks.LEMON_FENCE_GATE);
+			output.accept(PortalCubedBlocks.LEMON_DOOR);
+			output.accept(PortalCubedBlocks.LEMON_TRAPDOOR);
+			output.accept(PortalCubedBlocks.LEMON_PRESSURE_PLATE);
+			output.accept(PortalCubedBlocks.LEMON_BUTTON);
+			output.accept(PortalCubedBlocks.LEMON_LEAVES);
+			output.accept(PortalCubedBlocks.LEMON_SAPLING);
+			output.accept(PortalCubedBlocks.LEMON_SIGN);
+			output.accept(PortalCubedBlocks.LEMON_HANGING_SIGN);
 			for (PanelMaterial material : PanelMaterial.values()) {
 				Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
 				for (PanelPart part : PanelPart.values()) {
@@ -211,6 +229,10 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
+			output.accept(PortalCubedItems.LEMON);
+			output.accept(PortalCubedItems.LEMONADE);
+			output.accept(PortalCubedItems.LEMON_BOAT);
+			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
 
 			// ----- portal guns -----
 
@@ -341,16 +363,51 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.DEEPSLATE_IRON_ORE, PortalCubedBlocks.MAGNESIUM_ORE);
 			entries.addAfter(PortalCubedBlocks.MAGNESIUM_ORE, PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
 			entries.addAfter(Items.RAW_IRON_BLOCK, PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
+			entries.addAfter(Blocks.CHERRY_LOG, PortalCubedBlocks.LEMON_LOG);
+			entries.addAfter(Blocks.CHERRY_LEAVES, PortalCubedBlocks.LEMON_LEAVES);
+			entries.addAfter(Blocks.CHERRY_SAPLING, PortalCubedBlocks.LEMON_SAPLING);
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
 			entries.addAfter(Items.CHAIN, PortalCubedBlocks.MAGNESIUM_BLOCK);
+			entries.addAfter(Blocks.CHERRY_BUTTON, PortalCubedBlocks.LEMON_LOG);
+			entries.addAfter(PortalCubedBlocks.LEMON_LOG, PortalCubedBlocks.LEMON_WOOD);
+			entries.addAfter(PortalCubedBlocks.LEMON_WOOD, PortalCubedBlocks.STRIPPED_LEMON_LOG);
+			entries.addAfter(PortalCubedBlocks.STRIPPED_LEMON_LOG, PortalCubedBlocks.STRIPPED_LEMON_WOOD);
+			entries.addAfter(PortalCubedBlocks.STRIPPED_LEMON_WOOD, PortalCubedBlocks.LEMON_PLANKS);
+			entries.addAfter(PortalCubedBlocks.LEMON_PLANKS, PortalCubedBlocks.LEMON_STAIRS);
+			entries.addAfter(PortalCubedBlocks.LEMON_STAIRS, PortalCubedBlocks.LEMON_SLAB);
+			entries.addAfter(PortalCubedBlocks.LEMON_SLAB, PortalCubedBlocks.LEMON_FENCE);
+			entries.addAfter(PortalCubedBlocks.LEMON_FENCE, PortalCubedBlocks.LEMON_FENCE_GATE);
+			entries.addAfter(PortalCubedBlocks.LEMON_FENCE_GATE, PortalCubedBlocks.LEMON_DOOR);
+			entries.addAfter(PortalCubedBlocks.LEMON_DOOR, PortalCubedBlocks.LEMON_TRAPDOOR);
+			entries.addAfter(PortalCubedBlocks.LEMON_TRAPDOOR, PortalCubedBlocks.LEMON_PRESSURE_PLATE);
+			entries.addAfter(PortalCubedBlocks.LEMON_PRESSURE_PLATE, PortalCubedBlocks.LEMON_BUTTON);
+
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
 			entries.addAfter(Items.RAW_IRON, PortalCubedItems.RAW_MAGNESIUM);
 			entries.addAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
 			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {
+			entries.addAfter(Items.ENCHANTED_GOLDEN_APPLE, PortalCubedItems.LEMON);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
+			entries.addAfter(Blocks.CHERRY_HANGING_SIGN, PortalCubedItems.LEMON_SIGN);
+			entries.addAfter(PortalCubedItems.LEMON_SIGN, PortalCubedItems.LEMON_HANGING_SIGN);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
+			entries.addAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT);
+			entries.addAfter(PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
+			entries.addAfter(Items.END_CRYSTAL, PortalCubedItems.LEMONADE);
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.OP_BLOCKS).register(entries -> {

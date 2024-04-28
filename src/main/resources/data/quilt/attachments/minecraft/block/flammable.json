@@ -4,6 +4,34 @@
     "#portalcubed:magnesium_fire_base_blocks": {
       "burn": 1,
       "spread": 20
+    },
+    "#portalcubed:lemon_logs": {
+      "burn": 5,
+      "spread": 5
+    },
+    "portalcubed:lemon_planks": {
+      "burn": 20,
+      "spread": 5
+    },
+    "portalcubed:lemon_slab": {
+      "burn": 20,
+      "spread": 5
+    },
+    "portalcubed:lemon_stairs": {
+      "burn": 20,
+      "spread": 5
+    },
+    "portalcubed:lemon_fence": {
+      "burn": 20,
+      "spread": 5
+    },
+    "portalcubed:lemon_fence_gate": {
+      "burn": 20,
+      "spread": 5
+    },
+    "portalcubed:lemon_leaves": {
+      "burn": 60,
+      "spread": 30
     }
   }
 }

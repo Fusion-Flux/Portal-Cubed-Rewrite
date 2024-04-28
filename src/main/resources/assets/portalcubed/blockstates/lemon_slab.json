@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/lemon_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/lemon_planks"
+    },
+    "type=top": {
+      "model": "portalcubed:block/lemon_slab_top"
+    }
+  }
+}

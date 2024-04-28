@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "portalcubed:block/lemon_planks",
+    "side": "portalcubed:block/lemon_planks",
+    "top": "portalcubed:block/lemon_planks"
+  }
+}
