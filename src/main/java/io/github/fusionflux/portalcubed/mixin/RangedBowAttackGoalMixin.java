@@ -65,7 +65,7 @@ public class RangedBowAttackGoalMixin {
 	private void armLemonade(Monster actor, InteractionHand hand, Operation<Void> original) {
 		if (isLemonadeAttackGoal) {
 			// 1 second offset to make self explosion slightly less rare
-			((LemonadeAttackGoal<?>) (Object) this).timeUntilThrow = actor.getRandom().nextInt(Lemonade.TICKS_PER_TICK, Lemonade.MAX_ARM_TIME + Lemonade.TICKS_PER_TICK);
+			((LemonadeAttackGoal<?>) (Object) this).timeUntilThrow = actor.getRandom().nextInt(Lemonade.TICKS_PER_TIMER_TICK, Lemonade.MAX_ARM_TIME + Lemonade.TICKS_PER_TIMER_TICK);
 			actor.setItemInHand(hand, LemonadeItem.setArmed(true, actor.getItemInHand(hand)));
 		}
 		original.call(actor, hand);

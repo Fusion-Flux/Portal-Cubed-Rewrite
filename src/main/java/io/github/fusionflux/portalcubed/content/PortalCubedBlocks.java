@@ -139,27 +139,19 @@ public class PortalCubedBlocks {
 	// ----- lemon -----
 	public static final RotatedPillarBlock LEMON_LOG = REGISTRAR.blocks.create("lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.OAK_LOG)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_GRAY)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
 			.build();
 	public static final RotatedPillarBlock STRIPPED_LEMON_LOG = REGISTRAR.blocks.create("stripped_lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.STRIPPED_OAK_LOG)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final RotatedPillarBlock LEMON_WOOD = REGISTRAR.blocks.create("lemon_wood", RotatedPillarBlock::new)
 			.copyFrom(Blocks.STRIPPED_OAK_WOOD)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_GRAY)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
 			.build();
 	public static final RotatedPillarBlock STRIPPED_LEMON_WOOD = REGISTRAR.blocks.create("stripped_lemon_wood", RotatedPillarBlock::new)
 			.copyFrom(Blocks.OAK_WOOD)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final LeavesBlock LEMON_LEAVES = REGISTRAR.blocks.create("lemon_leaves", LeavesBlock::new)
 			.copyFrom(Blocks.OAK_LEAVES)
@@ -175,45 +167,31 @@ public class PortalCubedBlocks {
 			.build();
 	public static final Block LEMON_PLANKS = REGISTRAR.blocks.create("lemon_planks", Block::new)
 			.copyFrom(Blocks.OAK_PLANKS)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final SlabBlock LEMON_SLAB = REGISTRAR.blocks.create("lemon_slab", SlabBlock::new)
 			.copyFrom(Blocks.OAK_SLAB)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final SaneStairBlock LEMON_STAIRS = REGISTRAR.blocks.create("lemon_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.OAK_STAIRS)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final FenceBlock LEMON_FENCE = REGISTRAR.blocks.create("lemon_fence", FenceBlock::new)
 			.copyFrom(Blocks.OAK_FENCE)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final FenceGateBlock LEMON_FENCE_GATE = REGISTRAR.blocks.create("lemon_fence_gate", properties -> new FenceGateBlock(WoodType.OAK, properties))
 			.copyFrom(Blocks.OAK_FENCE_GATE)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final ButtonBlock LEMON_BUTTON = REGISTRAR.blocks.create("lemon_button", properties -> new ButtonBlock(BlockSetType.OAK, 30, properties))
 			.copyFrom(Blocks.OAK_BUTTON)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final PressurePlateBlock LEMON_PRESSURE_PLATE = REGISTRAR.blocks.create("lemon_pressure_plate", properties -> new PressurePlateBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_PRESSURE_PLATE)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	private static final ResourceLocation LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
 	public static final TerraformSignBlock LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
@@ -235,9 +213,7 @@ public class PortalCubedBlocks {
 	private static final ResourceLocation LEMON_HANGING_SIGN_GUI_TEXTURE = PortalCubed.id("textures/gui/hanging_signs/lemon");
 	public static final TerraformHangingSignBlock LEMON_HANGING_SIGN = REGISTRAR.blocks.create("lemon_hanging_sign", properties -> new TerraformHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_HANGING_SIGN)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.item(BlockItemProvider::noItem)
 			.build();
 	public static final TerraformWallHangingSignBlock LEMON_WALL_HANGING_SIGN = REGISTRAR.blocks.create("lemon_wall_hanging_sign", properties -> new TerraformWallHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
@@ -250,16 +226,12 @@ public class PortalCubedBlocks {
 			.build();
 	public static final DoorBlock LEMON_DOOR = REGISTRAR.blocks.create("lemon_door", properties -> new DoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_DOOR)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final TrapDoorBlock LEMON_TRAPDOOR = REGISTRAR.blocks.create("lemon_trapdoor", properties -> new TrapDoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_TRAPDOOR)
-			.settings(settings -> settings
-					.mapColor(MapColor.TERRACOTTA_YELLOW)
-			)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 

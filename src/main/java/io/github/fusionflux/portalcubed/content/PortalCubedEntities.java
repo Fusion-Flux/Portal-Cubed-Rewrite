@@ -3,8 +3,6 @@ package io.github.fusionflux.portalcubed.content;
 import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
 
-import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.misc.Lemonade;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
@@ -20,7 +18,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
@@ -40,7 +37,14 @@ public class PortalCubedEntities {
 			.size(EntityDimensions.fixed(0.375f, 0.375f))
 			.renderer(() -> () -> ThrownItemRenderer::new)
 			.build();
-	public static final ResourceKey<TerraformBoatType> LEMON_BOAT = TerraformBoatTypeRegistry.createKey(PortalCubed.id("lemon"));
+	public static final ResourceKey<TerraformBoatType> LEMON_BOAT_ID = TerraformBoatTypeRegistry.createKey(PortalCubed.id("lemon"));
+	public static final TerraformBoatType LEMON_BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, LEMON_BOAT_ID,
+			new TerraformBoatType.Builder()
+					.item(PortalCubedItems.LEMON_BOAT)
+					.chestItem(PortalCubedItems.LEMON_CHEST_BOAT)
+					.planks(PortalCubedBlocks.LEMON_PLANKS.asItem())
+					.build()
+	);
 
 	public static final Map<PropType, EntityType<Prop>> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
@@ -54,17 +58,5 @@ public class PortalCubedEntities {
 	});
 
 	public static void init() {
-		Registry.register(TerraformBoatTypeRegistry.INSTANCE, LEMON_BOAT,
-				new TerraformBoatType.Builder()
-						.item(PortalCubedItems.LEMON_BOAT)
-						.chestItem(PortalCubedItems.LEMON_CHEST_BOAT)
-						.planks(PortalCubedBlocks.LEMON_PLANKS.asItem())
-						.build()
-		);
-	}
-
-	@ClientOnly
-	public static void initClient() {
-		TerraformBoatClientHelper.registerModelLayers(LEMON_BOAT.location(), false);
 	}
 }

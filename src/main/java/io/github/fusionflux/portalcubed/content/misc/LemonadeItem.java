@@ -46,7 +46,7 @@ public class LemonadeItem extends Item {
 				lemonade.setItem(stack);
 
 				lemonade.explodeTicks = stack.getUseDuration() - armTime;
-				float power = Mth.lerp(Math.min(1, armTime / Lemonade.TICKS_PER_TICK), MIN_THROW_POWER, MAX_THROW_POWER);
+				float power = Mth.lerp(Math.min(1, armTime / Lemonade.TICKS_PER_TIMER_TICK), MIN_THROW_POWER, MAX_THROW_POWER);
 				lemonade.shootFromRotation(user, user.getXRot(), user.getYRot(), 0f, power, 1f);
 
 				if (world.addFreshEntity(lemonade) && (!(user instanceof Player player) || !player.isCreative()))
@@ -71,7 +71,7 @@ public class LemonadeItem extends Item {
 	@Override
 	public void onUseTick(Level world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if (remainingUseTicks == Lemonade.DING_TICK) user.playSound(PortalCubedSounds.timerDing(user.getRandom()));
-		if (remainingUseTicks % Lemonade.TICKS_PER_TICK == 0 && remainingUseTicks != 0) user.playSound(PortalCubedSounds.OLD_AP_TIMER);
+		if (remainingUseTicks % Lemonade.TICKS_PER_TIMER_TICK == 0 && remainingUseTicks != 0) user.playSound(PortalCubedSounds.OLD_AP_TIMER);
 	}
 
 	@NotNull

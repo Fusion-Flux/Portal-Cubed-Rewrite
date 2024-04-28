@@ -34,6 +34,10 @@
 				"id": "quilted_fabric_api",
 				"versions": ">=${qfapi_version}"
 			},
+      {
+        "id": "terraform-wood-api-v1",
+        "versions": ">=${terraform_wood_api_version}"
+      },
 			{
 				"id": "minecraft",
 				"versions": ">=${minecraft_version}"
