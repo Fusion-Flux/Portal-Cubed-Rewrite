@@ -52,6 +52,7 @@ public class PortalCubedTabs {
 		});
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+			output.accept(PortalCubedBlocks.PROP_BARRIER);
 			output.accept(PortalCubedBlocks.MAGNESIUM_ORE);
 			output.accept(PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
 			output.accept(PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
@@ -236,6 +237,7 @@ public class PortalCubedTabs {
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
 
 			// ----- props -----
+			output.accept(PortalCubedBlocks.PROP_BARRIER);
 
 			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
 
