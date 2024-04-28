@@ -37,14 +37,7 @@ public class PortalCubedEntities {
 			.size(EntityDimensions.fixed(0.375f, 0.375f))
 			.renderer(() -> () -> ThrownItemRenderer::new)
 			.build();
-	public static final ResourceKey<TerraformBoatType> LEMON_BOAT_ID = TerraformBoatTypeRegistry.createKey(PortalCubed.id("lemon"));
-	public static final TerraformBoatType LEMON_BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, LEMON_BOAT_ID,
-			new TerraformBoatType.Builder()
-					.item(PortalCubedItems.LEMON_BOAT)
-					.chestItem(PortalCubedItems.LEMON_CHEST_BOAT)
-					.planks(PortalCubedBlocks.LEMON_PLANKS.asItem())
-					.build()
-	);
+	public static final ResourceKey<TerraformBoatType> LEMON_BOAT = TerraformBoatTypeRegistry.createKey(PortalCubed.id("lemon"));
 
 	public static final Map<PropType, EntityType<Prop>> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
@@ -58,5 +51,12 @@ public class PortalCubedEntities {
 	});
 
 	public static void init() {
+		Registry.register(TerraformBoatTypeRegistry.INSTANCE, LEMON_BOAT,
+				new TerraformBoatType.Builder()
+						.item(PortalCubedItems.LEMON_BOAT)
+						.chestItem(PortalCubedItems.LEMON_CHEST_BOAT)
+						.planks(PortalCubedBlocks.LEMON_PLANKS.asItem())
+						.build()
+		);
 	}
 }

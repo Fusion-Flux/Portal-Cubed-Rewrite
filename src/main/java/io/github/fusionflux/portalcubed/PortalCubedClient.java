@@ -34,7 +34,7 @@ public class PortalCubedClient implements ClientModInitializer {
 
 		ItemProperties.register(PortalCubedItems.LEMONADE, PortalCubed.id("armed"), (stack, level, entity, i) -> LemonadeItem.isArmed(stack) ? 1 : 0);
 
-		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT_ID.location(), false);
+		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT.location(), false);
 		PropModels.register();
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 
