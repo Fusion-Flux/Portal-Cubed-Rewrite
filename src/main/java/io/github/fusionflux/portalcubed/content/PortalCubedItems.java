@@ -8,13 +8,17 @@ import java.util.Map;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.misc.AdvancedKneeReplacementsMaterial;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
+import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
+import io.github.fusionflux.portalcubed.content.misc.LongFallBootsMaterial;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.world.food.Foods;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
@@ -64,6 +68,9 @@ public class PortalCubedItems {
 			.build();
 	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_boat"), PortalCubedEntities.LEMON_BOAT, false);
 	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_chest_boat"), PortalCubedEntities.LEMON_BOAT, true);
+
+	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.simple("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s));
+	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.simple("advanced_knee_replacements", s -> new ArmorItem(AdvancedKneeReplacementsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s));
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {

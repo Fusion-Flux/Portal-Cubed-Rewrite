@@ -9,6 +9,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
+import io.github.fusionflux.portalcubed.content.misc.LongFallBootsModel;
 import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropModels;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
@@ -34,6 +35,7 @@ public class PortalCubedClient implements ClientModInitializer {
 
 		ItemProperties.register(PortalCubedItems.LEMONADE, PortalCubed.id("armed"), (stack, level, entity, i) -> LemonadeItem.isArmed(stack) ? 1 : 0);
 
+		LongFallBootsModel.init();
 		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT.location(), false);
 		PropModels.register();
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
