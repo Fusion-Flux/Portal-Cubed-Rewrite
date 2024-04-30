@@ -18,6 +18,7 @@ import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvide
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -31,6 +32,8 @@ import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+
+import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
@@ -71,9 +74,12 @@ public class PortalCubedItems {
 	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_chest_boat"), PortalCubedEntities.LEMON_BOAT, true);
 
 	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
+			.settings(QuiltItemSettings::fireResistant)
 			.colored(() -> () -> LongFallBootsColorProvider.INSTANCE)
 			.build();
-	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.simple("advanced_knee_replacements", s -> new ArmorItem(AdvancedKneeReplacementsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s));
+	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(AdvancedKneeReplacementsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
+			.settings(QuiltItemSettings::fireResistant)
+			.build();
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
@@ -85,6 +91,7 @@ public class PortalCubedItems {
 	});
 
 	public static void init() {
+		CauldronInteraction.WATER.map().put(LONG_FALL_BOOTS, CauldronInteraction.DYED_ITEM);
 		DispenserBlock.registerBehavior(LEMONADE, new LemonadeDispenseBehavior());
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
 			if (BuiltInLootTables.SNIFFER_DIGGING.equals(id) && source.isBuiltin())
