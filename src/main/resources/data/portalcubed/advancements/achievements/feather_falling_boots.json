@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "item": "portalcubed:long_fall_boots",
+      "nbt": "{Enchantments:[{id:feather_falling,lvl:4}]}"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.feather_falling_boots.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.feather_falling_boots.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "portalcubed:achievements/boots",
+  "criteria": {
+    "feather_falling": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "portalcubed:fall_damage_resetting",
+            "enchantments": [
+              {
+                "enchantment": "minecraft:feather_falling",
+                "levels": {
+                  "min": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 25
+  }
+}

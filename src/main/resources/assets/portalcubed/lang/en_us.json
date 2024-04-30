@@ -143,6 +143,7 @@
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
 
+  "attribute.name.generic.fall_damage_immunity": "Fall Damage Immunity",
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
@@ -207,11 +208,11 @@
   "advancement.portalcubed.rattmann.description": "Obtain every prop that can be found in a Rattmann den",
 
   "advancement.portalcubed.boots.title": "Good Work, Boots",
-  "advancement.portalcubed.boots.description": "Prevent fall damage using the Long Fall Boots",
+  "advancement.portalcubed.boots.description": "Prevent fall damage using the Long Fall Boots or Advanced Knee Replacements",
   "advancement.portalcubed.falling_with_style.title": "Falling With Style",
   "advancement.portalcubed.falling_with_style.description": "Trim a pair of Long Fall Boots",
-  "advancement.portalcubed.feather_falling_boots.title": "But Why?!",
-  "advancement.portalcubed.feather_falling_boots.description": "Enchant a pair of Long Fall Boots with Feather Falling",
+  "advancement.portalcubed.feather_falling_boots.title": "Pointless Precaution",
+  "advancement.portalcubed.feather_falling_boots.description": "Enchant a pair of Long Fall Boots or Advanced Knee Replacements with Feather Falling",
 
   "advancement.portalcubed.autoportal.title": "That Portal Was Framed",
   "advancement.portalcubed.autoportal.description": "Place an Autoportal",

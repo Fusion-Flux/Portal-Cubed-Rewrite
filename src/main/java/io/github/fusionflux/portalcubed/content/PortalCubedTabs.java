@@ -30,6 +30,8 @@ public class PortalCubedTabs {
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
 			output.accept(PortalCubedItems.PORTAL_GUN);
+			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 			output.accept(PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
@@ -233,6 +235,8 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.LEMONADE);
 			output.accept(PortalCubedItems.LEMON_BOAT);
 			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
+			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 
 			// ----- portal guns -----
 
