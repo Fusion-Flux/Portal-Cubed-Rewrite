@@ -9,6 +9,7 @@
     "CakeBlockMixin",
     "CandleCakeBlockMixin",
     "EntityMixin",
+    "ItemStackMixin",
     "LevelMixin",
     "LivingEntityMixin",
     "MultifaceBlockAccessor",

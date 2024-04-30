@@ -12,6 +12,7 @@ import io.github.fusionflux.portalcubed.content.misc.AdvancedKneeReplacementsMat
 import io.github.fusionflux.portalcubed.content.misc.LemonadeDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
+import io.github.fusionflux.portalcubed.content.misc.LongFallBootsColorProvider;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBootsMaterial;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
@@ -69,7 +70,9 @@ public class PortalCubedItems {
 	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_boat"), PortalCubedEntities.LEMON_BOAT, false);
 	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_chest_boat"), PortalCubedEntities.LEMON_BOAT, true);
 
-	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.simple("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s));
+	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
+			.colored(() -> () -> LongFallBootsColorProvider.INSTANCE)
+			.build();
 	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.simple("advanced_knee_replacements", s -> new ArmorItem(AdvancedKneeReplacementsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s));
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
