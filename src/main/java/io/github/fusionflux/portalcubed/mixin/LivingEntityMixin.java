@@ -11,6 +11,8 @@ import net.minecraft.world.entity.LivingEntity;
 
 import net.minecraft.world.item.ItemStack;
 
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,12 +43,16 @@ public class LivingEntityMixin {
 			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
 			int wantedBootDamage = Mth.ceil(fallDamage / 2f);
 
-			// force break when over durability to prevent randomly surviving falls due to unbreaking.
-			if (boots.isDamageableItem() && (wantedBootDamage >= (boots.getMaxDamage() - boots.getDamageValue()))) {
-				boots.shrink(1);
-				boots.setDamageValue(0);
-				self.broadcastBreakEvent(EquipmentSlot.FEET);
-				return;
+			int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, boots);
+			if (unbreakingLevel > 0) {
+				// magic math made by a living shopping cart
+				double safeFallDistance = 66 * Math.log10(1605 * unbreakingLevel);
+				if ((double) fallDistance >= safeFallDistance) {
+					self.broadcastBreakEvent(EquipmentSlot.FEET);
+					boots.shrink(1);
+					boots.setDamageValue(0);
+					return;
+				}
 			}
 
 			boots.hurtAndBreak(wantedBootDamage, self, e -> e.broadcastBreakEvent(EquipmentSlot.FEET));
