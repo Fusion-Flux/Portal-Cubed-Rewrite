@@ -16,7 +16,7 @@
   },
   "parent": "portalcubed:achievements/radio",
   "criteria": {
-    "cubes": {
+    "p1_storage": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -24,22 +24,50 @@
             "items": [
               "portalcubed:portal_1_storage_cube"
             ]
-          },
+          }
+        ]
+      }
+    },
+    "p1_companion": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
           {
             "items": [
               "portalcubed:portal_1_companion_cube"
             ]
-          },
+          }
+        ]
+      }
+    },
+    "storage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
           {
             "items": [
               "portalcubed:storage_cube"
             ]
-          },
+          }
+        ]
+      }
+    },
+    "companion": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
           {
             "items": [
               "portalcubed:companion_cube"
             ]
-          },
+          }
+        ]
+      }
+    },
+    "old_ap": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
           {
             "items": [
               "portalcubed:old_ap_cube"
@@ -49,6 +77,23 @@
       }
     }
   },
+  "requirements": [
+    [
+      "companion"
+    ],
+    [
+      "storage"
+    ],
+    [
+      "old_ap"
+    ],
+    [
+      "p1_companion"
+    ],
+    [
+      "p1_storage"
+    ]
+  ],
   "rewards": {
     "experience": 25
   }
