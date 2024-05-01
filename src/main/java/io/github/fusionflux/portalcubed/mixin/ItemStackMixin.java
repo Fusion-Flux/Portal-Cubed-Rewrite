@@ -23,7 +23,7 @@ import java.util.List;
 public class ItemStackMixin {
 	@Inject(method = "getTooltipLines", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Multimap;entries()Ljava/util/Collection;"))
 	private void injectFallDamageImmunityTooltip(@Nullable Player player, TooltipFlag context, CallbackInfoReturnable<List<Component>> cir, @Local List<Component> lines, @Local EquipmentSlot equipmentSlot) {
-		if (equipmentSlot == EquipmentSlot.FEET && ((ItemStack) (Object) this).is(PortalCubedItemTags.FALL_DAMAGE_RESETTING))
-			lines.add(Component.translatable("attribute.name.generic.fall_damage_immunity").withStyle(ChatFormatting.BLUE));
+		if (equipmentSlot == EquipmentSlot.FEET && ((ItemStack) (Object) this).is(PortalCubedItemTags.ABSORB_FALL_DAMAGE))
+			lines.add(Component.translatable("attribute.name.generic.fall_damage_absorption").withStyle(ChatFormatting.BLUE));
 	}
 }

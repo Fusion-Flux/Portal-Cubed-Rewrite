@@ -36,11 +36,22 @@ public class LivingEntityMixin {
 	)
 	private void dontDoFallDamageIfBoots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, @Local int fallDamage) {
 		LivingEntity self = (LivingEntity) (Object) this;
-		ItemStack feetStack = self.getItemBySlot(EquipmentSlot.FEET);
-		if (feetStack.is(PortalCubedItemTags.FALL_DAMAGE_RESETTING)) {
-			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier
-			feetStack.hurtAndBreak(Mth.ceil(fallDamage / 2f), self, $ -> {});
-			if (!feetStack.isEmpty())
+		ItemStack boots = self.getItemBySlot(EquipmentSlot.FEET);
+		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE)) {
+			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
+			int wantedBootDamage = Mth.ceil(fallDamage / 2f);
+
+			// force break when over durability to prevent randomly surviving falls due to unbreaking.
+			if (boots.isDamageableItem() && (wantedBootDamage >= (boots.getMaxDamage() - boots.getDamageValue()))) {
+				boots.shrink(1);
+				boots.setDamageValue(0);
+				self.broadcastBreakEvent(EquipmentSlot.FEET);
+				return;
+			}
+
+			boots.hurtAndBreak(wantedBootDamage, self, e -> e.broadcastBreakEvent(EquipmentSlot.FEET));
+
+			if (!boots.isEmpty())
 				cir.setReturnValue(false);
 		}
 	}
