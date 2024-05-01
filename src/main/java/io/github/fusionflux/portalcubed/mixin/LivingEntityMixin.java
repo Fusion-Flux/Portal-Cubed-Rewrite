@@ -1,7 +1,10 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
+
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,11 +25,24 @@ public class LivingEntityMixin {
 	@Unique
 	private boolean lemonadeArmingFinished;
 
-	@Inject(method = "causeFallDamage", at = @At("HEAD"), cancellable = true)
-	private void dontDoFallDamageIfBoots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+	@Inject(
+			method = "causeFallDamage",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/LivingEntity;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V",
+					shift = At.Shift.BEFORE
+			),
+			cancellable = true
+	)
+	private void dontDoFallDamageIfBoots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, @Local int fallDamage) {
 		LivingEntity self = (LivingEntity) (Object) this;
-		if (self.getItemBySlot(EquipmentSlot.FEET).is(PortalCubedItemTags.FALL_DAMAGE_RESETTING))
-			cir.setReturnValue(false);
+		ItemStack feetStack = self.getItemBySlot(EquipmentSlot.FEET);
+		if (feetStack.is(PortalCubedItemTags.FALL_DAMAGE_RESETTING)) {
+			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier
+			feetStack.hurtAndBreak(Mth.ceil(fallDamage / 2f), self, $ -> {});
+			if (!feetStack.isEmpty())
+				cir.setReturnValue(false);
+		}
 	}
 
 	@Inject(method = {"releaseUsingItem", "completeUsingItem"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;stopUsingItem()V"))
