@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -40,22 +41,11 @@ public class LivingEntityMixin {
 		LivingEntity self = (LivingEntity) (Object) this;
 		ItemStack boots = self.getItemBySlot(EquipmentSlot.FEET);
 		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE)) {
-			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
-			int wantedBootDamage = Mth.ceil(fallDamage / 2f);
-
+			// plus one block required for one damage per level of breaking
 			int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, boots);
-			if (unbreakingLevel > 0) {
-				// magic math made by a living shopping cart
-				double safeFallDistance = 66 * Math.log10(1605 * unbreakingLevel);
-				if ((double) fallDistance >= safeFallDistance) {
-					self.broadcastBreakEvent(EquipmentSlot.FEET);
-					boots.shrink(1);
-					boots.setDamageValue(0);
-					return;
-				}
-			}
-
-			boots.hurtAndBreak(wantedBootDamage, self, e -> e.broadcastBreakEvent(EquipmentSlot.FEET));
+			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
+			int wantedBootDamage = Mth.floor(fallDamage / (4f + unbreakingLevel));
+			((ItemStackExt) (Object) boots).pc$hurtAndBreakNoUnbreaking(wantedBootDamage, self, e -> e.broadcastBreakEvent(EquipmentSlot.FEET));
 
 			if (!boots.isEmpty())
 				cir.setReturnValue(false);
