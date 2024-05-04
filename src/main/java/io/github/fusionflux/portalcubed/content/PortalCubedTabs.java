@@ -412,6 +412,8 @@ public class PortalCubedTabs {
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
 			entries.addAfter(Items.END_CRYSTAL, PortalCubedItems.LEMONADE);
+			entries.addAfter(Items.TURTLE_HELMET, PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			entries.addAfter(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS, PortalCubedItems.LONG_FALL_BOOTS);
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.OP_BLOCKS).register(entries -> {
