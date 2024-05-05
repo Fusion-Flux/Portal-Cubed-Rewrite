@@ -43,8 +43,9 @@ public class LivingEntityMixin {
 		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE)) {
 			// plus one block required for one damage per level of breaking
 			int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, boots);
+			float durabilityPerBlock = Math.max(4f - (fallDamage / 50f), 1f);
 			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
-			int wantedBootDamage = Mth.floor(fallDamage / (4f + unbreakingLevel));
+			int wantedBootDamage = Mth.floor(fallDamage / (durabilityPerBlock + unbreakingLevel));
 			((ItemStackExt) (Object) boots).pc$hurtAndBreakNoUnbreaking(wantedBootDamage, self, e -> e.broadcastBreakEvent(EquipmentSlot.FEET));
 
 			if (!boots.isEmpty())
