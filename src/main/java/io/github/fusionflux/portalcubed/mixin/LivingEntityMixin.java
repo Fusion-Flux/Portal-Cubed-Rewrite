@@ -44,9 +44,9 @@ public class LivingEntityMixin {
 			// plus one block required for one damage per level of breaking
 			int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, boots);
 			// magic math made by a living shopping cart
-			float durabilityPerBlock = Math.max((4 + unbreakingLevel) - ((fallDamage + 3f) / 50f), 1f);
+			float blocksPerDurability = Math.max((4 + unbreakingLevel) - ((fallDamage + 3f) / 50f), 1f);
 			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
-			int bootDamage = Mth.floor(fallDamage / durabilityPerBlock);
+			int bootDamage = Mth.floor(fallDamage / blocksPerDurability);
 			((ItemStackExt) (Object) boots).pc$hurtAndBreakNoUnbreaking(bootDamage, self, e -> e.broadcastBreakEvent(EquipmentSlot.FEET));
 
 			if (!boots.isEmpty())
