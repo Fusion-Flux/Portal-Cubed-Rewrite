@@ -3,17 +3,15 @@ package io.github.fusionflux.portalcubed.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
+import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 
 import net.minecraft.world.item.ItemStack;
 
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,16 +35,12 @@ public class LivingEntityMixin {
 			),
 			cancellable = true
 	)
-	private void dontDoFallDamageIfBoots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, @Local int fallDamage) {
+	private void absorbFallDamageIntoBoots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, @Local int fallDamage) {
 		LivingEntity self = (LivingEntity) (Object) this;
 		ItemStack boots = self.getItemBySlot(EquipmentSlot.FEET);
 		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE)) {
-			// plus one block required for one damage per level of breaking
-			int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, boots);
-			// magic math made by a living shopping cart
-			float blocksPerDurability = Math.max((4 + unbreakingLevel) - ((fallDamage + 3f) / 50f), 1f);
 			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
-			int bootDamage = Mth.floor(fallDamage / blocksPerDurability);
+			int bootDamage = LongFallBoots.calculateFallDamage(boots, fallDamage);
 			((ItemStackExt) (Object) boots).pc$hurtAndBreakNoUnbreaking(bootDamage, self, e -> e.broadcastBreakEvent(EquipmentSlot.FEET));
 
 			if (!boots.isEmpty())
