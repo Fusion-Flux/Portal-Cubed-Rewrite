@@ -232,7 +232,7 @@
   "advancement.portalcubed.laser.description": "Touch a Thermal Discouragement Beam and become thermally discouraged from doing it again",
 
   "advancement.portalcubed.goo.title": "The Floor is Failure",
-  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your record",
+  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your health bar",
 
   "advancement.portalcubed.faith_plate.title": "Sailing Through the Air...",
   "advancement.portalcubed.faith_plate.description": "Launch yourself from an Aerial Faith Plate",
@@ -736,8 +736,11 @@
 
   "block.portalcubed.prop_barrier": "Prop Barrier",
 
-  "death.attack.acid": "%s was dissolved in toxic goo",
-  "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
+  "block.portalcubed.toxic_goo": "Toxic Goo",
+  "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
+
+  "death.attack.toxic_goo": "%s dissolved in toxic goo",
+  "death.attack.toxic_goo.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
   "death.attack.fizzle": "%s was fizzled",
   "death.attack.fizzle.player": "%1$s was pushed into a laser field by %2$s",
   "death.attack.vaporization": "%s was vaporized by a High Energy Pellet",
