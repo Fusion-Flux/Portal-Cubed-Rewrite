@@ -19,6 +19,8 @@ import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 import net.minecraft.Util;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
@@ -32,6 +34,7 @@ import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.GlazedTerracottaBlock;
 import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
@@ -40,8 +43,10 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WaterloggedTransparentBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
@@ -853,6 +858,10 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.BARRIER)
 			.settings(QuiltBlockSettings::dynamicShape)
 			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
+			.build();
+
+	public static final Block GOO = REGISTRAR.blocks.create("toxic_goo_block", s -> new LiquidBlock(PortalCubedFluids.STILL_GOO, s))
+			.copyFrom(Blocks.WATER)
 			.build();
 
 	public static void init() {
