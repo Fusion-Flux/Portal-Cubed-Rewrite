@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portalcubed:lemon_boat",
+      "portalcubed:lemon_button",
+      "portalcubed:lemon_chest_boat",
+      "portalcubed:lemon_door",
+      "portalcubed:lemon_fence",
+      "portalcubed:lemon_fence_gate",
+      "portalcubed:lemon_hanging_sign",
+      "portalcubed:lemon_planks",
+      "portalcubed:lemon_pressure_plate",
+      "portalcubed:lemon_sign",
+      "portalcubed:lemon_slab",
+      "portalcubed:lemon_stairs",
+      "portalcubed:lemon_trapdoor",
+      "portalcubed:lemon_wood",
+      "portalcubed:stripped_lemon_wood"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"portalcubed:lemon_log",
+		"portalcubed:lemon_planks",
+		"portalcubed:stripped_lemon_log"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

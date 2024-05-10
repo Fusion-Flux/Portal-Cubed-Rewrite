@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "ingredients": [
+        {
+            "item": "portalcubed:lemon"
+        },
+        {
+            "item": "portalcubed:magnesium_ingot"
+        },
+        {
+            "item": "minecraft:gunpowder"
+        }
+    ],
+    "result": {
+        "item": "portalcubed:lemonade",
+        "count": 1
+    }
+}

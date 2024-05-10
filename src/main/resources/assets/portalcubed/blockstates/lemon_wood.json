@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "portalcubed:block/lemon_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "portalcubed:block/lemon_wood"
+    },
+    "axis=z": {
+      "model": "portalcubed:block/lemon_wood",
+      "x": 90
+    }
+  }
+}

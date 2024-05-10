@@ -80,11 +80,13 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	}
 
 	public void setVariant(int variant) {
+		if (variant < 0) variant = 0;
 		if (!this.level().isClientSide)
 			this.entityData.set(VARIANT, variant);
 	}
 
 	public void setVariantFromItem(int variant) {
+		if (variant < 0) variant = 0;
 		this.variantFromItem = variant;
 	}
 

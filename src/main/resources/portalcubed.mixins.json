@@ -4,6 +4,7 @@
   "package": "io.github.fusionflux.portalcubed.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractSkeletonMixin",
     "BlockBehavior$BlockStateBaseMixin",
     "BlockMixin",
     "CakeBlockMixin",
@@ -12,8 +13,11 @@
     "CubeVoxelShapeAccessor",
     "EntityMixin",
     "LevelMixin",
+    "LivingEntityMixin",
     "MultifaceBlockAccessor",
     "PlayerMixin",
+    "RangedBowAttackGoalMixin",
+    "ServerGamePacketListenerImplMixin",
     "ServerLevelMixin",
     "SlabBlockMixin",
     "ThrowableProjectileMixin"
