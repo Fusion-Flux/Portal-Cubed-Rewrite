@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
+import static io.github.fusionflux.portalcubed.content.PortalCubedFluids.STILL_GOO;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -14,7 +15,10 @@ import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvide
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.food.Foods;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
@@ -22,6 +26,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 
 import net.minecraft.Util;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -81,4 +86,7 @@ public class PortalCubedItems {
 				tableBuilder.modifyPools(builder -> builder.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));
 		});
 	}
+
+	public static final Item GOO_BUCKET = Registry.register(BuiltInRegistries.ITEM, PortalCubed.id("toxic_goo_bucket"),new BucketItem(STILL_GOO, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+
 }

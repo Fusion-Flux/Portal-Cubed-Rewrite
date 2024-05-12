@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.goo;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
@@ -53,7 +54,7 @@ public abstract class GooFluid extends FlowingFluid {
 
 	@Override
 	public Item getBucket() {
-		return PortalCubedFluids.GOO_BUCKET;
+		return PortalCubedItems.GOO_BUCKET;
 	}
 
 	@Override
