@@ -10,18 +10,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.WaterFluid;
 
-public class GooFluid extends FlowingFluid {
+public abstract class GooFluid extends FlowingFluid {
 
 	@Override
 	public Fluid getFlowing() {
@@ -77,6 +74,11 @@ public class GooFluid extends FlowingFluid {
 	@Override
 	protected BlockState createLegacyBlock(FluidState state) {
 		return PortalCubedBlocks.GOO.defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
+	}
+
+	@Override
+	public boolean isSame(Fluid fluid) {
+		return fluid == PortalCubedFluids.STILL_GOO || fluid == PortalCubedFluids.FLOWING_GOO;
 	}
 
 	@Override
