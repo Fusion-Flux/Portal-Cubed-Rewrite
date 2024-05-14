@@ -7,6 +7,7 @@ import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
@@ -856,7 +857,7 @@ public class PortalCubedBlocks {
 			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 
-	public static final Block GOO = REGISTRAR.blocks.create("toxic_goo", s -> new LiquidBlock(PortalCubedFluids.STILL_GOO, s))
+	public static final Block GOO = REGISTRAR.blocks.create("toxic_goo", s -> new GooBlock(PortalCubedFluids.STILL_GOO, s))
 			.copyFrom(Blocks.WATER)
 			.item(BlockItemProvider::noItem)
 			.build();

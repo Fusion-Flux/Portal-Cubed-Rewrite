@@ -64,7 +64,7 @@ public abstract class GooFluid extends FlowingFluid {
 
 	@Override
 	public int getTickDelay(LevelReader world) {
-		return 5;
+		return 15;
 	}
 
 	@Override
