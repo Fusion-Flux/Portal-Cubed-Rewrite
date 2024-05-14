@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
@@ -14,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 
 import net.minecraft.world.level.Level;
 
+import net.minecraft.world.phys.Vec3;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +28,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
 	@Unique
+	private static final double ANTI_FRICTION_OFFSET = 2;
+	@Unique
+	private static final double FRICTION_SCALING = 1;
+	@Unique
+	private static final double VANILLA_AIR_FRICTION = 0.91;
+
+	@Unique
 	private boolean lemonadeArmingFinished;
+
+	@WrapOperation(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;handleRelativeFrictionAndCalculateMovement(Lnet/minecraft/world/phys/Vec3;F)Lnet/minecraft/world/phys/Vec3;"))
+	private Vec3 dragTest(LivingEntity instance, Vec3 movementInput, float slipperiness, Operation<Vec3> original) {
+		ItemStack boots = instance.getItemBySlot(EquipmentSlot.FEET);
+		if (!instance.onGround() && boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE)) {
+			double speed = instance.getDeltaMovement().length();
+			double antiFriction = ((1 + VANILLA_AIR_FRICTION) + ANTI_FRICTION_OFFSET) / (speed * FRICTION_SCALING);
+			return original.call(instance, movementInput.multiply(antiFriction, 1, antiFriction), slipperiness);
+		} else {
+			return original.call(instance, movementInput, slipperiness);
+		}
+	}
 
 	@Inject(
 			method = "causeFallDamage",
