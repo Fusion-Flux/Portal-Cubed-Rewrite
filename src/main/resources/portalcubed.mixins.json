@@ -18,6 +18,7 @@
     "ServerGamePacketListenerImplMixin",
     "ServerLevelMixin",
     "SlabBlockMixin",
+    "SpongeBlockMixin",
     "ThrowableProjectileMixin"
   ],
   "client": [
