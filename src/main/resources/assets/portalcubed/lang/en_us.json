@@ -742,6 +742,7 @@
 
   "block.portalcubed.toxic_goo": "Toxic Goo",
   "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
+  "block.portalcubed.toxic_goo_cauldron": "Toxic Goo Cauldron",
 
   "death.attack.toxic_goo": "%s dissolved in toxic goo",
   "death.attack.toxic_goo.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
