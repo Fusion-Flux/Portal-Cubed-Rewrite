@@ -1,14 +1,19 @@
 package io.github.fusionflux.portalcubed.content.goo;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
+import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -28,6 +33,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public abstract class GooFluid extends FlowingFluid {
+	public static void hurt(Level world, Entity entity) {
+		if (
+				!entity.isAlive() ||
+						entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_TOXIC_GOO) ||
+						(entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO))
+		) return;
+
+		entity.hurt(PortalCubedDamageSources.toxicGoo(world), 10);
+	}
+
 	@NotNull
 	@Override
 	public Fluid getFlowing() {
