@@ -11,6 +11,8 @@
   "gamerule.category.portalcubed": "Portal Cubed",
   "gamerule.propSnatching": "Prop Snatching",
   "gamerule.propSnatching.description": "Allow held props to be grabbed by other players without the holder dropping it first.",
+  "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
+  "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
 
 
   "container.portalcubed.construction_cannon": "Construction Cannon",
