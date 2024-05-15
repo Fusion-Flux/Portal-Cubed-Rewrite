@@ -6,6 +6,7 @@
   "mixins": [
     "AbstractSkeletonMixin",
     "BlockMixin",
+    "BottleItemMixin",
     "CakeBlockMixin",
     "CandleCakeBlockMixin",
     "EntityMixin",
