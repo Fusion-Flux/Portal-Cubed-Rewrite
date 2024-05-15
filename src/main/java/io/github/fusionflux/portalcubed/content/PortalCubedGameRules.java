@@ -22,6 +22,10 @@ public class PortalCubedGameRules {
 		"toxicGooSourceConversion", CATEGORY, GameRuleFactory.createBooleanRule(true)
 	);
 
+	public static final GameRules.Key<GameRules.IntegerValue> TOXIC_GOO_DAMAGE = GameRuleRegistry.register(
+		"toxicGooDamage", CATEGORY, GameRuleFactory.createIntRule(10, 0, 1024)
+	);
+
 	public static void init() {
 	}
 }

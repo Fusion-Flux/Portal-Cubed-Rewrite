@@ -14,7 +14,7 @@
   "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
   "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
   "gamerule.toxicGooDamage": "Toxic Goo Damage",
-  "gamerule.toxicGooDamage.description": "The amount of damage toxic goo does to entities inside it.",
+  "gamerule.toxicGooDamage.description": "The amount of damage (per second) toxic goo does to entities inside it.",
 
 
   "container.portalcubed.construction_cannon": "Construction Cannon",

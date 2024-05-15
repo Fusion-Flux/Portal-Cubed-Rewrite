@@ -40,7 +40,7 @@ public abstract class GooFluid extends FlowingFluid {
 						(entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO))
 		) return;
 
-		entity.hurt(PortalCubedDamageSources.toxicGoo(world), 10);
+		entity.hurt(PortalCubedDamageSources.toxicGoo(world), world.getGameRules().getInt(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
 	}
 
 	@NotNull
