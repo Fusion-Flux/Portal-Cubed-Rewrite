@@ -33,7 +33,6 @@ import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.GlazedTerracottaBlock;
 import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
@@ -857,8 +856,9 @@ public class PortalCubedBlocks {
 			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 
-	public static final Block GOO = REGISTRAR.blocks.create("toxic_goo", s -> new GooBlock(PortalCubedFluids.STILL_GOO, s))
+	public static final Block GOO = REGISTRAR.blocks.create("toxic_goo", s -> new GooBlock(PortalCubedFluids.GOO, s))
 			.copyFrom(Blocks.WATER)
+			.settings(s -> s.mapColor(MapColor.TERRACOTTA_GREEN))
 			.item(BlockItemProvider::noItem)
 			.build();
 

@@ -29,6 +29,7 @@
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
     "client.ContainerEventHandlerMixin",
+    "client.FogRendererMixin",
     "client.GameRendererMixin",
     "client.GuiGraphicsAccessor",
     "client.ItemInHandRendererMixin",

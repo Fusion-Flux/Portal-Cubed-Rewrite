@@ -2,9 +2,13 @@ package io.github.fusionflux.portalcubed.content.goo;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
+import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -19,21 +23,32 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 
-public abstract class GooFluid extends FlowingFluid {
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
+public abstract class GooFluid extends FlowingFluid {
+	@NotNull
 	@Override
 	public Fluid getFlowing() {
 		return PortalCubedFluids.FLOWING_GOO;
 	}
 
+	@NotNull
 	@Override
 	public Fluid getSource() {
-		return PortalCubedFluids.STILL_GOO;
+		return PortalCubedFluids.GOO;
+	}
+
+	@NotNull
+	@Override
+	public Item getBucket() {
+		return PortalCubedItems.GOO_BUCKET;
 	}
 
 	@Override
 	protected boolean canConvertToSource(Level world) {
-		return true;
+		return world.getGameRules().getBoolean(PortalCubedGameRules.TOXIC_GOO_SOURCE_CONVERSION);
 	}
 
 	@Override
@@ -47,19 +62,20 @@ public abstract class GooFluid extends FlowingFluid {
 		return 4;
 	}
 
+	@NotNull
+	@Override
+	protected BlockState createLegacyBlock(FluidState state) {
+		return PortalCubedBlocks.GOO.defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
+	}
+
+	@Override
+	public boolean isSame(Fluid fluid) {
+		return fluid == PortalCubedFluids.GOO || fluid == PortalCubedFluids.FLOWING_GOO;
+	}
+
 	@Override
 	protected int getDropOff(LevelReader world) {
 		return 1;
-	}
-
-	@Override
-	public Item getBucket() {
-		return PortalCubedItems.GOO_BUCKET;
-	}
-
-	@Override
-	protected boolean canBeReplacedWith(FluidState state, BlockGetter world, BlockPos pos, Fluid fluid, Direction direction) {
-		return false;
 	}
 
 	@Override
@@ -68,34 +84,22 @@ public abstract class GooFluid extends FlowingFluid {
 	}
 
 	@Override
+	protected boolean canBeReplacedWith(FluidState state, BlockGetter world, BlockPos pos, Fluid fluid, Direction direction) {
+		return direction == Direction.DOWN && !state.is(FluidTags.WATER);
+	}
+
+	@Override
 	protected float getExplosionResistance() {
-		return 100;
+		return 100f;
 	}
 
+	@NotNull
 	@Override
-	protected BlockState createLegacyBlock(FluidState state) {
-		return PortalCubedBlocks.GOO.defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
-	}
-
-	@Override
-	public boolean isSame(Fluid fluid) {
-		return fluid == PortalCubedFluids.STILL_GOO || fluid == PortalCubedFluids.FLOWING_GOO;
-	}
-
-	@Override
-	public boolean isSource(FluidState state) {
-		return false;
-	}
-
-	@Override
-	public int getAmount(FluidState state) {
-		return 8;
+	public Optional<SoundEvent> getPickupSound() {
+		return Optional.of(SoundEvents.BUCKET_FILL);
 	}
 
 	public static class Flowing extends GooFluid {
-		public Flowing() {
-		}
-
 		protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder) {
 			super.createFluidStateDefinition(builder);
 			builder.add(LEVEL);
@@ -111,9 +115,6 @@ public abstract class GooFluid extends FlowingFluid {
 	}
 
 	public static class Source extends GooFluid {
-		public Source() {
-		}
-
 		public int getAmount(FluidState state) {
 			return 8;
 		}

@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
-import static io.github.fusionflux.portalcubed.content.PortalCubedFluids.STILL_GOO;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -15,8 +14,6 @@ import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvide
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -70,6 +67,10 @@ public class PortalCubedItems {
 	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_boat"), PortalCubedEntities.LEMON_BOAT, false);
 	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_chest_boat"), PortalCubedEntities.LEMON_BOAT, true);
 
+	public static final Item GOO_BUCKET = REGISTRAR.items.create("toxic_goo_bucket", s -> new BucketItem(PortalCubedFluids.GOO, s))
+			.settings(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))
+			.build();
+
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
 			PropItem item = REGISTRAR.items.simple(type.toString(), s -> new PropItem(s, type));
@@ -86,7 +87,4 @@ public class PortalCubedItems {
 				tableBuilder.modifyPools(builder -> builder.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));
 		});
 	}
-
-	public static final Item GOO_BUCKET = Registry.register(BuiltInRegistries.ITEM, PortalCubed.id("toxic_goo_bucket"),new BucketItem(STILL_GOO, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
-
 }

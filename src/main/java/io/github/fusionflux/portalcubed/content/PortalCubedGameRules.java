@@ -18,6 +18,10 @@ public class PortalCubedGameRules {
 		"propSnatching", CATEGORY, GameRuleFactory.createBooleanRule(true)
 	);
 
+	public static final GameRules.Key<GameRules.BooleanValue> TOXIC_GOO_SOURCE_CONVERSION = GameRuleRegistry.register(
+		"toxicGooSourceConversion", CATEGORY, GameRuleFactory.createBooleanRule(true)
+	);
+
 	public static void init() {
 	}
 }

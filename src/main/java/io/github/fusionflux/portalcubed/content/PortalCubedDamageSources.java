@@ -26,16 +26,19 @@ public class PortalCubedDamageSources {
 	public static final ResourceKey<DamageType> LANDING_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("landing_damage"));
 	public static final ResourceKey<DamageType> LEMONADE = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("lemonade"));
 	public static final ResourceKey<DamageType> LEMONADE_PLAYER = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("lemonade_player"));
+	public static final ResourceKey<DamageType> TOXIC_GOO = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("toxic_goo"));
 
 	private final Holder.Reference<DamageType> landingDamageType;
 	private final Holder.Reference<DamageType> lemonadeDamageType;
 	private final Holder.Reference<DamageType> lemonadePlayerDamageType;
+	private final DamageSource toxicGooDamage;
 
 	public PortalCubedDamageSources(RegistryAccess registryAccess) {
 		Registry<DamageType> damageTypes = registryAccess.registryOrThrow(Registries.DAMAGE_TYPE);
 		this.landingDamageType = damageTypes.getHolderOrThrow(LANDING_DAMAGE);
 		this.lemonadeDamageType = damageTypes.getHolderOrThrow(LEMONADE);
 		this.lemonadePlayerDamageType = damageTypes.getHolderOrThrow(LEMONADE_PLAYER);
+		this.toxicGooDamage = new DamageSource(damageTypes.getHolderOrThrow(TOXIC_GOO));
 	}
 
 	public static DamageSource landingDamage(Level level, @Nullable Entity source, @Nullable Entity attacked) {
@@ -48,6 +51,10 @@ public class PortalCubedDamageSources {
 	public static DamageSource lemonade(Level level, @Nullable Entity source, @Nullable Entity attacked) {
 		PortalCubedDamageSources damageSources = ((LevelExt) level).pc$damageSources();
 		return new DamageSource(attacked != null && source != null ? damageSources.lemonadePlayerDamageType : damageSources.lemonadeDamageType, source, attacked);
+	}
+
+	public static DamageSource toxicGoo(Level level) {
+		return ((LevelExt) level).pc$damageSources().toxicGooDamage;
 	}
 
 	public static class LandingDamageSource extends DamageSource {
