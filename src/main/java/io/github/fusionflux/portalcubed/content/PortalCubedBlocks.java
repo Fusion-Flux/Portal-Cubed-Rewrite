@@ -26,6 +26,8 @@ import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -855,6 +857,7 @@ public class PortalCubedBlocks {
 			.build();
 
 	public static void init() {
+		Item.BY_BLOCK.put(GOO_CAULDRON, Items.CAULDRON);
 		CauldronFluidContent.registerCauldron(GOO_CAULDRON, PortalCubedFluids.GOO, FluidConstants.BUCKET, null);
 	}
 }
