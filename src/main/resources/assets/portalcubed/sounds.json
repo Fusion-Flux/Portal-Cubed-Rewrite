@@ -125,6 +125,23 @@
       }
     ]
   },
+  "radio_fizzle": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/radio_fizzle_1",
+        "volume": 0.25
+      },
+      {
+        "name": "portalcubed:props/radio_fizzle_2",
+        "volume": 0.25
+      },
+      {
+        "name": "portalcubed:props/radio_fizzle_3",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.radio_fizzle"
+  },
   "companion_cube_ambiance": {
     "sounds": [
       {
@@ -132,6 +149,15 @@
         "stream": true
       }
     ]
+  },
+  "generic_fizzle": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/generic_fizzle",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.generic_fizzle"
   },
   "generic_impact": {
     "sounds": [

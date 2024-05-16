@@ -162,6 +162,9 @@
   "subtitles.portalcubed.portal_gun_drop": "Portal gun releases object",
   "subtitles.portalcubed.portal_gun_cannot_grab": "Portal gun fails to grab object",
 
+  "subtitles.portalcubed.generic_fizzle": "Something disintegrates",
+  "subtitles.portalcubed.radio_fizzle": "Radio disintegrates",
+
   "subtitles.portalcubed.pedestal_button_press": "Switch activates",
   "subtitles.portalcubed.pedestal_button_release": "Switch deactivates",
   "subtitles.portalcubed.floor_button_press": "Button activates",
@@ -746,8 +749,8 @@
 
   "death.attack.toxic_goo": "%s dissolved in toxic goo",
   "death.attack.toxic_goo.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
-  "death.attack.fizzle": "%s was fizzled",
-  "death.attack.fizzle.player": "%1$s was pushed into a laser field by %2$s",
+  "death.attack.disintegration": "%s was disintegrated",
+  "death.attack.disintegration.player": "%1$s was disintegrated trying to escape %2$s",
   "death.attack.vaporization": "%s was vaporized by a High Energy Pellet",
   "death.attack.vaporization.player": "%1$s was vaporized by a High Energy Pellet trying to escape %2$s",
   "death.attack.laser": "%s was thermally discouraged",
