@@ -11,9 +11,12 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+
+import org.jetbrains.annotations.UnknownNullability;
 
 public class PropRenderer extends EntityRenderer<Prop> {
 	private final ItemRenderer itemRenderer;
@@ -28,7 +31,7 @@ public class PropRenderer extends EntityRenderer<Prop> {
 	public void render(Prop prop, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light) {
 		super.render(prop, yaw, tickDelta, matrices, vertexConsumers, light);
 
-		var model = PropModels.getModel(prop.type, prop.getVariant());
+		BakedModel model = PropModels.getModel(prop.type, prop.getVariant());
 		matrices.pushPose();
 		matrices.mulPose(Axis.YP.rotationDegrees(180 - prop.getYRot()));
 		model.getTransforms().getTransform(ItemDisplayContext.GROUND).apply(false, matrices);
@@ -43,6 +46,7 @@ public class PropRenderer extends EntityRenderer<Prop> {
 		matrices.popPose();
 	}
 
+	@UnknownNullability
 	@Override
 	public ResourceLocation getTextureLocation(Prop entity) {
 		return null;

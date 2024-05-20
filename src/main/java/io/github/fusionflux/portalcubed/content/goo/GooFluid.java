@@ -5,6 +5,8 @@ import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import net.minecraft.core.BlockPos;
@@ -40,7 +42,11 @@ public abstract class GooFluid extends FlowingFluid {
 						(entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO))
 		) return;
 
-		entity.hurt(PortalCubedDamageSources.toxicGoo(world), world.getGameRules().getInt(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
+		if (entity instanceof Prop) {
+			FizzleBehaviour.DISINTEGRATION.fizzle(entity);
+		} else {
+			entity.hurt(PortalCubedDamageSources.toxicGoo(world), world.getGameRules().getInt(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
+		}
 	}
 
 	@NotNull

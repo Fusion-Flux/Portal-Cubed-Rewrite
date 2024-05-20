@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
@@ -37,6 +38,7 @@ public class PortalCubedPackets {
 	public static final ResourceLocation SHOOT_CANNON_OTHER = clientbound("shoot_cannon_other", OtherPlayerShootCannonPacket::new);
 	public static final ResourceLocation OPEN_CANNON_CONFIG = clientbound("open_cannon_config", OpenCannonConfigPacket::new);
 	public static final ResourceLocation HOLD_STATUS = clientbound("hold_status", HoldStatusPacket::new);
+	public static final ResourceLocation DISINTEGRATE = clientbound("disintegrate", DisintegratePacket::new);
 	// serverbound
 	public static final ResourceLocation CONFIGURE_PEDESTAL_BUTTON = serverbound("configure_pedestal_button", ConfigurePedestalButtonPacket::new);
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);

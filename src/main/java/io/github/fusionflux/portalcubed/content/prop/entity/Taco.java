@@ -118,7 +118,7 @@ public class Taco extends Prop {
 	}
 
 	public boolean isIgnited() {
-		return this.explodeTicks > 0;
+		return this.explodeTicks != 0;
 	}
 
 	public void ignite() {
