@@ -125,7 +125,7 @@
       }
     ]
   },
-  "radio_fizzle": {
+  "radio_disintegration": {
     "sounds": [
       {
         "name": "portalcubed:props/radio_fizzle_1",
@@ -150,7 +150,7 @@
       }
     ]
   },
-  "generic_fizzle": {
+  "generic_disintegration": {
     "sounds": [
       {
         "name": "portalcubed:props/generic_fizzle",
