@@ -1,6 +1,15 @@
 {
   "values": [
-    "minecraft:ender_dragon",
-    "minecraft:wither"
+    "minecraft:item_frame",
+    "minecraft:glow_item_frame",
+    "minecraft:painting",
+    "minecraft:area_effect_cloud",
+    "minecraft:interaction",
+    "minecraft:item_display",
+    "minecraft:block_display",
+    "minecraft:leash_knot",
+    "minecraft:lightning_bolt",
+    "minecraft:marker",
+    "minecraft:text_display"
   ]
 }
