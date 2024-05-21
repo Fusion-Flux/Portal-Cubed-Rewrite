@@ -66,9 +66,9 @@ public class PortalRenderer {
 			for (PortalInstance portal : pair) {
 				if (frustum.isVisible(portal.plane)) {
 					renderPortal(portal, matrices, vertexConsumers);
-					if (renderDebug) {
-						renderPortalDebug(portal, context, matrices, vertexConsumers);
-					}
+//					if (renderDebug) {
+//						renderPortalDebug(portal, context, matrices, vertexConsumers);
+//					}
 				}
 			}
 		}
@@ -78,11 +78,11 @@ public class PortalRenderer {
 	}
 
 	private static void renderPortal(PortalInstance portal, PoseStack matrices, MultiBufferSource vertexConsumers) {
-		RenderType renderType = RenderType.beaconBeam(portal.shape.texture, true);
+		RenderType renderType = RenderType.beaconBeam(portal.data.settings().shape().texture, true);
 		VertexConsumer vertices = vertexConsumers.getBuffer(renderType);
 		matrices.pushPose();
 		// translate to portal pos
-		matrices.translate(portal.origin.x, portal.origin.y, portal.origin.z);
+		matrices.translate(portal.data.origin().x, portal.data.origin().y, portal.data.origin().z);
 		// apply rotations
 		matrices.mulPose(portal.rotation); // rotate towards facing direction
 		matrices.mulPose(Axis.ZP.rotationDegrees(180));
@@ -92,45 +92,45 @@ public class PortalRenderer {
 		matrices.translate(0, 0, -OFFSET_FROM_WALL);
 		// scale quad - 32x32 texture, half is used. scale the 1x1 to a 2x2.
 		matrices.scale(2, 2, 2);
-		RenderingUtils.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.color);
+		RenderingUtils.renderQuad(matrices, vertices, LightTexture.FULL_BRIGHT, portal.data.settings().color());
 		matrices.popPose();
 	}
 
-	private static void renderPortalDebug(PortalInstance portal, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource vertexConsumers) {
-		// render a box around the portal's plane
-		Color planeColor = portal.isActive() ? ACTIVE_PLANE_COLOR : PLANE_COLOR;
-		renderBox(matrices, vertexConsumers, portal.plane, planeColor);
-		// collision bounds
-		renderBox(matrices, vertexConsumers, portal.entityCollisionArea, RED);
-		renderBox(matrices, vertexConsumers, portal.collisionCollectionArea, PURPLE);
-		renderBox(matrices, vertexConsumers, portal.collisionModificationBox, CYAN);
-		// cross-portal collision
-		PortalInstance linked = portal.getLinked();
-		if (linked != null) {
-			renderCollision(ctx, portal, linked);
-		}
-		// render player's raycast through
-		Camera camera = ctx.camera();
-		Vec3 pos = camera.getPosition();
-		Vector3f lookVector = camera.getLookVector().normalize(3, new Vector3f());
-		Vec3 end = pos.add(lookVector.x, lookVector.y, lookVector.z);
-		PortalHitResult hit = ctx.world().portalManager().clipPortal(pos, end);
-		if (hit != null) {
-			// start -> hitIn
-			RenderingUtils.renderLine(matrices, vertexConsumers, hit.start(), hit.hitIn(), ORANGE);
-			// box at hitIn
-			AABB hitInBox = AABB.ofSize(hit.hitIn(), 0.1, 0.1, 0.1);
-			renderBox(matrices, vertexConsumers, hitInBox, ORANGE);
-			// box at hitOut
-			AABB hitOutBox = AABB.ofSize(hit.hitOut(), 0.1, 0.1, 0.1);
-			renderBox(matrices, vertexConsumers, hitOutBox, BLUE);
-			// hitOut -> end
-			RenderingUtils.renderLine(matrices, vertexConsumers, hit.hitOut(), hit.teleportedEnd(), BLUE);
-			// box at end
-			AABB endBox = AABB.ofSize(hit.teleportedEnd(), 0.1, 0.1, 0.1);
-			renderBox(matrices, vertexConsumers, endBox, GREEN);
-		}
-	}
+//	private static void renderPortalDebug(PortalInstance portal, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource vertexConsumers) {
+//		// render a box around the portal's plane
+//		Color planeColor = portal.isActive() ? ACTIVE_PLANE_COLOR : PLANE_COLOR;
+//		renderBox(matrices, vertexConsumers, portal.plane, planeColor);
+//		// collision bounds
+//		renderBox(matrices, vertexConsumers, portal.entityCollisionArea, RED);
+//		renderBox(matrices, vertexConsumers, portal.collisionCollectionArea, PURPLE);
+//		renderBox(matrices, vertexConsumers, portal.collisionModificationBox, CYAN);
+//		// cross-portal collision
+//		PortalInstance linked = portal.getLinked();
+//		if (linked != null) {
+//			renderCollision(ctx, portal, linked);
+//		}
+//		// render player's raycast through
+//		Camera camera = ctx.camera();
+//		Vec3 pos = camera.getPosition();
+//		Vector3f lookVector = camera.getLookVector().normalize(3, new Vector3f());
+//		Vec3 end = pos.add(lookVector.x, lookVector.y, lookVector.z);
+//		PortalHitResult hit = ctx.world().portalManager().clipPortal(pos, end);
+//		if (hit != null) {
+//			// start -> hitIn
+//			RenderingUtils.renderLine(matrices, vertexConsumers, hit.start(), hit.hitIn(), ORANGE);
+//			// box at hitIn
+//			AABB hitInBox = AABB.ofSize(hit.hitIn(), 0.1, 0.1, 0.1);
+//			renderBox(matrices, vertexConsumers, hitInBox, ORANGE);
+//			// box at hitOut
+//			AABB hitOutBox = AABB.ofSize(hit.hitOut(), 0.1, 0.1, 0.1);
+//			renderBox(matrices, vertexConsumers, hitOutBox, BLUE);
+//			// hitOut -> end
+//			RenderingUtils.renderLine(matrices, vertexConsumers, hit.hitOut(), hit.teleportedEnd(), BLUE);
+//			// box at end
+//			AABB endBox = AABB.ofSize(hit.teleportedEnd(), 0.1, 0.1, 0.1);
+//			renderBox(matrices, vertexConsumers, endBox, GREEN);
+//		}
+//	}
 
 	private static void renderCollision(WorldRenderContext ctx, PortalInstance portal, PortalInstance linked) {
 		Camera camera = ctx.camera();
