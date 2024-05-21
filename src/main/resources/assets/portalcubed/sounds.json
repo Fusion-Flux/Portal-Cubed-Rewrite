@@ -159,6 +159,15 @@
     ],
     "subtitle": "subtitles.portalcubed.generic_fizzle"
   },
+  "turret_disintegration": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/turret_fizzle",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.turret_fizzle"
+  },
   "generic_impact": {
     "sounds": [
       {

@@ -29,6 +29,13 @@
   "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
 
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
+  "commands.portalcubed.fizzle.clear_portals.success": "Cleared the portals of %s",
+  "commands.portalcubed.fizzle.clear_portals.failure": "Could not clear the portals of %s",
+  "commands.portalcubed.fizzle.disintegrate.success": "Disintegrated %s",
+  "commands.portalcubed.fizzle.disintegrate.failure": "Could not disintegrate %s",
+  "commands.portalcubed.fizzle.clear_paint.success": "Cleared paint from %s",
+  "commands.portalcubed.fizzle.clear_paint.failure": "Could not clear paint from %s",
+
 
   "item.portalcubed.construction_cannon.material": "Material: ",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
@@ -164,6 +171,7 @@
 
   "subtitles.portalcubed.generic_fizzle": "Something disintegrates",
   "subtitles.portalcubed.radio_fizzle": "Radio disintegrates",
+  "subtitles.portalcubed.turret_fizzle": "Turret disintegrates",
 
   "subtitles.portalcubed.pedestal_button_press": "Switch activates",
   "subtitles.portalcubed.pedestal_button_release": "Switch deactivates",
