@@ -60,7 +60,7 @@ public abstract class EntityMixin implements EntityExt {
 			)
 	)
 	private void moveThroughPortals(Entity self, double x, double y, double z, Operation<Void> original) {
-		PortalTeleportHandler.handle(self, x, y, z, original);
+		PortalTeleportHandler.handle(self, x, y, z, original::call);
 	}
 
 	@Redirect(

@@ -1,25 +1,30 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import com.mojang.serialization.Codec;
+
 import io.github.fusionflux.portalcubed.framework.util.PacketUtils;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 
-import java.util.Optional;
 import java.util.UUID;
 
-public final class Portal {
+/**
+ * A portal in the world, with all expensive data computed.
+ * There will only ever be one instance per data.
+ */
+public final class PortalInstance {
+	public static final Codec<PortalInstance> CODEC = PortalData.CODEC.xmap(PortalInstance::new, instance -> instance.data);
+
 	// portal plane is 2 pixels short of full blocks on each axis, 1 on each side
 	public static final double SIXTEENTH = 1 / 16f;
 	public static final double HEIGHT = 2 - (2 * SIXTEENTH);
@@ -28,17 +33,12 @@ public final class Portal {
 	public static final double COLLISION_BOX_SIDE_THICKNESS = 0.01;
 	public static final double COLLISION_BOX_DEPTH = 4 - (2 * COLLISION_BOX_SIDE_THICKNESS);
 
-	public final int netId;
-    public final Vec3 origin;
+    public final PortalData data;
+
 	public final AABB plane; // technically a box, but really thin on 1 axis
 	public final Vec3 normal;
-	public final FrontAndTop orientation;
 	public final Quaternionf rotation;
 	public final Quaternionf rotation180;
-    public final PortalShape shape;
-    public final PortalType type;
-	public final int color;
-	public final UUID owner;
 
 	// plane-like hole this portal punches in the world to allow walking through
 	public final VoxelShape hole;
@@ -49,24 +49,10 @@ public final class Portal {
 	// area behind portal where collision is modified to match other portal
 	public final AABB collisionModificationBox;
 
-	private int linkedNetId;
-	@Nullable
-	private Portal linked;
-	private Optional<Portal> linkedOptional;
-
-    public Portal(int netId, Vec3 origin, FrontAndTop orientation, PortalShape shape, PortalType type, int color, UUID owner) {
-		this.netId = netId;
-        this.origin = origin;
+    public PortalInstance(PortalData data) {
+        this.data = data;
+		FrontAndTop orientation = data.orientation();
 		this.normal = Vec3.atLowerCornerOf(orientation.front().getNormal());
-		this.orientation = orientation;
-        this.shape = shape;
-        this.type = type;
-		this.color = color;
-		this.owner = owner;
-
-		this.linkedNetId = -1;
-		this.linked = null;
-		this.linkedOptional = Optional.empty();
 
 		this.rotation = TransformUtils.quaternionOf(orientation);
 		this.rotation180 = TransformUtils.rotateAround(rotation, orientation.top().getAxis(), 180);
@@ -76,6 +62,7 @@ public final class Portal {
 		double y = frontAxis.isVertical() ? THICKNESS : HEIGHT;
 		double x = frontAxis == Direction.Axis.X ? THICKNESS : (verticalAxis == Direction.Axis.X ? HEIGHT : WIDTH);
 		double z = frontAxis == Direction.Axis.Z ? THICKNESS : (verticalAxis == Direction.Axis.Z ? HEIGHT : WIDTH);
+		Vec3 origin = data.origin();
 		this.plane = AABB.ofSize(origin, x, y, z);
 
 		// make hole slightly smaller than TP plane
@@ -96,41 +83,23 @@ public final class Portal {
 				.move(normal.scale(-COLLISION_BOX_SIDE_THICKNESS)); // move bounds fully into supporting wall
     }
 
-	@Nullable
-	public Portal getLinked() {
-		return this.linked;
-	}
-
-	public Optional<Portal> maybeGetLinked() {
-		return linkedOptional;
-	}
-
 	public boolean isActive() {
 		return this.linked != null;
 	}
 
 	public Vector3d relativize(Vector3d pos) {
+		Vec3 origin = this.data.origin();
 		return pos.sub(origin.x, origin.y, origin.z);
 	}
 
 	public Vector3d derelativize(Vector3d pos) {
+		Vec3 origin = this.data.origin();
 		return pos.add(origin.x, origin.y, origin.z);
 	}
 
-	/**
-	 * Do not use, use the portal manager
-	 */
-	@ApiStatus.Internal
-	public void setLinked(@Nullable Portal portal) {
-		this.linkedNetId = portal == null ? -1 : portal.netId;
-		this.linked = portal;
-		this.linkedOptional = Optional.ofNullable(portal);
-	}
+	public CompoundTag toNbt() {
+		CompoundTag nbt = new CompoundTag();
 
-	@ApiStatus.Internal
-	public void findLinkedPortal(PortalManager manager) {
-		if (this.linkedNetId != -1) {
-		}
 	}
 
 	public void toNetwork(FriendlyByteBuf buf) {
@@ -140,31 +109,17 @@ public final class Portal {
 		buf.writeEnum(shape);
 		buf.writeEnum(type);
 		buf.writeVarInt(color);
-		buf.writeVarInt(linkedNetId);
 		buf.writeUUID(owner);
 	}
 
-	public static Portal fromNetwork(FriendlyByteBuf buf) {
+	public static PortalInstance fromNetwork(FriendlyByteBuf buf) {
 		int netId = buf.readVarInt();
 		Vec3 origin = PacketUtils.readVec3(buf);
 		FrontAndTop orientation = buf.readEnum(FrontAndTop.class);
 		PortalShape shape = buf.readEnum(PortalShape.class);
 		PortalType type = buf.readEnum(PortalType.class);
 		int color = buf.readVarInt();
-		int linkedId = buf.readVarInt();
 		UUID owner = buf.readUUID();
-		Portal portal = new Portal(netId, origin, orientation, shape, type, color, owner);
-		portal.linkedNetId = linkedId; // the portal reference will be resolved later with findLinkedPortal
-		return portal;
-	}
-
-	@Override
-	public int hashCode() {
-		return netId;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return obj instanceof Portal other && other.netId == this.netId;
+		return new PortalInstance(netId, origin, orientation, shape, type, color, owner);
 	}
 }

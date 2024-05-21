@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.projectile;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
-import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.framework.entity.UnsavedEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
@@ -13,7 +13,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -44,17 +43,11 @@ public class PortalProjectile extends UnsavedEntity {
 
 	public PortalProjectile(Level level, PortalSettings settings, Direction horizontalFacing, UUID pair, PortalType type) {
 		this(PortalCubedEntities.PORTAL_PROJECTILE, level);
-
-	}
-
-	public static PortalProjectile create(Level level, Player shooter, PortalSettings settings, PortalType type, Direction shooterFacing) {
-		PortalProjectile projectile = new PortalProjectile(PortalCubedEntities.PORTAL_PROJECTILE, level);
-		projectile.entityData.set(COLOR, settings.color());
-		projectile.portalSettings = settings;
-		projectile.shooterFacing = shooterFacing;
-		projectile.shooter = shooter.getUUID();
-		projectile.type = type;
-		return projectile;
+		this.portalSettings = settings;
+		this.entityData.set(COLOR, settings.color());
+		this.horizontalFacing = horizontalFacing;
+		this.pair = pair;
+		this.type = type;
 	}
 
 	@Override
@@ -96,16 +89,15 @@ public class PortalProjectile extends UnsavedEntity {
 	}
 
 	private void spawnPortal(ServerLevel level, BlockHitResult hit) {
-		if (portalSettings == null || shooterFacing == null || shooter == null || type == null)
+		if (this.portalSettings == null || this.horizontalFacing == null || this.pair == null || this.type == null)
 			return;
 
 		Direction facing = hit.getDirection();
 		Vec3 pos = hit.getLocation();
-		Direction top = facing.getAxis().isHorizontal() ? Direction.UP : shooterFacing;
+		Direction top = facing.getAxis().isHorizontal() ? Direction.UP : horizontalFacing;
 		FrontAndTop orientation = Objects.requireNonNull(FrontAndTop.fromFrontAndTop(facing, top));
-		ServerPortalManager manager = ServerPortalManager.of(level);
-
-		manager.createPortal(pos, orientation, portalSettings.color(), portalSettings.shape(), type, shooter);
+		PortalData data = new PortalData(pos, orientation, this.portalSettings);
+		level.portalManager().createPortal(this.pair, this.type, data);
 	}
 
 	public int getColor() {

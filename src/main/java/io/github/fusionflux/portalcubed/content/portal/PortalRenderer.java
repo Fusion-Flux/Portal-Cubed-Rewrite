@@ -31,7 +31,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.joml.Vector3f;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class PortalRenderer {
 	public static final Color RED = new Color(1, 0, 0, 1);
@@ -49,22 +51,24 @@ public class PortalRenderer {
 	private static void render(WorldRenderContext context) {
 		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource vertexConsumers))
 			return;
-		ClientPortalManager manager = ClientPortalManager.of(context.world());
-		List<Portal> portals = manager.allPortals();
-		if (portals.isEmpty())
+		ClientPortalManager manager = context.world().portalManager();
+		Collection<PortalPair> pairs = manager.getAllPairs();
+		if (pairs.isEmpty())
 			return;
 
 		PoseStack matrices = context.matrixStack();
 		Vec3 camPos = context.camera().getPosition();
-		Frustum frustum = context.frustum();
+		Frustum frustum = Objects.requireNonNull(context.frustum());
 		matrices.pushPose();
 		boolean renderDebug = Minecraft.getInstance().getDebugOverlay().showDebugScreen();
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
-		for (Portal portal : portals) {
-			if (frustum.isVisible(portal.plane)) {
-				renderPortal(portal, matrices, vertexConsumers);
-				if (renderDebug) {
-					renderPortalDebug(portal, context, matrices, vertexConsumers);
+		for (PortalPair pair : pairs) {
+			for (PortalInstance portal : pair) {
+				if (frustum.isVisible(portal.plane)) {
+					renderPortal(portal, matrices, vertexConsumers);
+					if (renderDebug) {
+						renderPortalDebug(portal, context, matrices, vertexConsumers);
+					}
 				}
 			}
 		}
@@ -73,7 +77,7 @@ public class PortalRenderer {
 		vertexConsumers.endLastBatch();
 	}
 
-	private static void renderPortal(Portal portal, PoseStack matrices, MultiBufferSource vertexConsumers) {
+	private static void renderPortal(PortalInstance portal, PoseStack matrices, MultiBufferSource vertexConsumers) {
 		RenderType renderType = RenderType.beaconBeam(portal.shape.texture, true);
 		VertexConsumer vertices = vertexConsumers.getBuffer(renderType);
 		matrices.pushPose();
@@ -92,7 +96,7 @@ public class PortalRenderer {
 		matrices.popPose();
 	}
 
-	private static void renderPortalDebug(Portal portal, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource vertexConsumers) {
+	private static void renderPortalDebug(PortalInstance portal, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource vertexConsumers) {
 		// render a box around the portal's plane
 		Color planeColor = portal.isActive() ? ACTIVE_PLANE_COLOR : PLANE_COLOR;
 		renderBox(matrices, vertexConsumers, portal.plane, planeColor);
@@ -101,7 +105,7 @@ public class PortalRenderer {
 		renderBox(matrices, vertexConsumers, portal.collisionCollectionArea, PURPLE);
 		renderBox(matrices, vertexConsumers, portal.collisionModificationBox, CYAN);
 		// cross-portal collision
-		Portal linked = portal.getLinked();
+		PortalInstance linked = portal.getLinked();
 		if (linked != null) {
 			renderCollision(ctx, portal, linked);
 		}
@@ -110,7 +114,7 @@ public class PortalRenderer {
 		Vec3 pos = camera.getPosition();
 		Vector3f lookVector = camera.getLookVector().normalize(3, new Vector3f());
 		Vec3 end = pos.add(lookVector.x, lookVector.y, lookVector.z);
-		PortalHitResult hit = ClientPortalManager.of(ctx.world()).clipPortal(pos, end);
+		PortalHitResult hit = ctx.world().portalManager().clipPortal(pos, end);
 		if (hit != null) {
 			// start -> hitIn
 			RenderingUtils.renderLine(matrices, vertexConsumers, hit.start(), hit.hitIn(), ORANGE);
@@ -128,12 +132,12 @@ public class PortalRenderer {
 		}
 	}
 
-	private static void renderCollision(WorldRenderContext ctx, Portal portal, Portal linked) {
+	private static void renderCollision(WorldRenderContext ctx, PortalInstance portal, PortalInstance linked) {
 		Camera camera = ctx.camera();
 		Entity entity = camera.getEntity();
 		ClientLevel level = ctx.world();
 		PoseStack matrices = ctx.matrixStack();
-		VertexConsumer vertices = ctx.consumers().getBuffer(RenderType.lines());
+		VertexConsumer vertices = Objects.requireNonNull(ctx.consumers()).getBuffer(RenderType.lines());
 
 		List<VoxelShape> shapes = VoxelShenanigans.getShapesBehindPortal(level, entity, portal, linked);
 		shapes.forEach(shape -> LevelRenderer.renderVoxelShape(

@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.player.LocalPlayer;
@@ -14,7 +14,7 @@ import org.quiltmc.qsl.networking.api.PacketSender;
 public class RemovePortalPacket implements ClientboundManagePortalsPacket {
 	private final int portalId;
 
-	public RemovePortalPacket(Portal portal) {
+	public RemovePortalPacket(PortalInstance portal) {
 		this.portalId = portal.netId;
 	}
 

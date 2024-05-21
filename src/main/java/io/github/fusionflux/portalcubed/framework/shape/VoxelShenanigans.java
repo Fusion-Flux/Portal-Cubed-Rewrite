@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.mixin.CubeVoxelShapeAccessor;
 import net.minecraft.world.entity.Entity;
@@ -67,7 +67,7 @@ public class VoxelShenanigans {
 		return CubeVoxelShapeAccessor.pc$create(newShape);
 	}
 
-	public static VoxelShape rotateShapeBetween(VoxelShape shape, Portal a, Portal b) {
+	public static VoxelShape rotateShapeBetween(VoxelShape shape, PortalInstance a, PortalInstance b) {
 		if (shape.isEmpty())
 			return shape;
 		// quaternion multiplication: T * Q applies Q first, then T
@@ -80,7 +80,7 @@ public class VoxelShenanigans {
 		return rotateShape(shape, totalRotation);
 	}
 
-	public static List<VoxelShape> getShapesBehindPortal(Level level, @Nullable Entity entity, Portal portal, Portal linked) {
+	public static List<VoxelShape> getShapesBehindPortal(Level level, @Nullable Entity entity, PortalInstance portal, PortalInstance linked) {
 		Iterable<VoxelShape> shapes = level.getCollisions(entity, linked.collisionCollectionArea);
 		List<VoxelShape> behindPortal = new ArrayList<>();
 		for (VoxelShape shape : shapes) {
