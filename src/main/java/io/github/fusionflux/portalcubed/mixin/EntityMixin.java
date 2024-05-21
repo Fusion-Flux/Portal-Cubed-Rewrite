@@ -49,6 +49,21 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract void discard();
 
+	@Shadow
+	public abstract void stopRiding();
+
+	@Shadow
+	public abstract void move(MoverType movementType, Vec3 movement);
+
+	@Shadow
+	public abstract Vec3 getDeltaMovement();
+
+	@Shadow
+	public abstract void setDeltaMovement(Vec3 velocity);
+
+	@Shadow
+	public abstract void kill();
+
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
@@ -63,6 +78,7 @@ public abstract class EntityMixin implements EntityExt {
 			for (ServerPlayer toUpdate : PlayerLookup.tracking(self)) {
 				PortalCubedPackets.sendToClient(toUpdate, packet);
 			}
+			stopRiding();
 		}
 		return notDisintegrating;
 	}
@@ -86,6 +102,21 @@ public abstract class EntityMixin implements EntityExt {
 		return this.disintegrateTicks;
 	}
 
+	@Override
+	public void pc$disintegrateTick() {
+		Vec3 velocity = this.getDeltaMovement().scale(.91);
+		this.move(MoverType.SELF, velocity);
+		this.setDeltaMovement(velocity);
+
+		if (--this.disintegrateTicks <= 0 && !this.level().isClientSide) {
+			if ((Object) this instanceof Player) {
+				this.kill();
+			} else {
+				this.discard();
+			}
+		}
+	}
+
 	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))
 	private void readDisintegrateTicks(CompoundTag tag, CallbackInfo ci) {
 		this.disintegrateTicks = tag.getInt("portalcubed:disintegrate_ticks");
@@ -97,14 +128,19 @@ public abstract class EntityMixin implements EntityExt {
 			tag.putInt("portalcubed:disintegrate_ticks", this.disintegrateTicks);
 	}
 
-	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-	private void disintegrationTicking(CallbackInfo ci) {
-		if (this.pc$disintegrating()) {
-			if (--this.disintegrateTicks <= 0 && !this.level().isClientSide) {
-				this.discard();
-			}
-			ci.cancel();
-		}
+	@Inject(method = "isNoGravity", at = @At("RETURN"), cancellable = true)
+	private void noGravityIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
+		if (this.pc$disintegrating()) cir.setReturnValue(true);
+	}
+
+	@Inject(method = "isSilent", at = @At("RETURN"), cancellable = true)
+	private void silentIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
+		if (this.pc$disintegrating()) cir.setReturnValue(true);
+	}
+
+	@Inject(method = "isInvulnerable", at = @At("RETURN"), cancellable = true)
+	private void invulnerableIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
+		if (this.pc$disintegrating()) cir.setReturnValue(true);
 	}
 
 	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("RETURN"))

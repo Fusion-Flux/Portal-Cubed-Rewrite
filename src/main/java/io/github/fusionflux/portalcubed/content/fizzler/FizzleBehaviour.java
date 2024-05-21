@@ -14,8 +14,12 @@ public enum FizzleBehaviour {
 		@Override
 		public void fizzle(Entity entity) {
 			if (entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION)) return;
-			if (entity.pc$disintegrate() && !entity.isSilent())
-				DisintegrationSoundType.allFor(entity.getType()).forEach(soundType -> entity.playSound(soundType.sound));
+			boolean wasSilent = entity.isSilent(); // disintegration makes entities silent
+			if (!wasSilent && entity.pc$disintegrate()) {
+				// Entity.playSound does a isSilent check
+				DisintegrationSoundType.allFor(entity.getType()).forEach(soundType ->
+						entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), soundType.sound, entity.getSoundSource(), 1f, 1f));
+			}
 		}
 	},
 	PAINT_CLEARING {

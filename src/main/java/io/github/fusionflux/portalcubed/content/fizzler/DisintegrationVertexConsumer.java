@@ -28,7 +28,7 @@ public class DisintegrationVertexConsumer implements VertexConsumer, VertexBuffe
 		this.canUseIntrinsics = VertexBufferWriter.tryOf(delegate) != null;
 
 		float progress = 1 - Math.min(ticks / EntityExt.DISINTEGRATE_TICKS, 1);
-		float alpha = 1 - Math.min(Math.max(0, progress - TRANSLUCENCY_START_PROGRESS) / (1 - TRANSLUCENCY_START_PROGRESS), 1);
+		float alpha = 1 - Math.min((Math.max(0, progress - TRANSLUCENCY_START_PROGRESS) / (1 - TRANSLUCENCY_START_PROGRESS)) * 2, 1);
 		this.packedColor = ColorABGR.pack(DARKEN, DARKEN, DARKEN, alpha);
 		this.delta = Math.min(progress * (1 + TRANSLUCENCY_START_PROGRESS), 1);
 	}

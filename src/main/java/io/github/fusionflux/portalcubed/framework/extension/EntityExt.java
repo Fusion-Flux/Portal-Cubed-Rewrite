@@ -7,4 +7,5 @@ public interface EntityExt {
 	default boolean pc$disintegrate(int ticks) { throw new AbstractMethodError(); }
 	default boolean pc$disintegrating() { throw new AbstractMethodError(); }
 	default int pc$disintegrateTicks() { throw new AbstractMethodError(); }
+	default void pc$disintegrateTick() { throw new AbstractMethodError(); }
 }

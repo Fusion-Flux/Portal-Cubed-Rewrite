@@ -32,6 +32,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
@@ -174,10 +175,10 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
 		if (source.getDirectEntity() instanceof Player player) {
-			var abilities = player.getAbilities();
+			Abilities abilities = player.getAbilities();
 			return (isInvulnerable() && !abilities.instabuild) || !(abilities.instabuild || (abilities.mayBuild && HammerItem.usingHammer(player)));
 		}
-		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
+		return super.isInvulnerableTo(source);
 	}
 
 	@Override
