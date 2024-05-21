@@ -13,6 +13,7 @@ import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
+import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.sounds.SoundEvents;
@@ -86,6 +87,7 @@ public class PortalCubedItems {
 		CauldronInteraction.EMPTY.map().put(GOO_BUCKET, (state, world, pos, player, hand, stack) -> CauldronInteraction.emptyBucket(
 				world, pos, player, hand, stack, PortalCubedBlocks.GOO_CAULDRON.defaultBlockState(), SoundEvents.BUCKET_EMPTY
 		));
+		DispenserBlock.registerBehavior(GOO_BUCKET, new BucketDispenseBehaviour());
 		DispenserBlock.registerBehavior(LEMONADE, new LemonadeDispenseBehavior());
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
 			if (BuiltInLootTables.SNIFFER_DIGGING.equals(id) && source.isBuiltin())
