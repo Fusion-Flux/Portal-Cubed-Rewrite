@@ -143,6 +143,11 @@ public abstract class EntityMixin implements EntityExt {
 		if (this.pc$disintegrating()) cir.setReturnValue(true);
 	}
 
+	@Inject(method = "tryCheckInsideBlocks", at = @At("HEAD"), cancellable = true)
+	private void dontCheckInsideBlocksIfDisintegrating(CallbackInfo ci) {
+		if (this.pc$disintegrating()) ci.cancel();
+	}
+
 	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("RETURN"))
 	private void startSoundWhenUnSilenced(EntityDataAccessor<?> data, CallbackInfo ci) {
 		if (level().isClientSide && (Object) this instanceof AmbientSoundEmitter ambientSoundEmitter) {

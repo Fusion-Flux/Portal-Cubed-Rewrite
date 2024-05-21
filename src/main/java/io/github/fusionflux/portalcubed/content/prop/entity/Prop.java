@@ -178,7 +178,7 @@ public class Prop extends HoldableEntity implements CollisionListener {
 			Abilities abilities = player.getAbilities();
 			return (isInvulnerable() && !abilities.instabuild) || !(abilities.instabuild || (abilities.mayBuild && HammerItem.usingHammer(player)));
 		}
-		return super.isInvulnerableTo(source);
+		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
 	}
 
 	@Override
