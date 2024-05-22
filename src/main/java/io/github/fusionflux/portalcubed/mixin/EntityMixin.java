@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 import net.minecraft.world.level.block.state.BlockState;
 
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -74,6 +75,9 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract BlockPos blockPosition();
 
+	@Shadow
+	@Nullable
+	private Entity.@Nullable RemovalReason removalReason;
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
@@ -122,11 +126,15 @@ public abstract class EntityMixin implements EntityExt {
 		this.move(MoverType.SELF, velocity);
 		this.setDeltaMovement(velocity);
 
-		if (--this.disintegrateTicks <= 0 && !this.level().isClientSide) {
-			if ((Object) this instanceof Player) {
-				this.kill();
-			} else {
-				this.discard();
+		if (--this.disintegrateTicks <= 0) {
+			// set removal reason on client to make sure it stops rendering
+			this.removalReason = RemovalReason.DISCARDED;
+			if (!this.level().isClientSide) {
+				if ((Object) this instanceof Player) {
+					this.kill();
+				} else {
+					this.discard();
+				}
 			}
 		}
 	}
