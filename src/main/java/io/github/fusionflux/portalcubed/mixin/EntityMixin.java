@@ -128,7 +128,8 @@ public abstract class EntityMixin implements EntityExt {
 
 		if (--this.disintegrateTicks <= 0) {
 			// set removal reason on client to make sure it stops rendering
-			this.removalReason = RemovalReason.DISCARDED;
+			if (!((Object) this instanceof Player))
+				this.removalReason = RemovalReason.DISCARDED;
 			if (!this.level().isClientSide) {
 				if ((Object) this instanceof Player) {
 					this.kill();
