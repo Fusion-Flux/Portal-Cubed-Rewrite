@@ -166,9 +166,14 @@ public abstract class EntityMixin implements EntityExt {
 		if (this.pc$disintegrating()) cir.setReturnValue(true);
 	}
 
-	@Inject(method = "tryCheckInsideBlocks", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "checkInsideBlocks", at = @At("HEAD"), cancellable = true)
 	private void dontCheckInsideBlocksIfDisintegrating(CallbackInfo ci) {
 		if (this.pc$disintegrating()) ci.cancel();
+	}
+
+	@Inject(method = "isIgnoringBlockTriggers", at = @At("RETURN"), cancellable = true)
+	private void ignoreBlockTriggersIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
+		if (this.pc$disintegrating()) cir.setReturnValue(true);
 	}
 
 	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("RETURN"))
