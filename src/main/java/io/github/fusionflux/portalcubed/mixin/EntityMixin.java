@@ -1,17 +1,21 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 
 import net.minecraft.server.level.ServerLevel;
 
 import net.minecraft.server.level.ServerPlayer;
+
+import net.minecraft.world.level.block.state.BlockState;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.spongepowered.asm.mixin.Final;
@@ -64,6 +68,12 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract void kill();
 
+	@Shadow
+	public abstract BlockState getFeetBlockState();
+
+	@Shadow
+	public abstract BlockPos blockPosition();
+
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
@@ -73,6 +83,10 @@ public abstract class EntityMixin implements EntityExt {
 	public boolean pc$disintegrate() {
 		boolean notDisintegrating = !this.pc$disintegrating();
 		if (notDisintegrating && this.level() instanceof ServerLevel && (Object) this instanceof Entity self) {
+			BlockState feetState = this.getFeetBlockState();
+			if (feetState.getBlock() instanceof FloorButtonBlock floorButton && floorButton.isEntityPressing(feetState, this.blockPosition(), self))
+				setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
+
 			this.disintegrateTicks = DISINTEGRATE_TICKS;
 			DisintegratePacket packet = new DisintegratePacket(self);
 			for (ServerPlayer toUpdate : PlayerLookup.tracking(self)) {

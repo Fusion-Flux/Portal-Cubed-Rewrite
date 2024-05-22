@@ -7,14 +7,10 @@ import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
 public class ButtonActivatedProp extends Prop {
 	public static final int ACTIVATION_FLAG_INDEX = 0;
 	public static final int DIRTY_FLAG_INDEX = 1;
-
-	private static final double DISINTEGRATION_BUTTON_EJECTION_FORCE = 0.05;
 
 	private int activatedTimer = 0;
 
@@ -60,9 +56,6 @@ public class ButtonActivatedProp extends Prop {
 
 	@Override
 	public boolean pc$disintegrate() {
-		BlockState feetState = getFeetBlockState();
-		if (feetState.getBlock() instanceof FloorButtonBlock)
-			setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(DISINTEGRATION_BUTTON_EJECTION_FORCE));
 		setActivated(false);
 		return super.pc$disintegrate();
 	}

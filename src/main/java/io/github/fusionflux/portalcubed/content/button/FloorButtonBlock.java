@@ -43,6 +43,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 	public static final int PRESSED_TIME = 5;
+	public static final double DISINTEGRATION_EJECTION_FORCE = 0.05;
 	public static boolean easterEgg = true;
 
 	private static final VoxelShaper[][] SHAPES = new VoxelShaper[][]{
@@ -223,11 +224,14 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
 		if (!level.isClientSide) {
-			var originPos = getOriginPos(pos, state);
-			boolean entityInsideBounds = entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(originPos).intersects(entity.getBoundingBox());
+			boolean entityInsideBounds = isEntityPressing(state, pos, entity);
 			if (entityInsideBounds)
-				entityPressing(state, level, originPos, entity);
+				entityPressing(state, level, getOriginPos(pos, state), entity);
 		}
+	}
+
+	public boolean isEntityPressing(BlockState state, BlockPos pos, Entity entity) {
+		return entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(getOriginPos(pos, state)).intersects(entity.getBoundingBox());
 	}
 
 	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
