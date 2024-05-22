@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.command;
 
+import com.google.common.collect.Iterables;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import com.mojang.brigadier.context.CommandContext;
@@ -7,9 +8,11 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 
 import org.quiltmc.qsl.command.api.EnumArgumentType;
@@ -34,8 +37,29 @@ public class FizzleCommand {
 	}
 
 	private static int fizzle(CommandContext<CommandSourceStack> ctx, Collection<? extends Entity> targets) throws CommandSyntaxException {
+		CommandSourceStack source = ctx.getSource();
 		FizzleBehaviour behaviour = EnumArgumentType.getEnumConstant(ctx, "behaviour", FizzleBehaviour.class);
-		targets.forEach(behaviour::fizzle);
-		return targets.size();
+		String behaviourTranslationKey = "commands.portalcubed.fizzle." + behaviour.name + ".";
+
+		int successes = (int) targets.stream().filter(behaviour::fizzle).count();
+		int failures = targets.size() - successes;
+
+		if (successes > 0 && failures > 0) {
+			source.sendSuccess(() -> Component.translatable(behaviourTranslationKey + "mixed", successes, failures), true);
+		} else if (failures > 0) {
+			if (failures > 1) {
+				source.sendSuccess(() -> Component.translatable(behaviourTranslationKey + "failure.multiple", failures).withStyle(ChatFormatting.RED), true);
+			} else {
+				source.sendSuccess(() -> Component.translatable(behaviourTranslationKey + "failure", Iterables.getLast(targets).getDisplayName()).withStyle(ChatFormatting.RED), true);
+			}
+		} else {
+			if (successes > 1) {
+				source.sendSuccess(() -> Component.translatable(behaviourTranslationKey + "success.multiple", successes), true);
+			} else {
+				source.sendSuccess(() -> Component.translatable(behaviourTranslationKey + "success", Iterables.getLast(targets).getDisplayName()), true);
+			}
+		}
+
+		return successes;
 	}
 }
