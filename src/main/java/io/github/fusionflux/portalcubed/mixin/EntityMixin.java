@@ -156,7 +156,8 @@ public abstract class EntityMixin implements EntityExt {
 				this.discard();
 			}
 		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
-			for (int i = 0; i < 15; i++) {
+			double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
+			for (int i = 0; i < Math.round(volume*61.44); i++) { //magic number is based around a cube-sized entity having 15 particles/tick
 				double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
 				double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 2.5));
 				double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);

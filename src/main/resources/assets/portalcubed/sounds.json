@@ -129,15 +129,15 @@
     "sounds": [
       {
         "name": "portalcubed:props/radio_fizzle_1",
-        "volume": 0.25
+        "volume": 0.3
       },
       {
         "name": "portalcubed:props/radio_fizzle_2",
-        "volume": 0.25
+        "volume": 0.3
       },
       {
         "name": "portalcubed:props/radio_fizzle_3",
-        "volume": 0.25
+        "volume": 0.3
       }
     ],
     "subtitle": "subtitles.portalcubed.radio_fizzle"
