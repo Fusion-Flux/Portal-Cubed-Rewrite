@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 
@@ -15,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 
 import net.minecraft.server.level.ServerPlayer;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
@@ -74,6 +76,25 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract BlockPos blockPosition();
 
+	@Shadow
+	@Final
+	protected RandomSource random;
+
+	@Shadow
+	public abstract float getBbWidth();
+
+	@Shadow
+	public abstract float getBbHeight();
+
+	@Shadow
+	public abstract double getX();
+
+	@Shadow
+	public abstract double getY();
+
+	@Shadow
+	public abstract double getZ();
+
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
@@ -127,11 +148,22 @@ public abstract class EntityMixin implements EntityExt {
 		this.move(MoverType.SELF, velocity);
 		this.setDeltaMovement(velocity);
 
-		if (--this.disintegrateTicks <= 0 && !this.level().isClientSide) {
+		Level world = this.level();
+		if (--this.disintegrateTicks <= 0 && !world.isClientSide) {
 			if ((Object) this instanceof Player) {
 				this.kill();
 			} else {
 				this.discard();
+			}
+		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
+			for (int i = 0; i < 15; i++) {
+				double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
+				double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 2.5));
+				double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
+				double velocityX = this.random.nextGaussian();
+				double velocityY = this.random.nextGaussian();
+				double velocityZ = this.random.nextGaussian();
+				world.addParticle(ParticleTypes.ASH, getX() + xOffset, getY() + yOffset, getZ() + zOffset, velocityX, velocityY, velocityZ);
 			}
 		}
 	}

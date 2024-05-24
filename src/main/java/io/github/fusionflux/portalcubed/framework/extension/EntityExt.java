@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.extension;
 
 public interface EntityExt {
 	int DISINTEGRATE_TICKS = 3 * 20;
+	int TRANSLUCENCY_START_TICKS = 10;
 
 	default boolean pc$disintegrate() { throw new AbstractMethodError(); }
 	default boolean pc$disintegrate(int ticks) { throw new AbstractMethodError(); }
