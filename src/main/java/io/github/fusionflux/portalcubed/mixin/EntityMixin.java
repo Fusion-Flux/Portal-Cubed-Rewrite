@@ -17,7 +17,6 @@ import net.minecraft.server.level.ServerPlayer;
 
 import net.minecraft.world.level.block.state.BlockState;
 
-import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -75,30 +74,32 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract BlockPos blockPosition();
 
-	@Shadow
-	@Nullable
-	private Entity.@Nullable RemovalReason removalReason;
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
+	@Unique
+	private boolean disintegrating;
 	@Unique
 	private int disintegrateTicks;
 
 	@Override
 	public boolean pc$disintegrate() {
-		boolean notDisintegrating = !this.pc$disintegrating();
-		if (notDisintegrating && this.level() instanceof ServerLevel && (Object) this instanceof Entity self) {
-			BlockState feetState = this.getFeetBlockState();
-			if (feetState.getBlock() instanceof FloorButtonBlock floorButton && floorButton.isEntityPressing(feetState, this.blockPosition(), self))
-				setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
+		if (!this.disintegrating) {
+			this.disintegrating = true;
+			if (this.level() instanceof ServerLevel && (Object) this instanceof Entity self) {
+				BlockState feetState = this.getFeetBlockState();
+				if (feetState.getBlock() instanceof FloorButtonBlock floorButton && floorButton.isEntityPressing(feetState, this.blockPosition(), self))
+					setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
 
-			this.disintegrateTicks = DISINTEGRATE_TICKS;
-			DisintegratePacket packet = new DisintegratePacket(self);
-			for (ServerPlayer toUpdate : PlayerLookup.tracking(self)) {
-				PortalCubedPackets.sendToClient(toUpdate, packet);
+				this.disintegrateTicks = DISINTEGRATE_TICKS;
+				DisintegratePacket packet = new DisintegratePacket(self);
+				for (ServerPlayer toUpdate : PlayerLookup.tracking(self)) {
+					PortalCubedPackets.sendToClient(toUpdate, packet);
+				}
+				stopRiding();
 			}
-			stopRiding();
+			return true;
 		}
-		return notDisintegrating;
+		return false;
 	}
 
 	@Override
@@ -112,7 +113,7 @@ public abstract class EntityMixin implements EntityExt {
 
 	@Override
 	public boolean pc$disintegrating() {
-		return this.disintegrateTicks != 0;
+		return this.disintegrating;
 	}
 
 	@Override
@@ -126,16 +127,11 @@ public abstract class EntityMixin implements EntityExt {
 		this.move(MoverType.SELF, velocity);
 		this.setDeltaMovement(velocity);
 
-		if (--this.disintegrateTicks <= 0) {
-			// set removal reason on client to make sure it stops rendering
-			if (!((Object) this instanceof Player))
-				this.removalReason = RemovalReason.DISCARDED;
-			if (!this.level().isClientSide) {
-				if ((Object) this instanceof Player) {
-					this.kill();
-				} else {
-					this.discard();
-				}
+		if (--this.disintegrateTicks <= 0 && !this.level().isClientSide) {
+			if ((Object) this instanceof Player) {
+				this.kill();
+			} else {
+				this.discard();
 			}
 		}
 	}
@@ -143,37 +139,38 @@ public abstract class EntityMixin implements EntityExt {
 	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))
 	private void readDisintegrateTicks(CompoundTag tag, CallbackInfo ci) {
 		this.disintegrateTicks = tag.getInt("portalcubed:disintegrate_ticks");
+		this.disintegrating = this.disintegrateTicks != 0;
 	}
 
 	@Inject(method = "saveWithoutId", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;addAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))
 	private void saveDisintegrateTicks(CompoundTag tag, CallbackInfoReturnable<CompoundTag> cir) {
-		if (this.pc$disintegrating())
+		if (this.disintegrating)
 			tag.putInt("portalcubed:disintegrate_ticks", this.disintegrateTicks);
 	}
 
 	@Inject(method = "isNoGravity", at = @At("RETURN"), cancellable = true)
 	private void noGravityIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
-		if (this.pc$disintegrating()) cir.setReturnValue(true);
+		if (this.disintegrating) cir.setReturnValue(true);
 	}
 
 	@Inject(method = "isSilent", at = @At("RETURN"), cancellable = true)
 	private void silentIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
-		if (this.pc$disintegrating()) cir.setReturnValue(true);
+		if (this.disintegrating) cir.setReturnValue(true);
 	}
 
 	@Inject(method = "isInvulnerable", at = @At("RETURN"), cancellable = true)
 	private void invulnerableIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
-		if (this.pc$disintegrating()) cir.setReturnValue(true);
+		if (this.disintegrating) cir.setReturnValue(true);
 	}
 
 	@Inject(method = "checkInsideBlocks", at = @At("HEAD"), cancellable = true)
 	private void dontCheckInsideBlocksIfDisintegrating(CallbackInfo ci) {
-		if (this.pc$disintegrating()) ci.cancel();
+		if (this.disintegrating) ci.cancel();
 	}
 
 	@Inject(method = "isIgnoringBlockTriggers", at = @At("RETURN"), cancellable = true)
 	private void ignoreBlockTriggersIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
-		if (this.pc$disintegrating()) cir.setReturnValue(true);
+		if (this.disintegrating) cir.setReturnValue(true);
 	}
 
 	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("RETURN"))

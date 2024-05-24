@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed.content.goo;
 
+import java.util.Optional;
+
+import org.jetbrains.annotations.NotNull;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
@@ -29,17 +33,10 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Optional;
-
 public abstract class GooFluid extends FlowingFluid {
 	public static void hurt(Level world, Entity entity) {
-		if (
-				!entity.isAlive() ||
-						entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_TOXIC_GOO) ||
-						(entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO))
-		) return;
+		if (world.isClientSide || !entity.isAlive() || entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_TOXIC_GOO) || (entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO)))
+			return;
 
 		if (entity.getType().is(PortalCubedEntityTags.DISINTEGRATES_WHEN_FIZZLED)) {
 			FizzleBehaviour.DISINTEGRATION.fizzle(entity);
