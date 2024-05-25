@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 
@@ -17,6 +18,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
@@ -38,6 +41,8 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Collection;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityExt {
@@ -68,9 +73,6 @@ public abstract class EntityMixin implements EntityExt {
 	public abstract void setDeltaMovement(Vec3 velocity);
 
 	@Shadow
-	public abstract void kill();
-
-	@Shadow
 	public abstract BlockState getFeetBlockState();
 
 	@Shadow
@@ -95,6 +97,9 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract double getZ();
 
+	@Shadow
+	public abstract boolean isAlive();
+
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
@@ -112,8 +117,9 @@ public abstract class EntityMixin implements EntityExt {
 					setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
 
 				this.disintegrateTicks = DISINTEGRATE_TICKS;
+				Collection<ServerPlayer> tracking = (Object) this instanceof ServerPlayer serverPlayer ? PortalCubedPackets.trackingAndSelf(serverPlayer) : PlayerLookup.tracking(self);
 				DisintegratePacket packet = new DisintegratePacket(self);
-				for (ServerPlayer toUpdate : PlayerLookup.tracking(self)) {
+				for (ServerPlayer toUpdate : tracking) {
 					PortalCubedPackets.sendToClient(toUpdate, packet);
 				}
 				stopRiding();
@@ -149,12 +155,14 @@ public abstract class EntityMixin implements EntityExt {
 		this.setDeltaMovement(velocity);
 
 		Level world = this.level();
-		if (--this.disintegrateTicks <= 0 && !world.isClientSide) {
-			if ((Object) this instanceof Player) {
-				this.kill();
-			} else {
-				this.discard();
+		if (--this.disintegrateTicks <= 0 && isAlive() && !world.isClientSide) {
+			if ((Object) this instanceof LivingEntity livingEntity) {
+				DamageSource damageSource = PortalCubedDamageSources.disintegration(world, livingEntity);
+				livingEntity.getCombatTracker().recordDamage(damageSource, Float.MAX_VALUE);
+				livingEntity.setHealth(0);
+				livingEntity.die(damageSource);
 			}
+			if (!((Object) this instanceof Player)) this.discard();
 		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
 			double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
 			for (int i = 0; i < Math.min(Math.round(volume*61.44), 1000); i++) { //magic number is based around a cube-sized entity having 15 particles/tick.  capped to 1000/tick
