@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.framework.util.PacketUtils;
+import io.github.fusionflux.portalcubed.framework.util.Plane;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
@@ -35,7 +36,7 @@ public final class PortalInstance {
 
     public final PortalData data;
 
-	public final AABB plane; // technically a box, but really thin on 1 axis
+	public final Plane plane;
 	public final Vec3 normal;
 	public final Quaternionf rotation;
 	public final Quaternionf rotation180;

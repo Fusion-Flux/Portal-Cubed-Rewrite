@@ -10,34 +10,25 @@ import org.jetbrains.annotations.Nullable;
  * A result of a raycast that passes through a pair of portals.
  * Each result may have either a next result or an end position. If there is another result, then the raycast passed
  * through multiple portals.
+ *
+ * @param start  Start of the raycast.
+ * @param end    End of the raycast, teleported through the portals. This is non-null when next is null.
+ * @param in     The portal that was entered.
+ * @param out    The portal that was exited.
+ * @param pair   The pair of portals passed through.
+ * @param inHit  Position where the entered portal was hit.
+ * @param outHit Position where the exited portal was hit.
+ * @param next   The next hit result in the chain. Null when end is non-null.
  */
-public class PortalHitResult {
-	/** Start of the raycast. */
-	public final Vec3 start;
-	/** End of the raycast, teleported through the portals. This is non-null when next is null. */
-	@Nullable
-	private final Vec3 end;
+public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
+							  PortalInstance in, PortalInstance out, PortalPair pair,
+							  Vec3 inHit, Vec3 outHit,
+							  @Nullable PortalHitResult next) {
 
-	/** The portal that was entered. */
-	public final PortalInstance in;
-	/** The portal that was exited. */
-	public final PortalInstance out;
-	/** The pair of portals passed through. */
-	public final PortalPair pair;
-
-	/** Position where the entered portal was hit. */
-	public final Vec3 inHit;
-	/** Position where the exited portal was hit. */
-	public final Vec3 outHit;
-
-	/** The next hit result in the chain. Null when end is non-null. */
-	@Nullable
-	private final PortalHitResult next;
-
-	PortalHitResult(Vec3 start, @Nullable Vec3 end,
-					PortalInstance in, PortalInstance out, PortalPair pair,
-					Vec3 inHit, Vec3 outHit,
-					@Nullable PortalHitResult next) {
+	public PortalHitResult(Vec3 start, @Nullable Vec3 end,
+						   PortalInstance in, PortalInstance out, PortalPair pair,
+						   Vec3 inHit, Vec3 outHit,
+						   @Nullable PortalHitResult next) {
 		this.start = start;
 		this.end = end;
 		this.inHit = inHit;
@@ -57,6 +48,7 @@ public class PortalHitResult {
 		return this.next != null;
 	}
 
+	@Override
 	public PortalHitResult next() {
 		return Objects.requireNonNull(this.next);
 	}
@@ -65,6 +57,7 @@ public class PortalHitResult {
 		return this.end != null;
 	}
 
+	@Override
 	public Vec3 end() {
 		return Objects.requireNonNull(this.end);
 	}

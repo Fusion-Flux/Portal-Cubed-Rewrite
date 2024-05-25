@@ -16,4 +16,9 @@ public interface ActivePortalLookup {
 	 */
 	@Nullable
 	PortalHitResult clip(Vec3 from, Vec3 to);
+
+	/**
+	 * True if there are no active portals.
+	 */
+	boolean isEmpty();
 }

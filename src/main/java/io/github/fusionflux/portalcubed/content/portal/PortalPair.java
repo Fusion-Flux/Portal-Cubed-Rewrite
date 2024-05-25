@@ -23,12 +23,28 @@ public record PortalPair(Optional<PortalInstance> primary, Optional<PortalInstan
 			PortalInstance.CODEC.optionalFieldOf("secondary").forGetter(PortalPair::secondary)
 	).apply(instance, PortalPair::new));
 
+	public static final PortalPair EMPTY = new PortalPair(Optional.empty(), Optional.empty());
+
+	public boolean isLinked() {
+		return this.primary.isPresent() && this.secondary.isPresent();
+	}
+
 	public Optional<PortalInstance> get(PortalType type) {
 		return type == PortalType.PRIMARY ? this.primary : this.secondary;
 	}
 
 	public PortalInstance getNullable(PortalType type) {
 		return this.get(type).orElse(null);
+	}
+
+	public PortalInstance other(PortalInstance portal) {
+		if (this.primary.isPresent() && this.primary.get() == portal) {
+			return this.secondary.orElseThrow();
+		} else if (this.secondary.isPresent() && this.secondary.get() == portal) {
+			return this.primary.orElseThrow();
+		} else {
+			throw new IllegalArgumentException("Portal not in pair");
+		}
 	}
 
 	public PortalPair with(PortalType type, @Nullable PortalInstance portal) {
