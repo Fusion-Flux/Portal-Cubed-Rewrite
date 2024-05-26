@@ -29,13 +29,15 @@ public interface EntityExt {
 		AttackBlockCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);
 		AttackBlockCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand, pos, direction) -> player.pc$disintegrating() ? InteractionResult.FAIL : InteractionResult.PASS);
 		AttackEntityCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);
-		AttackEntityCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand, entity, hitResult) -> player.pc$disintegrating() ? InteractionResult.FAIL : InteractionResult.PASS);
+		AttackEntityCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand, entity, hitResult) ->
+				(player.pc$disintegrating() || entity.pc$disintegrating()) ? InteractionResult.FAIL : InteractionResult.PASS);
 		PlayerBlockBreakEvents.BEFORE.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);
 		PlayerBlockBreakEvents.BEFORE.register(DISINTEGRATION_INTERACTION_PHASE, (world, player, pos, state, blockEntity) -> !player.pc$disintegrating());
 		UseBlockCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);
 		UseBlockCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand, hitResult) -> player.pc$disintegrating() ? InteractionResult.FAIL : InteractionResult.PASS);
 		UseEntityCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);
-		UseEntityCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand, entity, hitResult) -> player.pc$disintegrating() ? InteractionResult.FAIL : InteractionResult.PASS);
+		UseEntityCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand, entity, hitResult) ->
+				(player.pc$disintegrating() || entity.pc$disintegrating()) ? InteractionResult.FAIL : InteractionResult.PASS);
 		UseItemCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);
 		UseItemCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand) -> player.pc$disintegrating() ? InteractionResultHolder.fail(player.getItemInHand(hand)) : InteractionResultHolder.pass(player.getItemInHand(hand)));
 	}
