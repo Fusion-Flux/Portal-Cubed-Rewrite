@@ -16,6 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 
+import org.quiltmc.qsl.networking.api.ServerPlayConnectionEvents;
+
 public interface EntityExt {
 	int DISINTEGRATE_TICKS = 3 * 20;
 	int TRANSLUCENCY_START_TICKS = 10;
@@ -24,6 +26,10 @@ public interface EntityExt {
 	static void registerEventListeners() {
 		EntityTrackingEvents.AFTER_START_TRACKING.register((tracked, player) -> {
 			if (tracked.pc$disintegrating()) PortalCubedPackets.sendToClient(player, new DisintegratePacket(tracked));
+		});
+
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+			if (handler.player.pc$disintegrating()) sender.sendPayload(new DisintegratePacket(handler.player));
 		});
 
 		AttackBlockCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);

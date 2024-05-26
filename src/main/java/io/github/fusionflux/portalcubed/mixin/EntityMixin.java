@@ -113,7 +113,6 @@ public abstract class EntityMixin implements EntityExt {
 	@Override
 	public boolean pc$disintegrate() {
 		if (!this.disintegrating) {
-			this.disintegrating = true;
 			if (this.level() instanceof ServerLevel && (Object) this instanceof Entity self) {
 				// In portal buttons push back on the objects that are on them, disintegration makes objects lose all their mass, so they get ejected but we cant do that here so lets just apply a slight force
 				BlockState feetState = this.getFeetBlockState();
@@ -128,6 +127,7 @@ public abstract class EntityMixin implements EntityExt {
 				}
 				stopRiding();
 			}
+			this.disintegrating = true;
 			return true;
 		}
 		return false;
