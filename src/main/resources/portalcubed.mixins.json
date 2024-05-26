@@ -39,6 +39,7 @@
     "client.ItemRendererAccessor",
     "client.KeyValueConditionAccessor",
     "client.LevelRendererMixin",
+    "client.LocalPlayerMixin",
     "client.MinecraftMixin",
     "client.MultiPartMixin",
     "client.OrConditionAccessor",
