@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import com.llamalad7.mixinextras.sugar.Local;
-
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationVertexConsumer;
@@ -26,15 +24,13 @@ public class EntityRenderDispatcherMixin {
 					target = "Lnet/minecraft/client/renderer/entity/EntityRenderer;render(Lnet/minecraft/world/entity/Entity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V"
 			)
 	)
-	private void disintegrationRendering(
-			Args args,
-			@Local(argsOnly = true) Entity entity,
-			@Local(ordinal = 1, argsOnly = true) float tickDelta,
-			@Local(argsOnly = true) MultiBufferSource bufferSource
-	) {
+	private void disintegrationRendering(Args args) {
+		Entity entity = args.get(0);
 		if (entity.pc$disintegrating()) {
-			args.set(2, 0f);
+			float tickDelta = args.get(2);
+			args.set(2, 0f); // freeze tick delta
 			// this allocates, but it's probably not a problem unless there's like 1000+ disintegrating entities
+			MultiBufferSource originalBufferSource = args.get(4);
 			args.set(4, new MultiBufferSource() {
 				private final float ticks = entity.pc$disintegrateTicks() + tickDelta;
 
@@ -42,7 +38,7 @@ public class EntityRenderDispatcherMixin {
 				@Override
 				public VertexConsumer getBuffer(RenderType renderType) {
 					// this won't work with non-translucent render types unless we use some sort of mapping, but there doesn't seem to be a good way to make a conversion map for entity render types
-					return new DisintegrationVertexConsumer(bufferSource.getBuffer(renderType), ticks);
+					return new DisintegrationVertexConsumer(originalBufferSource.getBuffer(renderType), ticks);
 				}
 			});
 		}

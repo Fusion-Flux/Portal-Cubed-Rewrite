@@ -11,12 +11,13 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-import org.jetbrains.annotations.UnknownNullability;
+import org.jetbrains.annotations.NotNull;
 
 public class PropRenderer extends EntityRenderer<Prop> {
 	private final ItemRenderer itemRenderer;
@@ -46,9 +47,9 @@ public class PropRenderer extends EntityRenderer<Prop> {
 		matrices.popPose();
 	}
 
-	@UnknownNullability
+	@NotNull
 	@Override
 	public ResourceLocation getTextureLocation(Prop entity) {
-		return null;
+		return TextureAtlas.LOCATION_BLOCKS;
 	}
 }

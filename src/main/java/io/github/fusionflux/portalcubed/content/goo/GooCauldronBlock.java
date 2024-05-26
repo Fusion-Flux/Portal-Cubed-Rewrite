@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
@@ -33,6 +34,12 @@ public class GooCauldronBlock extends AbstractCauldronBlock {
 	@Override
 	public MapCodec<GooCauldronBlock> codec() {
 		return CODEC;
+	}
+
+	@NotNull
+	@Override
+	public Item asItem() {
+		return Items.CAULDRON;
 	}
 
 	@Override

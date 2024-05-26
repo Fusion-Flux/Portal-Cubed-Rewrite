@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
@@ -112,6 +115,7 @@ public abstract class EntityMixin implements EntityExt {
 		if (!this.disintegrating) {
 			this.disintegrating = true;
 			if (this.level() instanceof ServerLevel && (Object) this instanceof Entity self) {
+				// In portal buttons push back on the objects that are on them, disintegration makes objects lose all their mass, so they get ejected but we cant do that here so lets just apply a slight force
 				BlockState feetState = this.getFeetBlockState();
 				if (feetState.getBlock() instanceof FloorButtonBlock floorButton && floorButton.isEntityPressing(feetState, this.blockPosition(), self))
 					setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
@@ -177,6 +181,15 @@ public abstract class EntityMixin implements EntityExt {
 		}
 	}
 
+	@WrapOperation(method = "rideTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))
+	private void disintegrationTick(Entity instance, Operation<Void> original) {
+		if (!this.pc$disintegrating()) {
+			original.call(this);
+		} else {
+			this.pc$disintegrateTick();
+		}
+	}
+
 	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))
 	private void readDisintegrateTicks(CompoundTag tag, CallbackInfo ci) {
 		this.disintegrateTicks = tag.getInt("portalcubed:disintegrate_ticks");
@@ -212,6 +225,11 @@ public abstract class EntityMixin implements EntityExt {
 	@Inject(method = "isIgnoringBlockTriggers", at = @At("RETURN"), cancellable = true)
 	private void ignoreBlockTriggersIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
 		if (this.disintegrating) cir.setReturnValue(true);
+	}
+
+	@Inject(method = "canRide", at = @At("RETURN"), cancellable = true)
+	private void cantRideIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
+		if (this.disintegrating) cir.setReturnValue(false);
 	}
 
 	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("RETURN"))

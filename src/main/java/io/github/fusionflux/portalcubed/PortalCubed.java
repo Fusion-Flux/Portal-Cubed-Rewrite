@@ -15,8 +15,8 @@ import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
+import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
-import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.minecraft.resources.ResourceLocation;
 
 import org.quiltmc.loader.api.ModContainer;
@@ -25,7 +25,6 @@ import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 
-import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,11 +55,8 @@ public class PortalCubed implements ModInitializer {
 
 		ConstructManager.init();
 		HoldableEntity.registerEventListeners();
+		EntityExt.registerEventListeners();
 		DisintegrationSoundType.init();
-		EntityTrackingEvents.AFTER_START_TRACKING.register((tracked, player) -> {
-			if (tracked.pc$disintegrating())
-				PortalCubedPackets.sendToClient(player, new DisintegratePacket(tracked));
-		});
 
 		LOGGER.info("Portal Cubed (" + metadata.version() + ") initialized!");
 	}

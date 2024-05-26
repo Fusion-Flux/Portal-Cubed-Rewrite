@@ -43,6 +43,11 @@
         "versions": ">=${sodium_version}+${minecraft_version}",
         "environment": "client"
       },
+      {
+        "id": "indium",
+        "versions": ">=${indium_version}",
+        "environment": "client"
+      },
 			{
 				"id": "minecraft",
 				"versions": ">=${minecraft_version}"

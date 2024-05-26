@@ -20,10 +20,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FogRenderer.class)
 public class FogRendererMixin {
-	@Shadow private static float fogRed;
-	@Shadow private static float fogGreen;
-	@Shadow private static float fogBlue;
-	@Shadow private static long biomeChangedTime;
+	@Shadow
+	private static float fogRed;
+	@Shadow
+	private static float fogGreen;
+	@Shadow
+	private static float fogBlue;
+	@Shadow
+	private static long biomeChangedTime;
 
 	@Inject(method = "setupColor", at = @At("HEAD"), cancellable = true)
 	private static void setupToxicGooFogColor(Camera camera, float tickDelta, ClientLevel world, int viewDistance, float skyDarkness, CallbackInfo ci) {

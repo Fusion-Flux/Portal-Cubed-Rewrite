@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import net.minecraft.world.entity.Entity;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record DisintegratePacket(int entity, int ticks) implements ClientboundPacket {
@@ -35,6 +36,7 @@ public record DisintegratePacket(int entity, int ticks) implements ClientboundPa
 		return PortalCubedPackets.DISINTEGRATE;
 	}
 
+	@ClientOnly
 	@Override
 	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		Entity entity = player.clientLevel.getEntity(this.entity);

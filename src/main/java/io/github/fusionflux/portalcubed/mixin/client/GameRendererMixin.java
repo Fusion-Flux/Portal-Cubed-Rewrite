@@ -20,7 +20,8 @@ import net.minecraft.client.renderer.GameRenderer;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
-	@Shadow @Final
+	@Shadow
+	@Final
 	Minecraft minecraft;
 
 	@Inject(method = "pick(F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;pop()V", shift = At.Shift.BEFORE))
