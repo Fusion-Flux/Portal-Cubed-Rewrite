@@ -8,9 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -38,8 +39,8 @@ public class GooCauldronBlock extends AbstractCauldronBlock {
 
 	@NotNull
 	@Override
-	public Item asItem() {
-		return Items.CAULDRON;
+	public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
+		return Items.CAULDRON.getDefaultInstance();
 	}
 
 	@Override
