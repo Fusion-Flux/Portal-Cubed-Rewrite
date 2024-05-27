@@ -226,6 +226,7 @@ public class PortalCubedTabs {
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+			output.accept(PortalCubedItems.CROWBAR);
 			output.accept(PortalCubedItems.RAW_MAGNESIUM);
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
