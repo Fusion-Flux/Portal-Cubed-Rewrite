@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -36,5 +38,10 @@ public class LivingEntityMixin {
 			}
 		}
 		this.lemonadeArmingFinished = false;
+	}
+
+	@WrapWithCondition(method = "handleEntityEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;makePoofParticles()V"))
+	private boolean noDeathPoofIfDisintegrated(LivingEntity instance) {
+		return !instance.pc$disintegrating();
 	}
 }

@@ -6,7 +6,7 @@
             "item": "portalcubed:portal_1_metal_half_panel"
         },
         {
-            "item": "portalcubed:sewage"
+           "tag": "portalcubed:dirty_crafting_materials"
         }
     ],
     "result": {

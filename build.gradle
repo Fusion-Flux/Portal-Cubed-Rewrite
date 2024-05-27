@@ -26,6 +26,8 @@ dependencies {
 	// dependencies
 	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:$qfapi_version")
 	modImplementation("com.terraformersmc.terraform-api:terraform-wood-api-v1:$terraform_wood_api_version")
+	modImplementation("maven.modrinth:sodium:mc$minecraft_version-$sodium_version")
+	modLocalRuntime("maven.modrinth:indium:$indium_version")
 
 	// dev env
 	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version")
@@ -50,7 +52,13 @@ tasks.register("buildOrPublish") {
 }
 
 processResources {
-	inputs.properties 'version': version, "minecraft_version": minecraft_version, "loader_version": loader_version, "qfapi_version": qfapi_version, "terraform_wood_api_version": terraform_wood_api_version
+	inputs.properties 'version': version,
+		"minecraft_version": minecraft_version,
+		"loader_version": loader_version,
+		"qfapi_version": qfapi_version,
+		"terraform_wood_api_version": terraform_wood_api_version,
+		"sodium_version": sodium_version,
+		"indium_version": indium_version
 
 	filesMatching("quilt.mod.json") {
 		expand inputs.properties
