@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed;
 import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
@@ -14,6 +15,8 @@ import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.entity.player.Player;
@@ -28,6 +31,12 @@ public class PortalCubedClient implements ClientModInitializer {
 		PortalRenderer.init();
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
+
+		FluidRenderHandlerRegistry.INSTANCE.register(
+				PortalCubedFluids.GOO,
+				PortalCubedFluids.FLOWING_GOO,
+				new SimpleFluidRenderHandler(PortalCubed.id("block/toxic_goo_still"), PortalCubed.id("block/toxic_goo_flow"))
+		);
 
 		ItemProperties.register(PortalCubedItems.LEMONADE, PortalCubed.id("armed"), (stack, level, entity, i) -> LemonadeItem.isArmed(stack) ? 1 : 0);
 

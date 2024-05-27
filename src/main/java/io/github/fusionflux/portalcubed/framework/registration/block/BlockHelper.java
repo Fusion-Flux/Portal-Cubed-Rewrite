@@ -32,6 +32,10 @@ public class BlockHelper {
 		return create(name, factory).copyFrom(copyFrom);
 	}
 
+	public Block simple(String name, Block copyFrom) {
+		return create(name).copyFrom(copyFrom).build();
+	}
+
 	public <T extends Block> T simple(String name, BlockFactory<T> factory, Block copyFrom) {
 		return create(name, factory).copyFrom(copyFrom).build();
 	}

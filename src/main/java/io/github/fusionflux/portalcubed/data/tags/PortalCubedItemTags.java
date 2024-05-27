@@ -11,6 +11,8 @@ public class PortalCubedItemTags {
 
 	public static final TagKey<Item> AGED_CRAFTING_MATERIALS = create("aged_crafting_materials");
 
+	public static final TagKey<Item> IMMUNE_TO_TOXIC_GOO = create("immune_to_toxic_goo");
+
 	private static TagKey<Item> create(String name) {
 		return TagKey.create(Registries.ITEM, PortalCubed.id(name));
 	}

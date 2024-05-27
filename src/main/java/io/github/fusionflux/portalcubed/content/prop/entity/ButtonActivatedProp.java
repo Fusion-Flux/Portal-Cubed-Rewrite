@@ -55,6 +55,12 @@ public class ButtonActivatedProp extends Prop {
 	}
 
 	@Override
+	public boolean pc$disintegrate() {
+		setActivated(false);
+		return super.pc$disintegrate();
+	}
+
+	@Override
 	protected void dropLoot(DamageSource source) {
 		setActivated(false);
 		super.dropLoot(source);
