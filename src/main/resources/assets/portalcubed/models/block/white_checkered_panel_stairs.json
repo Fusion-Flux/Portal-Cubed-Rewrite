@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "portalcubed:block/white_checkered_panel",
+    "side": "portalcubed:block/white_checkered_panel",
+    "top": "portalcubed:block/white_checkered_panel"
+  }
+}

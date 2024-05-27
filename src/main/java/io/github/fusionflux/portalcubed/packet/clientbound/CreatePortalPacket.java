@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
@@ -22,10 +23,11 @@ public record CreatePortalPacket(Portal portal) implements ClientboundPacket {
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public ResourceLocation getId() {
 		return PortalCubedPackets.CREATE_PORTAL;
 	}
 
+	@ClientOnly
 	@Override
 	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		ClientPortalManager manager = ClientPortalManager.of(player.clientLevel);

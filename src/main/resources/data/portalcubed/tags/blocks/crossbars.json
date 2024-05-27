@@ -1,0 +1,13 @@
+{
+  "values": [
+    "portalcubed:crossbar_pillar",
+    "portalcubed:double_2x2_crossbar_bottom_left",
+    "portalcubed:double_2x2_crossbar_top_left",
+    "portalcubed:double_2x2_crossbar_bottom_right",
+    "portalcubed:double_2x2_crossbar_top_right",
+    "portalcubed:2x2_crossbar_bottom_left",
+    "portalcubed:2x2_crossbar_top_left",
+    "portalcubed:2x2_crossbar_bottom_right",
+    "portalcubed:2x2_crossbar_top_right"
+  ]
+}

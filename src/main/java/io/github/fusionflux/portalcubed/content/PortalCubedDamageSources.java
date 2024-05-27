@@ -1,9 +1,13 @@
 package io.github.fusionflux.portalcubed.content;
 
+import net.minecraft.core.Registry;
+
+import net.minecraft.world.item.ItemStack;
+
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.prop.entity.P1Prop;
 import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -16,36 +20,50 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
-public class PortalCubedDamageSources {
-	public static final ResourceKey<DamageType> PORTAL_1_PROP = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("portal_1_prop"));
+import java.util.Objects;
 
-	private final Holder.Reference<DamageType> portal1PropType;
+public class PortalCubedDamageSources {
+	public static final ResourceKey<DamageType> LANDING_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("landing_damage"));
+	public static final ResourceKey<DamageType> LEMONADE = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("lemonade"));
+	public static final ResourceKey<DamageType> LEMONADE_PLAYER = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("lemonade_player"));
+
+	private final Holder.Reference<DamageType> landingDamageType;
+	private final Holder.Reference<DamageType> lemonadeDamageType;
+	private final Holder.Reference<DamageType> lemonadePlayerDamageType;
 
 	public PortalCubedDamageSources(RegistryAccess registryAccess) {
-		var damageTypes = registryAccess.registryOrThrow(Registries.DAMAGE_TYPE);
-		this.portal1PropType = damageTypes.getHolderOrThrow(PORTAL_1_PROP);
+		Registry<DamageType> damageTypes = registryAccess.registryOrThrow(Registries.DAMAGE_TYPE);
+		this.landingDamageType = damageTypes.getHolderOrThrow(LANDING_DAMAGE);
+		this.lemonadeDamageType = damageTypes.getHolderOrThrow(LEMONADE);
+		this.lemonadePlayerDamageType = damageTypes.getHolderOrThrow(LEMONADE_PLAYER);
 	}
 
-	public static DamageSource portal1Prop(Level level, P1Prop source, @Nullable Entity attacked) {
-		var damageType = ((LevelExt) level).pc$damageSources().portal1PropType;
+	public static DamageSource landingDamage(Level level, @Nullable Entity source, @Nullable Entity attacked) {
+		Holder.Reference<DamageType> damageType = ((LevelExt) level).pc$damageSources().landingDamageType;
 		if (attacked instanceof LivingEntity livingEntity)
-			return new P1PropDamageSource(damageType, source, livingEntity.getKillCredit());
-		return new P1PropDamageSource(damageType, source, source);
+			return new LandingDamageSource(damageType, source, livingEntity.getKillCredit());
+		return new LandingDamageSource(damageType, source, source);
 	}
 
-	public static class P1PropDamageSource extends DamageSource {
-		P1PropDamageSource(Holder<DamageType> type, Entity source, Entity attacker) {
+	public static DamageSource lemonade(Level level, @Nullable Entity source, @Nullable Entity attacked) {
+		PortalCubedDamageSources damageSources = ((LevelExt) level).pc$damageSources();
+		return new DamageSource(attacked != null && source != null ? damageSources.lemonadePlayerDamageType : damageSources.lemonadeDamageType, source, attacked);
+	}
+
+	public static class LandingDamageSource extends DamageSource {
+		LandingDamageSource(Holder<DamageType> type, Entity source, Entity attacker) {
 			super(type, source, attacker);
 		}
 
+		@NotNull
 		@Override
 		public Component getLocalizedDeathMessage(LivingEntity attacked) {
-			var id = "death.attack." + type().msgId();
-			var sourceName = getDirectEntity().getDisplayName();
+			String id = "death.attack." + type().msgId();
+			Component sourceName = Objects.requireNonNull(getDirectEntity()).getDisplayName();
 			if (!(getEntity() instanceof LivingEntity attacker))
 				return Component.translatable(id, attacked.getDisplayName(), sourceName);
-			var causeName = getEntity().getDisplayName();
-			var attackerHeldStack = attacker.getMainHandItem();
+			Component causeName = getEntity().getDisplayName();
+			ItemStack attackerHeldStack = attacker.getMainHandItem();
 			return !attackerHeldStack.isEmpty() && attackerHeldStack.hasCustomHoverName()
 				? Component.translatable(id + ".item", attacked.getDisplayName(), sourceName, causeName, attackerHeldStack.getDisplayName())
 				: Component.translatable(id + ".player", attacked.getDisplayName(), sourceName, causeName);

@@ -30,7 +30,7 @@ public class PropRenderer extends EntityRenderer<Prop> {
 
 		var model = PropModels.getModel(prop.type, prop.getVariant());
 		matrices.pushPose();
-		matrices.mulPose(Axis.YP.rotationDegrees(prop.getYRot()));
+		matrices.mulPose(Axis.YP.rotationDegrees(180 - prop.getYRot()));
 		model.getTransforms().getTransform(ItemDisplayContext.GROUND).apply(false, matrices);
 		matrices.scale(2, 2, 2);
 		matrices.translate(-.5, -.1775, -.5);

@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment", 
+    "pattern": [
+        "GMM",
+        "CTE",
+        "S  "
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:light_blue_stained_glass_pane"
+        },
+        "S": {
+            "item": "minecraft:stick"
+        },
+        "M": {
+            "item": "portalcubed:magnesium_ingot"
+        },
+        "C": {
+            "item": "minecraft:compass"
+        },
+        "T": {
+            "item": "minecraft:tnt"
+        },
+        "E": {
+            "item": "minecraft:ender_pearl"
+        }
+    },
+    "result": {
+        "item": "portalcubed:construction_cannon",
+        "count": 1
+    }
+}

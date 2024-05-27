@@ -1,0 +1,7 @@
+{
+  "material": "#portalcubed:dirty_metal_plating_materials",
+  "type": "single",
+  "construct": {
+     "0,0,0": "portalcubed:dirty_tread_plate"
+  }
+}

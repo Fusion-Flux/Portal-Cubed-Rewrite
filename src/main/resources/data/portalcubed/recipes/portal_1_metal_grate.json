@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YXY",
+        "X X",
+        "YXY"
+    ],
+    "key": {
+        "X": {
+            "item": "minecraft:gold_ingot"
+        },
+        "Y": {
+            "item": "portalcubed:magnesium_block"
+        }
+    },
+    "result": {
+        "item": "portalcubed:portal_1_metal_grate",
+        "count": 8
+    }
+}

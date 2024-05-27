@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "iron_ingot",
+  "group": "magnesium_ingot",
   "key": {
     "#": {
       "item": "portalcubed:magnesium_nugget"

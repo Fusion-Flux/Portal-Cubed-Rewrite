@@ -45,6 +45,9 @@
 			}
 		}
 	],
+	"overrides": [
+		{"model": "portalcubed:item/taco_with_way_too_much_ranch_on_it_holy_shit_why_is_there_so_much", "predicate": {"custom_model_data": 1}}
+	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [-17, -43, 0],

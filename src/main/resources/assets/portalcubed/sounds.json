@@ -17,6 +17,33 @@
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
   },
+  "pedestal_button_press": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/pedestal/pedestal_button_press",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_press"
+  },
+  "pedestal_button_release": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/pedestal/pedestal_button_release",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_release"
+  },
+  "surprise": {
+    "sounds": [
+      {
+        "name": "portalcubed:sad_party_horn",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.surprise"
+  },
   "portal_1_floor_button_press": {
     "sounds": [
       {
@@ -70,6 +97,24 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
+  },
+  "old_ap_pedestal_button_press": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/old_ap_pedestal/old_ap_pedestal_button_press",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_press"
+  },
+  "old_ap_pedestal_button_release": {
+    "sounds": [
+      {
+        "name": "portalcubed:button/old_ap_pedestal/old_ap_pedestal_button_release",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.pedestal_button_release"
   },
   "radio": {
     "sounds": [
@@ -213,6 +258,15 @@
     ],
     "subtitle": "subtitles.portalcubed.portal_1_cube_impact"
   },
+  "error_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:props/error_impact",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.error_impact"
+  },
   "portal_gun_grab": {
     "sounds": [
       {
@@ -248,5 +302,62 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun_cannot_grab"
+  },
+  "construction_cannon_obstructed": {
+    "sounds": [
+      {
+        "name": "portalcubed:construction_cannon/obstructed",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.construction_cannon_obstructed"
+  },
+  "construction_cannon_missing_materials": {
+    "sounds": [
+      {
+        "name": "portalcubed:construction_cannon/missing_materials",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.construction_cannon_missing_materials"
+  },
+  "old_ap_timer": {
+    "sounds": [
+      {
+        "name": "portalcubed:old_ap_timer",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.old_ap_timer"
+  },
+  "timer_ding": {
+    "sounds": [
+      {
+        "name": "portalcubed:timer_ding",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.timer_ding"
+  },
+  "sewage_step": {
+    "sounds": [
+      {
+        "name": "portalcubed:block/sewage/step1",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step2",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step3",
+        "volume": 1
+      },
+      {
+        "name": "portalcubed:block/sewage/step4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
   }
 }

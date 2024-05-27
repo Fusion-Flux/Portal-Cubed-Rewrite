@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "portalcubed:portal_1_white_panel"
+  },
+  "result": "portalcubed:portal_1_white_panel_slab"
+}

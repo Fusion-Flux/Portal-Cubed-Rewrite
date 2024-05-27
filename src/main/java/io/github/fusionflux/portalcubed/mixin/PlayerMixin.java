@@ -1,72 +1,69 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import java.util.OptionalInt;
+import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
+import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
+
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+
+import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
-import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.clientbound.PropHoldPacket;
-import net.fabricmc.api.EnvType;
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public class PlayerMixin implements PlayerExt {
-	@Unique private OptionalInt heldProp = OptionalInt.empty();
-
-	@ClientOnly @Unique private int grabSoundTimer = 0;
-	@ClientOnly @Unique @Nullable private FollowingSoundInstance grabSound = null;
-	@ClientOnly @Unique @Nullable private FollowingSoundInstance holdLoopSound = null;
+	@Unique
+	@Nullable
+	private HoldableEntity heldEntity;
 
 	@ClientOnly
-	private void clientOnHeldPropUpdate(Player self, OptionalInt newHeldProp) {
-		if (!self.getMainHandItem().is(PortalCubedItems.PORTAL_GUN)) return;
+	@Unique
+	private int grabSoundTimer = 0;
+	@ClientOnly
+	@Unique
+	@Nullable
+	private FollowingSoundInstance grabSound = null;
+	@ClientOnly
+	@Unique
+	@Nullable
+	private FollowingSoundInstance holdLoopSound = null;
 
-		if (newHeldProp.isPresent() && heldProp.isEmpty() && grabSound == null) {
-			grabSoundTimer = 28;
-			grabSound = new FollowingSoundInstance(PortalCubedSounds.PORTAL_GUN_GRAB, self.getSoundSource(), self);
-			Minecraft.getInstance().getSoundManager().play(grabSound);
-		} else if (newHeldProp.isEmpty() && heldProp.isPresent()) {
-			if (grabSound != null) {
-				grabSound.forceStop();
-				grabSound = null;
+	@Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At("HEAD"), cancellable = true)
+	private void drop(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
+		if (stack.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(stack)) {
+			Player self = (Player) (Object) this;
+			Level level = self.level();
+			if (!self.isUsingItem()) {
+				lemonade.finishArming(stack, level, self, stack.getUseDuration());
+			} else {
+				lemonade.finishArming(stack, level, self, stack.getUseDuration() - self.getUseItemRemainingTicks());
+				self.stopUsingItem();
 			}
-			if (holdLoopSound != null) {
-				holdLoopSound.forceStop();
-				holdLoopSound = null;
-			}
-			self.playSound(PortalCubedSounds.PORTAL_GUN_DROP, 1, 1);
+			cir.setReturnValue(null);
 		}
 	}
 
 	@Override
-	public void pc$heldProp(OptionalInt prop) {
-		if ((Object) this instanceof ServerPlayer self) {
-			var packet = new PropHoldPacket(self.getId(), prop);
-			for (var trackingPlayer : PlayerLookup.tracking(self))
-				PortalCubedPackets.sendToClient(trackingPlayer, packet);
-			PortalCubedPackets.sendToClient(self, packet);
-		} else if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
-			clientOnHeldPropUpdate((Player) (Object) this, prop);
-		}
-		heldProp = prop;
+	public void setHeldEntity(@Nullable HoldableEntity heldEntity) {
+		this.heldEntity = heldEntity;
 	}
 
 	@Override
-	public OptionalInt pc$heldProp() {
-		return heldProp;
+	@Nullable
+	public HoldableEntity getHeldEntity() {
+		return this.heldEntity;
 	}
-
 
 	@Override
 	public void pc$grabSoundTimer(int timer) {

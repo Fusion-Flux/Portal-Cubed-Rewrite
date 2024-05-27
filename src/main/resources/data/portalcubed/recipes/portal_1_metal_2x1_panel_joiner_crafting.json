@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "ingredients": [
+        {
+            "item": "portalcubed:portal_1_metal_2x1_panel"
+        }
+    ],
+    "result": {
+        "item": "portalcubed:portal_1_metal_2x1_panel_joiner",
+        "count": 1
+    }
+}

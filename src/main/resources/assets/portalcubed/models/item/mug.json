@@ -55,7 +55,6 @@
 			}
 		}
 	],
-	"gui_light": "front",
 	"overrides": [
 		{"model": "portalcubed:item/mug_blue", "predicate": {"custom_model_data": 1}},
 		{"model": "portalcubed:item/mug_red", "predicate": {"custom_model_data": 2}},

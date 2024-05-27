@@ -1,0 +1,7 @@
+{
+  "material": "#portalcubed:yellow_chamber_exterior_materials",
+  "type": "single",
+  "construct": {
+     "0,0,0": "portalcubed:yellow_chamber_exterior"
+  }
+}

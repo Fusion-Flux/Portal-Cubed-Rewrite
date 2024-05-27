@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "ingredients": [
+        {
+            "item": "portalcubed:smooth_gray_2x1_panel"
+        },
+        {
+            "tag": "portalcubed:aged_crafting_materials"
+        }
+    ],
+    "result": {
+        "item": "portalcubed:aged_smooth_gray_2x1_panel",
+        "count": 1
+    },
+  "group": "aged_smooth_gray_2x1_panel"
+}

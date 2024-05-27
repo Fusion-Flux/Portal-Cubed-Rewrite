@@ -15,9 +15,11 @@ public class Chair extends Prop {
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {
-		var level = level();
-		if (!isVehicle()) {
-			if (!level.isClientSide) player.startRiding(this);
+		if (!this.isVehicle() && player != this.getHolder()) {
+			Level level = this.level();
+			if (!level.isClientSide) {
+				player.startRiding(this);
+			}
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
 		return super.interact(player, hand);

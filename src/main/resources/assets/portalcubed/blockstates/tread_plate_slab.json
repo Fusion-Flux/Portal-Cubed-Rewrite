@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/tread_plate_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/tread_plate"
+    },
+    "type=top": {
+      "model": "portalcubed:block/tread_plate_slab_top"
+    }
+  }
+}

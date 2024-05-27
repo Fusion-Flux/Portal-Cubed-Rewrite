@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "redstone",
+    "pattern": [
+        "XYX",
+        "CCC",
+        "CBC"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:magnesium_ingot"
+        },
+        "Y": {
+            "tag": "minecraft:wooden_pressure_plates"
+        },
+        "C": {
+            "tag": "portalcubed:white_panel_materials"
+        },
+        "B": {
+            "item": "minecraft:redstone"
+        }
+    },
+    "result": {
+        "item": "portalcubed:cube_button",
+        "count": 1
+    }
+}

@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portalcubed:dirty_portal_1_metal_2x1_panel_crafting",
+      "portalcubed:dirty_portal_1_metal_2x1_panel_joiner_crafting",
+      "portalcubed:dirty_portal_1_metal_2x1_panel_crafting_from_sewage",
+      "portalcubed:dirty_portal_1_metal_2x1_panel_joiner_crafting_from_sewage",
+
+      "portalcubed:dirty_portal_1_metal_half_panel_crafting",
+      "portalcubed:dirty_portal_1_metal_half_panel_crafting_from_sewage",
+      "portalcubed:dirty_portal_1_metal_half_panel_slab_crafting",
+      "portalcubed:dirty_portal_1_metal_half_panel_slab_crafting_from_sewage",
+      "portalcubed:dirty_portal_1_metal_half_panel_slab_stonecutting",
+      "portalcubed:dirty_portal_1_metal_half_panel_stairs_crafting",
+      "portalcubed:dirty_portal_1_metal_half_panel_stairs_crafting_from_sewage",
+      "portalcubed:dirty_portal_1_metal_half_panel_stairs_stonecutting",
+      "portalcubed:dirty_portal_1_metal_half_panel_facade_stonecutting",
+
+      "portalcubed:dirty_portal_1_metal_panel_crafting_from_sewage",
+      "portalcubed:dirty_portal_1_metal_panel_slab_crafting",
+      "portalcubed:dirty_portal_1_metal_panel_slab_crafting_from_sewage",
+      "portalcubed:dirty_portal_1_metal_panel_slab_stonecutting",
+      "portalcubed:dirty_portal_1_metal_panel_stairs_crafting",
+      "portalcubed:dirty_portal_1_metal_panel_stairs_crafting_from_sewage",
+      "portalcubed:dirty_portal_1_metal_panel_stairs_stonecutting",
+      "portalcubed:dirty_portal_1_metal_panel_facade_stonecutting",
+      "portalcubed:dirty_portal_1_metal_panel_crafting_from_deepslate",
+      "portalcubed:dirty_portal_1_metal_panel_crafting_from_cobbled_deepslate"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+    	       "portalcubed:portal_1_metal_panel"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

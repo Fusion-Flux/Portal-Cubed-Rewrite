@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/dirty_portal_1_white_checkered_panel_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/dirty_portal_1_white_checkered_panel"
+    },
+    "type=top": {
+      "model": "portalcubed:block/dirty_portal_1_white_checkered_panel_slab_top"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "values": [
+    "portalcubed:office_concrete",
+    "portalcubed:striped_office_concrete",
+    "portalcubed:blue_office_concrete",
+    "portalcubed:light_gray_office_concrete",
+    "portalcubed:white_office_concrete",
+    "portalcubed:office_concrete_slab",
+    "portalcubed:striped_office_concrete_slab",
+    "portalcubed:blue_office_concrete_slab",
+    "portalcubed:light_gray_office_concrete_slab",
+    "portalcubed:white_office_concrete_slab",
+    "portalcubed:vertical_office_concrete",
+    "portalcubed:light_gray_office_concrete_stairs",
+    "portalcubed:white_office_concrete_stairs",
+    "portalcubed:light_gray_office_concrete_wall",
+    "portalcubed:white_office_concrete_wall",
+    "portalcubed:office_concrete_facade",
+    "portalcubed:striped_office_concrete_facade",
+    "portalcubed:blue_office_concrete_facade",
+    "portalcubed:light_gray_office_concrete_facade",
+    "portalcubed:white_office_concrete_facade"
+  ]
+}

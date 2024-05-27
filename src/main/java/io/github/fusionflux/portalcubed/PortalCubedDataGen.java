@@ -25,5 +25,6 @@ public class PortalCubedDataGen implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator generator) {
 		var pack = generator.createPack();
 //		pack.addProvider(FloorButtonBlockStates::new);
+//		pack.addProvider(PedestalButtonBlockStates::new);
 	}
 }

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "portalcubed:block/portal_1_white_panel_slab"
+    },
+    "type=double": {
+      "model": "portalcubed:block/portal_1_white_panel"
+    },
+    "type=top": {
+      "model": "portalcubed:block/portal_1_white_panel_slab_top"
+    }
+  }
+}

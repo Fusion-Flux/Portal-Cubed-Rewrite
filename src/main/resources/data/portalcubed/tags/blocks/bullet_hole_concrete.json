@@ -1,11 +1,50 @@
 {
-  "replace": false,
   "values": [
     "#c:concrete",
+    "#portalcubed:aged_padded_gray_panels",
+    "#portalcubed:padded_gray_panels",
+    "#portalcubed:aged_smooth_gray_panels",
+    "#portalcubed:smooth_gray_panels",
+    "#portalcubed:aged_white_panels",
+    "#portalcubed:white_panels",
+    "#portalcubed:old_ap_white_panels",
+    "#portalcubed:portal_1_white_panels",
+    "#portalcubed:dirty_portal_1_white_panels",
+    "#portalcubed:office_concretes",
+    "#portalcubed:gray_chamber_exteriors",
+    "#portalcubed:yellow_chamber_exteriors",
 
-    "portalcubed:old_ap_floor_button",
     "portalcubed:floor_button",
+    "portalcubed:portal_1_floor_button",
+    "portalcubed:old_ap_floor_button",
     "portalcubed:cube_button",
-    "portalcubed:portal_1_floor_button"
+
+    "portalcubed:large_blue_office_tiles",
+    "portalcubed:large_blue_office_tile_slab",
+    "portalcubed:large_blue_office_tile_stairs",
+    "portalcubed:large_blue_office_tile_facade",
+    "portalcubed:small_blue_office_tiles",
+    "portalcubed:small_blue_office_tile_slab",
+    "portalcubed:small_blue_office_tile_stairs",
+    "portalcubed:small_blue_office_tile_facade",
+    "portalcubed:gray_office_tiles",
+    "portalcubed:gray_office_tile_slab",
+    "portalcubed:gray_office_tile_stairs",
+    "portalcubed:gray_office_tile_facade",
+    "portalcubed:black_office_tiles",
+    "portalcubed:black_office_tile_slab",
+    "portalcubed:black_office_tile_stairs",
+    "portalcubed:black_office_tile_facade",
+    "portalcubed:brown_office_tiles",
+    "portalcubed:brown_office_tile_slab",
+    "portalcubed:brown_office_tile_stairs",
+    "portalcubed:brown_office_tile_facade",
+    "portalcubed:orange_office_tiles",
+    "portalcubed:orange_office_tile_slab",
+    "portalcubed:orange_office_tile_stairs",
+    "portalcubed:orange_office_tile_facade",
+
+    "portalcubed:insulation",
+    "portalcubed:insulation_facade"
   ]
 }

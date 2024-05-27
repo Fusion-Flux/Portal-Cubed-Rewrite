@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "X X",
+        "X X",
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "portalcubed:magnesium_nugget"
+        }
+    },
+    "result": {
+        "item": "portalcubed:beans",
+        "count": 2
+    }
+}

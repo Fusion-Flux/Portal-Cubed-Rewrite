@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "portalcubed:block/plywood",
+    "side": "portalcubed:block/plywood",
+    "top": "portalcubed:block/plywood"
+  }
+}

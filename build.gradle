@@ -1,14 +1,11 @@
 plugins {
-	id "org.quiltmc.loom" version "1.4.+"
+	id "org.quiltmc.loom" version "1.6.+"
 	id "maven-publish"
 }
 
 archivesBaseName = archives_base_name
 group = maven_group
-
-String runNumber = System.getenv("GITHUB_RUN_NUMBER")
-String build = runNumber != null ? "build.$runNumber" : "local"
-version = "$mod_version-$build+mc$minecraft_version"
+version = mod_version
 
 repositories {
 	maven { url = "https://api.modrinth.com/maven" }
@@ -28,12 +25,16 @@ dependencies {
 
 	// dependencies
 	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:$qfapi_version")
+	modImplementation("com.terraformersmc.terraform-api:terraform-wood-api-v1:$terraform_wood_api_version")
 
 	// dev env
-	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version") {
-		exclude group: "net.fabricmc"
-		exclude group: "net.fabricmc.fabric-api"
-	}
+	modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version")
+	modLocalRuntime("dev.emi:emi-fabric:$emi_version")
+}
+
+configurations.configureEach {
+	exclude(group: "net.fabricmc", module: "fabric-loader")
+	exclude(group: "net.fabricmc.fabric-api")
 }
 
 tasks.register("buildOrPublish") {
@@ -49,17 +50,10 @@ tasks.register("buildOrPublish") {
 }
 
 processResources {
-	Map<String, Object> properties = [
-		"version": version,
-		"minecraft_version": minecraft_version,
-		"loader_version": loader_version,
-		"qfapi_version": qfapi_version
-	]
-
-	properties.forEach(inputs::property)
+	inputs.properties 'version': version, "minecraft_version": minecraft_version, "loader_version": loader_version, "qfapi_version": qfapi_version, "terraform_wood_api_version": terraform_wood_api_version
 
 	filesMatching("quilt.mod.json") {
-		expand properties
+		expand inputs.properties
 	}
 }
 
@@ -73,6 +67,14 @@ sourceSets {
 }
 
 loom {
+	accessWidenerPath = file("src/main/resources/portalcubed.accesswidener")
+
+	mods {
+		"portalcubed" {
+			sourceSet("main")
+		}
+	}
+
 	runs {
 		datagen {
 			client()
@@ -81,18 +83,6 @@ loom {
 			vmArg "-Dfabric-api.datagen"
 			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
 			vmArg "-Dfabric-api.datagen.modid=portalcubed"
-		}
-		testmodClient {
-			client()
-			name "Testmod Client"
-			source sourceSets.testmod
-			runDir "run/test"
-		}
-		testmodServer {
-			server()
-			name "Testmod Server"
-			source sourceSets.testmod
-			runDir "run/test_server"
 		}
 		gametest {
 			server()
@@ -119,7 +109,6 @@ java {
 	targetCompatibility = JavaVersion.VERSION_17
 
 	withSourcesJar()
-	withJavadocJar()
 }
 
 jar {

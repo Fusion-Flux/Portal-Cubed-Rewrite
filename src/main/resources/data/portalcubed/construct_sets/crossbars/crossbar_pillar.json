@@ -1,0 +1,21 @@
+{
+  "material": "#portalcubed:crossbar_materials",
+  "type": "pillar",
+  "chooser": "clicked_face",
+  "vertical": {
+    "0,0,0": {
+      "Properties": {
+        "axis": "y"
+      },
+      "Name": "portalcubed:crossbar_pillar"
+    }
+  },
+  "horizontal": {
+    "0,0,0": {
+      "Properties": {
+        "axis": "x"
+      },
+      "Name": "portalcubed:crossbar_pillar"
+    }
+  }
+}

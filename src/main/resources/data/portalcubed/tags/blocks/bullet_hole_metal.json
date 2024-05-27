@@ -1,7 +1,14 @@
 {
-  "replace": false,
   "values": [
+    "#portalcubed:old_ap_blue_panels",
+    "#portalcubed:old_ap_green_panels",
+    "#portalcubed:portal_1_metal_panels",
+    "#portalcubed:dirty_portal_1_metal_panels",
+    "#portalcubed:metal_plating",
+    "#portalcubed:dirty_metal_plating",
+
     "minecraft:iron_block",
+    "portalcubed:magnesium_block",
     "minecraft:gold_block",
     "minecraft:netherite_block",
     "minecraft:copper_block",
@@ -45,6 +52,12 @@
     "minecraft:hopper",
     "minecraft:cauldron",
 
-    "portalcubed:magnesium_block"
+    "portalcubed:portal_1_metal_tiles",
+    "portalcubed:portal_1_metal_tile_slab",
+    "portalcubed:portal_1_metal_tile_stairs",
+    "portalcubed:portal_1_metal_tile_facade",
+
+    "portalcubed:elevator_wall_end",
+    "portalcubed:elevator_wall_middle"
   ]
 }

@@ -12,15 +12,15 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.function.Function;
 
 // Taken from Create, licensed under MIT: https://github.com/Creators-of-Create/Create/blob/mc1.18/dev/src/main/java/com/simibubi/create/foundation/utility/VoxelShaper.java
 public class VoxelShaper {
 	private static final Vec3 BLOCK_CENTER = new Vec3(8, 8, 8);
 
-	private final Map<Direction, VoxelShape> shapes = new HashMap<>();
+	// Note: Difference to Create, HashMap -> EnumMap because it's better suited for this type of thing
+	private final EnumMap<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
 
 	public VoxelShape get(Direction direction) {
 		return shapes.get(direction);
@@ -130,7 +130,7 @@ public class VoxelShaper {
 		);
 	}
 
-	protected static class DefaultRotationValues implements Function<Direction, Vec3> {
+	public static class DefaultRotationValues implements Function<Direction, Vec3> {
 		// assume facing up as the default rotation
 		@Override
 		public Vec3 apply(Direction direction) {
@@ -139,7 +139,7 @@ public class VoxelShaper {
 		}
 	}
 
-	protected static class HorizontalRotationValues implements Function<Direction, Vec3> {
+	public static class HorizontalRotationValues implements Function<Direction, Vec3> {
 		@Override
 		public Vec3 apply(Direction direction) {
 			return new Vec3(0, -horizontalAngleFromDirection(direction), 0);

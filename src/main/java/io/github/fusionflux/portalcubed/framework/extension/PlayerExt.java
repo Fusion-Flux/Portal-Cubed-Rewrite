@@ -1,10 +1,19 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import java.util.OptionalInt;
+import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
+
+import org.jetbrains.annotations.Nullable;
 
 public interface PlayerExt {
-	void pc$heldProp(OptionalInt prop);
-	OptionalInt pc$heldProp();
+	// note: no prefixes needed, descriptors guaranteed unique by HoldableEntity
+	default void setHeldEntity(HoldableEntity heldEntity) {
+		throw new AbstractMethodError();
+	}
+
+	@Nullable
+	default HoldableEntity getHeldEntity() {
+		throw new AbstractMethodError();
+	}
 
 	void pc$grabSoundTimer(int timer);
 	int pc$grabSoundTimer();
