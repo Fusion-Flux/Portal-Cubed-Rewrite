@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.particle;
 
+import com.google.common.collect.Iterables;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -9,7 +10,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
+import io.github.fusionflux.portalcubed.content.misc.BulletHoleMaterial;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -26,6 +27,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -50,32 +53,14 @@ public class DecalParticle extends TextureSheetParticle {
 		}
 	};
 
-	public static final ParticleRenderType PARTICLE_SHEET_TRANSLUCENT = new ParticleRenderType() {
-		public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
-			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-			RenderSystem.enableBlend();
-			RenderSystem.defaultBlendFunc();
-			RenderSystem.depthMask(false);
-			bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-		}
-
-		public void end(Tesselator tessellator) {
-			tessellator.end();
-		}
-
-		public String toString() {
-			return "PORTALCUBED#PARTICLE_SHEET_TRANSLUCENT";
-		}
-	};
-
 	public final float ONE_PIXEL = 1/16f;
 
-	final Quaternionf rotationXY;
-	final Quaternionf rotationZ;
-	final BlockPos basePos;
-	final boolean multiply;
+	protected final Quaternionf rotationXY;
+	protected final Quaternionf rotationZ;
+	protected final BlockPos basePos;
+	protected final boolean multiply;
 
-	final int rotationValue;
+	protected final int rotationValue;
 
 	protected DecalParticle(ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, boolean multiply) {
 		super(clientLevel, 0, 0, 0);
@@ -125,7 +110,7 @@ public class DecalParticle extends TextureSheetParticle {
 	public void tick() {
 		super.tick();
 		// Is it broken? Die.
-		if (level.getBlockState(basePos).isAir())
+		if (this.level.getBlockState(basePos).isAir())
 			remove();
 	}
 
@@ -181,48 +166,54 @@ public class DecalParticle extends TextureSheetParticle {
 				.endVertex();
 	}
 
+	@NotNull
 	@Override
 	public ParticleRenderType getRenderType() {
-		return multiply ? PARTICLE_SHEET_MULTIPLY : PARTICLE_SHEET_TRANSLUCENT;
+		return multiply ? PARTICLE_SHEET_MULTIPLY : ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+	}
+
+	public static BlockPos getBasePos(double x, double y, double z, double dx, double dy, double dz) {
+		return new BlockPos((int) Math.floor(x - dx * 0.02f), (int) Math.floor(y - dy* 0.02f), (int) Math.floor(z - dz* 0.02f));
 	}
 
 	public static double snap(double d) {
 		return Math.floor(d * 16) / 16d;
 	}
 
-	public static class Provider implements ParticleProvider<SimpleParticleType> {
-		final FabricSpriteProvider PROVIDER;
+	public static class BulletHoleProvider implements ParticleProvider<SimpleParticleType> {
+		private final FabricSpriteProvider spriteProvider;
 
-		public Provider(FabricSpriteProvider provider) {
-			PROVIDER = provider;
+		public BulletHoleProvider(FabricSpriteProvider spriteProvider) {
+			this.spriteProvider = spriteProvider;
 		}
 
-		public Particle createParticle(SimpleParticleType defaultParticleType, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-			BlockPos pos = new BlockPos((int) Math.floor(x - dx * 0.02f), (int) Math.floor(y - dy* 0.02f), (int) Math.floor(z - dz* 0.02f));
-
+		@Nullable
+		@Override
+		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
+			BlockPos pos = getBasePos(x, y, z, dx, dy, dz);
 			// Get texture and whether to multiply.
 			BlockState state = world.getBlockState(pos);
-			int texture = getTextureForState(state);
-			boolean multiply = shouldMultiply(state);
+			return BulletHoleMaterial.forState(state).map(material -> {
+				DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, pos, material != BulletHoleMaterial.GLASS);
+				particle.setSprite(spriteProvider.getSprites().get(material.ordinal()));
+				return particle;
+			}).orElse(null);
+		}
+	}
 
-			DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, pos, multiply);
-			particle.setSprite(PROVIDER.getSprites().get(texture));
+	public static class ScorchProvider implements ParticleProvider<SimpleParticleType> {
+		private final FabricSpriteProvider spriteProvider;
+
+		public ScorchProvider(FabricSpriteProvider spriteProvider) {
+			this.spriteProvider = spriteProvider;
+		}
+
+		@Nullable
+		@Override
+		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
+			DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, getBasePos(x, y, z, dx, dy, dz), false);
+			particle.setSprite(Iterables.getLast(spriteProvider.getSprites()));
 			return particle;
-		}
-
-		private static int getTextureForState(BlockState state) {
-			if (state.is(PortalCubedBlockTags.BULLET_HOLE_CONCRETE))
-				return 0;
-			if (state.is(PortalCubedBlockTags.BULLET_HOLE_GLASS))
-				return 1;
-			if (state.is(PortalCubedBlockTags.BULLET_HOLE_METAL))
-				return 2;
-			return 3;
-		}
-
-		private static boolean shouldMultiply(BlockState state) {
-			return state.is(PortalCubedBlockTags.BULLET_HOLE_CONCRETE)
-					|| state.is(PortalCubedBlockTags.BULLET_HOLE_METAL);
 		}
 	}
 }

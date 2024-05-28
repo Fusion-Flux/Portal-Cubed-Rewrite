@@ -2,7 +2,6 @@
   "textures": [
     "portalcubed:bullet_hole_concrete",
     "portalcubed:bullet_hole_glass",
-    "portalcubed:bullet_hole_metal",
-    "portalcubed:scorch"
+    "portalcubed:bullet_hole_metal"
   ]
 }

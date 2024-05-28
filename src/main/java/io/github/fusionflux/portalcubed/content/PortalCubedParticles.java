@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.framework.particle.DecalParticle;
-import io.github.fusionflux.portalcubed.framework.particle.ParaboloidParticle;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -11,13 +10,13 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
 public class PortalCubedParticles {
-	public static final SimpleParticleType DECAL = REGISTRAR.particles
-			.createSimple("decal")
+	public static final SimpleParticleType BULLET_HOLE = REGISTRAR.particles
+			.createSimple("bullet_hole")
 			.provider(FabricParticleTypes::simple)
 			.build();
 
-	public static final SimpleParticleType TEST = REGISTRAR.particles
-			.createSimple("test")
+	public static final SimpleParticleType SCORCH = REGISTRAR.particles
+			.createSimple("scorch")
 			.provider(FabricParticleTypes::simple)
 			.build();
 
@@ -28,12 +27,12 @@ public class PortalCubedParticles {
 	@ClientOnly
 	public static void initClient() {
 		ParticleFactoryRegistry.getInstance().register(
-				PortalCubedParticles.DECAL,
-				DecalParticle.Provider::new
+				PortalCubedParticles.BULLET_HOLE,
+				DecalParticle.BulletHoleProvider::new
 		);
 		ParticleFactoryRegistry.getInstance().register(
-				PortalCubedParticles.TEST,
-				ParaboloidParticle.Provider::new
+				PortalCubedParticles.SCORCH,
+				DecalParticle.ScorchProvider::new
 		);
 	}
 }

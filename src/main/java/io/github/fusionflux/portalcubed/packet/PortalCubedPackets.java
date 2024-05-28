@@ -11,10 +11,12 @@ import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacke
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DropPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.GrabPacket;
@@ -39,12 +41,14 @@ public class PortalCubedPackets {
 	public static final ResourceLocation OPEN_CANNON_CONFIG = clientbound("open_cannon_config", OpenCannonConfigPacket::new);
 	public static final ResourceLocation HOLD_STATUS = clientbound("hold_status", HoldStatusPacket::new);
 	public static final ResourceLocation DISINTEGRATE = clientbound("disintegrate", DisintegratePacket::new);
+	public static final ResourceLocation SIMPLE_PARTICLE = clientbound("simple_particle", SimpleParticlePacket::new);
 	// serverbound
 	public static final ResourceLocation CONFIGURE_PEDESTAL_BUTTON = serverbound("configure_pedestal_button", ConfigurePedestalButtonPacket::new);
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);
 	public static final ResourceLocation CONFIGURE_CANNON = serverbound("configure_cannon", ConfigureCannonPacket::new);
 	public static final ResourceLocation GRAB = serverbound("grab", GrabPacket::new);
 	public static final ResourceLocation DROP = serverbound("drop", DropPacket::new);
+	public static final ResourceLocation CROWBAR_SWING = serverbound("crowbar_swing", CrowbarSwingPacket::new);
 
 	public static void init() {
 	}
@@ -64,7 +68,7 @@ public class PortalCubedPackets {
 		return id;
 	}
 
-	private static <T extends ClientboundPacket> void registerClientReceiver(ResourceLocation id) {
+	private static void registerClientReceiver(ResourceLocation id) {
 		ClientPlayNetworking.registerGlobalReceiver(id, ClientboundPacket::receive);
 	}
 

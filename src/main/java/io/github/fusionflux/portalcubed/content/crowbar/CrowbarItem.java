@@ -1,40 +1,77 @@
 package io.github.fusionflux.portalcubed.content.crowbar;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.content.misc.BulletHoleMaterial;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
+import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class CrowbarItem extends Item {
+import org.quiltmc.qsl.base.api.util.TriState;
+
+public class CrowbarItem extends Item implements DirectClickItem {
 	public CrowbarItem(Properties settings) {
 		super(settings);
 	}
 
+	public void onSwing(Player player, BlockHitResult hit) {
+		if (player instanceof ServerPlayer serverPlayer) {
+			Level world = serverPlayer.level();
+			BlockState state = world.getBlockState(hit.getBlockPos());
+			if (!state.is(PortalCubedBlockTags.CROWBAR_MAKES_HOLES))
+				return;
+			BulletHoleMaterial.forState(state).ifPresent(material -> {
+				Vec3 location = hit.getLocation();
+				world.playSound(null, location.x, location.y, location.z, material.impactSound, player.getSoundSource());
+				Direction dir = hit.getDirection();
+				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, location.x, location.y, location.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
+				for (ServerPlayer tracking : PortalCubedPackets.trackingAndSelf(serverPlayer)) {
+					PortalCubedPackets.sendToClient(tracking, packet);
+				}
+			});
+		}
+	}
+
+	@Override
+	public TriState onAttack(Level level, Player player, ItemStack stack) {
+		player.playSound(PortalCubedSounds.CROWBAR_SWING);
+		player.swing(InteractionHand.MAIN_HAND, !level.isClientSide);
+		if (level.isClientSide && Minecraft.getInstance().hitResult instanceof BlockHitResult blockHitResult)
+			PortalCubedPackets.sendToServer(new CrowbarSwingPacket(blockHitResult));
+		return TriState.TRUE;
+	}
+
+	@Override
+	public TriState onUse(Level level, Player player, ItemStack stack, InteractionHand hand) {
+		return TriState.DEFAULT;
+	}
+
+	@Override
+	public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
+		if (state.getDestroySpeed(world, pos) != 0.0F) {
+			stack.hurtAndBreak(2, miner, e -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+		}
+		return true;
+	}
+
 	@Override
 	public boolean canAttackBlock(BlockState state, Level world, BlockPos pos, Player miner) {
-		if (!state.is(PortalCubedBlockTags.CROWBAR_MAKES_HOLES))
-			return !miner.isCreative();
-		// I don't know if this is the best place to put this logic, but it works so I'm not questioning it.
-
-		// TODO: this will break with pekhui. Don't hardcode maxDistance
-		// Also why the fuck is the raycast method named pick
-		BlockHitResult result = (BlockHitResult) miner.pick(5, 0, false);
-
-		Vec3 location = result.getLocation();
-		Direction dir = result.getDirection();
-		world.addParticle(
-				PortalCubedParticles.DECAL,
-				location.x, location.y, location.z,
-				dir.getStepX(), dir.getStepY(), dir.getStepZ()
-		);
-
 		return !miner.isCreative();
 	}
 }

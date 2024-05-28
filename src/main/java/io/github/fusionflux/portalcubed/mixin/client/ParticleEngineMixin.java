@@ -1,36 +1,34 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import com.google.common.collect.ImmutableList;
-
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-
 import io.github.fusionflux.portalcubed.framework.particle.DecalParticle;
 
 import net.minecraft.client.particle.ParticleEngine;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
+import net.minecraft.client.particle.ParticleRenderType;
 
-import java.util.stream.Stream;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Mixin(ParticleEngine.class)
 public class ParticleEngineMixin {
-	@WrapOperation(
-			method = "<clinit>",
-			at = @At(
-					value = "INVOKE",
-					target = "Lcom/google/common/collect/ImmutableList;of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Lcom/google/common/collect/ImmutableList;",
-					remap = false
-			)
-	)
-	private static ImmutableList<?> addRenderTypes(
-			Object e1, Object e2, Object e3, Object e4, Object e5, Operation<ImmutableList<?>> original
-	) {
-		return Stream.concat(
-				original.call(e1, e2, e3, e4, e5).stream(),
-				Stream.of(DecalParticle.PARTICLE_SHEET_MULTIPLY, DecalParticle.PARTICLE_SHEET_TRANSLUCENT)
-		).collect(ImmutableList.toImmutableList());
+	@Shadow
+	@Final
+	@Mutable
+	private static List<ParticleRenderType> RENDER_ORDER;
+
+	@Inject(method = "<clinit>", at = @At("TAIL"))
+	private static void givePropBarrierMarkerParticles(CallbackInfo ci) {
+		List<ParticleRenderType> newRenderOrder = new ArrayList<>(RENDER_ORDER);
+		newRenderOrder.add(DecalParticle.PARTICLE_SHEET_MULTIPLY);
+		RENDER_ORDER = Collections.unmodifiableList(newRenderOrder);
 	}
 }
