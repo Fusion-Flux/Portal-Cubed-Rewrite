@@ -97,7 +97,8 @@ public class DecalParticle extends TextureSheetParticle {
 	}
 
 	public void setPos(double x, double y, double z, double dx, double dy, double dz) {
-		double offset = 0.01;
+		// slight variance to get rid of most z fighting
+		double offset = 0.01 + (random.nextDouble() * 0.001);
 		this.x = snap(x) + dx * offset;
 		this.y = snap(y) + dy * offset;
 		this.z = snap(z) + dz * offset;
