@@ -304,28 +304,64 @@
   },
   "concrete_surface_impact": {
     "sounds": [
-      "portalcubed:surface_impact/concrete_impact_1",
-      "portalcubed:surface_impact/concrete_impact_2",
-      "portalcubed:surface_impact/concrete_impact_3",
-      "portalcubed:surface_impact/concrete_impact_4"
+      {
+        "name": "portalcubed:surface_impact/concrete_impact_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/concrete_impact_2",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/concrete_impact_3",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/concrete_impact_4",
+        "volume": 0.5
+      }
     ],
     "subtitle": "subtitles.portalcubed.concrete_surface_impact"
   },
   "glass_surface_impact": {
     "sounds": [
-      "portalcubed:surface_impact/glass_impact_1",
-      "portalcubed:surface_impact/glass_impact_2",
-      "portalcubed:surface_impact/glass_impact_3",
-      "portalcubed:surface_impact/glass_impact_4"
+      {
+        "name": "portalcubed:surface_impact/glass_impact_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/glass_impact_2",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/glass_impact_3",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/glass_impact_4",
+        "volume": 0.5
+      }
     ],
     "subtitle": "subtitles.portalcubed.glass_surface_impact"
   },
   "metal_surface_impact": {
     "sounds": [
-      "portalcubed:surface_impact/metal_impact_1",
-      "portalcubed:surface_impact/metal_impact_2",
-      "portalcubed:surface_impact/metal_impact_3",
-      "portalcubed:surface_impact/metal_impact_4"
+      {
+        "name": "portalcubed:surface_impact/metal_impact_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/metal_impact_2",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/metal_impact_3",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/metal_impact_4",
+        "volume": 0.5
+      }
     ],
     "subtitle": "subtitles.portalcubed.metal_surface_impact"
   },
