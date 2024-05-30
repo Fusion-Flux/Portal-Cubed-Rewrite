@@ -11,8 +11,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import io.github.fusionflux.portalcubed.content.misc.BulletHoleMaterial;
+import io.github.fusionflux.portalcubed.framework.extension.ParticleEngineExt;
+import net.caffeinemc.mods.sodium.api.vertex.buffer.VertexBufferWriter;
+import net.caffeinemc.mods.sodium.api.vertex.format.common.ParticleVertex;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -22,6 +26,7 @@ import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,8 +34,9 @@ import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Math;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
+import org.lwjgl.system.MemoryStack;
 
 public class DecalParticle extends TextureSheetParticle {
 	public static final ParticleRenderType PARTICLE_SHEET_MULTIPLY = new ParticleRenderType() {
@@ -53,16 +59,16 @@ public class DecalParticle extends TextureSheetParticle {
 		}
 	};
 
-	public final float ONE_PIXEL = 1/16f;
+	public static final float ONE_PIXEL = 1/16f;
+	public static final double SURFACE_OFFSET = 0.01f;
+	public static final int VERTEX_COUNT = 4;
+	public static final int LIFETIME = 1200;
 
-	protected final Quaternionf rotationXY;
-	protected final Quaternionf rotationZ;
 	protected final BlockPos basePos;
-	protected final boolean multiply;
+	protected final Quaternionf rot;
+	protected final ParticleRenderType renderType;
 
-	protected final int rotationValue;
-
-	protected DecalParticle(ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, boolean multiply) {
+	protected DecalParticle(ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, ParticleRenderType renderType) {
 		super(clientLevel, 0, 0, 0);
 
 		if (dz > 0) {
@@ -76,24 +82,18 @@ public class DecalParticle extends TextureSheetParticle {
 			x += ONE_PIXEL;
 		}
 
+		setPos(
+				x,
+				y,
+				z,
+				dx,
+				dy,
+				dz
+		);
 
-		setPos(x, y, z, dx, dy, dz);
-
-		// Keep track of some things.
 		this.basePos = basePos;
-		this.multiply = multiply;
-
-		// rotate the particle to be oriented in the right direction.
-		float rx = (float)Math.asin(dy);
-		float ry = (float)Math.atan2(dx, dz) + Mth.PI;
-		rotationValue = Math.round(clientLevel.random.nextFloat() * 4);
-		float rz = rotationValue / 4f * Mth.TWO_PI;
-
-		rotationXY = new Quaternionf().rotateY(ry).rotateX(rx);
-		rotationZ = new Quaternionf().rotateZ(rz);
-
-		// Idk if this is the best place to put this.
-		setLifetime(1200);
+		this.rot = Direction.getNearest(dx, dy, dz).getRotation();
+		this.renderType = renderType;
 	}
 
 	public void setPos(double x, double y, double z, double dx, double dy, double dz) {
@@ -102,9 +102,9 @@ public class DecalParticle extends TextureSheetParticle {
 		this.x = snap(x) + dx * offset;
 		this.y = snap(y) + dy * offset;
 		this.z = snap(z) + dz * offset;
-		xo = x;
-		yo = y;
-		zo = z;
+		this.xo = x;
+		this.yo = y;
+		this.zo = z;
 	}
 
 	@Override
@@ -117,77 +117,62 @@ public class DecalParticle extends TextureSheetParticle {
 
 	@Override
 	public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-		Vec3 vec3 = camera.getPosition();
-
-		// We don't need to lerp it as it's always static.
-		float px = (float)(x - vec3.x());
-		float py = (float)(y - vec3.y());
-		float pz = (float)(z - vec3.z());
-
-		Vector3f[] vector3fs = new Vector3f[]{
-				new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)
-		};
-
-		for(int j = 0; j < 4; ++j) {
-			Vector3f vector3f = vector3fs[j];
-			vector3f.sub(ONE_PIXEL, ONE_PIXEL, 0);
-			vector3f.rotate(rotationZ);
-			vector3f.add(ONE_PIXEL, ONE_PIXEL, 0);
-			vector3f.rotate(rotationXY);
-
-			// I love magic numbers.
-			vector3f.mul(0.5f);
-			vector3f.add(px, py, pz);
-		}
+		Vec3 camPos = camera.getPosition();
+		float x = (float) (this.x - camPos.x());
+		float y = (float) (this.y - camPos.y());
+		float z = (float) (this.z - camPos.z());
+		int light = ((ParticleEngineExt) Minecraft.getInstance().particleEngine).getDecalParticleLightCache().get(this.x, this.y, this.z);
 
 		float u0 = getU0();
 		float u1 = getU1();
 		float v0 = getV0();
 		float v1 = getV1();
-		int lightColor = getLightColor(tickDelta);
-		vertexConsumer.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z())
-				.uv(u1, v1)
-				.color(rCol, gCol, bCol, alpha)
-				.uv2(lightColor)
-				.endVertex();
-		vertexConsumer.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z())
-				.uv(u1, v0)
-				.color(rCol, gCol, bCol, alpha)
-				.uv2(lightColor)
-				.endVertex();
-		vertexConsumer.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z())
-				.uv(u0, v0)
-				.color(rCol, gCol, bCol, alpha)
-				.uv2(lightColor)
-				.endVertex();
-		vertexConsumer.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z())
-				.uv(u0, v1)
-				.color(rCol, gCol, bCol, alpha)
-				.uv2(lightColor)
-				.endVertex();
+
+		VertexBufferWriter writer = VertexBufferWriter.of(vertexConsumer);
+		try (MemoryStack stack = MemoryStack.stackPush()) {
+			long buffer = stack.nmalloc(ParticleVertex.STRIDE * VERTEX_COUNT), vertex = buffer;
+
+			vertex = writeVertex(vertex, rot, -1, -1, u1, v1, light, x, y, z);
+			vertex = writeVertex(vertex, rot, -1, 1, u1, v0, light, x, y, z);
+			vertex = writeVertex(vertex, rot, 1, 1, u0, v0, light, x, y, z);
+			writeVertex(vertex, rot, 1, -1, u0, v1, light, x, y, z);
+
+			writer.push(stack, buffer, VERTEX_COUNT, ParticleVertex.FORMAT);
+		}
+	}
+
+	private static long writeVertex(long ptr, Quaternionf rot, float localX, float localZ, float u, float v, int light, float x, float y, float z) {
+		float xx = rot.x * rot.x, yy = rot.y * rot.y, zz = rot.z * rot.z, ww = rot.w * rot.w;
+		float xy = rot.x * rot.y, xz = rot.x * rot.z, yz = rot.y * rot.z, xw = rot.x * rot.w;
+		float zw = rot.z * rot.w, yw = rot.y * rot.w, k = 1 / (xx + yy + zz + ww);
+
+		float xr = 	(((xx - yy - zz + ww) * k) * (localX - ONE_PIXEL * 2)) + ((2 * (xz + yw) * k) * (localZ - ONE_PIXEL * 2));
+		float yr = ((2 * (xy + zw) * k) * (localX - ONE_PIXEL * 2)) + ((2 * (yz - xw) * k) * (localZ - ONE_PIXEL * 2));
+		float zr = ((2 * (xz - yw) * k) * (localX - ONE_PIXEL * 2)) + (((zz - xx - yy + ww) * k) * (localZ - ONE_PIXEL * 2));
+
+		float vertX = (xr * .5f) + x;
+		float vertY = (yr * .5f) + y;
+		float vertZ = (zr * .5f) + z;
+
+		ParticleVertex.put(ptr, vertX, vertY, vertZ, u, v, 0xFFFFFFFF, light);
+		return ptr + ParticleVertex.STRIDE;
 	}
 
 	@NotNull
 	@Override
 	public ParticleRenderType getRenderType() {
-		return multiply ? PARTICLE_SHEET_MULTIPLY : ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+		return renderType;
 	}
 
 	public static BlockPos getBasePos(double x, double y, double z, double dx, double dy, double dz) {
-		return new BlockPos((int) Math.floor(x - dx * 0.02f), (int) Math.floor(y - dy* 0.02f), (int) Math.floor(z - dz* 0.02f));
+		return new BlockPos(Mth.floor(x - dx * SURFACE_OFFSET), Mth.floor(y - dy * SURFACE_OFFSET), Mth.floor(z - dz * SURFACE_OFFSET));
 	}
 
 	public static double snap(double d) {
-		return Math.floor(d * 16) / 16d;
+		return Math.floor(d * 16) / 16;
 	}
 
-	public static class BulletHoleProvider implements ParticleProvider<SimpleParticleType> {
-		private final FabricSpriteProvider spriteProvider;
-
-		public BulletHoleProvider(FabricSpriteProvider spriteProvider) {
-			this.spriteProvider = spriteProvider;
-		}
-
+	public record BulletHoleProvider(FabricSpriteProvider spriteProvider) implements ParticleProvider<SimpleParticleType> {
 		@Nullable
 		@Override
 		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
@@ -195,25 +180,21 @@ public class DecalParticle extends TextureSheetParticle {
 			// Get texture and whether to multiply.
 			BlockState state = world.getBlockState(pos);
 			return BulletHoleMaterial.forState(state).map(material -> {
-				DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, pos, material != BulletHoleMaterial.GLASS);
+				DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, pos, material == BulletHoleMaterial.GLASS ? ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT : PARTICLE_SHEET_MULTIPLY);
 				particle.setSprite(spriteProvider.getSprites().get(material.ordinal()));
+				particle.setLifetime(LIFETIME);
 				return particle;
 			}).orElse(null);
 		}
 	}
 
-	public static class ScorchProvider implements ParticleProvider<SimpleParticleType> {
-		private final FabricSpriteProvider spriteProvider;
-
-		public ScorchProvider(FabricSpriteProvider spriteProvider) {
-			this.spriteProvider = spriteProvider;
-		}
-
-		@Nullable
+	public record ScorchProvider(FabricSpriteProvider spriteProvider) implements ParticleProvider<SimpleParticleType> {
+		@NotNull
 		@Override
 		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-			DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, getBasePos(x, y, z, dx, dy, dz), false);
+			DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, getBasePos(x, y, z, dx, dy, dz), ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT);
 			particle.setSprite(Iterables.getLast(spriteProvider.getSprites()));
+			particle.setLifetime(LIFETIME);
 			return particle;
 		}
 	}
