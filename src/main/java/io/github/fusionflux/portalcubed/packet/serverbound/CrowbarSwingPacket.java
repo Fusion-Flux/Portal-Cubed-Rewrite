@@ -11,17 +11,20 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
-public record CrowbarSwingPacket(BlockHitResult hit) implements ServerboundPacket {
+public record CrowbarSwingPacket(@Nullable HitResult hit, boolean didSwingAnim) implements ServerboundPacket {
 	public CrowbarSwingPacket(FriendlyByteBuf buf) {
-		this(buf.readBlockHitResult());
+		this(buf.readNullable(FriendlyByteBuf::readBlockHitResult), buf.readBoolean());
 	}
 
 	@Override
 	public void write(FriendlyByteBuf buf) {
-		buf.writeBlockHitResult(this.hit);
+		buf.writeNullable(this.hit instanceof BlockHitResult blockHit ? blockHit : null, FriendlyByteBuf::writeBlockHitResult);
+		buf.writeBoolean(this.didSwingAnim);
 	}
 
 	@Override
@@ -32,7 +35,7 @@ public record CrowbarSwingPacket(BlockHitResult hit) implements ServerboundPacke
 	@Override
 	public void handle(ServerPlayer player, PacketSender<CustomPacketPayload> responder) {
 		ItemStack hand = player.getItemInHand(InteractionHand.MAIN_HAND);
-		if (hand.getItem() instanceof CrowbarItem crowbar && player.getEyePosition().distanceToSqr(this.hit.getLocation()) <= ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE)
-			crowbar.onSwing(player, this.hit);
+		if (hand.getItem() instanceof CrowbarItem crowbar && (hit == null || player.getEyePosition().distanceToSqr(this.hit.getLocation()) <= ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE))
+			crowbar.onSwing(player, this.hit, this.didSwingAnim);
 	}
 }

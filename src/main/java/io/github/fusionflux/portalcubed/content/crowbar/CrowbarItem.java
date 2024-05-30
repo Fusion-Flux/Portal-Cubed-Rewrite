@@ -21,8 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.base.api.util.TriState;
 
 public class CrowbarItem extends Item implements DirectClickItem {
@@ -30,31 +32,34 @@ public class CrowbarItem extends Item implements DirectClickItem {
 		super(settings);
 	}
 
-	public void onSwing(Player player, BlockHitResult hit) {
+	public void onSwing(Player player, @Nullable HitResult hit, boolean didSwingAnim) {
+		player.playSound(PortalCubedSounds.CROWBAR_SWING);
+		Level world = player.level();
+		if (!didSwingAnim) player.swing(InteractionHand.MAIN_HAND, !world.isClientSide);
+
 		if (player instanceof ServerPlayer serverPlayer) {
-			Level world = serverPlayer.level();
-			BlockState state = world.getBlockState(hit.getBlockPos());
+			if (!(hit instanceof BlockHitResult blockHit)) return;
+			BlockState state = world.getBlockState(blockHit.getBlockPos());
 			if (!state.is(PortalCubedBlockTags.CROWBAR_MAKES_HOLES))
 				return;
 			BulletHoleMaterial.forState(state).ifPresent(material -> {
 				Vec3 location = hit.getLocation();
 				world.playSound(null, location.x, location.y, location.z, material.impactSound, player.getSoundSource());
-				Direction dir = hit.getDirection();
+				Direction dir = blockHit.getDirection();
 				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, location.x, location.y, location.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
 				for (ServerPlayer tracking : PortalCubedPackets.trackingAndSelf(serverPlayer)) {
 					PortalCubedPackets.sendToClient(tracking, packet);
 				}
 			});
+		} else if (player.isLocalPlayer()) {
+			PortalCubedPackets.sendToServer(new CrowbarSwingPacket(hit, didSwingAnim));
 		}
 	}
 
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack) {
-		player.playSound(PortalCubedSounds.CROWBAR_SWING);
-		player.swing(InteractionHand.MAIN_HAND, !level.isClientSide);
-		if (level.isClientSide && Minecraft.getInstance().hitResult instanceof BlockHitResult blockHitResult)
-			PortalCubedPackets.sendToServer(new CrowbarSwingPacket(blockHitResult));
-		return TriState.TRUE;
+		onSwing(player, Minecraft.getInstance().hitResult, false);
+		return TriState.FALSE;
 	}
 
 	@Override
