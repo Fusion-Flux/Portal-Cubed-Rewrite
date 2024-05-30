@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.framework.particle.DecalParticle;
+import io.github.fusionflux.portalcubed.framework.particle.EnergySparkParticle;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -20,6 +21,11 @@ public class PortalCubedParticles {
 			.provider(FabricParticleTypes::simple)
 			.build();
 
+	public static final SimpleParticleType ENERGY_SPARK = REGISTRAR.particles
+			.createSimple("energy_spark")
+			.provider(FabricParticleTypes::simple)
+			.build();
+
 	public static void init() {
 
 	}
@@ -33,6 +39,10 @@ public class PortalCubedParticles {
 		ParticleFactoryRegistry.getInstance().register(
 				PortalCubedParticles.SCORCH,
 				DecalParticle.ScorchProvider::new
+		);
+		ParticleFactoryRegistry.getInstance().register(
+				PortalCubedParticles.ENERGY_SPARK,
+				EnergySparkParticle.Provider::new
 		);
 	}
 }
