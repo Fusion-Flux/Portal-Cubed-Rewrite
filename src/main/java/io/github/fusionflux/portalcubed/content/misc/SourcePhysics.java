@@ -26,7 +26,9 @@ public class SourcePhysics {
 	public static final double SPEED_LIMIT = SPEED_LIMIT_BLOCKS / 20; // 20 tps
 
 	public static boolean appliesTo(Player player) {
-		return player.getItemBySlot(EquipmentSlot.FEET).is(PortalCubedItemTags.APPLY_SOURCE_PHYSICS);
+		return player.getItemBySlot(EquipmentSlot.FEET).is(PortalCubedItemTags.APPLY_SOURCE_PHYSICS)
+				&& !player.onGround()
+				&& !player.getAbilities().flying;
 	}
 
 	public static float getAirDrag(LivingEntity entity, float original) {
@@ -35,7 +37,7 @@ public class SourcePhysics {
 
 	@ClientOnly
 	public static void applyInput(Player player, Input input) {
-		if (!appliesTo(player) || player.onGround())
+		if (!appliesTo(player))
 			return;
 
 		Vec3 vel = player.getDeltaMovement();
