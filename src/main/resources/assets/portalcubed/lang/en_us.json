@@ -48,6 +48,8 @@
   "tag.item.portalcubed.yellow_chamber_exterior_materials": "Yellow Chamber Exteriors",
   "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
   "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
+  "tag.item.portalcubed.absorb_fall_damage": "Absorbs Fall Damage",
+  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
   "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
 
   "item.portalcubed.construction_cannon.feedback.obstructed": "Placement location obstructed",
