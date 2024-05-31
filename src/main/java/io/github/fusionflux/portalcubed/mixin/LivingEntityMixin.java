@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
+import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
 import net.minecraft.world.InteractionHand;
@@ -21,7 +22,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -90,5 +93,10 @@ public abstract class LivingEntityMixin extends Entity {
 			}
 		}
 		this.lemonadeArmingFinished = false;
+	}
+
+	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 0.91f, ordinal = 1))
+	private float sourcePhysicsAirDrag(float original) {
+		return SourcePhysics.getAirDrag((LivingEntity) (Object) this, original);
 	}
 }
