@@ -50,7 +50,7 @@ public class ParticleEngineMixin implements ParticleEngineExt {
 	@Inject(method = "<clinit>", at = @At("TAIL"))
 	private static void addMultiplyRenderType(CallbackInfo ci) {
 		List<ParticleRenderType> newRenderOrder = new ArrayList<>(RENDER_ORDER);
-		newRenderOrder.add(DecalParticle.PARTICLE_SHEET_MULTIPLY);
+		newRenderOrder.add(DecalParticle.MULTIPLY_RENDER_TYPE);
 		RENDER_ORDER = Collections.unmodifiableList(newRenderOrder);
 	}
 
