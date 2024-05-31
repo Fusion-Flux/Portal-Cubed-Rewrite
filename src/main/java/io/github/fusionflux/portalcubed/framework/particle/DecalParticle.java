@@ -42,16 +42,19 @@ public class DecalParticle extends TextureSheetParticle {
 	public static final ParticleRenderType PARTICLE_SHEET_MULTIPLY = new ParticleRenderType() {
 		@Override
 		public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
-			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
 			RenderSystem.enableBlend();
 			RenderSystem.blendFunc(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.SRC_COLOR);
 			RenderSystem.depthMask(false);
+			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
 			bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
 		}
 
 		@Override
 		public void end(Tesselator tessellator) {
 			tessellator.end();
+			// cleanup rendering state because mojang doesn't know how to do proper render state management
+			RenderSystem.defaultBlendFunc();
+			RenderSystem.depthMask(true);
 		}
 
 		public String toString() {
@@ -92,7 +95,7 @@ public class DecalParticle extends TextureSheetParticle {
 		);
 
 		this.basePos = basePos;
-		this.rot = Direction.getNearest(dx, dy, dz).getRotation();
+		this.rot = Direction.getNearest(dx, dy, dz).getRotation().rotateY(Math.toRadians(180));
 		this.renderType = renderType;
 	}
 
@@ -146,9 +149,9 @@ public class DecalParticle extends TextureSheetParticle {
 		float xy = rot.x * rot.y, xz = rot.x * rot.z, yz = rot.y * rot.z, xw = rot.x * rot.w;
 		float zw = rot.z * rot.w, yw = rot.y * rot.w, k = 1 / (xx + yy + zz + ww);
 
-		float xr = 	(((xx - yy - zz + ww) * k) * (localX - ONE_PIXEL * 2)) + ((2 * (xz + yw) * k) * (localZ - ONE_PIXEL * 2));
-		float yr = ((2 * (xy + zw) * k) * (localX - ONE_PIXEL * 2)) + ((2 * (yz - xw) * k) * (localZ - ONE_PIXEL * 2));
-		float zr = ((2 * (xz - yw) * k) * (localX - ONE_PIXEL * 2)) + (((zz - xx - yy + ww) * k) * (localZ - ONE_PIXEL * 2));
+		float xr = 	(((xx - yy - zz + ww) * k) * (localX - ONE_PIXEL)) + ((2 * (xz + yw) * k) * (localZ - ONE_PIXEL));
+		float yr = ((2 * (xy + zw) * k) * (localX - ONE_PIXEL)) + ((2 * (yz - xw) * k) * (localZ - ONE_PIXEL));
+		float zr = ((2 * (xz - yw) * k) * (localX - ONE_PIXEL)) + (((zz - xx - yy + ww) * k) * (localZ - ONE_PIXEL));
 
 		float vertX = (xr * .5f) + x;
 		float vertY = (yr * .5f) + y;
