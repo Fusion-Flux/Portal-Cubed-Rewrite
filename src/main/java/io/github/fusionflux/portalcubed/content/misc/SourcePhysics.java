@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
 
 import net.minecraft.client.player.Input;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -41,8 +42,17 @@ public class SourcePhysics {
 			return;
 
 		Vec3 vel = player.getDeltaMovement();
+
 		Vec3 inputVec = new Vec3(input.leftImpulse, 0, input.forwardImpulse);
-		double projection = projectionMagnitude(vel, inputVec);
+		Vec3 accel = EntityAccessor.callGetInputVector(inputVec, player.getSpeed(), player.getYRot());
+
+		double dot = vel.dot(accel);
+		if (dot < 0) {
+			// do nothing when input is pointing backwards
+			return;
+		}
+
+		double projection = projectionMagnitude(vel, accel);
 		if (projection > SPEED_LIMIT) {
 			// too fast, discard
 			// don't use 0, will stop sprinting

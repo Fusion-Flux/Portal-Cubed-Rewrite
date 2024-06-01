@@ -8,6 +8,7 @@
     "BlockMixin",
     "CakeBlockMixin",
     "CandleCakeBlockMixin",
+    "EntityAccessor",
     "EntityMixin",
     "ItemStackMixin",
     "LevelMixin",
