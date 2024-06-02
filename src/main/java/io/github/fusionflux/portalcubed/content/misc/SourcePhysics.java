@@ -81,9 +81,8 @@ public class SourcePhysics {
 			return;
 		}
 
-		double projection = projectionMagnitude(vel, accel);
-		System.out.println(projection);
-		if (projection > SPEED_LIMIT) {
+		Vec3 projection = projection(vel, accel);
+		if (projection.length() > SPEED_LIMIT) {
 			// too fast, discard
 			// don't use 0, will stop sprinting
 			player.input.leftImpulse = 1E-4f;
@@ -91,13 +90,9 @@ public class SourcePhysics {
 		}
 	}
 
-	public static double projectionMagnitude(Vec3 a, Vec3 b) {
-		double angle = angleBetween(a, b);
-		return a.length() * Math.cos(angle);
-	}
-
-	public static double angleBetween(Vec3 a, Vec3 b) {
-		return a.dot(b) / (a.length() * b.length());
+	public static Vec3 projection(Vec3 a, Vec3 b) {
+		double length = a.dot(b) / (b.length() * b.length());
+		return b.scale(length);
 	}
 
 	@ClientOnly
@@ -107,8 +102,11 @@ public class SourcePhysics {
 	}
 
 	public static class DebugRenderer implements HudRenderCallback {
+		public static final int SCALE = 500;
 		public static final Vec3i VEL_COLOR = new Vec3i(0, 125, 0);
 		public static final Vec3i ACCEL_COLOR = new Vec3i(125, 0, 125);
+		public static final Vec3i PROJECTION_COLOR = new Vec3i(255,128,0);
+		public static final Vec3i LIMIT_COLOR = new Vec3i(255, 0, 0);
 
 		public static final DebugRenderer INSTANCE = new DebugRenderer();
 
@@ -150,8 +148,19 @@ public class SourcePhysics {
 			GlStateManager._disableCull();
 			RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
 
-			renderVec(player.getDeltaMovement().scale(100), VEL_COLOR);
-			renderVec(getAcceleration(player).scale(1000), ACCEL_COLOR);
+			Vec3 vel = player.getDeltaMovement();
+			renderVec(vel.scale(SCALE), VEL_COLOR);
+
+			Vec3 limit = vel.normalize().scale(SPEED_LIMIT * SCALE);
+			Vec3 limitEnd = limit.add(limit.normalize());
+			renderLine(limit, limitEnd, LIMIT_COLOR);
+
+			Vec3 accel = getAcceleration(player);
+			if (accel.length() > 0) {
+				Vec3 projection = projection(vel, accel).scale(SCALE);
+				renderVec(projection, PROJECTION_COLOR);
+				renderVec(accel.scale(SCALE), ACCEL_COLOR);
+			}
 
 			RenderSystem.lineWidth(1);
 			GlStateManager._enableCull();
@@ -159,20 +168,25 @@ public class SourcePhysics {
 		}
 
 		private static void renderVec(Vec3 vec, Vec3i color) {
-			Vector3f norm = vec.normalize().toVector3f();
+			renderLine(Vec3.ZERO, vec, color);
+		}
+
+		private static void renderLine(Vec3 from, Vec3 to, Vec3i color) {
+			Vec3 between = from.vectorTo(to);
+			Vector3f norm = between.normalize().toVector3f();
 			Tesselator tesselator = RenderSystem.renderThreadTesselator();
 			BufferBuilder buffer = tesselator.getBuilder();
 			// thicker outline
 			RenderSystem.lineWidth(4);
 			buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-			buffer.vertex(0, 0, 0).color(0, 0, 0, 255).normal(norm.x, norm.y, norm.z).endVertex();
-			buffer.vertex(vec.x, vec.y, vec.z).color(0, 0, 0, 255).normal(norm.x, norm.y, norm.z).endVertex();
+			buffer.vertex(from.x, from.y, from.z).color(0, 0, 0, 255).normal(norm.x, norm.y, norm.z).endVertex();
+			buffer.vertex(to.x, to.y, to.z).color(0, 0, 0, 255).normal(norm.x, norm.y, norm.z).endVertex();
 			tesselator.end();
 			// main line
 			RenderSystem.lineWidth(2);
 			buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-			buffer.vertex(0, 0, 0).color(color.getX(), color.getY(), color.getZ(), 255).normal(norm.x, norm.y, norm.z).endVertex();
-			buffer.vertex(vec.x, vec.y, vec.z).color(color.getX(), color.getY(), color.getZ(), 255).normal(norm.x, norm.y, norm.z).endVertex();
+			buffer.vertex(from.x, from.y, from.z).color(color.getX(), color.getY(), color.getZ(), 255).normal(norm.x, norm.y, norm.z).endVertex();
+			buffer.vertex(to.x, to.y, to.z).color(color.getX(), color.getY(), color.getZ(), 255).normal(norm.x, norm.y, norm.z).endVertex();
 			tesselator.end();
 		}
 	}
