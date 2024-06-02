@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
 import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedDamageTypeTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
 import net.minecraft.world.InteractionHand;
@@ -63,7 +64,7 @@ public abstract class LivingEntityMixin extends Entity {
 	)
 	private void absorbFallDamageIntoBoots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, @Local int fallDamage) {
 		ItemStack boots = this.getItemBySlot(EquipmentSlot.FEET);
-		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE)) {
+		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE) && !damageSource.is(PortalCubedDamageTypeTags.BYPASSES_FALL_DAMAGE_ABSORPTION)) {
 			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
 			int bootDamage = LongFallBoots.calculateFallDamage(boots, fallDamage);
 			((ItemStackExt) (Object) boots).pc$hurtAndBreakNoUnbreaking(
