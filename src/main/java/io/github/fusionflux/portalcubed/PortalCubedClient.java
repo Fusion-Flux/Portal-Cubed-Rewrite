@@ -10,12 +10,14 @@ import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBootsModel;
+import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropModels;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,6 +46,9 @@ public class PortalCubedClient implements ClientModInitializer {
 				!blockOutlineContext.blockState().is(PortalCubedBlocks.PROP_BARRIER)
 						|| (!(Minecraft.getInstance().cameraEntity instanceof LivingEntity livingEntity) || livingEntity.isHolding(PortalCubedBlocks.PROP_BARRIER.asItem()))
 		);
+
+		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);
+
 		ClientEntityTickCallback.EVENT.register((entity, isPassengerTick) -> {
 			if (entity instanceof Player player) {
 				boolean holdingPortalGun = player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN);
