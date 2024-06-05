@@ -25,7 +25,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -33,13 +32,13 @@ import net.minecraft.world.phys.Vec3;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 /*
- * Source-like physics:
- * - no air drag
- * - soft air speed limit of 30u/s (about half a block)
- * - speed limit is full vector length, not components
- * - input is ignored when the projection of velocity onto acceleration is above the limit
- * Reference: https://steamcommunity.com/sharedfiles/filedetails/?id=184184420
- */
+Source-like physics:
+- no air drag
+- soft air speed limit of 30u/s (about half a block)
+- speed limit is full vector length, not components
+- input is ignored when the projection of velocity onto acceleration is above the limit
+Reference: https://steamcommunity.com/sharedfiles/filedetails/?id=184184420
+*/
 public class SourcePhysics {
 	// // 128 in a 2x2 panel
 	public static final double BLOCKS_PER_UNIT = 1 / 64f;
@@ -51,7 +50,7 @@ public class SourcePhysics {
 		if (!player.getItemBySlot(EquipmentSlot.FEET).is(PortalCubedItemTags.APPLY_SOURCE_PHYSICS))
 			return false;
 
-		if (player.onGround() || player.getAbilities().flying)
+		if (player.getAbilities().flying)
 			return false;
 
 		if (player.getPose() != Pose.STANDING && player.getPose() != Pose.CROUCHING)
@@ -63,23 +62,17 @@ public class SourcePhysics {
 		return !player.isInLiquid();
 	}
 
-	public static float getAirDrag(LivingEntity entity, float original) {
-		return entity instanceof Player player && appliesTo(player) ? 1 : original;
-	}
-
 	@ClientOnly
 	public static void applyInput(LocalPlayer player) {
-		if (!appliesTo(player))
+		if (!appliesTo(player) || player.onGround())
 			return;
 
 		Vec3 vel = player.getDeltaMovement();
 		Vec3 accel = getAcceleration(player);
 
-		double dot = vel.dot(accel);
-		if (dot < 0) {
-			// do nothing when input is pointing backwards
+		// do nothing when input is pointing backwards
+		if (vel.dot(accel) < 0)
 			return;
-		}
 
 		Vec3 projection = projection(vel, accel);
 		if (projection.length() > SPEED_LIMIT) {

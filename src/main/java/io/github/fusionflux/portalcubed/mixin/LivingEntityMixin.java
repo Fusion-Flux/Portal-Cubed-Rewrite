@@ -1,6 +1,11 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+
+import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
@@ -15,17 +20,17 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -96,8 +101,44 @@ public abstract class LivingEntityMixin extends Entity {
 		this.lemonadeArmingFinished = false;
 	}
 
-	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 0.91f, ordinal = 1))
-	private float sourcePhysicsAirDrag(float original) {
-		return SourcePhysics.getAirDrag((LivingEntity) (Object) this, original);
+	@ModifyExpressionValue(
+			method = "jumpFromGround",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/LivingEntity;isSprinting()Z"
+			)
+	)
+	private boolean sourcePhysicsNoSprintBoost(boolean original) {
+		return !((Object) this instanceof Player player) || !SourcePhysics.appliesTo(player);
+	}
+
+	@WrapOperation(
+			method = "travel",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/LivingEntity;handleRelativeFrictionAndCalculateMovement(Lnet/minecraft/world/phys/Vec3;F)Lnet/minecraft/world/phys/Vec3;"
+			)
+	)
+	private Vec3 sourcePhysicsFriction(LivingEntity self, Vec3 movementInput, float slipperiness, Operation<Vec3> original,
+									   @Local(ordinal = 0) float blockFriction,
+									   @Local(ordinal = 1) LocalFloatRef friction) {
+		if ((Object) this instanceof Player player && SourcePhysics.appliesTo(player)) {
+			boolean wasGrounded = self.onGround();
+			Vec3 newVel = original.call(self, movementInput, slipperiness);
+			boolean isGrounded = self.onGround();
+			if (!isGrounded) {
+				// when airborne, discard all friction to maintain speed.
+				friction.set(1);
+			}
+			if (!wasGrounded && isGrounded) {
+				// when landing, re-calculate friction.
+				// Otherwise, air friction is used for an extra tick, building infinite speed.
+				friction.set(blockFriction * 0.91f);
+			}
+			return newVel;
+		}
+
+		// no source physics, change nothing
+		return original.call(self, movementInput, slipperiness);
 	}
 }
