@@ -22,7 +22,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "portalcubed:fall_damage_resetting",
+            "tag": "portalcubed:absorb_fall_damage",
             "enchantments": [
               {
                 "enchantment": "minecraft:feather_falling",

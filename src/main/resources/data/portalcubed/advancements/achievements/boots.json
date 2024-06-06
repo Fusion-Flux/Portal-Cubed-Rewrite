@@ -26,7 +26,7 @@
             "predicate": {
               "equipment": {
                 "feet": {
-                  "tag": "portalcubed:fall_damage_resetting"
+                  "tag": "portalcubed:absorb_fall_damage"
                 }
               }
             }
