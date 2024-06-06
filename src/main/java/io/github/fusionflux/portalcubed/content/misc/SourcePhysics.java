@@ -23,6 +23,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
@@ -40,7 +41,7 @@ Source-like physics:
 Reference: https://steamcommunity.com/sharedfiles/filedetails/?id=184184420
 */
 public class SourcePhysics {
-	// // 128 in a 2x2 panel
+	// 128 in a 2x2 panel
 	public static final double BLOCKS_PER_UNIT = 1 / 64f;
 	public static final double SPEED_LIMIT_UNITS = 30;
 	public static final double SPEED_LIMIT_BLOCKS = BLOCKS_PER_UNIT * SPEED_LIMIT_UNITS;
@@ -70,8 +71,9 @@ public class SourcePhysics {
 		Vec3 vel = player.getDeltaMovement();
 		Vec3 accel = getAcceleration(player);
 
-		// do nothing when input is pointing backwards
-		if (vel.dot(accel) < 0)
+		// do nothing when input is pointing backwards or perpendicular
+		double dot = vel.normalize().dot(accel.normalize());
+		if (dot < 0.1)
 			return;
 
 		Vec3 projection = projection(vel, accel);
