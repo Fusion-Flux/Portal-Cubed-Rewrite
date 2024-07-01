@@ -116,7 +116,11 @@ public abstract class LivingEntityMixin extends Entity {
 			)
 	)
 	private boolean sourcePhysicsNoSprintBoost(boolean original) {
-		return !((Object) this instanceof Player player) || !SourcePhysics.appliesTo(player);
+		if ((Object) this instanceof Player player && SourcePhysics.appliesTo(player)) {
+			return false;
+		} else {
+			return original;
+		}
 	}
 
 	@WrapOperation(
