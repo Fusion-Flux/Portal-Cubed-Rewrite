@@ -44,6 +44,7 @@ public class PortalCubedTabs {
 			addProp(output, PropType.COMPANION_CUBE);
 			addProp(output, PropType.OLD_AP_CUBE);
 			addProp(output, PropType.RADIO);
+			output.accept(PortalCubedItems.GOO_BUCKET);
 		});
 	});
 
@@ -235,6 +236,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.LEMONADE);
 			output.accept(PortalCubedItems.LEMON_BOAT);
 			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
+			output.accept(PortalCubedItems.GOO_BUCKET);
 			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
 			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 

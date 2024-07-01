@@ -17,9 +17,13 @@ import io.github.fusionflux.portalcubed.content.misc.LongFallBootsMaterial;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
+import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.world.food.Foods;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
@@ -28,6 +32,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 
 import net.minecraft.Util;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -73,6 +78,10 @@ public class PortalCubedItems {
 	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_boat"), PortalCubedEntities.LEMON_BOAT, false);
 	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_chest_boat"), PortalCubedEntities.LEMON_BOAT, true);
 
+	public static final Item GOO_BUCKET = REGISTRAR.items.create("toxic_goo_bucket", s -> new BucketItem(PortalCubedFluids.GOO, s))
+			.settings(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))
+			.build();
+
 	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
 			.settings(QuiltItemSettings::fireResistant)
 			.colored(() -> () -> LongFallBootsColorProvider.INSTANCE)
@@ -91,6 +100,10 @@ public class PortalCubedItems {
 	});
 
 	public static void init() {
+		CauldronInteraction.EMPTY.map().put(GOO_BUCKET, (state, world, pos, player, hand, stack) -> CauldronInteraction.emptyBucket(
+				world, pos, player, hand, stack, PortalCubedBlocks.GOO_CAULDRON.defaultBlockState(), SoundEvents.BUCKET_EMPTY
+		));
+		DispenserBlock.registerBehavior(GOO_BUCKET, new BucketDispenseBehaviour());
 		CauldronInteraction.WATER.map().put(LONG_FALL_BOOTS, CauldronInteraction.DYED_ITEM);
 		DispenserBlock.registerBehavior(LEMONADE, new LemonadeDispenseBehavior());
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {

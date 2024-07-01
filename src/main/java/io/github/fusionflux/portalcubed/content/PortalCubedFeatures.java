@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
-import io.github.fusionflux.portalcubed.content.misc.LemonTruckPlacer;
+import io.github.fusionflux.portalcubed.content.misc.LemonTrunkPlacer;
 
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -32,7 +32,7 @@ public class PortalCubedFeatures {
 	}
 
 	public static void init() {
-		LemonTruckPlacer.init();
+		LemonTrunkPlacer.init();
 		BiomeModifications.create(PortalCubed.id("features"))
 			.add(ModificationPhase.ADDITIONS, BiomeSelectors.foundInOverworld(), (selectionCtx, modificationCtx) -> {
 				modificationCtx.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ORE_MAGNESIUM);

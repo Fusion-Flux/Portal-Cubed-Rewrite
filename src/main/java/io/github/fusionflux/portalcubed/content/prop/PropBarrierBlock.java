@@ -22,7 +22,14 @@ public class PropBarrierBlock extends BarrierBlock {
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		if (context instanceof EntityCollisionContext entityCollisionContext && entityCollisionContext.getEntity() instanceof Prop)
-			return super.getCollisionShape(state, world, pos, context);
+			return Shapes.block();
 		return Shapes.empty();
+	}
+
+	@SuppressWarnings("deprecation")
+	@NotNull
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+		return context.isHoldingItem(asItem()) ? super.getShape(state, world, pos, context) : Shapes.empty();
 	}
 }

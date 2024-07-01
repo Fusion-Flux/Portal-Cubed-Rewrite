@@ -5,14 +5,17 @@ import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFeatures;
+import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
+import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
+import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.resources.ResourceLocation;
 
@@ -38,6 +41,7 @@ public class PortalCubed implements ModInitializer {
 		LOGGER.info(MOTL.get());
 
 		PortalCubedGameRules.init();
+		PortalCubedFluids.init();
 		PortalCubedBlocks.init();
 		PortalCubedBlockEntityTypes.init();
 		PortalCubedItems.init();
@@ -51,6 +55,8 @@ public class PortalCubed implements ModInitializer {
 
 		ConstructManager.init();
 		HoldableEntity.registerEventListeners();
+		EntityExt.registerEventListeners();
+		DisintegrationSoundType.init();
 
 		LOGGER.info("Portal Cubed (" + metadata.version() + ") initialized!");
 	}

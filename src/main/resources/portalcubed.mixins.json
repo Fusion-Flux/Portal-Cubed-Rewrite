@@ -6,6 +6,7 @@
   "mixins": [
     "AbstractSkeletonMixin",
     "BlockMixin",
+    "BottleItemMixin",
     "CakeBlockMixin",
     "CandleCakeBlockMixin",
     "EntityAccessor",
@@ -19,6 +20,7 @@
     "ServerGamePacketListenerImplMixin",
     "ServerLevelMixin",
     "SlabBlockMixin",
+    "SpongeBlockMixin",
     "ThrowableProjectileMixin"
   ],
   "client": [
@@ -31,6 +33,8 @@
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
     "client.ContainerEventHandlerMixin",
+    "client.EntityRenderDispatcherMixin",
+    "client.FogRendererMixin",
     "client.GameRendererMixin",
     "client.GuiGraphicsAccessor",
     "client.ItemInHandRendererMixin",

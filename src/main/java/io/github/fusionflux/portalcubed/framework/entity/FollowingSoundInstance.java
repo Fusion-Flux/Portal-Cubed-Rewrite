@@ -8,10 +8,16 @@ import net.minecraft.world.entity.Entity;
 
 public class FollowingSoundInstance extends AbstractTickableSoundInstance {
 	protected final Entity followed;
+	protected final boolean respectSilence;
 
 	public FollowingSoundInstance(SoundEvent soundEvent, SoundSource soundSource, Entity followed) {
+		this(soundEvent, soundSource, followed, true);
+	}
+
+	public FollowingSoundInstance(SoundEvent soundEvent, SoundSource soundSource, Entity followed, boolean respectSilence) {
 		super(soundEvent, soundSource, followed.level().random);
 		this.followed = followed;
+		this.respectSilence = respectSilence;
 		this.x = followed.getX();
 		this.y = followed.getY();
 		this.z = followed.getZ();
@@ -20,7 +26,7 @@ public class FollowingSoundInstance extends AbstractTickableSoundInstance {
 
 	@Override
 	public void tick() {
-		if (followed.isRemoved() || followed.isSilent() || Minecraft.getInstance().player == null) {
+		if (followed.isRemoved() || (followed.isSilent() && respectSilence) || Minecraft.getInstance().player == null) {
 			stop();
 			return;
 		}

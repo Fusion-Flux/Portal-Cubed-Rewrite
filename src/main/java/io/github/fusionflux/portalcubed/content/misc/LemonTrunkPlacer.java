@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public class LemonTruckPlacer extends TrunkPlacer {
-	public static final Codec<LemonTruckPlacer> CODEC = RecordCodecBuilder.create(
+public class LemonTrunkPlacer extends TrunkPlacer {
+	public static final Codec<LemonTrunkPlacer> CODEC = RecordCodecBuilder.create(
 			instance ->
 					// 32 is the max base height from trunk placer, 4 is the number of horizontal directions, 16 is chunk size
 					instance.group(
@@ -36,15 +36,15 @@ public class LemonTruckPlacer extends TrunkPlacer {
 						IntProvider.codec(1, 4).fieldOf("branch_count").forGetter(placer -> placer.branchCount),
 						IntProvider.codec(1, 16).fieldOf("branch_distance").forGetter(placer -> placer.branchDistance)
 					)
-					.apply(instance, LemonTruckPlacer::new)
+					.apply(instance, LemonTrunkPlacer::new)
 	);
-	public static final TrunkPlacerType<LemonTruckPlacer> TYPE = Registry.register(BuiltInRegistries.TRUNK_PLACER_TYPE, PortalCubed.id("lemon_trunk_placer"), new TrunkPlacerType<>(CODEC));
+	public static final TrunkPlacerType<LemonTrunkPlacer> TYPE = Registry.register(BuiltInRegistries.TRUNK_PLACER_TYPE, PortalCubed.id("lemon_trunk_placer"), new TrunkPlacerType<>(CODEC));
 
 	private final UniformInt centerHeight;
 	private final IntProvider branchCount;
 	private final IntProvider branchDistance;
 
-	public LemonTruckPlacer(UniformInt centerHeight, IntProvider branchCount, IntProvider branchDistance) {
+	public LemonTrunkPlacer(UniformInt centerHeight, IntProvider branchCount, IntProvider branchDistance) {
 		super(centerHeight.getMinValue(), centerHeight.getMaxValue() - centerHeight.getMaxValue(), 0);
 		this.centerHeight = centerHeight;
 		this.branchCount = branchCount;

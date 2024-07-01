@@ -7,6 +7,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
 import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
@@ -99,6 +101,11 @@ public abstract class LivingEntityMixin extends Entity {
 			}
 		}
 		this.lemonadeArmingFinished = false;
+	}
+
+	@WrapWithCondition(method = "handleEntityEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;makePoofParticles()V"))
+	private boolean noDeathPoofIfDisintegrated(LivingEntity instance) {
+		return !instance.pc$disintegrating();
 	}
 
 	@ModifyExpressionValue(

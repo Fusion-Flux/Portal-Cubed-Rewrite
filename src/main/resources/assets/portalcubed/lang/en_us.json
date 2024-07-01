@@ -10,7 +10,11 @@
 
   "gamerule.category.portalcubed": "Portal Cubed",
   "gamerule.propSnatching": "Prop Snatching",
-  "gamerule.propSnatching.description": "Allow held props to be grabbed by other players without the holder dropping it first.",
+  "gamerule.propSnatching.description": "Allows props being held by a player to be grabbed by other players without the holder dropping it first.",
+  "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
+  "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
+  "gamerule.toxicGooDamage": "Toxic Goo Damage",
+  "gamerule.toxicGooDamage.description": "The amount of damage (per second) toxic goo does to entities inside it.",
 
 
   "container.portalcubed.construction_cannon": "Construction Cannon",
@@ -25,6 +29,23 @@
   "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
 
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
+
+  "commands.portalcubed.fizzle.clear_portals.success": "Successfully cleared the portals of %s",
+  "commands.portalcubed.fizzle.clear_portals.success.multiple": "Successfully cleared the portals of %s entities",
+  "commands.portalcubed.fizzle.clear_portals.mixed": "Successfully cleared the portals of %1$s entities.  Could not clear the portals of %2$s entities",
+  "commands.portalcubed.fizzle.clear_portals.failure": "Could not clear the portals of %s",
+  "commands.portalcubed.fizzle.clear_portals.failure.multiple": "Could not clear the portals of %s entities",
+  "commands.portalcubed.fizzle.disintegration.success": "Successfully disintegrated %s",
+  "commands.portalcubed.fizzle.disintegration.success.multiple": "Successfully disintegrated %s entities",
+  "commands.portalcubed.fizzle.disintegration.mixed": "Successfully disintegrated %1$s entities.  Could not disintegrate %2$s entities",
+  "commands.portalcubed.fizzle.disintegration.failure": "Could not disintegrate %s",
+  "commands.portalcubed.fizzle.disintegration.failure.multiple": "Could not disintegrate %s entities",
+  "commands.portalcubed.fizzle.clear_paint.success": "Successfully cleared the paint of %s",
+  "commands.portalcubed.fizzle.clear_paint.success.multiple": "Successfully cleared the paint of %s entities",
+  "commands.portalcubed.fizzle.clear_paint.mixed": "Successfully cleared the paint of %1$s entities.  Could not clear the paint of %2$s entities",
+  "commands.portalcubed.fizzle.clear_paint.failure": "Could not clear the paint of %s",
+  "commands.portalcubed.fizzle.clear_paint.failure.multiple": "Could not clear the paint of %s entities",
+
 
   "item.portalcubed.construction_cannon.material": "Material: ",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
@@ -161,6 +182,10 @@
   "subtitles.portalcubed.portal_gun_drop": "Portal gun releases object",
   "subtitles.portalcubed.portal_gun_cannot_grab": "Portal gun fails to grab object",
 
+  "subtitles.portalcubed.generic_fizzle": "Something disintegrates",
+  "subtitles.portalcubed.radio_fizzle": "Radio disintegrates",
+  "subtitles.portalcubed.turret_fizzle": "Turret disintegrates",
+
   "subtitles.portalcubed.pedestal_button_press": "Switch activates",
   "subtitles.portalcubed.pedestal_button_release": "Switch deactivates",
   "subtitles.portalcubed.floor_button_press": "Button activates",
@@ -235,7 +260,7 @@
   "advancement.portalcubed.laser.description": "Touch a Thermal Discouragement Beam and become thermally discouraged from doing it again",
 
   "advancement.portalcubed.goo.title": "The Floor is Failure",
-  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your record",
+  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your health bar",
 
   "advancement.portalcubed.faith_plate.title": "Sailing Through the Air...",
   "advancement.portalcubed.faith_plate.description": "Launch yourself from an Aerial Faith Plate",
@@ -742,10 +767,14 @@
 
   "block.portalcubed.prop_barrier": "Prop Barrier",
 
-  "death.attack.acid": "%s was dissolved in toxic goo",
-  "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
-  "death.attack.fizzle": "%s was fizzled",
-  "death.attack.fizzle.player": "%1$s was pushed into a laser field by %2$s",
+  "block.portalcubed.toxic_goo": "Toxic Goo",
+  "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
+  "block.portalcubed.toxic_goo_cauldron": "Toxic Goo Cauldron",
+
+  "death.attack.toxic_goo": "%s dissolved in toxic goo",
+  "death.attack.toxic_goo.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
+  "death.attack.disintegration": "%s was disintegrated",
+  "death.attack.disintegration.player": "%1$s was disintegrated trying to escape %2$s",
   "death.attack.vaporization": "%s was vaporized by a High Energy Pellet",
   "death.attack.vaporization.player": "%1$s was vaporized by a High Energy Pellet trying to escape %2$s",
   "death.attack.laser": "%s was thermally discouraged",
