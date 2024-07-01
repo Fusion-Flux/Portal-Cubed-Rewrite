@@ -19,16 +19,15 @@
 			}
 		},
 		{
-			"name": "cube inverted",
-			"from": [16, 16, 16],
-			"to": [0, 0, 0],
+			"from": [15.998, 0.002, 0.002],
+			"to": [0.002, 15.998, 15.998],
 			"faces": {
-				"north": {"uv": [0, 16, 16, 0], "texture": "#side"},
-				"east": {"uv": [0, 16, 16, 0], "texture": "#side"},
-				"south": {"uv": [0, 16, 16, 0], "texture": "#side"},
-				"west": {"uv": [0, 16, 16, 0], "texture": "#side"},
-				"up": {"uv": [16, 0, 0, 16], "texture": "#top", "cullface": "down"},
-				"down": {"uv": [16, 0, 0, 16], "texture": "#top", "cullface": "up"}
+				"north": {"uv": [16, 0, 0, 16], "texture": "#side"},
+				"east": {"uv": [16, 0, 0, 16], "texture": "#side"},
+				"south": {"uv": [16, 0, 0, 16], "texture": "#side"},
+				"west": {"uv": [16, 0, 0, 16], "texture": "#side"},
+				"up": {"uv": [16, 0, 0, 16], "texture": "#top", "cullface": "up"},
+				"down": {"uv": [16, 0, 0, 16], "texture": "#top", "cullface": "down"}
 			}
 		}
 	],

@@ -9,8 +9,12 @@ import java.util.Map;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.misc.AdvancedKneeReplacementsMaterial;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
+import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
+import io.github.fusionflux.portalcubed.content.misc.LongFallBootsColorProvider;
+import io.github.fusionflux.portalcubed.content.misc.LongFallBootsMaterial;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
@@ -20,6 +24,7 @@ import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
@@ -32,6 +37,8 @@ import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+
+import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
@@ -79,6 +86,14 @@ public class PortalCubedItems {
 			.settings(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))
 			.build();
 
+	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
+			.settings(QuiltItemSettings::fireResistant)
+			.colored(() -> () -> LongFallBootsColorProvider.INSTANCE)
+			.build();
+	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(AdvancedKneeReplacementsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
+			.settings(QuiltItemSettings::fireResistant)
+			.build();
+
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
 			PropItem item = REGISTRAR.items.simple(type.toString(), s -> new PropItem(s, type));
@@ -93,7 +108,11 @@ public class PortalCubedItems {
 				world, pos, player, hand, stack, PortalCubedBlocks.GOO_CAULDRON.defaultBlockState(), SoundEvents.BUCKET_EMPTY
 		));
 		DispenserBlock.registerBehavior(GOO_BUCKET, new BucketDispenseBehaviour());
+
+		CauldronInteraction.WATER.map().put(LONG_FALL_BOOTS, CauldronInteraction.DYED_ITEM);
+
 		DispenserBlock.registerBehavior(LEMONADE, new LemonadeDispenseBehavior());
+
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
 			if (BuiltInLootTables.SNIFFER_DIGGING.equals(id) && source.isBuiltin())
 				tableBuilder.modifyPools(builder -> builder.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));

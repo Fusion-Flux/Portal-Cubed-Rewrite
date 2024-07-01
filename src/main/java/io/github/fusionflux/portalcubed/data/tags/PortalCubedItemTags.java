@@ -13,6 +13,9 @@ public class PortalCubedItemTags {
 
 	public static final TagKey<Item> IMMUNE_TO_TOXIC_GOO = create("immune_to_toxic_goo");
 
+	public static final TagKey<Item> ABSORB_FALL_DAMAGE = create("absorb_fall_damage");
+	public static final TagKey<Item> APPLY_SOURCE_PHYSICS = create("apply_source_physics");
+
 	private static TagKey<Item> create(String name) {
 		return TagKey.create(Registries.ITEM, PortalCubed.id(name));
 	}
