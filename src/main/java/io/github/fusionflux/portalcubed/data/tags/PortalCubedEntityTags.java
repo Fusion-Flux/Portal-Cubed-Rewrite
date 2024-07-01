@@ -20,8 +20,9 @@ public class PortalCubedEntityTags {
 
 	public static final TagKey<EntityType<?>> DISINTEGRATES_WHEN_FIZZLED = create("disintegrates_when_fizzled");
 	public static final TagKey<EntityType<?>> IMMUNE_TO_DISINTEGRATION = create("immune_to_disintegration");
+    public static final TagKey<EntityType<?>> FIZZLES_WITHOUT_ASH = create("fizzles_without_ash");
 
-	private static TagKey<EntityType<?>> create(String name) {
+    private static TagKey<EntityType<?>> create(String name) {
 		return TagKey.create(Registries.ENTITY_TYPE, PortalCubed.id(name));
 	}
 }
