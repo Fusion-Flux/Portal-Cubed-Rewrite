@@ -15,6 +15,7 @@ import io.github.fusionflux.portalcubed.framework.extension.ParticleEngineExt;
 import net.caffeinemc.mods.sodium.api.vertex.buffer.VertexBufferWriter;
 import net.caffeinemc.mods.sodium.api.vertex.format.common.ParticleVertex;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
+import net.minecraft.Optionull;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -30,7 +31,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,9 +67,13 @@ public class DecalParticle extends TextureSheetParticle {
 	public static final int LIFETIME = 1200;
 
 	protected final BlockPos basePos;
+	protected final Direction direction;
 	protected final Quaternionf yRot;
 	protected final Quaternionf rot;
 	protected final ParticleRenderType renderType;
+
+	@Nullable
+	private BlockState lastBaseState;
 
 	protected DecalParticle(ClientLevel world, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, boolean randomRotation, ParticleRenderType renderType) {
 		super(world, 0, 0, 0);
@@ -81,20 +89,23 @@ public class DecalParticle extends TextureSheetParticle {
 			x += ONE_PIXEL;
 		}
 
-		setPos(x, y, z, dx, dy, dz);
 		this.quadSize = .5f;
 
 		this.basePos = basePos;
-		this.rot = Direction.getNearest(dx, dy, dz).getRotation();
+		this.direction = Direction.getNearest(dx, dy, dz);
+		this.rot = this.direction.getRotation();
 		this.yRot = new Quaternionf();
 		if (randomRotation)
 			this.yRot.rotateY((Math.round(this.random.nextFloat() * 4f) / 4f) * Mth.TWO_PI);
 		this.renderType = renderType;
+
+		this.setPos(x, y, z, dx, dy, dz);
 	}
 
 	public void setPos(double x, double y, double z, double dx, double dy, double dz) {
 		// slight variance to get rid of most z fighting
 		double offset = 0.01 + (random.nextDouble() * 0.001);
+		Direction.Axis axis = this.direction.getAxis();
 		this.x = snap(x) + dx * offset;
 		this.y = snap(y) + dy * offset;
 		this.z = snap(z) + dz * offset;
@@ -106,9 +117,26 @@ public class DecalParticle extends TextureSheetParticle {
 	@Override
 	public void tick() {
 		super.tick();
-		// Is it broken? Die.
-		if (this.level.getBlockState(basePos).isAir())
-			remove();
+
+		BlockState currentBaseState = this.level.getBlockState(this.basePos);
+		if (currentBaseState.isAir()) {
+			this.remove();
+			return;
+		}
+
+		if (this.lastBaseState != null && this.lastBaseState != currentBaseState) {
+			VoxelShape baseShape = currentBaseState.getCollisionShape(this.level, this.basePos);
+			Vec3 rayStart = new Vec3(this.x, this.y, this.z);
+			Vec3 rayEnd = rayStart.subtract(Vec3.atLowerCornerOf(this.direction.getNormal()).scale(ONE_PIXEL));
+			if (Optionull
+					.mapOrDefault(
+							baseShape.clip(rayStart, rayEnd, this.basePos),
+							BlockHitResult::isInside,
+							true
+					)
+			) this.remove();
+		}
+		this.lastBaseState = currentBaseState;
 	}
 
 	@Override
@@ -186,8 +214,8 @@ public class DecalParticle extends TextureSheetParticle {
 			BlockState state = world.getBlockState(pos);
 			return BulletHoleMaterial.forState(state).map(material -> {
 				DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, pos, material.randomParticleRotation, material.particleRenderType.vanilla());
-				particle.setSprite(spriteProvider.getSprites().get(material.ordinal()));
 				particle.setLifetime(LIFETIME);
+				particle.setSprite(spriteProvider.getSprites().get(material.ordinal()));
 				return particle;
 			}).orElse(null);
 		}
