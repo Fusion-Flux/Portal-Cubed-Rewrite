@@ -21,7 +21,6 @@ import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ArmorItem;
@@ -104,8 +103,11 @@ public class PortalCubedItems {
 				world, pos, player, hand, stack, PortalCubedBlocks.GOO_CAULDRON.defaultBlockState(), SoundEvents.BUCKET_EMPTY
 		));
 		DispenserBlock.registerBehavior(GOO_BUCKET, new BucketDispenseBehaviour());
+
 		CauldronInteraction.WATER.map().put(LONG_FALL_BOOTS, CauldronInteraction.DYED_ITEM);
+
 		DispenserBlock.registerBehavior(LEMONADE, new LemonadeDispenseBehavior());
+
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
 			if (BuiltInLootTables.SNIFFER_DIGGING.equals(id) && source.isBuiltin())
 				tableBuilder.modifyPools(builder -> builder.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));

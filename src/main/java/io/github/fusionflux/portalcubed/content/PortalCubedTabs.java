@@ -23,8 +23,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class PortalCubedTabs {
-
-
 	public static final ResourceKey<CreativeModeTab> TEST_ELEMENTS = create("test_elements", builder -> {
 		builder.icon(() -> new ItemStack(PortalCubedItems.PORTAL_GUN));
 		builder.displayItems((params, output) -> {
@@ -217,10 +215,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_RIGHT);
 
 			output.accept(PortalCubedBlocks.SEWAGE);
-
 		});
-
-
 	 });
 
 	public static final ResourceKey<CreativeModeTab> PROPS_AND_ITEMS = create("props_and_items", builder -> {
