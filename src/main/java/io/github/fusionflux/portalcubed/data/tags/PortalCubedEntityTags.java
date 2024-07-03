@@ -17,6 +17,11 @@ public class PortalCubedEntityTags {
 	public static final TagKey<EntityType<?>> PRESSES_FLOOR_BUTTONS = create("presses_floor_buttons");
 	public static final TagKey<EntityType<?>> PORTAL_BLACKLIST = create("portal_blacklist");
 
+	public static final TagKey<EntityType<?>> IMMUNE_TO_TOXIC_GOO = create("immune_to_toxic_goo");
+
+	public static final TagKey<EntityType<?>> DISINTEGRATES_WHEN_FIZZLED = create("disintegrates_when_fizzled");
+	public static final TagKey<EntityType<?>> IMMUNE_TO_DISINTEGRATION = create("immune_to_disintegration");
+
 	private static TagKey<EntityType<?>> create(String name) {
 		return TagKey.create(Registries.ENTITY_TYPE, PortalCubed.id(name));
 	}

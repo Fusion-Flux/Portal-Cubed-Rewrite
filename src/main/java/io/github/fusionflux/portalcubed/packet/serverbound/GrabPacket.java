@@ -36,7 +36,7 @@ public record GrabPacket(int grabbed) implements ServerboundPacket {
 		ServerLevel level = player.serverLevel();
 		Entity entity = level.getEntity(this.grabbed);
 		if (entity instanceof HoldableEntity holdable) {
-			if (entity.position().distanceToSqr(player.getEyePosition()) < HoldableEntity.MAX_DIST_SQR) {
+			if (!player.pc$disintegrating() && entity.position().distanceToSqr(player.getEyePosition()) < HoldableEntity.MAX_DIST_SQR) {
 				holdable.grab(player);
 			}
 		}

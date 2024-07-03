@@ -23,13 +23,13 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class PortalCubedTabs {
-
-
 	public static final ResourceKey<CreativeModeTab> TEST_ELEMENTS = create("test_elements", builder -> {
 		builder.icon(() -> new ItemStack(PortalCubedItems.PORTAL_GUN));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
 			output.accept(PortalCubedItems.PORTAL_GUN);
+			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 			output.accept(PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
@@ -42,6 +42,7 @@ public class PortalCubedTabs {
 			addProp(output, PropType.COMPANION_CUBE);
 			addProp(output, PropType.OLD_AP_CUBE);
 			addProp(output, PropType.RADIO);
+			output.accept(PortalCubedItems.GOO_BUCKET);
 		});
 	});
 
@@ -214,10 +215,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_RIGHT);
 
 			output.accept(PortalCubedBlocks.SEWAGE);
-
 		});
-
-
 	 });
 
 	public static final ResourceKey<CreativeModeTab> PROPS_AND_ITEMS = create("props_and_items", builder -> {
@@ -233,6 +231,9 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.LEMONADE);
 			output.accept(PortalCubedItems.LEMON_BOAT);
 			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
+			output.accept(PortalCubedItems.GOO_BUCKET);
+			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 
 			// ----- portal guns -----
 
@@ -408,6 +409,8 @@ public class PortalCubedTabs {
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
 			entries.addAfter(Items.END_CRYSTAL, PortalCubedItems.LEMONADE);
+			entries.addAfter(Items.TURTLE_HELMET, PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			entries.addAfter(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS, PortalCubedItems.LONG_FALL_BOOTS);
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.OP_BLOCKS).register(entries -> {

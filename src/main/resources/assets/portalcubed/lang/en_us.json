@@ -10,7 +10,11 @@
 
   "gamerule.category.portalcubed": "Portal Cubed",
   "gamerule.propSnatching": "Prop Snatching",
-  "gamerule.propSnatching.description": "Allow held props to be grabbed by other players without the holder dropping it first.",
+  "gamerule.propSnatching.description": "Allows props being held by a player to be grabbed by other players without the holder dropping it first.",
+  "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
+  "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
+  "gamerule.toxicGooDamage": "Toxic Goo Damage",
+  "gamerule.toxicGooDamage.description": "The amount of damage (per second) toxic goo does to entities inside it.",
 
 
   "container.portalcubed.construction_cannon": "Construction Cannon",
@@ -25,6 +29,23 @@
   "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
 
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
+
+  "commands.portalcubed.fizzle.clear_portals.success": "Successfully cleared the portals of %s",
+  "commands.portalcubed.fizzle.clear_portals.success.multiple": "Successfully cleared the portals of %s entities",
+  "commands.portalcubed.fizzle.clear_portals.mixed": "Successfully cleared the portals of %1$s entities.  Could not clear the portals of %2$s entities",
+  "commands.portalcubed.fizzle.clear_portals.failure": "Could not clear the portals of %s",
+  "commands.portalcubed.fizzle.clear_portals.failure.multiple": "Could not clear the portals of %s entities",
+  "commands.portalcubed.fizzle.disintegration.success": "Successfully disintegrated %s",
+  "commands.portalcubed.fizzle.disintegration.success.multiple": "Successfully disintegrated %s entities",
+  "commands.portalcubed.fizzle.disintegration.mixed": "Successfully disintegrated %1$s entities.  Could not disintegrate %2$s entities",
+  "commands.portalcubed.fizzle.disintegration.failure": "Could not disintegrate %s",
+  "commands.portalcubed.fizzle.disintegration.failure.multiple": "Could not disintegrate %s entities",
+  "commands.portalcubed.fizzle.clear_paint.success": "Successfully cleared the paint of %s",
+  "commands.portalcubed.fizzle.clear_paint.success.multiple": "Successfully cleared the paint of %s entities",
+  "commands.portalcubed.fizzle.clear_paint.mixed": "Successfully cleared the paint of %1$s entities.  Could not clear the paint of %2$s entities",
+  "commands.portalcubed.fizzle.clear_paint.failure": "Could not clear the paint of %s",
+  "commands.portalcubed.fizzle.clear_paint.failure.multiple": "Could not clear the paint of %s entities",
+
 
   "item.portalcubed.construction_cannon.material": "Material: ",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
@@ -48,6 +69,8 @@
   "tag.item.portalcubed.yellow_chamber_exterior_materials": "Yellow Chamber Exteriors",
   "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
   "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
+  "tag.item.portalcubed.absorb_fall_damage": "Absorbs Fall Damage",
+  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
   "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
 
   "item.portalcubed.construction_cannon.feedback.obstructed": "Placement location obstructed",
@@ -143,6 +166,7 @@
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
 
+  "attribute.name.generic.fall_damage_absorption": "Fall Damage Absorption",
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
@@ -157,6 +181,10 @@
   "subtitles.portalcubed.portal_gun_hold_loop": "Portal gun holds object",
   "subtitles.portalcubed.portal_gun_drop": "Portal gun releases object",
   "subtitles.portalcubed.portal_gun_cannot_grab": "Portal gun fails to grab object",
+
+  "subtitles.portalcubed.generic_fizzle": "Something disintegrates",
+  "subtitles.portalcubed.radio_fizzle": "Radio disintegrates",
+  "subtitles.portalcubed.turret_fizzle": "Turret disintegrates",
 
   "subtitles.portalcubed.pedestal_button_press": "Switch activates",
   "subtitles.portalcubed.pedestal_button_release": "Switch deactivates",
@@ -190,7 +218,7 @@
   "advancement.portalcubed.lemon.title": "Get Mad!",
   "advancement.portalcubed.lemon.description": "Obtain a Lemon",
   "advancement.portalcubed.lemonade.title": "Burn life's house down!",
-  "advancement.portalcubed.lemonade.description": "Create a combustible lemon",
+  "advancement.portalcubed.lemonade.description": "Create and use a combustible lemon",
 
   "advancement.portalcubed.hammer_time.title": "Stop - Hammer Time!",
   "advancement.portalcubed.hammer_time.description": "Use a Hammer to configure a test element",
@@ -207,11 +235,11 @@
   "advancement.portalcubed.rattmann.description": "Obtain every prop that can be found in a Rattmann den",
 
   "advancement.portalcubed.boots.title": "Good Work, Boots",
-  "advancement.portalcubed.boots.description": "Prevent fall damage using the Long Fall Boots",
+  "advancement.portalcubed.boots.description": "Prevent fall damage using the Long Fall Boots or Advanced Knee Replacements",
   "advancement.portalcubed.falling_with_style.title": "Falling With Style",
-  "advancement.portalcubed.falling_with_style.description": "Trim a pair of Long Fall Boots",
-  "advancement.portalcubed.feather_falling_boots.title": "But Why?!",
-  "advancement.portalcubed.feather_falling_boots.description": "Enchant a pair of Long Fall Boots with Feather Falling",
+  "advancement.portalcubed.falling_with_style.description": "Apply an Armor Trim a pair of Long Fall Boots",
+  "advancement.portalcubed.feather_falling_boots.title": "Pointless Precaution",
+  "advancement.portalcubed.feather_falling_boots.description": "Enchant a pair of Long Fall Boots or Advanced Knee Replacements with Feather Falling",
 
   "advancement.portalcubed.autoportal.title": "That Portal Was Framed",
   "advancement.portalcubed.autoportal.description": "Place an Autoportal",
@@ -232,7 +260,7 @@
   "advancement.portalcubed.laser.description": "Touch a Thermal Discouragement Beam and become thermally discouraged from doing it again",
 
   "advancement.portalcubed.goo.title": "The Floor is Failure",
-  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your record",
+  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your health bar",
 
   "advancement.portalcubed.faith_plate.title": "Sailing Through the Air...",
   "advancement.portalcubed.faith_plate.description": "Launch yourself from an Aerial Faith Plate",
@@ -346,6 +374,9 @@
   "item.portalcubed.lego_portal_gun": "Portal Gun (LEGO Dimensions)",
   "item.portalcubed.damaged_portal_gun": "Damaged Portal Gun (Portal Revolution)",
   "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
+
+  "item.portalcubed.long_fall_boots": "Long Fall Boots",
+  "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",
 
   "item.portalcubed.magnesium_nugget": "Magnesium Nugget",
   "item.portalcubed.magnesium_ingot": "Magnesium Ingot",
@@ -736,10 +767,14 @@
 
   "block.portalcubed.prop_barrier": "Prop Barrier",
 
-  "death.attack.acid": "%s was dissolved in toxic goo",
-  "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
-  "death.attack.fizzle": "%s was fizzled",
-  "death.attack.fizzle.player": "%1$s was pushed into a laser field by %2$s",
+  "block.portalcubed.toxic_goo": "Toxic Goo",
+  "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
+  "block.portalcubed.toxic_goo_cauldron": "Toxic Goo Cauldron",
+
+  "death.attack.toxic_goo": "%s dissolved in toxic goo",
+  "death.attack.toxic_goo.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
+  "death.attack.disintegration": "%s was disintegrated",
+  "death.attack.disintegration.player": "%1$s was disintegrated trying to escape %2$s",
   "death.attack.vaporization": "%s was vaporized by a High Energy Pellet",
   "death.attack.vaporization.player": "%1$s was vaporized by a High Energy Pellet trying to escape %2$s",
   "death.attack.laser": "%s was thermally discouraged",

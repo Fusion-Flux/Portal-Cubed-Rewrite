@@ -6,7 +6,7 @@
             "item": "portalcubed:metal_plating_slab"
         },
         {
-            "item": "portalcubed:sewage"
+           "tag": "portalcubed:dirty_crafting_materials"
         }
     ],
     "result": {

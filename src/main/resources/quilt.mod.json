@@ -38,6 +38,16 @@
         "id": "terraform-wood-api-v1",
         "versions": ">=${terraform_wood_api_version}"
       },
+      {
+        "id": "sodium",
+        "versions": ">=${sodium_version}+${minecraft_version}",
+        "environment": "client"
+      },
+      {
+        "id": "indium",
+        "versions": ">=${indium_version}",
+        "environment": "client"
+      },
 			{
 				"id": "minecraft",
 				"versions": ">=${minecraft_version}"
@@ -52,7 +62,8 @@
       "net/minecraft/class_1657": [ "io/github/fusionflux/portalcubed/framework/extension/PlayerExt" ],
       "net/minecraft/class_1937": [ "io/github/fusionflux/portalcubed/framework/extension/LevelExt" ],
       "net/minecraft/class_3218": [ "io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt" ],
-      "net/minecraft/class_638": [ "io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt" ]
+      "net/minecraft/class_638": [ "io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt" ],
+      "net/minecraft/class_1297": [ "io/github/fusionflux/portalcubed/framework/extension/EntityExt" ]
     }
   }
 }
