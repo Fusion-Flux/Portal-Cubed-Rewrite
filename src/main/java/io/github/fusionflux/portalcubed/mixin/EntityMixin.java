@@ -1,35 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-
-import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
-import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
-import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
-
-import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
-
-import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
-
-import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData;
-
-import net.minecraft.server.level.ServerLevel;
-
-import net.minecraft.server.level.ServerPlayer;
-
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.block.state.BlockState;
+import java.util.Collection;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.spongepowered.asm.mixin.Final;
@@ -42,13 +13,30 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
-import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
+import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -57,8 +45,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import java.util.Collection;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityExt {

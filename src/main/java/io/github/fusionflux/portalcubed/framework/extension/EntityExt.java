@@ -68,6 +68,11 @@ public interface EntityExt {
 		throw new AbstractMethodError();
 	}
 
-	int pc$getPortalCollisionRecursionDepth();
-	void pc$setPortalCollisionRecursionDepth(int depth);
+	default int pc$getPortalCollisionRecursionDepth() {
+		throw new AbstractMethodError();
+	}
+
+	default void pc$setPortalCollisionRecursionDepth(int depth) {
+		throw new AbstractMethodError();
+	}
 }
