@@ -84,6 +84,10 @@ public enum PropType {
 		return PortalCubedItems.PROPS.get(this);
 	}
 
+	public EntityType<Prop> entityType() {
+		return PortalCubedEntities.PROPS.get(this);
+	}
+
 	public boolean spawn(ServerLevel level, BlockPos pos, double yOffset, int variant, boolean randomizeVariant, Optional<Component> customName) {
 		EntityType<Prop> entityType = PortalCubedEntities.PROPS.get(this);
 		Prop entity = entityType.create(level);

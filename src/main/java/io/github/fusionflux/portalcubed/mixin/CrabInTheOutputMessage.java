@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = TestCommand.class, priority = 1001)
 public class CrabInTheOutputMessage {
 	// Can't use @ModifyConstant here because QSL already does.
-	@ModifyExpressionValue(method = "showTestSummaryIfAllDone", at = @At(value = "CONSTANT", args = "stringValue=All required tests passed :)"))
+	@ModifyExpressionValue(method = "showTestSummaryIfAllDone", at = @At(value = "CONSTANT", args = "stringValue=All required tests passed :)"), require = 0)
 	private static String crab(String original) {
 		return "All required tests passed \uD83E\uDD80";
 	}
