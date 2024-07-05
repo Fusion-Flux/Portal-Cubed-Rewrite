@@ -97,13 +97,13 @@ loom {
 			name "Test"
 			source sourceSets.testmod
 			vmArg "-Dquilt.game_test=true"
-			vmArg "-Dquilt.game_test.command=true"
 			vmArg "-Dquilt.game_test.report-file=${project.buildDir}/junit.xml"
 			runDir "run/gametest_server"
 		}
 
 		configureEach {
 			vmArg("-Dmixin.debug.export=true")
+			vmArg("-Dquilt.game_test.command=true")
 		}
 	}
 }
