@@ -93,7 +93,7 @@ loom {
 			vmArg "-Dfabric-api.datagen.modid=portalcubed"
 		}
 		gametest {
-			client()
+			server()
 			name "Test"
 			source sourceSets.testmod
 			vmArg "-Dquilt.game_test=true"
