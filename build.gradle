@@ -92,20 +92,23 @@ loom {
 			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
 			vmArg "-Dfabric-api.datagen.modid=portalcubed"
 		}
+
 		gametest {
 			server()
 			name "Test"
 			vmArg "-Dquilt.game_test=true"
-			vmArg "-Dquilt.game_test.report-file=${project.buildDir}/junit.xml"
+			vmArg "-Dquilt.game_test.report-file=${project.layout.buildDirectory}/junit.xml"
 			runDir "run/gametest_server"
 		}
 
-		named((String s) -> s == "client" || s == "server").configureEach {
-
+		named("client").configure {
+			source("gametests")
+			// required for gametests to tick.
+			// note that setting this on a server will have unforeseen consequences
+			vmArg("-Dquilt.game_test=true")
 		}
 
 		configureEach {
-			source sourceSets.gametests
 			vmArg("-Dmixin.debug.export=true")
 			vmArg("-Dquilt.game_test.command=true")
 		}
