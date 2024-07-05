@@ -93,11 +93,12 @@ loom {
 			vmArg "-Dfabric-api.datagen.modid=portalcubed"
 		}
 		gametest {
-			server()
+			client()
 			name "Test"
 			source sourceSets.testmod
-			vmArg "-Dfabric-api.gametest"
-			vmArg "-Dfabric-api.gametest.report-file=${project.buildDir}/junit.xml"
+			vmArg "-Dquilt.game_test=true"
+			vmArg "-Dquilt.game_test.command=true"
+			vmArg "-Dquilt.game_test.report-file=${project.buildDir}/junit.xml"
 			runDir "run/gametest_server"
 		}
 
