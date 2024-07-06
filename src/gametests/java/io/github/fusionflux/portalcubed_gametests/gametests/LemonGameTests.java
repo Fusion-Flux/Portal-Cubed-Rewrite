@@ -15,11 +15,7 @@ public class LemonGameTests implements QuiltGameTest {
 	//Test lemon saplings growing
 	@GameTest(template = GROUP + "lemon_sapling_grow")
 	public void lemonSaplingGrow(GameTestHelper helper) {
-
 		helper.setBlock(6, 2, 1, Blocks.REDSTONE_BLOCK);
 		helper.succeedWhenBlockPresent(PortalCubedBlocks.LEMON_LOG, 4, 2, 4);
-
 	}
-
-
 }

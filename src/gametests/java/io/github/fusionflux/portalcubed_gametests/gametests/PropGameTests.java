@@ -6,9 +6,14 @@ import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 
 import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
@@ -22,10 +27,9 @@ public class PropGameTests implements QuiltGameTest {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
 		helper.succeedWhen(() -> {
-					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
-					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-				}
-		);
+			helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+		});
 	}
 
 	//Test for prop interaction on cube buttons.  Cubes should press, non-cubes should not.
@@ -34,10 +38,9 @@ public class PropGameTests implements QuiltGameTest {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
 		helper.succeedWhen(() -> {
-					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
-					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-				}
-		);
+			helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+		});
 	}
 
 	//Test for entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
@@ -46,10 +49,9 @@ public class PropGameTests implements QuiltGameTest {
 		helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 3, 0));
 		helper.spawn(EntityType.ARROW, new BlockPos(2, 3, 4));
 		helper.succeedWhen(() -> {
-					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
-					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-				}
-		);
+			helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+		});
 	}
 
 	//Test for props being fizzled by goo.  For now, just cubes, but could be expanded later
@@ -96,15 +98,21 @@ public class PropGameTests implements QuiltGameTest {
 		Prop p2CompanionCube = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 2));
 		Prop radio = spawnProp(helper, PropType.RADIO, new BlockPos(1, 3, 3));
 
-		//max do some magic or something here, idk
+		Player robot = helper.makeMockSurvivalPlayer();
+		robot.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.MOSS_BLOCK, 3));
+		p2StorageCube.interact(robot, InteractionHand.MAIN_HAND);
+		p2CompanionCube.interact(robot, InteractionHand.MAIN_HAND);
+		radio.interact(robot, InteractionHand.MAIN_HAND);
 
-		helper.succeedWhen(() -> {
+		helper.succeedIf(() -> {
+			ItemStack material = robot.getMainHandItem();
+			if (!material.isEmpty())
+				throw new GameTestAssertException("Material used to dirty prop was not consumed : " + material);
 			assertPropVariant(helper, p2StorageCube, 2);
 			assertPropVariant(helper, p2CompanionCube, 2);
 			assertPropVariant(helper, radio, 1);
 		});
 	}
-
 
 	public static Prop spawnProp(GameTestHelper helper, PropType type, BlockPos pos) {
 		return Util.make(helper.spawn(type.entityType(), pos), p -> p.setSilent(true));
