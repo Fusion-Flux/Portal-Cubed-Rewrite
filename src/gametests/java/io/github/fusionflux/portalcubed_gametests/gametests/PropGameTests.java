@@ -21,18 +21,19 @@ import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 public class PropGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":props/";
 
+	private static final int TICKS_FOR_BUTTON_LAND = 20;
+
 	//Test for prop interaction on buttons.  Cubes should press, non-cubes should not.
 	@GameTest(template = GROUP + "floor_button_cube")
 	public void floorButtonCube(GameTestHelper helper) {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
 		//Delay by 50 ticks to give the entities time to fall onto the buttons
-		helper.runAfterDelay(50, () -> {
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
 			helper.succeedWhen(() -> {
-						helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
-						helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-					}
-			);
+				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+			});
 		});
 	}
 
@@ -42,12 +43,11 @@ public class PropGameTests implements QuiltGameTest {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
 		//Delay by 50 ticks to give the entities time to fall onto the buttons
-		helper.runAfterDelay(50, () -> {
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
 			helper.succeedWhen(() -> {
-						helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
-						helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-					}
-			);
+				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+			});
 		});
 	}
 
@@ -57,12 +57,11 @@ public class PropGameTests implements QuiltGameTest {
 		helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 3, 0));
 		helper.spawn(EntityType.ARROW, new BlockPos(2, 3, 4));
 		//Delay by 50 ticks to give the entities time to fall onto the buttons
-		helper.runAfterDelay(50, () -> {
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
 			helper.succeedWhen(() -> {
-						helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
-						helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-					}
-			);
+				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+			});
 		});
 	}
 
