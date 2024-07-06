@@ -7,7 +7,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.EntityType;
 
 import net.minecraft.world.level.block.RedstoneLampBlock;
 
@@ -16,27 +16,50 @@ import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 public class PropGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":props/";
 
+	//Test for prop interaction on buttons.  Cubes should press, non-cubes should not.
 	@GameTest(template = GROUP + "floor_button_cube")
 	public void floorButtonCube(GameTestHelper helper) {
-		this.floorButton(helper);
+		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
+		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
+		helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+				}
+		);
 	}
 
+	//Test for prop interaction on cube buttons.  Cubes should press, non-cubes should not.
+	@GameTest(template = GROUP + "cube_button")
+	public void cubeButton(GameTestHelper helper) {
+		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
+		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
+		helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+				}
+		);
+	}
+
+	//Test for entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
 	@GameTest(template = GROUP + "floor_button_entity")
 	public void floorButtonEntity(GameTestHelper helper) {
-		this.floorButton(helper);
+		helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 3, 0));
+		helper.spawn(EntityType.ARROW, new BlockPos(2, 3, 4));
+		helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+				}
+		);
 	}
 
-	private void floorButton(GameTestHelper helper) {
-		helper.setBlock(new BlockPos(2, 3, 0), Blocks.AIR);
-		helper.succeedWhen(() -> helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true));
-	}
-
+	//Test for props being fizzled by goo.  For now, just cubes, but could be expanded later
 	@GameTest(template = GROUP + "fizzle_goo")
 	public void fizzleGoo(GameTestHelper helper) {
 		Prop storageCube = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 4, 1));
 		helper.succeedWhen(() -> helper.assertEntityNotPresent(storageCube.getType()));
 	}
 
+	//Tests for companion cubes becoming charred when in contact with fire or lava
 	@GameTest(template = GROUP + "burn_companion_cube")
 	public void burnCompanionCube(GameTestHelper helper) {
 		Prop lavaCompanionCube = spawnProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(1, 4, 1));
@@ -49,6 +72,8 @@ public class PropGameTests implements QuiltGameTest {
 		});
 	}
 
+	//Tests for dirty/charred props being washed when dropped into water
+	//Note - add redirection cubes to this once they get added
 	@GameTest(template = GROUP + "prop_washing")
 	public void propWashing(GameTestHelper helper) {
 		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 1));
@@ -62,6 +87,24 @@ public class PropGameTests implements QuiltGameTest {
 			assertPropVariant(helper, p1CompanionCube, 0);
 		});
 	}
+
+	//Tests the interaction of dirtying a prop with moss/vines
+	//Note - add redirection cubes to this once they get added
+	@GameTest(template = GROUP + "prop_dirtying")
+	public void propDirtying(GameTestHelper helper) {
+		Prop p2StorageCube = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 1));
+		Prop p2CompanionCube = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 2));
+		Prop radio = spawnProp(helper, PropType.RADIO, new BlockPos(1, 3, 3));
+
+		//max do some magic or something here, idk
+
+		helper.succeedWhen(() -> {
+			assertPropVariant(helper, p2StorageCube, 2);
+			assertPropVariant(helper, p2CompanionCube, 2);
+			assertPropVariant(helper, radio, 1);
+		});
+	}
+
 
 	public static Prop spawnProp(GameTestHelper helper, PropType type, BlockPos pos) {
 		return Util.make(helper.spawn(type.entityType(), pos), p -> p.setSilent(true));

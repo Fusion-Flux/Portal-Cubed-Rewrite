@@ -14,7 +14,9 @@
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
       "quilt:game_test": [
-        "io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests"
+        "io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests",
+        "io.github.fusionflux.portalcubed_gametests.gametests.BootsGameTests",
+        "io.github.fusionflux.portalcubed_gametests.gametests.LemonGameTests"
       ]
 		}
 	}
