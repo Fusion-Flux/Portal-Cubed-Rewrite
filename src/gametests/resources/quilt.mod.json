@@ -17,7 +17,8 @@
         "io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests",
         "io.github.fusionflux.portalcubed_gametests.gametests.BootsGameTests",
         "io.github.fusionflux.portalcubed_gametests.gametests.LemonGameTests",
-        "io.github.fusionflux.portalcubed_gametests.gametests.GooGameTests"
+        "io.github.fusionflux.portalcubed_gametests.gametests.GooGameTests",
+        "io.github.fusionflux.portalcubed_gametests.gametests.ConstructionCannonGameTests"
       ]
 		}
 	}

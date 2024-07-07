@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
@@ -21,6 +22,7 @@ import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 public class PropGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":props/";
 
+	//Delay entity-on-button tests by 20 ticks to give the entities time to fall onto the buttons before checking states
 	private static final int TICKS_FOR_BUTTON_LAND = 20;
 
 	//Test for prop interaction on buttons.  Cubes should press, non-cubes should not.
@@ -28,7 +30,6 @@ public class PropGameTests implements QuiltGameTest {
 	public void floorButtonCube(GameTestHelper helper) {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
-		//Delay by 50 ticks to give the entities time to fall onto the buttons
 		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
 			helper.succeedWhen(() -> {
 				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
@@ -42,7 +43,6 @@ public class PropGameTests implements QuiltGameTest {
 	public void cubeButton(GameTestHelper helper) {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
-		//Delay by 50 ticks to give the entities time to fall onto the buttons
 		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
 			helper.succeedWhen(() -> {
 				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
@@ -56,7 +56,6 @@ public class PropGameTests implements QuiltGameTest {
 	public void floorButtonEntity(GameTestHelper helper) {
 		helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 3, 0));
 		helper.spawn(EntityType.ARROW, new BlockPos(2, 3, 4));
-		//Delay by 50 ticks to give the entities time to fall onto the buttons
 		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
 			helper.succeedWhen(() -> {
 				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
@@ -86,7 +85,7 @@ public class PropGameTests implements QuiltGameTest {
 	}
 
 	//Tests for dirty/charred props being washed when dropped into water
-	//Note - add redirection cubes to this once they get added
+	//Note - add redirection cubes to this once they get added.  Maybe add cauldrons in a separate row, too
 	@GameTest(template = GROUP + "prop_washing")
 	public void propWashing(GameTestHelper helper) {
 		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 1));
@@ -101,6 +100,30 @@ public class PropGameTests implements QuiltGameTest {
 		});
 	}
 
+	/*  There doesn't seem to be a way to change the weather in gametests, and having a rain-based test batch for 1 test is overkill
+	    If the previous test fails, this one probably would too.  should be fine:tm:
+
+	//Tests for dirty/charred props being washed when the weather is rain
+	//Note - add redirection cubes to this once they get added
+	@GameTest(template = GROUP + "prop_washing_in_rain")
+	public void propWashingInRain(GameTestHelper helper) {
+		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 1));
+		Prop p2CompanionCube = spawnDirtyProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 2));
+		Prop radio = spawnDirtyProp(helper, PropType.RADIO, new BlockPos(1, 3, 3));
+		Prop p1CompanionCube = spawnDirtyProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(1, 3, 4));
+
+		helper.setBlock(3, 2, 7, Blocks.REDSTONE_BLOCK);  //activates a command block with a weather command in it, but this does nothing when ran in a gametest..
+
+		helper.succeedWhen(() -> {
+			assertPropVariant(helper, p2StorageCube, 0);
+			assertPropVariant(helper, p2CompanionCube, 0);
+			assertPropVariant(helper, radio, 0);
+			assertPropVariant(helper, p1CompanionCube, 0);
+		});
+	}
+
+	*/
+
 	//Tests the interaction of dirtying a prop with moss/vines
 	//Note - add redirection cubes to this once they get added
 	@GameTest(template = GROUP + "prop_dirtying")
@@ -109,19 +132,37 @@ public class PropGameTests implements QuiltGameTest {
 		Prop p2CompanionCube = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 2));
 		Prop radio = spawnProp(helper, PropType.RADIO, new BlockPos(1, 3, 3));
 
-		Player robot = helper.makeMockSurvivalPlayer();
-		robot.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.MOSS_BLOCK, 3));
-		p2StorageCube.interact(robot, InteractionHand.MAIN_HAND);
-		p2CompanionCube.interact(robot, InteractionHand.MAIN_HAND);
-		radio.interact(robot, InteractionHand.MAIN_HAND);
+		Player gerald = helper.makeMockSurvivalPlayer();
+		gerald.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.MOSS_BLOCK, 3));
+		p2StorageCube.interact(gerald, InteractionHand.MAIN_HAND);
+		p2CompanionCube.interact(gerald, InteractionHand.MAIN_HAND);
+		radio.interact(gerald, InteractionHand.MAIN_HAND);
 
 		helper.succeedIf(() -> {
-			ItemStack material = robot.getMainHandItem();
+			ItemStack material = gerald.getMainHandItem();
 			if (!material.isEmpty())
 				throw new GameTestAssertException("Material used to dirty prop was not consumed : " + material);
 			assertPropVariant(helper, p2StorageCube, 2);
 			assertPropVariant(helper, p2CompanionCube, 2);
 			assertPropVariant(helper, radio, 1);
+		});
+	}
+
+	//Test for removing props with/without a hammer
+	@GameTest(template = GROUP + "prop_removal")
+	public void propRemoval(GameTestHelper helper) {
+		Prop hammeredCube = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 2, 1));
+		Prop smackedCube = spawnProp(helper, PropType.PORTAL_1_STORAGE_CUBE, new BlockPos(1, 2, 1));
+
+		Player gerald = helper.makeMockSurvivalPlayer();
+		Player gerald_two_the_long_awaited_sequel = helper.makeMockSurvivalPlayer();
+		gerald.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(PortalCubedItems.HAMMER));
+		gerald.attack(hammeredCube);
+		gerald_two_the_long_awaited_sequel.attack(smackedCube);
+
+		helper.succeedIf(() -> {
+			helper.assertEntityPresent(smackedCube.getType());
+			helper.assertEntityNotPresent(hammeredCube.getType());
 		});
 	}
 
