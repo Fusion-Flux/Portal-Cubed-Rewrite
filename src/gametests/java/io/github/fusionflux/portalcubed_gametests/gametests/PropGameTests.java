@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed_gametests.gametests;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
+import io.github.fusionflux.portalcubed_gametests.Batches;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -100,19 +101,14 @@ public class PropGameTests implements QuiltGameTest {
 		});
 	}
 
-	/*  There doesn't seem to be a way to change the weather in gametests, and having a rain-based test batch for 1 test is overkill
-	    If the previous test fails, this one probably would too.  should be fine:tm:
-
 	//Tests for dirty/charred props being washed when the weather is rain
 	//Note - add redirection cubes to this once they get added
-	@GameTest(template = GROUP + "prop_washing_in_rain")
+	@GameTest(template = GROUP + "prop_washing_in_rain", batch = Batches.RAINY)
 	public void propWashingInRain(GameTestHelper helper) {
 		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 1));
 		Prop p2CompanionCube = spawnDirtyProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 2));
 		Prop radio = spawnDirtyProp(helper, PropType.RADIO, new BlockPos(1, 3, 3));
 		Prop p1CompanionCube = spawnDirtyProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(1, 3, 4));
-
-		helper.setBlock(3, 2, 7, Blocks.REDSTONE_BLOCK);  //activates a command block with a weather command in it, but this does nothing when ran in a gametest..
 
 		helper.succeedWhen(() -> {
 			assertPropVariant(helper, p2StorageCube, 0);
@@ -121,8 +117,6 @@ public class PropGameTests implements QuiltGameTest {
 			assertPropVariant(helper, p1CompanionCube, 0);
 		});
 	}
-
-	*/
 
 	//Tests the interaction of dirtying a prop with moss/vines
 	//Note - add redirection cubes to this once they get added
