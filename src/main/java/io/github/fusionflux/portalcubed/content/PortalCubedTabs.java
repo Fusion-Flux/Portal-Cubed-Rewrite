@@ -395,6 +395,7 @@ public class PortalCubedTabs {
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {
 			entries.addAfter(Items.ENCHANTED_GOLDEN_APPLE, PortalCubedItems.LEMON);
+			entries.addAfter(Items.CAKE, PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
@@ -405,6 +406,9 @@ public class PortalCubedTabs {
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
 			entries.addAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT);
 			entries.addAfter(PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
+			entries.addAfter(Items.MILK_BUCKET, PortalCubedItems.GOO_BUCKET);
+			entries.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, PortalCubedItems.CONSTRUCTION_CANNON);
+
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
