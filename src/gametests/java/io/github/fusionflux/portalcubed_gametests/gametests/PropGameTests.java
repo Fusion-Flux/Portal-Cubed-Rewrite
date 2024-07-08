@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
@@ -31,12 +32,11 @@ public class PropGameTests implements QuiltGameTest {
 	public void floorButtonCube(GameTestHelper helper) {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
-		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
 			helper.succeedWhen(() -> {
 				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
 				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-			});
-		});
+		}));
 	}
 
 	//Test for prop interaction on cube buttons.  Cubes should press, non-cubes should not.
@@ -44,12 +44,11 @@ public class PropGameTests implements QuiltGameTest {
 	public void cubeButton(GameTestHelper helper) {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
-		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
 			helper.succeedWhen(() -> {
 				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
 				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-			});
-		});
+		}));
 	}
 
 	//Test for entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
@@ -57,12 +56,11 @@ public class PropGameTests implements QuiltGameTest {
 	public void floorButtonEntity(GameTestHelper helper) {
 		helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 3, 0));
 		helper.spawn(EntityType.ARROW, new BlockPos(2, 3, 4));
-		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
 			helper.succeedWhen(() -> {
 				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
 				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-			});
-		});
+		}));
 	}
 
 	//Test for props being fizzled by goo.  For now, just cubes, but could be expanded later
@@ -158,6 +156,13 @@ public class PropGameTests implements QuiltGameTest {
 			helper.assertEntityPresent(smackedCube.getType());
 			helper.assertEntityNotPresent(hammeredCube.getType());
 		});
+	}
+
+	//Test props being spawned from dispensers
+	@GameTest(template = GROUP + "prop_dispenser")
+	public void propDispenser(GameTestHelper helper) {
+		helper.pullLever(1, 2, 0);
+		helper.succeedWhenEntityPresent(PortalCubedEntities.PROPS.get(PropType.STORAGE_CUBE), 1, 3, 1);
 	}
 
 	public static Prop spawnProp(GameTestHelper helper, PropType type, BlockPos pos) {
