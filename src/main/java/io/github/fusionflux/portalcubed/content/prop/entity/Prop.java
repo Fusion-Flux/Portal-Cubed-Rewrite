@@ -67,12 +67,12 @@ public class Prop extends HoldableEntity implements CollisionListener {
 		this.type = type;
 	}
 
-	protected Optional<Boolean> isDirty() {
+	public Optional<Boolean> isDirty() {
 		int variant = this.getVariant();
 		return variant > 1 ? Optional.empty() : Optional.of(variant != 0);
 	}
 
-	protected void setDirty(boolean dirty) {
+	public void setDirty(boolean dirty) {
 		this.setVariant(dirty ? 1 : 0);
 	}
 
