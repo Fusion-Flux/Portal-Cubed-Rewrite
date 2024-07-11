@@ -58,7 +58,7 @@ public class CrowbarItem extends Item implements DirectClickItem {
 
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack) {
-		onSwing(player, Minecraft.getInstance().hitResult, false);
+		this.onSwing(player, Minecraft.getInstance().hitResult, false);
 		return TriState.FALSE;
 	}
 

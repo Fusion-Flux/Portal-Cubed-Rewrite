@@ -193,7 +193,7 @@ public class DecalParticle extends TextureSheetParticle {
 	@NotNull
 	@Override
 	public ParticleRenderType getRenderType() {
-		return renderType;
+		return this.renderType;
 	}
 
 	public static BlockPos getBasePos(double x, double y, double z, double dx, double dy, double dz) {

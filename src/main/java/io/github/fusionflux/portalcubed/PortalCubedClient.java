@@ -6,7 +6,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
-import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
@@ -35,7 +34,6 @@ public class PortalCubedClient implements ClientModInitializer {
 		PortalRenderer.init();
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
-		PortalCubedParticles.initClient();
 
 		FluidRenderHandlerRegistry.INSTANCE.register(
 				PortalCubedFluids.GOO,
