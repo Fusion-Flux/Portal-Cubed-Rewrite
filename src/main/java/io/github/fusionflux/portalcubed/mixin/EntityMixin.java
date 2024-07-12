@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
@@ -26,6 +27,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
+
+import net.minecraft.world.phys.AABB;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.spongepowered.asm.mixin.Final;
@@ -108,6 +111,9 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract EntityType<?> getType();
 
+	@Shadow
+	public abstract AABB getBoundingBox();
+
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
@@ -172,16 +178,22 @@ public abstract class EntityMixin implements EntityExt {
 				livingEntity.die(damageSource);
 			}
 			if (!((Object) this instanceof Player)) this.discard();
-		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS  && !this.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_ASH)) {
-			double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
-			for (int i = 0; i < Math.min(Math.round(volume*61.44), 1000); i++) { //magic number is based around a cube-sized entity having 15 particles/tick.  capped to 1000/tick
-				double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
-				double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 2.5));
-				double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
-				double velocityX = this.random.nextGaussian();
-				double velocityY = this.random.nextGaussian();
-				double velocityZ = this.random.nextGaussian();
-				world.addParticle(ParticleTypes.ASH, getX() + xOffset, getY() + yOffset, getZ() + zOffset, velocityX, velocityY, velocityZ);
+		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
+			if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_ASH)) {
+				double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
+				for (int i = 0; i < Math.min(Math.round(volume*61.44), 1000); i++) { //magic number is based around a cube-sized entity having 15 particles/tick.  capped to 1000/tick
+					double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
+					double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 2.5));
+					double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
+					double velocityX = this.random.nextGaussian();
+					double velocityY = this.random.nextGaussian();
+					double velocityZ = this.random.nextGaussian();
+					world.addParticle(ParticleTypes.ASH, getX() + xOffset, getY() + yOffset, getZ() + zOffset, velocityX, velocityY, velocityZ);
+				}
+			}
+			Vec3 center = this.getBoundingBox().getCenter();
+			for (int i = 0; i < 3; i++) {
+				world.addParticle(PortalCubedParticles.FIZZLE_BRIGHT, center.x, center.y, center.z, 0, 0, 0);
 			}
 		}
 	}
