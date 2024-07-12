@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.particle;
 
-import com.google.common.collect.Iterables;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -214,7 +213,7 @@ public class DecalParticle extends TextureSheetParticle {
 			return BulletHoleMaterial.forState(state).map(material -> {
 				DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, pos, material.randomParticleRotation, material.particleRenderType.vanilla());
 				particle.setLifetime(LIFETIME);
-				particle.setSprite(spriteProvider.getSprites().get(material.ordinal()));
+				particle.setSprite(this.spriteProvider.getSprites().get(material.ordinal()));
 				return particle;
 			}).orElse(null);
 		}
@@ -225,7 +224,7 @@ public class DecalParticle extends TextureSheetParticle {
 		@Override
 		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
 			DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, getBasePos(x, y, z, dx, dy, dz), true, ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT);
-			particle.setSprite(Iterables.getLast(spriteProvider.getSprites()));
+			particle.pickSprite(this.spriteProvider);
 			particle.setLifetime(LIFETIME);
 			return particle;
 		}

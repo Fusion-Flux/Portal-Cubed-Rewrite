@@ -74,7 +74,7 @@ public class EnergySparkParticle extends TextureSheetParticle {
 		@NotNull
 		@Override
 		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-			return new EnergySparkParticle(world, x, y, z, spriteProvider);
+			return new EnergySparkParticle(world, x, y, z, this.spriteProvider);
 		}
 	}
 }
