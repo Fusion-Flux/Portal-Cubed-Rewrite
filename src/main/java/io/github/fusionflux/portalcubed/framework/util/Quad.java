@@ -43,11 +43,13 @@ public record Quad(Tri a, Tri b) {
 	}
 
 	public static Quad create(Quaternionf rotation, Vec3 center, double width, double height) {
+		double w = width / 2;
+		double h = height / 2;
 		// relative offsets
-		Vec3 topRight = transform(rotation, new Vec3(width, 0, height));
-		Vec3 topLeft = transform(rotation, new Vec3(-width, 0, height));
-		Vec3 bottomRight = transform(rotation, new Vec3(width, 0, -height));
-		Vec3 bottomLeft = transform(rotation, new Vec3(-width, 0, -height));
+		Vec3 topRight = transform(rotation, new Vec3(w, h, 0));
+		Vec3 topLeft = transform(rotation, new Vec3(-w, h, 0));
+		Vec3 bottomRight = transform(rotation, new Vec3(w, -h, 0));
+		Vec3 bottomLeft = transform(rotation, new Vec3(-w, -h, 0));
 		// de-relativize
 		topRight = center.add(topRight);
 		topLeft = center.add(topLeft);

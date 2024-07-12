@@ -22,6 +22,9 @@ public class TransformUtils {
 		return new Vec3(result.x, result.y, result.z);
 	}
 
+	/**
+	 * Returns a quaternion of no rotation for {@link FrontAndTop#NORTH_UP}
+	 */
 	public static Quaternionf quaternionOf(FrontAndTop orientation) {
 		Direction top = orientation.top();
 		Direction front = orientation.front();

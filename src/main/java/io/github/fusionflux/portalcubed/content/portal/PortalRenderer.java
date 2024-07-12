@@ -24,7 +24,6 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -144,11 +143,6 @@ public class PortalRenderer {
 				1, 1, 1, 1,
 				true
 		));
-	}
-
-	private static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, AABB box, Color color) {
-		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
-		LevelRenderer.renderLineBox(matrices, vertices, box, color.r(), color.g(), color.b(), color.a());
 	}
 
 	public static void init() {
