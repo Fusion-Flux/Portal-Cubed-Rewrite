@@ -72,7 +72,8 @@ public class MinecraftMixin {
 				if (result == TriState.TRUE) {
 					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND));
 				}
-				cir.setReturnValue(result.toBoolean());
+				// Crowbar check or else there will be no delay between startAttack and continueAttack causing a double swing
+				cir.setReturnValue(direct instanceof CrowbarItem || result.toBoolean());
 			}
 		}
 	}
