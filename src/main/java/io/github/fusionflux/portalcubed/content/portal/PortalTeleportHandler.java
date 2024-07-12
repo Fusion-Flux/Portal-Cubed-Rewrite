@@ -27,7 +27,7 @@ public class PortalTeleportHandler {
 		Vec3 oldPos = entity.position();
 		Vec3 newPos = new Vec3(x, y, z);
 		PortalManager manager = level.portalManager();
-		PortalHitResult result = manager.clipPortal(oldPos, newPos);
+		PortalHitResult result = manager.activePortals().clip(oldPos, newPos);
 		if (result == null) {
 			setter.set(entity, x, y, z);
 			return;
@@ -36,7 +36,8 @@ public class PortalTeleportHandler {
 		boolean wasGrounded = entity.onGround(); // grab this before teleporting
 
 		Vec3 oldPosTeleported = result.teleportAbsoluteVec(oldPos);
-		Vec3 newPosTeleported = result.teleportedEnd();
+		Vec3 newPosTeleported = result.findEnd();
+		// todo: avoid player stats going haywire
 		teleportNoLerp(entity, newPosTeleported);
 
 		// rotate entity

@@ -12,6 +12,7 @@ import com.mojang.serialization.Codec;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.ActivePortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionActivePortalLookup;
+
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.world.level.Level;
 
@@ -43,7 +44,7 @@ public abstract class PortalManager {
 	}
 
 	public void modifyPair(UUID id, UnaryOperator<PortalPair> op) {
-		PortalPair pair = this.getPair(id);
+		PortalPair pair = this.getOrCreatePair(id);
 		this.setPair(id, op.apply(pair));
 	}
 

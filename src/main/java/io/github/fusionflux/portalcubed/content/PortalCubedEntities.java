@@ -11,9 +11,12 @@ import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.content.prop.PropRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.minecraft.Util;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -24,9 +27,11 @@ import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class PortalCubedEntities {
-	public static final EntityType<PortalProjectile> PORTAL_PROJECTILE = REGISTRAR.entities.create("portal_projectile", PortalProjectile::new)
+	public static final EntityType<PortalProjectile> PORTAL_PROJECTILE = REGISTRAR.entities.create("portal_projectile", PortalProjectile::create)
+			.category(MobCategory.MISC)
 			.configure(QuiltEntityTypeBuilder::disableSaving)
 			.configure(QuiltEntityTypeBuilder::disableSummon)
 			.size(EntityDimensions.fixed(0.5f, 0.5f))

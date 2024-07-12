@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import com.mojang.datafixers.util.Pair;
@@ -11,7 +10,11 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
+
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +22,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+
+import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 public class ServerPortalManager extends PortalManager {
 	public final ServerLevel level;
@@ -34,15 +39,14 @@ public class ServerPortalManager extends PortalManager {
 	 * If an old portal already exists, it will be removed.
 	 */
 	public void createPortal(UUID pairId, PortalType type, PortalData data) {
-		this.modifyPair(pairId, pair -> {
-			Optional<PortalInstance> old = pair.get(type);
-			if (old.isPresent()) {
-				// todo: remove old
-			}
+		this.modifyPair(pairId, pair -> pair.with(type, new PortalInstance(data)));
+	}
 
-			// todo: send packets
-			return pair.with(type, new PortalInstance(data));
-		});
+	@Override
+	public void setPair(UUID id, PortalPair pair) {
+		super.setPair(id, pair);
+		UpdatePortalPairPacket packet = new UpdatePortalPairPacket(id, pair);
+		PortalCubedPackets.sendToClients(PlayerLookup.world(this.level), packet);
 	}
 
 	public CompoundTag save(CompoundTag nbt) {

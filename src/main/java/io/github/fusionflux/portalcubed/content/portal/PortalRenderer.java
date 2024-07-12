@@ -29,8 +29,6 @@ import net.minecraft.world.phys.Vec3;
 
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import org.joml.Vector3f;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -64,7 +62,7 @@ public class PortalRenderer {
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 		for (PortalPair pair : pairs) {
 			for (PortalInstance portal : pair) {
-				if (frustum.isVisible(portal.plane)) {
+				if (frustum.isVisible(portal.renderBounds)) {
 					renderPortal(portal, matrices, vertexConsumers);
 //					if (renderDebug) {
 //						renderPortalDebug(portal, context, matrices, vertexConsumers);

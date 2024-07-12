@@ -81,7 +81,7 @@ public class VoxelShenanigans {
 	}
 
 	public static List<VoxelShape> getShapesBehindPortal(Level level, @Nullable Entity entity, PortalInstance portal, PortalInstance linked) {
-		Iterable<VoxelShape> shapes = level.getCollisions(entity, linked.collisionCollectionArea);
+		Iterable<VoxelShape> shapes = List.of(); //level.getCollisions(entity, linked.collisionCollectionArea);
 		List<VoxelShape> behindPortal = new ArrayList<>();
 		for (VoxelShape shape : shapes) {
 			// translate to origin
@@ -93,9 +93,9 @@ public class VoxelShenanigans {
 			shape = VoxelShenanigans.rotateShapeBetween(shape, linked, portal);
 			shape = shape.move(-0.5, -0.5, -0.5);
 			// de-relativize to other portal
-			shape = shape.move(portal.origin.x, portal.origin.y, portal.origin.z);
+			shape = shape.move(portal.data.origin().x, portal.data.origin().y, portal.data.origin().z);
 			// translate to right pos
-			Vec3 originToBlock = linked.origin.vectorTo(center);
+			Vec3 originToBlock = linked.data.origin().vectorTo(center);
 			Vec3 teleported = PortalTeleportHandler.teleportRelativeVecBetween(originToBlock, linked, portal);
 			shape = shape.move(teleported.x, teleported.y, teleported.z);
 			behindPortal.add(shape);

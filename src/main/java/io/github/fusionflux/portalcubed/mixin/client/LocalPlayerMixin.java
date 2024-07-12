@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -35,7 +36,7 @@ public abstract class LocalPlayerMixin extends AbstractClientPlayer {
 
 	@Inject(method = "suffocatesAt", at = @At("HEAD"), cancellable = true)
 	private void dontSuffocateInPortals(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if (ClientPortalManager.of(this.clientLevel).getCollisionManager().modifiesCollisionAt(pos)) {
+		if (this.clientLevel.portalManager() == null) { // todo
 			cir.setReturnValue(false);
 		}
 	}

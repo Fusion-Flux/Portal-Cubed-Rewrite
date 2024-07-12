@@ -50,6 +50,11 @@ public class PortalProjectile extends UnsavedEntity {
 		this.type = type;
 	}
 
+	public static PortalProjectile create(EntityType<?> type, Level level) {
+		// trying to use the constructor directly makes the compiler have a stroke with the generics
+		return new PortalProjectile(type, level);
+	}
+
 	@Override
 	protected void defineSynchedData() {
 		entityData.define(COLOR, 0);

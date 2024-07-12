@@ -48,10 +48,8 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 					if (portals == null)
 						continue;
 
-					//noinspection ForLoopReplaceableByForEach
-					for (int i = 0; i < portals.size(); i++) {
-						PortalInstance portal = portals.get(i);
-						Vec3 hit = portal.plane.clip(from, to);
+					for (PortalInstance portal : portals) {
+						Vec3 hit = portal.quad.clip(from, to);
 						// it hit, and the hit point is the closest so far
 						if (hit != null && (closest == null || closestDistSqr > hit.distanceToSqr(from))) {
 							closest = portal;

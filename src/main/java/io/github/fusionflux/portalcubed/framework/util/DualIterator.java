@@ -16,7 +16,7 @@ public class DualIterator<T> implements Iterator<T> {
 
 	@Override
 	public boolean hasNext() {
-		return this.index > 1;
+		return this.index <= 1;
 	}
 
 	@Override

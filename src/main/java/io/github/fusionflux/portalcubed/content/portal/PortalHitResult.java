@@ -62,6 +62,10 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 		return Objects.requireNonNull(this.end);
 	}
 
+	public Vec3 findEnd() {
+		return this.isEnd() ? this.end() : this.next().findEnd();
+	}
+
 	public Vec3 teleportAbsoluteVec(Vec3 pos) {
 		return PortalTeleportHandler.teleportAbsoluteVecBetween(pos, in, out);
 	}
