@@ -19,6 +19,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 
+import net.minecraft.world.phys.Vec3;
+
 import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 
 public class PropGameTests implements QuiltGameTest {
@@ -45,10 +47,23 @@ public class PropGameTests implements QuiltGameTest {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
 		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
-			helper.succeedWhen(() -> {
-				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
-				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-		}));
+				helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+				}));
+	}
+
+	//Test for cubes falling out of wall cube buttons.
+	@GameTest(template = GROUP + "wall_cube_button")
+	public void wallCubeButton(GameTestHelper helper) {
+		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(3, 2, 0));
+		Vec3 wallButtonPos = helper.absoluteVec(new Vec3(2, 3.2, 1.5));
+		gerald.setPos(wallButtonPos);
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
+				helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(3, 3, 2), RedstoneLampBlock.LIT, false);
+				}));
 	}
 
 	//Test for entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
