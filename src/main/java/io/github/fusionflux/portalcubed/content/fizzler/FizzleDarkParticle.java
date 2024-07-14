@@ -17,7 +17,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 
 public class FizzleDarkParticle extends TextureSheetParticle {
 	public static final int LIFETIME = 40;
-	public static final double HORIZONTAL_SPEED = 0.05;
+	public static final double HORIZONTAL_SPEED = 0.02;
 	public static final float ROLL_SPEED = 4.875f * Mth.DEG_TO_RAD;
 	public static final float GRAVITY = 0.1f;
 

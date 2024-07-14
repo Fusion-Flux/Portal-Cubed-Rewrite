@@ -180,10 +180,10 @@ public abstract class EntityMixin implements EntityExt {
 		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
 			if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_ASH)) { // Portal 1 props don't make ash when fizzled
 				double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
-				for (int i = 0; i < Math.min(Math.round(volume*61.44), 1000); i++) { // Magic number is based around a cube-sized entity having 15 ash particles/tick.  capped to 1000/tick because fizzling a dragon kills the game otherwise
-					double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
-					double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 2.5));
-					double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
+				for (int i = 0; i < Math.min(Math.round(volume*15), 100); i++) { // Capped to 100/tick so that fizzling something large doesn't instantly kill performance
+					double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 3);
+					double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 3));
+					double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 3);
 					double velocityX = this.random.nextGaussian();
 					double velocityY = this.random.nextGaussian();
 					double velocityZ = this.random.nextGaussian();
