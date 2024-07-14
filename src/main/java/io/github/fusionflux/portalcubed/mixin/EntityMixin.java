@@ -14,7 +14,6 @@ import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 
@@ -188,7 +187,7 @@ public abstract class EntityMixin implements EntityExt {
 					double velocityX = this.random.nextGaussian();
 					double velocityY = this.random.nextGaussian();
 					double velocityZ = this.random.nextGaussian();
-					world.addParticle(ParticleTypes.ASH, getX() + xOffset, getY() + yOffset, getZ() + zOffset, velocityX, velocityY, velocityZ);
+					world.addParticle(PortalCubedParticles.FIZZLE_DARK, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset, velocityX, velocityY, velocityZ);
 				}
 			}
 			Vec3 center = this.getBoundingBox().getCenter();

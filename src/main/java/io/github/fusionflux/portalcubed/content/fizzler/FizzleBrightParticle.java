@@ -18,10 +18,12 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class FizzleBrightParticle extends TextureSheetParticle {
+	public static final int LIFETIME = 20;
 	public static final double SPEED = 0.05;
 	public static final Vec3 FADE_DIRECTION = new Vec3(0, 1, 0);
 	public static final double FADE_DIRECTION_SPEED = 0.15;
 	public static final float FADE_START_PROGRESS = 3f/4f;
+
 	public static final float SIZE = 0.2f;
 
 	private Vec3 direction;
@@ -80,7 +82,7 @@ public class FizzleBrightParticle extends TextureSheetParticle {
 		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
 			FizzleBrightParticle particle = new FizzleBrightParticle(world, x, y, z);
 			particle.pickSprite(this.spriteProvider);
-			particle.setLifetime(20);
+			particle.setLifetime(LIFETIME);
 			return particle;
 		}
 	}
