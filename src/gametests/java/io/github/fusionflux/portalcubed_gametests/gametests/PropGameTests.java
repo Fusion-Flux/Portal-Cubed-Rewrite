@@ -73,20 +73,15 @@ public class PropGameTests implements QuiltGameTest {
 		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 0));
 		Prop aSecondGeraldHasHitTheGametest = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 4));
 
-		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
-				FizzleBehaviour.DISINTEGRATION.fizzle(gerald)
-		);
-		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
-				FizzleBehaviour.DISINTEGRATION.fizzle(aSecondGeraldHasHitTheGametest)
-		);
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
+			FizzleBehaviour.DISINTEGRATION.fizzle(gerald);
+			FizzleBehaviour.DISINTEGRATION.fizzle(aSecondGeraldHasHitTheGametest);
 
-		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
-				helper.succeedWhen(() -> {
-					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, false);
-					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-				}
-			)
-		);
+			helper.succeedWhen(() -> {
+				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, false);
+				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+			});
+		});
 	}
 
 	//Test for entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
