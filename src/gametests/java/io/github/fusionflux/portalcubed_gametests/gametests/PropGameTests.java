@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed_gametests.gametests;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed_gametests.Batches;
@@ -64,6 +65,28 @@ public class PropGameTests implements QuiltGameTest {
 					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
 					helper.assertBlockProperty(new BlockPos(3, 3, 2), RedstoneLampBlock.LIT, false);
 				}));
+	}
+
+	//Test for fizzled cubes being pushed away from buttons.
+	@GameTest(template = GROUP + "fizzle_prop_on_button")
+	public void fizzlePropOnButton(GameTestHelper helper) {
+		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 0));
+		Prop aSecondGeraldHasHitTheGametest = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 4));
+
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
+				FizzleBehaviour.DISINTEGRATION.fizzle(gerald)
+		);
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
+				FizzleBehaviour.DISINTEGRATION.fizzle(aSecondGeraldHasHitTheGametest)
+		);
+
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
+				helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, false);
+					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+				}
+			)
+		);
 	}
 
 	//Test for entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
@@ -162,10 +185,10 @@ public class PropGameTests implements QuiltGameTest {
 		Prop smackedCube = spawnProp(helper, PropType.PORTAL_1_STORAGE_CUBE, new BlockPos(1, 2, 1));
 
 		Player gerald = helper.makeMockSurvivalPlayer();
-		Player gerald_two_the_long_awaited_sequel = helper.makeMockSurvivalPlayer();
+		Player geraldTwoTheLongAwaitedSequel = helper.makeMockSurvivalPlayer();
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(PortalCubedItems.HAMMER));
 		gerald.attack(hammeredCube);
-		gerald_two_the_long_awaited_sequel.attack(smackedCube);
+		geraldTwoTheLongAwaitedSequel.attack(smackedCube);
 
 		helper.succeedIf(() -> {
 			helper.assertEntityPresent(smackedCube.getType());
