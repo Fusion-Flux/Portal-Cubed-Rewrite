@@ -18,9 +18,12 @@ public class PortalCubedEntityTags {
 
 	public static final TagKey<EntityType<?>> IMMUNE_TO_TOXIC_GOO = create("immune_to_toxic_goo");
 
+	// fizzling
 	public static final TagKey<EntityType<?>> DISINTEGRATES_WHEN_FIZZLED = create("disintegrates_when_fizzled");
 	public static final TagKey<EntityType<?>> IMMUNE_TO_DISINTEGRATION = create("immune_to_disintegration");
-    public static final TagKey<EntityType<?>> FIZZLES_WITHOUT_ASH = create("fizzles_without_ash");
+	public static final TagKey<EntityType<?>> FIZZLES_WITHOUT_DARK_PARTICLES = create("fizzles_without_dark_particles");
+	public static final TagKey<EntityType<?>> FIZZLES_WITHOUT_BRIGHT_PARTICLES = create("fizzles_without_bright_particles");
+	public static final TagKey<EntityType<?>> FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES = create("fizzles_with_alternate_bright_particles");
 
     private static TagKey<EntityType<?>> create(String name) {
 		return TagKey.create(Registries.ENTITY_TYPE, PortalCubed.id(name));

@@ -178,9 +178,9 @@ public abstract class EntityMixin implements EntityExt {
 			}
 			if (!((Object) this instanceof Player)) this.discard();
 		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
-			if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_ASH)) { // Portal 1 props don't make ash when fizzled
+			if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_DARK_PARTICLES)) { // Portal 1 props don't make ash when fizzled
 				double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
-				for (int i = 0; i < Math.min(Math.round(volume*15), 100); i++) { // Capped to 100/tick so that fizzling something large doesn't instantly kill performance
+				for (int i = 0; i < Math.min(Math.max(Math.round(volume*15), 1), 100); i++) { // Capped to 100/tick so that fizzling something large doesn't instantly kill performance.  Use the largest of 15*volume/tick OR 1/tick, to prevent entities with small volumes (mug, item) from not making ash
 					double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 3);
 					double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 3));
 					double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 3);
@@ -190,9 +190,22 @@ public abstract class EntityMixin implements EntityExt {
 					world.addParticle(PortalCubedParticles.FIZZLE_DARK, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset, velocityX, velocityY, velocityZ);
 				}
 			}
+			//Some props don't make the bright particles, and Portal 1 props have an alternate bright particle type
 			Vec3 center = this.getBoundingBox().getCenter();
-			for (int i = 0; i < 3; i++) {
-				world.addParticle(PortalCubedParticles.FIZZLE_BRIGHT, center.x, center.y, center.z, 0, 0, 0);
+			if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_BRIGHT_PARTICLES)) {
+				if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES)) {
+					for (int i = 0; i < 3; i++) {
+						world.addParticle(PortalCubedParticles.FIZZLE_BRIGHT, center.x, center.y, center.z, 0, 0, 0);
+					}
+				}
+				else {
+					for (int i = 0; i < 3; i++) {
+						double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 3.8);
+						double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 3.8));
+						double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 3.8);
+						world.addParticle(PortalCubedParticles.FIZZLE_BRIGHT_ALTERNATE, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset, 0, 0, 0);
+					}
+				}
 			}
 		}
 	}
