@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.caffeinemc.mods.sodium.api.util.ColorU8;
 import net.minecraft.client.Minecraft;
@@ -26,7 +27,8 @@ public class DisintegrationRenderer {
 	public static final float MIN_FLASH_ALPHA = 0.2f;
 
 	public static void renderFlash(Entity entity, PoseStack matrices, float tickDelta, MultiBufferSource vertexConsumers) {
-		if (entity.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_FLASH))
+		float ticks = entity.pc$disintegrateTicks() + tickDelta;
+		if (entity.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_FLASH) || ticks <= EntityExt.TRANSLUCENCY_START_TICKS)
 			return;
 
 		matrices.pushPose();
@@ -35,7 +37,7 @@ public class DisintegrationRenderer {
 		matrices.scale(FLASH_SIZE, FLASH_SIZE, FLASH_SIZE);
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.beaconBeam(FLASH_TEXTURE, true));
 		Matrix4f matrix = matrices.last().pose();
-		int color = getFlashColor(entity, tickDelta);
+		int color = getFlashColor(ticks);
 		flashVertex(vertices, matrix, 1f, 1f, color, 1, 1);
 		flashVertex(vertices, matrix, 1f, -1f, color, 1, 0);
 		flashVertex(vertices, matrix, -1f, -1f, color, 0, 0);
@@ -43,8 +45,8 @@ public class DisintegrationRenderer {
 		matrices.popPose();
 	}
 
-	private static int getFlashColor(Entity entity, float tickDelta) {
-		float value = (entity.pc$disintegrateTicks() + tickDelta) * FLASH_SPEED;
+	private static int getFlashColor(float ticks) {
+		float value = ticks * FLASH_SPEED;
 		float alpha = Mth.clamp(Mth.sin(value * 3) + Mth.cos(value * 2), MIN_FLASH_ALPHA, 1f);
 		return ColorABGR.withAlpha(0xFFFFFF, ColorU8.normalizedFloatToByte(alpha));
 	}
