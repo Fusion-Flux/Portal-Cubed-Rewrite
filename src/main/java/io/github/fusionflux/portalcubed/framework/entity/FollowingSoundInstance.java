@@ -26,7 +26,7 @@ public class FollowingSoundInstance extends AbstractTickableSoundInstance {
 
 	@Override
 	public void tick() {
-		if (followed.isRemoved() || (followed.isSilent() && respectSilence) || Minecraft.getInstance().player == null) {
+		if ((followed.isRemoved() && respectSilence) || (followed.isSilent() && respectSilence) || Minecraft.getInstance().player == null) {
 			stop();
 			return;
 		}

@@ -38,12 +38,12 @@ public class ButtonActivatedProp extends Prop {
 	}
 
 	@Override
-	protected Optional<Boolean> isDirty() {
+	public Optional<Boolean> isDirty() {
 		return Optional.of(getVariantFlag(DIRTY_FLAG_INDEX));
 	}
 
 	@Override
-	protected void setDirty(boolean dirty) {
+	public void setDirty(boolean dirty) {
 		setVariantFlag(DIRTY_FLAG_INDEX, dirty);
 	}
 
