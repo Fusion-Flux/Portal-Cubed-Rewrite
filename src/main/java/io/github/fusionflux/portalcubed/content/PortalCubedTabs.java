@@ -385,7 +385,6 @@ public class PortalCubedTabs {
 			entries.addAfter(PortalCubedBlocks.LEMON_DOOR, PortalCubedBlocks.LEMON_TRAPDOOR);
 			entries.addAfter(PortalCubedBlocks.LEMON_TRAPDOOR, PortalCubedBlocks.LEMON_PRESSURE_PLATE);
 			entries.addAfter(PortalCubedBlocks.LEMON_PRESSURE_PLATE, PortalCubedBlocks.LEMON_BUTTON);
-
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
@@ -407,9 +406,10 @@ public class PortalCubedTabs {
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
 			entries.addAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT);
 			entries.addAfter(PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
+			entries.addAfter(Items.NETHERITE_HOE, PortalCubedItems.HAMMER);
+			entries.addAfter(PortalCubedItems.HAMMER, PortalCubedItems.CROWBAR);
 			entries.addAfter(Items.MILK_BUCKET, PortalCubedItems.GOO_BUCKET);
 			entries.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, PortalCubedItems.CONSTRUCTION_CANNON);
-
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
