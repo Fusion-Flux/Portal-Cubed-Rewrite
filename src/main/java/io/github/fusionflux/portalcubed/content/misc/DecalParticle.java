@@ -1,30 +1,19 @@
-package io.github.fusionflux.portalcubed.framework.particle;
+package io.github.fusionflux.portalcubed.content.misc;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import com.mojang.blaze3d.vertex.VertexFormat;
-
-import io.github.fusionflux.portalcubed.content.misc.BulletHoleMaterial;
-import io.github.fusionflux.portalcubed.framework.extension.ParticleEngineExt;
+import net.caffeinemc.mods.sodium.api.math.MatrixHelper;
 import net.caffeinemc.mods.sodium.api.vertex.buffer.VertexBufferWriter;
 import net.caffeinemc.mods.sodium.api.vertex.format.common.ParticleVertex;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.minecraft.Optionull;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -37,39 +26,19 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
+import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
 public class DecalParticle extends TextureSheetParticle {
-	public static final ParticleRenderType MULTIPLY_RENDER_TYPE = new ParticleRenderType() {
-		@Override
-		public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
-			RenderSystem.enableBlend();
-			RenderSystem.blendFunc(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.SRC_COLOR);
-			RenderSystem.depthMask(false);
-			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-			bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-		}
-
-		@Override
-		public void end(Tesselator tessellator) {
-			tessellator.end();
-			// cleanup rendering state because mojang doesn't know how to do proper render state management. Without this, fluid overlays (lava fire and water screen overlay) break while holding a block item
-			RenderSystem.defaultBlendFunc();
-			RenderSystem.depthMask(true);
-		}
-	};
-
 	public static final float ONE_PIXEL = 1/16f;
 	public static final double SURFACE_OFFSET = 0.01f;
 	public static final int VERTEX_COUNT = 4;
 	public static final int LIFETIME = 1200;
 
-	protected final BlockPos basePos;
-	protected final Direction direction;
-	protected final Quaternionf yRot;
-	protected final Quaternionf rot;
-	protected final ParticleRenderType renderType;
+	private final BlockPos basePos;
+	private final Direction direction;
+	private final Matrix4f matrix;
+	private final ParticleRenderType renderType;
 
 	@Nullable
 	private BlockState lastBaseState;
@@ -92,10 +61,11 @@ public class DecalParticle extends TextureSheetParticle {
 
 		this.basePos = basePos;
 		this.direction = Direction.getNearest(dx, dy, dz);
-		this.rot = this.direction.getRotation();
-		this.yRot = new Quaternionf();
-		if (randomRotation)
-			this.yRot.rotateY((Math.round(this.random.nextFloat() * 4f) / 4f) * Mth.TWO_PI);
+		this.matrix = new Matrix4f()
+				.rotate(this.direction.getRotation())
+				.translate(-ONE_PIXEL, 0, -ONE_PIXEL)
+				.rotateY(randomRotation ? (Math.round(this.random.nextFloat() * 4f) / 4f) * Mth.TWO_PI : 0)
+				.translate(-ONE_PIXEL, 0, -ONE_PIXEL);
 		this.renderType = renderType;
 
 		this.setPos(x, y, z, dx, dy, dz);
@@ -143,8 +113,8 @@ public class DecalParticle extends TextureSheetParticle {
 		float x = (float) (this.x - camPos.x());
 		float y = (float) (this.y - camPos.y());
 		float z = (float) (this.z - camPos.z());
-		int light = ((ParticleEngineExt) Minecraft.getInstance().particleEngine).getDecalParticleLightCache().get(this.x, this.y, this.z);
 
+		int light = this.getLightColor(tickDelta);
 		float u0 = this.getU0();
 		float u1 = this.getU1();
 		float v0 = this.getV0();
@@ -155,35 +125,19 @@ public class DecalParticle extends TextureSheetParticle {
 		try (MemoryStack stack = MemoryStack.stackPush()) {
 			long buffer = stack.nmalloc(ParticleVertex.STRIDE * VERTEX_COUNT), vertex = buffer;
 
-			vertex = writeVertex(vertex, yRot, rot, -1, -1, u1, v1, light, x, y, z, size);
-			vertex = writeVertex(vertex, yRot, rot, -1, 1, u1, v0, light, x, y, z, size);
-			vertex = writeVertex(vertex, yRot, rot, 1, 1, u0, v0, light, x, y, z, size);
-			writeVertex(vertex, yRot, rot, 1, -1, u0, v1, light, x, y, z, size);
+			vertex = writeVertex(vertex, this.matrix, -1, -1, u1, v1, light, x, y, z, size);
+			vertex = writeVertex(vertex, this.matrix, -1, 1, u1, v0, light, x, y, z, size);
+			vertex = writeVertex(vertex, this.matrix, 1, 1, u0, v0, light, x, y, z, size);
+			vertex = writeVertex(vertex, this.matrix, 1, -1, u0, v1, light, x, y, z, size);
 
 			writer.push(stack, buffer, VERTEX_COUNT, ParticleVertex.FORMAT);
 		}
 	}
 
-	private static long writeVertex(long ptr, Quaternionf yRot, Quaternionf rot, float localX, float localZ, float u, float v, int light, float x, float y, float z, float size) {
-		// inline quaternion transformations to help the JVM optimize
-		float q0xx = yRot.x * yRot.x, q0yy = yRot.y * yRot.y, q0zz = yRot.z * yRot.z, q0ww = yRot.w * yRot.w;
-		float q0xz = yRot.x * yRot.z;
-		float q0yw = yRot.y * yRot.w, q0k = 1 / (q0xx + q0yy + q0zz + q0ww);
-
-		float q0xr = ((((q0xx - q0yy - q0zz + q0ww) * q0k) * (localX - ONE_PIXEL)) + ((2 * (q0xz + q0yw) * q0k) * (localZ - ONE_PIXEL))) - ONE_PIXEL;
-		float q0zr = (((2 * (q0xz - q0yw) * q0k) * (localX - ONE_PIXEL)) + (((q0zz - q0xx - q0yy + q0ww) * q0k) * (localZ - ONE_PIXEL))) - ONE_PIXEL;
-
-		float q1xx = rot.x * rot.x, q1yy = rot.y * rot.y, q1zz = rot.z * rot.z, q1ww = rot.w * rot.w;
-		float q1xy = rot.x * rot.y, q1xz = rot.x * rot.z, q1yz = rot.y * rot.z, q1xw = rot.x * rot.w;
-		float q1zw = rot.z * rot.w, q1yw = rot.y * rot.w, q1k = 1 / (q1xx + q1yy + q1zz + q1ww);
-
-		float xr = (((q1xx - q1yy - q1zz + q1ww) * q1k) * (q0xr)) + ((2 * (q1xz + q1yw) * q1k) * (q0zr));
-		float yr = ((2 * (q1xy + q1zw) * q1k) * (q0xr)) + ((2 * (q1yz - q1xw) * q1k) * (q0zr));
-		float zr = ((2 * (q1xz - q1yw) * q1k) * (q0xr)) + (((q1zz - q1xx - q1yy + q1ww) * q1k) * (q0zr));
-
-		float vertX = (xr * size) + x;
-		float vertY = (yr * size) + y;
-		float vertZ = (zr * size) + z;
+	private static long writeVertex(long ptr, Matrix4f matrix, float localX, float localZ, float u, float v, int light, float x, float y, float z, float size) {
+		float vertX = (MatrixHelper.transformPositionX(matrix, localX, 0, localZ) * size) + x;
+		float vertY = (MatrixHelper.transformPositionY(matrix, localX, 0, localZ) * size) + y;
+		float vertZ = (MatrixHelper.transformPositionZ(matrix, localX, 0, localZ) * size) + z;
 
 		ParticleVertex.put(ptr, vertX, vertY, vertZ, u, v, 0xFFFFFFFF, light);
 		return ptr + ParticleVertex.STRIDE;

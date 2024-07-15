@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBrightAlternateParticle;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBrightParticle;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleDarkParticle;
-import io.github.fusionflux.portalcubed.framework.particle.DecalParticle;
+import io.github.fusionflux.portalcubed.content.misc.DecalParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;

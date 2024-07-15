@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.misc;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
-import io.github.fusionflux.portalcubed.framework.registration.ParticleRenderTypes;
+import io.github.fusionflux.portalcubed.framework.particle.ParticleRenderTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;

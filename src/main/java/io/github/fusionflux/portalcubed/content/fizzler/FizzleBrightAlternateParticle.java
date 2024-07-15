@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
+import net.minecraft.client.particle.TextureSheetParticle;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -10,7 +12,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
@@ -19,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 public class FizzleBrightAlternateParticle extends TextureSheetParticle {
 	public static final int LIFETIME = 10;
 	public static final double SPEED = 0.12;
+	public static final double HORIZONTAL_SPEED = SPEED * 0.02;
 	public static final float FADE_START_PROGRESS = 1f/2f;
 	public static final float ROLL_SPEED = 8f * Mth.DEG_TO_RAD;
 
@@ -41,9 +43,9 @@ public class FizzleBrightAlternateParticle extends TextureSheetParticle {
 	}
 
 	private void updateVelocity() {
-		this.xd = this.direction.x * (SPEED * 0.02);
+		this.xd = this.direction.x * HORIZONTAL_SPEED;
 		this.yd = this.direction.y * SPEED;
-		this.zd = this.direction.z * (SPEED * 0.02);
+		this.zd = this.direction.z * HORIZONTAL_SPEED;
 	}
 
 	@Override
