@@ -19,7 +19,9 @@
   "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
 
   "container.portalcubed.large_signage_panel": "Large Signage Panel",
+  "container.portalcubed.aged_large_signage_panel": "Aged Large Signage Panel",
   "container.portalcubed.small_signage_panel": "Small Signage Panels",
+  "container.portalcubed.aged_small_signage_panel": "Aged Small Signage Panels",
 
   "container.portalcubed.large_signage.adhesion_gel": "Adhesion Gel",
   "container.portalcubed.large_signage.cake": "Cake",
@@ -52,6 +54,7 @@
   "container.portalcubed.large_signage.propulsion_gel": "Propulsion Gel",
   "container.portalcubed.large_signage.repulsion_gel": "Repulsion Gel",
   "container.portalcubed.large_signage.turrets": "Turrets",
+  "container.portalcubed.large_signage.recycle": "Recycle",
 
   "container.portalcubed.small_signage.arrow_down": "Down Arrow",
   "container.portalcubed.small_signage.arrow_left": "Left Arrow",
@@ -75,6 +78,8 @@
   "container.portalcubed.small_signage.dot_five": "Five Dots",
   "container.portalcubed.small_signage.empty": "Empty Signage Panel",
   "container.portalcubed.small_signage.exit": "Exit",
+  "container.portalcubed.small_signage.coop_exit_left": "Co-op Exit Left",
+  "container.portalcubed.small_signage.coop_exit_right": "Co-op Exit Right",
 
 
   "container.portalcubed.construction_cannon": "Construction Cannon",
