@@ -1,9 +1,15 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import com.mojang.blaze3d.vertex.VertexFormat;
+
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -14,9 +20,16 @@ import net.minecraft.world.phys.Vec3;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
 
 public class RenderingUtils {
 	private static final Matrix4f MATRIX = new Matrix4f();
+	private static final Matrix4f IDENTITY_MATRIX = new Matrix4f();
+	private static VertexBuffer FULLSCREEN_QUAD = null;
+
+	public static final Vector3f CLEAR_COLOR = new Vector3f();
+
 	// mostly yoinked from DragonFireballRenderer
 	public static void renderQuad(PoseStack matrices, VertexConsumer vertices, int light, int color) {
 		PoseStack.Pose pose = matrices.last();
@@ -75,5 +88,42 @@ public class RenderingUtils {
 		runnable.run();
 		RenderSystem.restoreProjectionMatrix();
 		RenderSystem.enableDepthTest();
+	}
+
+	public static void setupStencilToRenderIfValue(int value) {
+		RenderSystem.stencilFunc(GL11.GL_EQUAL, value, 0xFF);
+	}
+
+	public static void setupStencilForWriting(int value, boolean increase) {
+		setupStencilToRenderIfValue(value);
+		RenderSystem.stencilOp(GL11.GL_KEEP, GL11.GL_KEEP, increase ? GL11.GL_INCR : GL11.GL_DECR);
+		RenderSystem.stencilMask(0xFF);
+	}
+
+	public static void renderFullScreenQuad() {
+		if (FULLSCREEN_QUAD == null) {
+			BufferBuilder builder = new BufferBuilder(DefaultVertexFormat.POSITION_COLOR.getVertexSize() * 4);
+			builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+
+			builder.defaultColor(255, 255, 255, 255);
+			builder.vertex(-1, -1, 0).endVertex();
+			builder.vertex(1, -1, 0).endVertex();
+			builder.vertex(1, 1, 0).endVertex();
+			builder.vertex(-1, 1, 0).endVertex();
+
+			FULLSCREEN_QUAD = new VertexBuffer(VertexBuffer.Usage.STATIC);
+			FULLSCREEN_QUAD.bind();
+			FULLSCREEN_QUAD.upload(builder.end());
+		}
+
+		FULLSCREEN_QUAD.bind();
+		FULLSCREEN_QUAD.drawWithShader(IDENTITY_MATRIX, IDENTITY_MATRIX, GameRenderer.getPositionColorShader());
+		VertexBuffer.unbind();
+	}
+
+	public static void renderFullScreenQuad(Vector3f color) {
+		RenderSystem.setShaderColor(color.x, color.y, color.z, 1f);
+		renderFullScreenQuad();
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}
 }

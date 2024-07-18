@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import com.mojang.serialization.Codec;
 
+import io.github.fusionflux.portalcubed.framework.util.Plane;
 import io.github.fusionflux.portalcubed.framework.util.Quad;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.FrontAndTop;
@@ -11,6 +12,7 @@ import net.minecraft.world.phys.Vec3;
 
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
+import org.joml.Vector3f;
 
 /**
  * A portal in the world, with all expensive data computed.
@@ -31,6 +33,7 @@ public final class PortalInstance {
 	public final Vec3 normal;
 	public final Quaternionf rotation;
 	public final Quaternionf rotation180;
+	public final Plane plane;
 
     public PortalInstance(PortalData data) {
         this.data = data;
@@ -39,6 +42,7 @@ public final class PortalInstance {
 
 		this.rotation = TransformUtils.quaternionOf(orientation);
 		this.rotation180 = TransformUtils.rotateAround(rotation, orientation.top().getAxis(), 180);
+		this.plane = new Plane(this.rotation.transform(0, 0, 1, new Vector3f()), this.data.origin().toVector3f());
 
 		this.quad = Quad.create(this.rotation, data.origin(), WIDTH, HEIGHT);
 		this.renderBounds = this.quad.containingBox();

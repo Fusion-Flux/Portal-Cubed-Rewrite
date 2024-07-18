@@ -37,11 +37,12 @@ public record PortalPair(Optional<PortalInstance> primary, Optional<PortalInstan
 		return this.get(type).orElse(null);
 	}
 
+	@Nullable
 	public PortalInstance other(PortalInstance portal) {
 		if (this.primary.isPresent() && this.primary.get() == portal) {
-			return this.secondary.orElseThrow();
+			return this.secondary.orElse(null);
 		} else if (this.secondary.isPresent() && this.secondary.get() == portal) {
-			return this.primary.orElseThrow();
+			return this.primary.orElse(null);
 		} else {
 			throw new IllegalArgumentException("Portal not in pair");
 		}

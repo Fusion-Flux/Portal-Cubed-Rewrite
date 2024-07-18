@@ -35,7 +35,6 @@ public class ClientPacketListenerMixin {
 							   ClientboundTeleportEntityPacket packet) {
 		boolean lerp = ((ClientboundTeleportEntityPacketExt) packet).pc$shouldLerp();
 		Vec3 pos = new Vec3(x, y, z);
-		System.out.println("Handling teleport to " + pos + ". lerp: " + lerp);
 		if (lerp) {
 			original.call(entity, x, y, z, yaw, pitch, steps);
 		} else {

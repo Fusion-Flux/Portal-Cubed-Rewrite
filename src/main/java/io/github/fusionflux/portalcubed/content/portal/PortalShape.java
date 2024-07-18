@@ -18,11 +18,13 @@ public enum PortalShape implements StringRepresentable {
 	public final String name;
 	public final ResourceLocation texture;
 	public final ResourceLocation tracerTexture;
+	public final ResourceLocation stencilTexture;
 
 	PortalShape() {
 		this.name = name().toLowerCase(Locale.ROOT);
 		this.texture = PortalCubed.id("textures/entity/portal/" + name + ".png");
 		this.tracerTexture = PortalCubed.id("textures/entity/portal/tracer/" + name + ".png");
+		this.stencilTexture = PortalCubed.id("textures/entity/portal/stencil/" + name + ".png");
 	}
 
 	@Override
