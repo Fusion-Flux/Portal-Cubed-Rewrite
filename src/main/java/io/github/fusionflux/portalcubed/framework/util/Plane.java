@@ -14,7 +14,6 @@ public record Plane(Vector3f normal, Vector3f origin) {
 	private static final Vector3f scratchPos = new Vector3f();
 	private static final Vector3f scratchNormal = new Vector3f();
 	private static final Matrix4f scratchMatrix = new Matrix4f();
-	private static final float TEST_EPSILON = 0.09f;
 
 	public boolean test(Camera camera) {
 		Vec3 camPos = camera.getPosition();
@@ -23,7 +22,7 @@ public record Plane(Vector3f normal, Vector3f origin) {
 				camPos.y - this.origin.y,
 				camPos.z - this.origin.z
 		);
-		return relativeCamPos.dot(this.normal) < -TEST_EPSILON;
+		return relativeCamPos.dot(this.normal) < 0;
 	}
 
 	public void clipProjection(Matrix4f view, Vec3 camPos, Matrix4f projection) {

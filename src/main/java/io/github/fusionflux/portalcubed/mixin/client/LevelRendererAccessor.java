@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.LevelRenderer;
 
+import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.world.phys.Vec3;
 
@@ -21,4 +22,9 @@ public interface LevelRendererAccessor {
 	Frustum getCullingFrustum();
 	@Accessor
 	void setCullingFrustum(Frustum frustum);
+
+	@Accessor
+	PostChain getEntityEffect();
+	@Accessor
+	void setEntityEffect(PostChain postChain);
 }

@@ -44,15 +44,7 @@ public class LevelRendererMixin {
 		}
 	}
 
-	@WrapOperation(
-			method = "renderLevel",
-			at = @At(
-					value = "INVOKE",
-					target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V",
-					ordinal = 0,
-					remap = false
-			)
-	)
+	@WrapOperation(method = "renderLevel",  at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", remap = false))
 	private void replaceClearingIfRenderingPortal(int mask, boolean checkError, Operation<Void> original) {
 		if (PortalRenderer.isRenderingView()) {
 			// Setup state

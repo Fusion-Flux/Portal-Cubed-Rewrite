@@ -10,8 +10,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Camera.class)
 public interface CameraAccessor {
-	@Accessor
-	void setPosition(Vec3 position);
+	// Do not call this set position or else it will override vanilla's
+	@Accessor("position")
+	void pc$setPosition(Vec3 position);
 
 	@Accessor
 	void setRotation(Quaternionf rotation);
