@@ -254,6 +254,8 @@ public class PortalCubedTabs {
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 209, "missing_texture_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 210, "pistol_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
@@ -339,6 +341,8 @@ public class PortalCubedTabs {
 		output.accept(stack);
 	}
 
+	//Once portal customization is real, duplicate this function as addPortalGunVariant and add portal customization stuff to it.
+	//This one will still get used, but only for a few things
 	private static void addItemVariant(CreativeModeTab.Output output, Item item, int cmd, String lang) {
 		ItemStack stack = new ItemStack(item);
 		stack.getOrCreateTag().putInt("CustomModelData", cmd);

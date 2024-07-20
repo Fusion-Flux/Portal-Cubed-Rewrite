@@ -374,6 +374,8 @@
   "item.portalcubed.lego_portal_gun": "Portal Gun (LEGO Dimensions)",
   "item.portalcubed.damaged_portal_gun": "Damaged Portal Gun (Portal Revolution)",
   "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
+  "item.portalcubed.missing_texture_portal_gun": "item.portalcubed.missing_texture_portal_gun",
+  "item.portalcubed.pistol_portal_gun": "Gun That Makes Holes (Not Bullet Holes)",
 
   "item.portalcubed.long_fall_boots": "Long Fall Boots",
   "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",
