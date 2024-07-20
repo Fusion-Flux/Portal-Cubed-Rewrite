@@ -2,8 +2,8 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "portalcubed:item/missingno",
-		"particle": "portalcubed:item/missingno"
+		"1": "minecraft:missingno",
+		"particle": "minecraft:missingno"
 	},
 	"elements": [
 		{
