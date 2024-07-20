@@ -45,135 +45,39 @@
     "minecraft:waxed_oxidized_cut_copper",
     "minecraft:waxed_oxidized_cut_copper_stairs",
     "minecraft:waxed_oxidized_cut_copper_slab",
-    {
-      "id": "minecraft:chiseled_copper",
-      "required": false
-    },
-    {
-      "id": "minecraft:exposed_chiseled_copper",
-      "required": false
-    },
-    {
-      "id": "minecraft:weathered_chiseled_copper",
-      "required": false
-    },
-    {
-      "id": "minecraft:oxidized_chiseled_copper",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_chiseled_copper",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_exposed_chiseled_copper",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_weathered_chiseled_copper",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_oxidized_chiseled_copper",
-      "required": false
-    },
-    {
-      "id": "minecraft:copper_grate",
-      "required": false
-    },
-    {
-      "id": "minecraft:exposed_copper_grate",
-      "required": false
-    },
-    {
-      "id": "minecraft:weathered_copper_grate",
-      "required": false
-    },
-    {
-      "id": "minecraft:oxidized_copper_grate",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_copper_grate",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_exposed_copper_grate",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_weathered_copper_grate",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_oxidized_copper_grate",
-      "required": false
-    },
+    "minecraft:chiseled_copper",
+    "minecraft:exposed_chiseled_copper",
+    "minecraft:weathered_chiseled_copper",
+    "minecraft:oxidized_chiseled_copper",
+    "minecraft:waxed_chiseled_copper",
+    "minecraft:waxed_exposed_chiseled_copper",
+    "minecraft:waxed_weathered_chiseled_copper",
+    "minecraft:waxed_oxidized_chiseled_copper",
+    "minecraft:copper_grate",
+    "minecraft:exposed_copper_grate",
+    "minecraft:weathered_copper_grate",
+    "minecraft:oxidized_copper_grate",
+    "minecraft:waxed_copper_grate",
+    "minecraft:waxed_exposed_copper_grate",
+    "minecraft:waxed_weathered_copper_grate",
+    "minecraft:waxed_oxidized_copper_grate",
 
-    {
-      "id": "minecraft:copper_door",
-      "required": false
-    },
-    {
-      "id": "minecraft:exposed_copper_door",
-      "required": false
-    },
-    {
-      "id": "minecraft:weathered_copper_door",
-      "required": false
-    },
-    {
-      "id": "minecraft:oxidized_copper_door",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_copper_door",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_exposed_copper_door",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_weathered_copper_door",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_oxidized_copper_door",
-      "required": false
-    },
-    {
-      "id": "minecraft:copper_trapdoor",
-      "required": false
-    },
-    {
-      "id": "minecraft:exposed_copper_trapdoor",
-      "required": false
-    },
-    {
-      "id": "minecraft:weathered_copper_trapdoor",
-      "required": false
-    },
-    {
-      "id": "minecraft:oxidized_copper_trapdoor",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_copper_trapdoor",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_exposed_copper_trapdoor",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_weathered_copper_trapdoor",
-      "required": false
-    },
-    {
-      "id": "minecraft:waxed_oxidized_copper_trapdoor",
-      "required": false
-    },
+    "minecraft:copper_door",
+    "minecraft:exposed_copper_door",
+    "minecraft:weathered_copper_door",
+    "minecraft:oxidized_copper_door",
+    "minecraft:waxed_copper_door",
+    "minecraft:waxed_exposed_copper_door",
+    "minecraft:waxed_weathered_copper_door",
+    "minecraft:waxed_oxidized_copper_door",
+    "minecraft:copper_trapdoor",
+    "minecraft:exposed_copper_trapdoor",
+    "minecraft:weathered_copper_trapdoor",
+    "minecraft:oxidized_copper_trapdoor",
+    "minecraft:waxed_copper_trapdoor",
+    "minecraft:waxed_exposed_copper_trapdoor",
+    "minecraft:waxed_weathered_copper_trapdoor",
+    "minecraft:waxed_oxidized_copper_trapdoor",
 
     "minecraft:iron_door",
     "minecraft:iron_trapdoor",
