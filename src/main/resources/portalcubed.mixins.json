@@ -46,6 +46,8 @@
     "client.MinecraftMixin",
     "client.MultiPartMixin",
     "client.OrConditionAccessor",
+    "client.ParticleAccessor",
+    "client.ParticleEngineMixin",
     "client.PlayerRendererMixin",
     "client.ScreenMixin",
     "client.SelectorAccessor",

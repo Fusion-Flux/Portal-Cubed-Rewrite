@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
@@ -12,15 +16,16 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
-public record DirectClickItemPacket(boolean attack, InteractionHand hand) implements ServerboundPacket {
+public record DirectClickItemPacket(boolean attack, InteractionHand hand, @Nullable HitResult hit) implements ServerboundPacket {
 	public DirectClickItemPacket(FriendlyByteBuf buf) {
-		this(buf.readBoolean(), buf.readEnum(InteractionHand.class));
+		this(buf.readBoolean(), buf.readEnum(InteractionHand.class), buf.readNullable(FriendlyByteBuf::readBlockHitResult));
 	}
 
 	@Override
 	public void write(FriendlyByteBuf buf) {
 		buf.writeBoolean(attack);
 		buf.writeEnum(hand);
+		buf.writeNullable(this.hit instanceof BlockHitResult blockHit ? blockHit : null, FriendlyByteBuf::writeBlockHitResult);
 	}
 
 	@Override
@@ -33,9 +38,9 @@ public record DirectClickItemPacket(boolean attack, InteractionHand hand) implem
 		ItemStack stack = player.getItemInHand(hand);
 		if (stack.getItem() instanceof DirectClickItem direct) {
 			if (this.attack) {
-				direct.onAttack(player.level(), player, stack);
+				direct.onAttack(player.level(), player, stack, hit);
 			} else {
-				direct.onUse(player.level(), player, stack, hand);
+				direct.onUse(player.level(), player, stack, hit, hand);
 			}
 		}
 	}

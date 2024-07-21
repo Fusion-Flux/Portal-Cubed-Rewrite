@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
+import io.github.fusionflux.portalcubed.content.crowbar.CrowbarItem;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -52,6 +53,10 @@ public class PortalCubedItems {
 			.build();
 
 	public static final Item RAW_MAGNESIUM = REGISTRAR.items.create("raw_magnesium", Item::new)
+			.build();
+
+	public static final CrowbarItem CROWBAR = REGISTRAR.items.create("crowbar", CrowbarItem::new)
+			.settings(s -> s.stacksTo(1))
 			.build();
 
 	public static final HammerItem HAMMER = REGISTRAR.items.create("hammer", HammerItem::new)

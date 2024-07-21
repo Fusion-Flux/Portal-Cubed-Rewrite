@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import io.github.fusionflux.portalcubed.content.crowbar.CrowbarItem;
 import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
@@ -12,6 +13,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+
+import net.minecraft.world.phys.BlockHitResult;
+
+import net.minecraft.world.phys.HitResult;
 
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.base.api.util.TriState;
@@ -37,6 +42,10 @@ public class MinecraftMixin {
 	@Nullable
 	public Screen screen;
 
+	@Shadow
+	@Nullable
+	public HitResult hitResult;
+
 	@Inject(method = "method_1572", at = @At("TAIL"))
 	private void handleScreenTickables(CallbackInfo ci) {
 		// this is done because injecting into screen#tick is unreliable, most don't call super.
@@ -58,12 +67,13 @@ public class MinecraftMixin {
 	)
 	private void onAttack(CallbackInfoReturnable<Boolean> cir, ItemStack stack) {
 		if (stack.getItem() instanceof DirectClickItem direct) {
-			TriState result = direct.onAttack(level, player, stack);
+			TriState result = direct.onAttack(level, player, stack, hitResult);
 			if (result != TriState.DEFAULT) {
 				if (result == TriState.TRUE) {
-					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND));
+					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND, hitResult));
 				}
-				cir.setReturnValue(result.toBoolean());
+				// Crowbar check or else there will be no delay between startAttack and continueAttack causing a double swing
+				cir.setReturnValue(direct instanceof CrowbarItem || result.toBoolean());
 			}
 		}
 	}
@@ -79,13 +89,28 @@ public class MinecraftMixin {
 	)
 	private void onUse(CallbackInfo ci, InteractionHand[] hands, int var2, int var3, InteractionHand hand, ItemStack stack) {
 		if (stack.getItem() instanceof DirectClickItem direct) {
-			TriState result = direct.onUse(level, player, stack, hand);
+			TriState result = direct.onUse(level, player, stack, hitResult, hand);
 			if (result != TriState.DEFAULT) {
 				if (result == TriState.TRUE) {
-					PortalCubedPackets.sendToServer(new DirectClickItemPacket(false, hand));
+					PortalCubedPackets.sendToServer(new DirectClickItemPacket(false, hand, hitResult));
 				}
 				ci.cancel();
 			}
 		}
+	}
+
+	@Inject(
+			method = "continueAttack",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V",
+					shift = At.Shift.AFTER
+			)
+	)
+	private void onContinueAttack(CallbackInfo ci) {
+		ItemStack stack = this.player.getItemInHand(InteractionHand.MAIN_HAND);
+		boolean didSwing = this.player.swingTime == -1; // best way to check because swing doesn't return a boolean
+		if (stack.getItem() instanceof CrowbarItem crowbar && this.hitResult instanceof BlockHitResult hit && didSwing)
+			crowbar.onSwing(this.player, hit, true);
 	}
 }

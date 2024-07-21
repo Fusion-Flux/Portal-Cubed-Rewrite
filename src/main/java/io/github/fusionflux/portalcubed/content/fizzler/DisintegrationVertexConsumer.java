@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.lwjgl.system.MemoryStack;
 
 public class DisintegrationVertexConsumer implements VertexConsumer, VertexBufferWriter {
-	private static final float DARKEN = 0.2f;
+	private static final float DARKEN = 0.15f;
 	private static final float TRANSLUCENCY_START_PROGRESS = (EntityExt.DISINTEGRATE_TICKS - EntityExt.TRANSLUCENCY_START_TICKS) / (float) EntityExt.DISINTEGRATE_TICKS;
 
 	private final VertexConsumer delegate;

@@ -17,6 +17,7 @@
   "rewards": {
     "recipes": [
       "portalcubed:hammer_crafting",
+      "portalcubed:crowbar_crafting",
       "portalcubed:crossbar_pillar_crafting"
 
     ]
