@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Mixin(ParticleEngine.class)
@@ -26,8 +25,7 @@ public class ParticleEngineMixin {
 
 	@Inject(method = "<clinit>", at = @At("TAIL"))
 	private static void addMultiplyRenderType(CallbackInfo ci) {
-		List<ParticleRenderType> newRenderOrder = new ArrayList<>(RENDER_ORDER);
-		newRenderOrder.add(MultiplyParticleRenderType.INSTANCE);
-		RENDER_ORDER = Collections.unmodifiableList(newRenderOrder);
+		RENDER_ORDER = new ArrayList<>(RENDER_ORDER);
+		RENDER_ORDER.add(MultiplyParticleRenderType.INSTANCE);
 	}
 }

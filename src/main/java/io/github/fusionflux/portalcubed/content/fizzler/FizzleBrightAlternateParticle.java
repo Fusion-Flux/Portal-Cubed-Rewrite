@@ -1,13 +1,10 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import net.minecraft.client.particle.TextureSheetParticle;
+import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
-import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -17,11 +14,10 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
-public class FizzleBrightAlternateParticle extends TextureSheetParticle {
+public class FizzleBrightAlternateParticle extends FadingParticle {
 	public static final int LIFETIME = 10;
 	public static final double SPEED = 0.12;
 	public static final double HORIZONTAL_SPEED = SPEED * 0.02;
-	public static final float FADE_START_PROGRESS = 1f/2f;
 	public static final float ROLL_SPEED = 8f * Mth.DEG_TO_RAD;
 
 	public static final float SIZE = 0.2f;
@@ -36,10 +32,11 @@ public class FizzleBrightAlternateParticle extends TextureSheetParticle {
 				Math.random() * 2d - 1d
 		).normalize();
 		this.updateVelocity();
-		this.hasPhysics = false;
-		this.friction = 1f;
 		this.roll = (float) (Math.random() * Mth.TWO_PI);
 		this.oRoll = this.roll;
+		this.quadSize = SIZE;
+		this.hasPhysics = false;
+		this.friction = 1f;
 	}
 
 	private void updateVelocity() {
@@ -59,14 +56,6 @@ public class FizzleBrightAlternateParticle extends TextureSheetParticle {
 	@Override
 	public ParticleRenderType getRenderType() {
 		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
-	}
-
-	@Override
-	public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-		float fade = 1 - Math.min((Math.max(0, (Math.min((this.age + tickDelta) / this.lifetime, 1)) - FADE_START_PROGRESS) / (1 - FADE_START_PROGRESS)), 1);
-		this.setAlpha(fade);
-		this.quadSize = SIZE * fade;
-		super.render(vertexConsumer, camera, tickDelta);
 	}
 
 	@Override

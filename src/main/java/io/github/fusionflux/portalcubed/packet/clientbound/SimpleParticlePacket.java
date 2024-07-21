@@ -9,6 +9,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record SimpleParticlePacket(ParticleOptions options, double x, double y, double z, double velocityX, double velocityY, double velocityZ) implements ClientboundPacket {
@@ -32,6 +33,7 @@ public record SimpleParticlePacket(ParticleOptions options, double x, double y, 
 		return PortalCubedPackets.SIMPLE_PARTICLE;
 	}
 
+	@ClientOnly
 	@Override
 	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		player.clientLevel.addParticle(options, x, y, z, velocityX, velocityY, velocityZ);

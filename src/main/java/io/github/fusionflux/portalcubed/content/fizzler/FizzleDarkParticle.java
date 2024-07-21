@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
+import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
 import io.github.fusionflux.portalcubed.mixin.client.ParticleAccessor;
 
 import net.minecraft.util.Mth;
@@ -11,18 +12,17 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 
-public class FizzleDarkParticle extends TextureSheetParticle {
+public class FizzleDarkParticle extends FadingParticle {
 	public static final int LIFETIME = 40;
 	public static final double HORIZONTAL_SPEED = 0.02;
 	public static final float ROLL_SPEED = 4.875f * Mth.DEG_TO_RAD;
 	public static final float GRAVITY = 0.1f;
 
 	public static final float SIZE = 0.2f;
-	public static final float SHRINK_START_PROGRESS = 3.5f/4f;
+	public static final float FADE_START_LIFE = 3.5f/4f;
 	public static final float COLLISION_SIZE = 0.01f;
 
 	protected FizzleDarkParticle(ClientLevel world, double x, double y, double z) {
@@ -31,6 +31,8 @@ public class FizzleDarkParticle extends TextureSheetParticle {
 		this.xd = (Math.random() * 2d - 1d) * HORIZONTAL_SPEED;
 		this.yd = (Math.random() * 2d - 1d) * HORIZONTAL_SPEED;
 		this.quadSize = SIZE;
+		this.fadeStartLife = FADE_START_LIFE;
+		this.fadeAlpha = false;
 		this.setSize(COLLISION_SIZE, COLLISION_SIZE);
 	}
 
@@ -46,11 +48,6 @@ public class FizzleDarkParticle extends TextureSheetParticle {
 	@Override
 	public ParticleRenderType getRenderType() {
 		return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
-	}
-
-	@Override
-	public float getQuadSize(float tickDelta) {
-		return this.quadSize * (1 - Math.min((Math.max(0, (Math.min((this.age + tickDelta) / this.lifetime, 1)) - SHRINK_START_PROGRESS) / (1 - SHRINK_START_PROGRESS)), 1));
 	}
 
 	@Override

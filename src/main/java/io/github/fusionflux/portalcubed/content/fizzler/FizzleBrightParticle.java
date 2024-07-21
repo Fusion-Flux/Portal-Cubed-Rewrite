@@ -1,14 +1,11 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
+import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
-import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 
@@ -17,12 +14,12 @@ import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.NotNull;
 
-public class FizzleBrightParticle extends TextureSheetParticle {
+public class FizzleBrightParticle extends FadingParticle {
 	public static final int LIFETIME = 20;
 	public static final double SPEED = 0.05;
 	public static final Vec3 FADE_DIRECTION = new Vec3(0, 1, 0);
 	public static final double FADE_DIRECTION_SPEED = 0.15;
-	public static final float FADE_START_PROGRESS = 3f/4f;
+	public static final float FADE_START_LIFE = 3f/4f;
 
 	public static final float SIZE = 0.2f;
 
@@ -38,6 +35,8 @@ public class FizzleBrightParticle extends TextureSheetParticle {
 		this.updateVelocity();
 		this.roll = (float) (Math.random() * Mth.TWO_PI);
 		this.oRoll = this.roll;
+		this.quadSize = SIZE;
+		this.fadeStartLife = FADE_START_LIFE;
 		this.hasPhysics = false;
 		this.friction = 1f;
 	}
@@ -51,7 +50,7 @@ public class FizzleBrightParticle extends TextureSheetParticle {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.age >= FADE_START_PROGRESS * this.lifetime) {
+		if (this.age >= FADE_START_LIFE * this.lifetime) {
 			this.direction = this.direction.lerp(FADE_DIRECTION, FADE_DIRECTION_SPEED);
 			this.updateVelocity();
 		}
@@ -61,14 +60,6 @@ public class FizzleBrightParticle extends TextureSheetParticle {
 	@Override
 	public ParticleRenderType getRenderType() {
 		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
-	}
-
-	@Override
-	public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-		float fade = 1 - Math.min((Math.max(0, (Math.min((this.age + tickDelta) / this.lifetime, 1)) - FADE_START_PROGRESS) / (1 - FADE_START_PROGRESS)), 1);
-		this.setAlpha(fade);
-		this.quadSize = SIZE * fade;
-		super.render(vertexConsumer, camera, tickDelta);
 	}
 
 	@Override

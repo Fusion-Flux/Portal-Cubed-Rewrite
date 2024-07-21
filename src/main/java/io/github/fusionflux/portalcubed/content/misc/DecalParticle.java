@@ -96,13 +96,9 @@ public class DecalParticle extends TextureSheetParticle {
 			VoxelShape baseShape = currentBaseState.getCollisionShape(this.level, this.basePos);
 			Vec3 rayStart = new Vec3(this.x, this.y, this.z);
 			Vec3 rayEnd = rayStart.subtract(Vec3.atLowerCornerOf(this.direction.getNormal()).scale(ONE_PIXEL));
-			if (Optionull
-					.mapOrDefault(
-							baseShape.clip(rayStart, rayEnd, this.basePos),
-							BlockHitResult::isInside,
-							true
-					)
-			) this.remove();
+			BlockHitResult hit = baseShape.clip(rayStart, rayEnd, this.basePos);
+			if (Optionull.mapOrDefault(hit, BlockHitResult::isInside, true))
+				this.remove();
 		}
 		this.lastBaseState = currentBaseState;
 	}

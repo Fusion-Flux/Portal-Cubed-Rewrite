@@ -26,6 +26,7 @@ import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.base.api.util.TriState;
+import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 public class CrowbarItem extends Item implements DirectClickItem {
 	public CrowbarItem(Properties settings) {
@@ -47,7 +48,7 @@ public class CrowbarItem extends Item implements DirectClickItem {
 				world.playSound(null, location.x, location.y, location.z, material.impactSound, player.getSoundSource());
 				Direction dir = blockHit.getDirection();
 				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, location.x, location.y, location.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
-				for (ServerPlayer tracking : PortalCubedPackets.trackingAndSelf(serverPlayer)) {
+				for (ServerPlayer tracking : PlayerLookup.tracking(serverPlayer.serverLevel(), blockHit.getBlockPos())) {
 					PortalCubedPackets.sendToClient(tracking, packet);
 				}
 			});
