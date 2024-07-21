@@ -8,7 +8,6 @@ import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -58,13 +57,13 @@ public class CrowbarItem extends Item implements DirectClickItem {
 	}
 
 	@Override
-	public TriState onAttack(Level level, Player player, ItemStack stack) {
-		this.onSwing(player, Minecraft.getInstance().hitResult, false);
+	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hitResult) {
+		this.onSwing(player, hitResult, false);
 		return TriState.FALSE;
 	}
 
 	@Override
-	public TriState onUse(Level level, Player player, ItemStack stack, InteractionHand hand) {
+	public TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hitResult, InteractionHand hand) {
 		return TriState.DEFAULT;
 	}
 

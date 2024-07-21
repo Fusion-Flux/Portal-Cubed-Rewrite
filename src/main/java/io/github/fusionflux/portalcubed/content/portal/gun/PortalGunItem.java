@@ -17,8 +17,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.base.api.util.TriState;
 
 public class PortalGunItem extends Item implements DirectClickItem, DyeableLeatherItem {
@@ -30,13 +32,13 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 	}
 
 	@Override
-	public TriState onAttack(Level level, Player player, ItemStack stack) {
+	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hit) {
 		this.shoot(level, player, stack, InteractionHand.MAIN_HAND, PortalType.PRIMARY);
 		return TriState.TRUE;
 	}
 
 	@Override
-	public TriState onUse(Level level, Player player, ItemStack stack, InteractionHand hand) {
+	public TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hit, InteractionHand hand) {
 		this.shoot(level, player, stack, hand, PortalType.SECONDARY);
 		return TriState.TRUE;
 	}

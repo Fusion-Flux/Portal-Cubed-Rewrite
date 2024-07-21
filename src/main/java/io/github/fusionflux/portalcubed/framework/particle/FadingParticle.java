@@ -26,7 +26,7 @@ public abstract class FadingParticle extends TextureSheetParticle {
 	public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
 		float life = Math.min((this.age + tickDelta) / this.lifetime, 1);
 		this.fadeProgress = Math.max(Mth.inverseLerp(life, this.fadeStartLife, 1f), 0f);
-		if (fadeAlpha)
+		if (this.fadeAlpha)
 			this.setAlpha(1f - this.fadeProgress);
 
 		super.render(vertexConsumer, camera, tickDelta);

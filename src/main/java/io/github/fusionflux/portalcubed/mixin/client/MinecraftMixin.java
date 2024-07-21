@@ -67,10 +67,10 @@ public class MinecraftMixin {
 	)
 	private void onAttack(CallbackInfoReturnable<Boolean> cir, ItemStack stack) {
 		if (stack.getItem() instanceof DirectClickItem direct) {
-			TriState result = direct.onAttack(level, player, stack);
+			TriState result = direct.onAttack(level, player, stack, hitResult);
 			if (result != TriState.DEFAULT) {
 				if (result == TriState.TRUE) {
-					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND));
+					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND, hitResult));
 				}
 				// Crowbar check or else there will be no delay between startAttack and continueAttack causing a double swing
 				cir.setReturnValue(direct instanceof CrowbarItem || result.toBoolean());
@@ -89,10 +89,10 @@ public class MinecraftMixin {
 	)
 	private void onUse(CallbackInfo ci, InteractionHand[] hands, int var2, int var3, InteractionHand hand, ItemStack stack) {
 		if (stack.getItem() instanceof DirectClickItem direct) {
-			TriState result = direct.onUse(level, player, stack, hand);
+			TriState result = direct.onUse(level, player, stack, hitResult, hand);
 			if (result != TriState.DEFAULT) {
 				if (result == TriState.TRUE) {
-					PortalCubedPackets.sendToServer(new DirectClickItemPacket(false, hand));
+					PortalCubedPackets.sendToServer(new DirectClickItemPacket(false, hand, hitResult));
 				}
 				ci.cancel();
 			}
