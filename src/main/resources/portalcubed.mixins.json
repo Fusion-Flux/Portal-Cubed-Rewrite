@@ -56,10 +56,13 @@
     "client.PlayerRendererMixin",
     "client.RenderSystemAccessor",
     "client.RenderTargetMixin",
+    "client.RenderRegionMixin",
+    "client.RenderSectionManagerAccessor",
     "client.ScreenEffectRendererMixin",
     "client.ScreenMixin",
     "client.SelectorAccessor",
     "client.SimpleBakedModelAccessor",
+    "client.SodiumWorldRendererAccessor",
     "client.TooltipAccessor",
     "client.Variant_DeserializerMixin",
     "client.VariantMixin"

@@ -100,7 +100,14 @@ public class RenderingUtils {
 		RenderSystem.stencilMask(0xFF);
 	}
 
-	public static void renderFullScreenQuad() {
+	public static void defaultStencil() {
+		// Values gotten from GlStateManager.Stencil*
+		RenderSystem.stencilFunc(GL11.GL_ALWAYS, 0, 0xFF);
+		RenderSystem.stencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
+		RenderSystem.stencilMask(0xFF);
+	}
+
+	public static void renderFullScreenQuad(Vector3f color) {
 		if (FULLSCREEN_QUAD == null) {
 			BufferBuilder builder = new BufferBuilder(DefaultVertexFormat.POSITION_COLOR.getVertexSize() * 4);
 			builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
@@ -117,13 +124,9 @@ public class RenderingUtils {
 		}
 
 		FULLSCREEN_QUAD.bind();
+		RenderSystem.setShaderColor(color.x, color.y, color.z, 1f);
 		FULLSCREEN_QUAD.drawWithShader(IDENTITY_MATRIX, IDENTITY_MATRIX, GameRenderer.getPositionColorShader());
 		VertexBuffer.unbind();
-	}
-
-	public static void renderFullScreenQuad(Vector3f color) {
-		RenderSystem.setShaderColor(color.x, color.y, color.z, 1f);
-		renderFullScreenQuad();
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}
 }

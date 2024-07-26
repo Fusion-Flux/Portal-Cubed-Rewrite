@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import com.google.common.collect.Queues;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -18,12 +16,18 @@ import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import io.github.fusionflux.portalcubed.mixin.client.CameraAccessor;
 import io.github.fusionflux.portalcubed.mixin.client.LevelRendererAccessor;
+import io.github.fusionflux.portalcubed.mixin.client.RenderSectionManagerAccessor;
 import io.github.fusionflux.portalcubed.mixin.client.RenderSystemAccessor;
+import io.github.fusionflux.portalcubed.mixin.client.SodiumWorldRendererAccessor;
+import it.unimi.dsi.fastutil.longs.Long2ReferenceMap;
+import it.unimi.dsi.fastutil.longs.LongArrayList;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
+import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
+import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
+import me.jellysquid.mods.sodium.client.render.chunk.lists.SortedRenderLists;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 
-import net.minecraft.Util;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 
@@ -33,6 +37,7 @@ import net.minecraft.client.renderer.LevelRenderer;
 
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.PostChain;
+import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.client.renderer.culling.Frustum;
 
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -49,7 +54,6 @@ import org.lwjgl.opengl.ARBDepthClamp;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Collection;
-import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,20 +70,26 @@ public class PortalRenderer {
 
 	public static final double OFFSET_FROM_WALL = 0.001;
 
-	private static final int MAX_RECURSIONS = 5;
-	private static final Deque<PoseStack> VIEW_MATRICES = Util.make(Queues.newArrayDeque(), stack -> {
-		for (int i = 0; i < MAX_RECURSIONS; i++) {
-			stack.add(new PoseStack());
-		}
-	});
+	private static int maxRecursions = 5;
+	private static final RecursionAttachedResource<PoseStack> VIEW_MATRICES = RecursionAttachedResource.create(PoseStack::new);
+	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
 	private static int recursion = 0;
 
+	public static int recursion() {
+		return recursion;
+	}
+
 	public static boolean isRenderingView() {
-		return recursion > 0;
+		return recursion() > 0;
+	}
+
+	public static void setMaxRecursions(int maxRecursions) {
+		PortalRenderer.maxRecursions = maxRecursions;
+		RecursionAttachedResource.cleanup();
 	}
 
 	public static boolean shouldRenderView(PortalInstance portal, Camera camera) {
-		return recursion < MAX_RECURSIONS && portal.plane.test(camera);
+		return recursion < maxRecursions && portal.plane.test(camera);
 	}
 
 	private static void render(WorldRenderContext context) {
@@ -97,7 +107,6 @@ public class PortalRenderer {
 		boolean renderDebug = Minecraft.getInstance().getDebugOverlay().showDebugScreen();
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
-		GlStateManager._enableDepthTest();
 		for (PortalPair pair : pairs) {
 			for (PortalInstance portal : pair) {
 				boolean inVisibleSection = SodiumWorldRenderer.instance().isBoxVisible(
@@ -118,13 +127,17 @@ public class PortalRenderer {
 		}
 
 		matrices.popPose();
-		vertexConsumers.endLastBatch();
 
 		if (!isRenderingView()) {
 			GL11.glDisable(GL11.GL_STENCIL_TEST);
-			GlStateManager._disableDepthTest();
+			RenderingUtils.defaultStencil();
 			RenderSystem.clear(GL11.GL_STENCIL_BUFFER_BIT, Minecraft.ON_OSX);
+		} else {
+			RenderingUtils.setupStencilToRenderIfValue(recursion);
+			RenderSystem.stencilMask(0x00);
 		}
+
+		vertexConsumers.endLastBatch(); // Won't render properly unless we reset stencil first
 	}
 
 	private static void renderPortal(PortalPair pair, PortalInstance portal, PoseStack matrices, MultiBufferSource vertexConsumers, WorldRenderContext context) {
@@ -148,8 +161,13 @@ public class PortalRenderer {
 		PortalInstance linked = pair.other(portal);
 		Camera camera = context.camera();
 		if (linked != null && shouldRenderView(portal, camera)) {
+			// TODO: Remove this line when open portal textures are implemented
+			matrices.translate(0, 0, -OFFSET_FROM_WALL);
+
 			// Draw stencil
 			RenderSystem.depthMask(false);
+			RenderSystem.enableDepthTest();
+			RenderSystem.depthFunc(GL11.GL_LEQUAL);
 			RenderingUtils.setupStencilForWriting(recursion, true);
 			renderPortalStencil(portal, matrices);
 			RenderSystem.depthMask(true);
@@ -159,49 +177,58 @@ public class PortalRenderer {
 			LevelRenderer worldRenderer = context.worldRenderer();
 			StateCapture oldState = StateCapture.capture(projectionMatrix, worldRenderer, camera);
 
+			recursion++;
+			((LevelRendererAccessor) worldRenderer).setRenderBuffers(RENDER_BUFFERS.get());
+
 			// Setup camera
 			Vec3 camPos = PortalTeleportHandler.teleportAbsoluteVecBetween(camera.getPosition(), portal, linked);
 			((CameraAccessor) camera).pc$setPosition(camPos);
 
-			Quaternionf cameraRotation = new Quaternionf(camera.rotation());
-			cameraRotation.premul(portal.rotation.invert(new Quaternionf()));
-			cameraRotation.premul(linked.rotation180);
-			((CameraAccessor) camera).setRotation(cameraRotation);
-			camera.getLookVector().set(0, 1, 0).rotate(cameraRotation);
-			camera.getUpVector().set(0, 1, 0).rotate(cameraRotation);
-			camera.getLeftVector().set(1, 0, 0).rotate(cameraRotation);
+			camera.rotation()
+					.premul(portal.rotation.invert(new Quaternionf()))
+					.premul(linked.rotation180);
+			camera.getLookVector().set(0, 1, 0).rotate(camera.rotation());
+			camera.getUpVector().set(0, 1, 0).rotate(camera.rotation());
+			camera.getLeftVector().set(1, 0, 0).rotate(camera.rotation());
 
-			PoseStack viewMatrix = VIEW_MATRICES.pop();
-			viewMatrix.setIdentity();
-			viewMatrix.mulPose(Axis.YP.rotationDegrees(180));
-			viewMatrix.mulPose(cameraRotation.conjugate(new Quaternionf()));
+			PoseStack view = VIEW_MATRICES.get();
+			view.setIdentity();
+			view.mulPose(Axis.YP.rotationDegrees(180));
+			view.mulPose(camera.rotation().conjugate(new Quaternionf()));
 
 			// TODO: Inverse view rotation is extremely weird and this line doesnt appear to do anything but fog is broken with random things,
 			//  1.20.5 removed it and the new fog system should just work with portal rendering
 //			RenderSystem.setInverseViewRotationMatrix(view.normal().invert(new Matrix3f()));
-			linked.plane.clipProjection(viewMatrix.last().pose(), camPos, projectionMatrix);
+			linked.plane.clipProjection(view.last().pose(), camPos, projectionMatrix);
 
 			GameRenderer gameRenderer = context.gameRenderer();
-			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(viewMatrix, camPos, gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
+			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(view, camPos, gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
 
 			// Render the world
-			recursion++;
 			RenderingUtils.setupStencilToRenderIfValue(recursion);
 			RenderSystem.stencilMask(0x00);
 			RenderSystemAccessor.setModelViewStack(new PoseStack());
 			((LevelRendererAccessor) worldRenderer).setEntityEffect(null);
-			worldRenderer.renderLevel(viewMatrix, context.tickDelta(), context.limitTime(), false, camera, gameRenderer, context.lightmapTextureManager(), projectionMatrix);
-			recursion--;
+			worldRenderer.renderLevel(
+					view,
+					context.tickDelta(),
+					context.limitTime(),
+					false,
+					camera,
+					gameRenderer,
+					context.lightmapTextureManager(),
+					projectionMatrix
+			);
 
 			// Restore old state
-			VIEW_MATRICES.push(viewMatrix);
 			oldState.restore(worldRenderer, camera);
+			recursion--;
 
 			// Restore depth
 			RenderingUtils.setupStencilForWriting(recursion + 1, false);
 			RenderSystem.depthFunc(GL11.GL_ALWAYS);
 			RenderSystem.colorMask(false, false, false, false);
-			RenderingUtils.renderFullScreenQuad();
+			renderPortalStencil(portal, matrices);
 			RenderSystem.depthFunc(GL11.GL_LEQUAL);
 			RenderSystem.colorMask(true, true, true, true);
 		}
@@ -245,21 +272,35 @@ public class PortalRenderer {
 			Vector3f cameraUpVector,
 			Vector3f cameraLeftVector,
 			Vector3f[] shaderLightDirections,
-			PostChain entityEffect
+			PostChain entityEffect,
+			RenderBuffers renderBuffers,
+			SortedRenderLists renderLists,
+			LongArrayList visibleSections
 	) {
 		public static StateCapture capture(Matrix4f projectionMatrix, LevelRenderer worldRenderer, Camera camera) {
+			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) SodiumWorldRenderer.instance()).getRenderSectionManager();
+			LongArrayList visibleSections = new LongArrayList();
+			int frame = ((RenderSectionManagerAccessor) renderSectionManager).getLastUpdatedFrame();
+			Long2ReferenceMap<RenderSection> sections = ((RenderSectionManagerAccessor) renderSectionManager).getSectionByPosition();
+			for (Long2ReferenceMap.Entry<RenderSection> entry : sections.long2ReferenceEntrySet()) {
+				if (entry.getValue().getLastVisibleFrame() == frame)
+					visibleSections.add(entry.getLongKey());
+			}
 			return new StateCapture(
 					RenderSystem.getModelViewStack(),
 					new Matrix4f(RenderSystem.getModelViewMatrix()),
 					new Matrix4f(projectionMatrix),
 					((LevelRendererAccessor) worldRenderer).getCullingFrustum(),
 					camera.getPosition(),
-					camera.rotation(),
+					new Quaternionf(camera.rotation()),
 					new Vector3f(camera.getLookVector()),
 					new Vector3f(camera.getUpVector()),
 					new Vector3f(camera.getLeftVector()),
 					RenderSystemAccessor.getShaderLightDirections().clone(),
-					((LevelRendererAccessor) worldRenderer).getEntityEffect()
+					((LevelRendererAccessor) worldRenderer).getEntityEffect(),
+					((LevelRendererAccessor) worldRenderer).getRenderBuffers(),
+					renderSectionManager.getRenderLists(),
+					visibleSections
 			);
 		}
 
@@ -275,7 +316,18 @@ public class PortalRenderer {
 			camera.getLeftVector().set(this.cameraLeftVector);
 			RenderSystem.setShaderLights(this.shaderLightDirections[0], this.shaderLightDirections[1]);
 			((LevelRendererAccessor) worldRenderer).setEntityEffect(this.entityEffect);
-			GlStateManager._enableDepthTest();
+			((LevelRendererAccessor) worldRenderer).setRenderBuffers(this.renderBuffers);
+
+			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) SodiumWorldRenderer.instance()).getRenderSectionManager();
+			((RenderSectionManagerAccessor) renderSectionManager).setRenderLists(this.renderLists);
+
+			int frame = ((RenderSectionManagerAccessor) renderSectionManager).getLastUpdatedFrame();
+			Long2ReferenceMap<RenderSection> sections = ((RenderSectionManagerAccessor) renderSectionManager).getSectionByPosition();
+			for (long pos : this.visibleSections) {
+				sections.get(pos).setLastVisibleFrame(frame);
+			}
+
+			RenderSystem.enableDepthTest();
 		}
 	}
 
@@ -332,6 +384,6 @@ public class PortalRenderer {
 	}
 
 	public static void init() {
-		WorldRenderEvents.END.register(PortalRenderer::render);
+		WorldRenderEvents.BEFORE_DEBUG_RENDER.register(PortalRenderer::render);
 	}
 }
