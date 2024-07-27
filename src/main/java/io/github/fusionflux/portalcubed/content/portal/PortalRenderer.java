@@ -169,7 +169,7 @@ public class PortalRenderer {
 			RenderSystem.enableDepthTest();
 			RenderSystem.depthFunc(GL11.GL_LEQUAL);
 			RenderingUtils.setupStencilForWriting(recursion, true);
-			renderPortalStencil(portal, matrices);
+			renderPortalStencil(portal, matrices, camera);
 			RenderSystem.depthMask(true);
 
 			// Backup old state
@@ -202,7 +202,7 @@ public class PortalRenderer {
 			linked.plane.clipProjection(view.last().pose(), camPos, projectionMatrix);
 
 			GameRenderer gameRenderer = context.gameRenderer();
-			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(view, camPos, gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
+			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(view, linked.data.origin(), gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
 
 			// Render the world
 			RenderingUtils.setupStencilToRenderIfValue(recursion);
@@ -228,7 +228,7 @@ public class PortalRenderer {
 			RenderingUtils.setupStencilForWriting(recursion + 1, false);
 			RenderSystem.depthFunc(GL11.GL_ALWAYS);
 			RenderSystem.colorMask(false, false, false, false);
-			renderPortalStencil(portal, matrices);
+			renderPortalStencil(portal, matrices, camera);
 			RenderSystem.depthFunc(GL11.GL_LEQUAL);
 			RenderSystem.colorMask(true, true, true, true);
 		}
@@ -236,14 +236,16 @@ public class PortalRenderer {
 		matrices.popPose();
 	}
 
-	private static void renderPortalStencil(PortalInstance portal, PoseStack matrices) {
+	private static void renderPortalStencil(PortalInstance portal, PoseStack matrices, Camera camera) {
 		BufferBuilder builder = RenderSystem.renderThreadTesselator().getBuilder();
 
 		// Setup state
 		builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderTexture(0, portal.data.settings().shape().stencilTexture);
-		GL11.glEnable(ARBDepthClamp.GL_DEPTH_CLAMP);
+		boolean clampDepth = portal.renderBounds.intersects(camera.getEntity().getBoundingBox());
+		if (clampDepth)
+			GL11.glEnable(ARBDepthClamp.GL_DEPTH_CLAMP);
 		RenderSystem.colorMask(false, false, false, false);
 
 		// Build quad
@@ -257,7 +259,8 @@ public class PortalRenderer {
 		BufferUploader.drawWithShader(builder.end());
 
 		// Cleanup state
-		GL11.glDisable(ARBDepthClamp.GL_DEPTH_CLAMP);
+		if (clampDepth)
+			GL11.glDisable(ARBDepthClamp.GL_DEPTH_CLAMP);
 		RenderSystem.colorMask(true, true, true, true);
 	}
 
@@ -273,6 +276,8 @@ public class PortalRenderer {
 			Vector3f cameraLeftVector,
 			Vector3f[] shaderLightDirections,
 			PostChain entityEffect,
+			float fogStart,
+			float fogEnd,
 			RenderBuffers renderBuffers,
 			SortedRenderLists renderLists,
 			LongArrayList visibleSections
@@ -298,6 +303,8 @@ public class PortalRenderer {
 					new Vector3f(camera.getLeftVector()),
 					RenderSystemAccessor.getShaderLightDirections().clone(),
 					((LevelRendererAccessor) worldRenderer).getEntityEffect(),
+					RenderSystem.getShaderFogStart(),
+					RenderSystem.getShaderFogEnd(),
 					((LevelRendererAccessor) worldRenderer).getRenderBuffers(),
 					renderSectionManager.getRenderLists(),
 					visibleSections
@@ -316,6 +323,8 @@ public class PortalRenderer {
 			camera.getLeftVector().set(this.cameraLeftVector);
 			RenderSystem.setShaderLights(this.shaderLightDirections[0], this.shaderLightDirections[1]);
 			((LevelRendererAccessor) worldRenderer).setEntityEffect(this.entityEffect);
+			RenderSystem.setShaderFogStart(this.fogStart);
+			RenderSystem.setShaderFogEnd(this.fogEnd);
 			((LevelRendererAccessor) worldRenderer).setRenderBuffers(this.renderBuffers);
 
 			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) SodiumWorldRenderer.instance()).getRenderSectionManager();
