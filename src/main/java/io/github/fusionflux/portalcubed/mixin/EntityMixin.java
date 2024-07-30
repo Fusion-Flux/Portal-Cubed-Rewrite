@@ -25,6 +25,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import net.minecraft.world.phys.AABB;
@@ -177,8 +178,10 @@ public abstract class EntityMixin implements EntityExt {
 				livingEntity.die(damageSource);
 			}
 			if (!((Object) this instanceof Player)) this.discard();
+			if ((Object) this instanceof ItemEntity itemEntity) itemEntity.getItem().onDestroyed(itemEntity);
 		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
-			if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_DARK_PARTICLES)) { // Portal 1 props don't make ash when fizzled
+			EntityType<?> type = this.getType();
+			if (!type.is(PortalCubedEntityTags.FIZZLES_WITHOUT_DARK_PARTICLES)) { // Portal 1 props don't make ash when fizzled
 				double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
 				for (int i = 0; i < Math.min(Math.max(Math.round(volume*15), 1), 100); i++) { // Capped to 100/tick so that fizzling something large doesn't instantly kill performance.  Use the largest of 15*volume/tick OR 1/tick, to prevent entities with small volumes (mug, item) from not making ash
 					double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 3);
@@ -190,15 +193,14 @@ public abstract class EntityMixin implements EntityExt {
 					world.addParticle(PortalCubedParticles.FIZZLE_DARK, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset, velocityX, velocityY, velocityZ);
 				}
 			}
-			//Some props don't make the bright particles, and Portal 1 props have an alternate bright particle type
+			// Some props don't make the bright particles, and Portal 1 props have an alternate bright particle type
 			Vec3 center = this.getBoundingBox().getCenter();
-			if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_BRIGHT_PARTICLES)) {
-				if (!this.getType().is(PortalCubedEntityTags.FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES)) {
+			if (!type.is(PortalCubedEntityTags.FIZZLES_WITHOUT_BRIGHT_PARTICLES)) {
+				if (!type.is(PortalCubedEntityTags.FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES)) {
 					for (int i = 0; i < 3; i++) {
 						world.addParticle(PortalCubedParticles.FIZZLE_BRIGHT, center.x, center.y, center.z, 0, 0, 0);
 					}
-				}
-				else {
+				} else {
 					for (int i = 0; i < 3; i++) {
 						double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 3.8);
 						double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 3.8));
