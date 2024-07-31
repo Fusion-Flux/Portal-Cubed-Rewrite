@@ -28,6 +28,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
@@ -114,6 +115,9 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract AABB getBoundingBox();
 
+	@Shadow
+	public abstract Vec3 position();
+
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
@@ -124,11 +128,13 @@ public abstract class EntityMixin implements EntityExt {
 	@Override
 	public boolean pc$disintegrate() {
 		if (!this.disintegrating) {
-			if (this.level() instanceof ServerLevel && (Object) this instanceof Entity self) {
+			if (this.level() instanceof ServerLevel world && (Object) this instanceof Entity self) {
+				world.gameEvent(self, GameEvent.ENTITY_DIE, this.position());
+
 				// In portal buttons push back on the objects that are on them, disintegration makes objects lose all their mass, so they get ejected but we cant do that here so lets just apply a slight force
 				BlockState feetState = this.getFeetBlockState();
 				if (feetState.getBlock() instanceof FloorButtonBlock floorButton && floorButton.isEntityPressing(feetState, this.blockPosition(), self))
-					setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
+					this.setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
 
 				this.disintegrateTicks = DISINTEGRATE_TICKS;
 				Collection<ServerPlayer> tracking = (Object) this instanceof ServerPlayer serverPlayer ? PortalCubedPackets.trackingAndSelf(serverPlayer) : PlayerLookup.tracking(self);
@@ -136,7 +142,7 @@ public abstract class EntityMixin implements EntityExt {
 				for (ServerPlayer toUpdate : tracking) {
 					PortalCubedPackets.sendToClient(toUpdate, packet);
 				}
-				stopRiding();
+				this.stopRiding();
 			}
 			this.disintegrating = true;
 			return true;
