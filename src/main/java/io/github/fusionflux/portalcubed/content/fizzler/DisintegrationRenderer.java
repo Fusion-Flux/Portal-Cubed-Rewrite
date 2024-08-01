@@ -7,7 +7,6 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
-import net.caffeinemc.mods.sodium.api.util.ColorU8;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -48,7 +47,7 @@ public class DisintegrationRenderer {
 	private static int getFlashColor(float ticks) {
 		float value = ticks * FLASH_SPEED;
 		float alpha = Mth.clamp(Mth.sin(value * 3) + Mth.cos(value * 2), MIN_FLASH_ALPHA, 1f);
-		return ColorABGR.withAlpha(0xFFFFFF, ColorU8.normalizedFloatToByte(alpha));
+		return ColorABGR.withAlpha(0xFFFFFF, alpha);
 	}
 
 	private static void flashVertex(VertexConsumer vertexConsumer, Matrix4f matrix, float x, float y, int color, int textureU, int textureV) {
@@ -70,7 +69,7 @@ public class DisintegrationRenderer {
 			@Override
 			public VertexConsumer getBuffer(RenderType renderType) {
 				// this won't work with non-translucent render types unless we use some sort of mapping, but there doesn't seem to be a good way to make a conversion map for entity render types
-				return new DisintegrationVertexConsumer(vertexConsumers.getBuffer(renderType), ticks);
+				return new DisintegrationVertexConsumer(vertexConsumers.getBuffer(renderType), renderType, ticks);
 			}
 		};
 	}

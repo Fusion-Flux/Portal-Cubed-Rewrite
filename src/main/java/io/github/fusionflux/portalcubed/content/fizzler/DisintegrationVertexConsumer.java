@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
+import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
@@ -10,12 +11,19 @@ import net.caffeinemc.mods.sodium.api.vertex.attributes.common.ColorAttribute;
 import net.caffeinemc.mods.sodium.api.vertex.buffer.VertexBufferWriter;
 import net.caffeinemc.mods.sodium.api.vertex.format.VertexFormatDescription;
 
+import net.minecraft.client.renderer.RenderType;
+
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.system.MemoryStack;
+
+import java.util.Set;
 
 public class DisintegrationVertexConsumer implements VertexConsumer, VertexBufferWriter {
 	private static final float DARKEN = 0.15f;
 	private static final float TRANSLUCENCY_START_PROGRESS = (EntityExt.DISINTEGRATE_TICKS - EntityExt.TRANSLUCENCY_START_TICKS) / (float) EntityExt.DISINTEGRATE_TICKS;
+
+	// Compare names and not the objects because all entity render types create a new object
+	private static final Set<String> DONT_DARKEN_RENDER_TYPES = ImmutableSet.of("eyes", "entity_translucent_emissive", "beacon_beam");
 
 	private final VertexConsumer delegate;
 	private final boolean canUseIntrinsics;
@@ -23,13 +31,13 @@ public class DisintegrationVertexConsumer implements VertexConsumer, VertexBuffe
 	private final int packedColor;
 	private final float delta;
 
-	public DisintegrationVertexConsumer(VertexConsumer delegate, float ticks) {
+	public DisintegrationVertexConsumer(VertexConsumer delegate, RenderType renderType, float ticks) {
 		this.delegate = delegate;
 		this.canUseIntrinsics = VertexBufferWriter.tryOf(delegate) != null;
 
 		float progress = 1 - Math.min(ticks / EntityExt.DISINTEGRATE_TICKS, 1);
 		float alpha = 1 - Math.min((Math.max(0, progress - TRANSLUCENCY_START_PROGRESS) / (1 - TRANSLUCENCY_START_PROGRESS)) * 3, 1);
-		this.packedColor = ColorABGR.pack(DARKEN, DARKEN, DARKEN, alpha);
+		this.packedColor = DONT_DARKEN_RENDER_TYPES.contains(renderType.name) ? ColorABGR.withAlpha(0xFFFFFF, alpha) : ColorABGR.pack(DARKEN, DARKEN, DARKEN, alpha);
 		this.delta = Math.min(progress * (1 + TRANSLUCENCY_START_PROGRESS), 1);
 	}
 

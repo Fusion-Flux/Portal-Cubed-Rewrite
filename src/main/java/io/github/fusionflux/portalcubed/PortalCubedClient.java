@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBootsModel;
 import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
-import io.github.fusionflux.portalcubed.content.prop.PropModels;
+import io.github.fusionflux.portalcubed.content.prop.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
@@ -45,7 +45,7 @@ public class PortalCubedClient implements ClientModInitializer {
 
 		LongFallBootsModel.init();
 		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT.location(), false);
-		PropModels.register();
+		PropModelCache.register();
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 
 		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);
