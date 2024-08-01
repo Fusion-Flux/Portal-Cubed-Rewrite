@@ -26,6 +26,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -62,6 +63,7 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		ItemStack held = user.getItemInHand(hand);
 		if (user.isSecondaryUseActive()) {
 			tryOpenConfig(user, hand);
+			user.awardStat(Stats.ITEM_USED.get(this));
 			return InteractionResultHolder.success(held);
 		}
 

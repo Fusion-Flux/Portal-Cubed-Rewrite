@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,6 +35,7 @@ public class CrowbarItem extends Item implements DirectClickItem {
 
 	public void onSwing(Player player, @Nullable HitResult hit, boolean didSwingAnim) {
 		player.playSound(PortalCubedSounds.CROWBAR_SWING);
+		player.awardStat(Stats.ITEM_USED.get(this));
 		Level world = player.level();
 		if (!didSwingAnim) player.swing(InteractionHand.MAIN_HAND, !world.isClientSide);
 
@@ -59,7 +61,7 @@ public class CrowbarItem extends Item implements DirectClickItem {
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hitResult) {
 		this.onSwing(player, hitResult, false);
-		return TriState.FALSE;
+		return TriState.DEFAULT;
 	}
 
 	@Override
@@ -69,7 +71,7 @@ public class CrowbarItem extends Item implements DirectClickItem {
 
 	@Override
 	public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
-		if (state.getDestroySpeed(world, pos) != 0.0F) {
+		if (state.getDestroySpeed(world, pos) != 0) {
 			stack.hurtAndBreak(2, miner, e -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		}
 		return true;

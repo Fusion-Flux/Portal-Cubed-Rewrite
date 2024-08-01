@@ -3,13 +3,15 @@ package io.github.fusionflux.portalcubed.content.button.pedestal;
 import java.util.Locale;
 import java.util.Map;
 
+import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
+
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
-import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.framework.extension.BigShapeBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper.DefaultRotationValues;
@@ -50,7 +52,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, BigShapeBlock {
+public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, HammerableBlock, BigShapeBlock {
 	// TODO: When data driven blocks drop this should probably be a more advanced codec
 	public static final MapCodec<PedestalButtonBlock> CODEC = simpleCodec(PedestalButtonBlock::new);
 
@@ -107,6 +109,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	}
 
 	@Override
+	@NotNull
 	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
 		return CODEC;
 	}
@@ -151,32 +154,37 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) ? 15 : 0;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) && state.getValue(FACE) == direction ? 15 : 0;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 		if (state.getValue(ACTIVE)) {
 			world.setBlock(pos, state.setValue(ACTIVE, false), Block.UPDATE_ALL);
-			updateNeighbours(state, world, pos);
+			this.updateNeighbours(state, world, pos);
 			world.gameEvent(null, GameEvent.BLOCK_DEACTIVATE, pos);
-			playSound(null, world, pos, false);
+			this.playSound(null, world, pos, false);
 		}
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
+	@NotNull
 	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
 		if (state.getValue(WATERLOGGED))
 			world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -184,38 +192,46 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
+	@NotNull
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return shapes.get(state);
+		return this.shapes.get(state);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
+	@NotNull
 	public FluidState getFluidState(BlockState state) {
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Override
+	@NotNull
+	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player) {
+		if (player instanceof ServerPlayer serverPlayer)
+			PortalCubedPackets.sendToClient(serverPlayer, new OpenPedestalButtonConfigPacket(pos));
+		return InteractionResult.sidedSuccess(world.isClientSide);
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	@NotNull
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (player.getAbilities().mayBuild && HammerItem.usingHammer(player)) {
-			if (player instanceof ServerPlayer hammerUser)
-				PortalCubedPackets.sendToClient(hammerUser, new OpenPedestalButtonConfigPacket(pos));
+		if (state.getValue(ACTIVE)) {
+			return InteractionResult.CONSUME;
 		} else {
-			if (state.getValue(ACTIVE)) {
-				return InteractionResult.CONSUME;
-			} else {
-				press(player, state, world, pos);
-			}
+			this.press(player, state, world, pos);
 		}
 		return InteractionResult.sidedSuccess(world.isClientSide);
 	}
 
 	private void press(@Nullable Player player, BlockState state, Level world, BlockPos pos) {
 		world.setBlock(pos, state.setValue(ACTIVE, true), Block.UPDATE_ALL);
-		updateNeighbours(state, world, pos);
+		this.updateNeighbours(state, world, pos);
 		world.gameEvent(player, GameEvent.BLOCK_ACTIVATE, pos);
 		if (world.getBlockEntity(pos) instanceof PedestalButtonBlockEntity pedestalButton)
 			world.scheduleTick(pos, this, pedestalButton.getPressTime());
-		playSound(player, world, pos, true);
+		this.playSound(player, world, pos, true);
 	}
 
 	private void updateNeighbours(BlockState state, Level world, BlockPos pos) {
@@ -224,7 +240,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	}
 
 	private void playSound(@Nullable Player player, LevelAccessor world, BlockPos pos, boolean pressed) {
-		world.playSound(player, pos, pressed ? pressSound : releaseSound, SoundSource.BLOCKS);
+		world.playSound(player, pos, pressed ? this.pressSound : this.releaseSound, SoundSource.BLOCKS);
 	}
 
 	@Override
@@ -258,6 +274,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		}
 
 		@Override
+		@NotNull
 		public String getSerializedName() {
 			return name;
 		}
