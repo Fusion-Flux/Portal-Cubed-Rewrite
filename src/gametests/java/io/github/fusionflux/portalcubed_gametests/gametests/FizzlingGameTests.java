@@ -1,5 +1,10 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
+
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+
 import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
@@ -30,5 +35,13 @@ public class FizzlingGameTests implements QuiltGameTest {
 	  // waiting on a fix for this
 
 	//Test fizzling items emitting a vibration properly
-	  // waiting on a fix for this
+	@GameTest(template = GROUP + "fizzle_vibration")
+	public void fizzleVibration(GameTestHelper helper) {
+		Entity armorStand = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(3, 2, 3));
+
+		helper.runAfterDelay(20, () -> {
+			FizzleBehaviour.DISINTEGRATION.fizzle(armorStand);
+			helper.succeedWhen(() -> helper.assertBlockProperty(new BlockPos(1, 1, 1), RedstoneLampBlock.LIT, true));
+		});
+	}
 }
