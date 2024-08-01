@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 public class DisintegrationRenderer {
-	public static final ResourceLocation FLASH_TEXTURE = PortalCubed.id("textures/entity/fizzle_flash.png");
+	public static final ResourceLocation FLASH_TEXTURE = PortalCubed.id("textures/misc/fizzle_flash.png");
 	public static final float FLASH_SIZE = 3f/4f;
 	public static final float FLASH_SPEED = 0.7f;
 	public static final float MIN_FLASH_ALPHA = 0.4f;
