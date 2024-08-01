@@ -96,11 +96,15 @@ public class PropGameTests implements QuiltGameTest {
 		}));
 	}
 
-	//Test for props being fizzled by goo.  For now, just cubes, but could be expanded later
+	//Test for props being fizzled by goo.  Also checks a prop in the goo immunity tag
 	@GameTest(template = GROUP + "fizzle_goo")
 	public void fizzleGoo(GameTestHelper helper) {
 		Prop storageCube = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 4, 1));
-		helper.succeedWhen(() -> helper.assertEntityNotPresent(storageCube.getType()));
+		Prop radio = spawnProp(helper, PropType.RADIO, new BlockPos(1, 4, 3));
+		helper.succeedWhen(() -> {
+			helper.assertEntityNotPresent(storageCube.getType());
+			helper.assertEntityPresent(radio.getType());
+		});
 	}
 
 	//Tests for companion cubes becoming charred when in contact with fire or lava
@@ -117,7 +121,7 @@ public class PropGameTests implements QuiltGameTest {
 	}
 
 	//Tests for dirty/charred props being washed when dropped into water
-	//Note - add redirection cubes to this once they get added.  Maybe add cauldrons in a separate row, too
+	//Note - add redirection cubes to this once they get added.
 	@GameTest(template = GROUP + "prop_washing")
 	public void propWashing(GameTestHelper helper) {
 		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 1));
