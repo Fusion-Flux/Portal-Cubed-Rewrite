@@ -4,6 +4,7 @@ import io.github.fusionflux.portalcubed.content.crowbar.CrowbarItem;
 import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
+import io.github.fusionflux.portalcubed.mixin.LivingEntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import net.minecraft.client.Minecraft;
@@ -72,8 +73,7 @@ public class MinecraftMixin {
 				if (result == TriState.TRUE) {
 					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND, hitResult));
 				}
-				// Crowbar check or else there will be no delay between startAttack and continueAttack causing a double swing
-				cir.setReturnValue(direct instanceof CrowbarItem || result.toBoolean());
+				cir.setReturnValue(result.toBoolean());
 			}
 		}
 	}
@@ -99,18 +99,11 @@ public class MinecraftMixin {
 		}
 	}
 
-	@Inject(
-			method = "continueAttack",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V",
-					shift = At.Shift.AFTER
-			)
-	)
+	@Inject(method = "continueAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V"))
 	private void onContinueAttack(CallbackInfo ci) {
 		ItemStack stack = this.player.getItemInHand(InteractionHand.MAIN_HAND);
-		boolean didSwing = this.player.swingTime == -1; // best way to check because swing doesn't return a boolean
-		if (stack.getItem() instanceof CrowbarItem crowbar && this.hitResult instanceof BlockHitResult hit && didSwing)
+		int swingDuration = ((LivingEntityAccessor) this.player).callGetCurrentSwingDuration();
+		if (stack.getItem() instanceof CrowbarItem crowbar && this.hitResult instanceof BlockHitResult hit && this.player.swingTime == swingDuration / 2)
 			crowbar.onSwing(this.player, hit, true);
 	}
 }

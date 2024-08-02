@@ -35,7 +35,6 @@ public class CrowbarItem extends Item implements DirectClickItem {
 
 	public void onSwing(Player player, @Nullable HitResult hit, boolean didSwingAnim) {
 		player.playSound(PortalCubedSounds.CROWBAR_SWING);
-		player.awardStat(Stats.ITEM_USED.get(this));
 		Level world = player.level();
 		if (!didSwingAnim) player.swing(InteractionHand.MAIN_HAND, !world.isClientSide);
 
@@ -47,6 +46,7 @@ public class CrowbarItem extends Item implements DirectClickItem {
 			BulletHoleMaterial.forState(state).ifPresent(material -> {
 				Vec3 location = hit.getLocation();
 				world.playSound(null, location.x, location.y, location.z, material.impactSound, player.getSoundSource());
+				player.awardStat(Stats.ITEM_USED.get(this));
 				Direction dir = blockHit.getDirection();
 				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, location.x, location.y, location.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
 				for (ServerPlayer tracking : PlayerLookup.tracking(serverPlayer.serverLevel(), blockHit.getBlockPos())) {
