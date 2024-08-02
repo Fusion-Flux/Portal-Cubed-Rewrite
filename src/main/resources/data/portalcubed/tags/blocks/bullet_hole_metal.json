@@ -93,8 +93,6 @@
     "portalcubed:portal_1_metal_tile_facade",
 
     "portalcubed:elevator_wall_end",
-    "portalcubed:elevator_wall_middle",
-
-    "portalcubed:pedestal_button"
+    "portalcubed:elevator_wall_middle"
   ]
 }
