@@ -46,6 +46,15 @@
   "commands.portalcubed.fizzle.paint_clearing.failure": "Could not clear the paint of %s",
   "commands.portalcubed.fizzle.paint_clearing.failure.multiple": "Could not clear the paint of %s entities",
 
+  "commands.portalcubed.client.portal_recursions.query": "Number of portal recursions is currently set to %s",
+  "commands.portalcubed.client.portal_recursions.success": "Set number of portal recursions to %s",
+  "commands.portalcubed.client.portal_recursions.failure": "Could not set number of portal recursions to %1$s: %2$s",
+  "commands.portalcubed.client.portal_recursions.failure.out_of_range": "Must be between %1$s and %2$s",
+
+  "commands.portalcubed.client.portal_rendering.query": "Portal rendering is currently %s",
+  "commands.portalcubed.client.portal_rendering.toggle": "Portal rendering is now %s",
+  "commands.portalcubed.client.portal_rendering.enabled": "enabled",
+  "commands.portalcubed.client.portal_rendering.disabled": "disabled",
 
   "item.portalcubed.construction_cannon.material": "Material: ",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
