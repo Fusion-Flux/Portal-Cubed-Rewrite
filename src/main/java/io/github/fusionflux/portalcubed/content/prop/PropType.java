@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.Locale;
-import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
@@ -29,6 +28,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityType.EntityFactory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+
+import org.jetbrains.annotations.Nullable;
 
 public enum PropType {
 	BEANS                  (EntityDimensions.fixed(.25f, .375f), SoundType.METAL),
@@ -88,7 +89,7 @@ public enum PropType {
 		return PortalCubedEntities.PROPS.get(this);
 	}
 
-	public boolean spawn(ServerLevel level, BlockPos pos, double yOffset, int variant, boolean randomizeVariant, Optional<Component> customName) {
+	public boolean spawn(ServerLevel level, BlockPos pos, double yOffset, int variant, boolean randomizeVariant, @Nullable Component customName) {
 		EntityType<Prop> entityType = PortalCubedEntities.PROPS.get(this);
 		Prop entity = entityType.create(level);
 		if (entity == null)
@@ -98,7 +99,7 @@ public enum PropType {
 		if (randomizeVariant && randomVariantOnSpawn)
 			variant = level.random.nextInt(variants.length - 1) + 1;
 		entity.setVariant(variant);
-		customName.ifPresent(entity::setCustomName);
+		entity.setCustomName(customName);
 		entity.setPos(pos.getX() + .5, pos.getY() + yOffset, pos.getZ() + .5);
 		return level.addFreshEntity(entity);
 	}
