@@ -254,9 +254,9 @@ public abstract class EntityMixin implements EntityExt {
 		if (this.disintegrating) cir.setReturnValue(true);
 	}
 
-	@Inject(method = "checkInsideBlocks", at = @At("HEAD"), cancellable = true)
-	private void dontCheckInsideBlocksIfDisintegrating(CallbackInfo ci) {
-		if (this.disintegrating) ci.cancel();
+	@Inject(method = "isAlive", at = @At("RETURN"), cancellable = true)
+	private void notAliveIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
+		if (this.disintegrating) cir.setReturnValue(false);
 	}
 
 	@Inject(method = "isIgnoringBlockTriggers", at = @At("RETURN"), cancellable = true)
