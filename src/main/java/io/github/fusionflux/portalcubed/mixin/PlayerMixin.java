@@ -1,8 +1,11 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 
@@ -52,6 +55,11 @@ public class PlayerMixin implements PlayerExt {
 			}
 			cir.setReturnValue(null);
 		}
+	}
+
+	@WrapWithCondition(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;touch(Lnet/minecraft/world/entity/Entity;)V"))
+	private boolean cantTouchDisintegratingEntities(Player player, Entity entity) {
+		return !entity.pc$disintegrating();
 	}
 
 	@Override
