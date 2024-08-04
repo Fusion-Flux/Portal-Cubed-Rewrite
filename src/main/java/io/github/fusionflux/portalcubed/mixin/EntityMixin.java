@@ -176,7 +176,7 @@ public abstract class EntityMixin implements EntityExt {
 		this.setDeltaMovement(velocity);
 
 		Level world = this.level();
-		if (--this.disintegrateTicks <= 0 && isAlive() && !world.isClientSide) {
+		if (--this.disintegrateTicks <= 0 && !world.isClientSide) {
 			if ((Object) this instanceof LivingEntity livingEntity) {
 				DamageSource damageSource = PortalCubedDamageSources.disintegration(world, livingEntity);
 				livingEntity.getCombatTracker().recordDamage(damageSource, Float.MAX_VALUE);
