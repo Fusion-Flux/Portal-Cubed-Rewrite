@@ -107,9 +107,6 @@ public abstract class EntityMixin implements EntityExt {
 	public abstract double getZ();
 
 	@Shadow
-	public abstract boolean isAlive();
-
-	@Shadow
 	public abstract EntityType<?> getType();
 
 	@Shadow
