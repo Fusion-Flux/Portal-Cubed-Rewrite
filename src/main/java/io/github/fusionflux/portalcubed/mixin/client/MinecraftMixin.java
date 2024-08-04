@@ -103,7 +103,7 @@ public class MinecraftMixin {
 	private void onContinueAttack(CallbackInfo ci) {
 		ItemStack stack = this.player.getItemInHand(InteractionHand.MAIN_HAND);
 		int swingDuration = ((LivingEntityAccessor) this.player).callGetCurrentSwingDuration();
-		if (stack.getItem() instanceof CrowbarItem crowbar && this.hitResult instanceof BlockHitResult hit && this.player.swingTime == swingDuration / 2)
+		if (stack.getItem() instanceof CrowbarItem crowbar && this.hitResult instanceof BlockHitResult hit && this.player.swingTime >= swingDuration / 2)
 			crowbar.onSwing(this.player, hit, true);
 	}
 }
