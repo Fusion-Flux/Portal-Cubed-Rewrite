@@ -203,10 +203,10 @@
   "subtitles.portalcubed.old_ap_timer": "Timer ticks",
   "subtitles.portalcubed.timer_ding": "Timer dings",
 
-  "subtitles.portalcubed.crowbar_swoosh": "Crowbar swooshes",
-  "subtitles.portalcubed.impact.concrete": "Concrete crumbles",
-  "subtitles.portalcubed.impact.metal": "Metal clangs",
-  "subtitles.portalcubed.impact.glass": "Glass cracks",
+  "subtitles.portalcubed.crowbar_swing": "Crowbar swooshes",
+  "subtitles.portalcubed.concrete_surface_impact": "Concrete crumbles",
+  "subtitles.portalcubed.metal_surface_impact": "Metal clangs",
+  "subtitles.portalcubed.glass_surface_impact": "Glass cracks",
 
   "subtitles.portalcubed.generic_prop_impact": "Object bumps into something",
   "subtitles.portalcubed.metal_prop_impact": "Metal object bumps into something",
@@ -231,8 +231,8 @@
 
   "advancement.portalcubed.hammer_time.title": "Stop - Hammer Time!",
   "advancement.portalcubed.hammer_time.description": "Use a Hammer to configure a test element",
-  "advancement.portalcubed.crowbar.title": "Crossover Episode",
-  "advancement.portalcubed.crowbar.description": "Obtain a Crowbar",
+  "advancement.portalcubed.crossover_episode.title": "Crossover Episode",
+  "advancement.portalcubed.crossover_episode.description": "Obtain a Crowbar",
 
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",
@@ -246,7 +246,7 @@
   "advancement.portalcubed.boots.title": "Good Work, Boots",
   "advancement.portalcubed.boots.description": "Prevent fall damage using the Long Fall Boots or Advanced Knee Replacements",
   "advancement.portalcubed.falling_with_style.title": "Falling With Style",
-  "advancement.portalcubed.falling_with_style.description": "Apply an Armor Trim a pair of Long Fall Boots",
+  "advancement.portalcubed.falling_with_style.description": "Apply an Armor Trim to a pair of Long Fall Boots",
   "advancement.portalcubed.feather_falling_boots.title": "Pointless Precaution",
   "advancement.portalcubed.feather_falling_boots.description": "Enchant a pair of Long Fall Boots or Advanced Knee Replacements with Feather Falling",
 
@@ -383,6 +383,8 @@
   "item.portalcubed.lego_portal_gun": "Portal Gun (LEGO Dimensions)",
   "item.portalcubed.damaged_portal_gun": "Damaged Portal Gun (Portal Revolution)",
   "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
+  "item.portalcubed.missing_texture_portal_gun": "item.portalcubed.portal_gun",
+  "item.portalcubed.pistol_portal_gun": "Gun That Makes Holes (Not Bullet Holes)",
 
   "item.portalcubed.long_fall_boots": "Long Fall Boots",
   "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",

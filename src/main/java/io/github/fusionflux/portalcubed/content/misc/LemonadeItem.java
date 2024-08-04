@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.misc;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -87,6 +88,7 @@ public class LemonadeItem extends Item {
 		user.playSound(SoundEvents.IRON_TRAPDOOR_CLOSE, 1f, 1.7f);
 
 		user.startUsingItem(hand);
+		user.awardStat(Stats.ITEM_USED.get(this));
 		return InteractionResultHolder.consume(stack);
 	}
 

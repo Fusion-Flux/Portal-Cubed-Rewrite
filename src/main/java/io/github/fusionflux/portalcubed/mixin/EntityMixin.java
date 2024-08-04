@@ -17,8 +17,10 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
@@ -34,6 +36,27 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.block.state.BlockState;
+
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
+
+import org.quiltmc.qsl.networking.api.PlayerLookup;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
+import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
@@ -100,7 +123,13 @@ public abstract class EntityMixin implements EntityExt {
 	public abstract double getZ();
 
 	@Shadow
-	public abstract boolean isAlive();
+	public abstract EntityType<?> getType();
+
+	@Shadow
+	public abstract AABB getBoundingBox();
+
+	@Shadow
+	public abstract Vec3 position();
 
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
@@ -146,11 +175,13 @@ public abstract class EntityMixin implements EntityExt {
 	@Override
 	public boolean pc$disintegrate() {
 		if (!this.disintegrating) {
-			if (this.level() instanceof ServerLevel && (Object) this instanceof Entity self) {
+			if (this.level() instanceof ServerLevel world && (Object) this instanceof Entity self) {
+				world.gameEvent(self, GameEvent.ENTITY_DIE, this.position());
+
 				// In portal buttons push back on the objects that are on them, disintegration makes objects lose all their mass, so they get ejected but we cant do that here so lets just apply a slight force
 				BlockState feetState = this.getFeetBlockState();
 				if (feetState.getBlock() instanceof FloorButtonBlock floorButton && floorButton.isEntityPressing(feetState, this.blockPosition(), self))
-					setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
+					this.setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
 
 				this.disintegrateTicks = DISINTEGRATE_TICKS;
 				Collection<ServerPlayer> tracking = (Object) this instanceof ServerPlayer serverPlayer ? PortalCubedPackets.trackingAndSelf(serverPlayer) : PlayerLookup.tracking(self);
@@ -158,7 +189,7 @@ public abstract class EntityMixin implements EntityExt {
 				for (ServerPlayer toUpdate : tracking) {
 					PortalCubedPackets.sendToClient(toUpdate, packet);
 				}
-				stopRiding();
+				this.stopRiding();
 			}
 			this.disintegrating = true;
 			return true;
@@ -192,7 +223,7 @@ public abstract class EntityMixin implements EntityExt {
 		this.setDeltaMovement(velocity);
 
 		Level world = this.level();
-		if (--this.disintegrateTicks <= 0 && isAlive() && !world.isClientSide) {
+		if (--this.disintegrateTicks <= 0 && !world.isClientSide) {
 			if ((Object) this instanceof LivingEntity livingEntity) {
 				DamageSource damageSource = PortalCubedDamageSources.disintegration(world, livingEntity);
 				livingEntity.getCombatTracker().recordDamage(damageSource, Float.MAX_VALUE);
@@ -200,16 +231,36 @@ public abstract class EntityMixin implements EntityExt {
 				livingEntity.die(damageSource);
 			}
 			if (!((Object) this instanceof Player)) this.discard();
+			if ((Object) this instanceof ItemEntity itemEntity) itemEntity.getItem().onDestroyed(itemEntity);
 		} else if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
-			double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
-			for (int i = 0; i < Math.min(Math.round(volume*61.44), 1000); i++) { //magic number is based around a cube-sized entity having 15 particles/tick.  capped to 1000/tick
-				double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
-				double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 2.5));
-				double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 2.5);
-				double velocityX = this.random.nextGaussian();
-				double velocityY = this.random.nextGaussian();
-				double velocityZ = this.random.nextGaussian();
-				world.addParticle(ParticleTypes.ASH, getX() + xOffset, getY() + yOffset, getZ() + zOffset, velocityX, velocityY, velocityZ);
+			EntityType<?> type = this.getType();
+			if (!type.is(PortalCubedEntityTags.FIZZLES_WITHOUT_DARK_PARTICLES)) { // Portal 1 props don't make ash when fizzled
+				double volume = this.getBbWidth() * this.getBbWidth() * this.getBbHeight();
+				for (int i = 0; i < Math.min(Math.max(Math.round(volume*15), 1), 100); i++) { // Capped to 100/tick so that fizzling something large doesn't instantly kill performance.  Use the largest of 15*volume/tick OR 1/tick, to prevent entities with small volumes (mug, item) from not making ash
+					double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 3);
+					double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 3));
+					double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 3);
+					double velocityX = this.random.nextGaussian();
+					double velocityY = this.random.nextGaussian();
+					double velocityZ = this.random.nextGaussian();
+					world.addParticle(PortalCubedParticles.FIZZLE_DARK, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset, velocityX, velocityY, velocityZ);
+				}
+			}
+			// Some props don't make the bright particles, and Portal 1 props have an alternate bright particle type
+			Vec3 center = this.getBoundingBox().getCenter();
+			if (!type.is(PortalCubedEntityTags.FIZZLES_WITHOUT_BRIGHT_PARTICLES)) {
+				if (!type.is(PortalCubedEntityTags.FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES)) {
+					for (int i = 0; i < 3; i++) {
+						world.addParticle(PortalCubedParticles.FIZZLE_BRIGHT, center.x, center.y, center.z, 0, 0, 0);
+					}
+				} else {
+					for (int i = 0; i < 3; i++) {
+						double xOffset = this.random.nextGaussian() * (this.getBbWidth() / 3.8);
+						double yOffset = .2 + (this.random.nextGaussian() * (this.getBbHeight() / 3.8));
+						double zOffset = this.random.nextGaussian() * (this.getBbWidth() / 3.8);
+						world.addParticle(PortalCubedParticles.FIZZLE_BRIGHT_ALTERNATE, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset, 0, 0, 0);
+					}
+				}
 			}
 		}
 	}
@@ -250,9 +301,9 @@ public abstract class EntityMixin implements EntityExt {
 		if (this.disintegrating) cir.setReturnValue(true);
 	}
 
-	@Inject(method = "checkInsideBlocks", at = @At("HEAD"), cancellable = true)
-	private void dontCheckInsideBlocksIfDisintegrating(CallbackInfo ci) {
-		if (this.disintegrating) ci.cancel();
+	@Inject(method = "isAlive", at = @At("RETURN"), cancellable = true)
+	private void notAliveIfDisintegrating(CallbackInfoReturnable<Boolean> cir) {
+		if (this.disintegrating) cir.setReturnValue(false);
 	}
 
 	@Inject(method = "isIgnoringBlockTriggers", at = @At("RETURN"), cancellable = true)

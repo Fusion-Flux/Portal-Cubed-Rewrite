@@ -2,7 +2,7 @@
   "display": {
     "icon": {
       "item": "portalcubed:long_fall_boots",
-      "nbt": "{Trim:{pattern:tide,material:lapis}}"
+      "nbt": "{Trim:{pattern:tide,material:emerald}}"
     },
     "title": {
       "translate": "advancement.portalcubed.falling_with_style.title"

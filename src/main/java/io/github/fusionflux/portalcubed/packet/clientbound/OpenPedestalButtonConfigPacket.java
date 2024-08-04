@@ -5,7 +5,6 @@ import org.quiltmc.qsl.networking.api.PacketSender;
 
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonConfigScreen;
-import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.Minecraft;
@@ -33,8 +32,8 @@ public record OpenPedestalButtonConfigPacket(BlockPos pedestalButtonPos) impleme
 	@ClientOnly
 	@Override
 	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
-		var client = Minecraft.getInstance();
-		if (client.screen == null && HammerItem.usingHammer(player) && client.level.getBlockEntity(pedestalButtonPos) instanceof PedestalButtonBlockEntity pedestalButton)
+		Minecraft client = Minecraft.getInstance();
+		if (client.screen == null && player.level().getBlockEntity(pedestalButtonPos) instanceof PedestalButtonBlockEntity pedestalButton)
 			client.setScreen(new PedestalButtonConfigScreen(pedestalButton));
 	}
 }

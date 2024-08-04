@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed_gametests.gametests;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed_gametests.Batches;
@@ -18,6 +19,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.RedstoneLampBlock;
+
+import net.minecraft.world.phys.Vec3;
 
 import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 
@@ -45,10 +48,40 @@ public class PropGameTests implements QuiltGameTest {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 3, 0));
 		spawnProp(helper, PropType.BEANS, new BlockPos(2, 3, 4));
 		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
+				helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
+				}));
+	}
+
+	//Test for cubes falling out of wall cube buttons.
+	@GameTest(template = GROUP + "wall_cube_button")
+	public void wallCubeButton(GameTestHelper helper) {
+		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(3, 2, 0));
+		Vec3 wallButtonPos = helper.absoluteVec(new Vec3(2, 3.2, 1.5));
+		gerald.setPos(wallButtonPos);
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () ->
+				helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(3, 3, 2), RedstoneLampBlock.LIT, false);
+				}));
+	}
+
+	//Test for fizzled cubes being pushed away from buttons.
+	@GameTest(template = GROUP + "fizzle_prop_on_button")
+	public void fizzlePropOnButton(GameTestHelper helper) {
+		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 0));
+		Prop aSecondGeraldHasHitTheGametest = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 4));
+
+		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
+			FizzleBehaviour.DISINTEGRATION.fizzle(gerald);
+			FizzleBehaviour.DISINTEGRATION.fizzle(aSecondGeraldHasHitTheGametest);
+
 			helper.succeedWhen(() -> {
-				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, true);
+				helper.assertBlockProperty(new BlockPos(0, 2, 0), RedstoneLampBlock.LIT, false);
 				helper.assertBlockProperty(new BlockPos(0, 2, 4), RedstoneLampBlock.LIT, false);
-		}));
+			});
+		});
 	}
 
 	//Test for entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
@@ -63,11 +96,15 @@ public class PropGameTests implements QuiltGameTest {
 		}));
 	}
 
-	//Test for props being fizzled by goo.  For now, just cubes, but could be expanded later
+	//Test for props being fizzled by goo.  Also checks a prop in the goo immunity tag
 	@GameTest(template = GROUP + "fizzle_goo")
 	public void fizzleGoo(GameTestHelper helper) {
 		Prop storageCube = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 4, 1));
-		helper.succeedWhen(() -> helper.assertEntityNotPresent(storageCube.getType()));
+		Prop radio = spawnProp(helper, PropType.RADIO, new BlockPos(1, 4, 3));
+		helper.succeedWhen(() -> {
+			helper.assertEntityNotPresent(storageCube.getType());
+			helper.assertEntityPresent(radio.getType());
+		});
 	}
 
 	//Tests for companion cubes becoming charred when in contact with fire or lava
@@ -84,7 +121,7 @@ public class PropGameTests implements QuiltGameTest {
 	}
 
 	//Tests for dirty/charred props being washed when dropped into water
-	//Note - add redirection cubes to this once they get added.  Maybe add cauldrons in a separate row, too
+	//Note - add redirection cubes to this once they get added.
 	@GameTest(template = GROUP + "prop_washing")
 	public void propWashing(GameTestHelper helper) {
 		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 1));
@@ -147,10 +184,10 @@ public class PropGameTests implements QuiltGameTest {
 		Prop smackedCube = spawnProp(helper, PropType.PORTAL_1_STORAGE_CUBE, new BlockPos(1, 2, 1));
 
 		Player gerald = helper.makeMockSurvivalPlayer();
-		Player gerald_two_the_long_awaited_sequel = helper.makeMockSurvivalPlayer();
+		Player geraldTwoTheLongAwaitedSequel = helper.makeMockSurvivalPlayer();
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(PortalCubedItems.HAMMER));
 		gerald.attack(hammeredCube);
-		gerald_two_the_long_awaited_sequel.attack(smackedCube);
+		geraldTwoTheLongAwaitedSequel.attack(smackedCube);
 
 		helper.succeedIf(() -> {
 			helper.assertEntityPresent(smackedCube.getType());

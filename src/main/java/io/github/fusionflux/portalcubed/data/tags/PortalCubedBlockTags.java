@@ -12,6 +12,11 @@ public class PortalCubedBlockTags {
 	public static final TagKey<Block> CONFETTI = create("confetti");
 	public static final TagKey<Block> CONNECTING_DIRECTIONAL_BLOCKS = create("connecting_directional_blocks");
 
+	public static final TagKey<Block> BULLET_HOLE_CONCRETE = create("bullet_hole_concrete");
+	public static final TagKey<Block> BULLET_HOLE_GLASS = create("bullet_hole_glass");
+	public static final TagKey<Block> BULLET_HOLE_METAL = create("bullet_hole_metal");
+	public static final TagKey<Block> CROWBAR_MAKES_HOLES = create("crowbar_makes_holes");
+
 	private static TagKey<Block> create(String name) {
 		return TagKey.create(Registries.BLOCK, PortalCubed.id(name));
 	}

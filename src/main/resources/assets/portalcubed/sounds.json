@@ -302,6 +302,75 @@
     ],
     "subtitle": "subtitles.portalcubed.error_impact"
   },
+  "concrete_surface_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:surface_impact/concrete_impact_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/concrete_impact_2",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/concrete_impact_3",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/concrete_impact_4",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.concrete_surface_impact"
+  },
+  "glass_surface_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:surface_impact/glass_impact_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/glass_impact_2",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/glass_impact_3",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/glass_impact_4",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.glass_surface_impact"
+  },
+  "metal_surface_impact": {
+    "sounds": [
+      {
+        "name": "portalcubed:surface_impact/metal_impact_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/metal_impact_2",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/metal_impact_3",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:surface_impact/metal_impact_4",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.metal_surface_impact"
+  },
+  "crowbar_swing": {
+    "sounds": [
+      "portalcubed:crowbar_swing"
+    ],
+    "subtitle": "subtitles.portalcubed.crowbar_swing"
+  },
   "portal_gun_grab": {
     "sounds": [
       {

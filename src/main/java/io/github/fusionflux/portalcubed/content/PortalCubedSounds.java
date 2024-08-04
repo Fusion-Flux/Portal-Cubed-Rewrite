@@ -37,6 +37,12 @@ public class PortalCubedSounds {
 	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon_obstructed");
 	public static final SoundEvent CONSTRUCTION_CANNON_MISSING_MATERIALS = register("construction_cannon_missing_materials");
 
+	public static final SoundEvent CROWBAR_SWING = register("crowbar_swing");
+
+	public static final SoundEvent CONCRETE_SURFACE_IMPACT = register("concrete_surface_impact");
+	public static final SoundEvent GLASS_SURFACE_IMPACT = register("glass_surface_impact");
+	public static final SoundEvent METAL_SURFACE_IMPACT = register("metal_surface_impact");
+
 	public static final SoundEvent SURPRISE = register("surprise");
 
 	public static final SoundEvent SEWAGE_STEP = register("sewage_step");

@@ -223,6 +223,7 @@ public class PortalCubedTabs {
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+			output.accept(PortalCubedItems.CROWBAR);
 			output.accept(PortalCubedItems.RAW_MAGNESIUM);
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
@@ -254,6 +255,8 @@ public class PortalCubedTabs {
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 209, "missing_texture_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 210, "pistol_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
@@ -339,6 +342,8 @@ public class PortalCubedTabs {
 		output.accept(stack);
 	}
 
+	//Once portal customization is real, duplicate this function as addPortalGunVariant and add portal customization stuff to it.
+	//This one will still get used, but only for a few things
 	private static void addItemVariant(CreativeModeTab.Output output, Item item, int cmd, String lang) {
 		ItemStack stack = new ItemStack(item);
 		stack.getOrCreateTag().putInt("CustomModelData", cmd);
@@ -384,7 +389,6 @@ public class PortalCubedTabs {
 			entries.addAfter(PortalCubedBlocks.LEMON_DOOR, PortalCubedBlocks.LEMON_TRAPDOOR);
 			entries.addAfter(PortalCubedBlocks.LEMON_TRAPDOOR, PortalCubedBlocks.LEMON_PRESSURE_PLATE);
 			entries.addAfter(PortalCubedBlocks.LEMON_PRESSURE_PLATE, PortalCubedBlocks.LEMON_BUTTON);
-
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
@@ -406,9 +410,10 @@ public class PortalCubedTabs {
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
 			entries.addAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT);
 			entries.addAfter(PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
+			entries.addAfter(Items.NETHERITE_HOE, PortalCubedItems.HAMMER);
+			entries.addAfter(PortalCubedItems.HAMMER, PortalCubedItems.CROWBAR);
 			entries.addAfter(Items.MILK_BUCKET, PortalCubedItems.GOO_BUCKET);
 			entries.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, PortalCubedItems.CONSTRUCTION_CANNON);
-
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
