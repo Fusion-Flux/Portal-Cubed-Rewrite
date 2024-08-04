@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
+import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import net.minecraft.client.CameraType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
@@ -12,7 +13,6 @@ import org.quiltmc.qsl.networking.api.PacketSender;
 
 import io.github.fusionflux.portalcubed.content.cannon.CannonUseResult;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
-import io.github.fusionflux.portalcubed.framework.extension.ItemInHandRendererExt;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.Minecraft;
@@ -47,11 +47,9 @@ public record ShootCannonPacket(InteractionHand hand, CannonUseResult useResult)
 	@ClientOnly
 	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		if (player.getItemInHand(hand).getItem() instanceof ConstructionCannonItem) {
-			var itemInHandRenderer = Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer();
-			((ItemInHandRendererExt) itemInHandRenderer).pc$constructionCannonShoot(useResult);
-			if (this.useResult == CannonUseResult.PLACED) {
+			ConstructionCannonAnimator.onShoot(useResult);
+			if (this.useResult == CannonUseResult.PLACED)
 				spawnParticlesForPlayer(player);
-			}
 		}
 	}
 

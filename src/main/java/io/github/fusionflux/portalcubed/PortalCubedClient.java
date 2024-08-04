@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
+import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBootsModel;
 import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.player.Player;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.entity.event.api.client.ClientEntityTickCallback;
+import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
 public class PortalCubedClient implements ClientModInitializer {
 	@Override
@@ -49,6 +51,8 @@ public class PortalCubedClient implements ClientModInitializer {
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 
 		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);
+
+		ClientTickEvents.END.register(ConstructionCannonAnimator::tick);
 
 		ClientEntityTickCallback.EVENT.register((entity, isPassengerTick) -> {
 			if (entity instanceof Player player) {
