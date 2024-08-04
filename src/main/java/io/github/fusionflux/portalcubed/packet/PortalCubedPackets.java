@@ -37,7 +37,6 @@ public class PortalCubedPackets {
 	public static final ResourceLocation UPDATE_PORTAL_PAIR = clientbound("update_portal_pair", UpdatePortalPairPacket::new);
 	public static final ResourceLocation PLAIN_TELEPORT = clientbound("plain_teleport", PlainTeleportPacket::new);
 	public static final ResourceLocation OPEN_PEDESTAL_BUTTON_CONFIG = clientbound("open_pedestal_button_config", OpenPedestalButtonConfigPacket::new);
-	public static final ResourceLocation CREATE_PORTAL = clientbound("create_portal", CreatePortalPacket::new);
 	public static final ResourceLocation SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket::new);
 	public static final ResourceLocation SHOOT_CANNON = clientbound("shoot_cannon", ShootCannonPacket::new);
 	public static final ResourceLocation SHOOT_CANNON_OTHER = clientbound("shoot_cannon_other", OtherPlayerShootCannonPacket::new);
