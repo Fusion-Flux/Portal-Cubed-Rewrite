@@ -12,6 +12,7 @@
     "CrabInTheOutputMessage",
     "EntityAccessor",
     "EntityMixin",
+    "ItemEntityMixin",
     "ItemStackMixin",
     "LevelMixin",
     "LivingEntityAccessor",
