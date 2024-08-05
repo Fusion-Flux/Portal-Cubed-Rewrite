@@ -326,6 +326,7 @@
   "item.portalcubed.clipboard.4": "Hazard Warnings Clipboard",
   "item.portalcubed.clipboard.5": "Knee Replacement Clipboard",
   "item.portalcubed.clipboard.6": "Contract Clipboard",
+  "item.portalcubed.clipboard.tooltip.random": "Random variant",
 
   "item.portalcubed.mug": "Mug",
   "item.portalcubed.mug.1": "Blue Mug",
@@ -335,11 +336,13 @@
   "item.portalcubed.mug.5": "Orange Aperture Mug",
   "item.portalcubed.mug.6": "White Aperture Mug",
   "item.portalcubed.mug.7": "Blue Faith Plate Mug",
+  "item.portalcubed.mug.tooltip.random": "Random variant",
 
   "item.portalcubed.oil_drum": "Oil Drum",
   "item.portalcubed.oil_drum.1": "Blue Oil Drum",
   "item.portalcubed.oil_drum.2": "White Oil Drum",
   "item.portalcubed.oil_drum.3": "Brown Oil Drum",
+  "item.portalcubed.oil_drum.tooltip.random": "Random variant",
 
   "item.portalcubed.lil_pineapple": "Lil' Pineapple",
   "item.portalcubed.lil_pineapple.1": "Ace Lil' Prideapple",
