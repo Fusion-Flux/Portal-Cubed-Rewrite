@@ -13,6 +13,8 @@ import io.github.fusionflux.portalcubed.content.prop.entity.Radio;
 
 import io.github.fusionflux.portalcubed.content.prop.entity.Taco;
 
+import net.minecraft.world.entity.MobSpawnType;
+
 import org.apache.commons.lang3.stream.IntStreams;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -89,19 +91,12 @@ public enum PropType {
 		return PortalCubedEntities.PROPS.get(this);
 	}
 
-	public boolean spawn(ServerLevel level, BlockPos pos, double yOffset, int variant, boolean randomizeVariant, @Nullable Component customName) {
-		EntityType<Prop> entityType = PortalCubedEntities.PROPS.get(this);
-		Prop entity = entityType.create(level);
-		if (entity == null)
-			return false;
-
-		entity.setVariantFromItem(variant);
-		if (randomizeVariant && randomVariantOnSpawn)
-			variant = level.random.nextInt(variants.length - 1) + 1;
-		entity.setVariant(variant);
-		entity.setCustomName(customName);
-		entity.setPos(pos.getX() + .5, pos.getY() + yOffset, pos.getZ() + .5);
-		return level.addFreshEntity(entity);
+	public boolean spawn(ServerLevel world, BlockPos pos, MobSpawnType reason, boolean alignPosition, boolean invertY, int variant, boolean randomizeVariant, @Nullable Component customName) {
+		return this.entityType().spawn(world, null, prop -> {
+			prop.setVariantFromItem(variant);
+			prop.setVariant(!(randomizeVariant && randomVariantOnSpawn) ? variant : world.random.nextInt(variants.length - 1) + 1);
+			prop.setCustomName(customName);
+		}, pos, reason, alignPosition, invertY) != null;
 	}
 
 	@Override
