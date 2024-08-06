@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
+import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
@@ -21,6 +23,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -59,12 +62,17 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
 
 	public final PropType type;
+	private final SoundEvent impactSound;
+
 	private int variantFromItem;
 
 	public Prop(PropType type, EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.blocksBuilding = true;
 		this.type = type;
+		this.impactSound = ImpactSoundType.forEntityType(entityType)
+				.map(ImpactSoundType::sound)
+				.orElse(PortalCubedSounds.FIDDLE_STICKS);
 	}
 
 	public Optional<Boolean> isDirty() {
@@ -237,7 +245,7 @@ public class Prop extends HoldableEntity implements CollisionListener {
 			return;
 
 		if (!this.isSilent()) {
-			level.playSound(null, this.getX(), this.getY(), this.getZ(), this.type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
+			level.playSound(null, this.getX(), this.getY(), this.getZ(), this.impactSound, SoundSource.PLAYERS, 1, 1);
 			level.gameEvent(this, GameEvent.HIT_GROUND, this.position());
 		}
 
