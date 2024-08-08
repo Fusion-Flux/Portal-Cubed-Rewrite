@@ -12,6 +12,10 @@
             "permutations": {
                 "magnesium": "portalcubed:trims/color_palettes/magnesium"
             }
+        },
+        {
+          "type": "single",
+          "resource": "portalcubed:entity/portal_gun_pedestal/portal_gun_pedestal"
         }
     ]
 }

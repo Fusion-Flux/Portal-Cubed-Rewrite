@@ -166,6 +166,12 @@
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
 
+  "container.portalcubed.portal_gun_pedestal": "Portal Gun Pedestal",
+  "container.portalcubed.portal_gun_pedestal.ignore_stop": "Ignore this direction when rotating",
+  "container.portalcubed.portal_gun_pedestal.rotation_stop": "Rotate to this direction and pause",
+  "container.portalcubed.portal_gun_pedestal.fire_while_stopped": "Rotate to this direction and fire a portal",
+
+
   "attribute.name.generic.fall_damage_absorption": "Fall Damage Absorption",
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
@@ -231,7 +237,7 @@
   "advancement.portalcubed.cubes.description": "Obtain at least one of every cube type",
   "advancement.portalcubed.hoopy.title": "The Next Big Thing",
   "advancement.portalcubed.hoopy.description": "Hold Hoopy the Hoop",
-  "advancement.portalcubed.rattmann.title": "I am Rattmann",
+  "advancement.portalcubed.rattmann.title": "Garbage Collector",
   "advancement.portalcubed.rattmann.description": "Obtain every prop that can be found in a Rattmann den",
 
   "advancement.portalcubed.boots.title": "Good Work, Boots",
@@ -741,6 +747,8 @@
   "item.portalcubed.lemon": "Lemon",
   "item.portalcubed.lemonade": "Lemonade",
 
+
+  "block.portalcubed.portal_gun_pedestal": "Portal Gun Pedestal",
 
   "block.portalcubed.pedestal_button": "Pedestal Button",
   "block.portalcubed.old_ap_pedestal_button": "Old Aperture Pedestal Button",
