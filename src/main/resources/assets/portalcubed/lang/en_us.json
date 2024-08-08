@@ -167,12 +167,17 @@
   "container.portalcubed.pedestal_button.base": "Include Base",
 
   "container.portalcubed.portal_gun_pedestal": "Portal Gun Pedestal",
-  "container.portalcubed.portal_gun_pedestal.ignore_stop": "Ignore this direction when rotating",
-  "container.portalcubed.portal_gun_pedestal.rotation_stop": "Rotate to this direction and pause",
-  "container.portalcubed.portal_gun_pedestal.fire_while_stopped": "Rotate to this direction and fire a portal",
+  "container.portalcubed.portal_gun_pedestal.current_rotation": "Current rotation",
+  "container.portalcubed.portal_gun_pedestal.clockwise": "Clockwise Rotation",
+  "container.portalcubed.portal_gun_pedestal.counterclockwise": "Counterclockwise Rotation",
+  "container.portalcubed.portal_gun_pedestal.ignore_rotation": "Ignore this direction when rotating",
+  "container.portalcubed.portal_gun_pedestal.pause_rotation": "Pause briefly when rotating to this direction",
+  "container.portalcubed.portal_gun_pedestal.primary_fire_rotation": "Pause briefly and fire a primary portal when rotating to this direction",
+  "container.portalcubed.portal_gun_pedestal.secondary_fire_rotation": "Pause briefly and fire a secondary portal when rotating to this direction",
 
 
   "attribute.name.generic.fall_damage_absorption": "Fall Damage Absorption",
+
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
