@@ -28,4 +28,7 @@ workspace/
 
 # macOS
 *.DS_Store
+
+# Other
 /resources_template/
+*desktop.ini
