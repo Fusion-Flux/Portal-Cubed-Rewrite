@@ -184,6 +184,11 @@
   "subtitles.portalcubed.construction_cannon_obstructed": "Construction cannon beeps",
   "subtitles.portalcubed.construction_cannon_missing_materials": "Construction cannon clicks",
 
+  "subtitles.portalcubed.portal_gun_pedestal_charging": "Portal gun pedestal charges",
+  "subtitles.portalcubed.portal_gun_pedestal_turning": "Portal gun pedestal rotates",
+  "subtitles.portalcubed.portal_gun_pedestal_locking": "Portal gun pedestal locks",
+  "subtitles.portalcubed.portal_gun_pedestal_unlocking": "Portal gun pedestal unlocks",
+
   "subtitles.portalcubed.portal_gun_secondary_fire": "Portal gun shoots secondary portal",
   "subtitles.portalcubed.portal_gun_primary_fire": "Portal gun shoots primary portal",
   "subtitles.portalcubed.portal_invalid_surface": "Portal gun shot fails",
