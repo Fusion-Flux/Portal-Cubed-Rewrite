@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "portalcubed:block/cube_2x2",
   "textures": {
     "particle": "portalcubed:block/gray_2x2_chamber_exterior_b_bottom_left",
     "north": "portalcubed:block/gray_2x2_chamber_exterior_b_bottom_right",
