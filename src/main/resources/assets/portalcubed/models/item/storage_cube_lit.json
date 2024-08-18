@@ -1,9 +1,9 @@
 {
-	"credit": "Made with Blockbench by Cart3r.  ",
+	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 16],
 	"textures": {
 		"1": "portalcubed:item/storage_cube",
-		"2": "portalcubed:item/storage_cube_e",
+		"2": "portalcubed:item/storage_cubes_e",
 		"particle": "portalcubed:item/storage_cube"
 	},
 	"elements": [
@@ -25,12 +25,12 @@
 			"to": [13, 10, 13],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
-				"north": {"uv": [5, 0, 10, 10], "texture": "#2"},
-				"east": {"uv": [5, 0, 10, 10], "texture": "#2"},
-				"south": {"uv": [5, 0, 10, 10], "texture": "#2"},
-				"west": {"uv": [5, 0, 10, 10], "texture": "#2"},
-				"up": {"uv": [5, 0, 10, 10], "texture": "#2"},
-				"down": {"uv": [5, 0, 10, 10], "texture": "#2"}
+				"north": {"uv": [10, 0, 15, 10], "texture": "#2"},
+				"east": {"uv": [10, 0, 15, 10], "texture": "#2"},
+				"south": {"uv": [10, 0, 15, 10], "texture": "#2"},
+				"west": {"uv": [10, 0, 15, 10], "texture": "#2"},
+				"up": {"uv": [10, 0, 15, 10], "texture": "#2"},
+				"down": {"uv": [10, 0, 15, 10], "texture": "#2"}
 			}
 		},
 		{
@@ -83,7 +83,7 @@
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
-			"translation": [0, 3, 0],
+			"translation": [0, 3.225, 0],
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {

@@ -32,7 +32,7 @@ public enum PropType {
 	BEANS                  (EntityDimensions.fixed(.25f, .375f)),
 	CHAIR                  (1, false, EntityDimensions.fixed(.4375f, .46875f), Chair::new),
 	CLIPBOARD              (7, true, EntityDimensions.fixed(.5625f, .0625f)),
-	COMPANION_CUBE         (4, false, EntityDimensions.fixed(.625f, .625f), CompanionCube::new),
+	COMPANION_CUBE         (4, false, EntityDimensions.fixed(.675f, .675f), CompanionCube::new),
 	COMPUTER               (EntityDimensions.fixed(.5f, .1875f)),
 	COOKING_POT            (EntityDimensions.fixed(.43875f, .25125f)),
 	HOOPY                  (EntityDimensions.fixed(1.625f, .0625f)),
@@ -40,13 +40,13 @@ public enum PropType {
 	LIL_PINEAPPLE          (11, false, EntityDimensions.fixed(.5625f, .5f)),
 	MUG                    (8, true, EntityDimensions.fixed(.1875f, .25f)),
 	OIL_DRUM               (4, true, EntityDimensions.fixed(.5625f, .9375f)),
-	OLD_AP_CUBE            (EntityDimensions.fixed(.625f, .625f)),
-	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.625f, .625f)),
-	PORTAL_1_STORAGE_CUBE  (1, false, EntityDimensions.fixed(.625f, .625f)),
+	OLD_AP_CUBE            (EntityDimensions.fixed(.675f, .675f)),
+	PORTAL_1_COMPANION_CUBE(2, false, EntityDimensions.fixed(.675f, .675f)),
+	PORTAL_1_STORAGE_CUBE  (1, false, EntityDimensions.fixed(.675f, .675f)),
 	RADIO                  (5, false, EntityDimensions.fixed(.5625f, .3125f), Radio::new),
-	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
-	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .625f), P2CubeProp::new
-	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .625f), ButtonActivatedProp::new),
+	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.675f, .675f), P2CubeProp::new
+	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.675f, .675f), P2CubeProp::new
+	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.675f, .675f), ButtonActivatedProp::new),
 	THE_TACO			   (2, false, new TacoDimensions(), Taco::new, false),
 	ERROR                  (EntityDimensions.fixed(1f, 1f));
 
