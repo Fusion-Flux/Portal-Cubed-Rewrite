@@ -1,9 +1,14 @@
 package io.github.fusionflux.portalcubed.data.tags;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
+import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 public class PortalCubedEntityTags {
 	// props
@@ -11,12 +16,27 @@ public class PortalCubedEntityTags {
 	public static final TagKey<EntityType<?>> CAN_BE_CHARRED = create("can_be_charred");
 	public static final TagKey<EntityType<?>> CAN_BE_WASHED = create("can_be_washed");
 	public static final TagKey<EntityType<?>> DEALS_LANDING_DAMAGE = create("deals_landing_damage");
+	public static final Map<ImpactSoundType, TagKey<EntityType<?>>> IMPACT_SOUNDS = Util.make(new EnumMap<>(ImpactSoundType.class), map -> {
+		for (ImpactSoundType type : ImpactSoundType.values()) {
+			map.put(type, create(type.toString() + "_impact_sound"));
+		}
+	});
 
 	// floor buttons
 	public static final TagKey<EntityType<?>> PRESSES_CUBE_BUTTONS = create("presses_cube_buttons");
 	public static final TagKey<EntityType<?>> PRESSES_FLOOR_BUTTONS = create("presses_floor_buttons");
 
-	private static TagKey<EntityType<?>> create(String name) {
+	public static final TagKey<EntityType<?>> IMMUNE_TO_TOXIC_GOO = create("immune_to_toxic_goo");
+
+	// fizzling
+	public static final TagKey<EntityType<?>> DISINTEGRATES_WHEN_FIZZLED = create("disintegrates_when_fizzled");
+	public static final TagKey<EntityType<?>> IMMUNE_TO_DISINTEGRATION = create("immune_to_disintegration");
+	public static final TagKey<EntityType<?>> FIZZLES_WITHOUT_DARK_PARTICLES = create("fizzles_without_dark_particles");
+	public static final TagKey<EntityType<?>> FIZZLES_WITHOUT_BRIGHT_PARTICLES = create("fizzles_without_bright_particles");
+	public static final TagKey<EntityType<?>> FIZZLES_WITHOUT_FLASH = create("fizzles_without_flash");
+	public static final TagKey<EntityType<?>> FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES = create("fizzles_with_alternate_bright_particles");
+
+    private static TagKey<EntityType<?>> create(String name) {
 		return TagKey.create(Registries.ENTITY_TYPE, PortalCubed.id(name));
 	}
 }

@@ -69,8 +69,8 @@
 
   "item/construction_cannon": "item/construction_cannon_screen_e",
 
-  "item/error": "block/error",
-  "block/error": "block/error",
+  "item/error": "block/error_e",
+  "block/error": "block/error_e",
 
   "block/elevator_wall_top": [
     "block/elevator_wall_upper_e",

@@ -17,18 +17,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
 public class PortalCubedTabs {
-
-
 	public static final ResourceKey<CreativeModeTab> TEST_ELEMENTS = create("test_elements", builder -> {
 		builder.icon(() -> new ItemStack(PortalCubedItems.PORTAL_GUN));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
 			output.accept(PortalCubedItems.PORTAL_GUN);
+			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 			output.accept(PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
@@ -42,6 +43,7 @@ public class PortalCubedTabs {
 			addProp(output, PropType.COMPANION_CUBE);
 			addProp(output, PropType.OLD_AP_CUBE);
 			addProp(output, PropType.RADIO);
+			output.accept(PortalCubedItems.GOO_BUCKET);
 		});
 	});
 
@@ -53,10 +55,28 @@ public class PortalCubedTabs {
 		});
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+			output.accept(PortalCubedBlocks.PROP_BARRIER);
 			output.accept(PortalCubedBlocks.MAGNESIUM_ORE);
 			output.accept(PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
 			output.accept(PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
 			output.accept(PortalCubedBlocks.MAGNESIUM_BLOCK);
+			output.accept(PortalCubedBlocks.LEMON_LOG);
+			output.accept(PortalCubedBlocks.LEMON_WOOD);
+			output.accept(PortalCubedBlocks.STRIPPED_LEMON_LOG);
+			output.accept(PortalCubedBlocks.STRIPPED_LEMON_WOOD);
+			output.accept(PortalCubedBlocks.LEMON_PLANKS);
+			output.accept(PortalCubedBlocks.LEMON_STAIRS);
+			output.accept(PortalCubedBlocks.LEMON_SLAB);
+			output.accept(PortalCubedBlocks.LEMON_FENCE);
+			output.accept(PortalCubedBlocks.LEMON_FENCE_GATE);
+			output.accept(PortalCubedBlocks.LEMON_DOOR);
+			output.accept(PortalCubedBlocks.LEMON_TRAPDOOR);
+			output.accept(PortalCubedBlocks.LEMON_PRESSURE_PLATE);
+			output.accept(PortalCubedBlocks.LEMON_BUTTON);
+			output.accept(PortalCubedBlocks.LEMON_LEAVES);
+			output.accept(PortalCubedBlocks.LEMON_SAPLING);
+			output.accept(PortalCubedBlocks.LEMON_SIGN);
+			output.accept(PortalCubedBlocks.LEMON_HANGING_SIGN);
 			for (PanelMaterial material : PanelMaterial.values()) {
 				Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
 				for (PanelPart part : PanelPart.values()) {
@@ -196,10 +216,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_RIGHT);
 
 			output.accept(PortalCubedBlocks.SEWAGE);
-
 		});
-
-
 	 });
 
 	public static final ResourceKey<CreativeModeTab> PROPS_AND_ITEMS = create("props_and_items", builder -> {
@@ -207,99 +224,110 @@ public class PortalCubedTabs {
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
+			output.accept(PortalCubedItems.CROWBAR);
 			output.accept(PortalCubedItems.RAW_MAGNESIUM);
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
+			output.accept(PortalCubedItems.LEMON);
+			output.accept(PortalCubedItems.LEMONADE);
+			output.accept(PortalCubedItems.LEMON_BOAT);
+			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
+			output.accept(PortalCubedItems.GOO_BUCKET);
+			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 
 			// ----- portal guns -----
 
 			output.accept(PortalCubedItems.PORTAL_GUN);
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 3, "portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 4, "portal_gun_reloaded");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 101, "legacy_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 102, "legacy_portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 103, "legacy_portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 104, "legacy_portal_gun_reloaded");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 201, "mel_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 202, "2006_beta_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 203, "2005_beta_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 204, "bendy_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 205, "blueprint_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
-			addVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 1, "potatos_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 2, "portal_gun_atlas");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 3, "portal_gun_p_body");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 4, "portal_gun_reloaded");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 101, "legacy_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 102, "legacy_portal_gun_atlas");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 103, "legacy_portal_gun_p_body");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 104, "legacy_portal_gun_reloaded");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 201, "mel_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 202, "2006_beta_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 203, "2005_beta_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 204, "bendy_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 205, "blueprint_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 209, "missing_texture_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 210, "pistol_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 304, "2d_portal_gun_reloaded");
 
 			// ----- props -----
+			output.accept(PortalCubedBlocks.PROP_BARRIER);
 
 			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
 
 			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
-			addVariant(output, PropType.PORTAL_1_COMPANION_CUBE, 1);
+			addPropVariant(output, PropType.PORTAL_1_COMPANION_CUBE, 1);
 
 			addProp(output, PropType.STORAGE_CUBE);
-			addVariant(output, PropType.STORAGE_CUBE, 2);
+			addPropVariant(output, PropType.STORAGE_CUBE, 2);
 
 			addProp(output, PropType.COMPANION_CUBE);
-			addVariant(output, PropType.COMPANION_CUBE, 2);
+			addPropVariant(output, PropType.COMPANION_CUBE, 2);
 
 			addProp(output, PropType.OLD_AP_CUBE);
 
 			addProp(output, PropType.RADIO);
 
-			addVariant(output, PropType.RADIO, 1);
-			addVariant(output, PropType.RADIO, 2);
-			addVariant(output, PropType.RADIO, 3);
-			addVariant(output, PropType.RADIO, 4);
+			addPropVariant(output, PropType.RADIO, 1);
+			addPropVariant(output, PropType.RADIO, 2);
+			addPropVariant(output, PropType.RADIO, 3);
+			addPropVariant(output, PropType.RADIO, 4);
 
 			addProp(output, PropType.MUG);
-			addVariant(output, PropType.MUG, 1);
-			addVariant(output, PropType.MUG, 2);
-			addVariant(output, PropType.MUG, 3);
-			addVariant(output, PropType.MUG, 4);
-			addVariant(output, PropType.MUG, 5);
-			addVariant(output, PropType.MUG, 6);
-			addVariant(output, PropType.MUG, 7);
+			addPropVariant(output, PropType.MUG, 1);
+			addPropVariant(output, PropType.MUG, 2);
+			addPropVariant(output, PropType.MUG, 3);
+			addPropVariant(output, PropType.MUG, 4);
+			addPropVariant(output, PropType.MUG, 5);
+			addPropVariant(output, PropType.MUG, 6);
+			addPropVariant(output, PropType.MUG, 7);
 
 			addProp(output, PropType.CHAIR);
 			addProp(output, PropType.COMPUTER);
 
 			addProp(output, PropType.CLIPBOARD);
-			addVariant(output, PropType.CLIPBOARD, 1);
-			addVariant(output, PropType.CLIPBOARD, 2);
-			addVariant(output, PropType.CLIPBOARD, 3);
-			addVariant(output, PropType.CLIPBOARD, 4);
-			addVariant(output, PropType.CLIPBOARD, 5);
-			addVariant(output, PropType.CLIPBOARD, 6);
+			addPropVariant(output, PropType.CLIPBOARD, 1);
+			addPropVariant(output, PropType.CLIPBOARD, 2);
+			addPropVariant(output, PropType.CLIPBOARD, 3);
+			addPropVariant(output, PropType.CLIPBOARD, 4);
+			addPropVariant(output, PropType.CLIPBOARD, 5);
+			addPropVariant(output, PropType.CLIPBOARD, 6);
 
 			addProp(output, PropType.HOOPY);
 			addProp(output, PropType.BEANS);
 			addProp(output, PropType.JUG);
 
 			addProp(output, PropType.OIL_DRUM);
-			addVariant(output, PropType.OIL_DRUM, 1);
-			addVariant(output, PropType.OIL_DRUM, 2);
-			addVariant(output, PropType.OIL_DRUM, 3);
+			addPropVariant(output, PropType.OIL_DRUM, 1);
+			addPropVariant(output, PropType.OIL_DRUM, 2);
+			addPropVariant(output, PropType.OIL_DRUM, 3);
 
 			addProp(output, PropType.COOKING_POT);
 
 			addProp(output, PropType.LIL_PINEAPPLE);
-			addVariant(output, PropType.LIL_PINEAPPLE, 1);
-			addVariant(output, PropType.LIL_PINEAPPLE, 2);
-			addVariant(output, PropType.LIL_PINEAPPLE, 3);
-			addVariant(output, PropType.LIL_PINEAPPLE, 4);
-			addVariant(output, PropType.LIL_PINEAPPLE, 5);
-			addVariant(output, PropType.LIL_PINEAPPLE, 6);
-			addVariant(output, PropType.LIL_PINEAPPLE, 7);
-			addVariant(output, PropType.LIL_PINEAPPLE, 8);
-			addVariant(output, PropType.LIL_PINEAPPLE, 9);
-			addVariant(output, PropType.LIL_PINEAPPLE, 10);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 1);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 2);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 3);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 4);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 5);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 6);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 7);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 8);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 9);
+			addPropVariant(output, PropType.LIL_PINEAPPLE, 10);
 
 			addProp(output, PropType.THE_TACO);
 		});
@@ -309,17 +337,15 @@ public class PortalCubedTabs {
 		output.accept(type.item());
 	}
 
-	private static void addVariant(CreativeModeTab.Output output, PropType type, int cmd) {
-		addVariant(output, type.item(), cmd);
-	}
-
-	private static void addVariant(CreativeModeTab.Output output, Item item, int cmd) {
-		ItemStack stack = new ItemStack(item);
+	private static void addPropVariant(CreativeModeTab.Output output, PropType item, int cmd) {
+		ItemStack stack = new ItemStack(item.item());
 		stack.getOrCreateTag().putInt("CustomModelData", cmd);
 		output.accept(stack);
 	}
 
-	private static void addVariant(CreativeModeTab.Output output, Item item, int cmd, String lang) {
+	//Once portal customization is real, duplicate this function as addPortalGunVariant and add portal customization stuff to it.
+	//This one will still get used, but only for a few things
+	private static void addItemVariant(CreativeModeTab.Output output, Item item, int cmd, String lang) {
 		ItemStack stack = new ItemStack(item);
 		stack.getOrCreateTag().putInt("CustomModelData", cmd);
 		Component name = Component.translatable("item.portalcubed." + lang).withStyle(style -> style.withItalic(false));
@@ -344,16 +370,62 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.DEEPSLATE_IRON_ORE, PortalCubedBlocks.MAGNESIUM_ORE);
 			entries.addAfter(PortalCubedBlocks.MAGNESIUM_ORE, PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
 			entries.addAfter(Items.RAW_IRON_BLOCK, PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
+			entries.addAfter(Blocks.CHERRY_LOG, PortalCubedBlocks.LEMON_LOG);
+			entries.addAfter(Blocks.CHERRY_LEAVES, PortalCubedBlocks.LEMON_LEAVES);
+			entries.addAfter(Blocks.CHERRY_SAPLING, PortalCubedBlocks.LEMON_SAPLING);
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
 			entries.addAfter(Items.CHAIN, PortalCubedBlocks.MAGNESIUM_BLOCK);
+			entries.addAfter(Blocks.CHERRY_BUTTON, PortalCubedBlocks.LEMON_LOG);
+			entries.addAfter(PortalCubedBlocks.LEMON_LOG, PortalCubedBlocks.LEMON_WOOD);
+			entries.addAfter(PortalCubedBlocks.LEMON_WOOD, PortalCubedBlocks.STRIPPED_LEMON_LOG);
+			entries.addAfter(PortalCubedBlocks.STRIPPED_LEMON_LOG, PortalCubedBlocks.STRIPPED_LEMON_WOOD);
+			entries.addAfter(PortalCubedBlocks.STRIPPED_LEMON_WOOD, PortalCubedBlocks.LEMON_PLANKS);
+			entries.addAfter(PortalCubedBlocks.LEMON_PLANKS, PortalCubedBlocks.LEMON_STAIRS);
+			entries.addAfter(PortalCubedBlocks.LEMON_STAIRS, PortalCubedBlocks.LEMON_SLAB);
+			entries.addAfter(PortalCubedBlocks.LEMON_SLAB, PortalCubedBlocks.LEMON_FENCE);
+			entries.addAfter(PortalCubedBlocks.LEMON_FENCE, PortalCubedBlocks.LEMON_FENCE_GATE);
+			entries.addAfter(PortalCubedBlocks.LEMON_FENCE_GATE, PortalCubedBlocks.LEMON_DOOR);
+			entries.addAfter(PortalCubedBlocks.LEMON_DOOR, PortalCubedBlocks.LEMON_TRAPDOOR);
+			entries.addAfter(PortalCubedBlocks.LEMON_TRAPDOOR, PortalCubedBlocks.LEMON_PRESSURE_PLATE);
+			entries.addAfter(PortalCubedBlocks.LEMON_PRESSURE_PLATE, PortalCubedBlocks.LEMON_BUTTON);
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
 			entries.addAfter(Items.RAW_IRON, PortalCubedItems.RAW_MAGNESIUM);
 			entries.addAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
 			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {
+			entries.addAfter(Items.ENCHANTED_GOLDEN_APPLE, PortalCubedItems.LEMON);
+			entries.addAfter(Items.CAKE, PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
+			entries.addAfter(Blocks.CHERRY_HANGING_SIGN, PortalCubedItems.LEMON_SIGN);
+			entries.addAfter(PortalCubedItems.LEMON_SIGN, PortalCubedItems.LEMON_HANGING_SIGN);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
+			entries.addAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT);
+			entries.addAfter(PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
+			entries.addAfter(Items.NETHERITE_HOE, PortalCubedItems.HAMMER);
+			entries.addAfter(PortalCubedItems.HAMMER, PortalCubedItems.CROWBAR);
+			entries.addAfter(Items.MILK_BUCKET, PortalCubedItems.GOO_BUCKET);
+			entries.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, PortalCubedItems.CONSTRUCTION_CANNON);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
+			entries.addAfter(Items.END_CRYSTAL, PortalCubedItems.LEMONADE);
+			entries.addAfter(Items.TURTLE_HELMET, PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
+			entries.addAfter(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS, PortalCubedItems.LONG_FALL_BOOTS);
+		});
+
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.OP_BLOCKS).register(entries -> {
+			if (entries.shouldShowOpRestrictedItems())
+				entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER);
 		});
 	}
 }

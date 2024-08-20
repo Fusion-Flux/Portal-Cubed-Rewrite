@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "portalcubed:hammer"
+    "portalcubed:hammer",
+    "portalcubed:crowbar"
   ]
 }

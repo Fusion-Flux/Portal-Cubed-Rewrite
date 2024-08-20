@@ -6,7 +6,7 @@
             "item": "portalcubed:tread_plate_slab"
         },
         {
-            "item": "portalcubed:sewage"
+           "tag": "portalcubed:dirty_crafting_materials"
         }
     ],
     "result": {

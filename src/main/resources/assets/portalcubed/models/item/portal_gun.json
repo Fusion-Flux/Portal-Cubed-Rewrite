@@ -39,8 +39,8 @@
 			"to": [10.52, 2.52, 6.02],
 			"rotation": {"angle": 0, "axis": "y", "origin": [16, 1, -1.5]},
 			"faces": {
-				"east": {"uv": [3.51, 7.516, 1.5, 8.526], "texture": "#0"},
-				"west": {"uv": [2.01, 7.516, 0, 8.526], "texture": "#0"}
+				"east": {"uv": [3.4725, 7.516, 1.5, 8.4885], "texture": "#0"},
+				"west": {"uv": [2.01, 7.516, 0, 8.5135], "texture": "#0"}
 			}
 		},
 		{
@@ -289,6 +289,8 @@
 		{"predicate": {"custom_model_data": 206}, "model": "portalcubed:item/lego_portal_gun"},
 		{"predicate": {"custom_model_data": 207}, "model": "portalcubed:item/damaged_portal_gun"},
 		{"predicate": {"custom_model_data": 208}, "model": "portalcubed:item/revolution_portal_gun"},
+		{"predicate": {"custom_model_data": 209}, "model": "portalcubed:item/missing_texture_portal_gun"},
+		{"predicate": {"custom_model_data": 210}, "model": "portalcubed:item/pistol"},
 		{"predicate": {"custom_model_data": 301}, "model": "portalcubed:item/2d_portal_gun"},
 		{"predicate": {"custom_model_data": 302}, "model": "portalcubed:item/2d_portal_gun_atlas"},
 		{"predicate": {"custom_model_data": 303}, "model": "portalcubed:item/2d_portal_gun_p_body"},

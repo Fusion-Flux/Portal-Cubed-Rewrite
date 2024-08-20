@@ -97,6 +97,13 @@ public abstract class HoldableEntity extends LerpableEntity {
 		return super.canCollideWith(other);
 	}
 
+	@Override
+	public boolean pc$disintegrate() {
+		if (!this.level().isClientSide)
+			drop();
+		return super.pc$disintegrate();
+	}
+
 	protected boolean facesHolder() {
 		return true;
 	}
@@ -121,6 +128,8 @@ public abstract class HoldableEntity extends LerpableEntity {
 	public void grab(ServerPlayer player) {
 		if (this.hasPassenger(player))
 			return; // don't allow holding self
+		if (this.pc$disintegrating())
+			return;
 
 		if (this.holder != null) {
 			// check if the new player can steal it

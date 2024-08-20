@@ -1,24 +1,52 @@
 package io.github.fusionflux.portalcubed.content;
 
-import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignagePanel;
+import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
+import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
+
+import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
+import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
+
+import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignagePanelBlock;
+import io.github.fusionflux.portalcubed.content.goo.GooBlock;
+import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarBlock;
+import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
+import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
+import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.GlazedTerracottaBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WaterloggedTransparentBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
@@ -35,60 +63,49 @@ import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 
 import java.util.EnumMap;
 import java.util.Map;
+
 public class PortalCubedBlocks {
 	// ----- magnesium -----
-	public static final Block MAGNESIUM_ORE = REGISTRAR.blocks.create("magnesium_ore", Block::new)
-			.copyFrom(Blocks.IRON_ORE)
+	public static final Block MAGNESIUM_ORE = REGISTRAR.blocks.simple("magnesium_ore", Blocks.IRON_ORE);
+	public static final Block DEEPSLATE_MAGNESIUM_ORE = REGISTRAR.blocks.simple("deepslate_magnesium_ore", Blocks.DEEPSLATE_IRON_ORE);
+	public static final Block MAGNESIUM_BLOCK = REGISTRAR.blocks.createFrom("magnesium_block", Blocks.IRON_BLOCK)
+			.settings(s -> s.mapColor(MapColor.CLAY))
 			.build();
-	public static final Block DEEPSLATE_MAGNESIUM_ORE = REGISTRAR.blocks.create("deepslate_magnesium_ore", Block::new)
-			.copyFrom(Blocks.DEEPSLATE_IRON_ORE)
-			.build();
-	public static final Block MAGNESIUM_BLOCK = REGISTRAR.blocks.create("magnesium_block", Block::new)
-			.copyFrom(Blocks.IRON_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.CLAY))
-			.build();
-	public static final Block RAW_MAGNESIUM_BLOCK = REGISTRAR.blocks.create("raw_magnesium_block", Block::new)
-			.copyFrom(Blocks.RAW_IRON_BLOCK)
-			.settings(settings -> settings.mapColor(MapColor.CLAY))
+	public static final Block RAW_MAGNESIUM_BLOCK = REGISTRAR.blocks.createFrom("raw_magnesium_block", Blocks.RAW_IRON_BLOCK)
+			.settings(s -> s.mapColor(MapColor.CLAY))
 			.build();
 	// ----- cake -----
 	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
 			"black_forest_cake", REGISTRAR, QuiltBlockSettings.copyOf(Blocks.CAKE)
 	);
 	// ----- floor buttons -----
-	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("floor_button", FloorButtonBlock::new)
-			.copyFrom(Blocks.STONE)
+	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("floor_button", FloorButtonBlock::new, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final FloorButtonBlock CUBE_BUTTON_BLOCK = REGISTRAR.blocks.create("cube_button", CubeButtonBlock::new)
-			.copyFrom(Blocks.STONE)
+	public static final FloorButtonBlock CUBE_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("cube_button", CubeButtonBlock::new, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final FloorButtonBlock OLD_AP_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("old_ap_floor_button", FloorButtonBlock::oldAp)
-			.copyFrom(Blocks.STONE)
+	public static final FloorButtonBlock OLD_AP_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("old_ap_floor_button", FloorButtonBlock::oldAp, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final FloorButtonBlock PORTAL_1_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.create("portal_1_floor_button", FloorButtonBlock::p1)
-			.copyFrom(Blocks.STONE)
+	public static final FloorButtonBlock PORTAL_1_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("portal_1_floor_button", FloorButtonBlock::p1, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- pedestal buttons -----
-	public static final PedestalButtonBlock PEDESTAL_BUTTON = REGISTRAR.blocks.create("pedestal_button", PedestalButtonBlock::new)
-			.copyFrom(Blocks.STONE)
-			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+	public static final PedestalButtonBlock PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("pedestal_button", PedestalButtonBlock::new, Blocks.STONE)
+			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
-	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.create("old_ap_pedestal_button", PedestalButtonBlock::oldAp)
-			.copyFrom(Blocks.STONE)
-			.settings(settings -> settings.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("old_ap_pedestal_button", PedestalButtonBlock::oldAp, Blocks.STONE)
+			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- panels -----
@@ -115,13 +132,111 @@ public class PortalCubedBlocks {
 					}
 				}
 			});
+	// ----- lemon -----
+	public static final RotatedPillarBlock LEMON_LOG = REGISTRAR.blocks.create("lemon_log", RotatedPillarBlock::new)
+			.copyFrom(Blocks.OAK_LOG)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
+			.build();
+	public static final RotatedPillarBlock STRIPPED_LEMON_LOG = REGISTRAR.blocks.create("stripped_lemon_log", RotatedPillarBlock::new)
+			.copyFrom(Blocks.STRIPPED_OAK_LOG)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final RotatedPillarBlock LEMON_WOOD = REGISTRAR.blocks.create("lemon_wood", RotatedPillarBlock::new)
+			.copyFrom(Blocks.STRIPPED_OAK_WOOD)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
+			.build();
+	public static final RotatedPillarBlock STRIPPED_LEMON_WOOD = REGISTRAR.blocks.create("stripped_lemon_wood", RotatedPillarBlock::new)
+			.copyFrom(Blocks.OAK_WOOD)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final LeavesBlock LEMON_LEAVES = REGISTRAR.blocks.create("lemon_leaves", LeavesBlock::new)
+			.copyFrom(Blocks.OAK_LEAVES)
+			.build();
+	public static final SaplingBlock LEMON_SAPLING = REGISTRAR.blocks.create("lemon_sapling", settings -> new SaplingBlock(PortalCubedFeatures.LEMON_TREE_GROWER, settings))
+			.copyFrom(Blocks.OAK_SAPLING)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final FlowerPotBlock POTTED_LEMON_SAPLING = REGISTRAR.blocks.create("potted_lemon_sapling", settings -> new FlowerPotBlock(LEMON_SAPLING, settings))
+			.copyFrom(Blocks.POTTED_OAK_SAPLING)
+			.item(BlockItemProvider::noItem)
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final Block LEMON_PLANKS = REGISTRAR.blocks.create("lemon_planks", Block::new)
+			.copyFrom(Blocks.OAK_PLANKS)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final SlabBlock LEMON_SLAB = REGISTRAR.blocks.create("lemon_slab", SlabBlock::new)
+			.copyFrom(Blocks.OAK_SLAB)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final SaneStairBlock LEMON_STAIRS = REGISTRAR.blocks.create("lemon_stairs", SaneStairBlock::new)
+			.copyFrom(Blocks.OAK_STAIRS)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final FenceBlock LEMON_FENCE = REGISTRAR.blocks.create("lemon_fence", FenceBlock::new)
+			.copyFrom(Blocks.OAK_FENCE)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final FenceGateBlock LEMON_FENCE_GATE = REGISTRAR.blocks.create("lemon_fence_gate", properties -> new FenceGateBlock(WoodType.OAK, properties))
+			.copyFrom(Blocks.OAK_FENCE_GATE)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final ButtonBlock LEMON_BUTTON = REGISTRAR.blocks.create("lemon_button", properties -> new ButtonBlock(BlockSetType.OAK, 30, properties))
+			.copyFrom(Blocks.OAK_BUTTON)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final PressurePlateBlock LEMON_PRESSURE_PLATE = REGISTRAR.blocks.create("lemon_pressure_plate", properties -> new PressurePlateBlock(BlockSetType.OAK, properties))
+			.copyFrom(Blocks.OAK_PRESSURE_PLATE)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.build();
+	public static final ResourceLocation LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
+	public static final TerraformSignBlock LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
+			.copyFrom(Blocks.OAK_SIGN)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+			)
+			.item(BlockItemProvider::noItem)
+			.build();
+	public static final TerraformWallSignBlock LEMON_WALL_SIGN = REGISTRAR.blocks.create("lemon_wall_sign", properties -> new TerraformWallSignBlock(LEMON_SIGN_TEXTURE, properties))
+			.copyFrom(Blocks.OAK_WALL_SIGN)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+					.dropsLike(LEMON_SIGN)
+			)
+			.item(BlockItemProvider::noItem)
+			.build();
+	public static final ResourceLocation LEMON_HANGING_SIGN_TEXTURE = PortalCubed.id("entity/signs/hanging/lemon");
+	public static final ResourceLocation LEMON_HANGING_SIGN_GUI_TEXTURE = PortalCubed.id("textures/gui/hanging_signs/lemon");
+	public static final TerraformHangingSignBlock LEMON_HANGING_SIGN = REGISTRAR.blocks.create("lemon_hanging_sign", properties -> new TerraformHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
+			.copyFrom(Blocks.OAK_HANGING_SIGN)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.item(BlockItemProvider::noItem)
+			.build();
+	public static final TerraformWallHangingSignBlock LEMON_WALL_HANGING_SIGN = REGISTRAR.blocks.create("lemon_wall_hanging_sign", properties -> new TerraformWallHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
+			.copyFrom(Blocks.OAK_WALL_HANGING_SIGN)
+			.settings(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_YELLOW)
+					.dropsLike(LEMON_HANGING_SIGN)
+			)
+			.item(BlockItemProvider::noItem)
+			.build();
+	public static final DoorBlock LEMON_DOOR = REGISTRAR.blocks.create("lemon_door", properties -> new DoorBlock(BlockSetType.OAK, properties))
+			.copyFrom(Blocks.OAK_DOOR)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final TrapDoorBlock LEMON_TRAPDOOR = REGISTRAR.blocks.create("lemon_trapdoor", properties -> new TrapDoorBlock(BlockSetType.OAK, properties))
+			.copyFrom(Blocks.OAK_TRAPDOOR)
+			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.renderType(RenderTypes.CUTOUT)
+			.build();
 
 	// ----- signage panels -----
-
-	public static final LargeSignagePanel LARGE_SIGNAGE_PANEL = REGISTRAR.blocks.create("large_signage_panel", LargeSignagePanel::new)
+	public static final LargeSignagePanelBlock LARGE_SIGNAGE_PANEL = REGISTRAR.blocks.create("large_signage_panel", LargeSignagePanelBlock::new)
 			.copyFrom(Blocks.GLASS_PANE)
 			.settings(settings -> settings.mapColor(MapColor.COLOR_BLACK))
 			.build();
+
 	// ----- misc blocks - tiles -----
 	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
@@ -714,9 +829,8 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.OAK_PLANKS)
 			.build();
 
-	public static final Block SEWAGE = REGISTRAR.blocks.create("sewage", Block::new)
-			.copyFrom(Blocks.MUD)
-			.settings(settings -> settings
+	public static final Block SEWAGE = REGISTRAR.blocks.createFrom("sewage", Blocks.MUD)
+			.settings(s -> s
 					.mapColor(MapColor.COLOR_BROWN)
 					.slipperiness(0.9f)
 					.jumpVelocityMultiplier(0.05f)
@@ -731,6 +845,21 @@ public class PortalCubedBlocks {
 			)
 			.build();
 
+	public static final PropBarrierBlock PROP_BARRIER = REGISTRAR.blocks.createFrom("prop_barrier", PropBarrierBlock::new, Blocks.BARRIER)
+			.settings(QuiltBlockSettings::dynamicShape)
+			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
+			.build();
+
+	public static final Block GOO = REGISTRAR.blocks.createFrom("toxic_goo", GooBlock::new, Blocks.WATER)
+			.settings(s -> s.mapColor(MapColor.TERRACOTTA_GREEN))
+			.item(BlockItemProvider::noItem)
+			.build();
+
+	public static final Block GOO_CAULDRON = REGISTRAR.blocks.createFrom("toxic_goo_cauldron", GooCauldronBlock::new, Blocks.CAULDRON)
+			.item(BlockItemProvider::noItem)
+			.build();
+
 	public static void init() {
+		CauldronFluidContent.registerCauldron(GOO_CAULDRON, PortalCubedFluids.GOO, FluidConstants.BUCKET, null);
 	}
 }

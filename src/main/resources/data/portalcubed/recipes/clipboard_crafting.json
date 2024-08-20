@@ -7,7 +7,7 @@
     ],
     "key": {
         "X": {
-            "tag": "minecraft:planks"
+            "tag": "minecraft:wooden_slabs"
         },
         "Y": {
             "item": "portalcubed:magnesium_nugget"

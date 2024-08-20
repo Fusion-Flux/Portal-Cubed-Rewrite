@@ -20,7 +20,7 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 	@Override
 	public void onPressed(Minecraft mc) {
 		LocalPlayer player = mc.player;
-		if (player == null || player.isSpectator())
+		if (player == null || player.isSpectator() || player.pc$disintegrating())
 			return;
 
 		HoldableEntity held = player.getHeldEntity();

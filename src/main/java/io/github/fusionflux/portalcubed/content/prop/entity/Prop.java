@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
+import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
@@ -21,6 +23,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -32,6 +35,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
@@ -58,20 +62,25 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
 
 	public final PropType type;
+	private final SoundEvent impactSound;
+
 	private int variantFromItem;
 
 	public Prop(PropType type, EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.blocksBuilding = true;
 		this.type = type;
+		this.impactSound = ImpactSoundType.forEntityType(entityType)
+				.map(ImpactSoundType::sound)
+				.orElse(PortalCubedSounds.FIDDLE_STICKS);
 	}
 
-	protected Optional<Boolean> isDirty() {
+	public Optional<Boolean> isDirty() {
 		int variant = this.getVariant();
 		return variant > 1 ? Optional.empty() : Optional.of(variant != 0);
 	}
 
-	protected void setDirty(boolean dirty) {
+	public void setDirty(boolean dirty) {
 		this.setVariant(dirty ? 1 : 0);
 	}
 
@@ -80,11 +89,13 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	}
 
 	public void setVariant(int variant) {
+		if (variant < 0) variant = 0;
 		if (!this.level().isClientSide)
 			this.entityData.set(VARIANT, variant);
 	}
 
 	public void setVariantFromItem(int variant) {
+		if (variant < 0) variant = 0;
 		this.variantFromItem = variant;
 	}
 
@@ -172,7 +183,7 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
 		if (source.getDirectEntity() instanceof Player player) {
-			var abilities = player.getAbilities();
+			Abilities abilities = player.getAbilities();
 			return (isInvulnerable() && !abilities.instabuild) || !(abilities.instabuild || (abilities.mayBuild && HammerItem.usingHammer(player)));
 		}
 		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
@@ -234,7 +245,7 @@ public class Prop extends HoldableEntity implements CollisionListener {
 			return;
 
 		if (!this.isSilent()) {
-			level.playSound(null, this.getX(), this.getY(), this.getZ(), this.type.soundType.impactSound, SoundSource.PLAYERS, 1, 1);
+			level.playSound(null, this.getX(), this.getY(), this.getZ(), this.impactSound, SoundSource.PLAYERS, 1, 1);
 			level.gameEvent(this, GameEvent.HIT_GROUND, this.position());
 		}
 

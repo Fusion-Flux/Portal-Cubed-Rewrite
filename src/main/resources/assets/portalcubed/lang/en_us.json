@@ -7,9 +7,14 @@
   "key.categories.portalcubed": "Portal Cubed",
   "key.portalcubed.grab": "Grab",
 
+
   "gamerule.category.portalcubed": "Portal Cubed",
   "gamerule.propSnatching": "Prop Snatching",
-  "gamerule.propSnatching.description": "Allow held props to be grabbed by other players without the holder dropping it first.",
+  "gamerule.propSnatching.description": "Allows props being held by a player to be grabbed by other players without the holder dropping it first.",
+  "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
+  "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
+  "gamerule.toxicGooDamage": "Toxic Goo Damage",
+  "gamerule.toxicGooDamage.description": "The amount of damage (per second) toxic goo does to entities inside it.",
 
   "gamerule.allowCrouchFlyGlitch": "Allow Crouch Fly Glitch",
   "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
@@ -95,8 +100,24 @@
 
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
 
+  "commands.portalcubed.fizzle.portal_clearing.success": "Successfully cleared the portals of %s",
+  "commands.portalcubed.fizzle.portal_clearing.success.multiple": "Successfully cleared the portals of %s entities",
+  "commands.portalcubed.fizzle.portal_clearing.mixed": "Successfully cleared the portals of %1$s entities.  Could not clear the portals of %2$s entities",
+  "commands.portalcubed.fizzle.portal_clearing.failure": "Could not clear the portals of %s",
+  "commands.portalcubed.fizzle.portal_clearing.failure.multiple": "Could not clear the portals of %s entities",
+  "commands.portalcubed.fizzle.disintegration.success": "Successfully disintegrated %s",
+  "commands.portalcubed.fizzle.disintegration.success.multiple": "Successfully disintegrated %s entities",
+  "commands.portalcubed.fizzle.disintegration.mixed": "Successfully disintegrated %1$s entities.  Could not disintegrate %2$s entities",
+  "commands.portalcubed.fizzle.disintegration.failure": "Could not disintegrate %s",
+  "commands.portalcubed.fizzle.disintegration.failure.multiple": "Could not disintegrate %s entities",
+  "commands.portalcubed.fizzle.paint_clearing.success": "Successfully cleared the paint of %s",
+  "commands.portalcubed.fizzle.paint_clearing.success.multiple": "Successfully cleared the paint of %s entities",
+  "commands.portalcubed.fizzle.paint_clearing.mixed": "Successfully cleared the paint of %1$s entities.  Could not clear the paint of %2$s entities",
+  "commands.portalcubed.fizzle.paint_clearing.failure": "Could not clear the paint of %s",
+  "commands.portalcubed.fizzle.paint_clearing.failure.multiple": "Could not clear the paint of %s entities",
+
+
   "item.portalcubed.construction_cannon.material": "Material: ",
-  "item.portalcubed.construction_cannon.construct_set": "Construct: ",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
   "tag.item.portalcubed.aged_smooth_gray_panel_materials": "Aged Smooth Gray Panels",
   "tag.item.portalcubed.aged_white_panel_materials": "Aged White Panels",
@@ -118,6 +139,8 @@
   "tag.item.portalcubed.yellow_chamber_exterior_materials": "Yellow Chamber Exteriors",
   "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
   "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
+  "tag.item.portalcubed.absorb_fall_damage": "Absorbs Fall Damage",
+  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
   "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
 
   "item.portalcubed.construction_cannon.feedback.obstructed": "Placement location obstructed",
@@ -125,6 +148,7 @@
   "item.portalcubed.construction_cannon.feedback.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
   "item.portalcubed.construction_cannon.feedback.no_perms": "You do not have permission to build here",
 
+  "item.portalcubed.construction_cannon.construct_set": "Construct: ",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_panel": "Aged Padded Gray Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_half_panel": "Aged Padded Gray Half Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_2x1_panel": "Aged Padded Gray 2x1 Panel",
@@ -212,6 +236,7 @@
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
 
+  "attribute.name.generic.fall_damage_absorption": "Fall Damage Absorption",
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
@@ -227,15 +252,22 @@
   "subtitles.portalcubed.portal_gun_drop": "Portal gun releases object",
   "subtitles.portalcubed.portal_gun_cannot_grab": "Portal gun fails to grab object",
 
+  "subtitles.portalcubed.generic_fizzle": "Something disintegrates",
+  "subtitles.portalcubed.radio_fizzle": "Radio disintegrates",
+  "subtitles.portalcubed.turret_fizzle": "Turret disintegrates",
+
   "subtitles.portalcubed.pedestal_button_press": "Switch activates",
   "subtitles.portalcubed.pedestal_button_release": "Switch deactivates",
   "subtitles.portalcubed.floor_button_press": "Button activates",
   "subtitles.portalcubed.floor_button_release": "Button deactivates",
 
-  "subtitles.portalcubed.crowbar_swoosh": "Crowbar swooshes",
-  "subtitles.portalcubed.impact.concrete": "Concrete crumbles",
-  "subtitles.portalcubed.impact.metal": "Metal clangs",
-  "subtitles.portalcubed.impact.glass": "Glass cracks",
+  "subtitles.portalcubed.old_ap_timer": "Timer ticks",
+  "subtitles.portalcubed.timer_ding": "Timer dings",
+
+  "subtitles.portalcubed.crowbar_swing": "Crowbar swooshes",
+  "subtitles.portalcubed.concrete_surface_impact": "Concrete crumbles",
+  "subtitles.portalcubed.metal_surface_impact": "Metal clangs",
+  "subtitles.portalcubed.glass_surface_impact": "Glass cracks",
 
   "subtitles.portalcubed.generic_prop_impact": "Object bumps into something",
   "subtitles.portalcubed.metal_prop_impact": "Metal object bumps into something",
@@ -248,26 +280,36 @@
   "advancement.portalcubed.root.title": "Portal Cubed",
   "advancement.portalcubed.root.description": "Welcome to Aperture Science! You're here because we want the best, and you are it.",
 
+  "advancement.portalcubed.portal_gun.title": "Thinking with Portals",
+  "advancement.portalcubed.portal_gun.description": "Obtain a Portal Gun",
+  "advancement.portalcubed.construction_cannon.title": "Trust me, I'm an Engineer",
+  "advancement.portalcubed.construction_cannon.description": "Use a Construction Cannon",
+
+  "advancement.portalcubed.lemon.title": "Get Mad!",
+  "advancement.portalcubed.lemon.description": "Obtain a Lemon",
+  "advancement.portalcubed.lemonade.title": "Burn life's house down!",
+  "advancement.portalcubed.lemonade.description": "Create and use a combustible lemon",
+
   "advancement.portalcubed.hammer_time.title": "Stop - Hammer Time!",
   "advancement.portalcubed.hammer_time.description": "Use a Hammer to configure a test element",
-  "advancement.portalcubed.crowbar.title": "Crossover Episode",
-  "advancement.portalcubed.crowbar.description": "Obtain a Crowbar",
+  "advancement.portalcubed.crossover_episode.title": "Crossover Episode",
+  "advancement.portalcubed.crossover_episode.description": "Obtain a Crowbar",
 
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",
   "advancement.portalcubed.cubes.title": "Cubes to Keep You Company",
-  "advancement.portalcubed.cubes.description": "Obtain one of every cube type",
+  "advancement.portalcubed.cubes.description": "Obtain at least one of every cube type",
   "advancement.portalcubed.hoopy.title": "The Next Big Thing",
   "advancement.portalcubed.hoopy.description": "Hold Hoopy the Hoop",
   "advancement.portalcubed.rattmann.title": "I am Rattmann",
   "advancement.portalcubed.rattmann.description": "Obtain every prop that can be found in a Rattmann den",
 
   "advancement.portalcubed.boots.title": "Good Work, Boots",
-  "advancement.portalcubed.boots.description": "Prevent fall damage using the Long Fall Boots",
+  "advancement.portalcubed.boots.description": "Prevent fall damage using the Long Fall Boots or Advanced Knee Replacements",
   "advancement.portalcubed.falling_with_style.title": "Falling With Style",
-  "advancement.portalcubed.falling_with_style.description": "Trim a pair of Long Fall Boots",
-  "advancement.portalcubed.feather_falling_boots.title": "But Why?!",
-  "advancement.portalcubed.feather_falling_boots.description": "Enchant a pair of Long Fall Boots with Feather Falling",
+  "advancement.portalcubed.falling_with_style.description": "Apply an Armor Trim to a pair of Long Fall Boots",
+  "advancement.portalcubed.feather_falling_boots.title": "Pointless Precaution",
+  "advancement.portalcubed.feather_falling_boots.description": "Enchant a pair of Long Fall Boots or Advanced Knee Replacements with Feather Falling",
 
   "advancement.portalcubed.autoportal.title": "That Portal Was Framed",
   "advancement.portalcubed.autoportal.description": "Place an Autoportal",
@@ -288,7 +330,7 @@
   "advancement.portalcubed.laser.description": "Touch a Thermal Discouragement Beam and become thermally discouraged from doing it again",
 
   "advancement.portalcubed.goo.title": "The Floor is Failure",
-  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your record",
+  "advancement.portalcubed.goo.description": "Submerse yourself in Toxic Goo and receive an unsatisfactory mark to your health bar",
 
   "advancement.portalcubed.faith_plate.title": "Sailing Through the Air...",
   "advancement.portalcubed.faith_plate.description": "Launch yourself from an Aerial Faith Plate",
@@ -325,8 +367,8 @@
   "item.portalcubed.companion_cube.2": "Dirty Weighted Companion Cube",
   "item.portalcubed.portal_1_companion_cube": "Portal 1 Weighted Companion Cube",
   "item.portalcubed.portal_1_companion_cube.1": "Charred Portal 1 Weighted Companion Cube",
-  "item.portalcubed.redirection_cube": "Discouragement Redirection Cube",
-  "item.portalcubed.redirection_cube.2": "Dirty Discouragement Redirection Cube",
+  "item.portalcubed.redirection_cube": "Redirection Cube",
+  "item.portalcubed.redirection_cube.2": "Dirty Redirection Cube",
   "item.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "item.portalcubed.schrodinger_cube.2": "Schrödinger Cube",
   "item.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
@@ -354,6 +396,7 @@
   "item.portalcubed.clipboard.4": "Hazard Warnings Clipboard",
   "item.portalcubed.clipboard.5": "Knee Replacement Clipboard",
   "item.portalcubed.clipboard.6": "Contract Clipboard",
+  "item.portalcubed.clipboard.tooltip.random": "Random variant",
 
   "item.portalcubed.mug": "Mug",
   "item.portalcubed.mug.1": "Blue Mug",
@@ -363,11 +406,13 @@
   "item.portalcubed.mug.5": "Orange Aperture Mug",
   "item.portalcubed.mug.6": "White Aperture Mug",
   "item.portalcubed.mug.7": "Blue Faith Plate Mug",
+  "item.portalcubed.mug.tooltip.random": "Random variant",
 
   "item.portalcubed.oil_drum": "Oil Drum",
   "item.portalcubed.oil_drum.1": "Blue Oil Drum",
   "item.portalcubed.oil_drum.2": "White Oil Drum",
   "item.portalcubed.oil_drum.3": "Brown Oil Drum",
+  "item.portalcubed.oil_drum.tooltip.random": "Random variant",
 
   "item.portalcubed.lil_pineapple": "Lil' Pineapple",
   "item.portalcubed.lil_pineapple.1": "Ace Lil' Prideapple",
@@ -402,6 +447,11 @@
   "item.portalcubed.lego_portal_gun": "Portal Gun (LEGO Dimensions)",
   "item.portalcubed.damaged_portal_gun": "Damaged Portal Gun (Portal Revolution)",
   "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
+  "item.portalcubed.missing_texture_portal_gun": "item.portalcubed.portal_gun",
+  "item.portalcubed.pistol_portal_gun": "Gun That Makes Holes (Not Bullet Holes)",
+
+  "item.portalcubed.long_fall_boots": "Long Fall Boots",
+  "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",
 
   "item.portalcubed.magnesium_nugget": "Magnesium Nugget",
   "item.portalcubed.magnesium_ingot": "Magnesium Ingot",
@@ -679,6 +729,7 @@
   "block.portalcubed.tread_plate": "Tread Plate",
   "block.portalcubed.tread_plate_slab": "Tread Plate Slab",
   "block.portalcubed.tread_plate_facade": "Tread Plate Facade",
+
   "block.portalcubed.dirty_metal_plating": "Dirty Metal Plating",
   "block.portalcubed.dirty_metal_plating_slab": "Dirty Metal Plating Slab",
   "block.portalcubed.dirty_metal_plating_stairs": "Dirty Metal Plating Stairs",
@@ -735,6 +786,31 @@
   "block.portalcubed.yellow_2x2_chamber_exterior_b_bottom_right": "Yellow 2x2 Chamber Exterior B Bottom Right",
   "block.portalcubed.yellow_2x2_chamber_exterior_b_top_right": "Yellow 2x2 Chamber Exterior B Top Right",
 
+  "block.portalcubed.lemon_button": "Lemon Button",
+  "block.portalcubed.lemon_door": "Lemon Door",
+  "block.portalcubed.lemon_fence": "Lemon Fence",
+  "block.portalcubed.lemon_fence_gate": "Lemon Fence Gate",
+  "block.portalcubed.lemon_hanging_sign": "Lemon Hanging Sign",
+  "block.portalcubed.lemon_leaves": "Lemon Leaves",
+  "block.portalcubed.lemon_log": "Lemon Log",
+  "block.portalcubed.lemon_planks": "Lemon Planks",
+  "block.portalcubed.lemon_pressure_plate": "Lemon Pressure Plate",
+  "block.portalcubed.lemon_sapling": "Lemon Sapling",
+  "block.portalcubed.lemon_sign": "Lemon Sign",
+  "block.portalcubed.lemon_slab": "Lemon Slab",
+  "block.portalcubed.lemon_stairs": "Lemon Stairs",
+  "block.portalcubed.lemon_trapdoor": "Lemon Trapdoor",
+  "block.portalcubed.lemon_wall_hanging_sign": "Lemon Wall Hanging Sign",
+  "block.portalcubed.lemon_wall_sign": "Lemon Wall Sign",
+  "block.portalcubed.lemon_wood": "Lemon Wood",
+  "block.portalcubed.potted_lemon_sapling": "Potted Lemon Sapling",
+  "block.portalcubed.stripped_lemon_log": "Stripped Lemon Log",
+  "block.portalcubed.stripped_lemon_wood": "Stripped Lemon Wood",
+  "item.portalcubed.lemon_boat": "Lemon Boat",
+  "item.portalcubed.lemon_chest_boat": "Lemon Boat with Chest",
+  "item.portalcubed.lemon": "Lemon",
+  "item.portalcubed.lemonade": "Lemonade",
+
 
   "block.portalcubed.pedestal_button": "Pedestal Button",
   "block.portalcubed.old_ap_pedestal_button": "Old Aperture Pedestal Button",
@@ -746,11 +822,34 @@
   "block.portalcubed.floor_button.easter_egg": "Fifteen Hundred Megawatt Aperture Science Heavy Duty Super-Colliding Super Button",
 
   "block.portalcubed.black_forest_cake": "Black Forest Cake",
+  "block.portalcubed.candle_black_forest_cake": "Black Forest Cake with Candle",
+  "block.portalcubed.black_candle_black_forest_cake": "Black Forest Cake with Black Candle",
+  "block.portalcubed.gray_candle_black_forest_cake": "Black Forest Cake with Gray Candle",
+  "block.portalcubed.light_gray_candle_black_forest_cake": "Black Forest Cake with Light Gray Candle",
+  "block.portalcubed.white_candle_black_forest_cake": "Black Forest Cake with White Candle",
+  "block.portalcubed.brown_candle_black_forest_cake": "Black Forest Cake with Brown Candle",
+  "block.portalcubed.red_candle_black_forest_cake": "Black Forest Cake with Red Candle",
+  "block.portalcubed.orange_candle_black_forest_cake": "Black Forest Cake with Orange Candle",
+  "block.portalcubed.yellow_candle_black_forest_cake": "Black Forest Cake with Yellow Candle",
+  "block.portalcubed.lime_candle_black_forest_cake": "Black Forest Cake with Lime Candle",
+  "block.portalcubed.green_candle_black_forest_cake": "Black Forest Cake with Green Candle",
+  "block.portalcubed.cyan_candle_black_forest_cake": "Black Forest Cake with Cyan Candle",
+  "block.portalcubed.light_blue_candle_black_forest_cake": "Black Forest Cake with Light Blue Candle",
+  "block.portalcubed.blue_candle_black_forest_cake": "Black Forest Cake with Blue Candle",
+  "block.portalcubed.purple_candle_black_forest_cake": "Black Forest Cake with Purple Candle",
+  "block.portalcubed.magenta_candle_black_forest_cake": "Black Forest Cake with Magenta Candle",
+  "block.portalcubed.pink_candle_black_forest_cake": "Black Forest Cake with Pink Candle",
 
-  "death.attack.acid": "%s was dissolved in toxic goo",
-  "death.attack.acid.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
-  "death.attack.fizzle": "%s was fizzled",
-  "death.attack.fizzle.player": "%1$s was pushed into a laser field by %2$s",
+  "block.portalcubed.prop_barrier": "Prop Barrier",
+
+  "block.portalcubed.toxic_goo": "Toxic Goo",
+  "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
+  "block.portalcubed.toxic_goo_cauldron": "Toxic Goo Cauldron",
+
+  "death.attack.toxic_goo": "%s dissolved in toxic goo",
+  "death.attack.toxic_goo.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
+  "death.attack.disintegration": "%s was disintegrated",
+  "death.attack.disintegration.player": "%1$s was disintegrated trying to escape %2$s",
   "death.attack.vaporization": "%s was vaporized by a High Energy Pellet",
   "death.attack.vaporization.player": "%1$s was vaporized by a High Energy Pellet trying to escape %2$s",
   "death.attack.laser": "%s was thermally discouraged",
@@ -758,6 +857,8 @@
   "death.attack.landing_damage": "%1$s was hit on the head by a falling %2$s",
   "death.attack.landing_damage.player":  "%1$s was hit on the head by a falling %2$s trying to escape %3$s",
   "death.attack.landing_damage.item":  "%1$s was hit on the head by a falling %2$s trying to escape %3$s wielding %4$s",
+  "death.attack.lemonade": "%s combusted",
+  "death.attack.lemonade.player":  "%1$s combusted due to %2$s's lemonade",
 
   "entity.portalcubed.beans": "Bean Can",
   "entity.portalcubed.chair": "Office Chair",
@@ -777,10 +878,12 @@
   "entity.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
   "entity.portalcubed.companion_cube": "Weighted Companion Cube",
   "entity.portalcubed.storage_cube": "Weighted Storage Cube",
-  "entity.portalcubed.redirection_cube": "Discouragement Redirection Cube",
+  "entity.portalcubed.redirection_cube": "Redirection Cube",
   "entity.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "entity.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
-  "entity.portalcubed.portal_projectile": "Portal Projectile"
+  "entity.portalcubed.portal_projectile": "Portal Projectile",
+
+  "entity.portalcubed.lemonade": "Lemonade"
 
   }

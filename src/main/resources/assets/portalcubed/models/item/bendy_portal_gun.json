@@ -7,6 +7,7 @@
 	},
 	"elements": [
 		{
+			"name": "cutout",
 			"from": [8, 0, -3],
 			"to": [8, 8, 19],
 			"faces": {

@@ -4,6 +4,7 @@ import io.github.fusionflux.portalcubed.framework.registration.block.BlockEntity
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockHelper;
 import io.github.fusionflux.portalcubed.framework.registration.entity.EntityHelper;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemHelper;
+import io.github.fusionflux.portalcubed.framework.registration.particle.ParticleHelper;
 import net.minecraft.resources.ResourceLocation;
 
 public class Registrar {
@@ -12,6 +13,7 @@ public class Registrar {
 	public final BlockEntityTypeHelper blockEntities;
 	public final ItemHelper items;
 	public final EntityHelper entities;
+	public final ParticleHelper particles;
 
 	public Registrar(String modId) {
 		this.modId = modId;
@@ -19,6 +21,7 @@ public class Registrar {
 		this.blockEntities = new BlockEntityTypeHelper(this);
 		this.items = new ItemHelper(this);
 		this.entities = new EntityHelper(this);
+		this.particles = new ParticleHelper(this);
 	}
 
 	public ResourceLocation id(String path) {
