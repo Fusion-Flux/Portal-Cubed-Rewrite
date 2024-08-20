@@ -811,6 +811,10 @@
   "item.portalcubed.lemon": "Lemon",
   "item.portalcubed.lemonade": "Lemonade",
 
+  "block.portalcubed.small_signage_panel": "Small Signage Panel",
+  "block.portalcubed.aged_small_signage_panel": "Aged Small Signage Panel",
+  "block.portalcubed.large_signage_panel": "Large Signage Panel",
+  "block.portalcubed.aged_large_signage_panel": "Aged Large Signage Panel",
 
   "block.portalcubed.pedestal_button": "Pedestal Button",
   "block.portalcubed.old_ap_pedestal_button": "Old Aperture Pedestal Button",
