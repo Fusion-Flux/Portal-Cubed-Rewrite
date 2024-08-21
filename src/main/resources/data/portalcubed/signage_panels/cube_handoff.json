@@ -1,0 +1,8 @@
+{
+  "clean_texture": "portalcubed:block/large_signage_cube_handoff",
+  "aged_texture": "portalcubed:block/aged_large_signage_cube_handoff",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.cube_handoff"
+  },
+  "size": "large"
+}

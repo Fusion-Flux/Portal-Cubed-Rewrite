@@ -1,0 +1,8 @@
+{
+  "clean_texture": "portalcubed:block/small_signage_connection_wavy_lines",
+  "aged_texture": "portalcubed:block/aged_small_signage_connection_wavy_lines",
+  "name": {
+    "translate": "signage.portalcubed.small_signage.connection_wavy_lines"
+  },
+  "size": "small"
+}

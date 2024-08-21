@@ -1,0 +1,8 @@
+{
+  "clean_texture": "portalcubed:block/large_signage_excursion_polarity",
+  "aged_texture": "portalcubed:block/aged_large_signage_excursion_polarity",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.excursion_polarity"
+  },
+  "size": "large"
+}

@@ -1,0 +1,8 @@
+{
+  "clean_texture": "portalcubed:block/large_signage_player_on_button",
+  "aged_texture": "portalcubed:block/aged_large_signage_player_on_button",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.player_on_button"
+  },
+  "size": "large"
+}

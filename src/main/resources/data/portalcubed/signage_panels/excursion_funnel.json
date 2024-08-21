@@ -1,0 +1,8 @@
+{
+  "clean_texture": "portalcubed:block/large_signage_excursion_funnel",
+  "aged_texture": "portalcubed:block/aged_large_signage_excursion_funnel",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.excursion_funnel"
+  },
+  "size": "large"
+}
