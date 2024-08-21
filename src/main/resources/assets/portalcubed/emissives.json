@@ -23,10 +23,10 @@
   "block/portal_1_floor_button_active": "block/button_emissives",
   "item/portal_1_floor_button": "block/button_emissives",
 
-  "item/small_signage_panel": "item/small_signage_panel",
-  "item/aged_small_signage_panel": "item/aged_small_signage_panel",
-  "item/large_signage_panel": "block/large_signage_empty",
-  "item/aged_large_signage_panel": "block/aged_large_signage_empty",
+  "item/small_signage": "item/small_signage",
+  "item/aged_small_signage": "item/aged_small_signage",
+  "item/large_signage": "block/large_signage_blank",
+  "item/aged_large_signage": "block/aged_large_signage_blank",
 
   "item/portal_gun": "item/portal_gun_dyeable",
   "item/portal_gun_primary": "item/portal_gun_dyeable",

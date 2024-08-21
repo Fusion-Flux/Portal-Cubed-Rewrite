@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "portalcubed:item/small_signage_panel"
+    "layer0": "portalcubed:item/aged_small_signage"
   }
 }

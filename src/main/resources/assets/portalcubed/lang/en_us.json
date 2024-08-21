@@ -23,10 +23,10 @@
   "gamerule.portalAlignment": "Portal Alignment",
   "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
 
-  "container.portalcubed.large_signage_panel": "Large Signage Panel",
-  "container.portalcubed.aged_large_signage_panel": "Aged Large Signage Panel",
-  "container.portalcubed.small_signage_panel": "Small Signage Panel",
-  "container.portalcubed.aged_small_signage_panel": "Aged Small Signage Panel",
+  "container.portalcubed.large_signage": "Large Signage",
+  "container.portalcubed.aged_large_signage": "Aged Large Signage",
+  "container.portalcubed.small_signage": "Small Signage",
+  "container.portalcubed.aged_small_signage": "Aged Small Signage",
 
   "signage.portalcubed.large_signage.adhesion_gel": "Adhesion Gel",
   "signage.portalcubed.large_signage.cake": "Cake",
@@ -811,10 +811,10 @@
   "item.portalcubed.lemon": "Lemon",
   "item.portalcubed.lemonade": "Lemonade",
 
-  "block.portalcubed.small_signage_panel": "Small Signage Panel",
-  "block.portalcubed.aged_small_signage_panel": "Aged Small Signage Panel",
-  "block.portalcubed.large_signage_panel": "Large Signage Panel",
-  "block.portalcubed.aged_large_signage_panel": "Aged Large Signage Panel",
+  "block.portalcubed.small_signage": "Small Signage",
+  "block.portalcubed.aged_small_signage": "Aged Small Signage",
+  "block.portalcubed.large_signage": "Large Signage",
+  "block.portalcubed.aged_large_signage": "Aged Large Signage",
 
   "block.portalcubed.pedestal_button": "Pedestal Button",
   "block.portalcubed.old_ap_pedestal_button": "Old Aperture Pedestal Button",
