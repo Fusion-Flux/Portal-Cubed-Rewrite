@@ -27,6 +27,8 @@
   "container.portalcubed.aged_large_signage": "Aged Large Signage",
   "container.portalcubed.small_signage": "Small Signage",
   "container.portalcubed.aged_small_signage": "Aged Small Signage",
+  "container.portalcubed.small_signage.quadrant_toggle": "Enable this quadrant",
+
 
   "signage.portalcubed.large_signage.adhesion_gel": "Adhesion Gel",
   "signage.portalcubed.large_signage.cake": "Cake",
