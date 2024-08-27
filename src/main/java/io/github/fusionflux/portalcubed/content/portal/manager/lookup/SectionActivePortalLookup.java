@@ -1,8 +1,10 @@
 package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 
@@ -10,18 +12,23 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 
+import it.unimi.dsi.fastutil.longs.LongConsumer;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.SectionPos;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class SectionActivePortalLookup implements ActivePortalLookup {
 	private final Long2ObjectMap<List<PortalInstance>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
 	private final Map<PortalInstance, PortalPair> portalsToPairs = new HashMap<>();
+	private final CollisionManager collisionManager = new CollisionManager();
 
 	@Override
 	@Nullable
@@ -29,50 +36,49 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		if (this.isEmpty())
 			return null;
 
-		int fromSectionX = SectionPos.blockToSectionCoord(from.x);
-		int fromSectionY = SectionPos.blockToSectionCoord(from.y);
-		int fromSectionZ = SectionPos.blockToSectionCoord(from.z);
-		int toSectionX = SectionPos.blockToSectionCoord(to.x);
-		int toSectionY = SectionPos.blockToSectionCoord(to.y);
-		int toSectionZ = SectionPos.blockToSectionCoord(to.z);
-
-		PortalInstance closest = null;
-		Vec3 closestHit = null;
-		double closestDistSqr = Double.MAX_VALUE;
-
-		for (int x = fromSectionX; x <= toSectionX; x++) {
-			for (int z = fromSectionZ; z <= toSectionZ; z++) {
-				for (int y = fromSectionY; y <= toSectionY; y++) {
-					long packed = SectionPos.asLong(x, y, z);
-					List<PortalInstance> portals = this.sectionsToPortals.get(packed);
-					if (portals == null)
-						continue;
-
-					for (PortalInstance portal : portals) {
-						Vec3 hit = portal.quad.clip(from, to);
-						// it hit, and the hit point is the closest so far
-						if (hit != null && (closest == null || closestDistSqr > hit.distanceToSqr(from))) {
-							closest = portal;
-							closestHit = hit;
-						}
-					}
-				}
-			}
+		class Closest {
+			PortalInstance portal = null;
+			Vec3 hit = null;
+			double distSqr = Double.MIN_VALUE;
 		}
 
-		if (closest == null)
+		final Closest closest = new Closest();
+
+		forEachSectionInBox(from, to, section -> {
+			List<PortalInstance> portals = this.sectionsToPortals.get(section);
+			if (portals == null)
+				return;
+
+			for (PortalInstance portal : portals) {
+				Vec3 hit = portal.quad.clip(from, to);
+				if (hit == null)
+					continue;
+
+				double distSqr = hit.distanceToSqr(from);
+				// if first portal, or this hit is closer than prev. closest
+				if (closest.portal == null || closest.distSqr > distSqr) {
+					closest.portal = portal;
+					closest.hit = hit;
+					closest.distSqr = distSqr;
+				}
+			}
+		});
+
+		if (closest.portal == null)
 			return null;
 
-		PortalPair pair = this.portalsToPairs.get(closest);
-		PortalInstance linked = pair.other(closest);
+		PortalPair pair = this.portalsToPairs.get(closest.portal);
+		PortalInstance linked = pair.other(closest.portal);
+		// only paired portals should be stored
+		Objects.requireNonNull(linked);
 
-		Vec3 teleportedHit = PortalTeleportHandler.teleportAbsoluteVecBetween(closestHit, closest, linked);
-		Vec3 teleportedEnd = PortalTeleportHandler.teleportAbsoluteVecBetween(to, closest, linked);
+		Vec3 teleportedHit = PortalTeleportHandler.teleportAbsoluteVecBetween(closest.hit, closest.portal, linked);
+		Vec3 teleportedEnd = PortalTeleportHandler.teleportAbsoluteVecBetween(to, closest.portal, linked);
 
 		return new PortalHitResult(
-				from, closestHit,
-				closest, linked, pair,
-				closestHit, teleportedHit,
+				from, closest.hit,
+				closest.portal, linked, pair,
+				closest.hit, teleportedHit,
 				this.clip(teleportedHit, teleportedEnd)
 		);
 	}
@@ -82,17 +88,67 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		return this.sectionsToPortals.isEmpty();
 	}
 
+	@Override
+	public CollisionManager collisionManager() {
+		return this.collisionManager;
+	}
+
 	public void portalsChanged(@Nullable PortalPair oldPair, @Nullable PortalPair newPair) {
 		if (oldPair != null && oldPair.isLinked()) {
 			for (PortalInstance portal : oldPair) {
 				this.portalsToPairs.remove(portal);
-				// TODO: iterate sections intersected by plane
+				forEachSectionContainingPortal(portal, section -> {
+					this.sectionsToPortals.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal);
+				});
 			}
+			this.collisionManager.removePair(oldPair);
 		}
 		if (newPair != null && newPair.isLinked()) {
 			for (PortalInstance portal : newPair) {
 				this.portalsToPairs.put(portal, newPair);
-				// TODO: iterate sections intersected by plane
+				forEachSectionContainingPortal(portal, section -> {
+					List<PortalInstance> portals = this.sectionsToPortals.get(section);
+					if (portals != null && portals.remove(portal) && portals.isEmpty()) {
+						this.sectionsToPortals.remove(section);
+					}
+				});
+			}
+			this.collisionManager.addPair(newPair);
+		}
+	}
+
+	private static void forEachSectionContainingPortal(PortalInstance portal, LongConsumer consumer) {
+		forEachSectionInBox(portal.quad.containingBox(), consumer);
+	}
+
+	private static void forEachSectionInBox(Vec3 cornerA, Vec3 cornerB, LongConsumer consumer) {
+		double minX = Math.min(cornerA.x, cornerB.x);
+		double minY = Math.min(cornerA.y, cornerB.y);
+		double minZ = Math.min(cornerA.z, cornerB.z);
+		double maxX = Math.max(cornerA.x, cornerB.x);
+		double maxY = Math.max(cornerA.y, cornerB.y);
+		double maxZ = Math.max(cornerA.z, cornerB.z);
+		forEachSectionInBox(minX, minY, minZ, maxX, maxY, maxZ, consumer);
+	}
+
+	private static void forEachSectionInBox(AABB box, LongConsumer consumer) {
+		forEachSectionInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, consumer);
+	}
+
+	private static void forEachSectionInBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, LongConsumer consumer) {
+		int minSectionX = SectionPos.blockToSectionCoord(minX);
+		int minSectionY = SectionPos.blockToSectionCoord(minY);
+		int minSectionZ = SectionPos.blockToSectionCoord(minZ);
+		int maxSectionX = SectionPos.blockToSectionCoord(maxX);
+		int maxSectionY = SectionPos.blockToSectionCoord(maxY);
+		int maxSectionZ = SectionPos.blockToSectionCoord(maxZ);
+
+		// todo: maybe unroll this manually
+		for (int x = minSectionX; x <= maxSectionX; x++) {
+			for (int y = minSectionY; y <= maxSectionY; y++) {
+				for (int z = minSectionZ; z <= maxSectionZ; z++) {
+					consumer.accept(SectionPos.asLong(x, y, z));
+				}
 			}
 		}
 	}

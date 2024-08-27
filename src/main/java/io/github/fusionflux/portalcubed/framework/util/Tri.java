@@ -30,6 +30,12 @@ public record Tri(Vec3 a, Vec3 b, Vec3 c) implements Iterable<Vec3> {
 		return from.add(lineNormal.scale(dist));
 	}
 
+	public Vec3 normal() {
+		Vec3 a = this.b.subtract(this.a);
+		Vec3 b = this.c.subtract(this.a);
+		return a.cross(b);
+	}
+
 	@NotNull
 	@Override
 	public Iterator<Vec3> iterator() {

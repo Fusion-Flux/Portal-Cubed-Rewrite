@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.Entity;
@@ -83,12 +84,9 @@ public class PortalTeleportHandler {
 		);
 	}
 
-	public static AABB teleportBoxBetween(AABB box, PortalInstance in, PortalInstance out) {
-		Vec3 min = new Vec3(box.minX, box.minY, box.minZ);
-		Vec3 max = new Vec3(box.maxX, box.maxY, box.maxZ);
-		Vec3 one = teleportAbsoluteVecBetween(min, in, out);
-		Vec3 two = teleportAbsoluteVecBetween(max, in, out);
-		return new AABB(one, two);
+	public static OBB teleportAbsoluteBoxBetween(AABB box, PortalInstance in, PortalInstance out) {
+		// TODO
+		throw new RuntimeException();
 	}
 
 	public interface PositionSetter {

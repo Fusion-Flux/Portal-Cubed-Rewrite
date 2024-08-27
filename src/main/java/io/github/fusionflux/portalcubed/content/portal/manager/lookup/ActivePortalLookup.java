@@ -2,6 +2,8 @@ package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.phys.Vec3;
@@ -21,4 +23,6 @@ public interface ActivePortalLookup {
 	 * True if there are no active portals.
 	 */
 	boolean isEmpty();
+
+	CollisionManager collisionManager();
 }

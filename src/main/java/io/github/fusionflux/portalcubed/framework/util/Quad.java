@@ -42,6 +42,29 @@ public record Quad(Tri a, Tri b) {
 		return new AABB(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 
+	public Vec3 normal() {
+		// assume not degenerate
+		return this.a.normal();
+	}
+
+	public Vec3 center() {
+		Vec3 topLeft = this.a.a();
+		Vec3 bottomRight = this.b.b();
+		return topLeft.lerp(bottomRight, 0.5);
+	}
+
+	public double width() {
+		Vec3 topLeft = this.a.a();
+		Vec3 topRight = this.a.b();
+		return topLeft.distanceTo(topRight);
+	}
+
+	public double height() {
+		Vec3 topLeft = this.a.a();
+		Vec3 bottomLeft = this.a.c();
+		return topLeft.distanceTo(bottomLeft);
+	}
+
 	public static Quad create(Quaternionf rotation, Vec3 center, double width, double height) {
 		double w = width / 2;
 		double h = height / 2;

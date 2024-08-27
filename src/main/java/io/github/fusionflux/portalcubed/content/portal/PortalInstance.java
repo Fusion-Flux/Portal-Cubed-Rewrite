@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import com.mojang.serialization.Codec;
 
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.Plane;
 import io.github.fusionflux.portalcubed.framework.util.Quad;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
@@ -9,6 +10,7 @@ import net.minecraft.core.FrontAndTop;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
@@ -34,6 +36,10 @@ public final class PortalInstance {
 	public final Quaternionf rotation;
 	public final Quaternionf rotation180;
 	public final Plane plane;
+
+	public final OBB entityCollisionBounds;
+	public final OBB blockModificationArea;
+	public final VoxelShape blockModificationShape;
 
     public PortalInstance(PortalData data) {
         this.data = data;
