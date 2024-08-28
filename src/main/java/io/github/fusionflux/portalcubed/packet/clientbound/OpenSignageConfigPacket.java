@@ -19,14 +19,14 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
-public abstract class OpenSignagePanelConfigPacket implements ClientboundPacket {
-	protected final BlockPos signagePanelPos;
+public abstract sealed class OpenSignageConfigPacket implements ClientboundPacket permits OpenSignageConfigPacket.Large {
+	protected final BlockPos signagePos;
 
-	private OpenSignagePanelConfigPacket(BlockPos signagePanelPos) {
-		this.signagePanelPos = signagePanelPos;
+	private OpenSignageConfigPacket(BlockPos signagePos) {
+		this.signagePos = signagePos;
 	}
 
-	private OpenSignagePanelConfigPacket(FriendlyByteBuf buf) {
+	private OpenSignageConfigPacket(FriendlyByteBuf buf) {
 		this(buf.readBlockPos());
 	}
 
@@ -36,21 +36,21 @@ public abstract class OpenSignagePanelConfigPacket implements ClientboundPacket 
 
 	@Override
 	public final void write(FriendlyByteBuf buf) {
-		buf.writeBlockPos(this.signagePanelPos);
+		buf.writeBlockPos(this.signagePos);
 	}
 
 	@ClientOnly
 	@Override
 	public final void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
 		Minecraft client = Minecraft.getInstance();
-		Screen screen = this.createScreen(player.level().getBlockEntity(this.signagePanelPos));
+		Screen screen = this.createScreen(player.level().getBlockEntity(this.signagePos));
 		if (client.screen == null && screen != null)
 			client.setScreen(screen);
 	}
 
-	public static final class Large extends OpenSignagePanelConfigPacket {
-		public Large(BlockPos signagePanelPos) {
-			super(signagePanelPos);
+	public static final class Large extends OpenSignageConfigPacket {
+		public Large(BlockPos signagePos) {
+			super(signagePos);
 		}
 
 		public Large(FriendlyByteBuf buf) {
@@ -66,7 +66,7 @@ public abstract class OpenSignagePanelConfigPacket implements ClientboundPacket 
 
 		@Override
 		public ResourceLocation getId() {
-			return PortalCubedPackets.OPEN_LARGE_SIGNAGE_PANEL_CONFIG;
+			return PortalCubedPackets.OPEN_LARGE_SIGNAGE_CONFIG;
 		}
 	}
 }

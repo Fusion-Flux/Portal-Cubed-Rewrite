@@ -11,13 +11,14 @@ import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
-import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignagePanelConfigPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DropPacket;
@@ -45,9 +46,10 @@ public class PortalCubedPackets {
 	public static final ResourceLocation HOLD_STATUS = clientbound("hold_status", HoldStatusPacket::new);
 	public static final ResourceLocation DISINTEGRATE = clientbound("disintegrate", DisintegratePacket::new);
 	public static final ResourceLocation SIMPLE_PARTICLE = clientbound("simple_particle", SimpleParticlePacket::new);
-	public static final ResourceLocation OPEN_LARGE_SIGNAGE_PANEL_CONFIG = clientbound("open_large_signage_panel_config", OpenSignagePanelConfigPacket.Large::new);
+	public static final ResourceLocation OPEN_LARGE_SIGNAGE_CONFIG = clientbound("open_large_signage_config", OpenSignageConfigPacket.Large::new);
 	// serverbound
 	public static final ResourceLocation CONFIGURE_PEDESTAL_BUTTON = serverbound("configure_pedestal_button", ConfigurePedestalButtonPacket::new);
+	public static final ResourceLocation CONFIGURE_LARGE_SIGNAGE = serverbound("configure_large_signage", ConfigureSignageConfigPacket.Large::new);
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);
 	public static final ResourceLocation CONFIGURE_CANNON = serverbound("configure_cannon", ConfigureCannonPacket::new);
 	public static final ResourceLocation GRAB = serverbound("grab", GrabPacket::new);

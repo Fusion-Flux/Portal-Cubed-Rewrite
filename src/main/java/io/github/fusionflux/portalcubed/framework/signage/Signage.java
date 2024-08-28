@@ -63,6 +63,18 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 		void unbindValue() {
 			this.value = null;
 		}
+
+		@Override
+		public int hashCode() {
+			return this.id.hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (!(obj instanceof Holder other))
+				return false;
+			return this.id.equals(other.id);
+		}
 	}
 
 	public enum Size implements StringRepresentable {

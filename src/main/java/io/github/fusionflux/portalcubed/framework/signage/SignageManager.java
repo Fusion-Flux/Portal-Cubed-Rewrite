@@ -9,6 +9,7 @@ import com.mojang.serialization.JsonOps;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
+import net.minecraft.Optionull;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -26,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -99,11 +99,9 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 		return this.entries.get(id);
 	}
 
-	public Collection<Signage> allOfSize(Signage.Size size) {
+	public Collection<Signage.Holder> allOfSize(Signage.Size size) {
 		return this.entries.values().stream()
-				.map(Signage.Holder::value)
-				.filter(Objects::nonNull)
-				.filter(signage -> signage.size() == size)
+				.filter(holder -> Optionull.map(holder.value(), value -> value.size() == size))
 				.toList();
 	}
 }

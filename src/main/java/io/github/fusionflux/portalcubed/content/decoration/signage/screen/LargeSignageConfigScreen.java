@@ -8,6 +8,8 @@ import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -59,16 +61,22 @@ public class LargeSignageConfigScreen extends Screen {
 
 		{
 			GridLayout slots = root.addChild(15, 16, new GridLayout());
-			Collection<Signage> supportedSignage = SignageManager.INSTANCE.allOfSize(Signage.Size.LARGE);
+			Collection<Signage.Holder> supportedSignage = SignageManager.INSTANCE.allOfSize(Signage.Size.LARGE);
 			int rowCount = Mth.positiveCeilDiv(supportedSignage.size(), COLUMNS) - ROWS;
 			int scrollRowPos = Math.max((int) ((this.scrollBar.scrollPos() * rowCount) + .5f), 0);
 			int i = -(COLUMNS * scrollRowPos);
 			this.scrollBar.active = rowCount > 0;
 			if (this.scrollBar.active)
 				this.scrollBar.scrollRate = 1f / rowCount;
-			for (Signage signage : supportedSignage) {
+			for (Signage.Holder holder : supportedSignage) {
 				if (i >= 0) {
-					SignageSlotWidget slot = new SignageSlotWidget(signage, false, () -> slots.visitWidgets(widget -> ((SignageSlotWidget) widget).deselect()));
+					SignageSlotWidget slot = new SignageSlotWidget(holder.value(), false, () -> {
+						slots.visitWidgets(widget -> ((SignageSlotWidget) widget).deselect());
+						PortalCubedPackets.sendToServer(new ConfigureSignageConfigPacket.Large(this.largeSignage.getBlockPos(), holder));
+					});
+					if (this.largeSignage.holder() == holder)
+						slot.select();
+
 					slots.addChild(slot, i / COLUMNS, i % COLUMNS);
 				}
 				if (++i >= SIZE) break;

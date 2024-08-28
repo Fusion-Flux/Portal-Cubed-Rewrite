@@ -31,12 +31,20 @@ public class LargeSignageBlockEntity extends BlockEntity implements QuiltBlockEn
 		this.holder = SignageManager.INSTANCE.getBlank(Signage.Size.LARGE);
 	}
 
-	private void updateSignage(Signage.Holder holder) {
+	public Signage.Holder holder() {
+		return this.holder;
+	}
+
+	public void update(Signage.Holder holder) {
 		if (holder != null && (holder.id() != Optionull.map(this.holder, Signage.Holder::id))) {
 			this.holder = holder;
-			if (this.level != null && this.level.isClientSide) {
-				BlockState state = this.getBlockState();
-				this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);
+			if (this.level != null) {
+				if (!this.level.isClientSide) {
+					this.sync();
+				} else {
+					BlockState state = this.getBlockState();
+					this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);
+				}
 			}
 		}
 	}
@@ -45,7 +53,7 @@ public class LargeSignageBlockEntity extends BlockEntity implements QuiltBlockEn
 	public void load(CompoundTag nbt) {
 		ResourceLocation signageId = ResourceLocation.tryParse(nbt.getString(SIGNAGE_KEY));
 		if (signageId != null)
-			this.updateSignage(SignageManager.INSTANCE.get(signageId));
+			this.update(SignageManager.INSTANCE.get(signageId));
 	}
 
 	@Override

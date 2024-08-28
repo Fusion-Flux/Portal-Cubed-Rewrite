@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignagePanelConfigPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
 import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -96,7 +96,7 @@ public class LargeSignageBlock extends FaceAttachedHorizontalDirectionalBlock im
 	@NotNull
 	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player) {
 		if (player instanceof ServerPlayer serverPlayer)
-			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignagePanelConfigPacket.Large(pos));
+			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Large(pos));
 		return InteractionResult.sidedSuccess(world.isClientSide);
 	}
 
