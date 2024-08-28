@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.signage;
 
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -26,7 +27,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -40,6 +43,7 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 
 	private final SortedMap<ResourceLocation, Signage.Holder> entries = new TreeMap<>();
 	private final EnumMap<Signage.Size, Signage.Holder> blank = new EnumMap<>(Signage.Size.class);
+	private final Set<ResourceLocation> loaded = new HashSet<>();
 
 	private SignageManager() {
 		super(gson, ID.getPath());
@@ -58,28 +62,39 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 			ResourceLocation id = entry.getKey();
 			Signage.CODEC.parse(JsonOps.INSTANCE, entry.getValue())
 					.resultOrPartial(message -> logger.error("Failed to parse signage {}: {}", id, message))
-					.map(signage -> this.entries.put(id, new Signage.Holder(id, signage)));
+					.ifPresent(signage -> this.loadSignage(id, signage));
 		}
-		this.findBlank();
+		this.update();
 	}
 
 	public void readFromPacket(SignageSyncPacket packet) {
-		this.reset();
-		this.findBlank();
+		// TODO: Sync packet
+	}
+
+	private void loadSignage(ResourceLocation id, Signage signage) {
+		this.entries.computeIfAbsent(id, $ -> new Signage.Holder(id, null))
+				.bindValue(signage);
+		this.loaded.add(id);
 	}
 
 	private void reset() {
-		this.entries.forEach(($, holder) -> holder.unbindValue());
-		this.entries.clear();
-		this.blank.clear();
+		this.entries.forEach(($, holder) -> holder.bindValue(null));
+		this.loaded.clear();
 	}
 
-	private void findBlank() {
+	private void update() {
+		for (ResourceLocation unload : Sets.difference(this.entries.keySet(), this.loaded).copyInto(new HashSet<>())) {
+			this.entries.remove(unload);
+		}
+
 		for (Signage.Size size : Signage.Size.values()) {
 			ResourceLocation id = PortalCubed.id(String.format("blank_%s", size.name));
 			Signage.Holder holder = this.entries.get(id);
-			if (holder != null)
+			if (holder != null) {
 				this.blank.put(size, holder);
+			} else {
+				this.blank.remove(size);
+			}
 		}
 	}
 

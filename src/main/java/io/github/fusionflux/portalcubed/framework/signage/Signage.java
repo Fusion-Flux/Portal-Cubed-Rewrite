@@ -60,8 +60,8 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 			return this.value;
 		}
 
-		void unbindValue() {
-			this.value = null;
+		void bindValue(Signage value) {
+			this.value = value;
 		}
 
 		@Override
