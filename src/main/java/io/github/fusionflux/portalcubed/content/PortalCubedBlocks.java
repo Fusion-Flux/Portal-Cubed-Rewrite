@@ -233,8 +233,12 @@ public class PortalCubedBlocks {
 
 	// ----- signage panels -----
 	public static final LargeSignageBlock LARGE_SIGNAGE = REGISTRAR.blocks.create("large_signage", LargeSignageBlock::new)
-			.copyFrom(Blocks.GLASS_PANE)
-			.settings(settings -> settings.mapColor(MapColor.COLOR_BLACK))
+			.copyFrom(Blocks.GLASS)
+			.settings(settings -> settings
+					.mapColor(MapColor.QUARTZ)
+					.sounds(SoundType.COPPER_BULB)
+					.noCollision()
+			)
 			.build();
 
 	// ----- misc blocks - tiles -----
