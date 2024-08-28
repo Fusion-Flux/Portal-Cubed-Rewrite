@@ -29,6 +29,16 @@ public class ModelUtil {
 		return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(texture);
 	}
 
+	public static void normalizeUV(MutableQuadView quad, TextureAtlasSprite sprite) {
+		float uMin = sprite.getU0();
+		float uSpan = sprite.getU1() - uMin;
+		float vMin = sprite.getV0();
+		float vSpan = sprite.getV1() - vMin;
+		for (int i = 0; i < 4; i++) {
+			quad.uv(i, (quad.u(i) - uMin) / uSpan, (quad.v(i) - vMin) / vSpan);
+		}
+	}
+
 	public static void emitVanillaQuads(
 			BakedModel model,
 			boolean item,
