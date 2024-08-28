@@ -13,7 +13,7 @@ import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 
-import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
+import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,13 +26,10 @@ public abstract class BlockModelMixin {
 	public abstract List<BlockElement> getElements();
 
 	@ModifyReturnValue(method = "bakeFace", at = @At("RETURN"))
-	private static BakedQuad addRenderType(BakedQuad quad,
-										   BlockElement part, BlockElementFace partFace, TextureAtlasSprite sprite,
-										   Direction direction, ModelState transform, ResourceLocation location) {
-		RenderMaterial material = ((BlockElementExt) part).pc$renderMaterial();
-		if (material != null) {
-			((BakedQuadExt) quad).pc$setRenderMaterial(material);
-		}
+	private static BakedQuad addRenderType(BakedQuad quad, BlockElement part, BlockElementFace partFace, TextureAtlasSprite sprite, Direction direction, ModelState transform, ResourceLocation location) {
+		BlendMode blendMode = ((BlockElementExt) part).pc$blendMode();
+		((BakedQuadExt) quad).pc$setBlendMode(blendMode);
+		((BakedQuadExt) quad).pc$setTextureReference(partFace.texture);
 		return quad;
 	}
 }

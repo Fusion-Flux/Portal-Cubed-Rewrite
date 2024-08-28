@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.framework.model;
 
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
@@ -16,10 +15,6 @@ public class TransformingBakedModel extends ForwardingBakedModel {
 
 	public TransformingBakedModel(RenderContext.QuadTransform transform) {
 		this.transform = transform;
-	}
-
-	public void setWrappedModel(BakedModel model) {
-		this.wrapped = model;
 	}
 
 	@Override

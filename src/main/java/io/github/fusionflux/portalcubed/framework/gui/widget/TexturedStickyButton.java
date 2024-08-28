@@ -22,7 +22,7 @@ public class TexturedStickyButton extends AbstractWidget {
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		if (!this.isActive())
-			return;
+				return;
 		ResourceLocation texture = this.textures.choose(this.isHovered(), this.selected);
 		graphics.blitSprite(texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}

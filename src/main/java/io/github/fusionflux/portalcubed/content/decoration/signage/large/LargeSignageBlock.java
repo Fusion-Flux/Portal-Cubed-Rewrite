@@ -24,20 +24,20 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LargeSignagePanelBlock extends FaceAttachedHorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, HammerableBlock {
+public class LargeSignageBlock extends FaceAttachedHorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, HammerableBlock {
 	// TODO: When data driven blocks drop this should probably be a more advanced codec
-	public static final MapCodec<LargeSignagePanelBlock> CODEC = simpleCodec(LargeSignagePanelBlock::new);
+	public static final MapCodec<LargeSignageBlock> CODEC = simpleCodec(LargeSignageBlock::new);
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-	public LargeSignagePanelBlock(Properties properties) {
+	public LargeSignageBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL));
 	}
 
 	@Override
 	@NotNull
-	protected MapCodec<LargeSignagePanelBlock> codec() {
+	protected MapCodec<LargeSignageBlock> codec() {
 		return CODEC;
 	}
 
@@ -56,6 +56,6 @@ public class LargeSignagePanelBlock extends FaceAttachedHorizontalDirectionalBlo
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new LargeSignagePanelBlockEntity(pos, state);
+		return new LargeSignageBlockEntity(pos, state);
 	}
 }

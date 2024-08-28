@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import org.jetbrains.annotations.Nullable;
+import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 
-import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
+import org.jetbrains.annotations.Nullable;
 
 public interface BlockElementExt {
 	@Nullable
@@ -12,7 +12,7 @@ public interface BlockElementExt {
 
 
 	@Nullable
-	RenderMaterial pc$renderMaterial();
+	BlendMode pc$blendMode();
 
-	void pc$setRenderMaterial(RenderMaterial material);
+	void pc$setBlendMode(BlendMode mode);
 }

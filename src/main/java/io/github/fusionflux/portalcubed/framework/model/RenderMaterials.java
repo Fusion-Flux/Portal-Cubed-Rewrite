@@ -1,21 +1,24 @@
 package io.github.fusionflux.portalcubed.framework.model;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 import com.google.gson.JsonParseException;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import net.fabricmc.fabric.api.renderer.v1.material.MaterialFinder;
+
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.util.TriState;
+
+import net.minecraft.Optionull;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.Util;
+
+import java.util.Locale;
 
 public class RenderMaterials {
 	@Nullable
@@ -26,55 +29,35 @@ public class RenderMaterials {
 
 	public static final boolean ARE_SUPPORTED = checkSupport();
 
-	public static final Map<String, RenderMaterial> BY_NAME = new HashMap<>();
+	public static final RenderMaterial STANDARD = Optionull.map(finder, MaterialFinder::find);
+	public static final RenderMaterial NO_AO = Optionull.map(finder, $ -> finder.ambientOcclusion(TriState.FALSE).find());
 
-	public static final RenderMaterial DEFAULT = makeMaterial(BlendMode.DEFAULT, false);
-	public static final RenderMaterial SOLID = makeMaterial(BlendMode.SOLID, false);
-	public static final RenderMaterial CUTOUT = makeMaterial(BlendMode.CUTOUT, false);
-	public static final RenderMaterial CUTOUT_MIPPED = makeMaterial(BlendMode.CUTOUT_MIPPED, false);
-	public static final RenderMaterial TRANSLUCENT = makeMaterial(BlendMode.TRANSLUCENT, false);
+	private static final Object2ObjectOpenHashMap<String, BlendMode> BLEND_MODES = Util.make(new Object2ObjectOpenHashMap<>(), map -> {
+		for (BlendMode mode : BlendMode.values()) {
+			map.put(mode.name().toLowerCase(Locale.ROOT), mode);
+		}
+	});
 
-	public static final RenderMaterial DEFAULT_EMISSIVE = makeMaterial(BlendMode.DEFAULT, true);
-	public static final RenderMaterial SOLID_EMISSIVE = makeMaterial(BlendMode.SOLID, true);
-	public static final RenderMaterial CUTOUT_EMISSIVE = makeMaterial(BlendMode.CUTOUT, true);
-	public static final RenderMaterial CUTOUT_MIPPED_EMISSIVE = makeMaterial(BlendMode.CUTOUT_MIPPED, true);
-	public static final RenderMaterial TRANSLUCENT_EMISSIVE = makeMaterial(BlendMode.TRANSLUCENT, true);
-
-	public static final String SUPPORTED_TYPES = String.join(", ", BY_NAME.keySet());
-
-	public static RenderMaterial get(BlendMode mode, boolean emissive) {
-		return switch (mode) {
-			case DEFAULT -> emissive ? DEFAULT_EMISSIVE : DEFAULT;
-			case SOLID -> emissive ? SOLID_EMISSIVE : SOLID;
-			case CUTOUT -> emissive ? CUTOUT_EMISSIVE : CUTOUT;
-			case CUTOUT_MIPPED -> emissive ? CUTOUT_MIPPED_EMISSIVE : CUTOUT_MIPPED;
-			case TRANSLUCENT -> emissive ? TRANSLUCENT_EMISSIVE : TRANSLUCENT;
-		};
+	public static BlendMode parseBlendMode(String name) {
+		BlendMode mode = BLEND_MODES.get(name);
+		if (mode == null)
+			throw new JsonParseException(String.format("Invalid blend mode \"%s\"; must be one of: %s", name, String.join(", ", BLEND_MODES.keySet())));
+		return mode;
 	}
 
-	public static RenderMaterial parse(String name) {
-		RenderMaterial material = BY_NAME.get(name);
-		if (material == null) {
-			throw new JsonParseException("Invalid render material \"" + name + "\"; must be one of: " + SUPPORTED_TYPES);
-		}
-		return material;
+	public static MaterialFinder finder() {
+		if (!ARE_SUPPORTED)
+			throw new IllegalStateException("Tried to access material finder with no renderer present!");
+		return finder;
 	}
 
-	private static RenderMaterial makeMaterial(BlendMode mode, boolean emissive) {
-		if (finder == null)
-			return null;
-
-		finder.clear().blendMode(mode);
-		String name = mode.name().toLowerCase(Locale.ROOT);
-		if (emissive) {
-			finder.emissive(true)
-					.disableDiffuse(true)
-					.ambientOcclusion(TriState.FALSE);
-			name += "_emissive";
-		}
-		RenderMaterial material = finder.find();
-		BY_NAME.put(name, material);
-		return material;
+	public static RenderMaterial makeEmissive(RenderMaterial material) {
+		return finder()
+				.copyFrom(material)
+				.emissive(true)
+				.disableDiffuse(true)
+				.ambientOcclusion(TriState.FALSE)
+				.find();
 	}
 
 	private static boolean checkSupport() {

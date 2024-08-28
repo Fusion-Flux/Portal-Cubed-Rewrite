@@ -3,8 +3,7 @@ package io.github.fusionflux.portalcubed.content;
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
-import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignagePanelBlockEntity;
-import net.minecraft.world.level.block.Blocks;
+import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class PortalCubedBlockEntityTypes {
@@ -14,10 +13,10 @@ public class PortalCubedBlockEntityTypes {
 		PortalCubedBlocks.PEDESTAL_BUTTON, PortalCubedBlocks.OLD_AP_PEDESTAL_BUTTON
 	);
 
-	public static final BlockEntityType<LargeSignagePanelBlockEntity> LARGE_SIGNAGE_PANEL = REGISTRAR.blockEntities.simple(
+	public static final BlockEntityType<LargeSignageBlockEntity> LARGE_SIGNAGE_PANEL = REGISTRAR.blockEntities.simple(
 		"large_signage_panel",
-		LargeSignagePanelBlockEntity::new,
-		PortalCubedBlocks.LARGE_SIGNAGE_PANEL
+		LargeSignageBlockEntity::new,
+		PortalCubedBlocks.LARGE_SIGNAGE
 	);
 
 	public static void init() {

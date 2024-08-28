@@ -7,7 +7,7 @@ import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignagePanelBlock;
+import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
@@ -232,7 +232,7 @@ public class PortalCubedBlocks {
 			.build();
 
 	// ----- signage panels -----
-	public static final LargeSignagePanelBlock LARGE_SIGNAGE_PANEL = REGISTRAR.blocks.create("large_signage_panel", LargeSignagePanelBlock::new)
+	public static final LargeSignageBlock LARGE_SIGNAGE = REGISTRAR.blocks.create("large_signage", LargeSignageBlock::new)
 			.copyFrom(Blocks.GLASS_PANE)
 			.settings(settings -> settings.mapColor(MapColor.COLOR_BLACK))
 			.build();

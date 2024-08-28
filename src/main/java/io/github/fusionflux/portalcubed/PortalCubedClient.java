@@ -16,6 +16,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
+import io.github.fusionflux.portalcubed.framework.model.SpriteFinderCache;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -48,6 +49,7 @@ public class PortalCubedClient implements ClientModInitializer {
 		LongFallBootsModel.init();
 		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT.location(), false);
 		PropModelCache.register();
+		SpriteFinderCache.register();
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 
 		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);

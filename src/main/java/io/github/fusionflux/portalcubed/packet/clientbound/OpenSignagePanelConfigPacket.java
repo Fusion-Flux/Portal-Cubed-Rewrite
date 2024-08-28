@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
-import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignagePanelBlockEntity;
-import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignagePanelConfigScreen;
+import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlockEntity;
+import io.github.fusionflux.portalcubed.content.decoration.signage.screen.LargeSignageConfigScreen;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.Minecraft;
@@ -61,7 +61,7 @@ public abstract class OpenSignagePanelConfigPacket implements ClientboundPacket 
 		@ClientOnly
 		@Nullable
 		protected Screen createScreen(@Nullable BlockEntity blockEntity) {
-			return blockEntity instanceof LargeSignagePanelBlockEntity signagePanel ? new LargeSignagePanelConfigScreen(signagePanel) : null;
+			return blockEntity instanceof LargeSignageBlockEntity signage ? new LargeSignageConfigScreen(signage) : null;
 		}
 
 		@Override
