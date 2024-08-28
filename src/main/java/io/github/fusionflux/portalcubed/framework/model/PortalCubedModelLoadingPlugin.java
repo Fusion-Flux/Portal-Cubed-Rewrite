@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.model;
 
-import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureBakedModel;
+import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureWrapper;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.Context;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.Util;
@@ -48,23 +48,22 @@ public enum PortalCubedModelLoadingPlugin implements PreparableModelLoadingPlugi
 	@Override
 	public void onInitializeModelLoader(EmissiveData emissiveData, Context ctx) {
 		Event<ModelModifier.AfterBake> modifyEvent = ctx.modifyModelAfterBake();
+		modifyEvent.register(ModelModifier.WRAP_PHASE, new DynamicTextureWrapper());
 		modifyEvent.register(ModelModifier.WRAP_PHASE, new MultiBlendModeWrapper());
-		modifyEvent.register(ModelModifier.WRAP_PHASE, (model, context) -> {
+		modifyEvent.register(ModelModifier.WRAP_PHASE, new EmissiveWrapper(emissiveData));
+
+		for (ResourceLocation model : FIRE_MODELS) {
+			ctx.addModels(PortalCubed.id(model.getPath().replace("fire", "magnesium_fire")));
+		}
+		modifyEvent.register(ModelModifier.DEFAULT_PHASE, (model, context) -> {
 			ResourceLocation modelId = context.id();
 			if (currentSelectorBaking != null && FIRE_MODELS.contains(modelId)) {
 				ResourceLocation magnesiumVariantId = PortalCubed.id(modelId.getPath().replace("fire", "magnesium_fire"));
 				BakedModel magnesiumVariant = context.baker().bake(magnesiumVariantId, context.settings());
 				if (magnesiumVariant != null)
 					return new MagnesiumFireModel(model, magnesiumVariant, currentSelectorBaking);
-			} else if (modelId.getNamespace().equals(PortalCubed.ID) && modelId.getPath().endsWith("_signage")) {
-				return new DynamicTextureBakedModel(model);
 			}
 			return model;
 		});
-		modifyEvent.register(ModelModifier.WRAP_PHASE, new EmissiveWrapper(emissiveData));
-
-		for (var model : FIRE_MODELS) {
-			ctx.addModels(PortalCubed.id(model.getPath().replace("fire", "magnesium_fire")));
-		}
 	}
 }

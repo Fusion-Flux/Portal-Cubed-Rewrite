@@ -33,6 +33,7 @@
     "client.BlockElement_DeserializerMixin",
     "client.BlockElementMixin",
     "client.BlockModel_DeserializerMixin",
+    "client.BlockModelAccessor",
     "client.BlockModelMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
