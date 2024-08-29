@@ -36,6 +36,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.PEDESTAL_BUTTON);
 			output.accept(PortalCubedBlocks.OLD_AP_PEDESTAL_BUTTON);
+			output.accept(PortalCubedBlocks.PORTAL_GUN_PEDESTAL);
 			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
 			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
 			addProp(output, PropType.STORAGE_CUBE);
