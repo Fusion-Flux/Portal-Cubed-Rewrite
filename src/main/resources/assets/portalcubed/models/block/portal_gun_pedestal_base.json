@@ -3,6 +3,7 @@
 	"textures": {
 		"0": "portalcubed:block/portal_1_white_half_panel",
 		"1": "portalcubed:block/portal_gun_pedestal_base",
+		"2": "portalcubed:block/portal_gun_pedestal_base_e",
 		"particle": "portalcubed:block/portal_1_white_half_panel"
 	},
 	"elements": [
@@ -58,6 +59,14 @@
 				"south": {"uv": [0.032, 7.532, 7, 8], "texture": "#1"},
 				"west": {"uv": [0.032, 7.532, 7, 8], "texture": "#1"},
 				"up": {"uv": [0.032, 0.032, 7, 7], "texture": "#1"}
+			}
+		},
+		{
+			"from": [1, 17.025, 1],
+			"to": [15, 17.025, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1.5, 16, 2.5]},
+			"faces": {
+				"up": {"uv": [1.1, 1.1, 14.95, 15], "texture": "#2"}
 			}
 		},
 		{
