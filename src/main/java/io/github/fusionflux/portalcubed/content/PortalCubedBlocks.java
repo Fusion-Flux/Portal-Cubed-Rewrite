@@ -117,6 +117,7 @@ public class PortalCubedBlocks {
 	public static final PortalGunPedestalArmBlock PORTAL_GUN_PEDESTAL_ARM = REGISTRAR.blocks.createFrom("portal_gun_pedestal_arm", PortalGunPedestalArmBlock::new, Blocks.STONE)
 			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_WHITE))
 			.renderType(RenderTypes.CUTOUT)
+			.item(BlockItemProvider::noItem)
 			.build();
 	// ----- panels -----
 	public static final Map<PanelMaterial, Map<PanelPart, Block>> PANELS = Util.make(
