@@ -42,7 +42,7 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 		return DataResult.success(signage);
 	}
 
-	public static final class Holder {
+	public static final class Holder implements Comparable<Holder> {
 		private final ResourceLocation id;
 		private Signage value;
 
@@ -74,6 +74,11 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 			if (!(obj instanceof Holder other))
 				return false;
 			return this.id.equals(other.id);
+		}
+
+		@Override
+		public int compareTo(@NotNull Signage.Holder o) {
+			return this.id.compareTo(o.id);
 		}
 	}
 

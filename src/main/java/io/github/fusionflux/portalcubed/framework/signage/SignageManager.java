@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.signage;
 
-import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,6 +9,7 @@ import com.mojang.serialization.JsonOps;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.Optionull;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -30,8 +30,6 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class SignageManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloader {
 	public static final ResourceLocation ID = PortalCubed.id("signage");
@@ -41,7 +39,7 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 
 	public static final SignageManager INSTANCE = new SignageManager();
 
-	private final SortedMap<ResourceLocation, Signage.Holder> entries = new TreeMap<>();
+	private final Object2ObjectOpenHashMap<ResourceLocation, Signage.Holder> entries = new Object2ObjectOpenHashMap<>();
 	private final EnumMap<Signage.Size, Signage.Holder> blank = new EnumMap<>(Signage.Size.class);
 	private final Set<ResourceLocation> loaded = new HashSet<>();
 
@@ -83,8 +81,9 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 	}
 
 	private void update() {
-		for (ResourceLocation unload : Sets.difference(this.entries.keySet(), this.loaded).copyInto(new HashSet<>())) {
-			this.entries.remove(unload);
+		for (ResourceLocation id : this.entries.keySet()) {
+			if (!this.loaded.contains(id))
+				this.entries.remove(id);
 		}
 
 		for (Signage.Size size : Signage.Size.values()) {
@@ -116,7 +115,7 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 
 	public Collection<Signage.Holder> allOfSize(Signage.Size size) {
 		return this.entries.values().stream()
-				.filter(holder -> Optionull.map(holder.value(), value -> value.size() == size))
+				.filter(holder -> Optionull.map(holder.value(), Signage::size) == size)
 				.toList();
 	}
 }

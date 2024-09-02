@@ -31,6 +31,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.jetbrains.annotations.NotNull;
@@ -83,6 +84,13 @@ public class LargeSignageBlock extends FaceAttachedHorizontalDirectionalBlock im
 			case WALL -> state.getValue(FACING);
 			case CEILING -> Direction.DOWN;
 		});
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	@NotNull
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+		return Shapes.empty();
 	}
 
 	@SuppressWarnings("deprecation")

@@ -19,7 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class LargeSignageConfigScreen extends Screen {
@@ -32,6 +32,7 @@ public class LargeSignageConfigScreen extends Screen {
 	private static final int SIZE = COLUMNS * ROWS;
 
 	public static final Component TITLE = Component.translatable("container.portalcubed.large_signage");
+	public static final Component AGED_TITLE = Component.translatable("container.portalcubed.aged_large_signage");
 
 	private final LargeSignageBlockEntity largeSignage;
 
@@ -40,7 +41,7 @@ public class LargeSignageConfigScreen extends Screen {
 	private ScrollbarWidget scrollBar;
 
     public LargeSignageConfigScreen(LargeSignageBlockEntity largeSignage) {
-		super(TITLE);
+		super(largeSignage.aged ? AGED_TITLE : TITLE);
 		this.largeSignage = largeSignage;
 
 		this.scrollBar = new ScrollbarWidget(SCROLLER, () -> {
@@ -56,21 +57,26 @@ public class LargeSignageConfigScreen extends Screen {
 		this.leftPos = (this.width - BACKGROUND_WIDTH) / 2;
         this.topPos = (this.height - BACKGROUND_HEIGHT) / 2;
 
-		PanelLayout root = new PanelLayout();
+		PanelLayout root = new 	PanelLayout();
 		root.addChild(8, 6, new TitleWidget(title, font));
 
 		{
 			GridLayout slots = root.addChild(15, 16, new GridLayout());
-			Collection<Signage.Holder> supportedSignage = SignageManager.INSTANCE.allOfSize(Signage.Size.LARGE);
+
+			ArrayList<Signage.Holder> supportedSignage = new ArrayList<>(SignageManager.INSTANCE.allOfSize(Signage.Size.LARGE));
+			Collections.sort(supportedSignage);
+
 			int rowCount = Mth.positiveCeilDiv(supportedSignage.size(), COLUMNS) - ROWS;
 			int scrollRowPos = Math.max((int) ((this.scrollBar.scrollPos() * rowCount) + .5f), 0);
 			int i = -(COLUMNS * scrollRowPos);
-			this.scrollBar.active = rowCount > 0;
-			if (this.scrollBar.active)
+			if (rowCount > 0) {
+				this.scrollBar.active = true;
 				this.scrollBar.scrollRate = 1f / rowCount;
+			}
+
 			for (Signage.Holder holder : supportedSignage) {
 				if (i >= 0) {
-					SignageSlotWidget slot = new SignageSlotWidget(holder.value(), false, () -> {
+					SignageSlotWidget slot = new SignageSlotWidget(holder.value(), this.largeSignage.aged, () -> {
 						slots.visitWidgets(widget -> ((SignageSlotWidget) widget).deselect());
 						PortalCubedPackets.sendToServer(new ConfigureSignageConfigPacket.Large(this.largeSignage.getBlockPos(), holder));
 					});

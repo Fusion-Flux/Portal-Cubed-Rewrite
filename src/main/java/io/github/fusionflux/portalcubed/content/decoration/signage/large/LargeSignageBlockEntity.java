@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
+import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureRenderData;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
@@ -23,11 +24,15 @@ import org.quiltmc.qsl.block.entity.api.QuiltBlockEntity;
 public class LargeSignageBlockEntity extends BlockEntity implements QuiltBlockEntity {
 	public static final String SIGNAGE_KEY = "signage";
 
+
+	public final boolean aged;
+
 	@Nullable
 	private Signage.Holder holder;
 
 	public LargeSignageBlockEntity(BlockPos pos, BlockState state) {
 		super(PortalCubedBlockEntityTypes.LARGE_SIGNAGE_PANEL, pos, state);
+		this.aged = state.is(PortalCubedBlocks.AGED_LARGE_SIGNAGE);
 		this.holder = SignageManager.INSTANCE.getBlank(Signage.Size.LARGE);
 	}
 
@@ -43,7 +48,7 @@ public class LargeSignageBlockEntity extends BlockEntity implements QuiltBlockEn
 					this.sync();
 				} else {
 					BlockState state = this.getBlockState();
-					this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);
+					this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_CLIENTS);
 				}
 			}
 		}
@@ -70,7 +75,7 @@ public class LargeSignageBlockEntity extends BlockEntity implements QuiltBlockEn
 	@NotNull
 	@Override
 	public CompoundTag getUpdateTag() {
-		return saveWithoutMetadata();
+		return this.saveWithoutMetadata();
 	}
 
 	@Override
@@ -79,7 +84,7 @@ public class LargeSignageBlockEntity extends BlockEntity implements QuiltBlockEn
 		DynamicTextureRenderData.Builder builder = new DynamicTextureRenderData.Builder();
 		Signage signage = Optionull.map(this.holder, Signage.Holder::value);
 		if (signage != null)
-			builder.put("#signage", signage.selectTexture(false));
+			builder.put("#signage", signage.selectTexture(this.aged));
 		return builder.build();
 	}
 }

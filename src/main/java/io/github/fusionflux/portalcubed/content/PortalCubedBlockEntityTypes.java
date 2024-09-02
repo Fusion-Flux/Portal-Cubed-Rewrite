@@ -16,7 +16,7 @@ public class PortalCubedBlockEntityTypes {
 	public static final BlockEntityType<LargeSignageBlockEntity> LARGE_SIGNAGE_PANEL = REGISTRAR.blockEntities.simple(
 		"large_signage_panel",
 		LargeSignageBlockEntity::new,
-		PortalCubedBlocks.LARGE_SIGNAGE
+		PortalCubedBlocks.LARGE_SIGNAGE, PortalCubedBlocks.AGED_LARGE_SIGNAGE
 	);
 
 	public static void init() {

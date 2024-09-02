@@ -46,6 +46,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WaterloggedTransparentBlock;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -231,15 +232,17 @@ public class PortalCubedBlocks {
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 
-	// ----- signage panels -----
+	// ----- signage -----
 	public static final LargeSignageBlock LARGE_SIGNAGE = REGISTRAR.blocks.create("large_signage", LargeSignageBlock::new)
-			.copyFrom(Blocks.GLASS)
 			.settings(settings -> settings
+					.requiresTool()
+					.instrument(NoteBlockInstrument.HAT)
+					.strength(0.3F)
 					.mapColor(MapColor.QUARTZ)
 					.sounds(SoundType.COPPER_BULB)
-					.noCollision()
 			)
 			.build();
+	public static final LargeSignageBlock AGED_LARGE_SIGNAGE = REGISTRAR.blocks.simple("aged_large_signage", LargeSignageBlock::new, LARGE_SIGNAGE);
 
 	// ----- misc blocks - tiles -----
 	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)
