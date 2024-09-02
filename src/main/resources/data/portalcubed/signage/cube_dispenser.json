@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_cube_dispenser",
-  "aged_texture": "portalcubed:block/aged_large_signage_cube_dispenser",
+  "clean_texture": "portalcubed:signage/large_signage_cube_dispenser",
+  "aged_texture": "portalcubed:signage/aged_large_signage_cube_dispenser",
   "name": {
     "translate": "signage.portalcubed.large_signage.cube_dispenser"
   },

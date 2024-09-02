@@ -35,6 +35,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.LARGE_SIGNAGE);
+			output.accept(PortalCubedBlocks.AGED_LARGE_SIGNAGE);
 			output.accept(PortalCubedBlocks.PEDESTAL_BUTTON);
 			output.accept(PortalCubedBlocks.OLD_AP_PEDESTAL_BUTTON);
 			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);

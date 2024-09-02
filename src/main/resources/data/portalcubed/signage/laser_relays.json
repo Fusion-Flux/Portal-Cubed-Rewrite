@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_laser_relays",
-  "aged_texture": "portalcubed:block/aged_large_signage_laser_relays",
+  "clean_texture": "portalcubed:signage/large_signage_laser_relays",
+  "aged_texture": "portalcubed:signage/aged_large_signage_laser_relays",
   "name": {
     "translate": "signage.portalcubed.large_signage.laser_relays"
   },

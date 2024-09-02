@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/small_signage_connection_circle",
-  "aged_texture": "portalcubed:block/aged_small_signage_connection_circle",
+  "clean_texture": "portalcubed:signage/small_signage_connection_circle",
+  "aged_texture": "portalcubed:signage/aged_small_signage_connection_circle",
   "name": {
     "translate": "signage.portalcubed.small_signage.connection_circle"
   },

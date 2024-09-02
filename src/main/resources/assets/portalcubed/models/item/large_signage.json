@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "portalcubed:block/large_signage_blank"
+    "layer0": "portalcubed:signage/large_signage_blank"
   }
 }

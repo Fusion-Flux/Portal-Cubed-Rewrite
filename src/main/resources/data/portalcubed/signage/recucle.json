@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_recycle",
-  "aged_texture": "portalcubed:block/aged_large_signage_recycle",
+  "clean_texture": "portalcubed:signage/large_signage_recycle",
+  "aged_texture": "portalcubed:signage/aged_large_signage_recycle",
   "name": {
     "translate": "signage.portalcubed.large_signage.recycle"
   },

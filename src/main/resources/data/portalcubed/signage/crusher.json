@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_crusher",
-  "aged_texture": "portalcubed:block/aged_large_signage_crusher",
+  "clean_texture": "portalcubed:signage/large_signage_crusher",
+  "aged_texture": "portalcubed:signage/aged_large_signage_crusher",
   "name": {
     "translate": "signage.portalcubed.large_signage.crusher"
   },

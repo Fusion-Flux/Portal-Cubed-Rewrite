@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_gel_dropper",
-  "aged_texture": "portalcubed:block/aged_large_signage_gel_dropper",
+  "clean_texture": "portalcubed:signage/large_signage_gel_dropper",
+  "aged_texture": "portalcubed:signage/aged_large_signage_gel_dropper",
   "name": {
     "translate": "signage.portalcubed.large_signage.gel_dropper"
   },

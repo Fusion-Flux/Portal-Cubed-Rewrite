@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_laser_catcher",
-  "aged_texture": "portalcubed:block/aged_large_signage_laser_catcher",
+  "clean_texture": "portalcubed:signage/large_signage_laser_catcher",
+  "aged_texture": "portalcubed:signage/aged_large_signage_laser_catcher",
   "name": {
     "translate": "signage.portalcubed.large_signage.laser_catcher"
   },

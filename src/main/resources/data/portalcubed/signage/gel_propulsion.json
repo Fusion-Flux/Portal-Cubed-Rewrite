@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_propulsion_gel",
-  "aged_texture": "portalcubed:block/aged_large_signage_propulsion_gel",
+  "clean_texture": "portalcubed:signage/large_signage_propulsion_gel",
+  "aged_texture": "portalcubed:signage/aged_large_signage_propulsion_gel",
   "name": {
     "translate": "signage.portalcubed.large_signage.propulsion_gel"
   },

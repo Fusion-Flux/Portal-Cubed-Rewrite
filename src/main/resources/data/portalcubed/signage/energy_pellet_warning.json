@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_energy_pellet_warning",
-  "aged_texture": "portalcubed:block/aged_large_signage_energy_pellet_warning",
+  "clean_texture": "portalcubed:signage/large_signage_energy_pellet_warning",
+  "aged_texture": "portalcubed:signage/aged_large_signage_energy_pellet_warning",
   "name": {
     "translate": "signage.portalcubed.large_signage.energy_pellet_warning"
   },

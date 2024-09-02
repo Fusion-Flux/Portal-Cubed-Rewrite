@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/small_signage_arrow_right",
-  "aged_texture": "portalcubed:block/aged_small_signage_arrow_right",
+  "clean_texture": "portalcubed:signage/small_signage_arrow_right",
+  "aged_texture": "portalcubed:signage/aged_small_signage_arrow_right",
   "name": {
     "translate": "signage.portalcubed.small_signage.arrow_right"
   },

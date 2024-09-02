@@ -1,6 +1,6 @@
 {
-  "clean_texture": "portalcubed:block/large_signage_excursion_funnel_polarity",
-  "aged_texture": "portalcubed:block/aged_large_signage_excursion_funnel_polarity",
+  "clean_texture": "portalcubed:signage/large_signage_excursion_funnel_polarity",
+  "aged_texture": "portalcubed:signage/aged_large_signage_excursion_funnel_polarity",
   "name": {
     "translate": "signage.portalcubed.large_signage.excursion_funnel_polarity"
   },
