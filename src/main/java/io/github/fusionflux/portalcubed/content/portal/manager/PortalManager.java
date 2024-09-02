@@ -27,7 +27,7 @@ public abstract class PortalManager {
 	public PortalManager(Level level) {
 		this.level = level;
 		this.portals = new HashMap<>();
-		this.activePortals = new SectionActivePortalLookup();
+		this.activePortals = new SectionActivePortalLookup(level);
 	}
 
 	public PortalPair getPair(UUID id) {

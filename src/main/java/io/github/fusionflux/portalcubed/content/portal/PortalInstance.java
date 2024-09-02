@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
+import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.Plane;
 import io.github.fusionflux.portalcubed.framework.util.Quad;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
@@ -52,6 +53,10 @@ public final class PortalInstance {
 
 		this.quad = Quad.create(this.rotation, data.origin(), WIDTH, HEIGHT);
 		this.renderBounds = this.quad.containingBox();
+
+		this.entityCollisionBounds = OBB.extrudeQuad(this.quad, 3);
+		this.blockModificationArea = OBB.extrudeQuad(this.quad, -3);
+		this.blockModificationShape = VoxelShenanigans.approximateObb(this.blockModificationArea);
     }
 
 	public Vector3d relativize(Vector3d pos) {

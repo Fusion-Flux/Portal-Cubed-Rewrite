@@ -3,11 +3,15 @@ package io.github.fusionflux.portalcubed.framework.shape;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.mixin.CubeVoxelShapeAccessor;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
+import net.minecraft.world.phys.shapes.CubeVoxelShape;
 import net.minecraft.world.phys.shapes.DiscreteVoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.jetbrains.annotations.Nullable;
@@ -101,5 +105,42 @@ public class VoxelShenanigans {
 			behindPortal.add(shape);
 		}
 		return behindPortal;
+	}
+
+	public static VoxelShape approximateObb(OBB obb) {
+		VoxelShape shape = Shapes.empty();
+		for (BlockPos pos : obb.intersectingBlocks()) {
+			VoxelShape relative = approximateObb(obb, pos);
+			VoxelShape absolute = relative.move(pos.getX(), pos.getY(), pos.getZ());
+			shape = Shapes.or(shape, absolute);
+		}
+		return shape.optimize();
+	}
+
+	private static VoxelShape approximateObb(OBB obb, BlockPos pos) {
+		final int resolution = 8;
+		final float step = 1f / resolution;
+		final float toCenter = step / 2;
+
+		BitSetDiscreteVoxelShape shape = new BitSetDiscreteVoxelShape(resolution, resolution, resolution);
+
+		Vector3f vec = new Vector3f();
+		for (int x = 0; x < resolution; x++) {
+			for (int y = 0; y < resolution; y++) {
+				for (int z = 0; z < resolution; z++) {
+					vec.set(
+							pos.getX() + (x * step) + toCenter,
+							pos.getY() + (y * step) + toCenter,
+							pos.getZ() + (z * step) + toCenter
+					);
+
+					if (obb.containsFast(vec)) {
+						shape.fill(x, y, z);
+					}
+				}
+			}
+		}
+
+		return CubeVoxelShapeAccessor.pc$create(shape);
 	}
 }

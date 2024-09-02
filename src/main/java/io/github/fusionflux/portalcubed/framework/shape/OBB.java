@@ -45,6 +45,10 @@ public record OBB(Vec3 center, double width, double height, double depth, Quater
 
 	}
 
+	public AABB encompassingAabb() {
+
+	}
+
 	public static OBB extrudeQuad(Quad quad, double depth) {
 		Vec3 quadCenter = quad.center();
 		Vec3 normal = quad.normal();

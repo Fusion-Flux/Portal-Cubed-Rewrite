@@ -15,11 +15,17 @@ import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 public class CollisionManager {
+	private final Level level;
 	private final Table<BlockPos, PortalInstance, CollisionPatch> patches = HashBasedTable.create();
 	private final Multimap<BlockPos, CollisionPatch> byObservedPos = HashMultimap.create();
+
+	public CollisionManager(Level level) {
+		this.level = level;
+	}
 
 	public Collection<CollisionPatch> getPatches(BlockPos pos) {
 		return this.patches.row(pos).values();
@@ -43,7 +49,8 @@ public class CollisionManager {
 
 	private CollisionPatch calculatePatch(PortalInstance portal, PortalInstance linked, BlockPos pos) {
 		// need to collect blocks in the same relative location in front of the linked portal
-		OBB bounds = PortalTeleportHandler.teleportAbsoluteBoxBetween(new AABB(pos), portal, linked);
-		List<BlockPos> blocks = bounds.intersectingBlocks();
+//		OBB bounds = PortalTeleportHandler.teleportAbsoluteBoxBetween(new AABB(pos), portal, linked);
+//		List<BlockPos> blocks = bounds.intersectingBlocks();
+		return new CollisionPatch.Complex(this.level, pos, portal, linked, List.of());
 	}
 }

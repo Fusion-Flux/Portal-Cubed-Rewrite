@@ -19,6 +19,8 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 
 import it.unimi.dsi.fastutil.longs.LongConsumer;
 
+import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.SectionPos;
@@ -28,7 +30,11 @@ import net.minecraft.world.phys.Vec3;
 public class SectionActivePortalLookup implements ActivePortalLookup {
 	private final Long2ObjectMap<List<PortalInstance>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
 	private final Map<PortalInstance, PortalPair> portalsToPairs = new HashMap<>();
-	private final CollisionManager collisionManager = new CollisionManager();
+	private final CollisionManager collisionManager;
+
+	public SectionActivePortalLookup(Level level) {
+		this.collisionManager = new CollisionManager(level);
+	}
 
 	@Override
 	@Nullable

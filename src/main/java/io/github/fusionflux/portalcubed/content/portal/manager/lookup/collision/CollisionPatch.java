@@ -48,7 +48,9 @@ public abstract class CollisionPatch {
 			// step 1: cut out the part of the shape that intersects with the portal's modification area
 			shape = shape.move(this.pos.getX(), this.pos.getY(), this.pos.getZ());
 			shape = Shapes.joinUnoptimized(shape, this.portal.blockModificationShape, BooleanOp.ONLY_FIRST);
+			shape = shape.move(-this.pos.getX(), -this.pos.getY(), -this.pos.getZ());
 			if (true) return shape;
+
 			Vec3 center = Vec3.atCenterOf(this.pos);
 			Vec3 teleportedCenter = PortalTeleportHandler.teleportAbsoluteVecBetween(center, this.portal, this.linked);
 
