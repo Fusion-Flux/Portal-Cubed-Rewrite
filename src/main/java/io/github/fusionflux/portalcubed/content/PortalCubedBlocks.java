@@ -8,6 +8,7 @@ import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlock;
+import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
@@ -243,6 +244,10 @@ public class PortalCubedBlocks {
 			)
 			.build();
 	public static final LargeSignageBlock AGED_LARGE_SIGNAGE = REGISTRAR.blocks.simple("aged_large_signage", LargeSignageBlock::new, LARGE_SIGNAGE);
+	public static final SmallSignageBlock SMALL_SIGNAGE = REGISTRAR.blocks.createFrom("small_signage", SmallSignageBlock::new, LARGE_SIGNAGE)
+			.settings(QuiltBlockSettings::nonOpaque)
+			.build();
+	public static final SmallSignageBlock AGED_SMALL_SIGNAGE = REGISTRAR.blocks.simple("aged_small_signage", SmallSignageBlock::new, SMALL_SIGNAGE);
 
 	// ----- misc blocks - tiles -----
 	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)

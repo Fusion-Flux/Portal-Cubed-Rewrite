@@ -25,7 +25,8 @@
     "ServerLevelMixin",
     "SlabBlockMixin",
     "SpongeBlockMixin",
-    "ThrowableProjectileMixin"
+    "ThrowableProjectileMixin",
+    "UseOnContextAccessor"
   ],
   "client": [
     "client.AbstractContainerScreenMixin",
