@@ -7,50 +7,6 @@
         "facing": "north"
       },
       "apply": {
-        "model": "portalcubed:block/small_signage_top_left",
-        "y": 180
-      }
-    },
-    {
-      "when": {
-        "top_right": "true",
-        "face": "floor",
-        "facing": "north"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_top_right",
-        "y": 180
-      }
-    },
-    {
-      "when": {
-        "bottom_left": "true",
-        "face": "floor",
-        "facing": "north"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_bottom_left",
-        "y": 180
-      }
-    },
-    {
-      "when": {
-        "bottom_right": "true",
-        "face": "floor",
-        "facing": "north"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_bottom_right",
-        "y": 180
-      }
-    },
-    {
-      "when": {
-        "top_left": "true",
-        "face": "floor",
-        "facing": "south"
-      },
-      "apply": {
         "model": "portalcubed:block/small_signage_top_left"
       }
     },
@@ -58,7 +14,7 @@
       "when": {
         "top_right": "true",
         "face": "floor",
-        "facing": "south"
+        "facing": "north"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right"
@@ -68,7 +24,7 @@
       "when": {
         "bottom_left": "true",
         "face": "floor",
-        "facing": "south"
+        "facing": "north"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left"
@@ -78,7 +34,7 @@
       "when": {
         "bottom_right": "true",
         "face": "floor",
-        "facing": "south"
+        "facing": "north"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right"
@@ -88,11 +44,55 @@
       "when": {
         "top_left": "true",
         "face": "floor",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_top_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "top_right": "true",
+        "face": "floor",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_top_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "bottom_left": "true",
+        "face": "floor",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_bottom_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "bottom_right": "true",
+        "face": "floor",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_bottom_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "top_left": "true",
+        "face": "floor",
         "facing": "west"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_left",
-        "y": 90
+        "y": 270
       }
     },
     {
@@ -103,7 +103,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right",
-        "y": 90
+        "y": 270
       }
     },
     {
@@ -114,7 +114,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left",
-        "y": 90
+        "y": 270
       }
     },
     {
@@ -125,7 +125,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right",
-        "y": 90
+        "y": 270
       }
     },
     {
@@ -136,7 +136,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_left",
-        "y": 270
+        "y": 90
       }
     },
     {
@@ -147,7 +147,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right",
-        "y": 270
+        "y": 90
       }
     },
     {
@@ -158,7 +158,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left",
-        "y": 270
+        "y": 90
       }
     },
     {
@@ -169,7 +169,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right",
-        "y": 270
+        "y": 90
       }
     },
     {
@@ -177,6 +177,50 @@
         "top_left": "true",
         "face": "ceiling",
         "facing": "north"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_top_left",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "top_right": "true",
+        "face": "ceiling",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_top_right",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "bottom_left": "true",
+        "face": "ceiling",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_bottom_left",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "bottom_right": "true",
+        "face": "ceiling",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_bottom_right",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "top_left": "true",
+        "face": "ceiling",
+        "facing": "south"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_left",
@@ -188,7 +232,7 @@
       "when": {
         "top_right": "true",
         "face": "ceiling",
-        "facing": "north"
+        "facing": "south"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right",
@@ -200,7 +244,7 @@
       "when": {
         "bottom_left": "true",
         "face": "ceiling",
-        "facing": "north"
+        "facing": "south"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left",
@@ -212,7 +256,7 @@
       "when": {
         "bottom_right": "true",
         "face": "ceiling",
-        "facing": "north"
+        "facing": "south"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right",
@@ -224,99 +268,7 @@
       "when": {
         "top_left": "true",
         "face": "ceiling",
-        "facing": "south"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_top_left",
-        "x": 180
-      }
-    },
-    {
-      "when": {
-        "top_right": "true",
-        "face": "ceiling",
-        "facing": "south"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_top_right",
-        "x": 180
-      }
-    },
-    {
-      "when": {
-        "bottom_left": "true",
-        "face": "ceiling",
-        "facing": "south"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_bottom_left",
-        "x": 180
-      }
-    },
-    {
-      "when": {
-        "bottom_right": "true",
-        "face": "ceiling",
-        "facing": "south"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_bottom_right",
-        "x": 180
-      }
-    },
-    {
-      "when": {
-        "top_left": "true",
-        "face": "ceiling",
         "facing": "west"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_top_left",
-        "y": 90,
-        "x": 180
-      }
-    },
-    {
-      "when": {
-        "top_right": "true",
-        "face": "ceiling",
-        "facing": "west"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_top_right",
-        "y": 90,
-        "x": 180
-      }
-    },
-    {
-      "when": {
-        "bottom_left": "true",
-        "face": "ceiling",
-        "facing": "west"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_bottom_left",
-        "y": 90,
-        "x": 180
-      }
-    },
-    {
-      "when": {
-        "bottom_right": "true",
-        "face": "ceiling",
-        "facing": "west"
-      },
-      "apply": {
-        "model": "portalcubed:block/small_signage_bottom_right",
-        "y": 90,
-        "x": 180
-      }
-    },
-    {
-      "when": {
-        "top_left": "true",
-        "face": "ceiling",
-        "facing": "east"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_left",
@@ -328,7 +280,7 @@
       "when": {
         "top_right": "true",
         "face": "ceiling",
-        "facing": "east"
+        "facing": "west"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right",
@@ -340,7 +292,7 @@
       "when": {
         "bottom_left": "true",
         "face": "ceiling",
-        "facing": "east"
+        "facing": "west"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left",
@@ -352,11 +304,59 @@
       "when": {
         "bottom_right": "true",
         "face": "ceiling",
-        "facing": "east"
+        "facing": "west"
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right",
         "y": 270,
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "top_left": "true",
+        "face": "ceiling",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_top_left",
+        "y": 90,
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "top_right": "true",
+        "face": "ceiling",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_top_right",
+        "y": 90,
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "bottom_left": "true",
+        "face": "ceiling",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_bottom_left",
+        "y": 90,
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "bottom_right": "true",
+        "face": "ceiling",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "portalcubed:block/small_signage_bottom_right",
+        "y": 90,
         "x": 180
       }
     },
@@ -368,7 +368,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_left",
-        "x": 90
+        "x": 270,
+        "y": 180
       }
     },
     {
@@ -379,7 +380,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right",
-        "x": 90
+        "x": 270,
+        "y": 180
       }
     },
     {
@@ -390,7 +392,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left",
-        "x": 90
+        "x": 270,
+        "y": 180
       }
     },
     {
@@ -401,7 +404,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right",
-        "x": 90
+        "x": 270,
+        "y": 180
       }
     },
     {
@@ -412,8 +416,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_left",
-        "x": 90,
-        "y": 180
+        "x": 270
       }
     },
     {
@@ -424,8 +427,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right",
-        "x": 90,
-        "y": 180
+        "x": 270
       }
     },
     {
@@ -436,8 +438,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left",
-        "x": 90,
-        "y": 180
+        "x": 270
       }
     },
     {
@@ -448,8 +449,7 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right",
-        "x": 90,
-        "y": 180
+        "x": 270
       }
     },
     {
@@ -460,8 +460,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_left",
-        "x": 90,
-        "y": 270
+        "x": 270,
+        "y": 90
       }
     },
     {
@@ -472,8 +472,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right",
-        "x": 90,
-        "y": 270
+        "x": 270,
+        "y": 90
       }
     },
     {
@@ -484,8 +484,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left",
-        "x": 90,
-        "y": 270
+        "x": 270,
+        "y": 90
       }
     },
     {
@@ -496,8 +496,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right",
-        "x": 90,
-        "y": 270
+        "x": 270,
+        "y": 90
       }
     },
     {
@@ -508,8 +508,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_left",
-        "x": 90,
-        "y": 90
+        "x": 270,
+        "y": 270
       }
     },
     {
@@ -520,8 +520,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_top_right",
-        "x": 90,
-        "y": 90
+        "x": 270,
+        "y": 270
       }
     },
     {
@@ -532,8 +532,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_left",
-        "x": 90,
-        "y": 90
+        "x": 270,
+        "y": 270
       }
     },
     {
@@ -544,8 +544,8 @@
       },
       "apply": {
         "model": "portalcubed:block/small_signage_bottom_right",
-        "x": 90,
-        "y": 90
+        "x": 270,
+        "y": 270
       }
     }
   ]
