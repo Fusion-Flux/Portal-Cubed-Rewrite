@@ -88,8 +88,7 @@ public class SmallSignageBlock extends SignageBlock {
 		}
 
 		Vec2 faceRelativeHitPos = switch (hitDirection) {
-			case DOWN -> new Vec2((float) relativeHitPos.x, (float) (1 - relativeHitPos.z));
-			case UP -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.z);
+			case DOWN, UP -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.z);
 			case NORTH -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.y);
 			case SOUTH -> new Vec2((float) relativeHitPos.x, (float) relativeHitPos.y);
 			case WEST -> new Vec2((float) relativeHitPos.z, (float) relativeHitPos.y);
