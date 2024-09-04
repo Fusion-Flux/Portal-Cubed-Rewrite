@@ -11,6 +11,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -78,13 +79,21 @@ public class SmallSignageBlock extends SignageBlock {
 
 		BlockPos hitBlockPos = hit.getBlockPos().relative(hitDirection);
 		Vec3 relativeHitPos = hit.getLocation().subtract(hitBlockPos.getX(), hitBlockPos.getY(), hitBlockPos.getZ());
+		if (state.getValue(FACE) != AttachFace.WALL) {
+			Direction rotation = state.getValue(FACING);
+			relativeHitPos = relativeHitPos
+					.subtract(Quadrant.SIZE, 0, Quadrant.SIZE)
+					.yRot(rotation.toYRot() * Mth.DEG_TO_RAD)
+					.add(Quadrant.SIZE, 0, Quadrant.SIZE);
+		}
 
 		Vec2 faceRelativeHitPos = switch (hitDirection) {
+			case DOWN -> new Vec2((float) relativeHitPos.x, (float) (1 - relativeHitPos.z));
+			case UP -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.z);
 			case NORTH -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.y);
 			case SOUTH -> new Vec2((float) relativeHitPos.x, (float) relativeHitPos.y);
 			case WEST -> new Vec2((float) relativeHitPos.z, (float) relativeHitPos.y);
 			case EAST -> new Vec2((float) (1 - relativeHitPos.z), (float) relativeHitPos.y);
-			case DOWN, UP -> new Vec2((float) relativeHitPos.x, (float) relativeHitPos.z);
 		};
 
 		for (Quadrant quadrant : Quadrant.values()) {
