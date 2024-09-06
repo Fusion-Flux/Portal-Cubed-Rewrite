@@ -72,8 +72,8 @@
   "item/error": "block/error_e",
   "block/error": "block/error_e",
 
-  "item/small_signage": "item/small_signage",
-  "item/aged_small_signage": "item/aged_small_signage",
+  "item/small_signage": "signage/small_signage_blank",
+  "item/aged_small_signage": "signage/aged_small_signage_blank",
   "item/large_signage": "signage/large_signage_blank",
   "item/aged_large_signage": "signage/aged_large_signage_blank",
 

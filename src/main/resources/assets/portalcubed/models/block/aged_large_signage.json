@@ -10,7 +10,7 @@
 			"from": [0, 0, 0],
 			"to": [16, 0.01, 16],
 			"faces": {
-				"up": {"uv": [0, 0, 16, 16], "texture": "#signage"},
+				"up": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#signage"},
 				"down": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "down"}
 			}
 		}

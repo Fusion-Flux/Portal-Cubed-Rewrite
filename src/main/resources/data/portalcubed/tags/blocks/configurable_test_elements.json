@@ -1,6 +1,10 @@
 {
   "values": [
     "portalcubed:pedestal_button",
-    "portalcubed:old_ap_pedestal_button"
+    "portalcubed:old_ap_pedestal_button",
+    "portalcubed:small_signage",
+    "portalcubed:aged_small_signage",
+    "portalcubed:large_signage",
+    "portalcubed:aged_large_signage"
   ]
 }

@@ -12,7 +12,7 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 8]},
 			"faces": {
 				"up": {"uv": [0, 0, 8, 8], "texture": "#signage_bottom_left"},
-				"down": {"uv": [0, 0, 8, 8], "texture": "#0"}
+				"down": {"uv": [0, 0, 8, 8], "texture": "#0", "cullface": "down"}
 			}
 		}
 	]
