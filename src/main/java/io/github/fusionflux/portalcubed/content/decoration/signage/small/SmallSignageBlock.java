@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import com.mojang.serialization.MapCodec;
 
@@ -33,7 +35,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 public class SmallSignageBlock extends SignageBlock {
@@ -64,7 +65,8 @@ public class SmallSignageBlock extends SignageBlock {
 			return;
 
 		BlockState newState = state.setValue(QUADRANT_PROPERTIES.get(quadrant), enabled);
-		boolean noQuadrants = QUADRANT_PROPERTIES.values().stream()
+		boolean noQuadrants = QUADRANT_PROPERTIES.values()
+				.stream()
 				.map(newState::getValue)
 				.allMatch(Predicate.isEqual(false));
 		if (noQuadrants) {
@@ -101,13 +103,13 @@ public class SmallSignageBlock extends SignageBlock {
 					.add(Quadrant.SIZE, 0, Quadrant.SIZE);
 		}
 
-		Vec2 faceRelativeHitPos = switch (hitDirection) {
-			case DOWN -> new Vec2((float) (1 - relativeHitPos.x), (float) (1 - relativeHitPos.z));
-			case UP -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.z);
-			case NORTH -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.y);
-			case SOUTH -> new Vec2((float) relativeHitPos.x, (float) relativeHitPos.y);
-			case WEST -> new Vec2((float) relativeHitPos.z, (float) relativeHitPos.y);
-			case EAST -> new Vec2((float) (1 - relativeHitPos.z), (float) relativeHitPos.y);
+		Vector2d faceRelativeHitPos = switch (hitDirection) {
+			case DOWN -> new Vector2d(1 - relativeHitPos.x, 1 - relativeHitPos.z);
+			case UP -> new Vector2d(1 - relativeHitPos.x, relativeHitPos.z);
+			case NORTH -> new Vector2d(1 - relativeHitPos.x, relativeHitPos.y);
+			case SOUTH -> new Vector2d(relativeHitPos.x, relativeHitPos.y);
+			case WEST -> new Vector2d(relativeHitPos.z, relativeHitPos.y);
+			case EAST -> new Vector2d(1 - relativeHitPos.z, relativeHitPos.y);
 		};
 
 		for (Quadrant quadrant : Quadrant.VALUES) {
@@ -121,7 +123,7 @@ public class SmallSignageBlock extends SignageBlock {
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
 		return Optionull.map(super.getStateForPlacement(ctx), state ->
-				getHitQuadrant(state, ((UseOnContextAccessor) ctx).pc$getHitResult())
+				getHitQuadrant(state, ((UseOnContextAccessor) ctx).invokeGetHitResult())
 						.map(quadrant -> state.setValue(QUADRANT_PROPERTIES.get(quadrant), true))
 						.orElse(null)
 		);
@@ -141,26 +143,30 @@ public class SmallSignageBlock extends SignageBlock {
 	}
 
 	public enum Quadrant implements StringRepresentable {
-		TOP_LEFT(new Vec2(0, 1)),
-		TOP_RIGHT(new Vec2(1, 1)),
-		BOTTOM_LEFT(new Vec2(0, 0)),
-		BOTTOM_RIGHT(new Vec2(1, 0));
+		TOP_LEFT(0, 1),
+		TOP_RIGHT(1, 1),
+		BOTTOM_LEFT(0, 0),
+		BOTTOM_RIGHT(1, 0);
 
 		public static final Quadrant[] VALUES = values();
 		public static final float SIZE = 8 / 16f;
 
 		public final String name;
-		public final Vec2 min;
-		public final Vec2 max;
+		public final double minX;
+		public final double minY;
+		public final double maxX;
+		public final double maxY;
 
-		Quadrant(Vec2 origin) {
+		Quadrant(double originX, double originY) {
 			this.name = this.name().toLowerCase(Locale.ROOT);
-			this.min = origin.scale(SIZE);
-			this.max = this.min.add(SIZE);
+			this.minX = originX * SIZE;
+			this.minY = originY * SIZE;
+			this.maxX = this.minX + SIZE;
+			this.maxY = this.minY + SIZE;
 		}
 
-		public boolean contains(Vec2 point) {
-			return (point.x >= min.x) && (point.x <= max.x) && (point.y >= min.y) && (point.y <= max.y);
+		public boolean contains(Vector2dc point) {
+			return (point.x() >= this.minX) && (point.x() <= this.maxX) && (point.y() >= this.minY) && (point.y() <= this.maxY);
 		}
 
 		@Override

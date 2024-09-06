@@ -27,8 +27,9 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 	public static final int TAB_WIDTH = 44;
 	public static final int Y_OFFSET = TabWidget.HEIGHT - 4; // tabs are supposed to slightly overlap the top
 	public static final ResourceLocation BACKGROUND = PortalCubed.id("textures/gui/container/signage/small_signage.png");
-	private static final int TOGGLE_SIZE = 13;
-	private static final ResourceLocation TOGGLE_SPRITE = PortalCubed.id("signage/small_signage");
+	public static final int TOGGLE_SIZE = 13;
+	public static final ResourceLocation TOGGLE_SPRITE = PortalCubed.id("signage/small_signage");
+	public static final Component TOGGLE_TITLE = Component.translatable("container.portalcubed.small_signage.quadrant_toggle");
 
 	public static final Component TITLE = Component.translatable("container.portalcubed.small_signage");
 	public static final Component AGED_TITLE = Component.translatable("container.portalcubed.aged_small_signage");
@@ -88,7 +89,7 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 			));
 		}));
 		quadrantToggle.addChild(
-				new TitleWidget(Component.translatable("container.portalcubed.small_signage.quadrant_toggle"), font),
+				new TitleWidget(TOGGLE_TITLE, font),
 				settings -> settings
 						.alignVertically(0.8f)
 						.paddingLeft(2)

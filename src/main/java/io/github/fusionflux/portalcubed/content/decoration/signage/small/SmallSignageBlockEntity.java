@@ -34,7 +34,7 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 
 	public void updateQuadrant(SmallSignageBlock.Quadrant quadrant, Signage.Holder holder) {
 		Signage.Holder currentHolder = this.getQuadrant(quadrant);
-		if (holder != null && (holder.id() != Optionull.map(currentHolder, Signage.Holder::id))) {
+		if (holder != null && !holder.equals(currentHolder)) {
 			this.quadrants.put(quadrant, holder);
 			if (this.level != null) {
 				if (!this.level.isClientSide) {
@@ -50,9 +50,9 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 	public void load(CompoundTag nbt) {
 		CompoundTag quadrantsTag = nbt.getCompound(SIGNAGE_KEY);
 		for (SmallSignageBlock.Quadrant quadrant : SmallSignageBlock.Quadrant.VALUES) {
-			ResourceLocation signageId = ResourceLocation.tryParse(quadrantsTag.getString(quadrant.name));
-			if (signageId != null)
-				this.updateQuadrant(quadrant, SignageManager.INSTANCE.get(signageId));
+			Signage.Holder signage = SignageManager.INSTANCE.get(ResourceLocation.tryParse(quadrantsTag.getString(quadrant.name)));
+			if (signage != null)
+				this.updateQuadrant(quadrant, signage);
 		}
 	}
 

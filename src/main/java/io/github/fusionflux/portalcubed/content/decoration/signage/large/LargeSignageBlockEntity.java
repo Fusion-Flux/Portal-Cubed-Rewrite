@@ -28,7 +28,7 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 	}
 
 	public void update(Signage.Holder holder) {
-		if (holder != null && (holder.id() != Optionull.map(this.holder, Signage.Holder::id))) {
+		if (holder != null && !holder.equals(this.holder)) {
 			this.holder = holder;
 			if (this.level != null) {
 				if (!this.level.isClientSide) {
@@ -42,9 +42,9 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 
 	@Override
 	public void load(CompoundTag nbt) {
-		ResourceLocation signageId = ResourceLocation.tryParse(nbt.getString(SIGNAGE_KEY));
-		if (signageId != null)
-			this.update(SignageManager.INSTANCE.get(signageId));
+		Signage.Holder signage = SignageManager.INSTANCE.get(ResourceLocation.tryParse(nbt.getString(SIGNAGE_KEY)));
+		if (signage != null)
+			this.update(signage);
 	}
 
 	@Override
