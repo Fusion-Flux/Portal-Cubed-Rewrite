@@ -27,10 +27,12 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ModelUtil {
 	private static final Direction[] FACES = Arrays.copyOf(Direction.values(), 7);
 
+	@SuppressWarnings("deprecation")
 	public static TextureAtlasSprite getSprite(ResourceLocation texture) {
 		return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(texture);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static SpriteFinder getSpriteFinder() {
 		ModelManager modelManager = Minecraft.getInstance().getModelManager();
 		return SpriteFinder.get(modelManager.getAtlas(TextureAtlas.LOCATION_BLOCKS));
