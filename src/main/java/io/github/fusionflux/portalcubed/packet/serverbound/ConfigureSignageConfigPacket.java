@@ -19,9 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class ConfigureSignageConfigPacket implements ServerboundPacket {
@@ -99,13 +97,8 @@ public abstract class ConfigureSignageConfigPacket implements ServerboundPacket 
 		protected void configure(@Nullable BlockEntity blockEntity) {
 			if (blockEntity instanceof SmallSignageBlockEntity signageBlock) {
 				Level world = signageBlock.getLevel();
-				if (this.enabled != TriState.DEFAULT && world != null) {
-					BlockState state = signageBlock.getBlockState()
-							.trySetValue(SmallSignageBlock.QUADRANT_PROPERTIES.get(this.quadrant), this.enabled.toBoolean());
-					if (state != signageBlock.getBlockState())
-						world.setBlock(this.signagePos, state, Block.UPDATE_ALL_IMMEDIATE);
-				}
-
+				if (this.enabled != TriState.DEFAULT && world != null)
+					SmallSignageBlock.setQuadrant(world, this.signagePos, quadrant, this.enabled.toBooleanOrElse(true));
 				if (this.signage != null)
 					signageBlock.updateQuadrant(this.quadrant, this.signage);
 			}

@@ -38,7 +38,7 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 	private Tab tab;
 
     public SmallSignageConfigScreen(SmallSignageBlockEntity smallSignage, SmallSignageBlock.Quadrant quadrant) {
-		super(smallSignage.aged ? AGED_TITLE : TITLE, smallSignage.aged);
+		super(smallSignage, smallSignage.aged ? AGED_TITLE : TITLE);
 		this.smallSignage = smallSignage;
 		this.tab = Tab.fromQuadrant(quadrant);
 		this.slotsEnabled = smallSignage.getBlockState()
@@ -114,6 +114,12 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 				TriState.DEFAULT,
 				holder
 		));
+	}
+
+	@Override
+	public void tick() {
+		if (this.smallSignage.isRemoved())
+			this.onClose();
 	}
 
 	public enum Tab {

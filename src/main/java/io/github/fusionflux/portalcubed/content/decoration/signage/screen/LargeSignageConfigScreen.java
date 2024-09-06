@@ -23,7 +23,7 @@ public class LargeSignageConfigScreen extends SignageConfigScreen {
 	private final LargeSignageBlockEntity largeSignage;
 
     public LargeSignageConfigScreen(LargeSignageBlockEntity largeSignage) {
-		super(largeSignage.aged ? AGED_TITLE : TITLE, largeSignage.aged);
+		super(largeSignage, largeSignage.aged ? AGED_TITLE : TITLE);
 		this.largeSignage = largeSignage;
 	}
 

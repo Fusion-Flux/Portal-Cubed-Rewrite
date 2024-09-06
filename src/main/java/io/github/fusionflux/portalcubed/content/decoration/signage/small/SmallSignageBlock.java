@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,6 +56,22 @@ public class SmallSignageBlock extends SignageBlock {
 			defaultState = defaultState.setValue(quadrant, false);
 		}
 		this.registerDefaultState(defaultState);
+	}
+
+	public static void setQuadrant(Level world, BlockPos pos, Quadrant quadrant, boolean enabled) {
+		BlockState state = world.getBlockState(pos);
+		if (!(state.getBlock() instanceof SmallSignageBlock))
+			return;
+
+		BlockState newState = state.setValue(QUADRANT_PROPERTIES.get(quadrant), enabled);
+		boolean noQuadrants = QUADRANT_PROPERTIES.values().stream()
+				.map(newState::getValue)
+				.allMatch(Predicate.isEqual(false));
+		if (noQuadrants) {
+			world.destroyBlock(pos, true);
+		} else {
+			world.setBlock(pos, newState, Block.UPDATE_ALL);
+		}
 	}
 
 	@Override

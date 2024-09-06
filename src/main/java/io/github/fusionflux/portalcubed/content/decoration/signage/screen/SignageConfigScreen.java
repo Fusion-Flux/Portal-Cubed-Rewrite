@@ -7,6 +7,7 @@ import java.util.Collections;
 import org.apache.commons.lang3.function.TriConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.content.decoration.signage.screen.widget.SignageSlotWidget;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
@@ -30,7 +31,7 @@ public abstract class SignageConfigScreen extends Screen {
 	public static final int SLOT_COLUMNS = 6;
 	public static final int SLOT_GRID_SIZE = SLOT_COLUMNS * SLOT_ROWS;
 
-	private final boolean aged;
+	private final SignageBlockEntity signageBlock;
 
 	protected boolean slotsEnabled = true;
 
@@ -38,9 +39,9 @@ public abstract class SignageConfigScreen extends Screen {
 	private int topPos;
 	private ScrollbarWidget scrollBar;
 
-	SignageConfigScreen(Component title, boolean aged) {
+	SignageConfigScreen(SignageBlockEntity signageBlock, Component title) {
 		super(title);
-		this.aged = aged;
+		this.signageBlock = signageBlock;
 		this.resetScrollBar();
 	}
 
@@ -88,7 +89,7 @@ public abstract class SignageConfigScreen extends Screen {
 
 		for (Signage.Holder holder : signage) {
 			if (i >= 0) {
-				SignageSlotWidget slot = new SignageSlotWidget(holder.value(), this.aged, () -> {
+				SignageSlotWidget slot = new SignageSlotWidget(holder.value(), this.signageBlock.aged, () -> {
 					slots.visitWidgets(widget -> ((SignageSlotWidget) widget).deselect());
 					this.updateSignage(holder);
 				});
@@ -116,6 +117,12 @@ public abstract class SignageConfigScreen extends Screen {
 	public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		super.renderBackground(graphics, mouseX, mouseY, delta);
 		graphics.blit(this.background(), this.leftPos, this.topPos + this.yOffset(), 0, 0, WIDTH, HEIGHT);
+	}
+
+	@Override
+	public void tick() {
+		if (this.signageBlock.isRemoved())
+			this.onClose();
 	}
 
 	@Override
