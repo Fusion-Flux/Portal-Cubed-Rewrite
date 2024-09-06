@@ -1,5 +1,13 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.small;
 
+import java.util.EnumMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlock;
@@ -22,21 +30,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.AttachFace;
-
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-
 import net.minecraft.world.phys.BlockHitResult;
-
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.EnumMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
 
 public class SmallSignageBlock extends SignageBlock {
 	public static final MapCodec<SmallSignageBlock> CODEC = simpleCodec(SmallSignageBlock::new);
@@ -72,7 +69,7 @@ public class SmallSignageBlock extends SignageBlock {
 		QUADRANT_PROPERTIES.values().forEach(builder::add);
 	}
 
-	private static Optional<Quadrant> getHitQuadrant(BlockState state, BlockHitResult hit) {
+	public static Optional<Quadrant> getHitQuadrant(BlockState state, BlockHitResult hit) {
 		Direction hitDirection = hit.getDirection();
 		if (hitDirection != getConnectedDirection(state))
 			return Optional.empty();
@@ -88,14 +85,15 @@ public class SmallSignageBlock extends SignageBlock {
 		}
 
 		Vec2 faceRelativeHitPos = switch (hitDirection) {
-			case DOWN, UP -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.z);
+			case DOWN -> new Vec2((float) (1 - relativeHitPos.x), (float) (1 - relativeHitPos.z));
+			case UP -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.z);
 			case NORTH -> new Vec2((float) (1 - relativeHitPos.x), (float) relativeHitPos.y);
 			case SOUTH -> new Vec2((float) relativeHitPos.x, (float) relativeHitPos.y);
 			case WEST -> new Vec2((float) relativeHitPos.z, (float) relativeHitPos.y);
 			case EAST -> new Vec2((float) (1 - relativeHitPos.z), (float) relativeHitPos.y);
 		};
 
-		for (Quadrant quadrant : Quadrant.values()) {
+		for (Quadrant quadrant : Quadrant.VALUES) {
 			if (quadrant.contains(faceRelativeHitPos))
 				return Optional.of(quadrant);
 		}
@@ -114,23 +112,24 @@ public class SmallSignageBlock extends SignageBlock {
 
 	@Override
 	@NotNull
-	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player) {
+	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (player instanceof ServerPlayer serverPlayer)
-			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Large(pos));
+			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Small(hitResult));
 		return InteractionResult.sidedSuccess(world.isClientSide);
 	}
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return null;
+		return new SmallSignageBlockEntity(pos, state);
 	}
 
 	public enum Quadrant implements StringRepresentable {
-		BOTTOM_LEFT(new Vec2(0, 0)),
-		BOTTOM_RIGHT(new Vec2(1, 0)),
 		TOP_LEFT(new Vec2(0, 1)),
-		TOP_RIGHT(new Vec2(1, 1));
+		TOP_RIGHT(new Vec2(1, 1)),
+		BOTTOM_LEFT(new Vec2(0, 0)),
+		BOTTOM_RIGHT(new Vec2(1, 0));
 
+		public static final Quadrant[] VALUES = values();
 		public static final float SIZE = 8 / 16f;
 
 		public final String name;
@@ -138,7 +137,7 @@ public class SmallSignageBlock extends SignageBlock {
 		public final Vec2 max;
 
 		Quadrant(Vec2 origin) {
-			this.name = name().toLowerCase(Locale.ROOT);
+			this.name = this.name().toLowerCase(Locale.ROOT);
 			this.min = origin.scale(SIZE);
 			this.max = this.min.add(SIZE);
 		}

@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.gui.widget;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -8,23 +10,30 @@ import net.minecraft.resources.ResourceLocation;
 
 public class TexturedStickyButton extends AbstractWidget {
 	private final Textures textures;
+	@Nullable
+	private final Textures disabledTextures;
 	private final Runnable onSelect;
 
 	private boolean selected;
 
 	public TexturedStickyButton(int x, int y, int width, int height, Component description,
-								Textures textures, Runnable onSelect) {
+								@Nullable Textures disabledTextures, Textures textures, Runnable onSelect) {
 		super(x, y, width, height, description);
 		this.textures = textures;
+		this.disabledTextures = disabledTextures;
 		this.onSelect = onSelect;
+	}
+
+	public TexturedStickyButton(int x, int y, int width, int height, Component description,
+								Textures textures, Runnable onSelect) {
+		this(x, y, width, height, description, null, textures, onSelect);
 	}
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		if (!this.isActive())
-				return;
-		ResourceLocation texture = this.textures.choose(this.isHovered(), this.selected);
-		graphics.blitSprite(texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		Textures textures = this.isActive() ? this.textures : this.disabledTextures;
+		if (textures != null)
+			graphics.blitSprite(textures.choose(this.isHovered(), this.selected), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
 
 	@Override

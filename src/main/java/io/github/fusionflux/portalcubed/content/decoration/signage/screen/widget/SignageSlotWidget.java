@@ -11,6 +11,11 @@ public class SignageSlotWidget extends TexturedStickyButton {
 	public static final int SIZE = 22;
 	public static final int OFFSET = 3;
 
+	public static final Textures DISABLED_TEXTURES = new Textures(
+			PortalCubed.id("signage/slot_disabled"),
+			PortalCubed.id("signage/slot_disabled_hover"),
+			PortalCubed.id("signage/slot_disabled_selected")
+	);
 	public static final Textures TEXTURES = new Textures(
 			PortalCubed.id("signage/slot"),
 			PortalCubed.id("signage/slot_hover"),
@@ -26,7 +31,7 @@ public class SignageSlotWidget extends TexturedStickyButton {
 	}
 
 	public SignageSlotWidget(Signage signage, boolean aged, int x, int y, Runnable onSelect) {
-		super(x, y, SIZE, SIZE, signage.name(), TEXTURES, onSelect);
+		super(x, y, SIZE, SIZE, signage.name(), DISABLED_TEXTURES, TEXTURES, onSelect);
 		this.signageTexture = signage.selectTexture(aged)
 				.withPrefix("textures/")
 				.withSuffix(".png");

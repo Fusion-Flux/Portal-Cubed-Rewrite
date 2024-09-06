@@ -4,19 +4,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
+import org.quiltmc.qsl.networking.api.CustomPayloads;
+import org.quiltmc.qsl.networking.api.PlayerLookup;
+import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
+import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.framework.signage.SignageSyncPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
-import io.github.fusionflux.portalcubed.packet.clientbound.CreatePortalPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
-import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
-import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
@@ -26,13 +33,6 @@ import io.github.fusionflux.portalcubed.packet.serverbound.GrabPacket;
 import net.fabricmc.api.EnvType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.networking.api.CustomPayloads;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
-import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
-import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
 public class PortalCubedPackets {
 	// clientbound
@@ -47,9 +47,11 @@ public class PortalCubedPackets {
 	public static final ResourceLocation DISINTEGRATE = clientbound("disintegrate", DisintegratePacket::new);
 	public static final ResourceLocation SIMPLE_PARTICLE = clientbound("simple_particle", SimpleParticlePacket::new);
 	public static final ResourceLocation OPEN_LARGE_SIGNAGE_CONFIG = clientbound("open_large_signage_config", OpenSignageConfigPacket.Large::new);
+	public static final ResourceLocation OPEN_SMALL_SIGNAGE_CONFIG = clientbound("open_small_signage_config", OpenSignageConfigPacket.Small::new);
 	// serverbound
 	public static final ResourceLocation CONFIGURE_PEDESTAL_BUTTON = serverbound("configure_pedestal_button", ConfigurePedestalButtonPacket::new);
 	public static final ResourceLocation CONFIGURE_LARGE_SIGNAGE = serverbound("configure_large_signage", ConfigureSignageConfigPacket.Large::new);
+	public static final ResourceLocation CONFIGURE_SMALL_SIGNAGE = serverbound("configure_small_signage", ConfigureSignageConfigPacket.Small::new);
 	public static final ResourceLocation DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket::new);
 	public static final ResourceLocation CONFIGURE_CANNON = serverbound("configure_cannon", ConfigureCannonPacket::new);
 	public static final ResourceLocation GRAB = serverbound("grab", GrabPacket::new);

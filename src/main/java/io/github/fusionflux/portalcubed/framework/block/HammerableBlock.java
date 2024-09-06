@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
@@ -9,12 +11,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.phys.BlockHitResult;
 
 public interface HammerableBlock {
 	@NotNull
-	InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player);
+	InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult);
 
 	static void registerEventListeners() {
 		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
@@ -30,7 +31,7 @@ public interface HammerableBlock {
 			if (!(state.getBlock() instanceof HammerableBlock hammerable))
 				return InteractionResult.PASS;
 
-			InteractionResult result = hammerable.onHammered(state, world, pos, player);
+			InteractionResult result = hammerable.onHammered(state, world, pos, player, hitResult);
 			if (result.shouldAwardStats())
 				player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
 			return result;

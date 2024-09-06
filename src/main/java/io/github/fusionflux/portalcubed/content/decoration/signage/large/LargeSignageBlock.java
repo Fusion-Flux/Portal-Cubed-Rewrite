@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlock;
@@ -14,8 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
-
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class LargeSignageBlock extends SignageBlock {
 	public static final MapCodec<LargeSignageBlock> CODEC = simpleCodec(LargeSignageBlock::new);
@@ -37,7 +38,7 @@ public class LargeSignageBlock extends SignageBlock {
 
 	@Override
 	@NotNull
-	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player) {
+	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (player instanceof ServerPlayer serverPlayer)
 			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Large(pos));
 		return InteractionResult.sidedSuccess(world.isClientSide);

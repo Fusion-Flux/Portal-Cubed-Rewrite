@@ -78,34 +78,64 @@
   "item/aged_large_signage": "signage/aged_large_signage_blank",
 
   "block/large_signage": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/aged_large_signage": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/small_signage_top_left": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/small_signage_top_right": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/small_signage_bottom_left": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/small_signage_bottom_right": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/aged_small_signage_top_left": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/aged_small_signage_top_right": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/aged_small_signage_bottom_left": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
   "block/aged_small_signage_bottom_right": [
-    "signage/"
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
   ],
 
   "block/elevator_wall_top": [

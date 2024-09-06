@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.model.dynamictexture;
 
+import java.util.function.Supplier;
+
 import io.github.fusionflux.portalcubed.framework.extension.BakedQuadExt;
 import io.github.fusionflux.portalcubed.framework.util.ModelUtil;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
@@ -13,8 +15,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.function.Supplier;
 
 public class DynamicTextureBakedModel extends ForwardingBakedModel {
 	public DynamicTextureBakedModel(BakedModel wrapped) {
@@ -33,7 +33,7 @@ public class DynamicTextureBakedModel extends ForwardingBakedModel {
 				ResourceLocation replacementTexture = Optionull.map(((BakedQuadExt) vanilla).pc$textureReference(), renderData.map()::get);
 				if (replacementTexture != null) {
 					ModelUtil.normalizeUV(toTransform, vanilla.getSprite());
-					toTransform.spriteBake(ModelUtil.getSprite(replacementTexture), MutableQuadView.BAKE_NORMALIZED | MutableQuadView.BAKE_ROTATE_180);
+					toTransform.spriteBake(ModelUtil.getSprite(replacementTexture), MutableQuadView.BAKE_NORMALIZED);
 				}
 			}, state, randomSupplier);
 		} else {
