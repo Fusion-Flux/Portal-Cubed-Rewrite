@@ -81,8 +81,12 @@ public abstract class OpenSignageConfigPacket implements ClientboundPacket {
 		}
 
 		public Small(FriendlyByteBuf buf) {
-			super(buf);
-			this.hitResult = buf.readBlockHitResult();
+			this(buf.readBlockHitResult());
+		}
+
+		@Override
+		public void write(FriendlyByteBuf buf) {
+			buf.writeBlockHitResult(this.hitResult);
 		}
 
 		@Override

@@ -1,15 +1,15 @@
 package io.github.fusionflux.portalcubed.framework.signage;
 
-import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.FriendlyByteBuf;
-
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import java.util.Map;
 
 import org.quiltmc.qsl.networking.api.PacketSender;
 
-import java.util.Map;
+import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
 public record SignageSyncPacket(Map<ResourceLocation, Signage> entries) implements ClientboundPacket {
 	public SignageSyncPacket(FriendlyByteBuf buf) {
@@ -28,6 +28,6 @@ public record SignageSyncPacket(Map<ResourceLocation, Signage> entries) implemen
 
 	@Override
 	public ResourceLocation getId() {
-		return null;
+		return PortalCubedPackets.SYNC_SIGNAGE;
 	}
 }

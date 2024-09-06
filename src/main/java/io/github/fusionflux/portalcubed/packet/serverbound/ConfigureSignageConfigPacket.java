@@ -12,6 +12,7 @@ import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
+import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -90,7 +91,12 @@ public abstract class ConfigureSignageConfigPacket implements ServerboundPacket 
 		}
 
 		public Small(FriendlyByteBuf buf) {
-			this(buf.readBlockPos(), buf.readEnum(SmallSignageBlock.Quadrant.class), buf.readEnum(TriState.class), SignageManager.INSTANCE.get(buf.readResourceLocation()));
+			this(
+					buf.readBlockPos(),
+					buf.readEnum(SmallSignageBlock.Quadrant.class),
+					buf.readEnum(TriState.class),
+					Optionull.map(buf.readNullable(FriendlyByteBuf::readResourceLocation), SignageManager.INSTANCE::get)
+			);
 		}
 
 		@Override
@@ -109,8 +115,7 @@ public abstract class ConfigureSignageConfigPacket implements ServerboundPacket 
 			super.write(buf);
 			buf.writeEnum(this.quadrant);
 			buf.writeEnum(this.enabled);
-			if (this.signage != null)
-				buf.writeResourceLocation(this.signage.id());
+			buf.writeNullable(Optionull.map(this.signage, Signage.Holder::id), FriendlyByteBuf::writeResourceLocation);
 		}
 
 		@Override
