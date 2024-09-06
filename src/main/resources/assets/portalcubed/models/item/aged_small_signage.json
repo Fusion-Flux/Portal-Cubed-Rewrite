@@ -1,6 +1,42 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "portalcubed:item/aged_small_signage"
-  }
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "portalcubed:signage/aged_small_signage_blank"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [2.25, -0.25, 1],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"thirdperson_lefthand": {
+			"translation": [-2.25, -0.25, 1],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -90, 25],
+			"translation": [1.13, 1.45, 3.38],
+			"scale": [0.68, 0.68, 0.68]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -90, 25],
+			"translation": [-0.37, 0.2, -0.12],
+			"scale": [0.68, 0.68, 0.68]
+		},
+		"ground": {
+			"translation": [2, 0, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"translation": [4, -4, 0]
+		},
+		"head": {
+			"rotation": [0, 180, 0],
+			"translation": [-4, -4.25, -7.75]
+		},
+		"fixed": {
+			"rotation": [0, 180, 0],
+			"translation": [-4, -4, 0]
+		}
+	}
 }
