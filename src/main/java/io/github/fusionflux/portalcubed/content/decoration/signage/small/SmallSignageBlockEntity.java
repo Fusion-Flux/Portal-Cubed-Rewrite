@@ -39,6 +39,7 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 			if (this.level != null) {
 				if (!this.level.isClientSide) {
 					this.sync();
+					this.level.blockEntityChanged(this.worldPosition);
 				} else {
 					this.updateModel();
 				}
