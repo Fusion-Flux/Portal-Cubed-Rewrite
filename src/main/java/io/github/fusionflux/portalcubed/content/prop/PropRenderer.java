@@ -81,13 +81,9 @@ public class PropRenderer extends EntityRenderer<Prop> {
 			}
 		}
 
-		private final TransformingBakedModel model = new TransformingBakedModel(quad -> {
-			this.delegate = this.vertexConsumers.apply(getRenderType(quad.material()));
-			return true;
-		});
-
 		private Function<RenderType, VertexConsumer> vertexConsumers;
 		private VertexConsumer delegate;
+		private final WrapperModel model = new WrapperModel();
 
 		private void prepare(Function<RenderType, VertexConsumer> vertexConsumers, BakedModel model) {
 			this.model.setWrappedModel(model);
@@ -180,6 +176,19 @@ public class PropRenderer extends EntityRenderer<Prop> {
 		@Override
 		public boolean canUseIntrinsics() {
 			return VertexBufferWriter.tryOf(this.delegate) != null;
+		}
+
+		private final class WrapperModel extends TransformingBakedModel {
+			private WrapperModel() {
+				super((quad -> {
+					ModelEmitter.this.delegate = ModelEmitter.this.vertexConsumers.apply(getRenderType(quad.material()));
+					return true;
+				}));
+			}
+
+			private void setWrappedModel(BakedModel wrapped) {
+				this.wrapped = wrapped;
+			}
 		}
 	}
 }

@@ -77,6 +77,72 @@
   "item/error": "block/error_e",
   "block/error": "block/error_e",
 
+  "item/small_signage": "signage/small_signage_blank",
+  "item/aged_small_signage": "signage/aged_small_signage_blank",
+  "item/large_signage": "signage/large_signage_blank",
+  "item/aged_large_signage": "signage/aged_large_signage_blank",
+
+  "block/large_signage": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_large_signage": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/small_signage_top_left": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/small_signage_top_right": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/small_signage_bottom_left": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/small_signage_bottom_right": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_small_signage_top_left": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_small_signage_top_right": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_small_signage_bottom_left": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_small_signage_bottom_right": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+
   "block/elevator_wall_top": [
     "block/elevator_wall_upper_e",
     "block/elevator_wall_middle_top_e"

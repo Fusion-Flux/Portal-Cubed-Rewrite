@@ -1,0 +1,8 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_laser_field",
+  "aged_texture": "portalcubed:signage/aged_large_signage_laser_field",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.laser_field"
+  },
+  "size": "large"
+}

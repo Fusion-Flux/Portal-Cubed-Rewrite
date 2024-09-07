@@ -12,6 +12,11 @@
             "permutations": {
                 "magnesium": "portalcubed:trims/color_palettes/magnesium"
             }
+        },
+        {
+            "type": "directory",
+            "source": "signage",
+            "prefix": "signage/"
         }
     ]
 }

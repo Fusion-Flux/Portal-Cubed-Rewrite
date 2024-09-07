@@ -1,0 +1,8 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_blank",
+  "aged_texture": "portalcubed:signage/aged_large_signage_blank",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.blank"
+  },
+  "size": "large"
+}

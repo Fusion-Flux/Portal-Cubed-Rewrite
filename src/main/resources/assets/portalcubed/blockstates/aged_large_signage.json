@@ -1,0 +1,57 @@
+{
+  "variants": {
+    "face=ceiling,facing=east": {
+      "model": "portalcubed:block/aged_large_signage",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=north": {
+      "model": "portalcubed:block/aged_large_signage",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=south": {
+      "model": "portalcubed:block/aged_large_signage",
+      "x": 180
+    },
+    "face=ceiling,facing=west": {
+      "model": "portalcubed:block/aged_large_signage",
+      "x": 180,
+      "y": 90
+    },
+    "face=floor,facing=east": {
+      "model": "portalcubed:block/aged_large_signage",
+      "y": 270
+    },
+    "face=floor,facing=north": {
+      "model": "portalcubed:block/aged_large_signage",
+      "y": 180
+    },
+    "face=floor,facing=south": {
+      "model": "portalcubed:block/aged_large_signage"
+    },
+    "face=floor,facing=west": {
+      "model": "portalcubed:block/aged_large_signage",
+      "y": 90
+    },
+    "face=wall,facing=east": {
+      "model": "portalcubed:block/aged_large_signage",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=north": {
+      "model": "portalcubed:block/aged_large_signage",
+      "x": 90
+    },
+    "face=wall,facing=south": {
+      "model": "portalcubed:block/aged_large_signage",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=west": {
+      "model": "portalcubed:block/aged_large_signage",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

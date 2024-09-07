@@ -1,17 +1,20 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen;
 
+import java.util.Collections;
+import java.util.Locale;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.ConstructsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.MaterialsTab;
 import io.github.fusionflux.portalcubed.content.cannon.screen.tab.SettingsTab;
+import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.FloatingWidget;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructPreviewWidget;
-import io.github.fusionflux.portalcubed.content.cannon.screen.widget.CannonDisplayWidget;
-import io.github.fusionflux.portalcubed.content.cannon.screen.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
@@ -28,12 +31,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.Collections;
-import java.util.Locale;
-
 public class ConstructionCannonScreen extends Screen {
 	public static final int WIDTH = 176;
 	public static final int HEIGHT = 136;
+	public static final int TAB_WIDTH = 58;
 	public static final int BACKGROUND_Y_OFFSET = TabWidget.HEIGHT - 4; // tabs are supposed to slightly overlap the top
 	public static final int TAB_TITLE_Y_OFFSET = BACKGROUND_Y_OFFSET + 5;
 	public static final int TAB_TITLE_X_OFFSET = 14;
@@ -77,7 +78,7 @@ public class ConstructionCannonScreen extends Screen {
 		LinearLayout tabs = LinearLayout.horizontal();
 		for (int i = 0; i < Tab.values().length; i++) {
 			Tab tab = Tab.values()[i];
-			TabWidget button = new TabWidget(tab, () -> this.switchToTab(tab));
+			TabWidget button = new TabWidget(TAB_WIDTH, tab.title, tab.textures, () -> this.switchToTab(tab));
 			if (tab == this.tab) {
 				button.select();
 			}
