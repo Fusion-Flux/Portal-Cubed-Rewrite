@@ -2,8 +2,7 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "portalcubed:block/metal_portal_1_chamber_door",
-		"1": "portalcubed:block/portal_1_chamber_door_emissive",
+		"0": "portalcubed:block/portal_1_chamber_door",
 		"particle": "portalcubed:block/portal_1_metal_panel"
 	},
 	"elements": [
@@ -11,11 +10,11 @@
 			"from": [1, 0, 0],
 			"to": [5, 16, 16],
 			"faces": {
-				"north": {"uv": [7, 8, 8, 12], "texture": "#0"},
+				"north": {"uv": [15, 8, 16, 12], "texture": "#0", "cullface": "north"},
 				"east": {"uv": [12, 0, 16, 4], "texture": "#0"},
-				"south": {"uv": [6, 8, 7, 12], "texture": "#0"},
+				"south": {"uv": [14, 8, 15, 12], "texture": "#0", "cullface": "south"},
 				"west": {"uv": [8, 0, 12, 4], "texture": "#0"},
-				"up": {"uv": [7, 12, 8, 16], "rotation": 180, "texture": "#0"}
+				"up": {"uv": [15, 12, 16, 16], "rotation": 180, "texture": "#0", "cullface": "up"}
 			}
 		},
 		{
