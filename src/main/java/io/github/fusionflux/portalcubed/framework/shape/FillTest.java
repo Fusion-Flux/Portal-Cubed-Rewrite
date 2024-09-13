@@ -32,28 +32,24 @@ public interface FillTest {
 
 		@Override
 		public boolean isFilled(Vector3f pos) {
-			return this.box.containsFast(pos);
+			return this.box.contains(pos);
 		}
 	}
 
 	class Multi implements FillTest {
 		private final OBB[] boxes;
-		// re-use a vec to not allocate a new one for each box check
-		private final Vector3f mutable;
 
 		public Multi(List<AABB> boxes, Quaternionf rotation) {
 			this.boxes = new OBB[boxes.size()];
 			for (int i = 0; i < this.boxes.length; i++) {
 				this.boxes[i] = new OBB(boxes.get(i), rotation);
 			}
-			this.mutable = new Vector3f();
 		}
 
 		@Override
 		public boolean isFilled(Vector3f pos) {
 			for (OBB box : boxes) {
-				this.mutable.set(pos);
-				if (box.containsFast(this.mutable)) {
+				if (box.contains(pos)) {
 					return true;
 				}
 			}

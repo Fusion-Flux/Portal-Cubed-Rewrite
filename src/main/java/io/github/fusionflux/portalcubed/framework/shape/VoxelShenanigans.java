@@ -124,17 +124,14 @@ public class VoxelShenanigans {
 
 		BitSetDiscreteVoxelShape shape = new BitSetDiscreteVoxelShape(resolution, resolution, resolution);
 
-		Vector3f vec = new Vector3f();
 		for (int x = 0; x < resolution; x++) {
 			for (int y = 0; y < resolution; y++) {
 				for (int z = 0; z < resolution; z++) {
-					vec.set(
-							pos.getX() + (x * step) + toCenter,
-							pos.getY() + (y * step) + toCenter,
-							pos.getZ() + (z * step) + toCenter
-					);
+					double posX = pos.getX() + (x * step) + toCenter;
+					double posY = pos.getY() + (y * step) + toCenter;
+					double posZ = pos.getZ() + (z * step) + toCenter;
 
-					if (obb.containsFast(vec)) {
+					if (obb.contains(posX, posY, posZ)) {
 						shape.fill(x, y, z);
 					}
 				}

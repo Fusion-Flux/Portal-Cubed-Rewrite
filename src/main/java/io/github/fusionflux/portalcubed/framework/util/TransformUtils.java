@@ -60,4 +60,12 @@ public class TransformUtils {
 		}
 		return axisRotation.mul(rotation); // parameter is applied first
 	}
+
+	/**
+	 * Projects A onto B
+	 */
+	public static Vec3 project(Vec3 a, Vec3 b) {
+		double length = a.dot(b) / (b.length() * b.length());
+		return b.scale(length);
+	}
 }

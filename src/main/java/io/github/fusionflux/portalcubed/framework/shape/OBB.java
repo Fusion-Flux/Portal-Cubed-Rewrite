@@ -28,15 +28,18 @@ public final class OBB {
 	// rotated box representation
 	public final AABB bounds;
 	public final Quaternionf rotation;
-	// basis vectors representation
+	// basis vectors representation. These also work as normals
 	public final Vec3 basisX;
 	public final Vec3 basisY;
 	public final Vec3 basisZ;
 	// calculated useful values
 	public final Vec3 center;
 	public final AABB encompassingAabb;
+	public final Vec3[] vertices;
 
-	private final Vec3[] vertices;
+	public OBB(Vec3 center, double xSize, double ySize, double zSize, Quaternionf rotation) {
+		this(AABB.ofSize(center, xSize, ySize, zSize), rotation);
+	}
 
 	public OBB(AABB aabb) {
 		this(aabb, new Quaternionf());
@@ -107,7 +110,24 @@ public final class OBB {
 	}
 
 	public boolean intersects(OBB other) {
-
+				// 3 normals of this box
+		return  intersectionOnAxis(this.basisX, this, other) ||
+				intersectionOnAxis(this.basisY, this, other) ||
+				intersectionOnAxis(this.basisZ, this, other) ||
+				// 3 normals of other box
+				intersectionOnAxis(other.basisX, this, other) ||
+				intersectionOnAxis(other.basisY, this, other) ||
+				intersectionOnAxis(other.basisZ, this, other) ||
+				// 9 cross products: 3 normals x 3 normals
+				intersectionOnAxis(this.basisX.cross(other.basisX), this, other) ||
+				intersectionOnAxis(this.basisX.cross(other.basisY), this, other) ||
+				intersectionOnAxis(this.basisX.cross(other.basisZ), this, other) ||
+				intersectionOnAxis(this.basisY.cross(other.basisX), this, other) ||
+				intersectionOnAxis(this.basisY.cross(other.basisY), this, other) ||
+				intersectionOnAxis(this.basisY.cross(other.basisZ), this, other) ||
+				intersectionOnAxis(this.basisZ.cross(other.basisX), this, other) ||
+				intersectionOnAxis(this.basisZ.cross(other.basisY), this, other) ||
+				intersectionOnAxis(this.basisZ.cross(other.basisZ), this, other);
 	}
 
 	public Stream<BlockPos> intersectingBlocks() {
@@ -125,7 +145,10 @@ public final class OBB {
 		Vec3 center = quadCenter.add(offsetToCenter);
 
 		Quaternionf rotation = new Quaternionf();
-		rotation.rotateTo()
+		rotation.rotateTo(
+				1, 0, 0, // XP
+				(float) normal.x, (float) normal.y, (float) normal.z
+		);
 		return new OBB(center, quad.width(), quad.height(), depth, rotation);
 	}
 
@@ -145,6 +168,18 @@ public final class OBB {
 		return vec;
 	}
 
+	private Range project(Vec3 axis) {
+		double min = Double.MAX_VALUE;
+		double max = Double.MIN_VALUE;
+		for (Vec3 vertex : this.vertices) {
+			Vec3 projection = TransformUtils.project(vertex, axis);
+			double length = projection.length();
+			min = Math.min(min, length);
+			max = Math.max(max, length);
+		}
+		return new Range(min, max);
+	}
+
 	private static int vertexKey(boolean highX, boolean highY, boolean highZ) {
 		int key = 0;
 
@@ -159,5 +194,15 @@ public final class OBB {
 		}
 
 		return key;
+	}
+
+	private static boolean intersectionOnAxis(Vec3 axis, OBB boxA, OBB boxB) {
+		return boxA.project(axis).intersects(boxB.project(axis));
+	}
+
+	private record Range(double min, double max) {
+		private boolean intersects(Range other) {
+			return this.min <= other.max && this.max >= other.min;
+		}
 	}
 }
