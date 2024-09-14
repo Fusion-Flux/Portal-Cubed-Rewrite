@@ -24,10 +24,8 @@ import org.joml.Vector3f;
 public final class PortalInstance {
 	public static final Codec<PortalInstance> CODEC = PortalData.CODEC.xmap(PortalInstance::new, instance -> instance.data);
 
-	// portal plane is 2 pixels short of full blocks on each axis, 1 on each side
-	public static final double SIXTEENTH = 1 / 16f;
-	public static final double HEIGHT = 2 - (2 * SIXTEENTH);
-	public static final double WIDTH = 1 - (2 * SIXTEENTH);
+	public static final double HEIGHT = 2;
+	public static final double WIDTH = 1;
 
     public final PortalData data;
 

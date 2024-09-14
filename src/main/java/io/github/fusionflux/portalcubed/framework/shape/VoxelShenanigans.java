@@ -118,7 +118,7 @@ public class VoxelShenanigans {
 	}
 
 	private static VoxelShape approximateObb(OBB obb, BlockPos pos) {
-		final int resolution = 2;
+		final int resolution = 8;
 		final float step = 1f / resolution;
 		final float toCenter = step / 2;
 
