@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.DiscreteVoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -112,7 +113,7 @@ public class VoxelShenanigans {
 			BlockPos pos = itr.next();
 			VoxelShape relative = approximateObb(obb, pos);
 			VoxelShape absolute = relative.move(pos.getX(), pos.getY(), pos.getZ());
-			shape = Shapes.or(shape, absolute);
+			shape = Shapes.joinUnoptimized(shape, absolute, BooleanOp.OR);
 		}
 		return shape.optimize();
 	}
