@@ -84,11 +84,6 @@ public class PortalTeleportHandler {
 		);
 	}
 
-	public static OBB teleportAbsoluteBoxBetween(AABB box, PortalInstance in, PortalInstance out) {
-		// TODO
-		throw new RuntimeException();
-	}
-
 	public interface PositionSetter {
 		void set(Entity entity, double x, double y, double z);
 	}

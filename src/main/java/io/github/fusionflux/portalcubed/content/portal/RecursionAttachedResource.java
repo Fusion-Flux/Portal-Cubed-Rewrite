@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.lang.ref.WeakReference;

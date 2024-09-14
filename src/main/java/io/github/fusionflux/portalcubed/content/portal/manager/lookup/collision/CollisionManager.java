@@ -41,10 +41,9 @@ public class CollisionManager {
 
 	private void addPortal(PortalInstance portal, PortalInstance linked) {
 		// iterate blocks behind portal and add a shape patch for each
-		List<BlockPos> blocks = portal.blockModificationArea.intersectingBlocks();
-		for (BlockPos pos : blocks) {
-			this.patches.put(pos, portal, this.calculatePatch(portal, linked, pos));
-		}
+		portal.blockModificationArea.intersectingBlocks().forEach(
+				pos -> this.patches.put(pos, portal, this.calculatePatch(portal, linked, pos))
+		);
 	}
 
 	private CollisionPatch calculatePatch(PortalInstance portal, PortalInstance linked, BlockPos pos) {

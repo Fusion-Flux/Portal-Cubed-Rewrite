@@ -6,34 +6,31 @@ import com.google.common.collect.Iterators;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Intersectiond;
 
 import net.minecraft.world.phys.Vec3;
 
 public record Tri(Vec3 a, Vec3 b, Vec3 c) implements Iterable<Vec3> {
 	@Nullable
 	public Vec3 clip(Vec3 from, Vec3 to) {
-		// implementation from https://iquilezles.org/articles/intersectors/
-		Vec3 lineNormal = from.vectorTo(to).normalize();
+		Vec3 direction = from.vectorTo(to).normalize();
 
-		Vec3 aToB = this.b.subtract(this.a);
-		Vec3 aToC = this.c.subtract(this.a);
-		Vec3 aToFrom = from.subtract(this.a);
-		Vec3 n = aToB.cross(aToC);
-		Vec3 q = aToFrom.cross(lineNormal);
-		double d = 1 / lineNormal.dot(n);
-		double u = d * q.reverse().dot(aToC);
-		double v = d * q.dot(aToB);
+		double distance = Intersectiond.intersectRayTriangle(
+				from.x, from.y, from.z,
+				direction.x, direction.y, direction.z,
+				this.a.x, this.a.y, this.a.z,
+				this.b.x, this.b.y, this.b.z,
+				this.c.x, this.c.y, this.c.z,
+				1e-5
+		);
 
-		if (u < 0 || v < 0 || (u + v) > 1)
-			return null;
-		double dist = d * n.reverse().dot(aToFrom);
-		return from.add(lineNormal.scale(dist));
+		return distance == -1 ? null : from.add(direction.scale(distance));
 	}
 
 	public Vec3 normal() {
 		Vec3 a = this.b.subtract(this.a);
 		Vec3 b = this.c.subtract(this.a);
-		return a.cross(b);
+		return a.cross(b).normalize();
 	}
 
 	@NotNull

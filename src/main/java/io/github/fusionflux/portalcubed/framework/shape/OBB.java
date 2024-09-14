@@ -2,10 +2,12 @@ package io.github.fusionflux.portalcubed.framework.shape;
 
 import java.util.stream.Stream;
 
+import io.github.fusionflux.portalcubed.framework.util.Line;
 import io.github.fusionflux.portalcubed.framework.util.Quad;
 
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 
+import org.joml.Intersectiond;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
@@ -25,17 +27,21 @@ public final class OBB {
 
 	public static final boolean[] TRUE_FALSE = { true, false };
 
-	// rotated box representation
-	public final AABB bounds;
+	public final double xSize;
+	public final double ySize;
+	public final double zSize;
+	public final Vec3 center;
 	public final Quaternionf rotation;
-	// basis vectors representation. These also work as normals
+	// basis vectors / normals
 	public final Vec3 basisX;
 	public final Vec3 basisY;
 	public final Vec3 basisZ;
 	// calculated useful values
-	public final Vec3 center;
 	public final AABB encompassingAabb;
 	public final Vec3[] vertices;
+	public final Line[] edges;
+
+	private final AABB relativeBounds;
 
 	public OBB(Vec3 center, double xSize, double ySize, double zSize, Quaternionf rotation) {
 		this(AABB.ofSize(center, xSize, ySize, zSize), rotation);
@@ -46,15 +52,25 @@ public final class OBB {
 	}
 
 	public OBB(AABB bounds, Quaternionf rotation) {
-		this.bounds = bounds;
+		this.xSize = bounds.getXsize();
+		this.ySize = bounds.getYsize();
+		this.zSize = bounds.getZsize();
+		this.center = bounds.getCenter();
+
+		// move bounds to origin for calculations
+		this.relativeBounds = bounds.move(-this.center.x, -this.center.y, -this.center.z);
+
 		this.rotation = rotation;
 
 		this.basisX = TransformUtils.apply(XP, rotation::transform);
 		this.basisY = TransformUtils.apply(YP, rotation::transform);
 		this.basisZ = TransformUtils.apply(ZP, rotation::transform);
 
-		this.center = bounds.getCenter();
-		Vec3 lowVertex = TransformUtils.apply(new Vec3(bounds.minX, bounds.minY, bounds.minZ), rotation::transform);
+		Vec3 lowVertex = TransformUtils.apply(
+				new Vec3(this.relativeBounds.minX, this.relativeBounds.minY, this.relativeBounds.minZ),
+				rotation::transform,
+				vec -> vec.add(this.center.x, this.center.y, this.center.z)
+		);
 
 		// calculate vertices and encompassing AABB
 
@@ -84,6 +100,24 @@ public final class OBB {
 		}
 
 		this.encompassingAabb = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+
+		this.edges = new Line[] {
+				// top 4
+				new Line(this.vertex(false, true, false), this.vertex(true, true, false)),
+				new Line(this.vertex(false, true, false), this.vertex(false, true, true)),
+				new Line(this.vertex(true, true, true), this.vertex(true, true, false)),
+				new Line(this.vertex(true, true, true), this.vertex(false, true, true)),
+				// bottom 4
+				new Line(this.vertex(false, false, false), this.vertex(true, false, false)),
+				new Line(this.vertex(false, false, false), this.vertex(false, false, true)),
+				new Line(this.vertex(true, false, true), this.vertex(true, false, false)),
+				new Line(this.vertex(true, false, true), this.vertex(false, false, true)),
+				// 4 vertical connections
+				new Line(this.vertex(false, false, false), this.vertex(false, true, false)),
+				new Line(this.vertex(true, false, false), this.vertex(true, true, false)),
+				new Line(this.vertex(false, false, true), this.vertex(false, true, true)),
+				new Line(this.vertex(true, false, true), this.vertex(true, true, true)),
+		};
 	}
 
 	public boolean contains(Vec3 pos) {
@@ -96,9 +130,10 @@ public final class OBB {
 
 	public boolean contains(double x, double y, double z) {
 		// surely the JIT will inline this, right :clueless:
-		Vector3d vec = new Vector3d();
-		this.rotation.transformInverse(x, y, z, vec);
-		return this.bounds.contains(vec.x, vec.y, vec.z);
+		Vector3d vec = new Vector3d(x, y, z);
+		vec.sub(this.center.x, this.center.y, this.center.z);
+		this.rotation.transformInverse(vec);
+		return this.relativeBounds.contains(vec.x, vec.y, vec.z);
 	}
 
 	public boolean intersects(BlockPos pos) {
@@ -109,25 +144,19 @@ public final class OBB {
 		return this.intersects(new OBB(aabb));
 	}
 
-	public boolean intersects(OBB other) {
-				// 3 normals of this box
-		return  intersectionOnAxis(this.basisX, this, other) ||
-				intersectionOnAxis(this.basisY, this, other) ||
-				intersectionOnAxis(this.basisZ, this, other) ||
-				// 3 normals of other box
-				intersectionOnAxis(other.basisX, this, other) ||
-				intersectionOnAxis(other.basisY, this, other) ||
-				intersectionOnAxis(other.basisZ, this, other) ||
-				// 9 cross products: 3 normals x 3 normals
-				intersectionOnAxis(this.basisX.cross(other.basisX), this, other) ||
-				intersectionOnAxis(this.basisX.cross(other.basisY), this, other) ||
-				intersectionOnAxis(this.basisX.cross(other.basisZ), this, other) ||
-				intersectionOnAxis(this.basisY.cross(other.basisX), this, other) ||
-				intersectionOnAxis(this.basisY.cross(other.basisY), this, other) ||
-				intersectionOnAxis(this.basisY.cross(other.basisZ), this, other) ||
-				intersectionOnAxis(this.basisZ.cross(other.basisX), this, other) ||
-				intersectionOnAxis(this.basisZ.cross(other.basisY), this, other) ||
-				intersectionOnAxis(this.basisZ.cross(other.basisZ), this, other);
+	public boolean intersects(OBB that) {
+		return Intersectiond.testObOb(
+				this.center.x, this.center.y, this.center.z,
+				this.basisX.x, this.basisX.y, this.basisX.z,
+				this.basisY.x, this.basisY.y, this.basisY.z,
+				this.basisZ.x, this.basisZ.y, this.basisZ.z,
+				this.xSize / 2, this.ySize / 2, this.zSize / 2,
+				that.center.x, that.center.y, that.center.z,
+				that.basisX.x, that.basisX.y, that.basisX.z,
+				that.basisY.x, that.basisY.y, that.basisY.z,
+				that.basisZ.x, that.basisZ.y, that.basisZ.z,
+				that.xSize / 2, that.ySize / 2, that.zSize / 2
+		);
 	}
 
 	public Stream<BlockPos> intersectingBlocks() {
@@ -149,35 +178,23 @@ public final class OBB {
 				1, 0, 0, // XP
 				(float) normal.x, (float) normal.y, (float) normal.z
 		);
-		return new OBB(center, quad.width(), quad.height(), depth, rotation);
+		return new OBB(center, depth, quad.height(), quad.width(), rotation);
 	}
 
 	private Vec3 calculateVertex(Vec3 lowVertex, boolean highX, boolean highY, boolean highZ) {
 		Vec3 vec = lowVertex;
 
 		if (highX) {
-			vec = vec.add(this.basisX.scale(this.bounds.getXsize() * 2));
+			vec = vec.add(this.basisX.scale(this.xSize));
 		}
 		if (highY) {
-			vec = vec.add(this.basisY.scale(this.bounds.getYsize() * 2));
+			vec = vec.add(this.basisY.scale(this.ySize));
 		}
 		if (highZ) {
-			vec = vec.add(this.basisZ.scale(this.bounds.getZsize() * 2));
+			vec = vec.add(this.basisZ.scale(this.zSize));
 		}
 
 		return vec;
-	}
-
-	private Range project(Vec3 axis) {
-		double min = Double.MAX_VALUE;
-		double max = Double.MIN_VALUE;
-		for (Vec3 vertex : this.vertices) {
-			Vec3 projection = TransformUtils.project(vertex, axis);
-			double length = projection.length();
-			min = Math.min(min, length);
-			max = Math.max(max, length);
-		}
-		return new Range(min, max);
 	}
 
 	private static int vertexKey(boolean highX, boolean highY, boolean highZ) {
@@ -196,13 +213,4 @@ public final class OBB {
 		return key;
 	}
 
-	private static boolean intersectionOnAxis(Vec3 axis, OBB boxA, OBB boxB) {
-		return boxA.project(axis).intersects(boxB.project(axis));
-	}
-
-	private record Range(double min, double max) {
-		private boolean intersects(Range other) {
-			return this.min <= other.max && this.max >= other.min;
-		}
-	}
 }

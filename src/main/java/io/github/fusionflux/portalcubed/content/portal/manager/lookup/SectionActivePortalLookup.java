@@ -13,6 +13,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
@@ -85,7 +86,7 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 				from, closest.hit,
 				closest.portal, linked, pair,
 				closest.hit, teleportedHit,
-				this.clip(teleportedHit, teleportedEnd)
+				null//this.clip(teleportedHit, teleportedEnd)
 		);
 	}
 
@@ -104,7 +105,10 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 			for (PortalInstance portal : oldPair) {
 				this.portalsToPairs.remove(portal);
 				forEachSectionContainingPortal(portal, section -> {
-					this.sectionsToPortals.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal);
+					List<PortalInstance> portals = this.sectionsToPortals.get(section);
+					if (portals != null && portals.remove(portal) && portals.isEmpty()) {
+						this.sectionsToPortals.remove(section);
+					}
 				});
 			}
 			this.collisionManager.removePair(oldPair);
@@ -112,12 +116,11 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		if (newPair != null && newPair.isLinked()) {
 			for (PortalInstance portal : newPair) {
 				this.portalsToPairs.put(portal, newPair);
-				forEachSectionContainingPortal(portal, section -> {
-					List<PortalInstance> portals = this.sectionsToPortals.get(section);
-					if (portals != null && portals.remove(portal) && portals.isEmpty()) {
-						this.sectionsToPortals.remove(section);
-					}
-				});
+				forEachSectionContainingPortal(
+						portal,
+						section -> this.sectionsToPortals.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal)
+				);
+
 			}
 			this.collisionManager.addPair(newPair);
 		}

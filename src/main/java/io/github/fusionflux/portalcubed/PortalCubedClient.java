@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimato
 import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.LongFallBootsModel;
 import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
-import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;

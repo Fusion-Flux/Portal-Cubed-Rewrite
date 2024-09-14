@@ -17,6 +17,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -51,9 +54,22 @@ public class RenderingUtils {
 				.endVertex();
 	}
 
+	public static void renderShape(PoseStack matrices, MultiBufferSource vertexConsumers, VoxelShape shape, Color color) {
+		// LevelRenderer method just renders the aabbs
+		for (AABB aabb : shape.toAabbs()) {
+			renderBox(matrices, vertexConsumers, aabb, color);
+		}
+	}
+
 	public static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, AABB box, Color color) {
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
 		LevelRenderer.renderLineBox(matrices, vertices, box, color.r(), color.g(), color.b(), color.a());
+	}
+
+	public static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, OBB box, Color color) {
+		for (Line edge : box.edges) {
+			renderLine(matrices, vertexConsumers, edge, color);
+		}
 	}
 
 	public static void renderQuad(PoseStack matrices, MultiBufferSource vertexConsumers, Quad quad, Color color) {
@@ -65,6 +81,10 @@ public class RenderingUtils {
 		renderLine(matrices, buffers, tri.a(), tri.b(), color);
 		renderLine(matrices, buffers, tri.a(), tri.c(), color);
 		renderLine(matrices, buffers, tri.b(), tri.c(), color);
+	}
+
+	public static void renderLine(PoseStack matrices, MultiBufferSource vertexConsumers, Line line, Color color) {
+		renderLine(matrices, vertexConsumers, line.from(), line.to(), color);
 	}
 
 	public static void renderLine(PoseStack matrices, MultiBufferSource vertexConsumers, Vec3 from, Vec3 to, Color color) {

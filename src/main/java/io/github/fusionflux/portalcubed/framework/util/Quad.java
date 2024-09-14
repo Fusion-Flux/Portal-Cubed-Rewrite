@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.util;
 import com.google.common.collect.Iterables;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Intersectiond;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 

@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.portal.RecursionAttachedResource;
 import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderList;
 import me.jellysquid.mods.sodium.client.render.chunk.region.RenderRegion;

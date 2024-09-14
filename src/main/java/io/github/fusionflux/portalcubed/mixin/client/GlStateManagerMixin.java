@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.mixin.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 

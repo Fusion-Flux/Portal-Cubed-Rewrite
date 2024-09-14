@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -10,6 +10,10 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.RecursionAttachedResource;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.Color;
@@ -58,16 +62,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class PortalRenderer {
-	public static final Color RED = new Color(1, 0, 0, 1);
-	public static final Color GREEN = new Color(0.5f, 1, 0.5f, 1);
-	public static final Color BLUE = new Color(0, 0, 1, 1);
-	public static final Color ORANGE = new Color(1, 0.5f, 0, 1);
-	public static final Color PURPLE = new Color(0.5f, 0, 1, 1);
-	public static final Color CYAN = new Color(0, 1, 1, 1);
-
-	public static final Color PLANE_COLOR = new Color(1, 1, 1, 1);
-	public static final Color ACTIVE_PLANE_COLOR = GREEN;
-
 	public static final double OFFSET_FROM_WALL = 0.001;
 
 	private static int maxRecursions = 5;
@@ -104,7 +98,6 @@ public class PortalRenderer {
 		Vec3 camPos = context.camera().getPosition();
 		Frustum frustum = Objects.requireNonNull(context.frustum());
 		matrices.pushPose();
-		boolean renderDebug = Minecraft.getInstance().getDebugOverlay().showDebugScreen();
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
 		for (PortalPair pair : pairs) {
@@ -119,9 +112,6 @@ public class PortalRenderer {
 				);
 				if (inVisibleSection && frustum.isVisible(portal.renderBounds)) {
 					renderPortal(pair, portal, matrices, vertexConsumers, context);
-//					if (renderDebug) {
-//						renderPortalDebug(portal, context, matrices, vertexConsumers);
-//					}
 				}
 			}
 		}
@@ -340,59 +330,8 @@ public class PortalRenderer {
 		}
 	}
 
-//	private static void renderPortalDebug(PortalInstance portal, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource vertexConsumers) {
-//		// render a box around the portal's plane
-//		Color planeColor = portal.isActive() ? ACTIVE_PLANE_COLOR : PLANE_COLOR;
-//		renderBox(matrices, vertexConsumers, portal.plane, planeColor);
-//		// collision bounds
-//		renderBox(matrices, vertexConsumers, portal.entityCollisionArea, RED);
-//		renderBox(matrices, vertexConsumers, portal.collisionCollectionArea, PURPLE);
-//		renderBox(matrices, vertexConsumers, portal.collisionModificationBox, CYAN);
-//		// cross-portal collision
-//		PortalInstance linked = portal.getLinked();
-//		if (linked != null) {
-//			renderCollision(ctx, portal, linked);
-//		}
-//		// render player's raycast through
-//		Camera camera = ctx.camera();
-//		Vec3 pos = camera.getPosition();
-//		Vector3f lookVector = camera.getLookVector().normalize(3, new Vector3f());
-//		Vec3 end = pos.add(lookVector.x, lookVector.y, lookVector.z);
-//		PortalHitResult hit = ctx.world().portalManager().clipPortal(pos, end);
-//		if (hit != null) {
-//			// start -> hitIn
-//			RenderingUtils.renderLine(matrices, vertexConsumers, hit.start(), hit.hitIn(), ORANGE);
-//			// box at hitIn
-//			AABB hitInBox = AABB.ofSize(hit.hitIn(), 0.1, 0.1, 0.1);
-//			renderBox(matrices, vertexConsumers, hitInBox, ORANGE);
-//			// box at hitOut
-//			AABB hitOutBox = AABB.ofSize(hit.hitOut(), 0.1, 0.1, 0.1);
-//			renderBox(matrices, vertexConsumers, hitOutBox, BLUE);
-//			// hitOut -> end
-//			RenderingUtils.renderLine(matrices, vertexConsumers, hit.hitOut(), hit.teleportedEnd(), BLUE);
-//			// box at end
-//			AABB endBox = AABB.ofSize(hit.teleportedEnd(), 0.1, 0.1, 0.1);
-//			renderBox(matrices, vertexConsumers, endBox, GREEN);
-//		}
-//	}
-
-	private static void renderCollision(WorldRenderContext ctx, PortalInstance portal, PortalInstance linked) {
-		Camera camera = ctx.camera();
-		Entity entity = camera.getEntity();
-		ClientLevel level = ctx.world();
-		PoseStack matrices = ctx.matrixStack();
-		VertexConsumer vertices = Objects.requireNonNull(ctx.consumers()).getBuffer(RenderType.lines());
-
-		List<VoxelShape> shapes = VoxelShenanigans.getShapesBehindPortal(level, entity, portal, linked);
-		shapes.forEach(shape -> LevelRenderer.renderVoxelShape(
-				matrices, vertices, shape,
-				0, 0, 0,
-				1, 1, 1, 1,
-				true
-		));
-	}
-
 	public static void init() {
 		WorldRenderEvents.BEFORE_DEBUG_RENDER.register(PortalRenderer::render);
+		WorldRenderEvents.AFTER_ENTITIES.register(PortalDebugRenderer::render);
 	}
 }

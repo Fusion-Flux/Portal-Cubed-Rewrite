@@ -6,10 +6,8 @@ import io.github.fusionflux.portalcubed.mixin.CubeVoxelShapeAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
-import net.minecraft.world.phys.shapes.CubeVoxelShape;
 import net.minecraft.world.phys.shapes.DiscreteVoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -19,6 +17,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class VoxelShenanigans {
@@ -109,7 +108,8 @@ public class VoxelShenanigans {
 
 	public static VoxelShape approximateObb(OBB obb) {
 		VoxelShape shape = Shapes.empty();
-		for (BlockPos pos : obb.intersectingBlocks()) {
+		for (Iterator<BlockPos> itr = obb.intersectingBlocks().iterator(); itr.hasNext();) {
+			BlockPos pos = itr.next();
 			VoxelShape relative = approximateObb(obb, pos);
 			VoxelShape absolute = relative.move(pos.getX(), pos.getY(), pos.getZ());
 			shape = Shapes.or(shape, absolute);
@@ -118,7 +118,7 @@ public class VoxelShenanigans {
 	}
 
 	private static VoxelShape approximateObb(OBB obb, BlockPos pos) {
-		final int resolution = 8;
+		final int resolution = 2;
 		final float step = 1f / resolution;
 		final float toCenter = step / 2;
 

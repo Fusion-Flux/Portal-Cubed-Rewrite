@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import net.minecraft.client.Camera;
 
 import org.spongepowered.asm.mixin.Mixin;
