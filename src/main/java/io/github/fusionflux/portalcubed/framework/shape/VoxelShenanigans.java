@@ -8,7 +8,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.DiscreteVoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -79,7 +78,7 @@ public class VoxelShenanigans {
 		// transform by inverse of A
 		// transform by inverse of B's 180 rotation
 		// to apply in that order, B * A
-		Quaternionf inverted = a.rotation.invert(new Quaternionf());
+		Quaternionf inverted = a.rotation().invert(new Quaternionf());
 		Quaternionf totalRotation = b.rotation180.mul(inverted, new Quaternionf());
 		return rotateShape(shape, totalRotation);
 	}

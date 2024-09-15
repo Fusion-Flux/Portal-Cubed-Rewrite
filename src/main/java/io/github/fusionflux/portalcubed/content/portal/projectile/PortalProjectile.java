@@ -5,12 +5,15 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.framework.entity.UnsavedEntity;
+
+import org.joml.Quaternionf;
+
 import net.minecraft.core.Direction;
-import net.minecraft.core.FrontAndTop;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.ClipContext;
@@ -19,7 +22,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class PortalProjectile extends UnsavedEntity {
@@ -32,7 +34,7 @@ public class PortalProjectile extends UnsavedEntity {
 
 	// only tracked on the server
 	private PortalSettings portalSettings;
-	private Direction horizontalFacing;
+	private float yRot;
 	private UUID pair;
 	private PortalType type;
 
@@ -41,11 +43,11 @@ public class PortalProjectile extends UnsavedEntity {
 		this.noPhysics = true;
 	}
 
-	public PortalProjectile(Level level, PortalSettings settings, Direction horizontalFacing, UUID pair, PortalType type) {
+	public PortalProjectile(Level level, PortalSettings settings, float yRot, UUID pair, PortalType type) {
 		this(PortalCubedEntities.PORTAL_PROJECTILE, level);
 		this.portalSettings = settings;
 		this.entityData.set(COLOR, settings.color());
-		this.horizontalFacing = horizontalFacing;
+		this.yRot = yRot;
 		this.pair = pair;
 		this.type = type;
 	}
@@ -94,14 +96,18 @@ public class PortalProjectile extends UnsavedEntity {
 	}
 
 	private void spawnPortal(ServerLevel level, BlockHitResult hit) {
-		if (this.portalSettings == null || this.horizontalFacing == null || this.pair == null || this.type == null)
+		if (this.portalSettings == null || this.pair == null || this.type == null)
 			return;
 
 		Direction facing = hit.getDirection();
-		Vec3 pos = hit.getLocation();
-		Direction top = facing.getAxis().isHorizontal() ? Direction.UP : horizontalFacing;
-		FrontAndTop orientation = Objects.requireNonNull(FrontAndTop.fromFrontAndTop(facing, top));
-		PortalData data = new PortalData(pos, orientation, this.portalSettings);
+		Quaternionf rotation = facing.getRotation();
+		rotation.rotateX(Mth.DEG_TO_RAD * 270);
+		rotation.rotateY(Mth.DEG_TO_RAD * 180);
+		if (facing.getAxis().isVertical()) {
+			rotation.rotateZ(Mth.DEG_TO_RAD * this.yRot);
+		}
+
+		PortalData data = new PortalData(hit.getLocation(), rotation, this.portalSettings);
 		level.portalManager().createPortal(this.pair, this.type, data);
 	}
 

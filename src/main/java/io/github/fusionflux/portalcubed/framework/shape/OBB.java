@@ -23,10 +23,6 @@ import net.minecraft.world.phys.Vec3;
  * A rotation of (0, 0, 0, 1) represents a normal towards east (+X), where relative right is south (+Z) and relative up is... up (+Y).
  */
 public final class OBB {
-	public static final Vec3 XP = new Vec3(1, 0, 0);
-	public static final Vec3 YP = new Vec3(0, 1, 0);
-	public static final Vec3 ZP = new Vec3(0, 0, 1);
-
 	public static final boolean[] TRUE_FALSE = { true, false };
 
 	public final double xSize;
@@ -64,9 +60,9 @@ public final class OBB {
 
 		this.rotation = rotation;
 
-		this.basisX = TransformUtils.apply(XP, rotation::transform);
-		this.basisY = TransformUtils.apply(YP, rotation::transform);
-		this.basisZ = TransformUtils.apply(ZP, rotation::transform);
+		this.basisX = TransformUtils.apply(TransformUtils.XP, rotation::transform);
+		this.basisY = TransformUtils.apply(TransformUtils.YP, rotation::transform);
+		this.basisZ = TransformUtils.apply(TransformUtils.ZP, rotation::transform);
 
 		Vec3 lowVertex = TransformUtils.apply(
 				new Vec3(this.relativeBounds.minX, this.relativeBounds.minY, this.relativeBounds.minZ),

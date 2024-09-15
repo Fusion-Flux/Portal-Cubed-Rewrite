@@ -13,6 +13,10 @@ import org.joml.Vector3d;
 import net.minecraft.world.phys.Vec3;
 
 public class TransformUtils {
+	public static final Vec3 XP = new Vec3(1, 0, 0);
+	public static final Vec3 YP = new Vec3(0, 1, 0);
+	public static final Vec3 ZP = new Vec3(0, 0, 1);
+
 	@SafeVarargs
 	public static Vec3 apply(Vec3 input, UnaryOperator<Vector3d>... functions) {
         Vector3d result = new Vector3d(input.x, input.y, input.z);

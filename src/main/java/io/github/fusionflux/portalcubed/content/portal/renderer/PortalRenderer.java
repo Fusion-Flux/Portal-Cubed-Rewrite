@@ -15,8 +15,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.RecursionAttachedResource;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
-import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
-import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import io.github.fusionflux.portalcubed.mixin.client.CameraAccessor;
 import io.github.fusionflux.portalcubed.mixin.client.LevelRendererAccessor;
@@ -35,7 +33,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 
@@ -46,10 +43,7 @@ import net.minecraft.client.renderer.culling.Frustum;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -58,7 +52,6 @@ import org.lwjgl.opengl.ARBDepthClamp;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 public class PortalRenderer {
@@ -137,7 +130,7 @@ public class PortalRenderer {
 		// translate to portal pos
 		matrices.translate(portal.data.origin().x, portal.data.origin().y, portal.data.origin().z);
 		// apply rotations
-		matrices.mulPose(portal.rotation); // rotate towards facing direction
+		matrices.mulPose(portal.rotation()); // rotate towards facing direction
 		matrices.mulPose(Axis.ZP.rotationDegrees(180));
 		// slight offset so origin is center of portal
 		matrices.translate(-0.5f, -1, 0);
@@ -175,7 +168,7 @@ public class PortalRenderer {
 			((CameraAccessor) camera).pc$setPosition(camPos);
 
 			camera.rotation()
-					.premul(portal.rotation.invert(new Quaternionf()))
+					.premul(portal.rotation().invert(new Quaternionf()))
 					.premul(linked.rotation180);
 			camera.getLookVector().set(0, 1, 0).rotate(camera.rotation());
 			camera.getUpVector().set(0, 1, 0).rotate(camera.rotation());

@@ -52,10 +52,10 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 
 			Vec3 lookAngle = player.getLookAngle();
 			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
-			Direction horizontalFacing = player.getDirection();
+			float yRot = player.getYRot() + 180;
 			UUID pair = gunSettings.pair().orElse(player.getUUID());
 
-			PortalProjectile projectile = new PortalProjectile(level, portalSettings, horizontalFacing, pair, type);
+			PortalProjectile projectile = new PortalProjectile(level, portalSettings, yRot, pair, type);
 			projectile.setDeltaMovement(velocity);
 			projectile.moveTo(player.getEyePosition());
 			level.addFreshEntity(projectile);

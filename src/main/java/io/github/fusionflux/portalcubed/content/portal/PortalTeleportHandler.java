@@ -2,13 +2,11 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
-import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class PortalTeleportHandler {
@@ -71,7 +69,7 @@ public class PortalTeleportHandler {
 		return TransformUtils.apply(
 				vec,
 				in::relativize,
-				in.rotation::transformInverse,
+				in.rotation()::transformInverse,
 				out.rotation180::transform,
 				out::derelativize
 		);
@@ -80,7 +78,7 @@ public class PortalTeleportHandler {
 	public static Vec3 teleportRelativeVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {
 		return TransformUtils.apply(
 				vec,
-				in.rotation::transformInverse,
+				in.rotation()::transformInverse,
 				out.rotation180::transform
 		);
 	}
