@@ -113,13 +113,13 @@ public class VoxelShenanigans {
 			BlockPos pos = itr.next();
 			VoxelShape relative = approximateObb(obb, pos);
 			VoxelShape absolute = relative.move(pos.getX(), pos.getY(), pos.getZ());
-			shape = Shapes.joinUnoptimized(shape, absolute, BooleanOp.OR);
+			shape = Shapes.or(shape, absolute);
 		}
-		return shape.optimize();
+		return shape;
 	}
 
 	private static VoxelShape approximateObb(OBB obb, BlockPos pos) {
-		final int resolution = 8;
+		final int resolution = 16;
 		final float step = 1f / resolution;
 		final float toCenter = step / 2;
 
