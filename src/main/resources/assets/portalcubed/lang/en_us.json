@@ -6,15 +6,26 @@
 
   "key.categories.portalcubed": "Portal Cubed",
   "key.portalcubed.grab": "Grab",
+  "key.portalcubed.clear_portals": "Clear Portals",
 
 
   "gamerule.category.portalcubed": "Portal Cubed",
   "gamerule.propSnatching": "Prop Snatching",
-  "gamerule.propSnatching.description": "Allows props being held by a player to be grabbed by other players without the holder dropping it first.",
+  "gamerule.propSnatching.description": "Controls whether or not props being held by a player are able to be grabbed by other players without being dropped first.",
   "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
   "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
   "gamerule.toxicGooDamage": "Toxic Goo Damage",
-  "gamerule.toxicGooDamage.description": "The amount of damage (per second) toxic goo does to entities inside it.",
+  "gamerule.toxicGooDamage.description": "Damage (per second) toxic goo deals to entities inside it.",
+  "gamerule.portalPositionSnapping": "Portal Position Snapping",
+  "gamerule.portalPositionSnapping.description": "Controls the position alignment of portals to blocks, in fractions of a full block (1/n).  Setting to 0 disables position snapping entirely.",
+  "gamerule.axisAlignedPortals": "Axis Aligned Portals",
+  "gamerule.axisAlignedPortals.description": "Controls whether portals placed on floors and ceilings should be aligned to block rotation, or have full 360 degree placement.",
+  "gamerule.portalPlacementValidation": "Portal Placement Validation",
+  "gamerule.portalPlacementValidation.description": "Controls whether or not there are placement checks when shooting portals, such as preventing them from being placed on invalid surfaces or overhangs.  Likely to cause unexpected and broken results when disabled, and is mainly a debug option - Issues caused by invalid portal placements will not be fixed!",
+  "gamerule.allowManualPortalClearing": "Allow Manual Portal Clearing",
+  "gamerule.allowManualPortalClearing.description": "Controls whether or not the player can clear their portals with a keybind.",
+  "gamerule.portalsVanishOnDeath": "Player Portals Vanish on Death",
+  "gamerule.portalsVanishOnDeath.description": "Whether Player-placed portals vanish when that player dies.",
 
 
   "container.portalcubed.construction_cannon": "Construction Cannon",
@@ -55,6 +66,12 @@
   "commands.portalcubed.client.portal_rendering.toggle": "Portal rendering is now %s",
   "commands.portalcubed.client.portal_rendering.enabled": "enabled",
   "commands.portalcubed.client.portal_rendering.disabled": "disabled",
+
+  "commands.portalcubed.client.portal_camera_smoothing_time.query": "Portal camera smoothing time is currently set to %s milliseconds",
+  "commands.portalcubed.client.portal_camera_smoothing_time.success": "Set portal camera smoothing time to %s milliseconds",
+  "commands.portalcubed.client.portal_camera_smoothing_time.failure": "Could not set portal camera smoothing time to %1$s: %2$s",
+  "commands.portalcubed.client.portal_camera_smoothing_time.failure.out_of_range": "Must be between %1$s and %2$s",
+
 
   "item.portalcubed.construction_cannon.material": "Material: ",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
@@ -175,7 +192,9 @@
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
 
+
   "attribute.name.generic.fall_damage_absorption": "Fall Damage Absorption",
+
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
