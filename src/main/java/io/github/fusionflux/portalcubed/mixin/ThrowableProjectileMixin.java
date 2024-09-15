@@ -57,6 +57,8 @@ public abstract class ThrowableProjectileMixin extends Entity {
 			)
 	)
 	private void moveThroughPortals(ThrowableProjectile self, double x, double y, double z, Operation<Void> original) {
-		PortalTeleportHandler.handle(self, x, y, z, original::call);
+		if (!PortalTeleportHandler.handle(self, x, y, z)) {
+			original.call(self, x, y, z);
+		}
 	}
 }

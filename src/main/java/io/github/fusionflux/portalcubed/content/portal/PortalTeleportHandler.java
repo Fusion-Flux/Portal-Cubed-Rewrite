@@ -18,11 +18,10 @@ public class PortalTeleportHandler {
 	 * Called by mixins when an entity moves relatively.
 	 * Responsible for finding and teleporting through portals.
 	 */
-	public static void handle(Entity entity, double x, double y, double z, PositionSetter setter) {
+	public static boolean handle(Entity entity, double x, double y, double z) {
 		Level level = entity.level();
 		if (level.isClientSide || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST)) {
-			setter.set(entity, x, y, z);
-			return;
+			return false;
 		}
 
 		Vec3 oldPos = entity.position();
@@ -30,14 +29,13 @@ public class PortalTeleportHandler {
 		PortalManager manager = level.portalManager();
 		PortalHitResult result = manager.activePortals().clip(oldPos, newPos);
 		if (result == null) {
-			setter.set(entity, x, y, z);
-			return;
+			return false;
 		}
 
 		boolean wasGrounded = entity.onGround(); // grab this before teleporting
 
 		Vec3 oldPosTeleported = result.teleportAbsoluteVec(oldPos);
-		Vec3 newPosTeleported = result.findEnd();
+		Vec3 newPosTeleported = result.end();
 		// todo: avoid player stats going haywire
 		teleportNoLerp(entity, newPosTeleported);
 
@@ -60,6 +58,8 @@ public class PortalTeleportHandler {
 		if (entity instanceof PathfinderMob pathfinderMob) {
 			pathfinderMob.getNavigation().stop();
 		}
+
+		return true;
 	}
 
 	public static void teleportNoLerp(Entity entity, Vec3 pos) {

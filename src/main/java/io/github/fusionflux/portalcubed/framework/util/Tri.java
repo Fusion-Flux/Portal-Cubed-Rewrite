@@ -7,24 +7,25 @@ import com.google.common.collect.Iterators;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
+import org.joml.Vector3d;
 
 import net.minecraft.world.phys.Vec3;
 
 public record Tri(Vec3 a, Vec3 b, Vec3 c) implements Iterable<Vec3> {
 	@Nullable
 	public Vec3 clip(Vec3 from, Vec3 to) {
-		Vec3 direction = from.vectorTo(to).normalize();
-
-		double distance = Intersectiond.intersectRayTriangle(
+		Vector3d pos = new Vector3d();
+		boolean intersected = Intersectiond.intersectLineSegmentTriangle(
 				from.x, from.y, from.z,
-				direction.x, direction.y, direction.z,
+				to.x, to.y, to.z,
 				this.a.x, this.a.y, this.a.z,
 				this.b.x, this.b.y, this.b.z,
 				this.c.x, this.c.y, this.c.z,
-				1e-5
+				1e-5,
+				pos
 		);
 
-		return distance == -1 ? null : from.add(direction.scale(distance));
+		return intersected ? new Vec3(pos.x, pos.y, pos.z) : null;
 	}
 
 	public Vec3 normal() {
