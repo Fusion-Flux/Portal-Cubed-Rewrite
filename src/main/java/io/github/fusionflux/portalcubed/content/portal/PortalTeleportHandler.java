@@ -19,6 +19,7 @@ public class PortalTeleportHandler {
 	 * Responsible for finding and teleporting through portals.
 	 */
 	public static boolean handle(Entity entity, double x, double y, double z) {
+		if (true) return false;
 		Level level = entity.level();
 		if (level.isClientSide || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST)) {
 			return false;

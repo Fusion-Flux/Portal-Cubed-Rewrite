@@ -36,12 +36,15 @@ public class CollisionManager {
 	}
 
 	public void addPair(PortalPair pair) {
-		this.addPortal(pair.primary().orElseThrow(), pair.secondary().orElseThrow());
+		PortalInstance primary = pair.primary().orElseThrow();
+		PortalInstance secondary = pair.secondary().orElseThrow();
+		this.addPortal(primary, secondary);
+		this.addPortal(secondary, primary);
 	}
 
 	private void addPortal(PortalInstance portal, PortalInstance linked) {
 		// iterate blocks behind portal and add a shape patch for each
-		portal.blockModificationArea.intersectingBlocks().forEach(
+		portal.blockModificationArea.intersectingBlocks().map(BlockPos::immutable).forEach(
 				pos -> this.patches.put(pos, portal, this.calculatePatch(portal, linked, pos))
 		);
 	}
