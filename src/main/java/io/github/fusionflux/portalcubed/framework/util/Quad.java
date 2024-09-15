@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.framework.util;
 import com.google.common.collect.Iterables;
 
 import org.jetbrains.annotations.Nullable;
-import org.joml.Intersectiond;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 
@@ -46,6 +45,12 @@ public record Quad(Tri a, Tri b) {
 	public Vec3 normal() {
 		// assume not degenerate
 		return this.a.normal();
+	}
+
+	public Vec3 up() {
+		Vec3 bottomRight = this.b.b();
+		Vec3 topRight = this.a.b();
+		return bottomRight.vectorTo(topRight).normalize();
 	}
 
 	public Vec3 center() {

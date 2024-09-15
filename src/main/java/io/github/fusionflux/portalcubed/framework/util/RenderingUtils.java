@@ -61,6 +61,11 @@ public class RenderingUtils {
 		}
 	}
 
+	public static void renderVec(PoseStack matrices, MultiBufferSource vertexConsumers, Vec3 vec, Vec3 pos, Color color) {
+		Vec3 to = pos.add(vec);
+		renderLine(matrices, vertexConsumers, pos, to, color);
+	}
+
 	public static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, AABB box, Color color) {
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
 		LevelRenderer.renderLineBox(matrices, vertices, box, color.r(), color.g(), color.b(), color.a());

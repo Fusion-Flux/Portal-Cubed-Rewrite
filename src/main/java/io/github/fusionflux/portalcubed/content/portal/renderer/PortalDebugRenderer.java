@@ -52,6 +52,8 @@ public class PortalDebugRenderer {
 		AABB originBox = AABB.ofSize(portal.data.origin(), 0.1, 0.1, 0.1);
 		RenderingUtils.renderBox(matrices, vertexConsumers, originBox, Color.GREEN);
 		RenderingUtils.renderQuad(matrices, vertexConsumers, portal.quad, Color.GREEN);
+		RenderingUtils.renderVec(matrices, vertexConsumers, portal.quad.normal(), portal.data.origin(), Color.RED);
+		RenderingUtils.renderVec(matrices, vertexConsumers, portal.quad.up(), portal.data.origin(), Color.BLUE);
 		// collision bounds
 		RenderingUtils.renderBox(matrices, vertexConsumers, portal.entityCollisionBounds, Color.RED);
 		RenderingUtils.renderBox(matrices, vertexConsumers, portal.blockModificationArea, Color.PURPLE);

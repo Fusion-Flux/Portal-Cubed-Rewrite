@@ -8,11 +8,13 @@ import io.github.fusionflux.portalcubed.framework.util.Quad;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 
 import org.joml.Intersectiond;
+import org.joml.Matrix3d;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -170,14 +172,19 @@ public final class OBB {
 	public static OBB extrudeQuad(Quad quad, double depth) {
 		Vec3 quadCenter = quad.center();
 		Vec3 normal = quad.normal();
+		Vec3 up = quad.up();
 		Vec3 offsetToCenter = normal.scale(depth / 2);
 		Vec3 center = quadCenter.add(offsetToCenter);
 
 		Quaternionf rotation = new Quaternionf();
-		rotation.rotateTo(
-				1, 0, 0, // XP
-				(float) normal.x, (float) normal.y, (float) normal.z
-		);
+		Vec3 t = up.cross(normal).normalize();
+		Vec3 h = normal.cross(t);
+		rotation.setFromNormalized(new Matrix3d(
+				t.x, t.y, t.z,
+				h.x, h.y, h.z,
+				normal.x, normal.y, normal.z
+		));
+		rotation.rotateY(Mth.DEG_TO_RAD * 90);
 		return new OBB(center, depth, quad.height(), quad.width(), rotation);
 	}
 
