@@ -50,9 +50,9 @@ public class CollisionManager {
 	}
 
 	private CollisionPatch calculatePatch(PortalInstance portal, PortalInstance linked, BlockPos pos) {
-		// need to collect blocks in the same relative location in front of the linked portal
-//		OBB bounds = PortalTeleportHandler.teleportAbsoluteBoxBetween(new AABB(pos), portal, linked);
-//		List<BlockPos> blocks = bounds.intersectingBlocks();
-		return new CollisionPatch.Complex(this.level, pos, portal, linked, List.of());
+		// collect the block positions that intersect with this pos when teleported
+		OBB teleported = PortalTeleportHandler.teleportBox(new OBB(pos), portal, linked);
+		List<BlockPos> blocks = teleported.intersectingBlocks().map(BlockPos::immutable).toList();
+		return new CollisionPatch.Complex(this.level, pos, portal, linked, blocks);
 	}
 }

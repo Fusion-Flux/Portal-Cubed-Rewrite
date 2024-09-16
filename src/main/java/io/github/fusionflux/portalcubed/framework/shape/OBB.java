@@ -45,6 +45,10 @@ public final class OBB {
 		this(AABB.ofSize(center, xSize, ySize, zSize), rotation);
 	}
 
+	public OBB(BlockPos pos) {
+		this(new AABB(pos));
+	}
+
 	public OBB(AABB aabb) {
 		this(aabb, new Quaternionf());
 	}
