@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
+import java.util.function.Function;
+
 import org.joml.Intersectiond;
 import org.joml.Matrix3d;
 import org.joml.Vector3f;
@@ -41,6 +43,10 @@ public final class OBB {
 				center.y + highY,
 				center.z + highZ
 		);
+	}
+
+	public OBB transformed(Function<Vec3, Vec3> center, Function<Matrix3d, Matrix3d> rotation) {
+		return new OBB(center.apply(this.center), this.extents.x * 2, this.extents.y * 2, this.extents.z * 2, rotation.apply(this.rotation));
 	}
 
 	public boolean contains(Vec3 pos) {

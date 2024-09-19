@@ -1,0 +1,35 @@
+{
+  "values" : [
+    "portalcubed:old_ap_metal_grate",
+    "portalcubed:portal_1_metal_grate",
+    "portalcubed:metal_grate",
+    "portalcubed:mesh_grate",
+    "portalcubed:old_ap_metal_grate_slab",
+    "portalcubed:portal_1_metal_grate_slab",
+    "portalcubed:metal_grate_slab",
+    "portalcubed:mesh_grate_slab",
+    "portalcubed:old_ap_metal_grate_facade",
+    "portalcubed:portal_1_metal_grate_facade",
+    "portalcubed:metal_grate_facade",
+    "portalcubed:mesh_grate_facade",
+    "#portalcubed:crossbars",
+
+    "#minecraft:leaves",
+    "minecraft:bamboo",
+    "minecraft:azalea",
+    "minecraft:flowering_azalea",
+    "minecraft:cactus",
+    "minecraft:big_dripleaf",
+    "minecraft:pointed_dripstone",
+    "minecraft:ladder",
+    "minecraft:scaffolding",
+    "minecraft:lantern",
+    "minecraft:soul_lantern",
+    "minecraft:sea_pickle",
+    "minecraft:chorus_plant",
+    "minecraft:chorus_flower",
+    "minecraft:mangrove_roots",
+    "minecraft:iron_bars",
+    "minecraft:chain"
+  ]
+}

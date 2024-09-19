@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.Entity;
@@ -65,6 +66,15 @@ public class PortalTeleportHandler {
 		entity.teleportTo(pos.x, pos.y, pos.z);
 	}
 
+	public static OBB teleportBox(OBB box, PortalInstance in, PortalInstance out) {
+		return box.transformed(
+				center -> teleportAbsoluteVecBetween(center, in, out),
+				rotation -> rotation
+						.rotateLocal(in.rotation())
+						.rotateLocal(out.rotation180)
+		);
+	}
+
 	public static Vec3 teleportAbsoluteVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {
 		return TransformUtils.apply(
 				vec,
@@ -81,9 +91,5 @@ public class PortalTeleportHandler {
 				in.rotation()::transformInverse,
 				out.rotation180::transform
 		);
-	}
-
-	public interface PositionSetter {
-		void set(Entity entity, double x, double y, double z);
 	}
 }
