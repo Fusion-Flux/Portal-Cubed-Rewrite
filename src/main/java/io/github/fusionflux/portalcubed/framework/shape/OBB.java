@@ -1,18 +1,12 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
-import java.util.stream.Stream;
-
-import io.github.fusionflux.portalcubed.framework.util.Line;
-import io.github.fusionflux.portalcubed.framework.util.Quad;
-
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
-
 import org.joml.Intersectiond;
 import org.joml.Matrix3d;
-import org.joml.Quaternionf;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 
+import com.google.common.collect.Iterables;
+
+import io.github.fusionflux.portalcubed.framework.util.Quad;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
@@ -20,102 +14,33 @@ import net.minecraft.world.phys.Vec3;
 
 /**
  * Oriented Bounding Box.
- * A rotation of (0, 0, 0, 1) represents a normal towards east (+X), where relative right is south (+Z) and relative up is... up (+Y).
+ * Identity rotation represents a normal towards east (+X), where relative right is south (+Z) and relative up is... up (+Y).
  */
 public final class OBB {
-	public static final boolean[] TRUE_FALSE = { true, false };
-
-	public final double xSize;
-	public final double ySize;
-	public final double zSize;
+	public final Vec3 extents;
 	public final Vec3 center;
-	public final Quaternionf rotation;
-	// basis vectors / normals
-	public final Vec3 basisX;
-	public final Vec3 basisY;
-	public final Vec3 basisZ;
-	// calculated useful values
+	public final Matrix3d rotation;
+	public final Matrix3d inverseRotation;
+
 	public final AABB encompassingAabb;
-	public final Vec3[] vertices;
-	public final Line[] edges;
 
-	private final AABB relativeBounds;
-
-	public OBB(Vec3 center, double xSize, double ySize, double zSize, Quaternionf rotation) {
-		this(AABB.ofSize(center, xSize, ySize, zSize), rotation);
-	}
-
-	public OBB(AABB aabb) {
-		this(aabb, new Quaternionf());
-	}
-
-	public OBB(AABB bounds, Quaternionf rotation) {
-		this.xSize = bounds.getXsize();
-		this.ySize = bounds.getYsize();
-		this.zSize = bounds.getZsize();
-		this.center = bounds.getCenter();
-
-		// move bounds to origin for calculations
-		this.relativeBounds = bounds.move(-this.center.x, -this.center.y, -this.center.z);
-
+	public OBB(Vec3 center, double xSize, double ySize, double zSize, Matrix3d rotation) {
+		this.extents = new Vec3(xSize / 2, ySize / 2, zSize / 2);
+		this.center = center;
 		this.rotation = rotation;
+		this.inverseRotation = rotation.invert(new Matrix3d());
 
-		this.basisX = TransformUtils.apply(TransformUtils.XP, rotation::transform);
-		this.basisY = TransformUtils.apply(TransformUtils.YP, rotation::transform);
-		this.basisZ = TransformUtils.apply(TransformUtils.ZP, rotation::transform);
-
-		Vec3 lowVertex = TransformUtils.apply(
-				new Vec3(this.relativeBounds.minX, this.relativeBounds.minY, this.relativeBounds.minZ),
-				rotation::transform,
-				vec -> vec.add(this.center.x, this.center.y, this.center.z)
+		double highX = Math.abs(rotation.m00) * this.extents.x + (Math.abs(rotation.m10) * this.extents.y + (Math.abs(rotation.m20) * this.extents.z));
+		double highY = Math.abs(rotation.m01) * this.extents.x + (Math.abs(rotation.m11) * this.extents.y + (Math.abs(rotation.m21) * this.extents.z));
+		double highZ = Math.abs(rotation.m02) * this.extents.x + (Math.abs(rotation.m12) * this.extents.y + (Math.abs(rotation.m22) * this.extents.z));
+		this.encompassingAabb = new AABB(
+				center.x - highX,
+				center.y - highY,
+				center.z - highZ,
+				center.x + highX,
+				center.y + highY,
+				center.z + highZ
 		);
-
-		// calculate vertices and encompassing AABB
-
-		this.vertices = new Vec3[8];
-		double minX = Integer.MAX_VALUE;
-		double minY = Integer.MAX_VALUE;
-		double minZ = Integer.MAX_VALUE;
-		double maxX = Integer.MIN_VALUE;
-		double maxY = Integer.MIN_VALUE;
-		double maxZ = Integer.MIN_VALUE;
-
-		for (boolean highX : TRUE_FALSE) {
-			for (boolean highY : TRUE_FALSE) {
-				for (boolean highZ : TRUE_FALSE) {
-					Vec3 vertex = this.calculateVertex(lowVertex, highX, highY, highZ);
-					int key = vertexKey(highX, highY, highZ);
-					this.vertices[key] = vertex;
-
-					minX = Math.min(minX, vertex.x);
-					minY = Math.min(minY, vertex.y);
-					minZ = Math.min(minZ, vertex.z);
-					maxX = Math.max(maxX, vertex.x);
-					maxY = Math.max(maxY, vertex.y);
-					maxZ = Math.max(maxZ, vertex.z);
-				}
-			}
-		}
-
-		this.encompassingAabb = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
-
-		this.edges = new Line[] {
-				// top 4
-				new Line(this.vertex(false, true, false), this.vertex(true, true, false)),
-				new Line(this.vertex(false, true, false), this.vertex(false, true, true)),
-				new Line(this.vertex(true, true, true), this.vertex(true, true, false)),
-				new Line(this.vertex(true, true, true), this.vertex(false, true, true)),
-				// bottom 4
-				new Line(this.vertex(false, false, false), this.vertex(true, false, false)),
-				new Line(this.vertex(false, false, false), this.vertex(false, false, true)),
-				new Line(this.vertex(true, false, true), this.vertex(true, false, false)),
-				new Line(this.vertex(true, false, true), this.vertex(false, false, true)),
-				// 4 vertical connections
-				new Line(this.vertex(false, false, false), this.vertex(false, true, false)),
-				new Line(this.vertex(true, false, false), this.vertex(true, true, false)),
-				new Line(this.vertex(false, false, true), this.vertex(false, true, true)),
-				new Line(this.vertex(true, false, true), this.vertex(true, true, true)),
-		};
 	}
 
 	public boolean contains(Vec3 pos) {
@@ -126,43 +51,61 @@ public final class OBB {
 		return this.contains(pos.x, pos.y, pos.z);
 	}
 
+	// This function is specially designed for performance due to VoxelShape approximation, please forgive my coding sins.
 	public boolean contains(double x, double y, double z) {
-		// surely the JIT will inline this, right :clueless:
-		Vector3d vec = new Vector3d(x, y, z);
-		vec.sub(this.center.x, this.center.y, this.center.z);
-		this.rotation.transformInverse(vec);
-		return this.relativeBounds.contains(vec.x, vec.y, vec.z);
+		double relativeX = x - this.center.x;
+		double relativeY = y - this.center.y;
+		double relativeZ = z - this.center.z;
+		double transformedX = this.inverseRotation.m00 * relativeX + this.inverseRotation.m10 * relativeY + this.inverseRotation.m20 * relativeZ;
+		double transformedY = this.inverseRotation.m01 * relativeX + this.inverseRotation.m11 * relativeY + this.inverseRotation.m21 * relativeZ;
+		double transformedZ = this.inverseRotation.m02 * relativeX + this.inverseRotation.m12 * relativeY + this.inverseRotation.m22 * relativeZ;
+		return (transformedX >= -this.extents.x) && (transformedX <= this.extents.x) && (transformedY >= -this.extents.y) && (transformedY <= this.extents.y) && (transformedZ >= -this.extents.z) && (transformedZ <= this.extents.z);
 	}
 
 	public boolean intersects(BlockPos pos) {
-		return this.intersects(new AABB(pos));
+		return this.intersects(new AABB(pos).contract(1.0E-7, 1.0E-7, 1.0E-7));
 	}
 
 	public boolean intersects(AABB aabb) {
-		return this.intersects(new OBB(aabb));
+		Vec3 aabbCenter = aabb.getCenter();
+		return Intersectiond.testObOb(
+				this.center.x, this.center.y, this.center.z,
+				this.rotation.m00, this.rotation.m01, this.rotation.m02,
+				this.rotation.m10, this.rotation.m11, this.rotation.m12,
+				this.rotation.m20, this.rotation.m21, this.rotation.m22,
+				this.extents.x, this.extents.y, this.extents.z,
+				aabbCenter.x, aabbCenter.y, aabbCenter.z,
+				1, 0, 0,
+				0, 1, 0,
+				0, 0, 1,
+				aabb.getXsize() / 2, aabb.getYsize() / 2, aabb.getZsize() / 2
+		);
 	}
 
 	public boolean intersects(OBB that) {
 		return Intersectiond.testObOb(
 				this.center.x, this.center.y, this.center.z,
-				this.basisX.x, this.basisX.y, this.basisX.z,
-				this.basisY.x, this.basisY.y, this.basisY.z,
-				this.basisZ.x, this.basisZ.y, this.basisZ.z,
-				this.xSize / 2, this.ySize / 2, this.zSize / 2,
+				this.rotation.m00, this.rotation.m01, this.rotation.m02,
+				this.rotation.m10, this.rotation.m11, this.rotation.m12,
+				this.rotation.m20, this.rotation.m21, this.rotation.m22,
+				this.extents.x, this.extents.y, this.extents.z,
 				that.center.x, that.center.y, that.center.z,
-				that.basisX.x, that.basisX.y, that.basisX.z,
-				that.basisY.x, that.basisY.y, that.basisY.z,
-				that.basisZ.x, that.basisZ.y, that.basisZ.z,
-				that.xSize / 2, that.ySize / 2, that.zSize / 2
+				that.rotation.m00, that.rotation.m01, that.rotation.m02,
+				that.rotation.m10, that.rotation.m11, that.rotation.m12,
+				that.rotation.m20, that.rotation.m21, that.rotation.m22,
+				that.extents.x, that.extents.y, that.extents.z
 		);
 	}
 
-	public Stream<BlockPos> intersectingBlocks() {
-		return BlockPos.betweenClosedStream(this.encompassingAabb).filter(this::intersects);
-	}
-
-	public Vec3 vertex(boolean highX, boolean highY, boolean highZ) {
-		return this.vertices[vertexKey(highX, highY, highZ)];
+	public Iterable<BlockPos> intersectingBlocks() {
+		return Iterables.filter(BlockPos.betweenClosed(
+				Mth.floor(this.encompassingAabb.minX),
+				Mth.floor(this.encompassingAabb.minY),
+				Mth.floor(this.encompassingAabb.minZ),
+				Mth.floor(this.encompassingAabb.maxX),
+				Mth.floor(this.encompassingAabb.maxY),
+				Mth.floor(this.encompassingAabb.maxZ)
+		), this::intersects);
 	}
 
 	public static OBB extrudeQuad(Quad quad, double depth) {
@@ -172,48 +115,12 @@ public final class OBB {
 		Vec3 offsetToCenter = normal.scale(depth / 2);
 		Vec3 center = quadCenter.add(offsetToCenter);
 
-		Quaternionf rotation = new Quaternionf();
-		Vec3 t = up.cross(normal).normalize();
-		Vec3 h = normal.cross(t);
-		rotation.setFromNormalized(new Matrix3d(
-				t.x, t.y, t.z,
-				h.x, h.y, h.z,
+		Vec3 right = up.cross(normal).normalize();
+		Matrix3d rotation = new Matrix3d(
+				right.x, right.y, right.z,
+				up.x, up.y, up.z,
 				normal.x, normal.y, normal.z
-		));
-		rotation.rotateY(Mth.DEG_TO_RAD * 90);
-		return new OBB(center, depth, quad.height(), quad.width(), rotation);
+		);
+		return new OBB(center, quad.width(), quad.height(), Math.abs(depth), rotation);
 	}
-
-	private Vec3 calculateVertex(Vec3 lowVertex, boolean highX, boolean highY, boolean highZ) {
-		Vec3 vec = lowVertex;
-
-		if (highX) {
-			vec = vec.add(this.basisX.scale(this.xSize));
-		}
-		if (highY) {
-			vec = vec.add(this.basisY.scale(this.ySize));
-		}
-		if (highZ) {
-			vec = vec.add(this.basisZ.scale(this.zSize));
-		}
-
-		return vec;
-	}
-
-	private static int vertexKey(boolean highX, boolean highY, boolean highZ) {
-		int key = 0;
-
-		if (highX) {
-			key |= 0b100;
-		}
-		if (highY) {
-			key |= 0b010;
-		}
-		if (highZ) {
-			key |= 0b001;
-		}
-
-		return key;
-	}
-
 }

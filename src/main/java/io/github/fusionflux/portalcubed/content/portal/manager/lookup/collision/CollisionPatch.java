@@ -1,11 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision;
 
 import java.util.List;
-import java.util.Map;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -37,17 +35,19 @@ public abstract class CollisionPatch {
 
 	public static class Complex extends CollisionPatch {
 		private final List<BlockPos> blocks;
+		private final VoxelShape modificationShape;
 
 		protected Complex(Level level, BlockPos pos, PortalInstance portal, PortalInstance linked, List<BlockPos> blocks) {
 			super(level, pos, portal, linked);
 			this.blocks = blocks;
+			this.modificationShape = this.portal.blockModificationShapes.get(pos);
 		}
 
 		@Override
 		public VoxelShape apply(VoxelShape shape, EntityCollisionContext ctx) {
 			// step 1: cut out the part of the shape that intersects with the portal's modification area
 			shape = shape.move(this.pos.getX(), this.pos.getY(), this.pos.getZ());
-			shape = Shapes.joinUnoptimized(shape, this.portal.blockModificationShape, BooleanOp.ONLY_FIRST);
+			shape = Shapes.joinUnoptimized(shape, this.modificationShape, BooleanOp.ONLY_FIRST);
 			shape = shape.move(-this.pos.getX(), -this.pos.getY(), -this.pos.getZ());
 			if (true) return shape;
 

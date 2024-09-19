@@ -4,19 +4,15 @@ import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.HashBasedTable;
-
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.framework.shape.OBB;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 
 public class CollisionManager {
 	private final Level level;
@@ -44,7 +40,7 @@ public class CollisionManager {
 
 	private void addPortal(PortalInstance portal, PortalInstance linked) {
 		// iterate blocks behind portal and add a shape patch for each
-		portal.blockModificationArea.intersectingBlocks().map(BlockPos::immutable).forEach(
+		Iterables.transform(portal.blockModificationArea.intersectingBlocks(), BlockPos::immutable).forEach(
 				pos -> this.patches.put(pos, portal, this.calculatePatch(portal, linked, pos))
 		);
 	}

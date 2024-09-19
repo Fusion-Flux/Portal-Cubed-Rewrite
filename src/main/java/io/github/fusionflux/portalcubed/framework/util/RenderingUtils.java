@@ -1,30 +1,28 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import io.github.fusionflux.portalcubed.framework.shape.OBB;
-
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
 
 public class RenderingUtils {
 	private static final Matrix4f MATRIX = new Matrix4f();
@@ -72,9 +70,12 @@ public class RenderingUtils {
 	}
 
 	public static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, OBB box, Color color) {
-		for (Line edge : box.edges) {
-			renderLine(matrices, vertexConsumers, edge, color);
-		}
+		matrices.pushPose();
+		matrices.translate(box.center.x, box.center.y, box.center.z);
+		matrices.mulPose(box.rotation.getUnnormalizedRotation(new Quaternionf()));
+		Vec3 extents = box.extents;
+		renderBox(matrices, vertexConsumers, AABB.ofSize(Vec3.ZERO, extents.x * 2, extents.y * 2, extents.z * 2), color);
+		matrices.popPose();
 	}
 
 	public static void renderQuad(PoseStack matrices, MultiBufferSource vertexConsumers, Quad quad, Color color) {
@@ -86,10 +87,6 @@ public class RenderingUtils {
 		renderLine(matrices, buffers, tri.a(), tri.b(), color);
 		renderLine(matrices, buffers, tri.a(), tri.c(), color);
 		renderLine(matrices, buffers, tri.b(), tri.c(), color);
-	}
-
-	public static void renderLine(PoseStack matrices, MultiBufferSource vertexConsumers, Line line, Color color) {
-		renderLine(matrices, vertexConsumers, line.from(), line.to(), color);
 	}
 
 	public static void renderLine(PoseStack matrices, MultiBufferSource vertexConsumers, Vec3 from, Vec3 to, Color color) {

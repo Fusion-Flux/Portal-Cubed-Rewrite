@@ -1,21 +1,23 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import org.jetbrains.annotations.Unmodifiable;
+import org.joml.Quaternionf;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+
 import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.Plane;
 import io.github.fusionflux.portalcubed.framework.util.Quad;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
-
-import org.joml.Quaternionf;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
 
 /**
  * A portal in the world, with all expensive data computed.
@@ -39,7 +41,8 @@ public final class PortalInstance {
 
 	public final OBB entityCollisionBounds;
 	public final OBB blockModificationArea;
-	public final VoxelShape blockModificationShape;
+	@Unmodifiable
+	public final Object2ObjectMap<BlockPos, VoxelShape> blockModificationShapes;
 
     public PortalInstance(PortalData data) {
         this.data = data;
@@ -55,7 +58,7 @@ public final class PortalInstance {
 
 		this.entityCollisionBounds = OBB.extrudeQuad(this.quad, 3);
 		this.blockModificationArea = OBB.extrudeQuad(this.quad, -3);
-		this.blockModificationShape = VoxelShenanigans.approximateObb(this.blockModificationArea);
+		this.blockModificationShapes = VoxelShenanigans.approximateObb(this.blockModificationArea);
     }
 
 	public Vector3d relativize(Vector3d pos) {
