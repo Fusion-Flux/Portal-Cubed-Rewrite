@@ -1,0 +1,24 @@
+{
+  "values" : [
+    "portalcubed:portal_1_metal_panel_facade",
+    "portalcubed:portal_1_metal_half_panel_facade",
+    "portalcubed:dirty_portal_1_metal_panel_facade",
+    "portalcubed:dirty_portal_1_metal_half_panel_facade",
+    "portalcubed:portal_1_metal_tile_facade",
+    "portalcubed:smooth_gray_panel_facade",
+    "portalcubed:smooth_gray_half_panel_facade",
+    "portalcubed:padded_gray_panel_facade",
+    "portalcubed:padded_gray_half_panel_facade",
+    "portalcubed:aged_smooth_gray_panel_facade",
+    "portalcubed:aged_smooth_gray_half_panel_facade",
+    "portalcubed:aged_padded_gray_panel_facade",
+    "portalcubed:plywood_facade",
+    "portalcubed:tread_plate_facade",
+    "portalcubed:metal_plating_facade",
+    "portalcubed:dirty_tread_plate_facade",
+    "portalcubed:dirty_metal_plating_facade",
+    "portalcubed:insulation_facade",
+    "portalcubed:old_ap_green_panel_facade",
+    "portalcubed:old_ap_blue_panel_facade"
+  ]
+}

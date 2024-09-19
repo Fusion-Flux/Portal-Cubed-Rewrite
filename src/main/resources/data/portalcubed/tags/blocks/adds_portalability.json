@@ -1,0 +1,30 @@
+{
+  "values" : [
+    "portalcubed:aged_padded_gray_half_panel_facade",
+    "portalcubed:portal_1_white_panel_facade",
+    "portalcubed:portal_1_white_half_panel_facade",
+    "portalcubed:portal_1_white_checkered_panel_facade",
+    "portalcubed:dirty_portal_1_white_panel_facade",
+    "portalcubed:dirty_portal_1_white_half_panel_facade",
+    "portalcubed:dirty_portal_1_white_checkered_panel_facade",
+    "portalcubed:white_panel_facade",
+    "portalcubed:white_half_panel_facade",
+    "portalcubed:white_checkered_panel_facade",
+    "portalcubed:aged_white_panel_facade",
+    "portalcubed:aged_white_half_panel_facade",
+    "portalcubed:aged_white_checkered_panel_facade",
+    "portalcubed:old_ap_white_panel_facade",
+    "portalcubed:old_ap_white_checkered_panel_facade",
+    "portalcubed:office_concrete_facade",
+    "portalcubed:striped_office_concrete_facade",
+    "portalcubed:blue_office_concrete_facade",
+    "portalcubed:light_gray_office_concrete_facade",
+    "portalcubed:white_office_concrete_facade",
+    "portalcubed:large_blue_office_tile_facade",
+    "portalcubed:small_blue_office_tile_facade",
+    "portalcubed:gray_office_tile_facade",
+    "portalcubed:black_office_tile_facade",
+    "portalcubed:brown_office_tile_facade",
+    "portalcubed:orange_office_tile_facade"
+  ]
+}
