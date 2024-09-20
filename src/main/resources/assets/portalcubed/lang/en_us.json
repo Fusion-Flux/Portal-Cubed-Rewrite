@@ -18,14 +18,14 @@
   "gamerule.toxicGooDamage.description": "Damage (per second) toxic goo deals to entities inside it.",
   "gamerule.portalPositionSnapping": "Portal Position Snapping",
   "gamerule.portalPositionSnapping.description": "Controls the position alignment of portals to blocks, in fractions of a full block (1/n).  Setting to 0 disables position snapping entirely.",
-  "gamerule.axisAlignedPortals": "Axis Aligned Portals",
-  "gamerule.axisAlignedPortals.description": "Controls whether portals placed on floors and ceilings should be aligned to block rotation, or have full 360 degree placement.",
+  "gamerule.portalRotationSnapping": "Portal Rotation Snapping",
+  "gamerule.portalRotationSnapping.description": "Controls the rotation alignment of portals placed on floors and ceilings, in degrees.  Setting to 90 aligns portals with blocks, and setting to 0 disables rotation snapping entirely.",
   "gamerule.portalPlacementValidation": "Portal Placement Validation",
   "gamerule.portalPlacementValidation.description": "Controls whether or not there are placement checks when shooting portals, such as preventing them from being placed on invalid surfaces or overhangs.  Likely to cause unexpected and broken results when disabled, and is mainly a debug option - Issues caused by invalid portal placements will not be fixed!",
   "gamerule.allowManualPortalClearing": "Allow Manual Portal Clearing",
   "gamerule.allowManualPortalClearing.description": "Controls whether or not the player can clear their portals with a keybind.",
   "gamerule.portalsVanishOnDeath": "Player Portals Vanish on Death",
-  "gamerule.portalsVanishOnDeath.description": "Whether Player-placed portals vanish when that player dies.",
+  "gamerule.portalsVanishOnDeath.description": "Whether player-placed portals vanish when that player dies.",
 
 
   "container.portalcubed.construction_cannon": "Construction Cannon",
