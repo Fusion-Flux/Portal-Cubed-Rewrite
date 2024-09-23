@@ -2,13 +2,12 @@ package io.github.fusionflux.portalcubed.framework.entity;
 
 import java.util.OptionalInt;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
+import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
-
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,8 +18,6 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-
-import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
 // hold state
 // - client keybind triggers sending a GrabPacket, calls grab(player)
@@ -78,6 +75,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 		Vec3 toPoint = this.position().vectorTo(holdPoint);
 		this.setDeltaMovement(toPoint);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
+		this.resetFallDistance();
 
 		// rotate to face player
 		if (this.facesHolder()) {
