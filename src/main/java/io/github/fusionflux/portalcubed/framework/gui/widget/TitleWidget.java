@@ -10,7 +10,7 @@ public class TitleWidget extends AbstractStringWidget {
 
 	public TitleWidget(Component title, Font renderer) {
 		super(0, 0, renderer.width(title.getVisualOrderText()), 9, title, renderer);
-		setColor(COLOR);
+		this.setColor(COLOR);
 		this.active = false;
 	}
 

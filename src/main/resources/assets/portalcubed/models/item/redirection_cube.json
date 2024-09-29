@@ -1,5 +1,5 @@
 {
-	"credit": "Made with Blockbench by Cart3r.  ",
+	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
 		"2": "portalcubed:item/redirection_cube"
@@ -101,7 +101,7 @@
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
-			"translation": [0, 3, 0],
+			"translation": [0, 3.225, 0],
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {

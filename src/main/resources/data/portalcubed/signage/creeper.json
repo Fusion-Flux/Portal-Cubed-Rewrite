@@ -1,0 +1,8 @@
+{
+  "clean_texture": "portalcubed:signage/small_signage_creeper",
+  "aged_texture": "portalcubed:signage/aged_small_signage_creeper",
+  "name": {
+    "translate": "signage.portalcubed.small_signage.creeper"
+  },
+  "size": "small"
+}

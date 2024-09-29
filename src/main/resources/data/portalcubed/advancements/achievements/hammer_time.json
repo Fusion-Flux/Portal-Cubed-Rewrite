@@ -16,7 +16,7 @@
   },
   "parent": "portalcubed:achievements/root",
   "criteria": {
-    "charge_respawn_anchor": {
+    "hammer_time": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
         "location": [
@@ -37,5 +37,10 @@
         ]
       }
     }
-  }
+  },
+  "requirements": [
+    [
+      "hammer_time"
+    ]
+  ]
 }

@@ -168,10 +168,10 @@ public class PedestalButtonConfigScreen extends Screen {
 
 		// arrange elements
 		root.arrangeElements();
-		// position at the top left corner of the background
+		// position in the top left corner of the background
 		root.setPosition(leftPos, topPos);
 		root.visitWidgets(this::addRenderableWidget);
-		// reverse order of widgets so they go from top to bottom
+		// reverse order of widgets, so they go from top to bottom
 		Collections.reverse(children());
 	}
 
