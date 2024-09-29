@@ -47,6 +47,8 @@
   "item/legacy_portal_gun_p_body": "item/portal_gun_dyeable",
   "item/legacy_portal_gun_reloaded": "item/portal_gun_dyeable",
   "item/tiny_potatos_portal_gun": "item/portal_gun_dyeable",
+  "item/wand": "item/wand_orb",
+  "item/smithers_portal_gun": "item/portal_gun_dyeable",
 
   "item/storage_cube": "item/storage_cubes_e",
   "item/storage_cube_lit": "item/storage_cubes_e",

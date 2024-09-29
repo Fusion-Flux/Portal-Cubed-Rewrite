@@ -146,7 +146,9 @@
     "sounds": [
       {
         "name": "portalcubed:props/companion_cube_ambiance",
-        "stream": true
+        "stream": true,
+        "attenuation_distance": 8,
+        "volume": 0.5
       }
     ]
   },
