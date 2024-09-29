@@ -18,26 +18,29 @@ public class PortalTeleportHandler {
 	 * Responsible for finding and teleporting through portals.
 	 */
 	public static boolean handle(Entity entity, double x, double y, double z) {
-		if (true) return false;
 		Level level = entity.level();
-		if (level.isClientSide || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST)) {
+		if (level.isClientSide || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST))
 			return false;
-		}
 
 		Vec3 oldPos = entity.position();
+		Vec3 oldCenter = center(entity);
+		Vec3 posToCenter = oldPos.vectorTo(oldCenter);
+		Vec3 centerToPos = oldCenter.vectorTo(oldPos);
 		Vec3 newPos = new Vec3(x, y, z);
+		Vec3 newCenter = newPos.add(posToCenter);
+
 		PortalManager manager = level.portalManager();
-		PortalHitResult result = manager.activePortals().clip(oldPos, newPos);
-		if (result == null) {
+		PortalHitResult result = manager.activePortals().clip(oldCenter, newCenter);
+		if (result == null)
 			return false;
-		}
 
 		boolean wasGrounded = entity.onGround(); // grab this before teleporting
 
-		Vec3 oldPosTeleported = result.teleportAbsoluteVec(oldPos);
-		Vec3 newPosTeleported = result.end();
+		Vec3 newPosTeleported = result.findEnd();
 		// todo: avoid player stats going haywire
-		teleportNoLerp(entity, newPosTeleported);
+
+		teleportNoLerp(entity, newPosTeleported.add(centerToPos));
+
 
 		// rotate entity
 		Vec3 lookVec = result.teleportRelativeVec(entity.getLookAngle());
@@ -52,7 +55,7 @@ public class PortalTeleportHandler {
 		if (!wasGrounded && vel.y < 0 && newVel.length() < MIN_OUTPUT_VELOCITY) {
 			newVel = newVel.normalize().scale(MIN_OUTPUT_VELOCITY);
 		}
-		entity.setDeltaMovement(newVel);
+//		entity.setDeltaMovement(newVel);
 
 		// tp command does this
 		if (entity instanceof PathfinderMob pathfinderMob) {
@@ -64,6 +67,10 @@ public class PortalTeleportHandler {
 
 	public static void teleportNoLerp(Entity entity, Vec3 pos) {
 		entity.teleportTo(pos.x, pos.y, pos.z);
+	}
+
+	public static Vec3 center(Entity entity) {
+		return entity.getBoundingBox().getCenter();
 	}
 
 	public static OBB teleportBox(OBB box, PortalInstance in, PortalInstance out) {

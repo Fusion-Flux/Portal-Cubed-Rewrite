@@ -50,6 +50,7 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		}
 
 		final Closest closest = new Closest();
+		Vec3 normal = from.vectorTo(to).normalize();
 
 		forEachSectionInBox(from, to, section -> {
 			List<PortalInstance> portals = this.sectionsToPortals.get(section);
@@ -59,6 +60,10 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 			for (PortalInstance portal : portals) {
 				Vec3 hit = portal.quad.clip(from, to);
 				if (hit == null)
+					continue;
+
+				// only clip when aiming into the front of the portal
+				if (portal.normal.dot(normal) < 0)
 					continue;
 
 				double distSqr = hit.distanceToSqr(from);
@@ -82,11 +87,14 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		Vec3 teleportedHit = PortalTeleportHandler.teleportAbsoluteVecBetween(closest.hit, closest.portal, linked);
 		Vec3 teleportedEnd = PortalTeleportHandler.teleportAbsoluteVecBetween(to, closest.portal, linked);
 
+		PortalHitResult next = this.clip(teleportedHit, teleportedEnd);
+
 		return new PortalHitResult(
-				from, closest.hit,
+				from,
+				next == null ? teleportedEnd : null,
 				closest.portal, linked, pair,
 				closest.hit, teleportedHit,
-				null//this.clip(teleportedHit, teleportedEnd)
+				next
 		);
 	}
 

@@ -13,6 +13,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.ActivePortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionActivePortalLookup;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.world.level.Level;
 
@@ -54,5 +55,10 @@ public abstract class PortalManager {
 
 	public ActivePortalLookup activePortals() {
 		return this.activePortals;
+	}
+
+	// util used in a couple places
+	public boolean isCollisionModified(BlockPos pos) {
+		return !this.activePortals().collisionManager().getPatches(pos).isEmpty();
 	}
 }

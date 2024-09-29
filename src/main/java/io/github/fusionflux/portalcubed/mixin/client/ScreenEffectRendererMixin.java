@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,15 +25,14 @@ public class ScreenEffectRendererMixin {
 					target = "Lnet/minecraft/world/level/block/state/BlockState;isViewBlocking(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"
 			)
 	)
-	private static boolean dontRenderInPortals(BlockState state, BlockGetter level, BlockPos pos, Operation<Boolean> original, Player player) {
-		boolean blocksView = original.call(state, level, pos);
+	private static boolean dontRenderInPortals(BlockState state, BlockGetter blockGetter, BlockPos pos, Operation<Boolean> original, Player player) {
+		boolean blocksView = original.call(state, blockGetter, pos);
 		if (!blocksView)
 			return false; // already fine
 
-		if (!(level instanceof ClientLevel clientLevel))
-			return true; // ???
+		if (!(blockGetter instanceof Level level))
+			return true; // how
 
-		// TODO: collision
-		return true;
+		return !level.portalManager().isCollisionModified(pos);
 	}
 }
