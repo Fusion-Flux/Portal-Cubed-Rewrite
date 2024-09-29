@@ -1,10 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import org.joml.Quaternionf;
+
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.Level;
@@ -43,9 +45,15 @@ public class PortalTeleportHandler {
 
 
 		// rotate entity
-		Vec3 lookVec = result.teleportRelativeVec(entity.getLookAngle());
-		Vec3 lookTarget = entity.getEyePosition().add(lookVec);
-		entity.lookAt(EntityAnchorArgument.Anchor.EYES, lookTarget);
+		Quaternionf rot = new Quaternionf()
+				.rotationYXZ((180 - entity.getYRot()) * Mth.DEG_TO_RAD, -entity.getXRot() * Mth.DEG_TO_RAD, 0)
+				.premul(result.in().rotation().invert(new Quaternionf()))
+				.premul(result.out().rotation180)
+				.conjugate();
+		float yaw = (float) Math.atan2(-(rot.x * rot.z + rot.y * rot.w) * 2, 2 * (rot.y * rot.y + rot.z * rot.z) - 1);
+		float pitch = (float) Math.atan2((rot.x * rot.w + rot.y * rot.z) * 2, 1 - 2 * (rot.x * rot.x + rot.z * rot.z));
+		entity.setYRot((yaw * Mth.RAD_TO_DEG) % 360);
+		entity.setXRot((pitch * Mth.RAD_TO_DEG) % 360);
 
 		// reorient velocity
 		Vec3 vel = entity.getDeltaMovement();
