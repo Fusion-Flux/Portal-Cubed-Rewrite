@@ -263,6 +263,8 @@
   "subtitles.portalcubed.floor_button_press": "Button activates",
   "subtitles.portalcubed.floor_button_release": "Button deactivates",
 
+  "subtitles.portalcubed.chamber_door_unlock": "Chamber door unlocks",
+  "subtitles.portalcubed.chamber_door_lock": "Chamber door locks",
   "subtitles.portalcubed.chamber_door_open": "Chamber door opens",
   "subtitles.portalcubed.chamber_door_close": "Chamber door closes",
 

@@ -143,6 +143,24 @@
     ],
     "subtitle": "subtitles.portalcubed.chamber_door_open"
   },
+  "chamber_door_unlock": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/chamber_door_unlock",
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_unlock"
+  },
+  "chamber_door_lock": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/chamber_door_lock",
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_lock"
+  },
   "chamber_door_close": {
     "sounds": [
       {
