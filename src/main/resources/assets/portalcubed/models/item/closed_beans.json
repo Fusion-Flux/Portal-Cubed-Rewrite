@@ -12,43 +12,10 @@
 				"east": {"uv": [8, 4, 4, 10], "texture": "#0"},
 				"south": {"uv": [12, 4, 8, 10], "texture": "#0"},
 				"west": {"uv": [12, 4, 16, 10], "texture": "#0"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#0"},
 				"down": {"uv": [12, 4, 8, 0], "texture": "#0"}
 			}
-		},
-		{
-			"name": "cube inverted",
-			"from": [10, 6, 10],
-			"to": [6, 0, 6],
-			"faces": {
-				"north": {"uv": [16, 16, 12, 10], "texture": "#0"},
-				"east": {"uv": [12, 16, 16, 10], "texture": "#0"},
-				"south": {"uv": [16, 10, 12, 16], "texture": "#0"},
-				"west": {"uv": [12, 10, 16, 16], "texture": "#0"},
-				"up": {"uv": [8, 4, 12, 0], "texture": "#0"}
-			}
-		},
-		{
-			"from": [6, 10.24193, 9.75665],
-			"to": [10, 10.24193, 11.75665],
-			"rotation": {"angle": 45, "axis": "x", "origin": [-3, 10.24193, 5.75665]},
-			"faces": {
-				"up": {"uv": [1, 14, 5, 16], "texture": "#0"},
-				"down": {"uv": [10, 16, 6, 14], "texture": "#0"}
-			}
-		},
-		{
-			"from": [6, 7.33771, 8.20218],
-			"to": [10, 9.33771, 8.20218],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 8.33771, 8.20218]},
-			"faces": {
-				"north": {"uv": [6, 12, 10, 14], "texture": "#0"},
-				"south": {"uv": [1, 12, 5, 14], "texture": "#0"}
-			}
 		}
-	],
-	"overrides": [
-		{"model": "portalcubed:item/open_beans", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/closed_beans", "predicate": {"custom_model_data": 2}}
 	],
 	"display": {
 		"thirdperson_righthand": {

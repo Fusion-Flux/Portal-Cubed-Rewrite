@@ -75,10 +75,10 @@
 
   "item/taco_with_way_too_much_ranch_on_it_holy_shit_why_is_there_so_much": "item/the_taco",
 
-  "item/construction_cannon": "item/construction_cannon_screen_e",
+  "item/construction_cannon": "item/construction_cannon_screen",
 
-  "item/error": "block/error_e",
-  "block/error": "block/error_e",
+  "item/error": "block/error",
+  "block/error": "block/error",
 
   "item/small_signage": "signage/small_signage_blank",
   "item/aged_small_signage": "signage/aged_small_signage_blank",

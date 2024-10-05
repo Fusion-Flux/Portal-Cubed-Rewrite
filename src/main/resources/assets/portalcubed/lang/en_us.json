@@ -382,6 +382,10 @@
   "item.portalcubed.radio.4": "Boombox",
 
   "item.portalcubed.beans": "Bean Can",
+  "item.portalcubed.beans.1": "Open Bean Can",
+  "item.portalcubed.beans.2": "Closed Bean Can",
+  "item.portalcubed.beans.tooltip.random": "Random variant",
+
   "item.portalcubed.cooking_pot": "Cooking Pot",
   "item.portalcubed.jug": "Water Jug",
   "item.portalcubed.computer": "Computer",
@@ -457,6 +461,7 @@
   "item.portalcubed.wand": "Wand",
   "item.portalcubed.smithers_portal_gun": "Mr. Smithers' Portal Gun",
   "item.portalcubed.peashooter": "Peashooter",
+  "item.portalcubed.paintbrush": "Paintbrush",
 
   "item.portalcubed.long_fall_boots": "Long Fall Boots",
   "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",

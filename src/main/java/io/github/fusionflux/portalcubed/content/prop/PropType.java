@@ -29,11 +29,11 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 public enum PropType {
-	BEANS                  (EntityDimensions.fixed(.25f, .375f)),
-	CHAIR                  (1, false, EntityDimensions.fixed(.4375f, .46875f), Chair::new),
+	BEANS                  (3, true, EntityDimensions.fixed(.25f, .375f)),
+	CHAIR                  (1, false, EntityDimensions.fixed(.4375f, .59375f), Chair::new),
 	CLIPBOARD              (7, true, EntityDimensions.fixed(.5625f, .0625f)),
 	COMPANION_CUBE         (4, false, EntityDimensions.fixed(.625f, .6875f), CompanionCube::new),
-	COMPUTER               (EntityDimensions.fixed(.5f, .1875f)),
+	COMPUTER               (EntityDimensions.fixed(.5f, .1875f)), //add open variant at some point™️
 	COOKING_POT            (EntityDimensions.fixed(.43875f, .25125f)),
 	HOOPY                  (EntityDimensions.fixed(1.625f, .0625f)),
 	JUG                    (EntityDimensions.fixed(.375f, .5f)),
