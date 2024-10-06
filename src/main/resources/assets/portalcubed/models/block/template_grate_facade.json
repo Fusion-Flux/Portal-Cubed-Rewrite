@@ -1,0 +1,17 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"textures": {
+		"facade": "#facade",
+		"particle": "#facade"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 1],
+			"to": [16, 16, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#facade"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#facade"}
+			}
+		}
+	]
+}

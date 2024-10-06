@@ -209,6 +209,7 @@ public abstract class EntityMixin implements EntityExt {
 		Level world = this.level();
 		if (--this.disintegrateTicks <= 0 && !world.isClientSide) {
 			if ((Object) this instanceof LivingEntity livingEntity) {
+				if (livingEntity.isDeadOrDying()) return;
 				DamageSource damageSource = PortalCubedDamageSources.disintegration(world, livingEntity);
 				livingEntity.getCombatTracker().recordDamage(damageSource, Float.MAX_VALUE);
 				livingEntity.setHealth(0);

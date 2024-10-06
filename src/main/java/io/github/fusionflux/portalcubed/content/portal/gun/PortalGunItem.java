@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -31,6 +33,11 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 
 	public PortalGunItem(Properties settings) {
 		super(settings);
+	}
+
+	@Override
+	public boolean canAttackBlock(BlockState state, Level world, BlockPos pos, Player miner) {
+		return !miner.isCreative();
 	}
 
 	@Override

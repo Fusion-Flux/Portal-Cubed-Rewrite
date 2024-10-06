@@ -1,9 +1,14 @@
 package io.github.fusionflux.portalcubed.data.tags;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
+import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 public class PortalCubedEntityTags {
 	// props
@@ -11,6 +16,11 @@ public class PortalCubedEntityTags {
 	public static final TagKey<EntityType<?>> CAN_BE_CHARRED = create("can_be_charred");
 	public static final TagKey<EntityType<?>> CAN_BE_WASHED = create("can_be_washed");
 	public static final TagKey<EntityType<?>> DEALS_LANDING_DAMAGE = create("deals_landing_damage");
+	public static final Map<ImpactSoundType, TagKey<EntityType<?>>> IMPACT_SOUNDS = Util.make(new EnumMap<>(ImpactSoundType.class), map -> {
+		for (ImpactSoundType type : ImpactSoundType.values()) {
+			map.put(type, create(type.toString() + "_impact_sound"));
+		}
+	});
 
 	// floor buttons
 	public static final TagKey<EntityType<?>> PRESSES_CUBE_BUTTONS = create("presses_cube_buttons");

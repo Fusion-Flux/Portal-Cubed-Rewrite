@@ -19,6 +19,7 @@ import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
+import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
 import net.minecraft.resources.ResourceLocation;
 
 import org.quiltmc.loader.api.ModContainer;
@@ -57,6 +58,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedPackets.init();
 
 		ConstructManager.init();
+		SignageManager.init();
 		HoldableEntity.registerEventListeners();
 		EntityExt.registerEventListeners();
 		HammerableBlock.registerEventListeners();

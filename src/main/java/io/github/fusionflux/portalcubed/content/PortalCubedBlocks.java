@@ -7,6 +7,8 @@ import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlock;
+import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
 import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
@@ -45,6 +47,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WaterloggedTransparentBlock;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -230,7 +233,24 @@ public class PortalCubedBlocks {
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 
-
+	// ----- signage -----
+	public static final LargeSignageBlock LARGE_SIGNAGE = REGISTRAR.blocks.create("large_signage", LargeSignageBlock::new)
+			.settings(settings -> settings
+					.instrument(NoteBlockInstrument.HAT)
+					.strength(0.3F)
+					.mapColor(MapColor.QUARTZ)
+					.sounds(SoundType.COPPER_BULB)
+			)
+			.build();
+	public static final LargeSignageBlock AGED_LARGE_SIGNAGE = REGISTRAR.blocks.createFrom("aged_large_signage", LargeSignageBlock::new, LARGE_SIGNAGE)
+			.settings(settings -> settings.mapColor(MapColor.SAND))
+			.build();
+	public static final SmallSignageBlock SMALL_SIGNAGE = REGISTRAR.blocks.createFrom("small_signage", SmallSignageBlock::new, LARGE_SIGNAGE)
+			.settings(QuiltBlockSettings::nonOpaque)
+			.build();
+	public static final SmallSignageBlock AGED_SMALL_SIGNAGE = REGISTRAR.blocks.createFrom("aged_small_signage", SmallSignageBlock::new, SMALL_SIGNAGE)
+			.settings(settings -> settings.mapColor(MapColor.SAND))
+			.build();
 
 	// ----- misc blocks - tiles -----
 	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)

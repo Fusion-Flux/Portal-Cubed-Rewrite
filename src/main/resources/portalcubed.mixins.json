@@ -15,6 +15,8 @@
     "CubeVoxelShapeAccessor",
     "EntityAccessor",
     "EntityMixin",
+    "EntityTypeMixin",
+    "ItemEntityMixin",
     "ItemStackMixin",
     "LevelMixin",
     "LivingEntityAccessor",
@@ -26,7 +28,8 @@
     "ServerLevelMixin",
     "SlabBlockMixin",
     "SpongeBlockMixin",
-    "ThrowableProjectileMixin"
+    "ThrowableProjectileMixin",
+    "UseOnContextAccessor"
   ],
   "client": [
     "client.AbstractContainerScreenMixin",
@@ -34,6 +37,7 @@
     "client.BlockElement_DeserializerMixin",
     "client.BlockElementMixin",
     "client.BlockModel_DeserializerMixin",
+    "client.BlockModelAccessor",
     "client.BlockModelMixin",
     "client.CameraAccessor",
     "client.CameraMixin",

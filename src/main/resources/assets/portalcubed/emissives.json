@@ -15,8 +15,10 @@
   "block/pedestal_button_active": "block/pedestal_button_e",
   "block/pedestal_button_base_center": "block/pedestal_button_e",
   "block/pedestal_button_base_center_active": "block/pedestal_button_e",
-  "block/pedestal_button_base_edge": "block/pedestal_button_e",
-  "block/pedestal_button_base_edge_active": "block/pedestal_button_e",
+  "block/pedestal_button_base_left": "block/pedestal_button_e",
+  "block/pedestal_button_base_left_active": "block/pedestal_button_e",
+  "block/pedestal_button_base_right": "block/pedestal_button_e",
+  "block/pedestal_button_base_right_active": "block/pedestal_button_e",
   "item/pedestal_button": "block/pedestal_button_e",
 
   "block/portal_1_floor_button": "block/button_emissives",
@@ -44,21 +46,27 @@
   "item/legacy_portal_gun_atlas": "item/portal_gun_dyeable",
   "item/legacy_portal_gun_p_body": "item/portal_gun_dyeable",
   "item/legacy_portal_gun_reloaded": "item/portal_gun_dyeable",
+  "item/tiny_potatos_portal_gun": "item/portal_gun_dyeable",
+  "item/wand": "item/wand_orb",
+  "item/smithers_portal_gun": "item/portal_gun_dyeable",
 
-  "item/storage_cube": "item/storage_cube_e",
-  "item/storage_cube_lit": "item/storage_cube_e",
-  "item/dirty_storage_cube": "item/dirty_storage_cube_e",
-  "item/dirty_storage_cube_lit": "item/dirty_storage_cube_e",
-  "item/companion_cube": "item/companion_cube_e",
-  "item/companion_cube_lit": "item/companion_cube_e",
-  "item/dirty_companion_cube": "item/dirty_companion_cube_e",
-  "item/dirty_companion_cube_lit": "item/dirty_companion_cube_e",
+  "item/storage_cube": "item/storage_cubes_e",
+  "item/storage_cube_lit": "item/storage_cubes_e",
+  "item/dirty_storage_cube": "item/dirty_storage_cubes_e",
+  "item/dirty_storage_cube_lit": "item/dirty_storage_cubes_e",
+  "item/companion_cube": "item/storage_cubes_e",
+  "item/companion_cube_lit": "item/storage_cubes_e",
+  "item/dirty_companion_cube": "item/dirty_storage_cubes_e",
+  "item/dirty_companion_cube_lit": "item/dirty_storage_cubes_e",
   "item/redirection_cube": "item/redirection_cube_e",
   "item/redirection_cube_lit": "item/redirection_cube_e",
   "item/dirty_redirection_cube": "item/dirty_redirection_cube_e",
   "item/dirty_redirection_cube_lit": "item/dirty_redirection_cube_e",
   "item/schrodinger_cube": "item/schrodinger_cube_e",
   "item/schrodinger_cube_lit": "item/schrodinger_cube_e",
+
+  "item/prop_barrier": "item/prop_barrier_e",
+  "item/advanced_knee_replacements": "item/advanced_knee_replacements_e",
 
   "item/radio": "item/radio_e",
   "item/radio_transmission_received": "item/radio_e",
@@ -67,10 +75,76 @@
 
   "item/taco_with_way_too_much_ranch_on_it_holy_shit_why_is_there_so_much": "item/the_taco",
 
-  "item/construction_cannon": "item/construction_cannon_screen_e",
+  "item/construction_cannon": "item/construction_cannon_screen",
 
   "item/error": "block/error",
   "block/error": "block/error",
+
+  "item/small_signage": "signage/small_signage_blank",
+  "item/aged_small_signage": "signage/aged_small_signage_blank",
+  "item/large_signage": "signage/large_signage_blank",
+  "item/aged_large_signage": "signage/aged_large_signage_blank",
+
+  "block/large_signage": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_large_signage": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/small_signage_top_left": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/small_signage_top_right": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/small_signage_bottom_left": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/small_signage_bottom_right": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_small_signage_top_left": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_small_signage_top_right": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_small_signage_bottom_left": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
+  "block/aged_small_signage_bottom_right": [
+    {
+      "type": "folder",
+      "folder": "signage"
+    }
+  ],
 
   "block/elevator_wall_top": [
     "block/elevator_wall_upper_e",

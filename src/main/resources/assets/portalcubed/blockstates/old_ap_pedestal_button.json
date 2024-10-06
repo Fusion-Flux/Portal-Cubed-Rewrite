@@ -1423,7 +1423,7 @@
       "y": 180
     },
     "active=false,base=true,face=down,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_x": -3.5,
       "x": 180,
       "y": 270
@@ -1460,7 +1460,7 @@
       "y": 270
     },
     "active=false,base=true,face=down,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_x": 3.5,
       "x": 180,
       "y": 270
@@ -1480,7 +1480,7 @@
       "y": 270
     },
     "active=false,base=true,face=down,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_z": 3.5,
       "x": 180,
       "y": 180
@@ -1517,7 +1517,7 @@
       "y": 180
     },
     "active=false,base=true,face=down,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_z": -3.5,
       "x": 180,
       "y": 180
@@ -1537,7 +1537,7 @@
       "y": 180
     },
     "active=false,base=true,face=down,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_z": -3.5,
       "x": 180
     },
@@ -1568,7 +1568,7 @@
       "x": 180
     },
     "active=false,base=true,face=down,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_z": 3.5,
       "x": 180
     },
@@ -1585,7 +1585,7 @@
       "x": 180
     },
     "active=false,base=true,face=down,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_x": 3.5,
       "x": 180,
       "y": 90
@@ -1622,7 +1622,7 @@
       "y": 90
     },
     "active=false,base=true,face=down,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_x": -3.5,
       "x": 180,
       "y": 90
@@ -1642,7 +1642,7 @@
       "y": 90
     },
     "active=false,base=true,face=east,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 180
@@ -1679,7 +1679,7 @@
       "x": 180
     },
     "active=false,base=true,face=east,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 180
@@ -1699,7 +1699,7 @@
       "x": 180
     },
     "active=false,base=true,face=east,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 90
@@ -1736,7 +1736,7 @@
       "x": 90
     },
     "active=false,base=true,face=east,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 90
@@ -1756,7 +1756,7 @@
       "x": 90
     },
     "active=false,base=true,face=east,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 270
@@ -1793,7 +1793,7 @@
       "x": 270
     },
     "active=false,base=true,face=east,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 270
@@ -1813,7 +1813,7 @@
       "x": 270
     },
     "active=false,base=true,face=east,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5
     },
@@ -1844,7 +1844,7 @@
       "portalcubed:shift_z": -3.5
     },
     "active=false,base=true,face=east,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5
     },
@@ -1861,7 +1861,7 @@
       "portalcubed:shift_z": -3.5
     },
     "active=false,base=true,face=north,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
       "portalcubed:shift_y": -3.5,
@@ -1904,7 +1904,7 @@
       "x": 90
     },
     "active=false,base=true,face=north,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
       "portalcubed:shift_y": 3.5,
@@ -1927,7 +1927,7 @@
       "x": 90
     },
     "active=false,base=true,face=north,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:shift_y": -3.5,
       "x": 90
@@ -1964,7 +1964,7 @@
       "x": 90
     },
     "active=false,base=true,face=north,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:shift_y": 3.5,
       "x": 90
@@ -1984,7 +1984,7 @@
       "x": 90
     },
     "active=false,base=true,face=north,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
       "portalcubed:shift_y": -3.5,
@@ -2027,7 +2027,7 @@
       "x": 90
     },
     "active=false,base=true,face=north,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
       "portalcubed:shift_y": 3.5,
@@ -2050,7 +2050,7 @@
       "x": 90
     },
     "active=false,base=true,face=north,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
@@ -2093,7 +2093,7 @@
       "x": 90
     },
     "active=false,base=true,face=north,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
@@ -2116,7 +2116,7 @@
       "x": 90
     },
     "active=false,base=true,face=south,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
       "portalcubed:shift_y": -3.5,
@@ -2165,7 +2165,7 @@
       "y": 180
     },
     "active=false,base=true,face=south,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
       "portalcubed:shift_y": 3.5,
@@ -2191,7 +2191,7 @@
       "y": 180
     },
     "active=false,base=true,face=south,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:shift_y": -3.5,
       "x": 90,
@@ -2234,7 +2234,7 @@
       "y": 180
     },
     "active=false,base=true,face=south,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:shift_y": 3.5,
       "x": 90,
@@ -2257,7 +2257,7 @@
       "y": 180
     },
     "active=false,base=true,face=south,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
       "portalcubed:shift_y": -3.5,
@@ -2306,7 +2306,7 @@
       "y": 180
     },
     "active=false,base=true,face=south,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
       "portalcubed:shift_y": 3.5,
@@ -2332,7 +2332,7 @@
       "y": 180
     },
     "active=false,base=true,face=south,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
@@ -2381,7 +2381,7 @@
       "y": 180
     },
     "active=false,base=true,face=south,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
@@ -2407,7 +2407,7 @@
       "y": 180
     },
     "active=false,base=true,face=up,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_x": -3.5,
       "y": 90
     },
@@ -2438,7 +2438,7 @@
       "y": 90
     },
     "active=false,base=true,face=up,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_x": 3.5,
       "y": 90
     },
@@ -2455,7 +2455,7 @@
       "y": 90
     },
     "active=false,base=true,face=up,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_z": 3.5
     },
     "active=false,base=true,face=up,facing=north,offset=down_left": {
@@ -2480,7 +2480,7 @@
       "portalcubed:shift_x": 3.5
     },
     "active=false,base=true,face=up,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_z": -3.5
     },
     "active=false,base=true,face=up,facing=north,offset=up_left": {
@@ -2494,7 +2494,7 @@
       "portalcubed:shift_z": -3.5
     },
     "active=false,base=true,face=up,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_z": -3.5,
       "y": 180
     },
@@ -2525,7 +2525,7 @@
       "y": 180
     },
     "active=false,base=true,face=up,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_z": 3.5,
       "y": 180
     },
@@ -2542,7 +2542,7 @@
       "y": 180
     },
     "active=false,base=true,face=up,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_x": 3.5,
       "y": 270
     },
@@ -2573,7 +2573,7 @@
       "y": 270
     },
     "active=false,base=true,face=up,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:shift_x": -3.5,
       "y": 270
     },
@@ -2590,7 +2590,7 @@
       "y": 270
     },
     "active=false,base=true,face=west,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "y": 180
@@ -2627,7 +2627,7 @@
       "y": 180
     },
     "active=false,base=true,face=west,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "y": 180
@@ -2647,7 +2647,7 @@
       "y": 180
     },
     "active=false,base=true,face=west,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 90,
@@ -2690,7 +2690,7 @@
       "y": 180
     },
     "active=false,base=true,face=west,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 90,
@@ -2713,7 +2713,7 @@
       "y": 180
     },
     "active=false,base=true,face=west,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 270,
@@ -2756,7 +2756,7 @@
       "y": 180
     },
     "active=false,base=true,face=west,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 270,
@@ -2779,7 +2779,7 @@
       "y": 180
     },
     "active=false,base=true,face=west,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 180,
@@ -2822,7 +2822,7 @@
       "y": 180
     },
     "active=false,base=true,face=west,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 180,
@@ -4267,7 +4267,7 @@
       "y": 180
     },
     "active=true,base=true,face=down,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_x": -3.5,
       "x": 180,
       "y": 270
@@ -4304,7 +4304,7 @@
       "y": 270
     },
     "active=true,base=true,face=down,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_x": 3.5,
       "x": 180,
       "y": 270
@@ -4324,7 +4324,7 @@
       "y": 270
     },
     "active=true,base=true,face=down,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_z": 3.5,
       "x": 180,
       "y": 180
@@ -4361,7 +4361,7 @@
       "y": 180
     },
     "active=true,base=true,face=down,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_z": -3.5,
       "x": 180,
       "y": 180
@@ -4381,7 +4381,7 @@
       "y": 180
     },
     "active=true,base=true,face=down,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_z": -3.5,
       "x": 180
     },
@@ -4412,7 +4412,7 @@
       "x": 180
     },
     "active=true,base=true,face=down,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_z": 3.5,
       "x": 180
     },
@@ -4429,7 +4429,7 @@
       "x": 180
     },
     "active=true,base=true,face=down,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_x": 3.5,
       "x": 180,
       "y": 90
@@ -4466,7 +4466,7 @@
       "y": 90
     },
     "active=true,base=true,face=down,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_x": -3.5,
       "x": 180,
       "y": 90
@@ -4486,7 +4486,7 @@
       "y": 90
     },
     "active=true,base=true,face=east,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 180
@@ -4523,7 +4523,7 @@
       "x": 180
     },
     "active=true,base=true,face=east,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 180
@@ -4543,7 +4543,7 @@
       "x": 180
     },
     "active=true,base=true,face=east,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 90
@@ -4580,7 +4580,7 @@
       "x": 90
     },
     "active=true,base=true,face=east,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 90
@@ -4600,7 +4600,7 @@
       "x": 90
     },
     "active=true,base=true,face=east,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 270
@@ -4637,7 +4637,7 @@
       "x": 270
     },
     "active=true,base=true,face=east,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 270
@@ -4657,7 +4657,7 @@
       "x": 270
     },
     "active=true,base=true,face=east,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5
     },
@@ -4688,7 +4688,7 @@
       "portalcubed:shift_z": -3.5
     },
     "active=true,base=true,face=east,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5
     },
@@ -4705,7 +4705,7 @@
       "portalcubed:shift_z": -3.5
     },
     "active=true,base=true,face=north,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
       "portalcubed:shift_y": -3.5,
@@ -4748,7 +4748,7 @@
       "x": 90
     },
     "active=true,base=true,face=north,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
       "portalcubed:shift_y": 3.5,
@@ -4771,7 +4771,7 @@
       "x": 90
     },
     "active=true,base=true,face=north,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:shift_y": -3.5,
       "x": 90
@@ -4808,7 +4808,7 @@
       "x": 90
     },
     "active=true,base=true,face=north,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:shift_y": 3.5,
       "x": 90
@@ -4828,7 +4828,7 @@
       "x": 90
     },
     "active=true,base=true,face=north,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
       "portalcubed:shift_y": -3.5,
@@ -4871,7 +4871,7 @@
       "x": 90
     },
     "active=true,base=true,face=north,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
       "portalcubed:shift_y": 3.5,
@@ -4894,7 +4894,7 @@
       "x": 90
     },
     "active=true,base=true,face=north,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
@@ -4937,7 +4937,7 @@
       "x": 90
     },
     "active=true,base=true,face=north,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
@@ -4960,7 +4960,7 @@
       "x": 90
     },
     "active=true,base=true,face=south,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
       "portalcubed:shift_y": -3.5,
@@ -5009,7 +5009,7 @@
       "y": 180
     },
     "active=true,base=true,face=south,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 270,
       "portalcubed:shift_y": 3.5,
@@ -5035,7 +5035,7 @@
       "y": 180
     },
     "active=true,base=true,face=south,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:shift_y": -3.5,
       "x": 90,
@@ -5078,7 +5078,7 @@
       "y": 180
     },
     "active=true,base=true,face=south,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:shift_y": 3.5,
       "x": 90,
@@ -5101,7 +5101,7 @@
       "y": 180
     },
     "active=true,base=true,face=south,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
       "portalcubed:shift_y": -3.5,
@@ -5150,7 +5150,7 @@
       "y": 180
     },
     "active=true,base=true,face=south,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 180,
       "portalcubed:shift_y": 3.5,
@@ -5176,7 +5176,7 @@
       "y": 180
     },
     "active=true,base=true,face=south,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
@@ -5225,7 +5225,7 @@
       "y": 180
     },
     "active=true,base=true,face=south,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:local_rot_z": true,
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
@@ -5251,7 +5251,7 @@
       "y": 180
     },
     "active=true,base=true,face=up,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_x": -3.5,
       "y": 90
     },
@@ -5282,7 +5282,7 @@
       "y": 90
     },
     "active=true,base=true,face=up,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_x": 3.5,
       "y": 90
     },
@@ -5299,7 +5299,7 @@
       "y": 90
     },
     "active=true,base=true,face=up,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_z": 3.5
     },
     "active=true,base=true,face=up,facing=north,offset=down_left": {
@@ -5324,7 +5324,7 @@
       "portalcubed:shift_x": 3.5
     },
     "active=true,base=true,face=up,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_z": -3.5
     },
     "active=true,base=true,face=up,facing=north,offset=up_left": {
@@ -5338,7 +5338,7 @@
       "portalcubed:shift_z": -3.5
     },
     "active=true,base=true,face=up,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_z": -3.5,
       "y": 180
     },
@@ -5369,7 +5369,7 @@
       "y": 180
     },
     "active=true,base=true,face=up,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_z": 3.5,
       "y": 180
     },
@@ -5386,7 +5386,7 @@
       "y": 180
     },
     "active=true,base=true,face=up,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_x": 3.5,
       "y": 270
     },
@@ -5417,7 +5417,7 @@
       "y": 270
     },
     "active=true,base=true,face=up,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:shift_x": -3.5,
       "y": 270
     },
@@ -5434,7 +5434,7 @@
       "y": 270
     },
     "active=true,base=true,face=west,facing=east,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "y": 180
@@ -5471,7 +5471,7 @@
       "y": 180
     },
     "active=true,base=true,face=west,facing=east,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "y": 180
@@ -5491,7 +5491,7 @@
       "y": 180
     },
     "active=true,base=true,face=west,facing=north,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 90,
@@ -5534,7 +5534,7 @@
       "y": 180
     },
     "active=true,base=true,face=west,facing=north,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 90,
@@ -5557,7 +5557,7 @@
       "y": 180
     },
     "active=true,base=true,face=west,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 270,
@@ -5600,7 +5600,7 @@
       "y": 180
     },
     "active=true,base=true,face=west,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 270,
@@ -5623,7 +5623,7 @@
       "y": 180
     },
     "active=true,base=true,face=west,facing=west,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": -3.5,
       "x": 180,
@@ -5666,7 +5666,7 @@
       "y": 180
     },
     "active=true,base=true,face=west,facing=west,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active",
+      "model": "portalcubed:block/old_ap_pedestal_button_base_edge_active",
       "portalcubed:rot_z": 90,
       "portalcubed:shift_y": 3.5,
       "x": 180,

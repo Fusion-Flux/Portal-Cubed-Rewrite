@@ -3,8 +3,6 @@ package io.github.fusionflux.portalcubed.content.button.pedestal;
 import java.util.Locale;
 import java.util.Map;
 
-import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,6 +10,7 @@ import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
+import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.extension.BigShapeBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper.DefaultRotationValues;
@@ -207,7 +206,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 
 	@Override
 	@NotNull
-	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player) {
+	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (player instanceof ServerPlayer serverPlayer)
 			PortalCubedPackets.sendToClient(serverPlayer, new OpenPedestalButtonConfigPacket(pos));
 		return InteractionResult.sidedSuccess(world.isClientSide);

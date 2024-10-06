@@ -1,0 +1,18 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"textures": {
+		"0": "portalcubed:signage/large_signage_blank",
+		"particle": "portalcubed:signage/large_signage_blank",
+		"signage": "#portalcubed:dynamic"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 0.01, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#signage"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "down"}
+			}
+		}
+	]
+}

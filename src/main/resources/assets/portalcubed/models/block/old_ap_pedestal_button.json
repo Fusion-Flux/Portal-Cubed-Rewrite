@@ -1,5 +1,5 @@
 {
-	"credit": "Made with Blockbench by Cart3r.  ",
+	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "portalcubed:block/old_ap_pedestal_button",
@@ -112,7 +112,7 @@
 			"scale": [0.25, 0.25, 0.25]
 		},
 		"gui": {
-			"rotation": [30, 225, 0],
+			"rotation": [30, 135, 0],
 			"translation": [0, -0.75, 0],
 			"scale": [0.69922, 0.69922, 0.69922]
 		},
