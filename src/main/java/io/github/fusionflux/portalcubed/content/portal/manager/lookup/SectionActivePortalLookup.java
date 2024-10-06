@@ -87,7 +87,13 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		Vec3 teleportedHit = PortalTeleportHandler.teleportAbsoluteVecBetween(closest.hit, closest.portal, linked);
 		Vec3 teleportedEnd = PortalTeleportHandler.teleportAbsoluteVecBetween(to, closest.portal, linked);
 
-		PortalHitResult next = this.clip(teleportedHit, teleportedEnd);
+		PortalHitResult next;
+		try {
+			next = this.clip(teleportedHit, teleportedEnd);
+		} catch (StackOverflowError e) {
+			System.out.println("stack overflow");
+			return PortalHitResult.OVERFLOW_MARKER;
+		}
 
 		return new PortalHitResult(
 				from,
