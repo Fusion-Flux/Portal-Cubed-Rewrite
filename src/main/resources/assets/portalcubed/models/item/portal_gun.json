@@ -27,6 +27,7 @@
 	{"predicate": {"custom_model_data": 215}, "model": "portalcubed:item/smithers_portal_gun"},
 	{"predicate": {"custom_model_data": 216}, "model": "portalcubed:item/peashooter"},
 	{"predicate": {"custom_model_data": 217}, "model": "portalcubed:item/paintbrush"},
+	{"predicate": {"custom_model_data": 218}, "model": "portalcubed:item/polaroid"},
 	{"predicate": {"custom_model_data": 301}, "model": "portalcubed:item/2d_portal_gun"},
 	{"predicate": {"custom_model_data": 302}, "model": "portalcubed:item/2d_portal_gun_atlas"},
 	{"predicate": {"custom_model_data": 303}, "model": "portalcubed:item/2d_portal_gun_p_body"},
