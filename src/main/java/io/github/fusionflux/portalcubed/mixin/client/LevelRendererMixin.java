@@ -27,7 +27,7 @@ public class LevelRendererMixin {
 	)
 	private void renderMultiBlockBreakingTexture(BlockRenderDispatcher instance, BlockState state, BlockPos pos, BlockAndTintGetter world, PoseStack matrices, VertexConsumer vertexConsumer, Operation<Void> original) {
 		if (state.getBlock() instanceof AbstractMultiBlock multiBlock) {
-			for (var quadrantPos : multiBlock.quadrantIterator(multiBlock.getOriginPos(pos, state), state)) {
+			for (BlockPos quadrantPos : multiBlock.quadrants(multiBlock.getOriginPos(pos, state), state)) {
 				matrices.pushPose();
 				matrices.translate(quadrantPos.getX() - pos.getX(),  quadrantPos.getY() - pos.getY(), quadrantPos.getZ() - pos.getZ());
 				original.call(instance, world.getBlockState(quadrantPos), quadrantPos, world, matrices, vertexConsumer);

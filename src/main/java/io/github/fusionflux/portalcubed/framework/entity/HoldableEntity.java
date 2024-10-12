@@ -75,15 +75,16 @@ public abstract class HoldableEntity extends LerpableEntity {
 		Vec3 toPoint = this.position().vectorTo(holdPoint);
 		this.setDeltaMovement(toPoint);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
-		this.resetFallDistance();
+		if (toPoint.y == 0)
+			this.resetFallDistance();
 
 		// rotate to face player
 		if (this.facesHolder()) {
 			this.setYRot((holder.getYRot() + 180) % 360);
 		}
 
-		// drop when holder changes to spectator or moves too far away
-		if (!this.level().isClientSide && (holder.isSpectator() || this.position().distanceToSqr(holder.getEyePosition()) >= MAX_DIST_SQR))
+		// drop when holder is no longer valid or when we are no longer able to be held
+		if (!this.level().isClientSide && !this.canHold(holder))
 			this.drop();
 	}
 
@@ -123,10 +124,13 @@ public abstract class HoldableEntity extends LerpableEntity {
 		return !this.isHeldBy(entity);
 	}
 
+	public boolean canHold(Player player) {
+		return (!this.pc$disintegrating() && !this.isPassenger() && !this.hasPassenger(player)) // Self checks
+				&& (!player.isSpectator() && this.position().distanceToSqr(player.getEyePosition()) < MAX_DIST_SQR); // Holder checks
+	}
+
 	public void grab(ServerPlayer player) {
-		if (this.hasPassenger(player))
-			return; // don't allow holding self
-		if (this.pc$disintegrating())
+		if (!this.canHold(player))
 			return;
 
 		if (this.holder != null) {

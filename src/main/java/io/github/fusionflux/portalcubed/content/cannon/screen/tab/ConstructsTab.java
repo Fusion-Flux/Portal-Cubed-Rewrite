@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.tab;
 
+import java.util.List;
+import java.util.Optional;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHolder;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct.ConstructButtonWidget;
@@ -13,8 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
-
-import java.util.Optional;
 
 public class ConstructsTab {
 	public static final int ROWS = 2;
@@ -38,8 +39,8 @@ public class ConstructsTab {
 		}
 		TagKey<Item> material = settings.get().material().get();
 
-		var buttons = new GridLayout();
-		var constructs = ConstructManager.INSTANCE.getConstructSetsForMaterial(material);
+		GridLayout buttons = new GridLayout();
+		List<ConstructSet> constructs = ConstructManager.INSTANCE.getConstructSetsForMaterial(material);
 		int rowCount = Mth.positiveCeilDiv(constructs.size(), COLUMNS) - ROWS;
 		int scrollRowPos = Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0);
 		int i = -(COLUMNS * scrollRowPos);

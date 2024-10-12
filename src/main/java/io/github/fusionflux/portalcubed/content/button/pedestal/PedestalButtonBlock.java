@@ -81,12 +81,12 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		this.pressSound = pressSound;
 		this.releaseSound = releaseSound;
 		this.shapes = new Reference2ReferenceOpenHashMap<>();
-		for (var state : this.stateDefinition.getPossibleStates()) {
-			var face = state.getValue(FACE);
-			var facing = state.getValue(FACING);
+		for (BlockState state : this.stateDefinition.getPossibleStates()) {
+			Direction face = state.getValue(FACE);
+			Direction facing = state.getValue(FACING);
 			boolean base = state.getValue(BASE);
-			var shift = state.getValue(OFFSET).get(face, facing, base);
-			var rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
+			Vec3 shift = state.getValue(OFFSET).get(face, facing, base);
+			VoxelShape rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
 			this.shapes.put(state, rotated.move(shift.x() / 16d, shift.y() / 16d, shift.z() / 16d));
 		}
 		this.registerDefaultState(this.stateDefinition.any()
@@ -120,11 +120,11 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		var clickedFace = ctx.getClickedFace();
+		Direction clickedFace = ctx.getClickedFace();
 		boolean horizontal = clickedFace.getAxis().isHorizontal();
-		var direction = ctx.getHorizontalDirection().getAxisDirection() == Direction.AxisDirection.NEGATIVE ? Direction.NORTH : Direction.SOUTH;
-		var fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
-		for (var looking : ctx.getNearestLookingDirections()) {
+		Direction direction = ctx.getHorizontalDirection().getAxisDirection() == Direction.AxisDirection.NEGATIVE ? Direction.NORTH : Direction.SOUTH;
+		FluidState fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
+		for (Direction looking : ctx.getNearestLookingDirections()) {
 			if (looking.getAxis() != clickedFace.getAxis()) {
 				direction = switch (looking) {
 					case NORTH -> horizontal ? Direction.WEST : looking;

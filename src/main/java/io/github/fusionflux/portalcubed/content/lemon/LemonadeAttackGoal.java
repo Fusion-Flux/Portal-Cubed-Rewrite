@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.misc;
+package io.github.fusionflux.portalcubed.content.lemon;
 
 import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
 import net.minecraft.world.entity.monster.Monster;

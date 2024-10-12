@@ -2,43 +2,42 @@ package io.github.fusionflux.portalcubed.content;
 
 import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
-import io.github.fusionflux.portalcubed.content.crowbar.CrowbarItem;
 import java.util.EnumMap;
 import java.util.Map;
+
+import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.misc.AdvancedKneeReplacementsMaterial;
-import io.github.fusionflux.portalcubed.content.misc.LemonadeDispenseBehavior;
-import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
-import io.github.fusionflux.portalcubed.content.misc.LongFallBoots;
-import io.github.fusionflux.portalcubed.content.misc.LongFallBootsColorProvider;
-import io.github.fusionflux.portalcubed.content.misc.LongFallBootsMaterial;
-import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
+import io.github.fusionflux.portalcubed.content.boots.AdvancedKneeReplacementsMaterial;
+import io.github.fusionflux.portalcubed.content.boots.LongFallBoots;
+import io.github.fusionflux.portalcubed.content.boots.LongFallBootsColorProvider;
+import io.github.fusionflux.portalcubed.content.boots.LongFallBootsMaterial;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
+import io.github.fusionflux.portalcubed.content.lemon.LemonadeDispenseBehavior;
+import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
+import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
-import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.minecraft.core.cauldron.CauldronInteraction;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
-
+import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.Util;
+import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.food.Foods;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)

@@ -1,7 +1,12 @@
 package io.github.fusionflux.portalcubed.framework.signage;
 
-import com.mojang.serialization.Codec;
+import java.util.Locale;
+import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -10,12 +15,6 @@ import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Locale;
-import java.util.Optional;
 
 public record Signage(Optional<ResourceLocation> cleanTexture, Optional<ResourceLocation> agedTexture, Component name, Size size) {
 	public static final Codec<Signage> CODEC = ExtraCodecs.validate(
@@ -86,7 +85,7 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 		LARGE,
 		SMALL;
 
-		public static Codec<Size> CODEC = StringRepresentable.fromEnum(Size::values);
+		public static final Codec<Size> CODEC = StringRepresentable.fromEnum(Size::values);
 
 		public final String name = this.name().toLowerCase(Locale.ROOT);
 

@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.mixin.MultifaceBlockAccessor;
@@ -19,13 +21,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
-import org.jetbrains.annotations.NotNull;
-
 public class SimpleMultifaceBlock extends MultifaceBlock implements SimpleWaterloggedBlock {
-	public static final MapCodec<SimpleMultifaceBlock> CODEC = simpleCodec(SimpleMultifaceBlock::new);
-
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
+	public static final MapCodec<SimpleMultifaceBlock> CODEC = simpleCodec(SimpleMultifaceBlock::new);
 	private final MultifaceSpreader spreader = new MultifaceSpreader(this);
 
 	public SimpleMultifaceBlock(Properties properties) {
@@ -56,10 +54,10 @@ public class SimpleMultifaceBlock extends MultifaceBlock implements SimpleWaterl
 		} else {
 			boolean faceRemoved = hasFace(state, direction) && !canAttachTo(world, direction, neighborPos, neighborState);
 			if (faceRemoved) {
-				var newState = MultifaceBlockAccessor.callRemoveFace(state, getFaceProperty(direction));
+				BlockState newState = MultifaceBlockAccessor.callRemoveFace(state, getFaceProperty(direction));
 				if (hasAnyFace(newState)) {
-					var fakeDropState = defaultBlockState()
-						.setValue(getFaceProperty(direction), true);
+					BlockState fakeDropState = this.defaultBlockState()
+							.setValue(getFaceProperty(direction), true);
 					Block.dropResources(fakeDropState, world, pos, null);
 				}
 				return newState;

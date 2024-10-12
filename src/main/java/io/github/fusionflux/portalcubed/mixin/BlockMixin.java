@@ -17,6 +17,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 @Mixin(Block.class)
 public class BlockMixin {
@@ -25,12 +27,12 @@ public class BlockMixin {
 		throw new AssertionError();
 	}
 
-	@Inject(method = "popResource", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "popResource(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/item/ItemStack;)V", at = @At("HEAD"), cancellable = true)
 	private static void spawnMultiblockDropsAtCenter(Level world, BlockPos pos, ItemStack stack, CallbackInfo ci) {
-		var state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		if (world instanceof ServerLevel && state.getBlock() instanceof AbstractMultiBlock multiBlock) {
-			var originPos = multiBlock.getOriginPos(pos, state);
-			var center = multiBlock.size.rotated(state.getValue(AbstractMultiBlock.FACING))
+			BlockPos originPos = multiBlock.getOriginPos(pos, state);
+			Vec3 center = multiBlock.size.rotated(state.getValue(AbstractMultiBlock.FACING))
 				.center(0, 0, .5)
 				.add(originPos.getX(), originPos.getY(), originPos.getZ());
 

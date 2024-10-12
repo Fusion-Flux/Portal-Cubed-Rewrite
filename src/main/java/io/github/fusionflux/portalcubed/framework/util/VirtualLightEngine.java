@@ -50,13 +50,8 @@ public final class VirtualLightEngine extends LevelLightEngine {
 		return Math.max(j, i);
 	}
 
-	private static class VirtualLayerLightEventListener implements LayerLightEventListener {
-		private final ToIntFunction<BlockPos> lightFunc;
-
-		public VirtualLayerLightEventListener(ToIntFunction<BlockPos> lightFunc) {
-			this.lightFunc = lightFunc;
-		}
-
+	// Note: Difference to Flywheel, class -> record
+	private record VirtualLayerLightEventListener(ToIntFunction<BlockPos> lightFunc) implements LayerLightEventListener {
 		@Override
 		public void checkBlock(BlockPos pos) {
 		}

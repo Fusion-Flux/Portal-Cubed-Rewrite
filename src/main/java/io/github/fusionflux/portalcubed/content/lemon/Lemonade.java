@@ -1,4 +1,6 @@
-package io.github.fusionflux.portalcubed.content.misc;
+package io.github.fusionflux.portalcubed.content.lemon;
+
+import org.jetbrains.annotations.NotNull;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
@@ -10,10 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-
 import net.minecraft.world.level.Level;
-
-import org.jetbrains.annotations.NotNull;
 
 public class Lemonade extends ThrowableItemProjectile {
 	public static final int TICKS_PER_TIMER_TICK = 20;

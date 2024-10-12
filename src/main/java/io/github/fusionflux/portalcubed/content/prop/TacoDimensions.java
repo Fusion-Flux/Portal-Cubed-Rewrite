@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.phys.AABB;
 
@@ -8,6 +10,7 @@ public class TacoDimensions extends EntityDimensions {
 		super(.69375f, .38125f, true);
 	}
 
+	@NotNull
 	@Override
 	public AABB makeBoundingBox(double x, double y, double z) {
 		float width =  this.width / 2f;

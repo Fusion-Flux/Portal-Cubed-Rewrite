@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.data.models;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
+import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.core.Direction;
@@ -12,7 +13,9 @@ import net.minecraft.data.models.blockstates.PropertyDispatch;
 import net.minecraft.data.models.blockstates.Variant;
 import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.model.ModelLocationUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 /**
  * generated files:
@@ -21,12 +24,26 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
  */
 public class FloorButtonBlockStates extends FabricModelProvider {
 	public static final String[][] QUADRANT_LOOKUP = new String[][]{
-		new String[]{"bottom_left", "bottom_right"},
-		new String[]{"top_left", "top_right"}
+			new String[]{"bottom_left", "bottom_right"},
+			new String[]{"top_left", "top_right"}
 	};
 
 	public FloorButtonBlockStates(FabricDataOutput output) {
 		super(output);
+	}
+
+	public static Variant variantForMultiBlockDirection(Direction direction) {
+		return switch (direction) {
+			case DOWN ->
+					Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R180).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
+			case UP -> Variant.variant();
+			case NORTH -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90);
+			case SOUTH -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R270);
+			case WEST ->
+					Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
+			case EAST ->
+					Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90);
+		};
 	}
 
 	@Override
@@ -42,41 +59,30 @@ public class FloorButtonBlockStates extends FabricModelProvider {
 	}
 
 	private void createFloorButton(BlockModelGenerators blockStateModelGenerator, FloorButtonBlock floorButtonBlock) {
-		var regularModelId = ModelLocationUtils.getModelLocation(floorButtonBlock);
-		var activeModelId = ModelLocationUtils.getModelLocation(floorButtonBlock, "_active");
+		ResourceLocation regularModelId = ModelLocationUtils.getModelLocation(floorButtonBlock);
+		ResourceLocation activeModelId = ModelLocationUtils.getModelLocation(floorButtonBlock, "_active");
 
-		var sizeProperties = floorButtonBlock.sizeProperties();
-		var xProp = sizeProperties.x().get();
-		var yProp = sizeProperties.y().get();
+		AbstractMultiBlock.SizeProperties sizeProperties = floorButtonBlock.sizeProperties();
+		IntegerProperty xProp = sizeProperties.x().orElse(null);
+		IntegerProperty yProp = sizeProperties.y().orElse(null);
 
 		blockStateModelGenerator.blockStateOutput.accept(
-			MultiVariantGenerator.multiVariant(floorButtonBlock)
-				.with(
-					PropertyDispatch.properties(FloorButtonBlock.ACTIVE, BlockStateProperties.FACING, xProp, yProp).generate(
-						(active, facing, x, y) -> {
-							var quadrantName = switch (facing) {
-								case SOUTH -> QUADRANT_LOOKUP[y == 1 ? 0 : 1][x];
-								case WEST ->  QUADRANT_LOOKUP[y][x == 1 ? 0 : 1];
-								case DOWN ->  QUADRANT_LOOKUP[x == 1 ? 0 : 1][y == 1 ? 0 : 1];
-								default ->    QUADRANT_LOOKUP[y][x];
-							};
-							var modelId = (active ? activeModelId : regularModelId).withSuffix("_" + quadrantName);
-							return variantForMultiBlockDirection(facing).with(VariantProperties.MODEL, modelId);
-						}
-					)
-				)
+				MultiVariantGenerator.multiVariant(floorButtonBlock)
+						.with(
+								PropertyDispatch.properties(FloorButtonBlock.ACTIVE, BlockStateProperties.FACING, xProp, yProp).generate(
+										(active, facing, x, y) -> {
+											String quadrantName = switch (facing) {
+												case SOUTH -> QUADRANT_LOOKUP[y == 1 ? 0 : 1][x];
+												case WEST -> QUADRANT_LOOKUP[y][x == 1 ? 0 : 1];
+												case DOWN -> QUADRANT_LOOKUP[x == 1 ? 0 : 1][y == 1 ? 0 : 1];
+												default -> QUADRANT_LOOKUP[y][x];
+											};
+											ResourceLocation modelId = (active ? activeModelId : regularModelId).withSuffix("_" + quadrantName);
+											return variantForMultiBlockDirection(facing).with(VariantProperties.MODEL, modelId);
+										}
+								)
+						)
 		);
 		blockStateModelGenerator.skipAutoItemBlock(floorButtonBlock);
-	}
-
-	public static Variant variantForMultiBlockDirection(Direction direction) {
-		return switch (direction) {
-			case DOWN  -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R180).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
-			case UP    -> Variant.variant();
-			case NORTH -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90);
-			case SOUTH -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R270);
-			case WEST  -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
-			case EAST  -> Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90);
-		};
 	}
 }

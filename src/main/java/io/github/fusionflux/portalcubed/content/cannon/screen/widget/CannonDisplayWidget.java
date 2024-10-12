@@ -43,7 +43,7 @@ public class CannonDisplayWidget extends AbstractWidget {
 	}
 
 	private void renderCannon(GuiGraphics graphics) {
-		var matrices = graphics.pose();
+		PoseStack matrices = graphics.pose();
 		matrices.pushPose();
 
 		matrices.translate(8, 8, 150);

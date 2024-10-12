@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.button;
 
+import com.google.common.collect.Iterables;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
@@ -7,10 +9,10 @@ import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
@@ -43,12 +45,12 @@ public class CubeButtonBlock extends FloorButtonBlock {
 	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		var facing = state.getValue(FACING);
+		Direction facing = state.getValue(FACING);
 		if (getY(state) == 0 && facing.getAxis().isHorizontal() && context instanceof EntityCollisionContext entityContext) {
-			var entity = entityContext.getEntity();
+			Entity entity = entityContext.getEntity();
 			if (entity != null && entityPredicate.test(entity)) {
 				int x = getX(state);
-				var quadrantShape = switch (facing) {
+				VoxelShaper quadrantShape = switch (facing) {
 					case NORTH, EAST -> BOTTOM_NO_WALL_SHAPES[x == 1 ? 0 : 1];
 					case WEST, SOUTH -> BOTTOM_NO_WALL_SHAPES[x];
 					default -> null;
@@ -59,6 +61,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 		return super.getCollisionShape(state, world, pos, context);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
 		if (isOrigin(state)) {
@@ -68,25 +71,36 @@ public class CubeButtonBlock extends FloorButtonBlock {
 	}
 
 	@Override
-	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
-		super.entityPressing(state, level, pos, entity);
+	protected void entityPressing(BlockState state, Level world, BlockPos pos, Entity entity) {
+		super.entityPressing(state, world, pos, entity);
+
 		if (entity instanceof Prop prop && prop.isHeld())
 			return;
-		if (entity instanceof PathfinderMob pathfinderMob)
-			pathfinderMob.getNavigation().stop();
-		entity.setYRot(Math.round(entity.getYRot() / 90) * 90);
-		var facing = state.getValue(FACING);
-		var facingAxis = facing.getAxis();
+
+		Direction facing = state.getValue(FACING);
+		AABB buttonBounds = getButtonBounds(facing).move(pos);
+		if (Iterables.any(world.getEntities((Entity) null, buttonBounds, entityPredicate), e -> e != entity))
+			return;
+
+		Direction.Axis facingAxis = facing.getAxis();
 		boolean horizontal = facingAxis.isHorizontal();
 		if (horizontal && !entity.isNoGravity())
 			return;
-		var buttonBounds = getButtonBounds(facing).move(pos);
-		var nudgeSpeed = new Vec3(
+
+		Vec3 nudgeSpeed = new Vec3(
 			facingAxis.choose(0, NUDGE_SPEED, NUDGE_SPEED),
 			facingAxis.choose(NUDGE_SPEED, 0, NUDGE_SPEED),
 			facingAxis.choose(NUDGE_SPEED, NUDGE_SPEED, 0)
 		);
-		float yOffset = horizontal ? -(entity.getBbHeight() / 2) : 0;
-		entity.setDeltaMovement(entity.position().vectorTo(buttonBounds.getCenter().add(0, yOffset, 0)).multiply(nudgeSpeed));
+		Vec3 nudge = entity.position()
+				.vectorTo(buttonBounds
+						.getCenter()
+						.add(0, horizontal ? -(entity.getBbHeight() / 2) : 0, 0)
+				)
+				.multiply(nudgeSpeed);
+		if (!nudge.equals(Vec3.ZERO))
+			entity.setDeltaMovement(nudge);
+
+		entity.setYRot(Math.round(entity.getYRot() / 90) * 90);
 	}
 }

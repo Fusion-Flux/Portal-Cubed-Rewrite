@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.goo;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
@@ -14,8 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
-
-import org.jetbrains.annotations.NotNull;
 
 public class GooCauldronBlock extends AbstractCauldronBlock {
 	public static final MapCodec<GooCauldronBlock> CODEC = simpleCodec(GooCauldronBlock::new);
@@ -53,12 +53,14 @@ public class GooCauldronBlock extends AbstractCauldronBlock {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		if (isEntityInsideContent(state, pos, entity))
+		if (this.isEntityInsideContent(state, pos, entity))
 			GooFluid.hurt(world, entity);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
 		return 3;

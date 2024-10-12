@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
@@ -8,21 +10,16 @@ import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraft.world.item.Item;
-
-import net.minecraft.world.level.block.Blocks;
-
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
-
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
+import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
 public class ConstructionCannonGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":construction_cannon/";
@@ -98,9 +95,7 @@ public class ConstructionCannonGameTests implements QuiltGameTest {
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
 		helper.useBlock(new BlockPos(2, 2, 1), gerald);
 
-		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> {
-			helper.succeedWhenBlockPresent(Blocks.AIR, 2, 2, 1);
-		});
+		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> helper.succeedWhenBlockPresent(Blocks.AIR, 2, 2, 1));
 	}
 
 	//Tests a survival mockplayer using a Construction Cannon in normal mode, with 1 of the required blocks to place the structure (4 needed)

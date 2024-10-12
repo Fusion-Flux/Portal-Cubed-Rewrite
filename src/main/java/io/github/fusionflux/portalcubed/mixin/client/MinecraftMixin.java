@@ -1,23 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import io.github.fusionflux.portalcubed.content.crowbar.CrowbarItem;
-import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
-import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
-import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
-import io.github.fusionflux.portalcubed.mixin.LivingEntityAccessor;
-import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
-import net.minecraft.client.Minecraft;
-
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraft.world.phys.BlockHitResult;
-
-import net.minecraft.world.phys.HitResult;
+import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.base.api.util.TriState;
@@ -28,6 +11,22 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
+import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
+import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
+import io.github.fusionflux.portalcubed.mixin.LivingEntityAccessor;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
@@ -51,7 +50,7 @@ public class MinecraftMixin {
 	private void handleScreenTickables(CallbackInfo ci) {
 		// this is done because injecting into screen#tick is unreliable, most don't call super.
 		if (this.screen instanceof ScreenExt ext) {
-			var tickables = ext.pc$tickables();
+			List<TickableWidget> tickables = ext.pc$tickables();
 			if (tickables != null)
 				tickables.forEach(TickableWidget::tick);
 		}

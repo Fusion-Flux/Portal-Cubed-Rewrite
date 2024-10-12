@@ -1,15 +1,22 @@
 package io.github.fusionflux.portalcubed.content;
 
+import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
+
+import java.util.EnumMap;
+import java.util.Map;
+
+import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
+
 import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.misc.Lemonade;
+import io.github.fusionflux.portalcubed.content.lemon.Lemonade;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectileRenderer;
-import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.content.prop.PropRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.Registry;
@@ -17,13 +24,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-
-import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
-
-import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 public class PortalCubedEntities {
 	public static final EntityType<PortalProjectile> PORTAL_PROJECTILE = REGISTRAR.entities.create("portal_projectile", PortalProjectile::new)

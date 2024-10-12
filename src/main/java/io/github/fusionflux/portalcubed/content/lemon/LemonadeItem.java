@@ -1,4 +1,7 @@
-package io.github.fusionflux.portalcubed.content.misc;
+package io.github.fusionflux.portalcubed.content.lemon;
+
+import org.jetbrains.annotations.NotNull;
+import org.quiltmc.qsl.entity.event.api.LivingEntityDeathCallback;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.minecraft.sounds.SoundEvents;
@@ -11,10 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
-
 import net.minecraft.world.level.Level;
-
-import org.jetbrains.annotations.NotNull;
 
 public class LemonadeItem extends Item {
 	public static final float MIN_THROW_POWER = 0.375f;
@@ -106,5 +106,13 @@ public class LemonadeItem extends Item {
 	@Override
 	public UseAnim getUseAnimation(ItemStack stack) {
 		return UseAnim.BOW;
+	}
+
+	public static void registerEventListeners() {
+		LivingEntityDeathCallback.EVENT.register((killed, source) -> {
+			ItemStack useItem = killed.getUseItem();
+			if (LemonadeItem.isArmed(useItem))
+				killed.releaseUsingItem();
+		});
 	}
 }

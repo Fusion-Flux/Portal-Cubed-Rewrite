@@ -1,4 +1,6 @@
-package io.github.fusionflux.portalcubed.content.misc;
+package io.github.fusionflux.portalcubed.content.boots;
+
+import org.quiltmc.qsl.rendering.entity.api.client.ArmorRenderingRegistry;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -10,8 +12,6 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
-
-import org.quiltmc.qsl.rendering.entity.api.client.ArmorRenderingRegistry;
 
 public class LongFallBootsModel extends HumanoidArmorModel<LivingEntity> {
 	private static final float DEFORMATION = 1.0f; // Vanilla value for boots not stored in a constant anywhere.

@@ -1,5 +1,13 @@
 package io.github.fusionflux.portalcubed.framework.registration.block;
 
+import java.util.function.Consumer;
+
+import org.jetbrains.annotations.Nullable;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
+import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
+
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
@@ -10,14 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-
-import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
-
-import java.util.function.Consumer;
 
 public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private final Registrar registrar;
@@ -95,7 +95,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 		}
 
 		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
-			buildClient(block, item);
+			buildClient(block);
 		}
 
 		if (this.renderType != null) {
@@ -108,7 +108,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	// internal utils
 
 	@ClientOnly
-	private void buildClient(Block block, @Nullable Item item) {
+	private void buildClient(Block block) {
 		if (this.renderType != null) {
 			BlockRenderLayerMap.put(this.renderType.vanilla(), block);
 		}

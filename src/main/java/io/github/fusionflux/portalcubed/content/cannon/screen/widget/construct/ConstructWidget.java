@@ -1,10 +1,14 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -13,9 +17,6 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
 
 public abstract class ConstructWidget extends AbstractWidget {
 	public ConstructWidget(int size, Component message) {
@@ -74,7 +75,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 		matrices.translate(-center.x, center.y, -center.z);
 
 		if (ConstructPreviewRenderer.getModelPool() != null) {
-			var model = ConstructPreviewRenderer.getModelPool().getOrBuildModel(preview);
+			ConstructModelPool.ModelInfo model = ConstructPreviewRenderer.getModelPool().getOrBuildModel(preview);
 			RenderingUtil.drawGuiManaged(() -> model.draw(matrices, () -> {}));
 			model.bufferBlockEntities(matrices, graphics.bufferSource());
 			graphics.flush();

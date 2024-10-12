@@ -1,4 +1,7 @@
-package io.github.fusionflux.portalcubed.content.misc;
+package io.github.fusionflux.portalcubed.content.decoration;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -6,7 +9,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.GlazedTerracottaBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -18,13 +21,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-public class CrossbarPillarBlock extends RotatedPillarBlock implements SimpleWaterloggedBlock {
+public class CrossbarBlock extends GlazedTerracottaBlock implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-	public CrossbarPillarBlock(Properties properties) {
+	public CrossbarBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false));
 	}
@@ -32,7 +32,7 @@ public class CrossbarPillarBlock extends RotatedPillarBlock implements SimpleWat
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {
-		return (stateFrom.getBlock() instanceof CrossbarPillarBlock) || super.skipRendering(state, stateFrom, direction);
+		return (stateFrom.getBlock() instanceof CrossbarBlock) || super.skipRendering(state, stateFrom, direction);
 	}
 
 	@SuppressWarnings("deprecation")

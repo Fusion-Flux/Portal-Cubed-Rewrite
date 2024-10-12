@@ -1,20 +1,18 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.networking.api.PacketSender;
+
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
-import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-
 import net.minecraft.world.entity.Entity;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record DisintegratePacket(int entity, int ticks) implements ClientboundPacket {
 	public DisintegratePacket(Entity entity) {
@@ -43,7 +41,7 @@ public record DisintegratePacket(int entity, int ticks) implements ClientboundPa
 		if (entity != null) {
 			if (!entity.isSilent() && ticks >= EntityExt.DISINTEGRATE_TICKS) {
 				DisintegrationSoundType.allFor(entity.getType()).forEach(soundType ->
-						((LevelExt) entity.level()).pc$playSoundInstance(new FollowingSoundInstance(soundType.sound, entity.getSoundSource(), entity, false)));
+						entity.level().pc$playSoundInstance(new FollowingSoundInstance(soundType.sound, entity.getSoundSource(), entity, false)));
 			}
 			entity.pc$disintegrate(ticks);
 		}

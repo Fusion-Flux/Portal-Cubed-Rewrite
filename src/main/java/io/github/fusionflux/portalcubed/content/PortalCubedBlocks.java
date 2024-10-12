@@ -1,26 +1,38 @@
 package io.github.fusionflux.portalcubed.content;
 
+import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
+
+import java.util.EnumMap;
+import java.util.Map;
+
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
+
 import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
-
 import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.button.CubeButtonBlock;
+import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
+import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
+import io.github.fusionflux.portalcubed.content.decoration.CrossbarBlock;
+import io.github.fusionflux.portalcubed.content.decoration.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
-import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
-import io.github.fusionflux.portalcubed.content.misc.CrossbarBlock;
 import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
-import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
+import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
+import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
+import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
+import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -51,20 +63,6 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
-import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
-
-import io.github.fusionflux.portalcubed.content.button.CubeButtonBlock;
-import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
-import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
-import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
-import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
-import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 public class PortalCubedBlocks {
 	// ----- magnesium -----

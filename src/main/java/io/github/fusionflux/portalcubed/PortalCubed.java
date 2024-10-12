@@ -1,5 +1,11 @@
 package io.github.fusionflux.portalcubed;
 
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.loader.api.ModMetadata;
+import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
@@ -13,23 +19,16 @@ import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
+import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
+import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
-import net.minecraft.resources.ResourceLocation;
-
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.ModMetadata;
-import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
-
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.minecraft.resources.ResourceLocation;
 
 public class PortalCubed implements ModInitializer {
 	public static final String ID = "portalcubed";
@@ -40,7 +39,7 @@ public class PortalCubed implements ModInitializer {
 	@Override
 	public void onInitialize(ModContainer mod) {
 		ModMetadata metadata = mod.metadata();
-		LOGGER.info("Portal Cubed (" + metadata.version() + ") initializing...");
+		LOGGER.info("Portal Cubed ({}) initializing...", metadata.version());
 		LOGGER.info(MOTL.get());
 
 		PortalCubedGameRules.init();
@@ -62,9 +61,10 @@ public class PortalCubed implements ModInitializer {
 		HoldableEntity.registerEventListeners();
 		EntityExt.registerEventListeners();
 		HammerableBlock.registerEventListeners();
+		LemonadeItem.registerEventListeners();
 		DisintegrationSoundType.init();
 
-		LOGGER.info("Portal Cubed (" + metadata.version() + ") initialized!");
+		LOGGER.info("Portal Cubed ({}) initialized!", metadata.version());
 	}
 
 	public static ResourceLocation id(String path) {
