@@ -15,6 +15,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -200,6 +201,17 @@ public class PropGameTests implements QuiltGameTest {
 	public void propDispenser(GameTestHelper helper) {
 		helper.pullLever(1, 2, 0);
 		helper.succeedWhenEntityPresent(PortalCubedEntities.PROPS.get(PropType.STORAGE_CUBE), 1, 3, 1);
+	}
+
+	//Test portal 1 props dealing damage when landing on entities
+	@GameTest(template = GROUP + "falling_prop")
+	public void fallingProp(GameTestHelper helper) {
+		Mob gerald = helper.spawnWithNoFreeWill(EntityType.PIG, new BlockPos(1, 2, 1));
+		spawnProp(helper, PropType.PORTAL_1_STORAGE_CUBE, new BlockPos(1, 16, 1));
+
+		helper.runAfterDelay(40, () -> helper.succeedIf(() -> { //Wait for cube to bonk Gerald
+			helper.assertEntityNotPresent(gerald.getType());
+		}));
 	}
 
 	public static Prop spawnProp(GameTestHelper helper, PropType type, BlockPos pos) {
