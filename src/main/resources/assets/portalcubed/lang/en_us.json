@@ -398,6 +398,10 @@
   "item.portalcubed.radio.4": "Boombox",
 
   "item.portalcubed.beans": "Bean Can",
+  "item.portalcubed.beans.1": "Open Bean Can",
+  "item.portalcubed.beans.2": "Closed Bean Can",
+  "item.portalcubed.beans.tooltip.random": "Random variant",
+
   "item.portalcubed.cooking_pot": "Cooking Pot",
   "item.portalcubed.jug": "Water Jug",
   "item.portalcubed.computer": "Computer",
@@ -467,6 +471,14 @@
   "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
   "item.portalcubed.missing_texture_portal_gun": "item.portalcubed.portal_gun",
   "item.portalcubed.pistol_portal_gun": "Gun That Makes Holes (Not Bullet Holes)",
+  "item.portalcubed.splash_o_matic": "Splash-o-Matic",
+  "item.portalcubed.tiny_potatos_portal_gun": "Tiny PotatOS Portal Gun",
+  "item.portalcubed.salmon_gun": "Salmon Gun",
+  "item.portalcubed.wand": "Wand",
+  "item.portalcubed.smithers_portal_gun": "Mr. Smithers' Portal Gun",
+  "item.portalcubed.peashooter": "Peashooter",
+  "item.portalcubed.paintbrush": "Paintbrush",
+  "item.portalcubed.polaroid": "Polaroid",
 
   "item.portalcubed.long_fall_boots": "Long Fall Boots",
   "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",

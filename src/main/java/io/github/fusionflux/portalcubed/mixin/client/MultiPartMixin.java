@@ -39,8 +39,8 @@ public class MultiPartMixin {
 		@Local Selector selector
 	) {
 		PortalCubedModelLoadingPlugin.currentSelectorBaking = selector;
-		var ret = original.call(instance, modelBaker, textureGetter, rotationContainer, modelId);
+		BakedModel result = original.call(instance, modelBaker, textureGetter, rotationContainer, modelId);
 		PortalCubedModelLoadingPlugin.currentSelectorBaking = null;
-		return ret;
+		return result;
 	}
 }

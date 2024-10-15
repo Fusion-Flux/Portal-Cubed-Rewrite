@@ -1,20 +1,19 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 
-import io.github.fusionflux.portalcubed.content.misc.Lemonade;
+import io.github.fusionflux.portalcubed.content.lemon.Lemonade;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
-
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ThrowableProjectile.class)
 public abstract class ThrowableProjectileMixin extends Entity {

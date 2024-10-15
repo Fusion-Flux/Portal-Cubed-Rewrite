@@ -12,7 +12,6 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -22,6 +21,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -44,11 +44,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
 public class Prop extends HoldableEntity implements CollisionListener {
+	// Max speed of a dropped prop, to avoid flinging things cross chambers
+	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
 	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.INT);
 	// Terminal velocity of props in source units converted to blocks/tick
 	private static final double TERMINAL_VELOCITY = 66.6667f / 20f;
@@ -58,9 +61,6 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	private static final float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
 	// Makes it so the damage applies even when the collision box is outside the target
 	private static final double CHECK_BOX_EPSILON = 1E-7;
-	// Max speed of a dropped prop, to avoid flinging things cross chambers
-	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
-
 	public final PropType type;
 	private final SoundEvent impactSound;
 
@@ -152,14 +152,14 @@ public class Prop extends HoldableEntity implements CollisionListener {
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {
-		var itemInHand = player.getItemInHand(hand);
-		var level = level();
+		ItemStack itemInHand = player.getItemInHand(hand);
+		Level world = this.level();
 		if (getType().is(PortalCubedEntityTags.CAN_BE_DIRTY)) {
 			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && isDirty().map(v -> !v).orElse(false)) {
-				if (level instanceof ServerLevel serverLevel) {
+				if (world instanceof ServerLevel serverLevel) {
 					setDirty(true);
 					serverLevel.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
-					var particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
+					BlockParticleOption particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
 					for (Direction dir : Direction.values()) {
 						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
 						double y = getY() + (dir.getStepY() * getBbHeight() / 2);
@@ -168,7 +168,7 @@ public class Prop extends HoldableEntity implements CollisionListener {
 					}
 					itemInHand.shrink(1);
 				}
-				return InteractionResult.sidedSuccess(level.isClientSide);
+				return InteractionResult.sidedSuccess(world.isClientSide);
 			}
 		}
 		return super.interact(player, hand);
@@ -204,12 +204,12 @@ public class Prop extends HoldableEntity implements CollisionListener {
 
 	protected void dropLoot(DamageSource source) {
 		if (level() instanceof ServerLevel level) {
-			var lootTableId = getType().getDefaultLootTable();
-			var lootTable = level.getServer().getLootData().getLootTable(lootTableId);
-			var builder = new LootParams.Builder(level)
-				.withParameter(LootContextParams.THIS_ENTITY, this)
-				.withParameter(LootContextParams.ORIGIN, position())
-				.withParameter(LootContextParams.DAMAGE_SOURCE, source);
+			ResourceLocation lootTableId = getType().getDefaultLootTable();
+			LootTable lootTable = level.getServer().getLootData().getLootTable(lootTableId);
+			LootParams.Builder builder = new LootParams.Builder(level)
+					.withParameter(LootContextParams.THIS_ENTITY, this)
+					.withParameter(LootContextParams.ORIGIN, position())
+					.withParameter(LootContextParams.DAMAGE_SOURCE, source);
 			lootTable.getRandomItems(builder.create(LootContextParamSets.ENTITY), 0, this::spawnAtLocation);
 		}
 	}
@@ -240,13 +240,13 @@ public class Prop extends HoldableEntity implements CollisionListener {
 
 	@Override
 	public void onCollision() {
-		var level = this.level();
-		if (level.isClientSide)
+		Level world = this.level();
+		if (world.isClientSide)
 			return;
 
 		if (!this.isSilent()) {
-			level.playSound(null, this.getX(), this.getY(), this.getZ(), this.impactSound, SoundSource.PLAYERS, 1, 1);
-			level.gameEvent(this, GameEvent.HIT_GROUND, this.position());
+			world.playSound(null, this.getX(), this.getY(), this.getZ(), this.impactSound, SoundSource.PLAYERS, 1, 1);
+			world.gameEvent(this, GameEvent.HIT_GROUND, this.position());
 		}
 
 		if (this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && this.verticalCollisionBelow) {
@@ -256,8 +256,8 @@ public class Prop extends HoldableEntity implements CollisionListener {
 				Predicate<Entity> selector = EntitySelector.NO_CREATIVE_OR_SPECTATOR
 						.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)
 						.and(this::notHeldBy);
-				level.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector).forEach(
-						entity -> entity.hurt(PortalCubedDamageSources.landingDamage(level, this, entity), damage)
+				world.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector).forEach(
+						entity -> entity.hurt(PortalCubedDamageSources.landingDamage(world, this, entity), damage)
 				);
 			}
 		}

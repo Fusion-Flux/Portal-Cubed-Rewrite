@@ -1,4 +1,7 @@
-package io.github.fusionflux.portalcubed.content.misc;
+package io.github.fusionflux.portalcubed.content.boots;
+
+import org.jetbrains.annotations.NotNull;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
@@ -9,13 +12,10 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import org.jetbrains.annotations.NotNull;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
-public enum AdvancedKneeReplacementsMaterial implements ArmorMaterial {
+public enum LongFallBootsMaterial implements ArmorMaterial {
 	INSTANCE;
 
-	public static final String NAME = "advanced_knee_replacements";
+	public static final String NAME = "long_fall_boots";
 	public static final Ingredient REPAIR_INGREDIENT = Ingredient.of(PortalCubedItems.MAGNESIUM_INGOT);
 	public static final ResourceLocation TEXTURE = PortalCubed.id("textures/models/armor/" + NAME);
 
@@ -26,7 +26,7 @@ public enum AdvancedKneeReplacementsMaterial implements ArmorMaterial {
 
 	@Override
 	public int getDefenseForType(ArmorItem.Type slot) {
-		return 0;
+		return ArmorMaterials.IRON.getDefenseForType(slot);
 	}
 
 	@Override
@@ -54,12 +54,12 @@ public enum AdvancedKneeReplacementsMaterial implements ArmorMaterial {
 
 	@Override
 	public float getToughness() {
-		return 0;
+		return ArmorMaterials.IRON.getToughness();
 	}
 
 	@Override
 	public float getKnockbackResistance() {
-		return 0;
+		return ArmorMaterials.IRON.getKnockbackResistance();
 	}
 
 	@Override

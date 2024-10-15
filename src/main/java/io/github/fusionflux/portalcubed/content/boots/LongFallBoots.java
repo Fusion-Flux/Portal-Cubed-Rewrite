@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.misc;
+package io.github.fusionflux.portalcubed.content.boots;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ArmorMaterial;

@@ -10,13 +10,14 @@ import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 
 @Mixin(PlayerRenderer.class)
 public class PlayerRendererMixin {
 	// injecting at return and capturing the local itemstack variable doesn't work because it can't find the locals??
 	@Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
 	private static void useCustomHoldPose(AbstractClientPlayer player, InteractionHand hand, CallbackInfoReturnable<ArmPose> cir) {
-		var stack = player.getItemInHand(hand);
+		ItemStack stack = player.getItemInHand(hand);
 		if (!player.swinging && stack.getItem() instanceof CustomHoldPoseItem customHoldPose)
 			cir.setReturnValue(customHoldPose.getHoldPose(stack));
 	}

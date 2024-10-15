@@ -3,7 +3,7 @@
     "sounds": [
       {
         "name": "portalcubed:button/floor/floor_button_press",
-        "volume": 0.5
+        "volume": 0.4
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_press"
@@ -12,7 +12,7 @@
     "sounds": [
       {
         "name": "portalcubed:button/floor/floor_button_release",
-        "volume": 0.5
+        "volume": 0.4
       }
     ],
     "subtitle": "subtitles.portalcubed.floor_button_release"
@@ -146,7 +146,9 @@
     "sounds": [
       {
         "name": "portalcubed:props/companion_cube_ambiance",
-        "stream": true
+        "stream": true,
+        "attenuation_distance": 8,
+        "volume": 0.5
       }
     ]
   },
@@ -375,7 +377,7 @@
     "sounds": [
       {
         "name": "portalcubed:portal_gun/portal_gun_grab",
-        "volume": 0.85
+        "volume": 0.6
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun_grab"
@@ -384,7 +386,7 @@
     "sounds": [
       {
         "name": "portalcubed:portal_gun/portal_gun_hold_loop",
-        "volume": 0.85
+        "volume": 0.6
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun_hold_loop"
@@ -393,7 +395,7 @@
     "sounds": [
       {
         "name": "portalcubed:portal_gun/portal_gun_drop",
-        "volume": 0.85
+        "volume": 0.6
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun_drop"
@@ -402,7 +404,7 @@
     "sounds": [
       {
         "name": "portalcubed:portal_gun/portal_gun_cannot_grab",
-        "volume": 0.9
+        "volume": 0.75
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun_cannot_grab"

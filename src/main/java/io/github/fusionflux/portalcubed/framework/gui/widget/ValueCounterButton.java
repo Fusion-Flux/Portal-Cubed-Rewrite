@@ -96,7 +96,7 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 				stopClicking();
 				return;
 			}
-			clickDelay -= .1;
+			clickDelay -= .1f;
 			if (clickDelay <= 0) {
 				playDownSound(Minecraft.getInstance().getSoundManager());
 				click();
@@ -115,11 +115,11 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 	}
 
 	@FunctionalInterface
-	public static interface ButtonEvent {
+	public interface ButtonEvent {
 		void handle(ValueCounterButton button);
 	}
 
-	public static record Sprites(
+	public record Sprites(
 		ResourceLocation sprite, ResourceLocation hovered,
 		ResourceLocation pressed, ResourceLocation pressedHovered,
 		ResourceLocation disabled, ResourceLocation disabledHovered

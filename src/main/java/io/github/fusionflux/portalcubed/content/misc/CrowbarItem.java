@@ -1,8 +1,11 @@
-package io.github.fusionflux.portalcubed.content.crowbar;
+package io.github.fusionflux.portalcubed.content.misc;
+
+import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.base.api.util.TriState;
+import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.misc.BulletHoleMaterial;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -23,10 +26,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-
-import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 public class CrowbarItem extends Item implements DirectClickItem {
 	public CrowbarItem(Properties settings) {

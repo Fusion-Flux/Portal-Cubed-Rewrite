@@ -1,9 +1,13 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import org.joml.Matrix4f;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -11,124 +15,182 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 
+import io.github.fusionflux.portalcubed.framework.model.TransformingBakedModel;
+import io.github.fusionflux.portalcubed.framework.util.DelegatingVertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
+import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
+import net.minecraft.Optionull;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public final class ConstructModelPool implements AutoCloseable {
-	private static final Map<RenderType, BufferBuilder> BUILDERS = new Object2ReferenceOpenHashMap<>();
-	private static final Supplier<DynamicTexture> FAKE_LIGHT_TEXTURE = Suppliers.memoize(() -> {
-		var texture = new DynamicTexture(16, 16, false);
-		var pixels = texture.getPixels();
-		assert pixels != null;
-
-		for(int x = 0; x < 16; x++) {
-			for(int y = 0; y < 16; y++) {
-				pixels.setPixelRGBA(x, y, 0xFFFFFFFF);
-			}
-		}
-
+	private static final ModelEmitter EMITTER = new ModelEmitter();
+	private static final Supplier<DynamicTexture> LIGHT_TEXTURE = Suppliers.memoize(() -> {
+		DynamicTexture texture = new DynamicTexture(16, 16, false);
+		Objects.requireNonNull(texture.getPixels()).fillRect(0, 0, 16, 16, 0xFFFFFFFF);
 		texture.upload();
 		return texture;
 	});
-	private final Reference2ReferenceOpenHashMap<ConfiguredConstruct, ModelInfo> models = new Reference2ReferenceOpenHashMap<>();
+
+	private final Object2ReferenceOpenHashMap<ConfiguredConstruct, ModelInfo> models = new Object2ReferenceOpenHashMap<>();
 
 	public static ModelInfo buildModel(ConfiguredConstruct construct) {
-		var environment = new VirtualConstructEnvironment(construct);
-		var usedRenderTypes = new HashSet<RenderType>();
-		var blockEntities = new HashSet<BlockEntity>();
-		var buffers = new Reference2ReferenceOpenHashMap<RenderType, VertexBuffer>();
-		var blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
-		var randomSource = RandomSource.create();
+		VirtualConstructEnvironment environment = new VirtualConstructEnvironment(construct);
+		List<BlockEntity> blockEntities = new ArrayList<>();
+
+		BlockRenderDispatcher renderDispatcher = Minecraft.getInstance().getBlockRenderer();
+		ModelBlockRenderer blockRenderer = renderDispatcher.getModelRenderer();
+		RandomSource random = RandomSource.create();
 
 		ModelBlockRenderer.enableCaching();
-
-		var matrices = new PoseStack();
+		PoseStack matrices = new PoseStack();
 		construct.blocks.forEach((pos, info) -> {
-			var state = info.state();
-			if (state.hasBlockEntity())
-				blockEntities.add(environment.getBlockEntity(pos));
-			if (state.getRenderShape() == RenderShape.MODEL) {
-				var renderType = ItemBlockRenderTypes.getChunkRenderType(state);
-				var builder = BUILDERS.computeIfAbsent(renderType, $ -> new BufferBuilder(renderType.bufferSize()));
-				if (usedRenderTypes.add(renderType))
-					builder.begin(renderType.mode(), renderType.format());
+			BlockState state = info.state();
+			Optionull.map(environment.getBlockEntity(pos), blockEntities::add);
 
+			if (state.getRenderShape() == RenderShape.MODEL) {
+				EMITTER.prepare(ItemBlockRenderTypes.getChunkRenderType(state), renderDispatcher.getBlockModel(state));
 				matrices.pushPose();
 				matrices.translate(pos.getX(), pos.getY(), pos.getZ());
-				blockRenderDispatcher.renderBatched(state, pos, environment, matrices, builder, true, randomSource);
+				blockRenderer.tesselateBlock(environment, EMITTER.model, state, pos, matrices, EMITTER, true, random, state.getSeed(pos), OverlayTexture.NO_OVERLAY);
 				matrices.popPose();
 			}
 		});
-
-		for (var renderType : usedRenderTypes) {
-			var builtBuffer = BUILDERS.get(renderType).endOrDiscardIfEmpty();
-			if (builtBuffer != null) {
-				var vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
-				vertexBuffer.bind();
-				vertexBuffer.upload(builtBuffer);
-				buffers.put(renderType, vertexBuffer);
-			}
-		}
-		VertexBuffer.unbind();
-
 		ModelBlockRenderer.clearCache();
 
+		List<ModelInfo.Buffer> buffers = new ArrayList<>();
+		EMITTER.end(buffers::add);
 		return new ModelInfo(blockEntities, buffers);
 	}
 
 	public ModelInfo getOrBuildModel(ConfiguredConstruct construct) {
-		return models.computeIfAbsent(construct, $ -> buildModel(construct));
+		return this.models.computeIfAbsent(construct, $ -> buildModel(construct));
 	}
 
 	@Override
 	public void close() {
-		models.values().forEach(ModelInfo::close);
-		models.clear();
+		this.models.values().forEach(ModelInfo::close);
+		this.models.clear();
 	}
 
-	public record ModelInfo(Set<BlockEntity> blockEntities, Reference2ReferenceMap<RenderType, VertexBuffer> buffers) implements AutoCloseable {
+	public record ModelInfo(List<BlockEntity> blockEntities, List<Buffer> buffers) implements AutoCloseable {
 		public void draw(PoseStack matrices, Runnable extraRenderState) {
-			for (var entry : buffers.reference2ReferenceEntrySet()) {
-				var renderType = entry.getKey();
-				var buffer = entry.getValue();
-				renderType.setupRenderState();
-				RenderSystem.setShaderTexture(2, FAKE_LIGHT_TEXTURE.get().getId());
+			Matrix4f matrix = matrices.last().pose();
+			this.buffers.forEach(buffer -> buffer.draw(matrix, () -> {
 				extraRenderState.run();
-				buffer.bind();
-				buffer.drawWithShader(matrices.last().pose(), RenderSystem.getProjectionMatrix(), RenderSystem.getShader());
-				renderType.clearRenderState();
-			}
-			Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
-			VertexBuffer.unbind();
+				RenderSystem.setShaderTexture(2, LIGHT_TEXTURE.get().getId());
+			}));
 		}
 
-		public void bufferBlockEntities(PoseStack matrices, MultiBufferSource.BufferSource bufferSource) {
-			var blockEntityRenderDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
-			for (var blockEntity : blockEntities) {
-				var pos = blockEntity.getBlockPos();
+		public void bufferBlockEntities(PoseStack matrices, MultiBufferSource bufferSource) {
+			BlockEntityRenderDispatcher renderDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
+			for (BlockEntity blockEntity : this.blockEntities) {
+				BlockPos pos = blockEntity.getBlockPos();
 				matrices.pushPose();
 				matrices.translate(pos.getX(), pos.getY(), pos.getZ());
-				blockEntityRenderDispatcher.renderItem(blockEntity, matrices, bufferSource, LightTexture.FULL_SKY, OverlayTexture.NO_OVERLAY);
+				renderDispatcher.renderItem(blockEntity, matrices, bufferSource, LightTexture.FULL_SKY, OverlayTexture.NO_OVERLAY);
 				matrices.popPose();
 			}
 		}
 
 		@Override
 		public void close() {
-			buffers.values().forEach(VertexBuffer::close);
-			buffers.clear();
+			this.blockEntities.clear();
+			this.buffers.forEach(Buffer::close);
+			this.buffers.clear();
+		}
+
+		public record Buffer(RenderType renderType, VertexBuffer vertexBuffer) implements AutoCloseable {
+			public void draw(Matrix4f matrix, Runnable extraRenderState) {
+				this.renderType.setupRenderState();
+				extraRenderState.run();
+				this.vertexBuffer.bind();
+				this.vertexBuffer.drawWithShader(matrix, RenderSystem.getProjectionMatrix(), RenderSystem.getShader());
+				VertexBuffer.unbind();
+				this.renderType.clearRenderState();
+			}
+
+			@Override
+			public void close() {
+				this.vertexBuffer.close();
+			}
+		}
+	}
+
+	private static final class ModelEmitter extends DelegatingVertexConsumer {
+		private final Reference2ReferenceMap<RenderType, BufferBuilder> builders = Util.make(new Reference2ReferenceOpenHashMap<>(), map -> {
+			for (RenderType renderType : RenderType.chunkBufferLayers()) {
+				map.put(renderType, new BufferBuilder(renderType.bufferSize()));
+			}
+		});
+		private final WrapperModel model = new WrapperModel();
+
+		private RenderType defaultRenderType;
+
+		private void prepare(RenderType defaultRenderType, BakedModel model) {
+			this.model.setWrappedModel(model);
+			this.defaultRenderType = defaultRenderType;
+		}
+
+		private void end(Consumer<ModelInfo.Buffer> resultConsumer) {
+			for (Map.Entry<RenderType, BufferBuilder> entry : this.builders.reference2ReferenceEntrySet()) {
+				BufferBuilder builder = entry.getValue();
+				if (builder.building()) {
+					BufferBuilder.RenderedBuffer meshData = builder.endOrDiscardIfEmpty();
+					if (meshData != null) {
+						VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+						vertexBuffer.bind();
+						vertexBuffer.upload(meshData);
+						VertexBuffer.unbind();
+						resultConsumer.accept(new ModelInfo.Buffer(entry.getKey(), vertexBuffer));
+					}
+				}
+			}
+
+			this.model.setWrappedModel(null);
+			this.defaultRenderType = null;
+			this.delegate = null;
+		}
+
+		private void prepareForMaterial(RenderMaterial material) {
+			BlendMode blendMode = material.blendMode();
+			RenderType renderType = blendMode == BlendMode.DEFAULT ? ModelEmitter.this.defaultRenderType : blendMode.blockRenderLayer;
+
+			BufferBuilder builder = ModelEmitter.this.builders.get(renderType);
+			if (!builder.building())
+				builder.begin(renderType.mode(), renderType.format());
+			this.delegate = builder;
+		}
+
+		private final class WrapperModel extends TransformingBakedModel {
+			private WrapperModel() {
+				super((quad -> {
+					ModelEmitter.this.prepareForMaterial(quad.material());
+					return true;
+				}));
+			}
+
+			private void setWrappedModel(BakedModel wrapped) {
+				this.wrapped = wrapped;
+			}
 		}
 	}
 }

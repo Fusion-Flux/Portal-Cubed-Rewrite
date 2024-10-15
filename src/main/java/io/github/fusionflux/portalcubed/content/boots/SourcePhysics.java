@@ -1,12 +1,7 @@
-package io.github.fusionflux.portalcubed.content.misc;
-
-import com.mojang.math.Axis;
-
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
-import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+package io.github.fusionflux.portalcubed.content.boots;
 
 import org.joml.Vector3f;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -16,7 +11,11 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Axis;
 
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -28,8 +27,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 /*
 Source-like physics:

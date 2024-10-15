@@ -37,16 +37,17 @@ public class MagnesiumFireModel extends ForwardingBakedModel {
 			return Collections.singleton(Direction.byName(keyValue.getKey()));
 		} else if (condition instanceof OrConditionAccessor or) {
 			return Iterables.concat(Streams.stream(or.getConditions())
-				.map(this::directionsFromCondition)
-				.collect(Collectors.toUnmodifiableSet()));
+					.map(this::directionsFromCondition)
+					.collect(Collectors.toUnmodifiableSet())
+			);
 		}
 		return Collections.singleton(Direction.DOWN);
 	}
 
 	@Override
 	public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
-		var testPos = new BlockPos.MutableBlockPos();
-		for (var dir : directions) {
+		BlockPos.MutableBlockPos testPos = new BlockPos.MutableBlockPos();
+		for (Direction dir : directions) {
 			testPos.set(pos).move(dir);
 			if (blockView.getBlockState(testPos).is(PortalCubedBlockTags.MAGNESIUM_FIRE_BASE_BLOCKS)) {
 				magnesiumVariant.emitBlockQuads(blockView, state, pos, randomSupplier, context);

@@ -5,7 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
-
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -18,6 +17,7 @@ public class MultiplyParticleRenderType implements ParticleRenderType {
 
 	public static final String NAME = PortalCubed.id("multiply").toString();
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
 		RenderSystem.enableBlend();
@@ -28,8 +28,8 @@ public class MultiplyParticleRenderType implements ParticleRenderType {
 	}
 
 	@Override
-	public void end(Tesselator tessellator) {
-		tessellator.end();
+	public void end(Tesselator tesselator) {
+		tesselator.end();
 		// Without this fluid overlays (lava fire and water screen overlay) break while holding a block item
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.depthMask(true);

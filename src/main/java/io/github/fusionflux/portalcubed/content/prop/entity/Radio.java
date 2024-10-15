@@ -57,7 +57,7 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		var trackId = ResourceLocation.tryParse(tag.getString("radio_track"));
+		ResourceLocation trackId = ResourceLocation.tryParse(tag.getString("radio_track"));
 		if (trackId == null) trackId = PortalCubedSounds.RADIO_SONG.getLocation();
 		if (trackId.equals(entityData.get(TRACK).getLocation())) return;
 		entityData.set(TRACK, SoundEvent.createVariableRangeEvent(trackId));

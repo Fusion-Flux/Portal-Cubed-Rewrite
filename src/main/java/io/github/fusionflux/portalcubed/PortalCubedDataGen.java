@@ -23,7 +23,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 public class PortalCubedDataGen implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator generator) {
-		var pack = generator.createPack();
+		FabricDataGenerator.Pack pack = generator.createPack();
 //		pack.addProvider(FloorButtonBlockStates::new);
 //		pack.addProvider(PedestalButtonBlockStates::new);
 	}

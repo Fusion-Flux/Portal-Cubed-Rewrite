@@ -1,27 +1,20 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-
-import org.joml.Quaternionf;
-
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
-import net.minecraft.core.FrontAndTop;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 public class PortalRenderer {
 	private static void render(WorldRenderContext context) {
