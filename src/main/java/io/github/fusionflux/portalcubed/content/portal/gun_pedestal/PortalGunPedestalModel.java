@@ -1,14 +1,9 @@
-package io.github.fusionflux.portalcubed.data.models;
-// Made with Blockbench 4.10.4
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
+package io.github.fusionflux.portalcubed.content.portal.gun_pedestal;
 
+import org.jetbrains.annotations.NotNull;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import net.minecraft.client.model.EntityModel;
+import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.framework.model.BlockEntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -17,42 +12,21 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 
-public class PortalGunPedestalEntityModel<T extends Entity> extends EntityModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("portalcubed", "portal_gun_pedestal"), "main");
-	private final ModelPart platform;
-	private final ModelPart lower_piston;
-	private final ModelPart upper_piston;
-	private final ModelPart pivot;
-	private final ModelPart locking_bars;
-	private final ModelPart south_hatch;
-	private final ModelPart s_segment_1;
-	private final ModelPart s_segment_2;
-	private final ModelPart s_segment_3;
-	private final ModelPart north_hatch;
-	private final ModelPart n_segment_1;
-	private final ModelPart n_segment_2;
-	private final ModelPart n_segment_3;
+public class PortalGunPedestalModel extends BlockEntityModel<PortalGunPedestalBlockEntity> {
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(PortalCubed.id("portal_gun_pedestal"), "main");
 
-	public PortalGunPedestalEntityModel(ModelPart root) {
-		this.platform = root.getChild("platform");
-		this.lower_piston = root.getChild("lower_piston");
-		this.upper_piston = root.getChild("upper_piston");
-		this.pivot = root.getChild("pivot");
-		this.locking_bars = root.getChild("locking_bars");
-		this.south_hatch = root.getChild("south_hatch");
-		this.s_segment_1 = root.getChild("s_segment_1");
-		this.s_segment_2 = root.getChild("s_segment_2");
-		this.s_segment_3 = root.getChild("s_segment_3");
-		this.north_hatch = root.getChild("north_hatch");
-		this.n_segment_1 = root.getChild("n_segment_1");
-		this.n_segment_2 = root.getChild("n_segment_2");
-		this.n_segment_3 = root.getChild("n_segment_3");
+	private final ModelPart root;
+
+	public PortalGunPedestalModel(ModelPart root) {
+		this.root = root;
 	}
 
+	/**
+	 * Made with Blockbench 4.10.4
+	 * Exported for Minecraft version 1.19 or later with Mojang mappings
+	 * @author Carter
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
@@ -108,14 +82,19 @@ public class PortalGunPedestalEntityModel<T extends Entity> extends EntityModel<
 	}
 
 	@Override
-	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+	@NotNull
+	public ModelPart root() {
+		return this.root;
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		platform.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		south_hatch.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		north_hatch.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void setup(PortalGunPedestalBlockEntity entity, float tickDelta) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+
+		float animationProgress = entity.tickCount + tickDelta;
+		this.animate(entity.retractAnimationState, PortalGunPedestalAnimations.retract, animationProgress);
+		this.animate(entity.extendAnimationState, PortalGunPedestalAnimations.extend, animationProgress);
+		this.animate(entity.unlockAnimationState, PortalGunPedestalAnimations.unlock, animationProgress);
+		this.animate(entity.lockAnimationState, PortalGunPedestalAnimations.lock, animationProgress);
 	}
 }

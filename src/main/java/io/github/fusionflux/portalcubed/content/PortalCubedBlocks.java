@@ -1,26 +1,40 @@
 package io.github.fusionflux.portalcubed.content;
 
+import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
+
+import java.util.EnumMap;
+import java.util.Map;
+
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
+
 import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
-
 import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.button.CubeButtonBlock;
+import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
+import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
+import io.github.fusionflux.portalcubed.content.decoration.CrossbarBlock;
+import io.github.fusionflux.portalcubed.content.decoration.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
-import io.github.fusionflux.portalcubed.content.misc.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
-import io.github.fusionflux.portalcubed.content.misc.CrossbarBlock;
+import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalArmBlock;
+import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalBlock;
 import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
-import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
+import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
+import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
+import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
+import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -51,20 +65,6 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
-import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
-
-import io.github.fusionflux.portalcubed.content.button.CubeButtonBlock;
-import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
-import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
-import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
-import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
-import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 public class PortalCubedBlocks {
 	// ----- magnesium -----
@@ -109,6 +109,16 @@ public class PortalCubedBlocks {
 	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("old_ap_pedestal_button", PedestalButtonBlock::oldAp, Blocks.STONE)
 			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
+			.build();
+	// ----- portal gun pedestal -----
+	public static final PortalGunPedestalBlock PORTAL_GUN_PEDESTAL = REGISTRAR.blocks.createFrom("portal_gun_pedestal", PortalGunPedestalBlock::new, Blocks.STONE)
+			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_WHITE))
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final PortalGunPedestalArmBlock PORTAL_GUN_PEDESTAL_ARM = REGISTRAR.blocks.createFrom("portal_gun_pedestal_arm", PortalGunPedestalArmBlock::new, Blocks.STONE)
+			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_WHITE))
+			.renderType(RenderTypes.CUTOUT)
+			.item(BlockItemProvider::noItem)
 			.build();
 	// ----- panels -----
 	public static final Map<PanelMaterial, Map<PanelPart, Block>> PANELS = Util.make(

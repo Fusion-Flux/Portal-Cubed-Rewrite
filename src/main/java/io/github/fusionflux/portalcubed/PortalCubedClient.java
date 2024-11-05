@@ -18,6 +18,7 @@ import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalModel;
 import io.github.fusionflux.portalcubed.content.prop.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
@@ -25,6 +26,7 @@ import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -46,6 +48,7 @@ public class PortalCubedClient implements ClientModInitializer {
 		ItemProperties.register(PortalCubedItems.LEMONADE, PortalCubed.id("armed"), (stack, level, entity, i) -> LemonadeItem.isArmed(stack) ? 1 : 0);
 
 		LongFallBootsModel.init();
+		EntityModelLayerRegistry.registerModelLayer(PortalGunPedestalModel.LAYER_LOCATION, PortalGunPedestalModel::createBodyLayer);
 		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT.location(), false);
 		PropModelCache.register();
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
