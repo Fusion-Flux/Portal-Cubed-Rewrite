@@ -189,6 +189,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_FACADE);
 
 			output.accept(PortalCubedBlocks.GRAY_CHAMBER_EXTERIOR);
+			output.accept(PortalCubedBlocks.GRAY_CHAMBER_EXTERIOR_FACADE);
 			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_A_BOTTOM_LEFT);
 			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_A_BOTTOM_RIGHT);
 			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_A_TOP_LEFT);
@@ -199,6 +200,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_B_TOP_RIGHT);
 
 			output.accept(PortalCubedBlocks.YELLOW_CHAMBER_EXTERIOR);
+			output.accept(PortalCubedBlocks.YELLOW_CHAMBER_EXTERIOR_FACADE);
 			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_A_BOTTOM_LEFT);
 			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_A_BOTTOM_RIGHT);
 			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_A_TOP_LEFT);

@@ -1,0 +1,24 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portalcubed:gray_chamber_exterior_crafting",
+      "portalcubed:gray_chamber_exterior_facade_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"minecraft:gray_concrete",
+		"minecraft:cyan_terracotta"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

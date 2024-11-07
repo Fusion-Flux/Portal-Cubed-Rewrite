@@ -768,6 +768,9 @@ public class PortalCubedBlocks {
 	public static final Block GRAY_CHAMBER_EXTERIOR = REGISTRAR.blocks.create("gray_chamber_exterior", Block::new)
 			.copyFrom(Blocks.GRAY_CONCRETE)
 			.build();
+	public static final NoCollisionMultifaceBlock GRAY_CHAMBER_EXTERIOR_FACADE = REGISTRAR.blocks.create("gray_chamber_exterior_facade", NoCollisionMultifaceBlock::new)
+			.copyFrom(Blocks.GRAY_CONCRETE)
+			.build();
 	public static final GlazedTerracottaBlock GRAY_2x2_CHAMBER_EXTERIOR_A_TOP_LEFT = REGISTRAR.blocks.create("gray_2x2_chamber_exterior_a_top_left", GlazedTerracottaBlock::new)
 			.copyFrom(Blocks.GRAY_CONCRETE)
 			.build();
@@ -793,6 +796,9 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.GRAY_CONCRETE)
 			.build();
 	public static final Block YELLOW_CHAMBER_EXTERIOR = REGISTRAR.blocks.create("yellow_chamber_exterior", Block::new)
+			.copyFrom(Blocks.YELLOW_TERRACOTTA)
+			.build();
+	public static final NoCollisionMultifaceBlock YELLOW_CHAMBER_EXTERIOR_FACADE = REGISTRAR.blocks.create("yellow_chamber_exterior_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.YELLOW_TERRACOTTA)
 			.build();
 	public static final GlazedTerracottaBlock YELLOW_2x2_CHAMBER_EXTERIOR_A_TOP_LEFT = REGISTRAR.blocks.create("yellow_2x2_chamber_exterior_a_top_left", GlazedTerracottaBlock::new)
