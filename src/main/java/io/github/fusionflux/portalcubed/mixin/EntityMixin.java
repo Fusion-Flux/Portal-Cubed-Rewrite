@@ -3,6 +3,10 @@ package io.github.fusionflux.portalcubed.mixin;
 import java.util.Collection;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
+
+import io.github.fusionflux.portalcubed.content.portal.TeleportStep;
+import io.github.fusionflux.portalcubed.framework.util.RangeSequence;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -121,6 +125,8 @@ public abstract class EntityMixin implements EntityExt {
 	private int disintegrateTicks;
 	@Unique
 	private int portalCollisionRecursionDepth;
+	@Unique
+	private RangeSequence<TeleportStep> portalTeleport;
 
 	@WrapOperation(
 			method = "move",
@@ -154,6 +160,16 @@ public abstract class EntityMixin implements EntityExt {
 	@Override
 	public void pc$setPortalCollisionRecursionDepth(int depth) {
 		this.portalCollisionRecursionDepth = depth;
+	}
+
+	@Override
+	public RangeSequence<TeleportStep> getPortalTeleport() {
+		return this.portalTeleport;
+	}
+
+	@Override
+	public void setPortalTeleport(RangeSequence<TeleportStep> portalTeleport) {
+		this.portalTeleport = portalTeleport;
 	}
 
 	@Override
@@ -256,6 +272,13 @@ public abstract class EntityMixin implements EntityExt {
 			original.call(this);
 		} else {
 			this.pc$disintegrateTick();
+		}
+	}
+
+	@Inject(method = "tick", at = @At("HEAD"))
+	private void clearTeleport(CallbackInfo ci) {
+		if (this.level().isClientSide && this.getPortalTeleport() != null) {
+			this.setPortalTeleport(null);
 		}
 	}
 

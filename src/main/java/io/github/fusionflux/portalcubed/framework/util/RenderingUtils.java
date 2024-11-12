@@ -78,6 +78,11 @@ public class RenderingUtils {
 		matrices.popPose();
 	}
 
+	public static void renderBoxAround(PoseStack matrices, MultiBufferSource vertexConsumers, Vec3 pos, double radius, Color color) {
+		AABB box = AABB.ofSize(pos, radius, radius, radius);
+		renderBox(matrices, vertexConsumers, box, color);
+	}
+
 	public static void renderQuad(PoseStack matrices, MultiBufferSource vertexConsumers, Quad quad, Color color) {
 		renderTri(matrices, vertexConsumers, quad.a(), color);
 		renderTri(matrices, vertexConsumers, quad.b(), color);

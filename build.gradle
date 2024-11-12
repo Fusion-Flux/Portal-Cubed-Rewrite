@@ -26,6 +26,8 @@ dependencies {
 	// dependencies
 	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:$qfapi_version")
 	modImplementation("com.terraformersmc.terraform-api:terraform-wood-api-v1:$terraform_wood_api_version")
+	implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version"))
+	include("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version:slim")
 	modImplementation("maven.modrinth:sodium:mc$minecraft_version-$sodium_version")
 	modLocalRuntime("maven.modrinth:indium:$indium_version")
 

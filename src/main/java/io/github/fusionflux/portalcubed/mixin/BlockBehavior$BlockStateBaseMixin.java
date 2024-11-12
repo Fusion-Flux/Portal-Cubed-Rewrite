@@ -15,6 +15,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionPatch;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -48,6 +49,8 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 			return shape;
 
 		Entity entity = entityCtx.getEntity();
+		if (PortalTeleportHandler.isTeleportBlocked(entity))
+			return shape;
 
 		Collection<CollisionPatch> patches = level.portalManager().activePortals().collisionManager().getPatches(pos);
 		if (patches.isEmpty())

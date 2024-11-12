@@ -27,7 +27,7 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 							  Vec3 inHit, Vec3 outHit,
 							  @Nullable PortalHitResult next) {
 
-	public static final PortalHitResult OVERFLOW_MARKER = new PortalHitResult(null, null, null, null, null, null, null, null);
+	public static final PortalHitResult OVERFLOW_MARKER = new PortalHitResult(null, Vec3.ZERO, null, null, null, null, null, null);
 
 	public PortalHitResult(Vec3 start, @Nullable Vec3 end,
 						   PortalInstance in, PortalInstance out, PortalPair pair,
@@ -43,9 +43,9 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 		this.next = next;
 
 		// both null or both non-null
-//		if ((end == null) == (next == null)) {
-//			throw new IllegalArgumentException();
-//		}
+		if ((end == null) == (next == null)) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	public boolean hasNext() {
@@ -55,6 +55,10 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 	@Override
 	public PortalHitResult next() {
 		return Objects.requireNonNull(this.next);
+	}
+
+	public PortalHitResult nextOrNull() {
+		return this.next;
 	}
 
 	public boolean isEnd() {
@@ -78,6 +82,8 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 		return 1 + (this.hasNext() ? this.next.depth() : 0);
 	}
 
+	// TODO: these should go from in to the final out portal
+
 	public Vec3 teleportAbsoluteVec(Vec3 pos) {
 		return PortalTeleportHandler.teleportAbsoluteVecBetween(pos, in, out);
 	}
@@ -86,7 +92,11 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 		return PortalTeleportHandler.teleportRelativeVecBetween(vec, in, out);
 	}
 
-	public Rotations teleportRotations(float xRot, float yRot) {
-		return PortalTeleportHandler.teleportRotations(xRot, yRot, in, out);
+	public Rotations teleportRotations(Rotations rotations) {
+		return this.teleportRotations(rotations.getX(), rotations.getY(), rotations.getZ());
+	}
+
+	public Rotations teleportRotations(float xRot, float yRot, float zRot) {
+		return PortalTeleportHandler.teleportRotations(xRot, yRot, zRot, this.in, this.out);
 	}
 }

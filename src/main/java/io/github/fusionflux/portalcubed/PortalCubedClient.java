@@ -20,6 +20,7 @@ import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
+import io.github.fusionflux.portalcubed.framework.entity.EntityDebugRendering;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
@@ -34,6 +35,7 @@ public class PortalCubedClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient(ModContainer mod) {
 		PortalRenderer.init();
+		EntityDebugRendering.init();
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
 

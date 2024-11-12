@@ -19,11 +19,11 @@ import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
-import io.github.fusionflux.portalcubed.packet.clientbound.PlainTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
@@ -38,7 +38,7 @@ import net.minecraft.server.level.ServerPlayer;
 public class PortalCubedPackets {
 	// clientbound
 	public static final ResourceLocation UPDATE_PORTAL_PAIR = clientbound("update_portal_pair", UpdatePortalPairPacket::new);
-	public static final ResourceLocation PLAIN_TELEPORT = clientbound("plain_teleport", PlainTeleportPacket::new);
+	public static final ResourceLocation PORTAL_TELEPORT = clientbound("portal_teleport", PortalTeleportPacket::new);
 	public static final ResourceLocation OPEN_PEDESTAL_BUTTON_CONFIG = clientbound("open_pedestal_button_config", OpenPedestalButtonConfigPacket::new);
 	public static final ResourceLocation SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket::new);
 	public static final ResourceLocation SYNC_SIGNAGE = clientbound("sync_signage", SignageSyncPacket::new);

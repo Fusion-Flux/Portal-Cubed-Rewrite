@@ -3,6 +3,8 @@ package io.github.fusionflux.portalcubed.framework.extension;
 import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.portal.TeleportStep;
+import io.github.fusionflux.portalcubed.framework.util.RangeSequence;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.fabricmc.fabric.api.event.Event;
@@ -12,6 +14,9 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -73,6 +78,16 @@ public interface EntityExt {
 	}
 
 	default void pc$setPortalCollisionRecursionDepth(int depth) {
+		throw new AbstractMethodError();
+	}
+
+	// no prefix needed, unique descriptors
+
+	default RangeSequence<TeleportStep> getPortalTeleport() {
+		throw new AbstractMethodError();
+	}
+
+	default void setPortalTeleport(@Nullable RangeSequence<TeleportStep> steps) {
 		throw new AbstractMethodError();
 	}
 }
