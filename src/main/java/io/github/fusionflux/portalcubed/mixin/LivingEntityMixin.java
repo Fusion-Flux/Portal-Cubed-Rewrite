@@ -60,6 +60,12 @@ public abstract class LivingEntityMixin extends Entity {
 	@Unique
 	private boolean lemonadeArmingFinished;
 
+	@Inject(method = "dismountVehicle", at = @At("TAIL"))
+	private void onDismount(CallbackInfo ci) {
+		// calls teleportTo, which sets non-local to true
+		this.pc$setNextTeleportNonLocal(false);
+	}
+
 	@Inject(
 			method = "causeFallDamage",
 			at = @At(

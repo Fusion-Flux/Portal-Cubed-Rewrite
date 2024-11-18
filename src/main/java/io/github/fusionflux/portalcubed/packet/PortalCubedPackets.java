@@ -16,6 +16,7 @@ import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.framework.signage.SignageSyncPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.LocalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
@@ -24,6 +25,7 @@ import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacke
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
@@ -31,6 +33,7 @@ import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DropPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.GrabPacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
 import net.fabricmc.api.EnvType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -39,6 +42,7 @@ public class PortalCubedPackets {
 	// clientbound
 	public static final ResourceLocation UPDATE_PORTAL_PAIR = clientbound("update_portal_pair", UpdatePortalPairPacket::new);
 	public static final ResourceLocation PORTAL_TELEPORT = clientbound("portal_teleport", PortalTeleportPacket::new);
+	public static final ResourceLocation LOCAL_TELEPORT = clientbound("local_teleport", LocalTeleportPacket::new);
 	public static final ResourceLocation OPEN_PEDESTAL_BUTTON_CONFIG = clientbound("open_pedestal_button_config", OpenPedestalButtonConfigPacket::new);
 	public static final ResourceLocation SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket::new);
 	public static final ResourceLocation SYNC_SIGNAGE = clientbound("sync_signage", SignageSyncPacket::new);
@@ -59,6 +63,8 @@ public class PortalCubedPackets {
 	public static final ResourceLocation GRAB = serverbound("grab", GrabPacket::new);
 	public static final ResourceLocation DROP = serverbound("drop", DropPacket::new);
 	public static final ResourceLocation CROWBAR_SWING = serverbound("crowbar_swing", CrowbarSwingPacket::new);
+	public static final ResourceLocation REQUEST_ENTITY_SYNC = serverbound("request_entity_sync", RequestEntitySyncPacket::new);
+	public static final ResourceLocation CLIENT_TELEPORTED = serverbound("client_teleported", ClientTeleportedPacket::new);
 
 	public static void init() {
 	}

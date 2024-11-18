@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.TeleportStep;
-import io.github.fusionflux.portalcubed.framework.util.RangeSequence;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportInfo;
+import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.player.LocalPlayer;
@@ -11,25 +11,19 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
-/**
- * Sent when an entity teleports on the server.
- * A teleport occurs in a single tick. An entity may pass through multiple portals in 1 tick.
- * When a PortalTeleportPacket is sent, all entity syncing that is normally done by ServerEntity is replaced or replicated.
- */
-public record PortalTeleportPacket(int entityId, RangeSequence<TeleportStep> steps) implements ClientboundPacket {
+public record PortalTeleportPacket(int entityId, PortalTeleportInfo info) implements ClientboundPacket {
 	public PortalTeleportPacket(FriendlyByteBuf buf) {
-		this(buf.readVarInt(), RangeSequence.fromNetwork(buf, TeleportStep::fromNetwork));
+		this(buf.readVarInt(), PortalTeleportInfo.fromNetwork(buf));
 	}
 
 	@Override
 	public void write(FriendlyByteBuf buf) {
 		buf.writeVarInt(this.entityId);
-		this.steps.toNetwork(buf, TeleportStep::toNetwork);
+		this.info.toNetwork(buf);
 	}
 
 	@Override
@@ -44,25 +38,31 @@ public record PortalTeleportPacket(int entityId, RangeSequence<TeleportStep> ste
 		if (entity == null) {
 			PortalCubed.LOGGER.warn("Received portal teleport for unknown entity: {}", this.entityId);
 			return;
+		} else if (this.isInfoInvalid(player.clientLevel.portalManager())) {
+			PortalCubed.LOGGER.warn("Received portal teleport containing unknown portals");
+			return;
 		}
 
-		entity.setPortalTeleport(this.steps);
+		int timeoutAge = entity.tickCount + TeleportProgressTracker.TIMEOUT_TICKS;
+		TeleportProgressTracker tracker = entity.getTeleportProgressTracker();
+		if (tracker != null) {
+			tracker.append(this.info, timeoutAge);
+		} else {
+			entity.setTeleportProgressTracker(new TeleportProgressTracker(timeoutAge, this.info));
+		}
+		System.out.println("tracking start");
+	}
 
-		TeleportStep first = this.steps.get(0);
-		Vec3 centerToPos = PortalTeleportHandler.getCenterToPosOffset(entity);
-		Vec3 from = first.from().add(centerToPos);
-		entity.xOld = entity.xo = from.x;
-		entity.yOld = entity.yo = from.y;
-		entity.zOld = entity.zo = from.z;
-		entity.xRotO = first.rotations().getX();
-		entity.yRotO = first.rotations().getY();
+	private boolean isInfoInvalid(PortalManager manager) {
+		PortalTeleportInfo info = this.info;
+		while (info != null) {
+			if (manager.getPair(info.pairId()) == null) {
+				return true;
+			}
 
-		TeleportStep last = this.steps.get(1);
-		Vec3 to = last.to().add(centerToPos);
-		entity.setPos(to);
-		entity.getPositionCodec().setBase(to);
-		entity.setXRot(last.rotations().getX());
-		entity.setYRot(last.rotations().getY());
-		entity.setDeltaMovement(last.vel());
+			info = info.next();
+		}
+
+		return false;
 	}
 }

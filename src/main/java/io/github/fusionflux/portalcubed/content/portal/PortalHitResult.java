@@ -1,10 +1,11 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Iterator;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -23,14 +24,14 @@ import org.jetbrains.annotations.Nullable;
  * @param next   The next hit result in the chain. Null when end is non-null.
  */
 public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
-							  PortalInstance in, PortalInstance out, PortalPair pair,
+							  PortalInstance in, PortalInstance out, PortalPair pair, UUID pairId,
 							  Vec3 inHit, Vec3 outHit,
 							  @Nullable PortalHitResult next) {
 
-	public static final PortalHitResult OVERFLOW_MARKER = new PortalHitResult(null, Vec3.ZERO, null, null, null, null, null, null);
+	public static final PortalHitResult OVERFLOW_MARKER = new PortalHitResult(null, Vec3.ZERO, null, null, null, null, null, null, null);
 
 	public PortalHitResult(Vec3 start, @Nullable Vec3 end,
-						   PortalInstance in, PortalInstance out, PortalPair pair,
+						   PortalInstance in, PortalInstance out, PortalPair pair, UUID pairId,
 						   Vec3 inHit, Vec3 outHit,
 						   @Nullable PortalHitResult next) {
 		this.start = start;
@@ -40,6 +41,7 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 		this.in = in;
 		this.out = out;
 		this.pair = pair;
+		this.pairId = pairId;
 		this.next = next;
 
 		// both null or both non-null
@@ -98,5 +100,12 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 
 	public Rotations teleportRotations(float xRot, float yRot, float zRot) {
 		return PortalTeleportHandler.teleportRotations(xRot, yRot, zRot, this.in, this.out);
+	}
+
+	/**
+	 * Returns wrapped degrees
+	 */
+	public float teleportRotation(float degrees, Direction.Axis axis) {
+		return PortalTeleportHandler.teleportRotation(degrees, axis, this.in, this.out);
 	}
 }

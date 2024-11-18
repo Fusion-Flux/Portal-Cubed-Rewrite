@@ -11,6 +11,7 @@ import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class VoxelShenanigans {
+	public static final int OBB_APPROXIMATION_RESOLUTION = 32;
 	/**
 	 * The number of bits required to store {@link VoxelShenanigans#RESOLUTION}
 	 */
@@ -108,15 +109,16 @@ public class VoxelShenanigans {
 	}
 
 	private static VoxelShape approximateObb(OBB obb, BlockPos pos) {
-		final int resolution = 32;
-		final float step = 1f / resolution;
+		final float step = 1f / OBB_APPROXIMATION_RESOLUTION;
 		final float toCenter = step / 2;
 
-		BitSetDiscreteVoxelShape shape = new BitSetDiscreteVoxelShape(resolution, resolution, resolution);
+		BitSetDiscreteVoxelShape shape = new BitSetDiscreteVoxelShape(
+				OBB_APPROXIMATION_RESOLUTION, OBB_APPROXIMATION_RESOLUTION, OBB_APPROXIMATION_RESOLUTION
+		);
 
-		for (int x = 0; x < resolution; x++) {
-			for (int y = 0; y < resolution; y++) {
-				for (int z = 0; z < resolution; z++) {
+		for (int x = 0; x < OBB_APPROXIMATION_RESOLUTION; x++) {
+			for (int y = 0; y < OBB_APPROXIMATION_RESOLUTION; y++) {
+				for (int z = 0; z < OBB_APPROXIMATION_RESOLUTION; z++) {
 					double posX = pos.getX() + (x * step) + toCenter;
 					double posY = pos.getY() + (y * step) + toCenter;
 					double posZ = pos.getZ() + (z * step) + toCenter;

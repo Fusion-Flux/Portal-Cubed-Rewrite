@@ -4,9 +4,11 @@ import java.util.Collection;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 
-import io.github.fusionflux.portalcubed.content.portal.TeleportStep;
-import io.github.fusionflux.portalcubed.framework.util.RangeSequence;
+import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
 
+import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
+
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -117,6 +119,12 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract Vec3 position();
 
+	@Shadow
+	public int tickCount;
+
+	@Shadow
+	public abstract int getId();
+
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
@@ -126,10 +134,12 @@ public abstract class EntityMixin implements EntityExt {
 	@Unique
 	private int portalCollisionRecursionDepth;
 	@Unique
-	private RangeSequence<TeleportStep> portalTeleport;
+	private TeleportProgressTracker teleportProgressTracker;
+	@Unique
+	private boolean isNextTeleportNonLocal;
 
 	@WrapOperation(
-			method = "move",
+			method = {"move", "lerpPositionAndRotationStep"},
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V"
@@ -163,13 +173,23 @@ public abstract class EntityMixin implements EntityExt {
 	}
 
 	@Override
-	public RangeSequence<TeleportStep> getPortalTeleport() {
-		return this.portalTeleport;
+	public void pc$setNextTeleportNonLocal(boolean value) {
+		this.isNextTeleportNonLocal = value;
 	}
 
 	@Override
-	public void setPortalTeleport(RangeSequence<TeleportStep> portalTeleport) {
-		this.portalTeleport = portalTeleport;
+	public boolean pc$isNextTeleportNonLocal() {
+		return this.isNextTeleportNonLocal;
+	}
+
+	@Override
+	public TeleportProgressTracker getTeleportProgressTracker() {
+		return this.teleportProgressTracker;
+	}
+
+	@Override
+	public void setTeleportProgressTracker(@Nullable TeleportProgressTracker tracker) {
+		this.teleportProgressTracker = tracker;
 	}
 
 	@Override
@@ -276,10 +296,28 @@ public abstract class EntityMixin implements EntityExt {
 	}
 
 	@Inject(method = "tick", at = @At("HEAD"))
-	private void clearTeleport(CallbackInfo ci) {
-		if (this.level().isClientSide && this.getPortalTeleport() != null) {
-			this.setPortalTeleport(null);
+	private void tickTeleportTracker(CallbackInfo ci) {
+		TeleportProgressTracker tracker = this.getTeleportProgressTracker();
+		if (tracker != null && tracker.hasTimedOut(this.tickCount)) {
+			this.setTeleportProgressTracker(null);
+			// timeout. something has gone wrong, request a refresh from server
+			PortalCubedPackets.sendToServer(new RequestEntitySyncPacket(this.getId()));
 		}
+	}
+
+	@WrapOperation(
+			method = {
+					"teleportTo(DDD)V",
+					"teleportTo(Lnet/minecraft/server/level/ServerLevel;DDDLjava/util/Set;FF)Z"
+			},
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/Entity;teleportPassengers()V"
+			)
+	)
+	private void onTeleport(Entity instance, Operation<Void> original) {
+		original.call(instance);
+		this.pc$setNextTeleportNonLocal(true);
 	}
 
 	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))

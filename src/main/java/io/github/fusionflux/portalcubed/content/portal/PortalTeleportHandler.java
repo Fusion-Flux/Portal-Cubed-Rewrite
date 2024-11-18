@@ -1,6 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import io.github.fusionflux.portalcubed.framework.util.RangeSequence;
+import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
+
+import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
 
 import org.joml.Quaternionf;
 
@@ -8,22 +14,27 @@ import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
+import org.quiltmc.qsl.networking.api.PlayerLookup;
+
 public class PortalTeleportHandler {
-	public static final double MIN_OUTPUT_VELOCITY = 0.25;
+	public static final double MIN_OUTPUT_VELOCITY = 0.5;
 
 	/**
 	 * Called by mixins when an entity moves relatively.
 	 * Responsible for finding and teleporting through portals.
 	 */
 	public static boolean handle(Entity entity, double x, double y, double z) {
-		if (isTeleportBlocked(entity))
+		if (isTeleportBlocked(entity) || entity instanceof ServerPlayer)
 			return false;
 
 		Vec3 oldPos = entity.position();
@@ -46,51 +57,81 @@ public class PortalTeleportHandler {
 		// teleport
 		System.out.println("teleporting " + entity + " on " + (entity.level().isClientSide ? "client" : "server"));
 		Vec3 finalCenter = result.findEnd();
-		Vec3 finalPos = finalCenter.add(centerToPos);
+		Vec3 finalPos = finalCenter.add(centerToPos)
+				.add(0, 1e-5, 0);
 		entity.setPos(finalPos);
-		// rotate
-		Rotations rotations = new Rotations(entity.getXRot(), entity.getYRot(), 0);
-		Rotations newRotations = result.teleportRotations(rotations);
-		entity.setXRot(newRotations.getX());
-		entity.setYRot(newRotations.getY());
-
-		// entities will lerp to their new position normally. With portals, this results in them being sent flying to the other portal.
-		// to avoid this, the old pos and rot need to be transformed as well to appear as if the entity has not been teleported.
-		Vec3 oldPosTeleported = result.teleportAbsoluteVec(oldPos);
+		// old pos
+		Vec3 oldPosTeleported = result.teleportAbsoluteVec(oldCenter).add(centerToPos);
 		// why are there two sets of fields that do exactly the same thing
 		entity.xOld = entity.xo = oldPosTeleported.x;
 		entity.yOld = entity.yo = oldPosTeleported.y;
 		entity.zOld = entity.zo = oldPosTeleported.z;
-		Rotations rotationsO = result.teleportRotations(entity.xRotO, entity.yRotO, 0);
-		entity.xRotO = rotationsO.getX();
-		entity.yRotO = rotationsO.getY();
 
-		Vec3 initialVel = entity.getDeltaMovement();
+		// rotate
+		// head and body first
+		if (entity instanceof LivingEntity living) {
+//			living.setYHeadRot(result.teleportRotation(living.yHeadRot, Direction.Axis.Y));
+//			living.yHeadRotO = result.teleportRotation(living.yHeadRotO, Direction.Axis.Y);
+//			living.setYBodyRot(result.teleportRotation(living.yBodyRot, Direction.Axis.Y));
+//			living.yBodyRotO = result.teleportRotation(living.yBodyRotO, Direction.Axis.Y);
+		}
+
+		Rotations newRotations = result.teleportRotations(entity.getXRot(), entity.getYRot(), 0);
+		entity.setXRot(newRotations.getWrappedX());
+		entity.setYRot(newRotations.getWrappedY());
+
+		Rotations rotationsO = result.teleportRotations(entity.xRotO, entity.yRotO, 0);
+		entity.xRotO = rotationsO.getWrappedX();
+		entity.yRotO = rotationsO.getWrappedY();
+
+		// teleport the current lerp target
+		Vec3 oldTarget = new Vec3(entity.lerpTargetX(), entity.lerpTargetY(), entity.lerpTargetZ());
+		if (!oldTarget.equals(oldPos)) {
+			Vec3 oldTargetCentered = oldTarget.add(posToCenter);
+			Rotations oldLerpRotations = new Rotations(entity.lerpTargetXRot(), entity.lerpTargetYRot(), 0);
+			Vec3 newTargetCentered = result.teleportAbsoluteVec(oldTargetCentered);
+			Vec3 newTarget = newTargetCentered.subtract(posToCenter);
+			Rotations newLerpRotations = result.teleportRotations(oldLerpRotations);
+			int lerpSteps = LerpableEntity.getLerpSteps(entity);
+			entity.lerpTo(newTarget.x, newTarget.y, newTarget.z, newLerpRotations.getWrappedY(), newLerpRotations.getWrappedX(), 0);
+			LerpableEntity.setLerpSteps(entity, lerpSteps);
+		}
+
+		// reorient velocity
 		Vec3 newVel = reorientVelocity(entity, result, wasGrounded);
 		entity.setDeltaMovement(newVel);
+		entity.hasImpulse = true;
 
 		// tp command does this
 		if (entity instanceof PathfinderMob pathfinderMob) {
 			pathfinderMob.getNavigation().stop();
 		}
 
-		// sync to clients
-		double distance = oldPos.distanceTo(newPos);
+		// syncing stuff
+		if (entity instanceof Player player && player.isLocalPlayer()) {
+			// players are handled specially. All the logic is client side and the server is notified.
+			// server does some verification and tells the client if the teleport was invalid.
+			PortalTeleportInfo info = buildTeleportInfo(result);
+			ClientTeleportedPacket packet = new ClientTeleportedPacket(info, entity.position(), entity.getXRot(), entity.getYRot());
+			PortalCubedPackets.sendToServer(packet);
+			return true;
+		}
 
-		RangeSequence<TeleportStep> steps = buildTeleportSteps(result, distance, initialVel, newVel, rotations);
-		// store the steps on the entity for ServerEntityMixin.
-		// this being non-null causes it to be synced.
-		entity.setPortalTeleport(steps);
+		if (entity.level().isClientSide) {
+			// update tracker if present
+			updateProgressTracker(entity, result);
+		} else {
+			// sync to clients
+			PortalTeleportInfo info = buildTeleportInfo(result);
+			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), info);
+			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);
+		}
 
 		return true;
 	}
 
-	private static Vec3 centerOf(Entity entity) {
+	public static Vec3 centerOf(Entity entity) {
 		return entity.getBoundingBox().getCenter();
-	}
-
-	public static Vec3 getCenterToPosOffset(Entity entity) {
-		return centerOf(entity).vectorTo(entity.position());
 	}
 
 	private static boolean theHorrors(PortalHitResult result) {
@@ -111,54 +152,40 @@ public class PortalTeleportHandler {
 		Vec3 vel = entity.getDeltaMovement();
 		Vec3 newVel = result.teleportRelativeVec(vel);
 		// have a minimum exit velocity, for fun
-		// only apply when falling
-		if (!wasGrounded && vel.y < 0 && newVel.length() < MIN_OUTPUT_VELOCITY) {
+		// only apply when new vel is facing upwards
+		if (!wasGrounded && newVel.y > 0 && newVel.length() < MIN_OUTPUT_VELOCITY) {
 			newVel = newVel.normalize().scale(MIN_OUTPUT_VELOCITY);
 		}
 		return newVel;
 	}
 
-	private static RangeSequence<TeleportStep> buildTeleportSteps(PortalHitResult result, double totalDistance,
-																  Vec3 vel, Vec3 endVel, Rotations rotations) {
-		RangeSequence.Builder<TeleportStep> steps = RangeSequence.start(0);
-		// single result: 2 lerpable states, 4 states (start, enter, exit, end)
-		// 2 results: 3 lerpable states, 6 states (start, enter1, exit1, enter2, exit2, end)
-		// 3 results: 4 lerpable states, 8 states (start, enter1, exit1, enter2, exit2, enter3, exit3, end)
-		// add start -> enter1
-		double distance = result.start().distanceTo(result.inHit());
-		double progress = distance / totalDistance;
+	private static void updateProgressTracker(Entity entity, PortalHitResult result) {
+		TeleportProgressTracker tracker = entity.getTeleportProgressTracker();
+		if (tracker == null)
+			return;
 
-		steps.until(progress, new TeleportStep(result.start(), result.inHit(), vel, rotations));
+		while (result != null) {
+			tracker.notify(result.pairId(), result.pair().typeOf(result.in()));
+			if (tracker.isComplete()) {
+				System.out.println("tracking done");
+				entity.setTeleportProgressTracker(null);
+				break;
+			}
 
-		// add intermediate steps, exitN -> enterN + 1
-		while (result.hasNext()) {
-			PortalHitResult next = result.next();
-
-			distance = result.outHit().distanceTo(next.inHit());
-			progress = progress + (distance / totalDistance);
-			vel = result.teleportRelativeVec(vel);
-			rotations = result.teleportRotations(rotations);
-
-			steps.until(progress, new TeleportStep(
-					result.outHit(),
-					next.inHit(),
-					vel, rotations
-			));
-
-			result = next;
+			result = result.nextOrNull();
 		}
+	}
 
-		// result is now the final one, add exitN -> end
-		rotations = result.teleportRotations(rotations);
-		// use endVel here because it may be different (min exit velocity)
-		steps.until(1, new TeleportStep(result.outHit(), result.end(), endVel, rotations));
-		return steps.build();
+	private static PortalTeleportInfo buildTeleportInfo(PortalHitResult result) {
+		return new PortalTeleportInfo(
+				result.pairId(),
+				result.pair().typeOf(result.in()),
+				result.hasNext() ? buildTeleportInfo(result.next()) : null
+		);
 	}
 
 	public static boolean isTeleportBlocked(Entity entity) {
-		return entity instanceof Player
-				|| entity.level().isClientSide
-				|| entity.isPassenger()
+		return entity.isPassenger()
 				|| !entity.getPassengers().isEmpty()
 				|| entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST);
 	}
@@ -201,5 +228,27 @@ public class PortalTeleportHandler {
 		float pitch = (float) Math.atan2((rot.x * rot.w + rot.y * rot.z) * 2, 1 - 2 * (rot.x * rot.x + rot.z * rot.z));
 		float yaw = (float) Math.atan2(-(rot.x * rot.z + rot.y * rot.w) * 2, 2 * (rot.y * rot.y + rot.z * rot.z) - 1);
 		return new Rotations(pitch * Mth.RAD_TO_DEG, yaw * Mth.RAD_TO_DEG, 0);
+	}
+
+	/**
+	 * Returns wrapped degrees
+	 */
+	public static float teleportRotation(float degrees, Direction.Axis axis, PortalInstance in, PortalInstance out) {
+		Quaternionf rot = new Quaternionf();
+		switch (axis) {
+			case X -> rot.rotationX((180 - degrees) * Mth.DEG_TO_RAD);
+			case Y -> rot.rotationY(-degrees * Mth.DEG_TO_RAD);
+			case Z -> throw new RuntimeException();
+		}
+
+		rot.premul(in.rotation().invert(new Quaternionf()))
+				.premul(out.rotation180)
+				.conjugate();
+
+		return (float) Mth.wrapDegrees(Mth.RAD_TO_DEG * switch (axis) {
+			case X -> Math.atan2((rot.x * rot.w + rot.y * rot.z) * 2, 1 - 2 * (rot.x * rot.x + rot.z * rot.z));
+			case Y -> Math.atan2(-(rot.x * rot.z + rot.y * rot.w) * 2, 2 * (rot.y * rot.y + rot.z * rot.z) - 1);
+			case Z -> throw new RuntimeException();
+		});
 	}
 }

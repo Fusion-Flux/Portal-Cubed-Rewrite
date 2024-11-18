@@ -22,6 +22,13 @@ public enum PortalType implements StringRepresentable {
 		this.defaultColor = defaultColor;
 	}
 
+	public PortalType opposite() {
+		return switch (this) {
+			case PRIMARY -> SECONDARY;
+			case SECONDARY -> PRIMARY;
+		};
+	}
+
 	@Override
 	@NotNull
 	public String getSerializedName() {

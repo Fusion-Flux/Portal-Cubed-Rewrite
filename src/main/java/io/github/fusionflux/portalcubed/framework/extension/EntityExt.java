@@ -3,8 +3,7 @@ package io.github.fusionflux.portalcubed.framework.extension;
 import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.portal.TeleportStep;
-import io.github.fusionflux.portalcubed.framework.util.RangeSequence;
+import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.fabricmc.fabric.api.event.Event;
@@ -81,13 +80,22 @@ public interface EntityExt {
 		throw new AbstractMethodError();
 	}
 
-	// no prefix needed, unique descriptors
-
-	default RangeSequence<TeleportStep> getPortalTeleport() {
+	default void pc$setNextTeleportNonLocal(boolean value) {
 		throw new AbstractMethodError();
 	}
 
-	default void setPortalTeleport(@Nullable RangeSequence<TeleportStep> steps) {
+	default boolean pc$isNextTeleportNonLocal() {
+		throw new AbstractMethodError();
+	}
+
+	// no prefix needed, unique descriptors
+
+	@Nullable
+	default TeleportProgressTracker getTeleportProgressTracker() {
+		throw new AbstractMethodError();
+	}
+
+	default void setTeleportProgressTracker(@Nullable TeleportProgressTracker tracker) {
 		throw new AbstractMethodError();
 	}
 }

@@ -41,7 +41,7 @@ public abstract class PortalManager {
 
 	public void setPair(UUID id, PortalPair pair) {
 		PortalPair old = this.portals.put(id, pair);
-		this.activePortals.portalsChanged(old, pair);
+		this.activePortals.portalsChanged(id, old, pair);
 	}
 
 	public void modifyPair(UUID id, UnaryOperator<PortalPair> op) {
