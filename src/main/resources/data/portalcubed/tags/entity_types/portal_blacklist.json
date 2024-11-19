@@ -14,15 +14,6 @@
     "minecraft:marker",
     "minecraft:painting",
     "minecraft:text_display",
-
-    "minecraft:boat",
-    "minecraft:chest_boat",
-    "minecraft:ender_dragon",
-    "minecraft:ghast",
-    "minecraft:giant",
-    "minecraft:elder_guardian",
-    "minecraft:sniffer",
-    "minecraft:ravager",
-    "minecraft:iron_golem"
+    "minecraft:ender_dragon"
   ]
 }
