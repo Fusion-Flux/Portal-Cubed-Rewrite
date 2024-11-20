@@ -29,6 +29,10 @@ public record PortalPair(Optional<PortalInstance> primary, Optional<PortalInstan
 		return this.primary.isPresent() && this.secondary.isPresent();
 	}
 
+	public boolean isEmpty() {
+		return this.primary.isEmpty() && this.secondary.isEmpty();
+	}
+
 	public Optional<PortalInstance> get(PortalType type) {
 		return type == PortalType.PRIMARY ? this.primary : this.secondary;
 	}

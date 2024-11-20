@@ -17,6 +17,7 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -43,7 +44,7 @@ public class ServerPortalManager extends PortalManager {
 	}
 
 	@Override
-	public void setPair(UUID id, PortalPair pair) {
+	public void setPair(UUID id, @Nullable PortalPair pair) {
 		super.setPair(id, pair);
 		UpdatePortalPairPacket packet = new UpdatePortalPairPacket(id, pair);
 		PortalCubedPackets.sendToClients(PlayerLookup.world(this.level), packet);

@@ -2,8 +2,10 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.UnaryOperator;
 
@@ -12,6 +14,8 @@ import com.mojang.serialization.Codec;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.ActivePortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionActivePortalLookup;
+
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
@@ -39,8 +43,19 @@ public abstract class PortalManager {
 		return this.portals.getOrDefault(id, PortalPair.EMPTY);
 	}
 
-	public void setPair(UUID id, PortalPair pair) {
-		PortalPair old = this.portals.put(id, pair);
+	public void setPair(UUID id, @Nullable PortalPair pair) {
+		if (pair != null && pair.isEmpty()) {
+			pair = null;
+		}
+
+		PortalPair old = this.portals.get(id);
+
+		if (pair == null) {
+			this.portals.remove(id);
+		} else {
+			this.portals.put(id, pair);
+		}
+
 		this.activePortals.portalsChanged(id, old, pair);
 	}
 
@@ -50,7 +65,11 @@ public abstract class PortalManager {
 	}
 
 	public Collection<PortalPair> getAllPairs() {
-		return this.portals.values();
+		return Collections.unmodifiableCollection(this.portals.values());
+	}
+
+	public Set<UUID> getAllIds() {
+		return Collections.unmodifiableSet(this.portals.keySet());
 	}
 
 	public ActivePortalLookup activePortals() {
