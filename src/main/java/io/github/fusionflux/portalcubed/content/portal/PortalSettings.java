@@ -14,8 +14,13 @@ public record PortalSettings(int color, PortalShape shape) {
 	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(PortalType.PRIMARY.defaultColor, PortalShape.SQUARE);
 	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(PortalType.SECONDARY.defaultColor, PortalShape.SQUARE);
 
+	public PortalSettings(int color, PortalShape shape) {
+		this.color = color | 0xFF000000; // require alpha 255
+		this.shape = shape;
+	}
+
 	public static void toNetwork(FriendlyByteBuf buf, PortalSettings data) {
-		buf.writeVarInt(data.color);
+		buf.writeVarInt(data.color & 0x00FFFFFF); // cut off alpha, saves size
 		buf.writeEnum(data.shape);
 	}
 
