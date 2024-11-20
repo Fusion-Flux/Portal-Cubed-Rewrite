@@ -52,7 +52,7 @@ public record PortalHelper(GameTestHelper helper, UUID id, SinglePortalHelper pr
 		public void shootFrom(Vec3 from, Direction facing, float yRot) {
 			ServerLevel level = this.helper.getLevel();
 			PortalProjectile projectile = new PortalProjectile(level, this.settings, yRot, this.id, this.type);
-			projectile.moveTo(from);
+			projectile.moveTo(this.helper.absoluteVec(from));
 			Vec3i normal = facing.getNormal();
 			Vec3 vel = Vec3.atLowerCornerOf(normal).scale(PortalProjectile.SPEED);
 			projectile.setDeltaMovement(vel);
@@ -69,7 +69,7 @@ public record PortalHelper(GameTestHelper helper, UUID id, SinglePortalHelper pr
 			Vector3f baseOffset = new Vector3f(0, -0.5f, 0);
 			Vector3f offset = rotation.transform(baseOffset);
 
-			Vec3 pos = Vec3.atCenterOf(surface)
+			Vec3 pos = Vec3.atCenterOf(this.helper.absolutePos(surface))
 					.add(normal.getStepX() / 2f, normal.getStepY() / 2f, normal.getStepZ() / 2f)
 					.add(offset.x, offset.y, offset.z);
 
