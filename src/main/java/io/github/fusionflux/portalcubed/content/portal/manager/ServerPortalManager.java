@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 import com.mojang.datafixers.util.Pair;
@@ -23,6 +24,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.phys.AABB;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 
@@ -48,6 +50,29 @@ public class ServerPortalManager extends PortalManager {
 		super.setPair(id, pair);
 		UpdatePortalPairPacket packet = new UpdatePortalPairPacket(id, pair);
 		PortalCubedPackets.sendToClients(PlayerLookup.world(this.level), packet);
+	}
+
+	public void removePortalsInBox(AABB bounds) {
+		// TODO: this is a mess. Need a section-based lookup and easy removal
+		// copy the ID set to avoid a CME
+		for (UUID key : new HashSet<>(this.getAllIds())) {
+			this.modifyPair(key, pair -> {
+				if (pair.primary().isPresent()) {
+					PortalInstance primary = pair.primary().get();
+					if (primary.renderBounds.intersects(bounds)) {
+						pair = pair.without(PortalType.PRIMARY);
+					}
+				}
+				if (pair.secondary().isPresent()) {
+					PortalInstance secondary = pair.secondary().get();
+					if (secondary.renderBounds.intersects(bounds)) {
+						pair = pair.without(PortalType.SECONDARY);
+					}
+				}
+
+				return pair;
+			});
+		}
 	}
 
 	public CompoundTag save(CompoundTag nbt) {
