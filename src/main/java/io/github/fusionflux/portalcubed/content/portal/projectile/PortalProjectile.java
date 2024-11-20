@@ -99,19 +99,24 @@ public class PortalProjectile extends UnsavedEntity {
 		if (this.portalSettings == null || this.pair == null || this.type == null)
 			return;
 
-		Direction facing = hit.getDirection();
-		Quaternionf rotation = facing.getRotation();
-		rotation.rotateX(Mth.DEG_TO_RAD * 270);
-		rotation.rotateY(Mth.DEG_TO_RAD * 180);
-		if (facing.getAxis().isVertical()) {
-			rotation.rotateZ(Mth.DEG_TO_RAD * this.yRot);
-		}
-
+		Quaternionf rotation = getPortalRotation(hit.getDirection(), this.yRot);
 		PortalData data = new PortalData(hit.getLocation(), rotation, this.portalSettings);
 		level.portalManager().createPortal(this.pair, this.type, data);
 	}
 
 	public int getColor() {
 		return this.color;
+	}
+
+	public static Quaternionf getPortalRotation(Direction normal, float yRot) {
+		Quaternionf rotation = normal.getRotation();
+		rotation.rotateX(Mth.DEG_TO_RAD * 270);
+		rotation.rotateY(Mth.DEG_TO_RAD * 180);
+		rotation.rotateZ(Mth.DEG_TO_RAD * switch (normal) {
+			case UP -> yRot;
+			case DOWN -> -yRot;
+			default -> 0;
+		});
+		return rotation;
 	}
 }
