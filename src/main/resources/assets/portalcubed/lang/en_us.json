@@ -131,8 +131,9 @@
 
   "commands.portalcubed.portal.create.success": "Portal created",
   "commands.portalcubed.portal.create.failure": "Failed to create portal: %s",
-  "commands.portalcubed.portal.create.failure.already_exists": "Portal with pair id %1$s and %2$s polarity already exists",
-  "commands.portalcubed.portal.create.failure.all_id": "Nice try",
+  "commands.portalcubed.portal.create.failure.already_exists": "Portal with pair ID %1$s and %2$s polarity already exists",
+  "commands.portalcubed.portal.create.failure.id_all": "Nice try",
+  "commands.portalcubed.portal.create.failure.id_too_long": "Pair ID must not exceed 32 characters",
   "commands.portalcubed.portal.create.failure.invalid_type": "Portal type %s does not exist",
   "commands.portalcubed.portal.create.failure.invalid_rendering": "Portal type %s does not support rendering",
 
@@ -141,13 +142,13 @@
   "commands.portalcubed.portal.remove.success.all": "All portals removed",
   "commands.portalcubed.portal.remove.failure": "Failed to remove portal: %s",
   "commands.portalcubed.portal.remove.failure.multiple": "Failed to remove portals: %s",
-  "commands.portalcubed.portal.remove.failure.nonexistent": "Portal with pair id %1$s and %2$s polarity does not exist",
-  "commands.portalcubed.portal.remove.failure.nonexistent.multiple": "Portals with pair id %s do not exist",
+  "commands.portalcubed.portal.remove.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.remove.failure.nonexistent.multiple": "Portals with pair ID %s do not exist",
   "commands.portalcubed.portal.remove.failure.no_portals": "No portals were found",
 
   "commands.portalcubed.portal.modify.success": "Portal modified",
   "commands.portalcubed.portal.modify.failure": "Failed to modify portal: %s",
-  "commands.portalcubed.portal.modify.failure.nonexistent": "Portal with pair id %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.modify.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
   "commands.portalcubed.portal.modify.failure.invalid_type": "Portal type %s does not exist",
   "commands.portalcubed.portal.modify.failure.invalid_rendering": "Portal type %s does not support rendering",
 
