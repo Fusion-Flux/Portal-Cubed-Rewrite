@@ -20,7 +20,8 @@
         "io.github.fusionflux.portalcubed_gametests.gametests.LemonGameTests",
         "io.github.fusionflux.portalcubed_gametests.gametests.GooGameTests",
         "io.github.fusionflux.portalcubed_gametests.gametests.ConstructionCannonGameTests",
-        "io.github.fusionflux.portalcubed_gametests.gametests.FizzlingGameTests"
+        "io.github.fusionflux.portalcubed_gametests.gametests.FizzlingGameTests",
+        "io.github.fusionflux.portalcubed_gametests.gametests.PortalGameTests"
       ]
 		}
 	}

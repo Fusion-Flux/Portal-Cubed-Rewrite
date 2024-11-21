@@ -66,7 +66,7 @@ public record PortalHelper(GameTestHelper helper, UUID id, SinglePortalHelper pr
 		public void placeOn(BlockPos surface, Direction normal, float yRot) {
 			Quaternionf rotation = PortalProjectile.getPortalRotation(normal, yRot);
 			// shift the portal so the bottom half is centered on the surface
-			Vector3f baseOffset = new Vector3f(0, -0.5f, 0);
+			Vector3f baseOffset = new Vector3f(0, 0.5f, 0);
 			Vector3f offset = rotation.transform(baseOffset);
 
 			Vec3 pos = Vec3.atCenterOf(this.helper.absolutePos(surface))

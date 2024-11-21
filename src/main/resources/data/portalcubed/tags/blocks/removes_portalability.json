@@ -19,6 +19,8 @@
     "portalcubed:dirty_metal_plating_facade",
     "portalcubed:insulation_facade",
     "portalcubed:old_ap_green_panel_facade",
-    "portalcubed:old_ap_blue_panel_facade"
+    "portalcubed:old_ap_blue_panel_facade",
+    "portalcubed:gray_chamber_exterior_facade",
+    "portalcubed:yellow_chamber_exterior_facade"
   ]
 }
