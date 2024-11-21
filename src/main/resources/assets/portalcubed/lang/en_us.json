@@ -129,6 +129,29 @@
   "commands.portalcubed.fizzle.paint_clearing.failure": "Could not clear the paint of %s",
   "commands.portalcubed.fizzle.paint_clearing.failure.multiple": "Could not clear the paint of %s entities",
 
+  "commands.portalcubed.portal.create.success": "Portal created",
+  "commands.portalcubed.portal.create.failure": "Failed to create portal: %s",
+  "commands.portalcubed.portal.create.failure.already_exists": "Portal with pair id %1$s and %2$s polarity already exists",
+  "commands.portalcubed.portal.create.failure.all_id": "Nice try",
+  "commands.portalcubed.portal.create.failure.invalid_type": "Portal type %s does not exist",
+  "commands.portalcubed.portal.create.failure.invalid_rendering": "Portal type %s does not support rendering",
+
+  "commands.portalcubed.portal.remove.success": "Portal removed",
+  "commands.portalcubed.portal.remove.success.multiple": "Portals removed",
+  "commands.portalcubed.portal.remove.success.all": "All portals removed",
+  "commands.portalcubed.portal.remove.failure": "Failed to remove portal: %s",
+  "commands.portalcubed.portal.remove.failure.multiple": "Failed to remove portals: %s",
+  "commands.portalcubed.portal.remove.failure.nonexistent": "Portal with pair id %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.remove.failure.nonexistent.multiple": "Portals with pair id %s do not exist",
+  "commands.portalcubed.portal.remove.failure.no_portals": "No portals were found",
+
+  "commands.portalcubed.portal.modify.success": "Portal modified",
+  "commands.portalcubed.portal.modify.failure": "Failed to modify portal: %s",
+  "commands.portalcubed.portal.modify.failure.nonexistent": "Portal with pair id %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.modify.failure.invalid_type": "Portal type %s does not exist",
+  "commands.portalcubed.portal.modify.failure.invalid_rendering": "Portal type %s does not support rendering",
+
+
   "commands.portalcubed.client.portal_recursions.query": "Number of portal recursions is currently set to %s",
   "commands.portalcubed.client.portal_recursions.success": "Set number of portal recursions to %s",
   "commands.portalcubed.client.portal_recursions.failure": "Could not set number of portal recursions to %1$s: %2$s",
