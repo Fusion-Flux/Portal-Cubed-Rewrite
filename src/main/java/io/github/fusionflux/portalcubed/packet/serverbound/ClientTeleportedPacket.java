@@ -17,6 +17,9 @@ import net.minecraft.world.phys.Vec3;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xRot, float yRot) implements ServerboundPacket {
+	public static final double GLIDING_MAX = Math.sqrt(300);
+	public static final double NORMAL_MAX = Math.sqrt(100);
+
 	public ClientTeleportedPacket(FriendlyByteBuf buf) {
 		this(PortalTeleportInfo.fromNetwork(buf), buf.readVec3(), buf.readFloat(), buf.readFloat());
 	}
@@ -85,9 +88,18 @@ public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xR
 	}
 
 	private static double getExpectedDistance(ServerPlayer player) {
-		double vel = player.getDeltaMovement().length();
-		float upStep = player.maxUpStep();
-		double total = vel + upStep;
-		return total * 1.1; // some extra leniency
+		/*
+		magic numbers, based on ServerGamePacketListenerImpl's "moved too quickly" check.
+		cleaned up version of the original:
+		Vec3 newPos = ...;
+		double dx = newPos.x - player.getX();
+		double dy = newPos.y - player.getY();
+		double dz = newPos.z - player.getZ();
+		double deltaSqr = dx * dx + dy * dy + dz * dz;
+		float maxDistSqr = player.isFallFlying() ? 300 : 100;
+		double velSqr = player.getDeltaMovement().lengthSqr();
+		if (deltaSqr - velSqr > maxDistSqr) {...} // too quick
+		 */
+		return player.isFallFlying() ? GLIDING_MAX : NORMAL_MAX;
 	}
 }
