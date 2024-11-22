@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
-import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
+import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 
@@ -28,6 +28,11 @@ import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 public class PortalTeleportHandler {
 	public static final double MIN_OUTPUT_VELOCITY = 0.5;
+	public static final double DISTANCE_TO_STEP_BACK = new Vec3(
+			1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION,
+			1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION,
+			1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION
+	).length();
 
 	/**
 	 * Called by mixins when an entity moves relatively.
@@ -57,9 +62,9 @@ public class PortalTeleportHandler {
 		// teleport
 		System.out.println("teleporting " + entity + " on " + (entity.level().isClientSide ? "client" : "server"));
 		Vec3 finalCenter = result.findEnd();
-		Vec3 finalPos = finalCenter.add(centerToPos)
-				.add(0, 1e-5, 0);
+		Vec3 finalPos = finalCenter.add(centerToPos);
 		entity.setPos(finalPos);
+		nudge(entity, result.getLast().out());
 		// old pos
 		Vec3 oldPosTeleported = result.teleportAbsoluteVec(oldCenter).add(centerToPos);
 		// why are there two sets of fields that do exactly the same thing
@@ -146,6 +151,18 @@ public class PortalTeleportHandler {
 			return true;
 		}
 		return false;
+	}
+
+	private static void nudge(Entity entity, PortalInstance exited) {
+		// because of the difference in a portal's plane and its collision, teleporting will always put an entity
+		// either in the ground or floating slightly, depending on direction. Need to nudge the entity towards the
+		// center and then back to the intended pos, stopping early if collision is hit.
+		Vec3 center = centerOf(entity);
+		Vec3 stepBack = center.vectorTo(exited.data.origin()).normalize().scale(DISTANCE_TO_STEP_BACK);
+		entity.setPos(entity.position().add(stepBack));
+		Vec3 stepForwards = stepBack.scale(-1);
+		Vec3 completedStep = ((EntityAccessor) entity).callCollide(stepForwards);
+		entity.setPos(entity.position().add(completedStep));
 	}
 
 	private static Vec3 reorientVelocity(Entity entity, PortalHitResult result, boolean wasGrounded) {
