@@ -20,6 +20,14 @@
 			}
 		},
 		{
+			"from": [7, 2, 2.825],
+			"to": [9, 4, 2.825],
+			"rotation": {"angle": 0, "axis": "y", "origin": [10, 0, 2.825]},
+			"faces": {
+				"north": {"uv": [12.5, 3, 13.5, 5], "texture": "#0", "tintindex": 0}
+			}
+		},
+		{
 			"from": [5.5, 0.5, 1],
 			"to": [10.5, 5.5, 3],
 			"rotation": {"angle": 0, "axis": "y", "origin": [10.5, 0.5, 1]},
