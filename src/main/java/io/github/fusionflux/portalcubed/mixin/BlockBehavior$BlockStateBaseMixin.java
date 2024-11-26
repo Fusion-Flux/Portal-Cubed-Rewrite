@@ -58,7 +58,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 
 		for (CollisionPatch patch : patches) {
 			if (patch.appliesTo(entity)) {
-				return patch.apply(shape, entityCtx);
+				shape = patch.apply(shape, entityCtx);
 			}
 		}
 

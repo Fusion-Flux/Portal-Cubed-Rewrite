@@ -56,7 +56,7 @@ public final class PortalInstance {
 		this.quad = Quad.create(this.rotation(), data.origin(), WIDTH, HEIGHT);
 		this.renderBounds = this.quad.containingBox();
 
-		this.entityCollisionBounds = OBB.extrudeQuad(this.quad, 3);
+		this.entityCollisionBounds = OBB.extrudeQuad(this.quad, Integer.MAX_VALUE);
 		this.blockModificationArea = OBB.extrudeQuad(this.quad, -3);
 		this.blockModificationShapes = VoxelShenanigans.approximateObb(this.blockModificationArea);
     }

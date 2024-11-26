@@ -50,7 +50,6 @@ public record PortalTeleportPacket(int entityId, PortalTeleportInfo info) implem
 		} else {
 			entity.setTeleportProgressTracker(new TeleportProgressTracker(timeoutAge, this.info));
 		}
-		System.out.println("tracking start");
 	}
 
 	private boolean isInfoInvalid(PortalManager manager) {

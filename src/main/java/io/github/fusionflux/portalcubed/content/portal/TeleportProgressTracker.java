@@ -45,7 +45,6 @@ public class TeleportProgressTracker {
 	public void notify(UUID pair, PortalType entered) {
 		if (this.currentInfo != null) {
 			if (this.currentInfo.matches(pair, entered)) {
-				System.out.println("tracker matched");
 				this.currentInfo = this.currentInfo.next();
 			} else {
 				// mismatch, give up

@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Camera;
+import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -37,7 +38,7 @@ public class EntityDebugRendering {
 		matrices.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
 
 		for (Entity entity : level.entitiesForRendering()) {
-			if (!entity.isInvisible() && entity != mc.player) {
+			if (shouldRender(entity, mc)) {
 				render(entity, matrices, vertices, Color.BLUE, Color.PURPLE);
 				Entity serverEntity = getServerEntity(entity, mc);
 				if (serverEntity != null) {
@@ -53,6 +54,17 @@ public class EntityDebugRendering {
 	private static void render(Entity entity, PoseStack matrices, MultiBufferSource vertices, Color bounds, Color vel) {
 		RenderingUtils.renderBox(matrices, vertices, entity.getBoundingBox(), bounds);
 		RenderingUtils.renderVec(matrices, vertices, entity.getDeltaMovement(), Vec3.ZERO, vel);
+	}
+
+	private static boolean shouldRender(Entity entity, Minecraft mc) {
+		if (entity.isInvisible())
+			return false;
+
+		if (entity == mc.player) {
+			return mc.options.getCameraType() != CameraType.FIRST_PERSON;
+		}
+
+		return true;
 	}
 
 	private static Entity getServerEntity(Entity entity, Minecraft mc) {

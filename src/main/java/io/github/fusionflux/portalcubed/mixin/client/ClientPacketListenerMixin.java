@@ -113,8 +113,6 @@ public class ClientPacketListenerMixin {
 		Vec3 newTeleportedPos = PortalTeleportHandler.teleportAbsoluteVecBetween(
 				newCenter, portals.getSecond(), portals.getFirst()
 		).subtract(posToCenter);
-		DebugRendering.addPos(20, newPos, Color.ORANGE);
-		DebugRendering.addPos(20, newTeleportedPos, Color.BLUE);
 		args.set(0, newTeleportedPos.x);
 		args.set(1, newTeleportedPos.y);
 		args.set(2, newTeleportedPos.z);

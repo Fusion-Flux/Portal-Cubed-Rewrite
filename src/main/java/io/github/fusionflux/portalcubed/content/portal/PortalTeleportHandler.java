@@ -60,7 +60,6 @@ public class PortalTeleportHandler {
 		boolean wasGrounded = entity.onGround(); // grab this before teleporting
 
 		// teleport
-		System.out.println("teleporting " + entity + " on " + (entity.level().isClientSide ? "client" : "server"));
 		Vec3 finalCenter = result.findEnd();
 		Vec3 finalPos = finalCenter.add(centerToPos);
 		entity.setPos(finalPos);
