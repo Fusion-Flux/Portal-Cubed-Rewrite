@@ -10,12 +10,15 @@
 
 
   "gamerule.category.portalcubed": "Portal Cubed",
+
   "gamerule.propSnatching": "Prop Snatching",
   "gamerule.propSnatching.description": "Controls whether or not props being held by a player are able to be grabbed by other players without being dropped first.",
+
   "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
   "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
   "gamerule.toxicGooDamage": "Toxic Goo Damage",
   "gamerule.toxicGooDamage.description": "Damage (per second) toxic goo deals to entities inside it.",
+
   "gamerule.portalPositionSnapping": "Portal Position Snapping",
   "gamerule.portalPositionSnapping.description": "Controls the position alignment of portals to blocks, in fractions of a full block (1/n).  Setting to 0 disables position snapping entirely.",
   "gamerule.portalRotationSnapping": "Portal Rotation Snapping",
@@ -26,13 +29,16 @@
   "gamerule.allowManualPortalClearing.description": "Controls whether or not the player can clear their portals with a keybind.",
   "gamerule.portalsVanishOnDeath": "Player Portals Vanish on Death",
   "gamerule.portalsVanishOnDeath.description": "Whether player-placed portals vanish when that player dies.",
-
-  "gamerule.allowCrouchFlyGlitch": "Allow Crouch Fly Glitch",
-  "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
+  "gamerule.restrictValidPortalSurfaces": "Restrict Valid Portal Surfaces",
+  "gamerule.restrictValidPortalSurfaces.description": "Changes the list of valid portal surface blocks from a blacklist (#portalcubed:cant_place_portal_on) to a whitelist (#portalcubed:unrestricted_portal_surfaces). Intended for use in custom maps.",
   "gamerule.disablePortalValidation": "Disable Portal Validation",
   "gamerule.disablePortalValidation.description": "Disables placement checks when shooting portals, allowing them to be placed on any surface, including overhangs. May cause unexpected behavior - Issues caused by invalid portals will not be fixed.",
   "gamerule.portalAlignment": "Portal Alignment",
   "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
+
+  "gamerule.allowCrouchFlyGlitch": "Allow Crouch Fly Glitch",
+  "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
+
 
   "container.portalcubed.large_signage": "Large Signage",
   "container.portalcubed.aged_large_signage": "Aged Large Signage",

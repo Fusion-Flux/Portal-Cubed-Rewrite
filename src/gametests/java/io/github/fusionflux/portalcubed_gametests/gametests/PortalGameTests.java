@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed_gametests.PortalHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,10 +32,11 @@ public class PortalGameTests implements QuiltGameTest {
 		helper.setBlock(9, 4, 3, Blocks.AIR);
 
 		helper.succeedWhen(() -> {
-			helper.assertBlockProperty(new BlockPos(7, 2, 1), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(7, 2, 3), RedstoneLampBlock.LIT, true);
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 2, 1));
+			helper.assertEntityPresent(PropType.PORTAL_1_STORAGE_CUBE.entityType(), new BlockPos(2, 2, 3));
 		});
 	}
+
 
 	//Test entities being dropped into portals at varying heights and landing at the correct distances
 	@GameTest(template = GROUP + "fling_distance_relative_to_height")
@@ -69,14 +71,15 @@ public class PortalGameTests implements QuiltGameTest {
 		helper.setBlock(21, 18, 11, Blocks.AIR);
 
 		helper.succeedWhen(() -> {
-			helper.assertBlockProperty(new BlockPos(18, 2, 1), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(18, 2, 3), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(18, 2, 5), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(18, 2, 7), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(18, 2, 9), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(18, 2, 11), RedstoneLampBlock.LIT, true);
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(12, 2, 1));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(10, 2, 3));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(9, 2, 5));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(8, 2, 7));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 2, 9));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 2, 11));
 		});
 	}
+
 
 	//Test infinite falling to make sure the entity doesn't leave the portal if left falling forever
 	@GameTest(template = GROUP + "infinite_fall")
@@ -88,14 +91,9 @@ public class PortalGameTests implements QuiltGameTest {
 		infiniteFall.primary().placeOn(new BlockPos(3, 4, 2), Direction.UP, -90);
 		infiniteFall.secondary().placeOn(new BlockPos(3, 10, 2), Direction.DOWN, 90);
 
-
-		helper.runAfterDelay(99, () -> {
-					helper.succeedWhen(() -> {
-						helper.assertEntityPresent(EntityType.ARMOR_STAND);
-						helper.assertBlockProperty(new BlockPos(0, 5, 0), RedstoneLampBlock.LIT, false);
-					});
-				});
+		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> helper.assertEntityPresent(EntityType.ARMOR_STAND)));
 	}
+
 
 	//Test weird portal surface shapes to make sure the entity traveling through doesn't behave weirdly. Split into vertical and horizontal tests
 	@GameTest(template = GROUP + "odd_portal_surfaces_vertical")
@@ -156,22 +154,98 @@ public class PortalGameTests implements QuiltGameTest {
 		helper.pressButton(14, 3, 2);
 
 		helper.succeedWhen(() -> {
-			helper.assertBlockProperty(new BlockPos(1, 2, 1), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(1, 2, 3), RedstoneLampBlock.LIT, true);
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 2, 1));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 2, 3));
 		});
 	}
 
+
 	//Test portals against solid surfaces to make sure the entity traveling through doesn't clip where it shouldn't
-	//@GameTest(template = GROUP + "portal_against_solid_blocks")
-	//public void portalAgainstSolidBlocks(GameTestHelper helper) {
-	//
-	//}
+	@GameTest(template = GROUP + "portal_against_solid_blocks")
+	public void portalAgainstSolidBlocks(GameTestHelper helper) {
+
+		//todo
+	}
+
+
+	//Test the gamerule for more restrictive portal surfaces.  Ran separately as its own batch; toggles the gamerule on before running, then off when finishing
+	@GameTest(template = GROUP + "restrictive_portal_surfaces")
+	public void restrictivePortalSurfaces(GameTestHelper helper) {
+
+		//todo, implement once the gamerule exists
+	}
+
 
 	//Test portals against thin surfaces, such as on both sides of a trapdoor
-	//@GameTest(template = GROUP + "thin_portal_surfaces")
-	//public void thinPortalSurfaces(GameTestHelper helper) {
-	//
-	//}
+	@GameTest(template = GROUP + "thin_portal_surfaces")
+	public void thinPortalSurfaces(GameTestHelper helper) {
+
+		//todo
+	}
+
+
+	//Test portals becoming obstructed by solid blocks that they cannot exist within
+	@GameTest(template = GROUP + "portal_become_obstructed")
+	public void portalBecomeObstructed(GameTestHelper helper) {
+
+		PortalHelper pistonSolid = new PortalHelper(helper, "piston_solid", 0x2055fe, 0xfe7020);
+		PortalHelper pistonNonSolid = new PortalHelper(helper, "piston_nonsolid", 0x2055fe, 0xfe7020);
+		PortalHelper waterFlow = new PortalHelper(helper, "water_flow", 0x2055fe, 0xfe7020);
+		PortalHelper doorTrapdoor = new PortalHelper(helper, "door_trapdoor", 0x2055fe, 0xfe7020);
+
+		pistonSolid.primary().placeOn(new BlockPos(7, 2, 8), Direction.NORTH);
+		pistonNonSolid.primary().placeOn(new BlockPos(5, 2, 8), Direction.NORTH);
+		waterFlow.primary().placeOn(new BlockPos(3, 2, 8), Direction.NORTH);
+		doorTrapdoor.primary().placeOn(new BlockPos(1, 2, 8), Direction.NORTH);
+
+		pistonSolid.secondary().placeOn(new BlockPos(7, 1, 1), Direction.UP, 180);
+		pistonNonSolid.secondary().placeOn(new BlockPos(5, 1, 1), Direction.UP, 180);
+		waterFlow.secondary().placeOn(new BlockPos(3, 1, 1), Direction.UP, 180);
+		doorTrapdoor.secondary().placeOn(new BlockPos(1, 1, 1), Direction.UP, 180);
+
+		helper.pullLever(6, 3, 5);
+		helper.pullLever(2, 3, 5);
+
+		helper.succeedWhen(() -> {
+			//pistonSolid.primary().assertNotPresent();
+			//pistonSolid.secondary().assertNotPresent();
+			//pistonNonSolid.primary().assertPresent();
+			//pistonNonSolid.secondary().assertPresent();
+			//waterFlow.primary().assertNotPresent();
+			//waterFlow.secondary().assertNotPresent();
+			//doorTrapdoor.primary().assertNotPresent();
+			//doorTrapdoor.secondary().assertNotPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
+			//leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+
+	//Test portals being placed on blocks that should or shouldn't support them
+	@GameTest(template = GROUP + "valid_portal_surfaces")
+	public void validPortalSurfaces(GameTestHelper helper) {
+
+		PortalHelper sanePortalSurfaces = new PortalHelper(helper, "sane_surfaces", 0x2055fe, 0xfe7020);
+		PortalHelper facadeSurfaces = new PortalHelper(helper, "facade_surfaces", 0x2055fe, 0xfe7020);
+
+		sanePortalSurfaces.primary().shootFrom(new Vec3(11.5, 4, 1), Direction.SOUTH);
+		sanePortalSurfaces.secondary().shootFrom(new Vec3(8.5, 4, 1), Direction.SOUTH);
+		facadeSurfaces.primary().shootFrom(new Vec3(5.5, 4, 1), Direction.SOUTH);
+		facadeSurfaces.secondary().shootFrom(new Vec3(2.5, 4, 1), Direction.SOUTH);
+
+		helper.succeedWhen(() -> {
+			//sanePortalSurfaces.primary().assertPresent();
+			//sanePortalSurfaces.secondary().assertNotPresent();
+			//facadeSurfaces.primary().assertNotPresent();
+			//facadeSurfaces.secondary().assertPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
+			//leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+
+	}
+
 
 	//Test portal collision carving to make sure it only works in the intended direction
 	@GameTest(template = GROUP + "collision_carving")
@@ -190,15 +264,17 @@ public class PortalGameTests implements QuiltGameTest {
 		helper.pressButton(new BlockPos(10, 7, 6));
 
 		helper.succeedWhen(() -> {
-			helper.assertBlockProperty(new BlockPos(4, 7, 3), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(7, 7, 4), RedstoneLampBlock.LIT, false);
-			helper.assertBlockProperty(new BlockPos(3, 7, 6), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(6, 7, 7), RedstoneLampBlock.LIT, true);
+			helper.assertEntityNotPresent(EntityType.ARMOR_STAND, new BlockPos(5, 7, 4));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 7, 5));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(4, 7, 5));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 7, 6));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 9, 5));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 15, 4));
 			helper.assertBlockProperty(new BlockPos(3, 4, 5), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(5, 15, 3), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(5, 8, 5), RedstoneLampBlock.LIT, true);
 		});
 	}
+
+
 	//Test collision carving to make sure that portals on corners/edges don't allow entities through unless they're directly in front of the portal
 	@GameTest(template = GROUP + "edge_collision")
 	public void edgeCollision(GameTestHelper helper) {
@@ -220,7 +296,7 @@ public class PortalGameTests implements QuiltGameTest {
 	}
 
 
-	//Test portals opening behind certain blocks breaking them
+	//Test portals breaking certain blocks by opening over their attachment points
 	@GameTest(template = GROUP + "portal_open_popoff")
 	public void portalOpenPopoff(GameTestHelper helper) {
 
