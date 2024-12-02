@@ -1,7 +1,7 @@
 {
   "parent": "portalcubed:item/template_lil_pineapple",
   "textures": {
-    "pineapple": "portalcubed:item/lil_pineapple"
+    "pineapple": "portalcubed:prop/lil_pineapple"
   },
 	"overrides": [
 		{"model": "portalcubed:item/lil_pineapple_ace", "predicate": {"custom_model_data": 1}},

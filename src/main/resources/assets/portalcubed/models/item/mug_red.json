@@ -1,6 +1,6 @@
 {
   "parent": "portalcubed:item/template_mug",
   "textures": {
-    "mug": "portalcubed:item/mug_red"
+    "mug": "portalcubed:prop/mug_red"
   }
 }

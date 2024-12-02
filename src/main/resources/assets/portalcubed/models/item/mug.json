@@ -1,7 +1,7 @@
 {
   "parent": "portalcubed:item/template_mug",
   "textures": {
-    "mug": "portalcubed:item/mug_blue"
+    "mug": "portalcubed:prop/mug_blue"
   },
 	"overrides": [
 		{"model": "portalcubed:item/mug_blue", "predicate": {"custom_model_data": 1}},
