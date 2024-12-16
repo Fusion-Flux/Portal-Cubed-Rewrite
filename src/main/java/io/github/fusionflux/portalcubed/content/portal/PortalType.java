@@ -34,4 +34,9 @@ public enum PortalType implements StringRepresentable {
 	public String getSerializedName() {
 		return this.name;
 	}
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

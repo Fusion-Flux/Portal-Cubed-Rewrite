@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
 
 public abstract class PortalManager {
 	public static final Codec<Map<UUID, PortalPair>> PORTALS_CODEC = Codec.unboundedMap(UUIDUtil.CODEC, PortalPair.CODEC);
@@ -79,5 +80,11 @@ public abstract class PortalManager {
 	// util used in a couple places
 	public boolean isCollisionModified(BlockPos pos) {
 		return !this.activePortals().collisionManager().getPatches(pos).isEmpty();
+	}
+
+	// TODO: swap to keys directly, this is temporary
+	public static UUID generateId(String key) {
+		LegacyRandomSource random = new LegacyRandomSource(key.hashCode());
+		return new UUID(random.nextLong(), random.nextLong());
 	}
 }

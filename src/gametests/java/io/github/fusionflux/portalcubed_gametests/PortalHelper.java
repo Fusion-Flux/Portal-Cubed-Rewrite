@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalShape;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 
@@ -39,9 +40,7 @@ public record PortalHelper(GameTestHelper helper, UUID id, SinglePortalHelper pr
 
 	private static UUID makeId(GameTestHelper helper, String key) {
 		BlockPos origin = helper.relativePos(BlockPos.ZERO);
-		long seed = origin.hashCode() + key.hashCode();
-		LegacyRandomSource random = new LegacyRandomSource(seed);
-		return new UUID(random.nextLong(), random.nextLong());
+		return PortalManager.generateId(key + origin);
 	}
 
 	public record SinglePortalHelper(GameTestHelper helper, UUID id, PortalSettings settings, PortalType type) {
