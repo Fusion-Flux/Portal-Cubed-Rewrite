@@ -8,8 +8,12 @@ import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -61,34 +65,55 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 public class PortalCommand {
 	public static final String LANG_PREFIX = "commands.portalcubed.portal.";
 	public static final String CREATE_FAILURE = "create.failure";
-	public static final Component ID_ALL = lang("create.failure.id_all");
-	public static final Component ID_TOO_LONG = lang("create.failure.id_too_long");
+	public static final Component ID_ALL = lang(CREATE_FAILURE + ".id_all");
+	public static final Component ID_TOO_LONG = lang(CREATE_FAILURE + ".id_too_long");
+
+	public static final Component REMOVE_SINGLE = lang("remove.success");
+	public static final Component REMOVE_MULTI = lang("remove.success.multiple");
+	public static final Component REMOVE_ALL = lang("remove.success.all");
+
+	public static final String REMOVE_FAIL = "remove.failure";
+	public static final String REMOVE_FAIL_MULTI = REMOVE_FAIL + ".multiple";
+	public static final String NONEXISTENT = REMOVE_FAIL + ".nonexistent";
+	public static final String NONEXISTENT_MULTI = NONEXISTENT + ".multiple";
+	public static final Component NO_PORTALS = lang(REMOVE_FAIL + ".no_portals");
 
 	public static final SimpleCommandExceptionType MISSED = new SimpleCommandExceptionType(
 			lang("create.failure.shot_from.miss")
 	);
 
 	public static LiteralArgumentBuilder<CommandSourceStack> build() {
-		return literal("portal").then(
-				literal("create").then(
-						argument("key", StringArgumentType.string()).then(
-								argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
-										Arrays.stream(PlacementStrategy.values())
-												.map(strategy -> strategy.build(
-														optionalArg("shape", PortalShapeArgumentType.shape()).then(
-																optionalArg("color", ColorArgumentType.color()).then(
-																		optionalArg("render", BoolArgumentType.bool()).then(
-																				optionalArg("validate", BoolArgumentType.bool())
-																						.executes(ctx -> create(ctx, strategy))
+		return literal("portal")
+				.then(
+						literal("create").then(
+								argument("key", StringArgumentType.string()).then(
+										argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
+												Arrays.stream(PlacementStrategy.values())
+														.map(strategy -> strategy.build(
+																optionalArg("shape", PortalShapeArgumentType.shape()).then(
+																		optionalArg("color", ColorArgumentType.color()).then(
+																				optionalArg("render", BoolArgumentType.bool()).then(
+																						optionalArg("validate", BoolArgumentType.bool())
+																								.executes(ctx -> create(ctx, strategy))
+																				)
 																		)
 																)
-														)
-												))
-												.toList()
-								))
+														))
+														.toList()
+										))
+								)
 						)
-				)
-		);
+				).then(
+						literal("remove")
+								.then(
+										argument("key", StringArgumentType.string()).then(
+												optionalArg("polarity", PortalTypeArgumentType.portalType())
+														.executes(PortalCommand::remove)
+										)
+								).then(
+										literal("all").executes(PortalCommand::removeAll)
+								)
+				);
 	}
 
 	private static int create(CommandContext<CommandSourceStack> ctx, PlacementStrategy strategy) throws CommandSyntaxException{
@@ -123,7 +148,51 @@ public class PortalCommand {
 		PortalData data = new PortalData(placement.pos, placement.rotation, settings);
 		manager.createPortal(id, type, data);
 		ctx.getSource().sendSuccess(() -> lang("create.success"), true);
-		return 1;
+		return Command.SINGLE_SUCCESS;
+	}
+
+	private static int remove(CommandContext<CommandSourceStack> ctx) {
+		String key = StringArgumentType.getString(ctx, "key");
+		Optional<PortalType> maybeType = getOptional(ctx, "polarity", PortalTypeArgumentType::getPortalType);
+
+		CommandSourceStack source = ctx.getSource();
+		ServerPortalManager manager = source.getLevel().portalManager();
+		UUID id = PortalManager.generateId(key);
+		PortalPair pair = manager.getPair(id);
+
+		if (maybeType.isEmpty()) {
+			// remove both
+			if (pair == null || pair.isEmpty()) {
+				return fail(ctx, REMOVE_FAIL_MULTI, lang(NONEXISTENT_MULTI, key));
+			}
+
+			manager.setPair(id, null);
+			source.sendSuccess(() -> REMOVE_MULTI, true);
+		} else {
+			PortalType type = maybeType.get();
+			if (pair == null || pair.get(type).isEmpty()) {
+				return fail(ctx, REMOVE_FAIL, lang(NONEXISTENT, key));
+			}
+
+			manager.setPair(id, pair.without(type));
+			source.sendSuccess(() -> REMOVE_SINGLE, true);
+		}
+
+		return Command.SINGLE_SUCCESS;
+	}
+
+	private static int removeAll(CommandContext<CommandSourceStack> ctx) {
+		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
+		Set<UUID> ids = manager.getAllIds();
+		if (ids.isEmpty()) {
+			return fail(ctx, REMOVE_FAIL, NO_PORTALS);
+		}
+
+		// copy to avoid CME
+		Set<UUID> copy = new HashSet<>(ids);
+		copy.forEach(id -> manager.setPair(id, null));
+		ctx.getSource().sendSuccess(() -> REMOVE_ALL, true);
+		return Command.SINGLE_SUCCESS;
 	}
 
 	private static int fail(CommandContext<CommandSourceStack> ctx, String key, Component argument) {
