@@ -1,28 +1,28 @@
 package io.github.fusionflux.portalcubed.framework.command.argument;
 
+import java.util.Optional;
+
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import com.mojang.serialization.DataResult;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.commands.arguments.ColorArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 
 /**
  * Formats:
- * - ChatFormatting name (red, lime_green) ({@link ColorArgument})
- * - hex code (#FFFFFF)
+ * - ChatFormatting name (red, dark_green)
+ * - 6-digit hex code (#FFFFFF)
  * - integer (1234567)
  */
 public class ColorArgumentType implements ArgumentType<Integer> {
 	public static final SimpleCommandExceptionType INVALID = new SimpleCommandExceptionType(
 			Component.translatable("parsing.portalcubed.color.invalid")
 	);
-
-	private static final ColorArgument vanillaDummy = ColorArgument.color();
 
 	public static ColorArgumentType color() {
 		return new ColorArgumentType();
@@ -34,30 +34,36 @@ public class ColorArgumentType implements ArgumentType<Integer> {
 
 	@Override
 	public Integer parse(StringReader reader) throws CommandSyntaxException {
-		int cursor = reader.getCursor();
-
-		if (reader.canRead() && reader.peek() == '#') {
-			try {
-				reader.skip(); // skip the #
-				return Integer.parseInt(reader.readString(), 16);
-			} catch (CommandSyntaxException | NumberFormatException ignored) {
-				reader.setCursor(cursor);
-				throw INVALID.createWithContext(reader);
-			}
-		}
-
+		// try integer first
 		try {
 			return reader.readInt();
-		} catch (CommandSyntaxException ignored) {} // don't need to reset cursor here, readInt does it
+		} catch (CommandSyntaxException ignored) {}
 
-		try {
-			ChatFormatting formatting = vanillaDummy.parse(reader);
-			return formatting.getColor();
-		} catch (CommandSyntaxException ignored) {
-			reader.setCursor(cursor);
+		// TextColor can handle both hex codes and ChatFormatting
+		return readToken(reader)
+				.map(TextColor::parseColor)
+				.flatMap(DataResult::result)
+				.orElseThrow(() -> INVALID.createWithContext(reader))
+				.getValue();
+	}
+
+	private static Optional<String> readToken(StringReader reader) {
+		// Brigadier refuses to read #s with readString for some reason, so this workaround is needed for hex codes
+		String remaining = reader.getRemaining();
+		if (!remaining.contains(" ")) {
+			// no spaces, readStringUntil will fail. Just finish off the string.
+			reader.setCursor(reader.getTotalLength());
+			return Optional.of(remaining);
 		}
 
-		// all formats failed.
-		throw INVALID.createWithContext(reader);
+		int cursor = reader.getCursor();
+		try {
+			return Optional.of(reader.readStringUntil(' '));
+		} catch (CommandSyntaxException ignored) {
+			// this will be thrown at end-of-line or invalid escape.
+			// In either case, abort reading.
+			reader.setCursor(cursor);
+			return Optional.empty();
+		}
 	}
 }

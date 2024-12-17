@@ -44,6 +44,8 @@ import org.joml.Vector3f;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.commands.arguments.coordinates.Coordinates;
+import net.minecraft.commands.arguments.coordinates.RotationArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,6 +54,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
@@ -69,24 +72,26 @@ public class PortalCommand {
 		return literal("portal").then(
 				literal("create").then(
 						argument("key", StringArgumentType.string()).then(
-								argument("polarity", PortalTypeArgumentType.portalType())
-										.then(collection(
-												Arrays.stream(PlacementStrategy.values())
-														.map(strategy -> strategy.build(
-																argument("shape", PortalShapeArgumentType.shape()).then(
-																		argument("color", ColorArgumentType.color()).then(
-																				argument("render", BoolArgumentType.bool()).then(
-																						argument("validate", BoolArgumentType.bool())
-																								.executes(ctx -> create(ctx, strategy))
-																				)
+								argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
+										Arrays.stream(PlacementStrategy.values())
+												.map(strategy -> strategy.build(
+														optionalArg("shape", PortalShapeArgumentType.shape()).then(
+																optionalArg("color", ColorArgumentType.color()).then(
+																		optionalArg("render", BoolArgumentType.bool()).then(
+																				optionalArg("validate", BoolArgumentType.bool())
+																						.executes(ctx -> create(ctx, strategy))
 																		)
 																)
-														))
-														.toList()
-										))
+														)
+												))
+												.toList()
+								))
 						)
 				)
-		);
+		).then(literal("create").executes(ctx -> {
+			ctx.getSource().sendFailure(Component.literal("gerald"));
+			return 1;
+		}));
 	}
 
 	private static int create(CommandContext<CommandSourceStack> ctx, PlacementStrategy strategy) throws CommandSyntaxException{
@@ -146,8 +151,10 @@ public class PortalCommand {
 			protected ArgumentBuilder<CommandSourceStack, ?> build(ArgumentBuilder<CommandSourceStack, ?> next) {
 				return literal("place_on").then(
 						argument("pos", BlockPosArgument.blockPos()).then(
-								argument("facing", DirectionArgumentType.direction())
-										.then(next)
+								argument("facing", DirectionArgumentType.direction()).then(
+										optionalArg("yRot", FloatArgumentType.floatArg(0, 360))
+												.then(next)
+								)
 						)
 				);
 			}
@@ -156,8 +163,9 @@ public class PortalCommand {
 			protected Placement getPlacement(CommandContext<CommandSourceStack> ctx) {
 				BlockPos blockPos = BlockPosArgument.getBlockPos(ctx, "pos");
 				Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
+				float yRot = getOptional(ctx, "yRot", FloatArgumentType::getFloat, 0f);
 
-				Quaternionf rotation = PortalProjectile.getPortalRotation(facing, 0);
+				Quaternionf rotation = PortalProjectile.getPortalRotation(facing, yRot);
 				// shift the portal so the bottom half is centered on the surface
 				Vector3f baseOffset = new Vector3f(0, 0.5f, 0);
 				Vector3f offset = rotation.transform(baseOffset);
@@ -178,10 +186,8 @@ public class PortalCommand {
 										argument("facing", DirectionArgumentType.direction())
 												.then(next)
 								).then(
-										argument("pitch", FloatArgumentType.floatArg(-90, 90)).then(
-												argument("yaw", FloatArgumentType.floatArg(-180, 180))
-														.then(next)
-										)
+										argument("rotation", RotationArgument.rotation())
+												.then(next)
 								)
 				);
 			}
@@ -199,12 +205,14 @@ public class PortalCommand {
 					};
 					yaw = facing.toYRot();
 				} else {
-					pitch = FloatArgumentType.getFloat(ctx, "pitch");
-					yaw = FloatArgumentType.getFloat(ctx, "yaw");
+					Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
+					Vec2 rotations = coords.getRotation(ctx.getSource());
+					pitch = rotations.x;
+					yaw = rotations.y;
 				}
 
 				Vec3 normal = Vec3.directionFromRotation(pitch, yaw).normalize();
-				Vec3 end = start.add(normal.scale(10));
+				Vec3 end = start.add(normal.scale(16));
 
 				ClipContext clip = new ClipContext(
 						start, end,
@@ -216,7 +224,7 @@ public class PortalCommand {
 				if (hit.getType() == HitResult.Type.BLOCK) {
 					Vec3 pos = hit.getLocation();
 					Direction facing = hit.getDirection();
-					Quaternionf rotation = PortalProjectile.getPortalRotation(facing, 0);
+					Quaternionf rotation = PortalProjectile.getPortalRotation(facing, yaw + 180);
 					return new Placement(pos, rotation);
 				}
 
@@ -232,12 +240,10 @@ public class PortalCommand {
 										argument("facing", DirectionArgumentType.direction())
 												.then(next)
 								).then(
-										argument("pitch", FloatArgumentType.floatArg(-90, 90)).then(
-												argument("yaw", FloatArgumentType.floatArg(-180, 180))
-														.then(next)
-										)
+										argument("rotation", RotationArgument.rotation())
+												.then(next)
 								).then(
-										argument("rotation", QuaternionArgumentType.quaternion())
+										argument("quaternion", QuaternionArgumentType.quaternion())
 												.then(next)
 								)
 				);
@@ -250,15 +256,15 @@ public class PortalCommand {
 					Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
 					Quaternionf rotation = PortalProjectile.getPortalRotation(facing, 0);
 					return new Placement(pos, rotation);
-				} else if (PortalCubedCommands.hasArgument(ctx, "pitch")) {
-					float pitch = FloatArgumentType.getFloat(ctx, "pitch");
-					float yaw = FloatArgumentType.getFloat(ctx, "yaw");
+				} else if (PortalCubedCommands.hasArgument(ctx, "rotation")) {
+					Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
+					Vec2 rotations = coords.getRotation(ctx.getSource());
 					Quaternionf rotation = new Quaternionf()
-							.rotateX(Mth.DEG_TO_RAD * pitch)
-							.rotateY(Mth.DEG_TO_RAD * yaw);
+							.rotateX(Mth.DEG_TO_RAD * rotations.x)
+							.rotateY(Mth.DEG_TO_RAD * rotations.y);
 					return new Placement(pos, rotation);
 				} else {
-					Quaternionf rotation = QuaternionArgumentType.getQuaternion(ctx, "rotation");
+					Quaternionf rotation = QuaternionArgumentType.getQuaternion(ctx, "quaternion");
 					return new Placement(pos, rotation);
 				}
 			}

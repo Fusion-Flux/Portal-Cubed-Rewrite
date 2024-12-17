@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 
 import com.mojang.brigadier.tree.CommandNode;
@@ -27,6 +28,9 @@ public abstract class ArgumentBuilderMixin<S, T extends ArgumentBuilder<S, T>> {
 	@Shadow
 	protected abstract T getThis();
 
+	@Shadow
+	public abstract T executes(Command<S> command);
+
 	@Inject(
 			method = "then(Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;",
 			at = @At("HEAD"),
@@ -51,6 +55,10 @@ public abstract class ArgumentBuilderMixin<S, T extends ArgumentBuilder<S, T>> {
 		if (argument instanceof RequiredArgumentBuilderExt ext && ext.pc$isOptional()) {
 			for (CommandNode<S> child : argument.getArguments()) {
 				this.arguments.addChild(child);
+			}
+			Command<S> command = argument.getCommand();
+			if (command != null) {
+				this.executes(command);
 			}
 		}
 	}
