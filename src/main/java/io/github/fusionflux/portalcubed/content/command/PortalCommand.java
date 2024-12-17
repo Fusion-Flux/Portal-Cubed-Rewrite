@@ -88,10 +88,7 @@ public class PortalCommand {
 								))
 						)
 				)
-		).then(literal("create").executes(ctx -> {
-			ctx.getSource().sendFailure(Component.literal("gerald"));
-			return 1;
-		}));
+		);
 	}
 
 	private static int create(CommandContext<CommandSourceStack> ctx, PlacementStrategy strategy) throws CommandSyntaxException{
