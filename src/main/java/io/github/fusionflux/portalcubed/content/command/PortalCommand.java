@@ -60,6 +60,7 @@ import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
@@ -254,6 +255,13 @@ public class PortalCommand {
 	}
 
 	private static Component lang(String key, Object... args) {
+		// if you try to serialize a component with disallowed args it gets very mad
+		for (int i = 0; i < args.length; i++) {
+			Object arg = args[i];
+			if (!TranslatableContents.isAllowedPrimitiveArgument(arg) && !(arg instanceof Component)) {
+				args[i] = args[i].toString();
+			}
+		}
 		return Component.translatable(LANG_PREFIX + key, args);
 	}
 
