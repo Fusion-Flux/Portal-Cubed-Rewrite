@@ -2,18 +2,18 @@ package io.github.fusionflux.portalcubed.framework.command.argument;
 
 import com.mojang.brigadier.context.CommandContext;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 
-public class PortalTypeArgumentType extends EnumArgumentType<PortalType> {
+public class PortalTypeArgumentType extends EnumArgumentType<Polarity> {
 	public PortalTypeArgumentType() {
-		super(PortalType.class);
+		super(Polarity.class);
 	}
 
 	public static PortalTypeArgumentType portalType() {
 		return new PortalTypeArgumentType();
 	}
 
-	public static PortalType getPortalType(CommandContext<?> ctx, String name) {
-		return ctx.getArgument(name, PortalType.class);
+	public static Polarity getPortalType(CommandContext<?> ctx, String name) {
+		return ctx.getArgument(name, Polarity.class);
 	}
 }

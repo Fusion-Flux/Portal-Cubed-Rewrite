@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
@@ -41,8 +41,8 @@ public class ServerPortalManager extends PortalManager {
 	 * If the pair does not exist, a new one is created.
 	 * If an old portal already exists, it will be removed.
 	 */
-	public void createPortal(UUID pairId, PortalType type, PortalData data) {
-		this.modifyPair(pairId, pair -> pair.with(type, new PortalInstance(data)));
+	public void createPortal(UUID pairId, Polarity polarity, PortalData data) {
+		this.modifyPair(pairId, pair -> pair.with(polarity, new PortalInstance(data)));
 	}
 
 	@Override
@@ -60,13 +60,13 @@ public class ServerPortalManager extends PortalManager {
 				if (pair.primary().isPresent()) {
 					PortalInstance primary = pair.primary().get();
 					if (primary.renderBounds.intersects(bounds)) {
-						pair = pair.without(PortalType.PRIMARY);
+						pair = pair.without(Polarity.PRIMARY);
 					}
 				}
 				if (pair.secondary().isPresent()) {
 					PortalInstance secondary = pair.secondary().get();
 					if (secondary.renderBounds.intersects(bounds)) {
-						pair = pair.without(PortalType.SECONDARY);
+						pair = pair.without(Polarity.SECONDARY);
 					}
 				}
 

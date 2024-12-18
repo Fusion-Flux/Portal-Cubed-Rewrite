@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.network.FriendlyByteBuf;
 
-public record PortalTeleportInfo(UUID pairId, PortalType entered, @Nullable PortalTeleportInfo next) {
-	public boolean matches(UUID pairId, PortalType entered) {
+public record PortalTeleportInfo(UUID pairId, Polarity entered, @Nullable PortalTeleportInfo next) {
+	public boolean matches(UUID pairId, Polarity entered) {
 		return this.pairId.equals(pairId) && this.entered == entered;
 	}
 
@@ -65,7 +65,7 @@ public record PortalTeleportInfo(UUID pairId, PortalType entered, @Nullable Port
 
 	public static PortalTeleportInfo fromNetwork(FriendlyByteBuf buf) {
 		UUID pairId = buf.readUUID();
-		PortalType entered = buf.readEnum(PortalType.class);
+		Polarity entered = buf.readEnum(Polarity.class);
 		PortalTeleportInfo next = buf.readNullable(PortalTeleportInfo::fromNetwork);
 		return new PortalTeleportInfo(pairId, entered, next);
 	}

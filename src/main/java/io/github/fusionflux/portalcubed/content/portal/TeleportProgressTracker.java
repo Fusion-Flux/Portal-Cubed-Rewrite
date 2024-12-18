@@ -42,7 +42,7 @@ public class TeleportProgressTracker {
 	/**
 	 * Notify the tracker that a pair of portals has been passed through.
 	 */
-	public void notify(UUID pair, PortalType entered) {
+	public void notify(UUID pair, Polarity entered) {
 		if (this.currentInfo != null) {
 			if (this.currentInfo.matches(pair, entered)) {
 				this.currentInfo = this.currentInfo.next();

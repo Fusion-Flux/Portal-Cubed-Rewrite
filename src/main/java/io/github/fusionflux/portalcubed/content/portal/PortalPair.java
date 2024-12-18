@@ -33,16 +33,16 @@ public record PortalPair(Optional<PortalInstance> primary, Optional<PortalInstan
 		return this.primary.isEmpty() && this.secondary.isEmpty();
 	}
 
-	public Optional<PortalInstance> get(PortalType type) {
-		return type == PortalType.PRIMARY ? this.primary : this.secondary;
+	public Optional<PortalInstance> get(Polarity polarity) {
+		return polarity == Polarity.PRIMARY ? this.primary : this.secondary;
 	}
 
-	public PortalInstance getNullable(PortalType type) {
-		return this.get(type).orElse(null);
+	public PortalInstance getNullable(Polarity polarity) {
+		return this.get(polarity).orElse(null);
 	}
 
-	public PortalInstance getOrThrow(PortalType type) {
-		return this.get(type).orElseThrow();
+	public PortalInstance getOrThrow(Polarity polarity) {
+		return this.get(polarity).orElseThrow();
 	}
 
 	@Nullable
@@ -56,24 +56,24 @@ public record PortalPair(Optional<PortalInstance> primary, Optional<PortalInstan
 		}
 	}
 
-	public PortalType typeOf(PortalInstance portal) {
+	public Polarity polarityOf(PortalInstance portal) {
 		if (this.primary.isPresent() && this.primary.get() == portal) {
-			return PortalType.PRIMARY;
+			return Polarity.PRIMARY;
 		} else if (this.secondary.isPresent() && this.secondary.get() == portal) {
-			return PortalType.SECONDARY;
+			return Polarity.SECONDARY;
 		} else {
 			throw new IllegalArgumentException("Portal not in pair");
 		}
 	}
 
-	public PortalPair with(PortalType type, @Nullable PortalInstance portal) {
-		return type == PortalType.PRIMARY
+	public PortalPair with(Polarity polarity, @Nullable PortalInstance portal) {
+		return polarity == Polarity.PRIMARY
 				? new PortalPair(Optional.ofNullable(portal), this.secondary)
 				: new PortalPair(this.primary, Optional.ofNullable(portal));
 	}
 
-	public PortalPair without(PortalType type) {
-		return this.with(type, null);
+	public PortalPair without(Polarity polarity) {
+		return this.with(polarity, null);
 	}
 
 	@NotNull

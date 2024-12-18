@@ -20,7 +20,6 @@ import java.util.function.Consumer;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
@@ -35,7 +34,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalShape;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
@@ -147,9 +146,9 @@ public class PortalCommand {
 	private static int create(CommandContext<CommandSourceStack> ctx, PlacementStrategy strategy) throws CommandSyntaxException{
 		Placement placement = strategy.getPlacement(ctx);
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		PortalType type = PortalTypeArgumentType.getPortalType(ctx, "polarity");
+		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
 		PortalShape shape = getOptional(ctx, "shape", PortalShapeArgumentType::getShape, PortalShape.SQUARE);
-		int color = getOptional(ctx, "color", ColorArgumentType::getColor, type.defaultColor);
+		int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
 		TriState render = getOptionalBool(ctx, "render");
 		boolean validate = getOptional(ctx, "validate", BoolArgumentType::getBool, true);
 
@@ -168,34 +167,34 @@ public class PortalCommand {
 		UUID id = PortalManager.generateId(key);
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
 		PortalPair pair = manager.getPair(id);
-		if (pair != null && pair.get(type).isPresent()) {
-			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, type));
+		if (pair != null && pair.get(polarity).isPresent()) {
+			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
 		}
 
 		PortalSettings settings = new PortalSettings(color, shape);
 		PortalData data = new PortalData(placement.pos, placement.rotation, settings);
-		manager.createPortal(id, type, data);
+		manager.createPortal(id, polarity, data);
 		ctx.getSource().sendSuccess(() -> lang("create.success"), true);
 		return Command.SINGLE_SUCCESS;
 	}
 
 	private static int modify(CommandContext<CommandSourceStack> ctx, PortalAttribute attribute) throws CommandSyntaxException {
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		PortalType type = PortalTypeArgumentType.getPortalType(ctx, "polarity");
+		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
 
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
 		UUID id = PortalManager.generateId(key);
 
 		PortalPair pair = manager.getPair(id);
-		if (pair == null || pair.get(type).isEmpty()) {
-			return fail(ctx, MODIFY_FAILURE, lang(MODIFY_NONEXISTENT, key, type));
+		if (pair == null || pair.get(polarity).isEmpty()) {
+			return fail(ctx, MODIFY_FAILURE, lang(MODIFY_NONEXISTENT, key, polarity));
 		}
-		PortalInstance portal = pair.getOrThrow(type);
+		PortalInstance portal = pair.getOrThrow(polarity);
 		PortalData newData = attribute.modify(ctx, portal.data);
 		if (newData == null)
 			return 0;
 
-		manager.setPair(id, pair.with(type, new PortalInstance(newData)));
+		manager.setPair(id, pair.with(polarity, new PortalInstance(newData)));
 
 		ctx.getSource().sendSuccess(() -> MODIFY_SUCCESS, true);
 		return Command.SINGLE_SUCCESS;
@@ -203,14 +202,14 @@ public class PortalCommand {
 
 	private static int remove(CommandContext<CommandSourceStack> ctx) {
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		Optional<PortalType> maybeType = getOptional(ctx, "polarity", PortalTypeArgumentType::getPortalType);
+		Optional<Polarity> maybePolarity = getOptional(ctx, "polarity", PortalTypeArgumentType::getPortalType);
 
 		CommandSourceStack source = ctx.getSource();
 		ServerPortalManager manager = source.getLevel().portalManager();
 		UUID id = PortalManager.generateId(key);
 		PortalPair pair = manager.getPair(id);
 
-		if (maybeType.isEmpty()) {
+		if (maybePolarity.isEmpty()) {
 			// remove both
 			if (pair == null || pair.isEmpty()) {
 				return fail(ctx, REMOVE_FAIL_MULTI, lang(REMOVE_NONEXISTENT_MULTI, key));
@@ -219,12 +218,12 @@ public class PortalCommand {
 			manager.setPair(id, null);
 			source.sendSuccess(() -> REMOVE_MULTI, true);
 		} else {
-			PortalType type = maybeType.get();
-			if (pair == null || pair.get(type).isEmpty()) {
+			Polarity polarity = maybePolarity.get();
+			if (pair == null || pair.get(polarity).isEmpty()) {
 				return fail(ctx, REMOVE_FAIL, lang(REMOVE_NONEXISTENT, key));
 			}
 
-			manager.setPair(id, pair.without(type));
+			manager.setPair(id, pair.without(polarity));
 			source.sendSuccess(() -> REMOVE_SINGLE, true);
 		}
 

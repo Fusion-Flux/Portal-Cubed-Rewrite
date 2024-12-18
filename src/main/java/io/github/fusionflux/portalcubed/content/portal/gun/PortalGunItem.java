@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.gun;
 import java.util.UUID;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import net.minecraft.core.BlockPos;
@@ -41,33 +41,33 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hit) {
-		this.shoot(level, player, stack, InteractionHand.MAIN_HAND, PortalType.PRIMARY);
+		this.shoot(level, player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY);
 		return TriState.TRUE;
 	}
 
 	@Override
 	public TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hit, InteractionHand hand) {
-		this.shoot(level, player, stack, hand, PortalType.SECONDARY);
+		this.shoot(level, player, stack, hand, Polarity.SECONDARY);
 		return TriState.TRUE;
 	}
 
-	public void shoot(Level level, Player player, ItemStack stack, InteractionHand hand, PortalType type) {
+	public void shoot(Level level, Player player, ItemStack stack, InteractionHand hand, Polarity polarity) {
 		if (level instanceof ServerLevel serverLevel) {
 			PortalGunSettings gunSettings = getGunSettings(stack);
-			PortalSettings portalSettings = gunSettings.portalSettingsOf(type);
+			PortalSettings portalSettings = gunSettings.portalSettingsOf(polarity);
 
 			Vec3 lookAngle = player.getLookAngle();
 			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
 			float yRot = player.getYRot() + 180;
 			UUID pair = gunSettings.pair().orElse(player.getUUID());
 
-			PortalProjectile projectile = new PortalProjectile(level, portalSettings, yRot, pair, type);
+			PortalProjectile projectile = new PortalProjectile(level, portalSettings, yRot, pair, polarity);
 			projectile.setDeltaMovement(velocity);
 			projectile.moveTo(player.getEyePosition());
 			level.addFreshEntity(projectile);
 			level.playSound(null, player.blockPosition(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS);
 
-			PortalGunSettings modifiedData = gunSettings.withActive(type);
+			PortalGunSettings modifiedData = gunSettings.withActive(polarity);
 			ItemStack newStack = setGunSettings(stack, modifiedData);
 			player.setItemInHand(hand, newStack);
 		} else { // client-side

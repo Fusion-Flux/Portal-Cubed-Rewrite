@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.projectile;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.framework.entity.UnsavedEntity;
 
 import org.joml.Quaternionf;
@@ -36,20 +36,20 @@ public class PortalProjectile extends UnsavedEntity {
 	private PortalSettings portalSettings;
 	private float yRot;
 	private UUID pair;
-	private PortalType type;
+	private Polarity polarity;
 
 	public PortalProjectile(EntityType<?> variant, Level world) {
 		super(variant, world);
 		this.noPhysics = true;
 	}
 
-	public PortalProjectile(Level level, PortalSettings settings, float yRot, UUID pair, PortalType type) {
+	public PortalProjectile(Level level, PortalSettings settings, float yRot, UUID pair, Polarity polarity) {
 		this(PortalCubedEntities.PORTAL_PROJECTILE, level);
 		this.portalSettings = settings;
 		this.entityData.set(COLOR, settings.color());
 		this.yRot = yRot;
 		this.pair = pair;
-		this.type = type;
+		this.polarity = polarity;
 	}
 
 	public static PortalProjectile create(EntityType<?> type, Level level) {
@@ -96,12 +96,12 @@ public class PortalProjectile extends UnsavedEntity {
 	}
 
 	private void spawnPortal(ServerLevel level, BlockHitResult hit) {
-		if (this.portalSettings == null || this.pair == null || this.type == null)
+		if (this.portalSettings == null || this.pair == null || this.polarity == null)
 			return;
 
 		Quaternionf rotation = getPortalRotation(hit.getDirection(), this.yRot);
 		PortalData data = new PortalData(hit.getLocation(), rotation, this.portalSettings);
-		level.portalManager().createPortal(this.pair, this.type, data);
+		level.portalManager().createPortal(this.pair, this.polarity, data);
 	}
 
 	public int getColor() {

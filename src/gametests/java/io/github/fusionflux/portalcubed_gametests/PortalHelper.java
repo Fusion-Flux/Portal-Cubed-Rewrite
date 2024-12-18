@@ -5,7 +5,7 @@ import java.util.UUID;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalShape;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
@@ -18,12 +18,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.phys.Vec3;
 
 public record PortalHelper(GameTestHelper helper, UUID id, SinglePortalHelper primary, SinglePortalHelper secondary) {
 	public PortalHelper(GameTestHelper helper, String key) {
-		this(helper, key, PortalType.PRIMARY.defaultColor, PortalType.SECONDARY.defaultColor);
+		this(helper, key, Polarity.PRIMARY.defaultColor, Polarity.SECONDARY.defaultColor);
 	}
 
 	public PortalHelper(GameTestHelper helper, String key, int primaryColor, int secondaryColor) {
@@ -33,8 +32,8 @@ public record PortalHelper(GameTestHelper helper, UUID id, SinglePortalHelper pr
 	public PortalHelper(GameTestHelper helper, UUID id, int primaryColor, int secondaryColor) {
 		this(
 				helper, id,
-				new SinglePortalHelper(helper, id, new PortalSettings(primaryColor, PortalShape.SQUARE), PortalType.PRIMARY),
-				new SinglePortalHelper(helper, id, new PortalSettings(secondaryColor, PortalShape.SQUARE), PortalType.SECONDARY)
+				new SinglePortalHelper(helper, id, new PortalSettings(primaryColor, PortalShape.SQUARE), Polarity.PRIMARY),
+				new SinglePortalHelper(helper, id, new PortalSettings(secondaryColor, PortalShape.SQUARE), Polarity.SECONDARY)
 		);
 	}
 
@@ -43,14 +42,14 @@ public record PortalHelper(GameTestHelper helper, UUID id, SinglePortalHelper pr
 		return PortalManager.generateId(key + origin);
 	}
 
-	public record SinglePortalHelper(GameTestHelper helper, UUID id, PortalSettings settings, PortalType type) {
+	public record SinglePortalHelper(GameTestHelper helper, UUID id, PortalSettings settings, Polarity polarity) {
 		public void shootFrom(Vec3 pos, Direction facing) {
 			this.shootFrom(pos, facing, 0);
 		}
 
 		public void shootFrom(Vec3 from, Direction facing, float yRot) {
 			ServerLevel level = this.helper.getLevel();
-			PortalProjectile projectile = new PortalProjectile(level, this.settings, yRot, this.id, this.type);
+			PortalProjectile projectile = new PortalProjectile(level, this.settings, yRot, this.id, this.polarity);
 			projectile.moveTo(this.helper.absoluteVec(from));
 			Vec3i normal = facing.getNormal();
 			Vec3 vel = Vec3.atLowerCornerOf(normal).scale(PortalProjectile.SPEED);
@@ -73,7 +72,7 @@ public record PortalHelper(GameTestHelper helper, UUID id, SinglePortalHelper pr
 					.add(offset.x, offset.y, offset.z);
 
 			ServerPortalManager manager = this.helper.getLevel().portalManager();
-			manager.createPortal(this.id, this.type, new PortalData(pos, rotation, this.settings));
+			manager.createPortal(this.id, this.polarity, new PortalData(pos, rotation, this.settings));
 		}
 	}
 }

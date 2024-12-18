@@ -181,7 +181,7 @@ public class PortalTeleportHandler {
 			return;
 
 		while (result != null) {
-			tracker.notify(result.pairId(), result.pair().typeOf(result.in()));
+			tracker.notify(result.pairId(), result.pair().polarityOf(result.in()));
 			if (tracker.isComplete()) {
 				System.out.println("tracking done");
 				entity.setTeleportProgressTracker(null);
@@ -195,7 +195,7 @@ public class PortalTeleportHandler {
 	private static PortalTeleportInfo buildTeleportInfo(PortalHitResult result) {
 		return new PortalTeleportInfo(
 				result.pairId(),
-				result.pair().typeOf(result.in()),
+				result.pair().polarityOf(result.in()),
 				result.hasNext() ? buildTeleportInfo(result.next()) : null
 		);
 	}

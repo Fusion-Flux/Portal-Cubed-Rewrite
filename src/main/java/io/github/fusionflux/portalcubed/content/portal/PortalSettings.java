@@ -13,8 +13,8 @@ public record PortalSettings(int color, PortalShape shape, boolean render, boole
 			Codec.BOOL.fieldOf("validate").forGetter(PortalSettings::validate)
 	).apply(instance, PortalSettings::new));
 
-	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(PortalType.PRIMARY.defaultColor, PortalShape.SQUARE);
-	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(PortalType.SECONDARY.defaultColor, PortalShape.SQUARE);
+	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(Polarity.PRIMARY.defaultColor, PortalShape.SQUARE);
+	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(Polarity.SECONDARY.defaultColor, PortalShape.SQUARE);
 
 	public PortalSettings(int color, PortalShape shape, boolean render, boolean validate) {
 		this.color = fixAlpha(color);
