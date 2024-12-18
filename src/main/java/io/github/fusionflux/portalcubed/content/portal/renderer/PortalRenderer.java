@@ -143,7 +143,7 @@ public class PortalRenderer {
 
 		PortalInstance linked = pair.other(portal);
 		Camera camera = context.camera();
-		if (linked != null && shouldRenderView(portal, camera)) {
+		if (linked != null && portal.data.settings().render() && shouldRenderView(portal, camera)) {
 			// TODO: Remove this line when open portal textures are implemented
 			matrices.translate(0, 0, -OFFSET_FROM_WALL);
 

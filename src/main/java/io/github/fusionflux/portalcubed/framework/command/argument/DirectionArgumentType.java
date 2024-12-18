@@ -6,7 +6,7 @@ import net.minecraft.core.Direction;
 
 public class DirectionArgumentType extends EnumArgumentType<Direction> {
 	public DirectionArgumentType() {
-		super(Direction.class);
+		super(Direction.class, Namer.STRING_REPR);
 	}
 
 	public static DirectionArgumentType direction() {

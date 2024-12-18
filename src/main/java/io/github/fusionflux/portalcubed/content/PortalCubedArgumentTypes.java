@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgu
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalTypeArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
 import io.github.fusionflux.portalcubed.mixin.ArgumentTypeInfosAccessor;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
@@ -21,6 +22,7 @@ public class PortalCubedArgumentTypes {
 		register("polarity", PortalTypeArgumentType.class, SingletonArgumentInfo.contextFree(PortalTypeArgumentType::portalType));
 		register("shape", PortalShapeArgumentType.class, SingletonArgumentInfo.contextFree(PortalShapeArgumentType::shape));
 		register("quaternion", QuaternionArgumentType.class, SingletonArgumentInfo.contextFree(QuaternionArgumentType::quaternion));
+		register("tri_state", TriStateArgumentType.class, SingletonArgumentInfo.contextFree(TriStateArgumentType::triState));
 	}
 
 	private static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>> void register(

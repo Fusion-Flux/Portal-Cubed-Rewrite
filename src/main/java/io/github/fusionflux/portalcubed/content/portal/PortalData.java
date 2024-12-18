@@ -17,4 +17,16 @@ public record PortalData(Vec3 origin, Quaternionf rotation, PortalSettings setti
 			ExtraCodecs.QUATERNIONF.fieldOf("rotation").forGetter(PortalData::rotation),
 			PortalSettings.CODEC.fieldOf("settings").forGetter(PortalData::settings)
 	).apply(instance, PortalData::new));
+
+	public PortalData withOrigin(Vec3 origin) {
+		return new PortalData(origin, this.rotation, this.settings);
+	}
+
+	public PortalData withRotation(Quaternionf rotation) {
+		return new PortalData(this.origin, rotation, this.settings);
+	}
+
+	public PortalData withSettings(PortalSettings settings) {
+		return new PortalData(this.origin, this.rotation, settings);
+	}
 }

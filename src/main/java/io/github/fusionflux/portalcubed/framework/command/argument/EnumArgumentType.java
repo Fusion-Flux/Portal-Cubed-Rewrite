@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.command.argument;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -17,17 +18,21 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 
-public class EnumArgumentType<E extends Enum<E> & StringRepresentable> implements ArgumentType<E> {
+public abstract class EnumArgumentType<E extends Enum<E>> implements ArgumentType<E> {
 	private final String name;
 	private final Map<String, E> values;
 	private final SimpleCommandExceptionType expectedValue;
 	private final DynamicCommandExceptionType invalidValue;
 
-	public EnumArgumentType(Class<E> clazz) {
+	protected EnumArgumentType(Class<E> clazz) {
+		this(clazz, Namer.LOWERCASE_ENUM_NAME);
+	}
+
+	protected EnumArgumentType(Class<E> clazz, Namer<? super E> namer) {
 		this.name = clazz.getSimpleName();
 		this.values = new LinkedHashMap<>();
 		for (E value : clazz.getEnumConstants()) {
-			this.values.put(value.getSerializedName(), value);
+			this.values.put(namer.getName(value), value);
 		}
 
 		this.expectedValue = new SimpleCommandExceptionType(lang("expected"));
@@ -71,5 +76,12 @@ public class EnumArgumentType<E extends Enum<E> & StringRepresentable> implement
 	@Override
 	public Collection<String> getExamples() {
 		return this.values.keySet();
+	}
+
+	public interface Namer<E> {
+		Namer<StringRepresentable> STRING_REPR = StringRepresentable::getSerializedName;
+		Namer<Enum<?>> LOWERCASE_ENUM_NAME = value -> value.name().toLowerCase(Locale.ROOT);
+
+		String getName(E value);
 	}
 }
