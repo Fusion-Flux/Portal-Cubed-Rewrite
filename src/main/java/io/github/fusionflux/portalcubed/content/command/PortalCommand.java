@@ -42,6 +42,7 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManag
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalTypeArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
 
@@ -99,7 +100,7 @@ public class PortalCommand {
 		return literal("portal")
 				.then(
 						literal("create").then(
-								argument("key", StringArgumentType.string()).then(
+								argument("key", PortalKeyArgumentType.portalKey()).then(
 										argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
 												Arrays.stream(PlacementStrategy.values())
 														.map(strategy -> strategy.build(inner -> inner.then(
@@ -118,7 +119,7 @@ public class PortalCommand {
 						)
 				).then(
 						literal("modify").then(
-								argument("key", StringArgumentType.string()).then(
+								argument("key", PortalKeyArgumentType.portalKey()).then(
 										argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
 												Arrays.stream(PortalAttribute.values())
 														.map(attribute -> literal(attribute.name).then(
@@ -133,7 +134,7 @@ public class PortalCommand {
 				).then(
 						literal("remove")
 								.then(
-										argument("key", StringArgumentType.string()).then(
+										argument("key", PortalKeyArgumentType.portalKey()).then(
 												optionalArg("polarity", PortalTypeArgumentType.portalType())
 														.executes(PortalCommand::remove)
 										)
@@ -145,7 +146,7 @@ public class PortalCommand {
 
 	private static int create(CommandContext<CommandSourceStack> ctx, PlacementStrategy strategy) throws CommandSyntaxException{
 		Placement placement = strategy.getPlacement(ctx);
-		String key = StringArgumentType.getString(ctx, "key");
+		String key = PortalKeyArgumentType.getKey(ctx, "key");
 		PortalType type = PortalTypeArgumentType.getPortalType(ctx, "polarity");
 		PortalShape shape = getOptional(ctx, "shape", PortalShapeArgumentType::getShape, PortalShape.SQUARE);
 		int color = getOptional(ctx, "color", ColorArgumentType::getColor, type.defaultColor);
@@ -179,7 +180,7 @@ public class PortalCommand {
 	}
 
 	private static int modify(CommandContext<CommandSourceStack> ctx, PortalAttribute attribute) throws CommandSyntaxException {
-		String key = StringArgumentType.getString(ctx, "key");
+		String key = PortalKeyArgumentType.getKey(ctx, "key");
 		PortalType type = PortalTypeArgumentType.getPortalType(ctx, "polarity");
 
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
@@ -201,7 +202,7 @@ public class PortalCommand {
 	}
 
 	private static int remove(CommandContext<CommandSourceStack> ctx) {
-		String key = StringArgumentType.getString(ctx, "key");
+		String key = PortalKeyArgumentType.getKey(ctx, "key");
 		Optional<PortalType> maybeType = getOptional(ctx, "polarity", PortalTypeArgumentType::getPortalType);
 
 		CommandSourceStack source = ctx.getSource();

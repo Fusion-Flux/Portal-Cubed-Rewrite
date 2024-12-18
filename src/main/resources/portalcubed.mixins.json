@@ -53,6 +53,7 @@
     "client.CameraMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
+    "client.ClientSuggestionProviderMixin",
     "client.ContainerEventHandlerMixin",
     "client.EntityRenderDispatcherMixin",
     "client.FogRendererMixin",
