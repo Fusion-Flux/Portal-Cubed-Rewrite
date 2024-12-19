@@ -183,7 +183,7 @@ public class PortalCommand {
 			return fail(ctx, MODIFY_FAILURE, lang(MODIFY_NONEXISTENT, key, polarity));
 		}
 		PortalInstance portal = pair.getOrThrow(polarity);
-		PortalData newData = attribute.modify(ctx, portal.data);
+		PortalData newData = attribute.modify(ctx, polarity, portal.data);
 		if (newData == null)
 			return 0;
 
@@ -266,7 +266,9 @@ public class PortalCommand {
 	private static Quaternionf getRotation(CommandContext<CommandSourceStack> ctx) {
 		if (hasArgument(ctx, "facing")) {
 			Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
-			return PortalProjectile.getPortalRotation(facing, 0);
+			float rot = getOptional(ctx, "rotation", FloatArgumentType::getFloat, 0f);
+			return PortalProjectile.getPortalRotation(facing, 0)
+					.rotateZ(Mth.DEG_TO_RAD * rot);
 		} else if (hasArgument(ctx, "rotation")) {
 			Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
 			Vec2 rotations = coords.getRotation(ctx.getSource());
@@ -283,9 +285,9 @@ public class PortalCommand {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(Consumer<ArgumentBuilder<CommandSourceStack, ?>> innerModifier) {
 				return literal(this.name).then(
-						argument("pos", BlockPosArgument.blockPos()).then(
+						argument("position", BlockPosArgument.blockPos()).then(
 								argument("facing", DirectionArgumentType.direction()).then(
-										modify(optionalArg("yRot", FloatArgumentType.floatArg(0, 360)), innerModifier)
+										modify(optionalArg("rotation", FloatArgumentType.floatArg(0, 360)), innerModifier)
 								)
 						)
 				);
@@ -293,11 +295,12 @@ public class PortalCommand {
 
 			@Override
 			protected Placement getPlacement(CommandContext<CommandSourceStack> ctx) {
-				BlockPos blockPos = BlockPosArgument.getBlockPos(ctx, "pos");
+				BlockPos blockPos = BlockPosArgument.getBlockPos(ctx, "position");
 				Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
-				float yRot = getOptional(ctx, "yRot", FloatArgumentType::getFloat, 0f);
+				float rot = getOptional(ctx, "rotation", FloatArgumentType::getFloat, 0f);
 
-				Quaternionf rotation = PortalProjectile.getPortalRotation(facing, yRot);
+				Quaternionf rotation = PortalProjectile.getPortalRotation(facing, 0);
+				rotation.rotateZ(Mth.DEG_TO_RAD * rot);
 				// shift the portal so the bottom half is centered on the surface
 				Vector3f baseOffset = new Vector3f(0, 0.5f, 0);
 				Vector3f offset = rotation.transform(baseOffset);
@@ -313,7 +316,7 @@ public class PortalCommand {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(Consumer<ArgumentBuilder<CommandSourceStack, ?>> innerModifier) {
 				return literal(this.name).then(
-						argument("pos", Vec3Argument.vec3())
+						argument("position", Vec3Argument.vec3())
 								.then(
 										modify(argument("facing", DirectionArgumentType.direction()), innerModifier)
 								).then(
@@ -324,7 +327,7 @@ public class PortalCommand {
 
 			@Override
 			protected Placement getPlacement(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
-				Vec3 start = Vec3Argument.getVec3(ctx, "pos");
+				Vec3 start = Vec3Argument.getVec3(ctx, "position");
 				float pitch, yaw;
 				if (PortalCubedCommands.hasArgument(ctx, "facing")) {
 					Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
@@ -365,7 +368,7 @@ public class PortalCommand {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(Consumer<ArgumentBuilder<CommandSourceStack, ?>> innerModifier) {
 				return literal(this.name).then(
-						argument("pos", Vec3Argument.vec3())
+						argument("position", Vec3Argument.vec3())
 								.then(
 										modify(argument("facing", DirectionArgumentType.direction()), innerModifier)
 								).then(
@@ -378,7 +381,7 @@ public class PortalCommand {
 
 			@Override
 			protected Placement getPlacement(CommandContext<CommandSourceStack> ctx) {
-				Vec3 pos = Vec3Argument.getVec3(ctx, "pos");
+				Vec3 pos = Vec3Argument.getVec3(ctx, "position");
 				Quaternionf rotation = getRotation(ctx);
 				return new Placement(pos, rotation);
 			}
@@ -408,7 +411,7 @@ public class PortalCommand {
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalData portal) throws CommandSyntaxException {
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) throws CommandSyntaxException {
 				PlacementStrategy strategy = findStrategy(ctx);
 				Placement placement = strategy.getPlacement(ctx);
 				return portal.origin().equals(placement.pos) && portal.rotation().equals(placement.rotation)
@@ -425,16 +428,16 @@ public class PortalCommand {
 				throw new IllegalStateException("Could not find PlacementStrategy");
 			}
 		},
-		POS {
+		POSITION {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(Command<CommandSourceStack> command) {
-				return argument("pos", Vec3Argument.vec3())
+				return argument("position", Vec3Argument.vec3())
 						.executes(command);
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalData portal) {
-				Vec3 pos = Vec3Argument.getVec3(ctx, "pos");
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
+				Vec3 pos = Vec3Argument.getVec3(ctx, "position");
 				return portal.origin().equals(pos)
 						? this.fail(ctx, pos)
 						: portal.withOrigin(pos);
@@ -444,14 +447,17 @@ public class PortalCommand {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(Command<CommandSourceStack> command) {
 				return collection(List.of(
-						argument("facing", DirectionArgumentType.direction()).executes(command),
+						argument("facing", DirectionArgumentType.direction()).then(
+								optionalArg("rotation", FloatArgumentType.floatArg(0, 360))
+										.executes(command)
+						),
 						argument("rotation", RotationArgument.rotation()).executes(command),
 						argument("quaternion", QuaternionArgumentType.quaternion()).executes(command)
 				));
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalData portal) {
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
 				Quaternionf rotation = getRotation(ctx);
 				return portal.rotation().equals(rotation)
 						? this.fail(ctx, rotation)
@@ -466,7 +472,7 @@ public class PortalCommand {
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalData portal) {
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
 				PortalShape shape = PortalShapeArgumentType.getShape(ctx, "shape");
 				return portal.settings().shape() == shape
 						? this.fail(ctx, shape.name)
@@ -477,12 +483,13 @@ public class PortalCommand {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(Command<CommandSourceStack> command) {
 				return argument("color", ColorArgumentType.color())
-						.executes(command);
+						.executes(command)
+						.then(literal("default").executes(command));
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalData portal) {
-				int color = ColorArgumentType.getColor(ctx, "color");
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
+				int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
 				return portal.settings().color() == PortalSettings.fixAlpha(color)
 						? this.fail(ctx, "#" + Integer.toHexString(color))
 						: portal.withSettings(portal.settings().withColor(color));
@@ -496,7 +503,7 @@ public class PortalCommand {
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalData portal) {
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
 				TriState render = TriStateArgumentType.getTriState(ctx, "render");
 				// TODO: check if type supports rendering
 				boolean shouldRender = render.orElse(true);
@@ -513,7 +520,7 @@ public class PortalCommand {
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalData portal) {
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
 				boolean validate = BoolArgumentType.getBool(ctx, "validate");
 				return portal.settings().validate() == validate
 						? this.fail(ctx, validate)
@@ -525,7 +532,7 @@ public class PortalCommand {
 
 		protected abstract ArgumentBuilder<CommandSourceStack, ?> build(Command<CommandSourceStack> command);
 
-		protected abstract PortalData modify(CommandContext<CommandSourceStack> ctx, PortalData portal) throws CommandSyntaxException;
+		protected abstract PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) throws CommandSyntaxException;
 
 		protected PortalData fail(CommandContext<CommandSourceStack> ctx, Object value) {
 			ctx.getSource().sendFailure(lang(MODIFY_UNCHANGED, this.name, value));

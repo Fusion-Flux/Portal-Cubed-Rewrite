@@ -58,7 +58,10 @@ public class ColorArgumentType implements ArgumentType<Integer> {
 
 		int cursor = reader.getCursor();
 		try {
-			return Optional.of(reader.readStringUntil(' '));
+			String string = reader.readStringUntil(' ');
+			// parsing expects the separator to still be there
+			reader.setCursor(reader.getCursor() - 1);
+			return Optional.of(string);
 		} catch (CommandSyntaxException ignored) {
 			// this will be thrown at end-of-line or invalid escape.
 			// In either case, abort reading.
