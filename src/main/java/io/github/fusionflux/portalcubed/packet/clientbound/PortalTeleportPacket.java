@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.networking.api.PacketSender;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportInfo;
 import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
@@ -11,9 +14,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record PortalTeleportPacket(int entityId, PortalTeleportInfo info) implements ClientboundPacket {
 	public PortalTeleportPacket(FriendlyByteBuf buf) {
@@ -55,7 +55,7 @@ public record PortalTeleportPacket(int entityId, PortalTeleportInfo info) implem
 	private boolean isInfoInvalid(PortalManager manager) {
 		PortalTeleportInfo info = this.info;
 		while (info != null) {
-			if (manager.getPair(info.pairId()) == null) {
+			if (manager.getPair(info.pairKey()) == null) {
 				return true;
 			}
 

@@ -1,19 +1,18 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
-import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
-import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
-import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
-
-import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
-
 import org.joml.Quaternionf;
+import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
+import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,8 +22,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 public class PortalTeleportHandler {
 	public static final double MIN_OUTPUT_VELOCITY = 0.5;
@@ -181,7 +178,7 @@ public class PortalTeleportHandler {
 			return;
 
 		while (result != null) {
-			tracker.notify(result.pairId(), result.pair().polarityOf(result.in()));
+			tracker.notify(result.pairKey(), result.pair().polarityOf(result.in()));
 			if (tracker.isComplete()) {
 				System.out.println("tracking done");
 				entity.setTeleportProgressTracker(null);
@@ -194,7 +191,7 @@ public class PortalTeleportHandler {
 
 	private static PortalTeleportInfo buildTeleportInfo(PortalHitResult result) {
 		return new PortalTeleportInfo(
-				result.pairId(),
+				result.pairKey(),
 				result.pair().polarityOf(result.in()),
 				result.hasNext() ? buildTeleportInfo(result.next()) : null
 		);

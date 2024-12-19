@@ -1,9 +1,10 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
-import java.util.UUID;
+import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.base.api.util.TriState;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import net.minecraft.core.BlockPos;
@@ -18,13 +19,9 @@ import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-
-import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
 
 public class PortalGunItem extends Item implements DirectClickItem, DyeableLeatherItem {
 	public static final int DEFAULT_SHELL_COLOR = 0xFFFFFFFF;
@@ -59,7 +56,7 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 			Vec3 lookAngle = player.getLookAngle();
 			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
 			float yRot = player.getYRot() + 180;
-			UUID pair = gunSettings.pair().orElse(player.getUUID());
+			String pair = gunSettings.pair().orElse(player.getGameProfile().getName());
 
 			PortalProjectile projectile = new PortalProjectile(level, portalSettings, yRot, pair, polarity);
 			projectile.setDeltaMovement(velocity);

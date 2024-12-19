@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import java.util.UUID;
-
 /**
  * Tracks progress through a teleport client-side.
  * Lifecycle:
@@ -42,7 +40,7 @@ public class TeleportProgressTracker {
 	/**
 	 * Notify the tracker that a pair of portals has been passed through.
 	 */
-	public void notify(UUID pair, Polarity entered) {
+	public void notify(String pair, Polarity entered) {
 		if (this.currentInfo != null) {
 			if (this.currentInfo.matches(pair, entered)) {
 				this.currentInfo = this.currentInfo.next();

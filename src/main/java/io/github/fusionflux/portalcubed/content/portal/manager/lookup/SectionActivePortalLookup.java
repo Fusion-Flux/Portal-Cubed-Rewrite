@@ -5,26 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
-
-import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
-import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-
-import it.unimi.dsi.fastutil.longs.LongConsumer;
-
-import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.LongConsumer;
 import net.minecraft.core.SectionPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -98,7 +91,7 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		return new PortalHitResult(
 				from,
 				next == null ? teleportedEnd : null,
-				closest.portal, linked, entry.pair, entry.id,
+				closest.portal, linked, entry.pair, entry.key,
 				closest.hit, teleportedHit,
 				next
 		);
@@ -114,7 +107,7 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		return this.collisionManager;
 	}
 
-	public void portalsChanged(UUID pairId, @Nullable PortalPair oldPair, @Nullable PortalPair newPair) {
+	public void portalsChanged(String pairKey, @Nullable PortalPair oldPair, @Nullable PortalPair newPair) {
 		if (oldPair != null && oldPair.isLinked()) {
 			for (PortalInstance portal : oldPair) {
 				this.portalsToPairs.remove(portal);
@@ -128,7 +121,7 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 			this.collisionManager.removePair(oldPair);
 		}
 		if (newPair != null && newPair.isLinked()) {
-			PairEntry entry = new PairEntry(pairId, newPair);
+			PairEntry entry = new PairEntry(pairKey, newPair);
 			for (PortalInstance portal : newPair) {
 				this.portalsToPairs.put(portal, entry);
 				forEachSectionContainingPortal(
@@ -177,6 +170,6 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		}
 	}
 
-	private record PairEntry(UUID id, PortalPair pair) {
+	private record PairEntry(String key, PortalPair pair) {
 	}
 }

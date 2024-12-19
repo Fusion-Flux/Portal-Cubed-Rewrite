@@ -6,10 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.UnaryOperator;
-
-import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.ActivePortalLookup;
@@ -18,58 +15,51 @@ import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionAct
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
 
 public abstract class PortalManager {
-	public static final Codec<Map<UUID, PortalPair>> PORTALS_CODEC = Codec.unboundedMap(UUIDUtil.CODEC, PortalPair.CODEC);
-
-	private final Level level;
-
-	protected final Map<UUID, PortalPair> portals;
+	protected final Map<String, PortalPair> portals;
 	protected final SectionActivePortalLookup activePortals;
 
 	public PortalManager(Level level) {
-		this.level = level;
 		this.portals = new HashMap<>();
 		this.activePortals = new SectionActivePortalLookup(level);
 	}
 
-	public PortalPair getPair(UUID id) {
-		return this.portals.get(id);
+	public PortalPair getPair(String key) {
+		return this.portals.get(key);
 	}
 
-	public PortalPair getOrCreatePair(UUID id) {
-		return this.portals.getOrDefault(id, PortalPair.EMPTY);
+	public PortalPair getOrEmpty(String key) {
+		return this.portals.getOrDefault(key, PortalPair.EMPTY);
 	}
 
-	public void setPair(UUID id, @Nullable PortalPair pair) {
+	public void setPair(String key, @Nullable PortalPair pair) {
 		if (pair != null && pair.isEmpty()) {
 			pair = null;
 		}
 
-		PortalPair old = this.portals.get(id);
+		PortalPair old = this.portals.get(key);
 
 		if (pair == null) {
-			this.portals.remove(id);
+			this.portals.remove(key);
 		} else {
-			this.portals.put(id, pair);
+			this.portals.put(key, pair);
 		}
 
-		this.activePortals.portalsChanged(id, old, pair);
+		this.activePortals.portalsChanged(key, old, pair);
 	}
 
-	public void modifyPair(UUID id, UnaryOperator<PortalPair> op) {
-		PortalPair pair = this.getOrCreatePair(id);
-		this.setPair(id, op.apply(pair));
+	public void modifyPair(String key, UnaryOperator<PortalPair> op) {
+		PortalPair pair = this.getOrEmpty(key);
+		this.setPair(key, op.apply(pair));
 	}
 
 	public Collection<PortalPair> getAllPairs() {
 		return Collections.unmodifiableCollection(this.portals.values());
 	}
 
-	public Set<UUID> getAllIds() {
+	public Set<String> getAllKeys() {
 		return Collections.unmodifiableSet(this.portals.keySet());
 	}
 
@@ -80,11 +70,5 @@ public abstract class PortalManager {
 	// util used in a couple places
 	public boolean isCollisionModified(BlockPos pos) {
 		return !this.activePortals().collisionManager().getPatches(pos).isEmpty();
-	}
-
-	// TODO: swap to keys directly, this is temporary
-	public static UUID generateId(String key) {
-		LegacyRandomSource random = new LegacyRandomSource(key.hashCode());
-		return new UUID(random.nextLong(), random.nextLong());
 	}
 }

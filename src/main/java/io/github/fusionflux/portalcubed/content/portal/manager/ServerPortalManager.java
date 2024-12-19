@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import java.util.HashSet;
-import java.util.UUID;
 
 import com.mojang.datafixers.util.Pair;
 
@@ -22,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.AABB;
@@ -41,21 +41,21 @@ public class ServerPortalManager extends PortalManager {
 	 * If the pair does not exist, a new one is created.
 	 * If an old portal already exists, it will be removed.
 	 */
-	public void createPortal(UUID pairId, Polarity polarity, PortalData data) {
-		this.modifyPair(pairId, pair -> pair.with(polarity, new PortalInstance(data)));
+	public void createPortal(String key, Polarity polarity, PortalData data) {
+		this.modifyPair(key, pair -> pair.with(polarity, new PortalInstance(data)));
 	}
 
 	@Override
-	public void setPair(UUID id, @Nullable PortalPair pair) {
-		super.setPair(id, pair);
-		UpdatePortalPairPacket packet = new UpdatePortalPairPacket(id, pair);
+	public void setPair(String key, @Nullable PortalPair pair) {
+		super.setPair(key, pair);
+		UpdatePortalPairPacket packet = new UpdatePortalPairPacket(key, pair);
 		PortalCubedPackets.sendToClients(PlayerLookup.world(this.level), packet);
 	}
 
 	public void removePortalsInBox(AABB bounds) {
 		// TODO: this is a mess. Need a section-based lookup and easy removal
 		// copy the ID set to avoid a CME
-		for (UUID key : new HashSet<>(this.getAllIds())) {
+		for (String key : new HashSet<>(this.getAllKeys())) {
 			this.modifyPair(key, pair -> {
 				if (pair.primary().isPresent()) {
 					PortalInstance primary = pair.primary().get();
@@ -76,15 +76,27 @@ public class ServerPortalManager extends PortalManager {
 	}
 
 	public CompoundTag save(CompoundTag nbt) {
-		nbt.put("portals", PORTALS_CODEC.encodeStart(NbtOps.INSTANCE, this.portals).result().orElseThrow());
+		if (this.portals.isEmpty())
+			return nbt;
+
+		CompoundTag portals = new CompoundTag();
+		nbt.put("portals", portals);
+
+		this.portals.forEach((key, pair) -> {
+			Tag tag = PortalPair.CODEC.encodeStart(NbtOps.INSTANCE, pair).result().orElseThrow();
+			portals.put(key, tag);
+		});
+
 		return nbt;
 	}
 
 	public void load(CompoundTag nbt) {
-		PORTALS_CODEC.decode(NbtOps.INSTANCE, nbt.get("portals")).result().map(Pair::getFirst).ifPresent(map -> {
-			this.portals.clear();
-			this.portals.putAll(map);
-		});
+		CompoundTag portals = nbt.getCompound("portals");
+		for (String key : portals.getAllKeys()) {
+			Tag tag = portals.get(key);
+			PortalPair.CODEC.decode(NbtOps.INSTANCE, tag).result().map(Pair::getFirst)
+					.ifPresent(pair -> this.portals.put(key, pair));
+		}
 	}
 
 	public static class PersistentState extends SavedData {

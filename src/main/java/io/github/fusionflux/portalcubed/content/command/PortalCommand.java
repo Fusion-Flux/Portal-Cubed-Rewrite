@@ -14,44 +14,37 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Consumer;
+
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
 import com.mojang.brigadier.context.CommandContext;
-
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalShape;
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
-import io.github.fusionflux.portalcubed.framework.command.argument.PortalTypeArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
-
+import io.github.fusionflux.portalcubed.framework.command.argument.PortalTypeArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
 import net.fabricmc.fabric.api.util.TriState;
-
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.commands.arguments.coordinates.Coordinates;
@@ -165,16 +158,15 @@ public class PortalCommand {
 //			return fail(ctx, CREATE_FAILURE, lang("create.failure.invalid_rendering", typeId));
 //		}
 
-		UUID id = PortalManager.generateId(key);
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
-		PortalPair pair = manager.getPair(id);
+		PortalPair pair = manager.getPair(key);
 		if (pair != null && pair.get(polarity).isPresent()) {
 			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
 		}
 
 		PortalSettings settings = new PortalSettings(color, shape);
 		PortalData data = new PortalData(placement.pos, placement.rotation, settings);
-		manager.createPortal(id, polarity, data);
+		manager.createPortal(key, polarity, data);
 		ctx.getSource().sendSuccess(() -> lang("create.success"), true);
 		return Command.SINGLE_SUCCESS;
 	}
@@ -184,9 +176,8 @@ public class PortalCommand {
 		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
 
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
-		UUID id = PortalManager.generateId(key);
+		PortalPair pair = manager.getPair(key);
 
-		PortalPair pair = manager.getPair(id);
 		if (pair == null || pair.get(polarity).isEmpty()) {
 			return fail(ctx, MODIFY_FAILURE, lang(MODIFY_NONEXISTENT, key, polarity));
 		}
@@ -195,7 +186,7 @@ public class PortalCommand {
 		if (newData == null)
 			return 0;
 
-		manager.setPair(id, pair.with(polarity, new PortalInstance(newData)));
+		manager.setPair(key, pair.with(polarity, new PortalInstance(newData)));
 
 		ctx.getSource().sendSuccess(() -> MODIFY_SUCCESS, true);
 		return Command.SINGLE_SUCCESS;
@@ -207,8 +198,7 @@ public class PortalCommand {
 
 		CommandSourceStack source = ctx.getSource();
 		ServerPortalManager manager = source.getLevel().portalManager();
-		UUID id = PortalManager.generateId(key);
-		PortalPair pair = manager.getPair(id);
+		PortalPair pair = manager.getPair(key);
 
 		if (maybePolarity.isEmpty()) {
 			// remove both
@@ -216,7 +206,7 @@ public class PortalCommand {
 				return fail(ctx, REMOVE_FAIL_MULTI, lang(REMOVE_NONEXISTENT_MULTI, key));
 			}
 
-			manager.setPair(id, null);
+			manager.setPair(key, null);
 			source.sendSuccess(() -> REMOVE_MULTI, true);
 		} else {
 			Polarity polarity = maybePolarity.get();
@@ -224,7 +214,7 @@ public class PortalCommand {
 				return fail(ctx, REMOVE_FAIL, lang(REMOVE_NONEXISTENT, key));
 			}
 
-			manager.setPair(id, pair.without(polarity));
+			manager.setPair(key, pair.without(polarity));
 			source.sendSuccess(() -> REMOVE_SINGLE, true);
 		}
 
@@ -233,14 +223,14 @@ public class PortalCommand {
 
 	private static int removeAll(CommandContext<CommandSourceStack> ctx) {
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
-		Set<UUID> ids = manager.getAllIds();
-		if (ids.isEmpty()) {
+		Set<String> keys = manager.getAllKeys();
+		if (keys.isEmpty()) {
 			return fail(ctx, REMOVE_FAIL, NO_PORTALS);
 		}
 
 		// copy to avoid CME
-		Set<UUID> copy = new HashSet<>(ids);
-		copy.forEach(id -> manager.setPair(id, null));
+		Set<String> copy = new HashSet<>(keys);
+		copy.forEach(key -> manager.setPair(key, null));
 		ctx.getSource().sendSuccess(() -> REMOVE_ALL, true);
 		return Command.SINGLE_SUCCESS;
 	}

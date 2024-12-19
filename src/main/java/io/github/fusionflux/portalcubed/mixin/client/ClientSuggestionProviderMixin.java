@@ -1,14 +1,13 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
-import io.github.fusionflux.portalcubed.framework.extension.ClientSuggestionProviderExt;
-
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
+import io.github.fusionflux.portalcubed.framework.extension.ClientSuggestionProviderExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientSuggestionProvider;
@@ -36,7 +35,6 @@ public class ClientSuggestionProviderMixin implements ClientSuggestionProviderEx
 		ClientPortalManager manager = level.portalManager();
 		// TODO: check for inactive portals too
 		PortalHitResult hit = manager.activePortals().clip(from, to);
-		// TODO: this won't work until UUIDs are replaced with keys
-		return hit == null ? null : hit.pairId().toString();
+		return hit == null ? null : hit.pairKey();
 	}
 }

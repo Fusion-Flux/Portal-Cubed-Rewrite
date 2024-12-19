@@ -1,18 +1,15 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import java.util.UUID;
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.datafixers.util.Pair;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
-
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.network.FriendlyByteBuf;
 
-public record PortalTeleportInfo(UUID pairId, Polarity entered, @Nullable PortalTeleportInfo next) {
-	public boolean matches(UUID pairId, Polarity entered) {
-		return this.pairId.equals(pairId) && this.entered == entered;
+public record PortalTeleportInfo(String pairKey, Polarity entered, @Nullable PortalTeleportInfo next) {
+	public boolean matches(String pairKey, Polarity entered) {
+		return this.pairKey.equals(pairKey) && this.entered == entered;
 	}
 
 	/**
@@ -20,7 +17,7 @@ public record PortalTeleportInfo(UUID pairId, Polarity entered, @Nullable Portal
 	 */
 	public PortalTeleportInfo append(PortalTeleportInfo last) {
 		PortalTeleportInfo newNext = this.next == null ? last : this.next.append(last);
-		return new PortalTeleportInfo(this.pairId, this.entered, newNext);
+		return new PortalTeleportInfo(this.pairKey, this.entered, newNext);
 	}
 
 	public PortalTeleportInfo last() {
@@ -33,7 +30,7 @@ public record PortalTeleportInfo(UUID pairId, Polarity entered, @Nullable Portal
 	 */
 	@Nullable
 	public Pair<PortalInstance, PortalInstance> getFirstAndLast(PortalManager manager) {
-		PortalPair firstPair = manager.getPair(this.pairId);
+		PortalPair firstPair = manager.getPair(this.pairKey);
 		if (firstPair == null || !firstPair.isLinked())
 			return null;
 
@@ -45,7 +42,7 @@ public record PortalTeleportInfo(UUID pairId, Polarity entered, @Nullable Portal
 		}
 
 		PortalTeleportInfo lastInfo = this.last();
-		PortalPair lastPair = manager.getPair(lastInfo.pairId);
+		PortalPair lastPair = manager.getPair(lastInfo.pairKey);
 		if (lastPair == null || !lastPair.isLinked())
 			return null;
 
@@ -58,15 +55,15 @@ public record PortalTeleportInfo(UUID pairId, Polarity entered, @Nullable Portal
 	}
 
 	private static void toNetwork(FriendlyByteBuf buf, PortalTeleportInfo info) {
-		buf.writeUUID(info.pairId);
+		buf.writeUtf(info.pairKey);
 		buf.writeEnum(info.entered);
 		buf.writeNullable(info.next, PortalTeleportInfo::toNetwork);
 	}
 
 	public static PortalTeleportInfo fromNetwork(FriendlyByteBuf buf) {
-		UUID pairId = buf.readUUID();
+		String pairKey = buf.readUtf();
 		Polarity entered = buf.readEnum(Polarity.class);
 		PortalTeleportInfo next = buf.readNullable(PortalTeleportInfo::fromNetwork);
-		return new PortalTeleportInfo(pairId, entered, next);
+		return new PortalTeleportInfo(pairKey, entered, next);
 	}
 }

@@ -1,13 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal.projectile;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
-import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.Polarity;
-import io.github.fusionflux.portalcubed.framework.entity.UnsavedEntity;
-
 import org.joml.Quaternionf;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.framework.entity.UnsavedEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -22,8 +21,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.UUID;
-
 public class PortalProjectile extends UnsavedEntity {
 	public static final double SPEED = (6 * 16) / 20f; // 6 chunks per second
 
@@ -35,7 +32,7 @@ public class PortalProjectile extends UnsavedEntity {
 	// only tracked on the server
 	private PortalSettings portalSettings;
 	private float yRot;
-	private UUID pair;
+	private String pairKey;
 	private Polarity polarity;
 
 	public PortalProjectile(EntityType<?> variant, Level world) {
@@ -43,12 +40,12 @@ public class PortalProjectile extends UnsavedEntity {
 		this.noPhysics = true;
 	}
 
-	public PortalProjectile(Level level, PortalSettings settings, float yRot, UUID pair, Polarity polarity) {
+	public PortalProjectile(Level level, PortalSettings settings, float yRot, String pairKey, Polarity polarity) {
 		this(PortalCubedEntities.PORTAL_PROJECTILE, level);
 		this.portalSettings = settings;
 		this.entityData.set(COLOR, settings.color());
 		this.yRot = yRot;
-		this.pair = pair;
+		this.pairKey = pairKey;
 		this.polarity = polarity;
 	}
 
@@ -96,12 +93,12 @@ public class PortalProjectile extends UnsavedEntity {
 	}
 
 	private void spawnPortal(ServerLevel level, BlockHitResult hit) {
-		if (this.portalSettings == null || this.pair == null || this.polarity == null)
+		if (this.portalSettings == null || this.pairKey == null || this.polarity == null)
 			return;
 
 		Quaternionf rotation = getPortalRotation(hit.getDirection(), this.yRot);
 		PortalData data = new PortalData(hit.getLocation(), rotation, this.portalSettings);
-		level.portalManager().createPortal(this.pair, this.polarity, data);
+		level.portalManager().createPortal(this.pairKey, this.polarity, data);
 	}
 
 	public int getColor() {

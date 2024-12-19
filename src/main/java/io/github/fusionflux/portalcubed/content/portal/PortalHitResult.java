@@ -1,13 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.Objects;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.Objects;
-import java.util.UUID;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A result of a raycast that passes through a pair of portals.
@@ -24,14 +23,14 @@ import org.jetbrains.annotations.Nullable;
  * @param next   The next hit result in the chain. Null when end is non-null.
  */
 public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
-							  PortalInstance in, PortalInstance out, PortalPair pair, UUID pairId,
+							  PortalInstance in, PortalInstance out, PortalPair pair, String pairKey,
 							  Vec3 inHit, Vec3 outHit,
 							  @Nullable PortalHitResult next) {
 
 	public static final PortalHitResult OVERFLOW_MARKER = new PortalHitResult(null, Vec3.ZERO, null, null, null, null, null, null, null);
 
 	public PortalHitResult(Vec3 start, @Nullable Vec3 end,
-						   PortalInstance in, PortalInstance out, PortalPair pair, UUID pairId,
+						   PortalInstance in, PortalInstance out, PortalPair pair, String pairKey,
 						   Vec3 inHit, Vec3 outHit,
 						   @Nullable PortalHitResult next) {
 		this.start = start;
@@ -41,7 +40,7 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 		this.in = in;
 		this.out = out;
 		this.pair = pair;
-		this.pairId = pairId;
+		this.pairKey = pairKey;
 		this.next = next;
 
 		// both null or both non-null

@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import org.quiltmc.qsl.networking.api.PacketSender;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
@@ -13,8 +15,6 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
-
-import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xRot, float yRot) implements ServerboundPacket {
 	public static final double GLIDING_MAX = Math.sqrt(300);
@@ -52,7 +52,7 @@ public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xR
 		double distance = 0;
 
 		// entrance
-		PortalPair firstPair = manager.getPair(this.info.pairId());
+		PortalPair firstPair = manager.getPair(this.info.pairKey());
 		if (firstPair == null || !firstPair.isLinked())
 			return true;
 
@@ -66,7 +66,7 @@ public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xR
 		PortalInstance exited = firstPair.getOrThrow(this.info.entered().opposite());
 		PortalTeleportInfo info = this.info.next();
 		while (info != null) {
-			PortalPair pair = manager.getPair(info.pairId());
+			PortalPair pair = manager.getPair(info.pairKey());
 			if (pair == null || !pair.isLinked())
 				return true;
 
