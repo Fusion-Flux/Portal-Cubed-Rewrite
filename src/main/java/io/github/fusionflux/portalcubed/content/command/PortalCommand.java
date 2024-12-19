@@ -370,7 +370,9 @@ public class PortalCommand {
 				return literal(this.name).then(
 						argument("position", Vec3Argument.vec3())
 								.then(
-										modify(argument("facing", DirectionArgumentType.direction()), innerModifier)
+										argument("facing", DirectionArgumentType.direction()).then(
+												modify(optionalArg("rotation", FloatArgumentType.floatArg(0, 360)), innerModifier)
+										)
 								).then(
 										modify(argument("rotation", RotationArgument.rotation()), innerModifier)
 								).then(
