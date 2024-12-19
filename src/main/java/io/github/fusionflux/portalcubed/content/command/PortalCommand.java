@@ -91,6 +91,7 @@ public class PortalCommand {
 
 	public static LiteralArgumentBuilder<CommandSourceStack> build() {
 		return literal("portal")
+				.requires(source -> source.hasPermission(2))
 				.then(
 						literal("create").then(
 								argument("key", PortalKeyArgumentType.portalKey()).then(
