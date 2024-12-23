@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,5 +39,14 @@ public class ClientSuggestionProviderMixin implements ClientSuggestionProviderEx
 		// TODO: check for inactive portals too
 		PortalHitResult hit = manager.activePortals().clip(from, to);
 		return hit == null ? null : hit.pairKey();
+	}
+
+	@Override
+	public Collection<String> pc$getAllPortalKeys() {
+		ClientLevel level = this.minecraft.level;
+		if (level == null)
+			return List.of();
+
+		return level.portalManager().getAllKeys();
 	}
 }

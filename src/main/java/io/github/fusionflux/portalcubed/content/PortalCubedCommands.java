@@ -1,38 +1,38 @@
 package io.github.fusionflux.portalcubed.content;
 
+import static net.minecraft.commands.Commands.literal;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
+
+import com.mojang.brigadier.Message;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
-
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
-
 import com.mojang.brigadier.context.CommandContext;
-
 import com.mojang.brigadier.context.ParsedArgument;
 
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
-
 import io.github.fusionflux.portalcubed.content.command.CreateConstructCommand;
-
 import io.github.fusionflux.portalcubed.content.command.FizzleCommand;
 import io.github.fusionflux.portalcubed.content.command.PortalCommand;
 import io.github.fusionflux.portalcubed.framework.command.CollectionSmuggler;
 import io.github.fusionflux.portalcubed.framework.extension.RequiredArgumentBuilderExt;
 import io.github.fusionflux.portalcubed.mixin.CommandContextAccessor;
 import net.fabricmc.fabric.api.util.TriState;
-
-import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
-
-import static net.minecraft.commands.Commands.literal;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.BiFunction;
-
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
 
 public class PortalCubedCommands {
 	public static void init() {
@@ -74,5 +74,9 @@ public class PortalCubedCommands {
 	public static <S> boolean hasArgument(CommandContext<S> ctx, String name) {
 		Map<String, ParsedArgument<S, ?>> args = ((CommandContextAccessor<S>) ctx).getArguments();
 		return args.containsKey(name);
+	}
+
+	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message messag) {
+		return SharedSuggestionProvider.suggest(iterable, builder, Function.identity(), $ -> messag);
 	}
 }

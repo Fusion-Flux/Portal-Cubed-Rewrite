@@ -8,6 +8,7 @@
     "AbstractMinecartAccessor",
     "AbstractSkeletonMixin",
     "ArgumentBuilderMixin",
+    "ArgumentCommandNodeMixin",
     "ArgumentTypeInfosAccessor",
     "BlockBehavior$BlockStateBaseMixin",
     "BlockMixin",

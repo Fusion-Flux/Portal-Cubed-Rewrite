@@ -29,6 +29,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
+import io.github.fusionflux.portalcubed.content.PortalCubedSuggestionProviders;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
@@ -94,22 +95,24 @@ public class PortalCommand {
 				.requires(source -> source.hasPermission(2))
 				.then(
 						literal("create").then(
-								argument("key", PortalKeyArgumentType.portalKey()).then(
-										argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
-												Arrays.stream(PlacementStrategy.values())
-														.map(strategy -> strategy.build(inner -> inner.then(
-																optionalArg("shape", PortalShapeArgumentType.shape()).then(
-																		optionalArg("color", ColorArgumentType.color()).then(
-																				optionalArg("render", BoolArgumentType.bool()).then(
-																						optionalArg("validate", BoolArgumentType.bool())
-																								.executes(ctx -> create(ctx, strategy))
+								argument("key", PortalKeyArgumentType.portalKey())
+										.suggests(PortalCubedSuggestionProviders.PORTAL_CREATION_KEYS)
+										.then(
+												argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
+														Arrays.stream(PlacementStrategy.values())
+																.map(strategy -> strategy.build(inner -> inner.then(
+																		optionalArg("shape", PortalShapeArgumentType.shape()).then(
+																				optionalArg("color", ColorArgumentType.color()).then(
+																						optionalArg("render", BoolArgumentType.bool()).then(
+																								optionalArg("validate", BoolArgumentType.bool())
+																										.executes(ctx -> create(ctx, strategy))
+																						)
 																				)
 																		)
-																)
-														)))
-														.toList()
-										))
-								)
+																)))
+																.toList()
+												))
+										)
 						)
 				).then(
 						literal("modify").then(
@@ -484,15 +487,17 @@ public class PortalCommand {
 		COLOR {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(Command<CommandSourceStack> command) {
-				return argument("color", ColorArgumentType.color())
-						.executes(command)
-						.then(literal("default").executes(command));
+				return collection(List.of(
+						argument("color", ColorArgumentType.color()).executes(command),
+						literal("default").executes(command)
+				));
 			}
 
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
 				int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
 				return portal.settings().color() == PortalSettings.fixAlpha(color)
+
 						? this.fail(ctx, "#" + Integer.toHexString(color))
 						: portal.withSettings(portal.settings().withColor(color));
 			}

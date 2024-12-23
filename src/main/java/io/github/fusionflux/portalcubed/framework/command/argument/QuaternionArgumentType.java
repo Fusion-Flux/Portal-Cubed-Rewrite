@@ -36,7 +36,7 @@ public class QuaternionArgumentType implements ArgumentType<Quaternionf> {
 				if (reader.canRead() && reader.peek() == ' ') {
 					reader.skip();
 					float w = reader.readFloat();
-					return new Quaternionf(x, y, z, w);
+					return new Quaternionf(x, y, z, w).normalize();
 				}
 			}
 		}
