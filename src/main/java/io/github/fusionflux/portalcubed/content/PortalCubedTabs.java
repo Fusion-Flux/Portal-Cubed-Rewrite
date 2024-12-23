@@ -268,8 +268,8 @@ public class PortalCubedTabs {
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 215, "smithers_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 216, "peashooter");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 217, "paintbrush");
-			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 218, "pipis_cannon");
-			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 219, "portal_gun_rick");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 219, "pipis_cannon");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 220, "portal_gun_rick");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");
