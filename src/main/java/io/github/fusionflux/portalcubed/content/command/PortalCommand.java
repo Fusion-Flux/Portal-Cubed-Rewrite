@@ -1,12 +1,7 @@
 package io.github.fusionflux.portalcubed.content.command;
 
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.collection;
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.getOptional;
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.getOptionalBool;
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.hasArgument;
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.optionalArg;
-import static net.minecraft.commands.Commands.argument;
-import static net.minecraft.commands.Commands.literal;
+import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.*;
+import static net.minecraft.commands.Commands.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -73,7 +68,6 @@ public class PortalCommand {
 	public static final Component MODIFY_SUCCESS = lang("modify.success");
 	public static final String MODIFY_FAILURE = "modify.failure";
 	public static final String MODIFY_NONEXISTENT = MODIFY_FAILURE + ".nonexistent";
-	public static final String INVALID_RENDERING = MODIFY_FAILURE + ".invalid_rendering";
 	public static final String MODIFY_UNCHANGED = MODIFY_FAILURE + ".unchanged";
 
 	public static final Component REMOVE_SINGLE = lang("remove.success");
@@ -103,8 +97,8 @@ public class PortalCommand {
 																.map(strategy -> strategy.build(inner -> inner.then(
 																		optionalArg("shape", PortalShapeArgumentType.shape()).then(
 																				optionalArg("color", ColorArgumentType.color()).then(
-																						optionalArg("render", BoolArgumentType.bool()).then(
-																								optionalArg("validate", BoolArgumentType.bool())
+																						flag("no_render").then(
+																								flag("no_validate")
 																										.executes(ctx -> create(ctx, strategy))
 																						)
 																				)
@@ -147,8 +141,8 @@ public class PortalCommand {
 		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
 		PortalShape shape = getOptional(ctx, "shape", PortalShapeArgumentType::getShape, PortalShape.SQUARE);
 		int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
-		TriState render = getOptionalBool(ctx, "render");
-		boolean validate = getOptional(ctx, "validate", BoolArgumentType::getBool, true);
+		boolean noRender = getFlag(ctx, "no_render");
+		boolean noValidate = getFlag(ctx, "no_validate");
 
 		if ("all".equals(key)) {
 			return fail(ctx, CREATE_FAILURE, ID_ALL);
@@ -156,19 +150,13 @@ public class PortalCommand {
 			return fail(ctx, CREATE_FAILURE, ID_TOO_LONG);
 		}
 
-		// TODO: custom portal types
-//		boolean supportsRendering = true;
-//		if (render == TriState.TRUE && !supportsRendering) {
-//			return fail(ctx, CREATE_FAILURE, lang("create.failure.invalid_rendering", typeId));
-//		}
-
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
 		PortalPair pair = manager.getPair(key);
 		if (pair != null && pair.get(polarity).isPresent()) {
 			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
 		}
 
-		PortalSettings settings = new PortalSettings(color, shape);
+		PortalSettings settings = new PortalSettings(color, shape, !noRender, !noValidate);
 		PortalData data = new PortalData(placement.pos, placement.rotation, settings);
 		manager.createPortal(key, polarity, data);
 		ctx.getSource().sendSuccess(() -> lang("create.success"), true);

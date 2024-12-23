@@ -18,7 +18,6 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.context.ParsedArgument;
-
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
@@ -27,6 +26,7 @@ import io.github.fusionflux.portalcubed.content.command.CreateConstructCommand;
 import io.github.fusionflux.portalcubed.content.command.FizzleCommand;
 import io.github.fusionflux.portalcubed.content.command.PortalCommand;
 import io.github.fusionflux.portalcubed.framework.command.CollectionSmuggler;
+import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
 import io.github.fusionflux.portalcubed.framework.extension.RequiredArgumentBuilderExt;
 import io.github.fusionflux.portalcubed.mixin.CommandContextAccessor;
 import net.fabricmc.fabric.api.util.TriState;
@@ -54,6 +54,10 @@ public class PortalCubedCommands {
 		return arg;
 	}
 
+	public static RequiredArgumentBuilder<CommandSourceStack, ?> flag(String name) {
+		return optionalArg(name, FlagArgumentType.flag(name));
+	}
+
 	public static <S, T> Optional<T> getOptional(CommandContext<S> ctx, String name, BiFunction<CommandContext<S>, String, T> getter) {
 		return Optional.ofNullable(getOptional(ctx, name, getter, null));
 	}
@@ -74,6 +78,10 @@ public class PortalCubedCommands {
 	public static <S> boolean hasArgument(CommandContext<S> ctx, String name) {
 		Map<String, ParsedArgument<S, ?>> args = ((CommandContextAccessor<S>) ctx).getArguments();
 		return args.containsKey(name);
+	}
+
+	public static boolean getFlag(CommandContext<?> ctx, String name) {
+		return FlagArgumentType.getFlag(ctx, name);
 	}
 
 	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message messag) {
