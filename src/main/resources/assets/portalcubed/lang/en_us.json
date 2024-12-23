@@ -127,7 +127,6 @@
   "argument.portalcubed.portal_key.existing_key": "Existing Portal Pair",
   "argument.portalcubed.portal_key.online_player": "Online Player",
 
-
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
   "commands.portalcubed.create_construct.failure": "Failed to create construct: %s",
   "commands.portalcubed.create_construct.failure.no_blocks": "Construct must contain at least one non-air block",
