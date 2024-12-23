@@ -97,8 +97,8 @@ public class PortalCommand {
 																.map(strategy -> strategy.build(inner -> inner.then(
 																		optionalArg("shape", PortalShapeArgumentType.shape()).then(
 																				optionalArg("color", ColorArgumentType.color()).then(
-																						flag("no_render").then(
-																								flag("no_validate")
+																						flag("no_rendering").then(
+																								flag("no_validation")
 																										.executes(ctx -> create(ctx, strategy))
 																						)
 																				)
@@ -141,8 +141,8 @@ public class PortalCommand {
 		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
 		PortalShape shape = getOptional(ctx, "shape", PortalShapeArgumentType::getShape, PortalShape.SQUARE);
 		int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
-		boolean noRender = getFlag(ctx, "no_render");
-		boolean noValidate = getFlag(ctx, "no_validate");
+		boolean noRender = getFlag(ctx, "no_rendering");
+		boolean noValidate = getFlag(ctx, "no_validation");
 
 		if ("all".equals(key)) {
 			return fail(ctx, CREATE_FAILURE, ID_ALL);
