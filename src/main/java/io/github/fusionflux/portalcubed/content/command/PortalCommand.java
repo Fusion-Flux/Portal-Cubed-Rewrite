@@ -37,7 +37,7 @@ import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgument
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
-import io.github.fusionflux.portalcubed.framework.command.argument.PortalTypeArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
 import net.fabricmc.fabric.api.util.TriState;
@@ -92,7 +92,7 @@ public class PortalCommand {
 								argument("key", PortalKeyArgumentType.portalKey())
 										.suggests(PortalCubedSuggestionProviders.PORTAL_CREATION_KEYS)
 										.then(
-												argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
+												argument("polarity", PolarityArgumentType.polarity()).then(collection(
 														Arrays.stream(PlacementStrategy.values())
 																.map(strategy -> strategy.build(inner -> inner.then(
 																		optionalArg("shape", PortalShapeArgumentType.shape()).then(
@@ -111,7 +111,7 @@ public class PortalCommand {
 				).then(
 						literal("modify").then(
 								argument("key", PortalKeyArgumentType.portalKey()).then(
-										argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
+										argument("polarity", PolarityArgumentType.polarity()).then(collection(
 												Arrays.stream(PortalAttribute.values())
 														.map(attribute -> literal(attribute.name).then(
 																attribute.build(
@@ -126,7 +126,7 @@ public class PortalCommand {
 						literal("remove")
 								.then(
 										argument("key", PortalKeyArgumentType.portalKey()).then(
-												optionalArg("polarity", PortalTypeArgumentType.portalType())
+												optionalArg("polarity", PolarityArgumentType.polarity())
 														.executes(PortalCommand::remove)
 										)
 								).then(
@@ -138,7 +138,7 @@ public class PortalCommand {
 	private static int create(CommandContext<CommandSourceStack> ctx, PlacementStrategy strategy) throws CommandSyntaxException{
 		Placement placement = strategy.getPlacement(ctx);
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
+		Polarity polarity = PolarityArgumentType.getPolarity(ctx, "polarity");
 		PortalShape shape = getOptional(ctx, "shape", PortalShapeArgumentType::getShape, PortalShape.SQUARE);
 		int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
 		boolean noRender = getFlag(ctx, "no_rendering");
@@ -165,7 +165,7 @@ public class PortalCommand {
 
 	private static int modify(CommandContext<CommandSourceStack> ctx, PortalAttribute attribute) throws CommandSyntaxException {
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
+		Polarity polarity = PolarityArgumentType.getPolarity(ctx, "polarity");
 
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
 		PortalPair pair = manager.getPair(key);
@@ -186,7 +186,7 @@ public class PortalCommand {
 
 	private static int remove(CommandContext<CommandSourceStack> ctx) {
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		Optional<Polarity> maybePolarity = getOptional(ctx, "polarity", PortalTypeArgumentType::getPortalType);
+		Optional<Polarity> maybePolarity = getOptional(ctx, "polarity", PolarityArgumentType::getPolarity);
 
 		CommandSourceStack source = ctx.getSource();
 		ServerPortalManager manager = source.getLevel().portalManager();
