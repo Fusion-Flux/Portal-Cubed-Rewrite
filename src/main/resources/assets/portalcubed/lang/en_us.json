@@ -263,6 +263,11 @@
   "subtitles.portalcubed.floor_button_press": "Button activates",
   "subtitles.portalcubed.floor_button_release": "Button deactivates",
 
+  "subtitles.portalcubed.chamber_door_unlock": "Chamber door unlocks",
+  "subtitles.portalcubed.chamber_door_lock": "Chamber door locks",
+  "subtitles.portalcubed.chamber_door_open": "Chamber door opens",
+  "subtitles.portalcubed.chamber_door_close": "Chamber door closes",
+
   "subtitles.portalcubed.old_ap_timer": "Timer ticks",
   "subtitles.portalcubed.timer_ding": "Timer dings",
 
@@ -836,6 +841,17 @@
   "block.portalcubed.aged_small_signage": "Aged Small Signage",
   "block.portalcubed.large_signage": "Large Signage",
   "block.portalcubed.aged_large_signage": "Aged Large Signage",
+
+  "block.portalcubed.white_portal_1_chamber_door": "White Portal 1 Chamber Door",
+  "block.portalcubed.metal_portal_1_chamber_door": "Metal Portal 1 Chamber Door",
+
+  "block.portalcubed.white_chamber_door": "White Chamber Door",
+  "block.portalcubed.gray_chamber_door": "Gray Chamber Door",
+
+  "block.portalcubed.white_octopus_chamber_door": "White Octopus Chamber Door",
+  "block.portalcubed.gray_octopus_chamber_door": "Gray Octopus Chamber Door",
+
+  "block.portalcubed.old_ap_chamber_door": "Old Aperture Chamber Door",
 
   "block.portalcubed.pedestal_button": "Pedestal Button",
   "block.portalcubed.old_ap_pedestal_button": "Old Aperture Pedestal Button",

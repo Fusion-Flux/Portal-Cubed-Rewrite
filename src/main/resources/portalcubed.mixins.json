@@ -10,6 +10,7 @@
     "CakeBlockMixin",
     "CandleCakeBlockMixin",
     "CrabInTheOutputMessage",
+    "DoorBlockMixin",
     "EntityAccessor",
     "EntityMixin",
     "EntityTypeMixin",

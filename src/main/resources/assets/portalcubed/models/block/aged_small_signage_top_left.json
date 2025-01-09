@@ -8,7 +8,7 @@
 	"elements": [
 		{
 			"from": [0, 0, 0],
-			"to": [8, 0.01, 8],
+			"to": [8, 0.05, 8],
 			"faces": {
 				"up": {"uv": [0, 0, 8, 8], "texture": "#signage_top_left"},
 				"down": {"uv": [0, 0, 8, 8], "texture": "#0", "cullface": "down"}
