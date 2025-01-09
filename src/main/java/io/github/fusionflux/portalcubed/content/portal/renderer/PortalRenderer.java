@@ -1,12 +1,24 @@
 package io.github.fusionflux.portalcubed.content.portal.renderer;
 
+import java.util.Collection;
+import java.util.Objects;
+
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+import org.lwjgl.opengl.ARBDepthClamp;
+import org.lwjgl.opengl.GL11;
+
+import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 
@@ -29,30 +41,17 @@ import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
 import me.jellysquid.mods.sodium.client.render.chunk.lists.SortedRenderLists;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.RenderBuffers;
-import net.minecraft.client.renderer.culling.Frustum;
-
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.world.phys.Vec3;
-
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-import org.lwjgl.opengl.ARBDepthClamp;
-import org.lwjgl.opengl.GL11;
-
-import java.util.Collection;
-import java.util.Objects;
 
 public class PortalRenderer {
 	public static final double OFFSET_FROM_WALL = 0.001;
@@ -60,6 +59,7 @@ public class PortalRenderer {
 	private static int maxRecursions = 5;
 	private static final RecursionAttachedResource<PoseStack> VIEW_MATRICES = RecursionAttachedResource.create(PoseStack::new);
 	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
+	public static final RecursionAttachedResource<Vector4f> CLIPPING_PLANES = RecursionAttachedResource.create(Vector4f::new);
 	private static int recursion = 0;
 
 	public static int recursion() {
@@ -120,7 +120,7 @@ public class PortalRenderer {
 			RenderSystem.stencilMask(0x00);
 		}
 
-		vertexConsumers.endLastBatch(); // Won't render properly unless we reset stencil first
+		vertexConsumers.endBatch(); // Won't render properly unless we reset stencil first
 	}
 
 	private static void renderPortal(PortalPair pair, PortalInstance portal, PoseStack matrices, MultiBufferSource vertexConsumers, WorldRenderContext context) {
@@ -156,9 +156,8 @@ public class PortalRenderer {
 			RenderSystem.depthMask(true);
 
 			// Backup old state
-			Matrix4f projectionMatrix = RenderSystem.getProjectionMatrix();
 			LevelRenderer worldRenderer = context.worldRenderer();
-			StateCapture oldState = StateCapture.capture(projectionMatrix, worldRenderer, camera);
+			StateCapture oldState = StateCapture.capture(worldRenderer, camera);
 
 			recursion++;
 			((LevelRendererAccessor) worldRenderer).setRenderBuffers(RENDER_BUFFERS.get());
@@ -167,22 +166,19 @@ public class PortalRenderer {
 			Vec3 camPos = PortalTeleportHandler.teleportAbsoluteVecBetween(camera.getPosition(), portal, linked);
 			((CameraAccessor) camera).pc$setPosition(camPos);
 
-			camera.rotation()
-					.premul(portal.rotation().invert(new Quaternionf()))
-					.premul(linked.rotation180);
-			camera.getLookVector().set(0, 1, 0).rotate(camera.rotation());
-			camera.getUpVector().set(0, 1, 0).rotate(camera.rotation());
-			camera.getLeftVector().set(1, 0, 0).rotate(camera.rotation());
+			Quaternionf camRot = camera.rotation();
+			camRot.premul(portal.rotation().invert(new Quaternionf())).premul(linked.rotation180);
+			camera.getLookVector().set(0, 1, 0).rotate(camRot);
+			camera.getUpVector().set(0, 1, 0).rotate(camRot);
+			camera.getLeftVector().set(1, 0, 0).rotate(camRot);
 
 			PoseStack view = VIEW_MATRICES.get();
 			view.setIdentity();
 			view.mulPose(Axis.YP.rotationDegrees(180));
-			view.mulPose(camera.rotation().conjugate(new Quaternionf()));
+			view.mulPose(camRot.conjugate(new Quaternionf()));
 
-			// TODO: Inverse view rotation is extremely weird and this line doesnt appear to do anything but fog is broken with random things,
-			//  1.20.5 removed it and the new fog system should just work with portal rendering
-//			RenderSystem.setInverseViewRotationMatrix(view.normal().invert(new Matrix3f()));
-			linked.plane.clipProjection(view.last().pose(), camPos, projectionMatrix);
+			RenderSystem.setInverseViewRotationMatrix(view.last().normal().invert(new Matrix3f()));
+			linked.plane.getClipping(view.last().pose(), camPos, CLIPPING_PLANES.get());
 
 			GameRenderer gameRenderer = context.gameRenderer();
 			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(view, linked.data.origin(), gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
@@ -192,6 +188,7 @@ public class PortalRenderer {
 			RenderSystem.stencilMask(0x00);
 			RenderSystemAccessor.setModelViewStack(new PoseStack());
 			((LevelRendererAccessor) worldRenderer).setEntityEffect(null);
+			GL11.glEnable(GL11.GL_CLIP_PLANE0);
 			worldRenderer.renderLevel(
 					view,
 					context.tickDelta(),
@@ -200,8 +197,9 @@ public class PortalRenderer {
 					camera,
 					gameRenderer,
 					context.lightmapTextureManager(),
-					projectionMatrix
+					context.projectionMatrix()
 			);
+			GL11.glDisable(GL11.GL_CLIP_PLANE0);
 
 			// Restore old state
 			oldState.restore(worldRenderer, camera);
@@ -220,7 +218,7 @@ public class PortalRenderer {
 	}
 
 	private static void renderPortalStencil(PortalInstance portal, PoseStack matrices, Camera camera) {
-		BufferBuilder builder = RenderSystem.renderThreadTesselator().getBuilder();
+		BufferBuilder builder = Tesselator.getInstance().getBuilder();
 
 		// Setup state
 		builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
@@ -248,9 +246,9 @@ public class PortalRenderer {
 	}
 
 	private record StateCapture(
+			Matrix3f inverseViewRotationMatrix,
 			PoseStack modelViewStack,
 			Matrix4f modelViewMatrix,
-			Matrix4f projectionMatrix,
 			Frustum frustum,
 			Vec3 cameraPosition,
 			Quaternionf cameraRotation,
@@ -261,11 +259,13 @@ public class PortalRenderer {
 			PostChain entityEffect,
 			float fogStart,
 			float fogEnd,
+			float[] fogColor,
+			FogShape fogShape,
 			RenderBuffers renderBuffers,
 			SortedRenderLists renderLists,
 			LongArrayList visibleSections
 	) {
-		public static StateCapture capture(Matrix4f projectionMatrix, LevelRenderer worldRenderer, Camera camera) {
+		public static StateCapture capture(LevelRenderer worldRenderer, Camera camera) {
 			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) SodiumWorldRenderer.instance()).getRenderSectionManager();
 			LongArrayList visibleSections = new LongArrayList();
 			int frame = ((RenderSectionManagerAccessor) renderSectionManager).getLastUpdatedFrame();
@@ -275,9 +275,9 @@ public class PortalRenderer {
 					visibleSections.add(entry.getLongKey());
 			}
 			return new StateCapture(
+					RenderSystem.getInverseViewRotationMatrix(),
 					RenderSystem.getModelViewStack(),
 					new Matrix4f(RenderSystem.getModelViewMatrix()),
-					new Matrix4f(projectionMatrix),
 					((LevelRendererAccessor) worldRenderer).getCullingFrustum(),
 					camera.getPosition(),
 					new Quaternionf(camera.rotation()),
@@ -288,6 +288,8 @@ public class PortalRenderer {
 					((LevelRendererAccessor) worldRenderer).getEntityEffect(),
 					RenderSystem.getShaderFogStart(),
 					RenderSystem.getShaderFogEnd(),
+					RenderSystem.getShaderFogColor().clone(),
+					RenderSystem.getShaderFogShape(),
 					((LevelRendererAccessor) worldRenderer).getRenderBuffers(),
 					renderSectionManager.getRenderLists(),
 					visibleSections
@@ -295,9 +297,9 @@ public class PortalRenderer {
 		}
 
 		public void restore(LevelRenderer worldRenderer, Camera camera) {
+			RenderSystem.setInverseViewRotationMatrix(this.inverseViewRotationMatrix);
 			RenderSystemAccessor.setModelViewStack(this.modelViewStack);
 			RenderSystemAccessor.setModelViewMatrix(this.modelViewMatrix);
-			RenderSystemAccessor.setProjectionMatrix(this.projectionMatrix);
 			((LevelRendererAccessor) worldRenderer).setCullingFrustum(this.frustum);
 			((CameraAccessor) camera).pc$setPosition(this.cameraPosition);
 			((CameraAccessor) camera).setRotation(this.cameraRotation);
@@ -308,6 +310,8 @@ public class PortalRenderer {
 			((LevelRendererAccessor) worldRenderer).setEntityEffect(this.entityEffect);
 			RenderSystem.setShaderFogStart(this.fogStart);
 			RenderSystem.setShaderFogEnd(this.fogEnd);
+			RenderSystem.setShaderFogColor(this.fogColor[0], this.fogColor[1], this.fogColor[2], this.fogColor[3]);
+			RenderSystem.setShaderFogShape(this.fogShape);
 			((LevelRendererAccessor) worldRenderer).setRenderBuffers(this.renderBuffers);
 
 			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) SodiumWorldRenderer.instance()).getRenderSectionManager();
