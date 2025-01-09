@@ -1,14 +1,14 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.Locale;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Locale;
 
 public enum PortalShape implements StringRepresentable {
 	SQUARE, ROUND;

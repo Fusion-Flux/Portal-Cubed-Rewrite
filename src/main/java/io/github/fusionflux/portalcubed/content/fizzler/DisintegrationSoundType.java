@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
 import com.google.common.collect.Iterables;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -10,10 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
 
 public enum DisintegrationSoundType {
 	GENERIC,

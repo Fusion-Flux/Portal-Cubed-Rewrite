@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.gui.widget;
 
+import java.util.function.Consumer;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -8,8 +10,6 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-
-import java.util.function.Consumer;
 
 public class SliderWidget extends AbstractWidget {
 	public static final int BACKGROUND_HEIGHT = 14;

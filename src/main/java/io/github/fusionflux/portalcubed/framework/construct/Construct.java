@@ -1,7 +1,13 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
-import com.mojang.serialization.Codec;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
+
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -16,13 +22,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-
-import org.jetbrains.annotations.Nullable;
-
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * Similar to a {@link StructureTemplate}, stores a map of relative block positions to block states.

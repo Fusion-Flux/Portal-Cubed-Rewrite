@@ -1,27 +1,24 @@
 package io.github.fusionflux.portalcubed.content.command;
 
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
+
+import java.util.Collection;
+import java.util.Collections;
+
+import org.quiltmc.qsl.command.api.EnumArgumentType;
+
 import com.google.common.collect.Iterables;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
 import com.mojang.brigadier.context.CommandContext;
-
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-
-import org.quiltmc.qsl.command.api.EnumArgumentType;
-
-import java.util.Collection;
-import java.util.Collections;
-
-import static net.minecraft.commands.Commands.argument;
-import static net.minecraft.commands.Commands.literal;
 
 public class FizzleCommand {
 	public static LiteralArgumentBuilder<CommandSourceStack> build() {

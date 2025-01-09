@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
+import java.util.Optional;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.particle.ParticleRenderTypes;
@@ -7,8 +9,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Optional;
 
 public enum BulletHoleMaterial {
 	CONCRETE(PortalCubedBlockTags.BULLET_HOLE_CONCRETE, PortalCubedSounds.CONCRETE_SURFACE_IMPACT, ParticleRenderTypes.MULTIPLY, false),

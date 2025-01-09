@@ -2,12 +2,12 @@ package io.github.fusionflux.portalcubed.framework.util;
 
 import java.util.Iterator;
 
-import com.google.common.collect.Iterators;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
 import org.joml.Vector3d;
+
+import com.google.common.collect.Iterators;
 
 import net.minecraft.world.phys.Vec3;
 

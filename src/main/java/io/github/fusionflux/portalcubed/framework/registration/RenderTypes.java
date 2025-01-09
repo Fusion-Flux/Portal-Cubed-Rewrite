@@ -1,10 +1,10 @@
 package io.github.fusionflux.portalcubed.framework.registration;
 
-import net.minecraft.client.renderer.RenderType;
+import java.util.function.Supplier;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import java.util.function.Supplier;
+import net.minecraft.client.renderer.RenderType;
 
 public enum RenderTypes {
 	SOLID(() -> () -> RenderType::solid),

@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import org.quiltmc.qsl.networking.api.PacketSender;
+
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
@@ -7,8 +9,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-
-import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record DropPacket() implements ServerboundPacket {
 	public DropPacket(FriendlyByteBuf ignored) {

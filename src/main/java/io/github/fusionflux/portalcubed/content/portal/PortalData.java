@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import org.joml.Quaternionf;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import org.joml.Quaternionf;
 
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.phys.Vec3;

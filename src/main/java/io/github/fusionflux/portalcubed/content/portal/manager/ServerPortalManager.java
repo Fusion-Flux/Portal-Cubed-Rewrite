@@ -2,31 +2,25 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import java.util.HashSet;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.networking.api.PlayerLookup;
+
 import com.mojang.datafixers.util.Pair;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
-
-import io.github.fusionflux.portalcubed.content.portal.PortalData;
-
-import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
-
+import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.AABB;
-
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 public class ServerPortalManager extends PortalManager {
 	public final ServerLevel level;

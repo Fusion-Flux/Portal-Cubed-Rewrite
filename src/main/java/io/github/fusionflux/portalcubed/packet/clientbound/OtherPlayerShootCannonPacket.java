@@ -1,18 +1,17 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
+import java.util.UUID;
+
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.networking.api.PacketSender;
+
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-
 import net.minecraft.world.entity.player.Player;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
-
-import java.util.UUID;
 
 public record OtherPlayerShootCannonPacket(UUID player) implements ClientboundPacket {
 	public OtherPlayerShootCannonPacket(Player player) {

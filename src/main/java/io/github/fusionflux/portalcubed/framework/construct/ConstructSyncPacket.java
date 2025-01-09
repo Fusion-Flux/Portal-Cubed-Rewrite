@@ -1,5 +1,14 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.networking.api.PacketSender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
@@ -10,15 +19,6 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class ConstructSyncPacket implements ClientboundPacket {
 	private static final Logger logger = LoggerFactory.getLogger(ConstructSyncPacket.class);

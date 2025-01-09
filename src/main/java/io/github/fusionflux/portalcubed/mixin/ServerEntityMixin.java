@@ -5,13 +5,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
-
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
-
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-
-import io.github.fusionflux.portalcubed.packet.clientbound.LocalTeleportPacket;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -19,6 +12,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+
+import io.github.fusionflux.portalcubed.packet.clientbound.LocalTeleportPacket;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBundlePacket;

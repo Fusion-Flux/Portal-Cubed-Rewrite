@@ -1,12 +1,18 @@
 package io.github.fusionflux.portalcubed.framework.construct.set;
 
+import java.util.Locale;
+import java.util.Optional;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
-import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
+import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip.Builder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -16,15 +22,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
-
 import net.minecraft.world.level.block.Rotation;
-
-import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip.Builder;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Locale;
-import java.util.Optional;
 
 /**
  * A construct set that places one of two constructs based on the chosen axis.

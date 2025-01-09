@@ -1,20 +1,19 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import com.mojang.brigadier.Command;
-import com.mojang.brigadier.builder.ArgumentBuilder;
-
-import com.mojang.brigadier.tree.CommandNode;
-import com.mojang.brigadier.tree.RootCommandNode;
-
-import io.github.fusionflux.portalcubed.framework.command.CollectionSmuggler;
-import io.github.fusionflux.portalcubed.framework.extension.RequiredArgumentBuilderExt;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.tree.CommandNode;
+import com.mojang.brigadier.tree.RootCommandNode;
+
+import io.github.fusionflux.portalcubed.framework.command.CollectionSmuggler;
+import io.github.fusionflux.portalcubed.framework.extension.RequiredArgumentBuilderExt;
 
 @Mixin(value = ArgumentBuilder.class, remap = false)
 public abstract class ArgumentBuilderMixin<S, T extends ArgumentBuilder<S, T>> {

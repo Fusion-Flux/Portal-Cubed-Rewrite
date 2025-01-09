@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
@@ -7,9 +8,6 @@ import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.util.TagWithCountTooltipComponent;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton.Textures;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

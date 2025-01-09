@@ -1,14 +1,14 @@
 package io.github.fusionflux.portalcubed.data.tags;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
 import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 public class PortalCubedEntityTags {
 	// props

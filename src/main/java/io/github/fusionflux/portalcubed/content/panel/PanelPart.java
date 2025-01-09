@@ -1,15 +1,15 @@
 package io.github.fusionflux.portalcubed.content.panel;
 
-import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
+
 import io.github.fusionflux.portalcubed.framework.block.ConnectiveDirectionalBlock;
+import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockFactory;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GlazedTerracottaBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
-
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public enum PanelPart {
 	CHECKERED("checkered_panel"), // white only

@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
-
 import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 
 public interface PlayerExt {
 	// note: no prefixes needed, descriptors guaranteed unique by HoldableEntity

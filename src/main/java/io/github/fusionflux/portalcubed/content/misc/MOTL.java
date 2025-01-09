@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.quiltmc.loader.api.ModMetadata;
+import org.quiltmc.loader.api.QuiltLoader;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import net.minecraft.Util;
 import net.minecraft.util.RandomSource;
-
-import org.quiltmc.loader.api.ModMetadata;
-import org.quiltmc.loader.api.QuiltLoader;
 
 /**
  * Message Of The Launch

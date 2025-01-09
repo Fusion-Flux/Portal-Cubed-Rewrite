@@ -1,11 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-
-import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
-
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
 import net.minecraft.world.phys.Vec3;
 
 /**

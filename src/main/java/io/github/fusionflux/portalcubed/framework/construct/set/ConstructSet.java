@@ -1,28 +1,26 @@
 package io.github.fusionflux.portalcubed.framework.construct.set;
 
-import com.mojang.serialization.Codec;
-
-import io.github.fusionflux.portalcubed.framework.construct.Construct;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
-import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.util.StringRepresentable;
-
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Rotation;
-
-import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.mojang.serialization.Codec;
+
+import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
+import io.github.fusionflux.portalcubed.framework.construct.Construct;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
+import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Rotation;
 
 /**
  * A ConstructSet is a set of one or more Constructs placeable by the Construction Cannon.

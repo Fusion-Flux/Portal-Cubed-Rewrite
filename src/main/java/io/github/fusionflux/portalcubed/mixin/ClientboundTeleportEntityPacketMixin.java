@@ -1,10 +1,9 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import io.github.fusionflux.portalcubed.framework.extension.ClientboundTeleportEntityPacketExt;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
+import io.github.fusionflux.portalcubed.framework.extension.ClientboundTeleportEntityPacketExt;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 
 @Mixin(ClientboundTeleportEntityPacket.class)

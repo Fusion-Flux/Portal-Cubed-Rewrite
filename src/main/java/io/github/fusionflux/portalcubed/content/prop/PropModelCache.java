@@ -2,27 +2,24 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.EnumMap;
 
-import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-
-import net.minecraft.Util;
-import net.minecraft.client.resources.model.ModelManager;
-
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.world.item.Item;
-
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.reloader.ResourceReloaderKeys;
 import org.quiltmc.qsl.resource.loader.api.reloader.SimpleSynchronousResourceReloader;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public enum PropModelCache implements SimpleSynchronousResourceReloader {

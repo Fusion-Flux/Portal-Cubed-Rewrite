@@ -1,17 +1,15 @@
 package io.github.fusionflux.portalcubed.framework.registration.entity;
 
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.world.entity.Entity;
-
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-
-import net.minecraft.world.entity.MobCategory;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 
 public interface EntityBuilder<T extends Entity> {
 	/**

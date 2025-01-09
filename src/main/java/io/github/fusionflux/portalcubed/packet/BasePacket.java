@@ -1,10 +1,10 @@
 package io.github.fusionflux.portalcubed.packet;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-
-import org.jetbrains.annotations.NotNull;
 
 public interface BasePacket extends CustomPacketPayload {
 	@FunctionalInterface

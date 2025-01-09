@@ -1,5 +1,10 @@
 package io.github.fusionflux.portalcubed.content.door;
 
+import java.util.Locale;
+import java.util.Optional;
+
+import org.jetbrains.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -19,10 +24,6 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Locale;
-import java.util.Optional;
 
 public class LockingChamberDoorBlock extends ChamberDoorBlock {
 	public static final EnumProperty<State> STATE = EnumProperty.create("state", State.class);

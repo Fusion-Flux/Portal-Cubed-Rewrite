@@ -1,13 +1,13 @@
 package io.github.fusionflux.portalcubed.framework.registration.particle;
 
+import java.util.function.Supplier;
+
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-
-import java.util.function.Supplier;
 
 public class ParticleHelper {
 	private final Registrar registrar;

@@ -1,8 +1,5 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
@@ -15,6 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public record DirectClickItemPacket(boolean attack, InteractionHand hand, @Nullable HitResult hit) implements ServerboundPacket {
 	public DirectClickItemPacket(FriendlyByteBuf buf) {

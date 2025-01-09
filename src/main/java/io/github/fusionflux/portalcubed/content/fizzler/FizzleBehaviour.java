@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
+import java.util.Locale;
+
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import net.minecraft.world.entity.Entity;
-
-import java.util.Locale;
 
 public enum FizzleBehaviour {
 	PORTAL_CLEARING {

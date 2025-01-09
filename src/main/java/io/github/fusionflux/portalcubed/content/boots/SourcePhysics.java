@@ -1,12 +1,5 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
-import com.mojang.math.Axis;
-
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
-import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-
 import org.joml.Vector3f;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
@@ -21,6 +14,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Camera;

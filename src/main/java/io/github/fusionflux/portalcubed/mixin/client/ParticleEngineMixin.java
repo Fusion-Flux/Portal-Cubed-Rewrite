@@ -1,9 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import io.github.fusionflux.portalcubed.framework.particle.MultiplyParticleRenderType;
-import net.minecraft.client.particle.ParticleEngine;
-
-import net.minecraft.client.particle.ParticleRenderType;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,8 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.github.fusionflux.portalcubed.framework.particle.MultiplyParticleRenderType;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleRenderType;
 
 @Mixin(ParticleEngine.class)
 public class ParticleEngineMixin {

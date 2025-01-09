@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
@@ -14,16 +16,12 @@ import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
-
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.RedstoneLampBlock;
-
 import net.minecraft.world.phys.Vec3;
-
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 
 public class PropGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":props/";

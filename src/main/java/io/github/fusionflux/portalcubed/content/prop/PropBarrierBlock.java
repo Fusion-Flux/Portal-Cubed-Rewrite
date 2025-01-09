@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -9,8 +11,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import org.jetbrains.annotations.NotNull;
 
 public class PropBarrierBlock extends BarrierBlock {
 	public PropBarrierBlock(Properties properties) {

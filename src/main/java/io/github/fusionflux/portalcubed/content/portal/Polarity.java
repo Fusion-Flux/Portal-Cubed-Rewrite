@@ -1,12 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import com.mojang.serialization.Codec;
-
-import net.minecraft.util.StringRepresentable;
+import java.util.Locale;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
+import com.mojang.serialization.Codec;
+
+import net.minecraft.util.StringRepresentable;
 
 public enum Polarity implements StringRepresentable {
 	PRIMARY(0xff2492fc),

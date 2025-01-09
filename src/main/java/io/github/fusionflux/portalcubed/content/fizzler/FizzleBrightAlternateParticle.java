@@ -1,9 +1,8 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
-
 import org.jetbrains.annotations.NotNull;
 
+import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

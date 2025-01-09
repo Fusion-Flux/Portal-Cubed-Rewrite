@@ -1,5 +1,10 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
+
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.caffeinemc.mods.sodium.api.math.MatrixHelper;
@@ -13,7 +18,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -21,13 +25,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
-import org.lwjgl.system.MemoryStack;
 
 public class DecalParticle extends TextureSheetParticle {
 	public static final float ONE_PIXEL = 1/16f;

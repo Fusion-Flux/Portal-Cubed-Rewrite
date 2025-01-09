@@ -1,17 +1,16 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.goo.GooFluid;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BottleItem;
-
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(BottleItem.class)
 public class BottleItemMixin {

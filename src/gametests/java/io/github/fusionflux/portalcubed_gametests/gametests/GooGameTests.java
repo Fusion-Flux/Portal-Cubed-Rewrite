@@ -1,14 +1,13 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
+
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
-
 import net.minecraft.world.level.block.RedstoneLampBlock;
-
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 
 public class GooGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":goo/";

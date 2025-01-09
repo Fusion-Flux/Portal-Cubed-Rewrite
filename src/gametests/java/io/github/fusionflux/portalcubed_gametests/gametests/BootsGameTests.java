@@ -1,19 +1,16 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-
-import net.minecraft.world.entity.EquipmentSlot;
-
-import net.minecraft.world.entity.Mob;
-
 import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
 
 public class BootsGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":boots/";

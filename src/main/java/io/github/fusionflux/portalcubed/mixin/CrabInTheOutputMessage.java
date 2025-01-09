@@ -1,11 +1,11 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.gametest.framework.TestCommand;
-
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
 
 /*
  * crab in the code is on break, so here to take his place is crab in the output message. we don't know when crab in the code will be back,

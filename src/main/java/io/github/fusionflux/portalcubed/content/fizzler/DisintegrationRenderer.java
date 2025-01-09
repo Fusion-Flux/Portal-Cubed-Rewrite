@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
+import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -15,9 +18,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
 
 public class DisintegrationRenderer {
 	public static final ResourceLocation FLASH_TEXTURE = PortalCubed.id("textures/misc/fizzle_flash.png");

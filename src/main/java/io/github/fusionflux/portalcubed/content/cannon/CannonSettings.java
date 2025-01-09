@@ -1,23 +1,18 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
-import com.mojang.serialization.Codec;
-
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraft.tags.TagKey;
-
-import net.minecraft.world.item.Item;
-
-import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-
-import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
+import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 public record CannonSettings(
 		Optional<TagKey<Item>> material,

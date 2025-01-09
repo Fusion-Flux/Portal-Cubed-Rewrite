@@ -1,12 +1,12 @@
 package io.github.fusionflux.portalcubed.content;
 
+import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
+
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBrightAlternateParticle;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBrightParticle;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleDarkParticle;
 import io.github.fusionflux.portalcubed.content.misc.DecalParticle;
 import net.minecraft.core.particles.SimpleParticleType;
-
-import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 
 public class PortalCubedParticles {
 	public static final SimpleParticleType BULLET_HOLE = REGISTRAR.particles.simple("bullet_hole", () -> () -> DecalParticle.BulletHoleProvider::new);

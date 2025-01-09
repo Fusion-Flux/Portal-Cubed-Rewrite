@@ -4,15 +4,14 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.collect.Iterators;
 import com.mojang.serialization.Codec;
-
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.framework.util.DualIterator;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A PortalPair is a pair of linked portal instances.

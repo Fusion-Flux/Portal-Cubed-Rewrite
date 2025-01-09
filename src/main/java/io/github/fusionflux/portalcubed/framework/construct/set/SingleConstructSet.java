@@ -3,12 +3,11 @@ package io.github.fusionflux.portalcubed.framework.construct.set;
 import java.util.Optional;
 
 import com.mojang.serialization.Codec;
-
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
-import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.ExtraCodecs;

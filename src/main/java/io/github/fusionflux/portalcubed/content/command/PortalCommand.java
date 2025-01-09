@@ -1,7 +1,13 @@
 package io.github.fusionflux.portalcubed.content.command;
 
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.*;
-import static net.minecraft.commands.Commands.*;
+import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.collection;
+import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.flag;
+import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.getFlag;
+import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.getOptional;
+import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.hasArgument;
+import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.optionalArg;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -35,9 +41,9 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManag
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
-import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
 import net.fabricmc.fabric.api.util.TriState;

@@ -1,10 +1,10 @@
 package io.github.fusionflux.portalcubed.framework.particle;
 
-import net.minecraft.client.particle.ParticleRenderType;
+import java.util.function.Supplier;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import java.util.function.Supplier;
+import net.minecraft.client.particle.ParticleRenderType;
 
 public enum ParticleRenderTypes {
 	TRANSLUCENT(() -> () -> ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT),

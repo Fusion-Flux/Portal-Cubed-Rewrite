@@ -1,12 +1,12 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
-import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
+import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import java.util.List;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 
 @ClientOnly
 public interface ScreenExt {

@@ -1,10 +1,10 @@
 package io.github.fusionflux.portalcubed.content.panel;
 
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.MapColor;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.CHECKERED;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.JOINER;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.NO_1x2;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.NO_2x2;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.NO_HALF;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.*;
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
+
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.MapColor;
 
 public enum PanelMaterial {
 	PORTAL_1_WHITE(PanelMaterial::p1WhiteSettings, CHECKERED, NO_2x2),

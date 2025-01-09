@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import org.quiltmc.qsl.networking.api.PacketSender;
+
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
@@ -9,8 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-
-import org.quiltmc.qsl.networking.api.PacketSender;
 
 public record GrabPacket(int grabbed) implements ServerboundPacket {
 	public GrabPacket(HoldableEntity grabbed) {

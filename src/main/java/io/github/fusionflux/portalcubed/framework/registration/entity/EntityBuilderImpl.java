@@ -1,5 +1,12 @@
 package io.github.fusionflux.portalcubed.framework.registration.entity;
 
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
+import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
+
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -9,18 +16,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
-
 import net.minecraft.world.entity.MobCategory;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
-
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class EntityBuilderImpl<T extends Entity> implements EntityBuilder<T> {
 	private final Registrar registrar;

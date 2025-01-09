@@ -1,17 +1,18 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
+
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import io.github.fusionflux.portalcubed_gametests.PortalHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.phys.Vec3;
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
-import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
-import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.gametest.framework.GameTestHelper;
 
 public class PortalGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":portals/";

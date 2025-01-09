@@ -1,11 +1,11 @@
 package io.github.fusionflux.portalcubed.content;
 
+import org.quiltmc.qsl.entity.extensions.api.networking.QuiltTrackedDataHandlerRegistry;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.sounds.SoundEvent;
-
-import org.quiltmc.qsl.entity.extensions.api.networking.QuiltTrackedDataHandlerRegistry;
 
 public class PortalCubedSerializers {
 	public static final EntityDataSerializer<PortalSettings> PORTAL_SETTINGS = register(

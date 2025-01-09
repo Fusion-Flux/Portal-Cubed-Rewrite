@@ -1,14 +1,13 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-
 import net.minecraft.world.level.block.Blocks;
-
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
 
 public class LemonGameTests implements QuiltGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":lemons/";

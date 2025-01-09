@@ -1,21 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
-
-import com.mojang.datafixers.util.Pair;
-
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
-
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
-
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
-
-import io.github.fusionflux.portalcubed.framework.util.Color;
-
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,11 +8,20 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
-
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.datafixers.util.Pair;
+
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.Rotations;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;

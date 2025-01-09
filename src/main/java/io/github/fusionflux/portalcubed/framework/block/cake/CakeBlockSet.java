@@ -4,14 +4,12 @@ import java.util.EnumMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-import io.github.fusionflux.portalcubed.framework.registration.Registrar;
-
-import io.github.fusionflux.portalcubed.framework.registration.block.BlockHelper;
-
-import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
-
 import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
+import io.github.fusionflux.portalcubed.framework.registration.Registrar;
+import io.github.fusionflux.portalcubed.framework.registration.block.BlockHelper;
+import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -19,8 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class CakeBlockSet {
 	private final Block cake;

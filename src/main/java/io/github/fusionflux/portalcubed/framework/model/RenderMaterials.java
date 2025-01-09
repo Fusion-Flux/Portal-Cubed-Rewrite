@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.model;
 
+import java.util.Locale;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.JsonParseException;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -8,17 +12,10 @@ import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import net.fabricmc.fabric.api.renderer.v1.material.MaterialFinder;
-
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.util.TriState;
-
 import net.minecraft.Optionull;
-
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.Util;
-
-import java.util.Locale;
 
 public class RenderMaterials {
 	@Nullable

@@ -3,12 +3,12 @@ package io.github.fusionflux.portalcubed.framework.registration.item;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
+
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public interface ItemBuilder<T extends Item> {
 	/**

@@ -2,31 +2,26 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.Locale;
 
+import org.apache.commons.lang3.stream.IntStreams;
+import org.jetbrains.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.content.prop.entity.Chair;
 import io.github.fusionflux.portalcubed.content.prop.entity.CompanionCube;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
-
 import io.github.fusionflux.portalcubed.content.prop.entity.Radio;
-
 import io.github.fusionflux.portalcubed.content.prop.entity.Taco;
-
-import net.minecraft.world.entity.MobSpawnType;
-
-import org.apache.commons.lang3.stream.IntStreams;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityType.EntityFactory;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-
-import org.jetbrains.annotations.Nullable;
 
 public enum PropType {
 	BEANS                  (3, true, EntityDimensions.fixed(.25f, .375f)),
@@ -101,4 +96,3 @@ public enum PropType {
 		Prop create(PropType type, EntityType<Prop> entityType, Level level);
 	}
 }
-

@@ -1,22 +1,18 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
-
-import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
-
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
-
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.core.BlockPos;
