@@ -87,7 +87,7 @@ public class UnlockingChamberDoorBlock extends ChamberDoorBlock {
 			});
 
 			world.setBlock(pos, state.setValue(POWERED, powered).setValue(STATE, State.UNLOCKED), Block.UPDATE_CLIENTS);
-			world.scheduleTick(pos, this, 15);
+			world.scheduleTick(pos, this, 5);
 		}
 	}
 
