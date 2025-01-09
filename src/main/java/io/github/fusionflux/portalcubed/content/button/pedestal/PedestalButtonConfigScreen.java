@@ -63,7 +63,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		Offset.RIGHT,
 		Offset.NONE
 	);
-	private LinkedList<Offset> konamiRecord;
+	private final LinkedList<Offset> konamiRecord;
 
 	public PedestalButtonConfigScreen(PedestalButtonBlockEntity pedestalButton) {
 		super(Component.translatable("container.portalcubed.pedestal_button"));
@@ -111,9 +111,9 @@ public class PedestalButtonConfigScreen extends Screen {
 
 					{
 						display.addChild(SpacerElement.width(5), 1, 0);
-						display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) / 10), val -> style.pressTimeDisplaySegments.get(val)), 1, 1);
+						display.addChild(new DynamicSpriteWidget<>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (pressTime / 20) / 10, val -> style.pressTimeDisplaySegments.get(val)), 1, 1);
 						display.addChild(SpacerElement.width(2), 1, 2);
-						display.addChild(new DynamicSpriteWidget<Integer>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (int) ((pressTime / 20) % 10), val -> style.pressTimeDisplaySegments.get(val)), 1, 3);
+						display.addChild(new DynamicSpriteWidget<>(SEGMENT_WIDTH, SEGMENT_HEIGHT, () -> (pressTime / 20) % 10, val -> style.pressTimeDisplaySegments.get(val)), 1, 3);
 						display.addChild(SpacerElement.width(5), 1, 4);
 					}
 
@@ -138,13 +138,13 @@ public class PedestalButtonConfigScreen extends Screen {
 				layoutsWithTooltip.add(Pair.of(Tooltip.create(Component.translatable("container.portalcubed.pedestal_button.offset")), offsetSelectButtonGrid));
 
 				for (var offset : Offset.values()) {
-					var button = new ValueSelectButton<Offset>(
-						OFFSET_SELECT_SIZE, OFFSET_SELECT_SIZE, OFFSET_SELECT_SPRITE,
-						offset, () -> this.offset, v -> {
-							this.offset = v;
-							konami(v);
-							this.dirty = true;
-						}, offsetSelectButtons::get
+					var button = new ValueSelectButton<>(
+							OFFSET_SELECT_SIZE, OFFSET_SELECT_SIZE, OFFSET_SELECT_SPRITE,
+							offset, () -> this.offset, v -> {
+						this.offset = v;
+						konami(v);
+						this.dirty = true;
+					}, offsetSelectButtons::get
 					);
 					offsetSelectButtonGrid.addChild(button, offset.stepY + 1, offset.stepX + 1);
 					offsetSelectButtons.put(offset, button);
@@ -237,7 +237,7 @@ public class PedestalButtonConfigScreen extends Screen {
 		tick();
 	}
 
-	public static enum Style {
+	public enum Style {
 		NORMAL("pedestal_button", "7_segment"),
 		OLD_AP("old_ap_pedestal_button", "neon");
 

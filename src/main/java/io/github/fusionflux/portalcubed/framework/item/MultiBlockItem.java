@@ -29,7 +29,7 @@ public class MultiBlockItem extends BlockItem {
 		Player player = context.getPlayer();
 		CollisionContext collisionContext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
 		Set<BlockPos> collisions = new HashSet<>();
-		for (var quadrantPos : multiBlock.quadrantIterator(origin, state)) {
+		for (BlockPos quadrantPos : multiBlock.quadrants(origin, state)) {
 			if (
 				!level.isUnobstructed(state, quadrantPos, collisionContext) ||
 				!level.getWorldBorder().isWithinBounds(quadrantPos) ||
@@ -94,7 +94,7 @@ public class MultiBlockItem extends BlockItem {
 				return false;
 		}
 
-		for (BlockPos quadrantPos : multiBlock.quadrantIterator(origin, state)) {
+		for (BlockPos quadrantPos : multiBlock.quadrants(origin, state)) {
 			FakeBlockPlaceContext quadrantPlacementContext = new FakeBlockPlaceContext(context, quadrantPos);
 			BlockState quadrantState = multiBlock.getStateForPlacement(quadrantPlacementContext);
 			Vec3i relativePos = rotatedSize.relative(origin, quadrantPos);

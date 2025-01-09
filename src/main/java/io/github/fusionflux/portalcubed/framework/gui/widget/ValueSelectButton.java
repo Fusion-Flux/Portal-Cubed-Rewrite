@@ -18,9 +18,9 @@ public class ValueSelectButton<T extends StringRepresentable> extends AbstractWi
 	private final T widgetValue;
 	private final Supplier<T> valueGetter;
 	private final Consumer<T> valueSetter;
-	private final Function<T, ValueSelectButton<T>> widgetMap;
+	private final Function<T, ValueSelectButton<T>> widgetGetter;
 
-	public ValueSelectButton(int width, int height, WidgetSprites sprites, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectButton<T>> widgetMap) {
+	public ValueSelectButton(int width, int height, WidgetSprites sprites, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectButton<T>> widgetGetter) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 
 		this.sprites = sprites;
@@ -28,18 +28,18 @@ public class ValueSelectButton<T extends StringRepresentable> extends AbstractWi
 		this.widgetValue = widgetValue;
 		this.valueGetter = valueGetter;
 		this.valueSetter = valueSetter;
-		this.widgetMap = widgetMap;
+		this.widgetGetter = widgetGetter;
 
 		if (widgetValue == valueGetter.get()) active = false;
 	}
 
-	public ValueSelectButton(int width, int height, ResourceLocation baseSprite, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectButton<T>> widgetMap) {
+	public ValueSelectButton(int width, int height, ResourceLocation baseSprite, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectButton<T>> widgetGetter) {
 		this(width, height, new WidgetSprites(
 			getSpriteId(baseSprite, widgetValue, ""),
 			getSpriteId(baseSprite, widgetValue, "pressed"),
 			getSpriteId(baseSprite, widgetValue, "hover"),
 			getSpriteId(baseSprite, widgetValue, "pressed_hover")
-		), widgetValue, valueGetter, valueSetter, widgetMap);
+		), widgetValue, valueGetter, valueSetter, widgetGetter);
 	}
 
 	private static ResourceLocation getSpriteId(ResourceLocation base, StringRepresentable value, String suffix) {
@@ -54,9 +54,9 @@ public class ValueSelectButton<T extends StringRepresentable> extends AbstractWi
 
 	@Override
 	public void onClick(double mouseX, double mouseY) {
-		var oldValue = valueGetter.get();
+		T oldValue = valueGetter.get();
 		valueSetter.accept(widgetValue);
-		widgetMap.apply(oldValue).active = true;
+		widgetGetter.apply(oldValue).active = true;
 		active = false;
 	}
 

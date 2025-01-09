@@ -1,9 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import java.util.List;
-
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -22,9 +19,6 @@ import net.minecraft.resources.ResourceLocation;
 
 @Mixin(BlockModel.class)
 public abstract class BlockModelMixin {
-	@Shadow
-	public abstract List<BlockElement> getElements();
-
 	@ModifyReturnValue(method = "bakeFace", at = @At("RETURN"))
 	private static BakedQuad addCustomFields(BakedQuad quad, BlockElement part, BlockElementFace partFace, TextureAtlasSprite sprite, Direction direction, ModelState transform, ResourceLocation location) {
 		BlendMode blendMode = ((BlockElementExt) part).pc$blendMode();

@@ -126,10 +126,10 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 
 	public AABB getButtonBounds(Direction direction) {
 		return buttonBounds.computeIfAbsent(direction, $ -> {
-			var baseButtonBounds = buttonBounds.get(Direction.SOUTH);
+			AABB baseButtonBounds = buttonBounds.get(Direction.SOUTH);
 
-			var min = new Vec3(baseButtonBounds.minX, baseButtonBounds.minY, baseButtonBounds.minZ);
-			var max = new Vec3(baseButtonBounds.maxX, baseButtonBounds.maxY, baseButtonBounds.maxZ);
+			Vec3 min = new Vec3(baseButtonBounds.minX, baseButtonBounds.minY, baseButtonBounds.minZ);
+			Vec3 max = new Vec3(baseButtonBounds.maxX, baseButtonBounds.maxY, baseButtonBounds.maxZ);
 			if (direction.getAxisDirection() == Direction.AxisDirection.NEGATIVE) {
 				min = VoxelShaper.rotate(min.subtract(1, 0, .5), 180, Direction.Axis.Y).add(1, 0, .5);
 				max = VoxelShaper.rotate(max.subtract(1, 0, .5), 180, Direction.Axis.Y).add(1, 0, .5);
@@ -144,8 +144,8 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	protected void toggle(BlockState state, Level level, BlockPos pos, @Nullable Entity entity, boolean currentState) {
-		for (BlockPos quadrantPos : quadrantIterator(pos, state)) {
-			var quadrantState = level.getBlockState(quadrantPos);
+		for (BlockPos quadrantPos : quadrants(pos, state)) {
+			BlockState quadrantState = level.getBlockState(quadrantPos);
 			if (!quadrantState.is(this)) return;
 			level.setBlock(quadrantPos, quadrantState.setValue(ACTIVE, !currentState), UPDATE_ALL);
 			updateNeighbours(quadrantState, level, quadrantPos);
@@ -179,48 +179,55 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		builder.add(ACTIVE);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		int y = getY(state);
 		int x = getX(state);
-		var facing = state.getValue(FACING);
-		var quadrantShape = switch (facing) {
+		Direction facing = state.getValue(FACING);
+		VoxelShaper shape = switch (facing) {
 			case NORTH, EAST ->       shapes[y == 1 ? 0 : 1][x == 1 ? 0 : 1];
 			case DOWN, WEST, SOUTH -> shapes[y == 1 ? 0 : 1][x];
 			default ->                shapes[y][x];
 		};
-		return quadrantShape.get(facing);
+		return shape.get(facing);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
 		return Shapes.empty();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) ? 15 : 0;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) && state.getValue(FACING) == direction ? 15 : 0;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-		if (level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate).size() > 0) {
+		if (!level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate).isEmpty()) {
 			level.scheduleTick(pos, this, PRESSED_TIME);
 		} else if (state.getValue(ACTIVE)) {
 			toggle(state, level, pos, null, true);
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
 		if (!level.isClientSide) {

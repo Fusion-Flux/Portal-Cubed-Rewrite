@@ -3,13 +3,12 @@ package io.github.fusionflux.portalcubed.framework.block;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.VERTICAL_DIRECTION;
 
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -49,12 +48,14 @@ public class ConnectiveDirectionalBlock extends DirectionalBlock {
 		return this.defaultBlockState().setValue(FACING, facing);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState rotate(BlockState state, Rotation rotation) {
 		Direction newFacing = rotation.rotate(state.getValue(FACING));
 		return state.setValue(FACING, newFacing);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState mirror(BlockState state, Mirror mirror) {
 		Direction newFacing = mirror.mirror(state.getValue(FACING));

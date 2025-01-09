@@ -289,13 +289,18 @@
 
   "advancement.portalcubed.portal_gun.title": "Thinking with Portals",
   "advancement.portalcubed.portal_gun.description": "Obtain a Portal Gun",
+  "advancement.portalcubed.portal_gun_fox.title": "You Shouldn't be Eating That",
+  "advancement.portalcubed.portal_gun_fox.description": "Give a Portal Gun to a Fox",
   "advancement.portalcubed.construction_cannon.title": "Trust me, I'm an Engineer",
   "advancement.portalcubed.construction_cannon.description": "Use a Construction Cannon",
 
   "advancement.portalcubed.lemon.title": "Get Mad!",
   "advancement.portalcubed.lemon.description": "Obtain a Lemon",
-  "advancement.portalcubed.lemonade.title": "Burn life's house down!",
+  "advancement.portalcubed.lemonade.title": "Burn Life's House Down!",
   "advancement.portalcubed.lemonade.description": "Create and use a combustible lemon",
+
+  "advancement.portalcubed.sign_here.title": "Sign Here",
+  "advancement.portalcubed.sign_here.description": "Place a Signage block",
 
   "advancement.portalcubed.hammer_time.title": "Stop - Hammer Time!",
   "advancement.portalcubed.hammer_time.description": "Use a Hammer to configure a test element",
@@ -377,7 +382,7 @@
   "item.portalcubed.redirection_cube": "Redirection Cube",
   "item.portalcubed.redirection_cube.2": "Dirty Redirection Cube",
   "item.portalcubed.schrodinger_cube": "Schrödinger Cube",
-  "item.portalcubed.schrodinger_cube.2": "Schrödinger Cube",
+  "item.portalcubed.schrodinger_cube.2": "Dirty Schrödinger Cube",
   "item.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
   "item.portalcubed.radio": "Radio",
@@ -387,6 +392,10 @@
   "item.portalcubed.radio.4": "Boombox",
 
   "item.portalcubed.beans": "Bean Can",
+  "item.portalcubed.beans.1": "Open Bean Can",
+  "item.portalcubed.beans.2": "Closed Bean Can",
+  "item.portalcubed.beans.tooltip.random": "Random variant",
+
   "item.portalcubed.cooking_pot": "Cooking Pot",
   "item.portalcubed.jug": "Water Jug",
   "item.portalcubed.computer": "Computer",
@@ -456,6 +465,14 @@
   "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
   "item.portalcubed.missing_texture_portal_gun": "item.portalcubed.portal_gun",
   "item.portalcubed.pistol_portal_gun": "Gun That Makes Holes (Not Bullet Holes)",
+  "item.portalcubed.splash_o_matic": "Splash-o-Matic",
+  "item.portalcubed.tiny_potatos_portal_gun": "Tiny PotatOS Portal Gun",
+  "item.portalcubed.salmon_gun": "Salmon Gun",
+  "item.portalcubed.wand": "Wand",
+  "item.portalcubed.smithers_portal_gun": "Mr. Smithers' Portal Gun",
+  "item.portalcubed.peashooter": "Peashooter",
+  "item.portalcubed.paintbrush": "Paintbrush",
+  "item.portalcubed.polaroid": "Polaroid",
 
   "item.portalcubed.long_fall_boots": "Long Fall Boots",
   "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",
@@ -774,6 +791,7 @@
   "block.portalcubed.2x2_crossbar_top_right": "2x2 Crossbar Top Right",
 
   "block.portalcubed.gray_chamber_exterior": "Gray Chamber Exterior",
+  "block.portalcubed.gray_chamber_exterior_facade": "Gray Chamber Exterior Facade",
   "block.portalcubed.gray_2x2_chamber_exterior_a_bottom_left": "Gray 2x2 Chamber Exterior A Bottom Left",
   "block.portalcubed.gray_2x2_chamber_exterior_a_top_left": "Gray 2x2 Chamber Exterior A Top Left",
   "block.portalcubed.gray_2x2_chamber_exterior_a_bottom_right": "Gray 2x2 Chamber Exterior A Bottom Right",
@@ -784,6 +802,7 @@
   "block.portalcubed.gray_2x2_chamber_exterior_b_top_right": "Gray 2x2 Chamber Exterior B Top Right",
 
   "block.portalcubed.yellow_chamber_exterior": "Yellow Chamber Exterior",
+  "block.portalcubed.yellow_chamber_exterior_facade": "Yellow Chamber Exterior Facade",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_bottom_left": "Yellow 2x2 Chamber Exterior A Bottom Left",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_top_left": "Yellow 2x2 Chamber Exterior A Top Left",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_bottom_right": "Yellow 2x2 Chamber Exterior A Bottom Right",

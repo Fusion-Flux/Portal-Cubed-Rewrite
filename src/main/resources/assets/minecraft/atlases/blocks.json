@@ -17,6 +17,15 @@
             "type": "directory",
             "source": "signage",
             "prefix": "signage/"
+        },
+        {
+            "type": "directory",
+            "source": "prop",
+            "prefix": "prop/"
+        },
+        {
+          "type": "single",
+          "resource": "minecraft:entity/fish/salmon"
         }
     ]
 }

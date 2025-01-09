@@ -29,8 +29,4 @@ public class LevelMixin implements LevelExt {
 	public PortalCubedDamageSources pc$damageSources() {
 		return damageSources;
 	}
-
-	@Override
-	public void pc$playSoundInstance(Object soundInstance) {
-	}
 }

@@ -29,9 +29,8 @@ public final class VirtualConstructEnvironment extends VirtualBlockGetter {
 	@Nullable
 	public BlockEntity getBlockEntity(BlockPos pos) {
 		return cachedBlockEntities.computeIfAbsent(pos.asLong(), $ -> {
-			var blockInfo = getBlockInfo(pos);
-			var maybeNbt = blockInfo.maybeNbt();
-			return maybeNbt.map(nbt -> BlockEntity.loadStatic(pos, blockInfo.state(), nbt)).orElse(null);
+			BlockInfo blockInfo = getBlockInfo(pos);
+			return blockInfo.maybeNbt().map(nbt -> BlockEntity.loadStatic(pos, blockInfo.state(), nbt)).orElse(null);
 		});
 	}
 

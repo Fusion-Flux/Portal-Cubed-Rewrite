@@ -13,6 +13,7 @@ public class GooBlock extends LiquidBlock {
 		super(PortalCubedFluids.GOO, settings);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
 		// Toxic goo is in the water tag, using it should be fine here:tm:

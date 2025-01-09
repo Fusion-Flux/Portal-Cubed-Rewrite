@@ -68,7 +68,7 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 		FOLDER(Folder.CODEC),
 		PATTERN(Pattern.CODEC);
 
-		public static Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
+		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
 
 		private final String name;
 		private final Codec<? extends EmissiveTexturePredicate> codec;

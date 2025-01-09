@@ -1,5 +1,10 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.tab;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
 import io.github.fusionflux.portalcubed.content.cannon.screen.CannonSettingsHolder;
 import io.github.fusionflux.portalcubed.content.cannon.screen.widget.MaterialSlotWidget;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
@@ -12,11 +17,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
 public class MaterialsTab {
 	public static final int ROWS = 4;
 	public static final int COLUMNS = 6;
@@ -25,8 +25,8 @@ public class MaterialsTab {
 	public static final int Y_OFF = 44;
 
 	public static void init(CannonSettingsHolder settings, PanelLayout layout, ScrollbarWidget scrollBar) {
-		var slots = new GridLayout();
-		var materials = getMaterials();
+		GridLayout slots = new GridLayout();
+		List<TagKey<Item>> materials = getMaterials();
 		int rowCount = Mth.positiveCeilDiv(materials.size(), COLUMNS) - ROWS;
 		int scrollRowPos = Math.max((int) ((scrollBar.scrollPos() * rowCount) + .5f), 0);
 		int i = -(COLUMNS * scrollRowPos);

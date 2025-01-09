@@ -1,15 +1,13 @@
 package io.github.fusionflux.portalcubed.content;
 
-import net.minecraft.core.Registry;
-
-import net.minecraft.world.item.ItemStack;
+import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -18,9 +16,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
-import java.util.Objects;
 
 public class PortalCubedDamageSources {
 	public static final ResourceKey<DamageType> LANDING_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("landing_damage"));
@@ -45,23 +42,23 @@ public class PortalCubedDamageSources {
 	}
 
 	public static DamageSource landingDamage(Level level, @Nullable Entity source, @Nullable Entity attacked) {
-		Holder.Reference<DamageType> damageType = ((LevelExt) level).pc$damageSources().landingDamageType;
+		Holder.Reference<DamageType> damageType = level.pc$damageSources().landingDamageType;
 		if (attacked instanceof LivingEntity livingEntity)
 			return new LandingDamageSource(damageType, source, livingEntity.getKillCredit());
 		return new LandingDamageSource(damageType, source, source);
 	}
 
 	public static DamageSource lemonade(Level level, @Nullable Entity source, @Nullable Entity attacked) {
-		PortalCubedDamageSources damageSources = ((LevelExt) level).pc$damageSources();
+		PortalCubedDamageSources damageSources = level.pc$damageSources();
 		return new DamageSource(attacked != null && source != null ? damageSources.lemonadePlayerDamageType : damageSources.lemonadeDamageType, source, attacked);
 	}
 
 	public static DamageSource toxicGoo(Level level) {
-		return ((LevelExt) level).pc$damageSources().toxicGooDamage;
+		return level.pc$damageSources().toxicGooDamage;
 	}
 
 	public static DamageSource disintegration(Level level, Entity attacked) {
-		Holder.Reference<DamageType> damageType = ((LevelExt) level).pc$damageSources().disintegrationDamageType;
+		Holder.Reference<DamageType> damageType = level.pc$damageSources().disintegrationDamageType;
 		if (attacked instanceof LivingEntity livingEntity)
 			return new DamageSource(damageType, null, livingEntity.getKillCredit());
 		return new DamageSource(damageType, null, null);

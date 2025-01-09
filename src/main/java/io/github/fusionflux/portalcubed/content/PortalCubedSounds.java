@@ -1,20 +1,20 @@
 package io.github.fusionflux.portalcubed.content;
 
-import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
-import net.minecraft.Util;
-import net.minecraft.util.RandomSource;
+import java.util.EnumMap;
+import java.util.Map;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
+import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 public class PortalCubedSounds {
 	public static final SoundEvent PEDESTAL_BUTTON_PRESS = register("pedestal_button_press");
@@ -60,7 +60,7 @@ public class PortalCubedSounds {
 	public static final SoundEvent SEWAGE_STEP = register("sewage_step");
 
 	public static SoundEvent register(String name) {
-		var id = PortalCubed.id(name);
+		ResourceLocation id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
 	}
 
@@ -70,7 +70,7 @@ public class PortalCubedSounds {
 
 	@ClientOnly
 	public static FollowingSoundInstance createPortalGunHoldLoop(Player player) {
-		var sound = new FollowingSoundInstance(PORTAL_GUN_HOLD_LOOP, player.getSoundSource(), player);
+		FollowingSoundInstance sound = new FollowingSoundInstance(PORTAL_GUN_HOLD_LOOP, player.getSoundSource(), player);
 		sound.setLooping(true);
 		return sound;
 	}

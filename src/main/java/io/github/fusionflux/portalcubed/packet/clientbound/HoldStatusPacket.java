@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 
 import java.util.OptionalInt;
 
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
@@ -9,13 +10,9 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
-import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import io.github.fusionflux.portalcubed.framework.util.PacketUtils;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -73,7 +70,7 @@ public record HoldStatusPacket(int holder, OptionalInt held) implements Clientbo
 			player.pc$grabSoundTimer(28);
 			FollowingSoundInstance grabSound = new FollowingSoundInstance(PortalCubedSounds.PORTAL_GUN_GRAB, player.getSoundSource(), player);
 			player.pc$grabSound(grabSound);
-			((LevelExt) player.level()).pc$playSoundInstance(grabSound);
+			player.level().pc$playSoundInstance(grabSound);
 		} else if (held == null && oldHeld != null) { // dropped
 			FollowingSoundInstance grabSound = (FollowingSoundInstance) player.pc$grabSound();
 			if (grabSound != null) {

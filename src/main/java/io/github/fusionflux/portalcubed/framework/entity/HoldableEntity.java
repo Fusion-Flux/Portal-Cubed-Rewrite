@@ -2,13 +2,12 @@ package io.github.fusionflux.portalcubed.framework.entity;
 
 import java.util.OptionalInt;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
+import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
-
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,8 +18,6 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-
-import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
 // hold state
 // - client keybind triggers sending a GrabPacket, calls grab(player)
@@ -78,14 +75,16 @@ public abstract class HoldableEntity extends LerpableEntity {
 		Vec3 toPoint = this.position().vectorTo(holdPoint);
 		this.setDeltaMovement(toPoint);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
+		if (toPoint.y == 0)
+			this.resetFallDistance();
 
 		// rotate to face player
 		if (this.facesHolder()) {
 			this.setYRot((holder.getYRot() + 180) % 360);
 		}
 
-		// drop when holder changes to spectator or moves too far away
-		if (!this.level().isClientSide && (holder.isSpectator() || this.position().distanceToSqr(holder.getEyePosition()) >= MAX_DIST_SQR))
+		// drop when holder is no longer valid or when we are no longer able to be held
+		if (!this.level().isClientSide && !this.canHold(holder))
 			this.drop();
 	}
 
@@ -125,10 +124,13 @@ public abstract class HoldableEntity extends LerpableEntity {
 		return !this.isHeldBy(entity);
 	}
 
+	public boolean canHold(Player player) {
+		return (!this.pc$disintegrating() && !this.isPassenger() && !this.hasPassenger(player)) // Self checks
+				&& (!player.isSpectator() && this.position().distanceToSqr(player.getEyePosition()) < MAX_DIST_SQR); // Holder checks
+	}
+
 	public void grab(ServerPlayer player) {
-		if (this.hasPassenger(player))
-			return; // don't allow holding self
-		if (this.pc$disintegrating())
+		if (!this.canHold(player))
 			return;
 
 		if (this.holder != null) {

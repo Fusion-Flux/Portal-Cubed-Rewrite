@@ -1,42 +1,40 @@
 package io.github.fusionflux.portalcubed.framework.model;
 
+import java.util.Collection;
+
+import com.google.common.collect.ImmutableSet;
+
+import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.framework.model.blendmode.MultiBlendModeWrapper;
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureWrapper;
+import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveData;
+import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveWrapper;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.Context;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
+import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.block.model.multipart.Selector;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Collection;
-
-import com.google.common.collect.ImmutableSet;
-
-import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveData;
-import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveWrapper;
-import io.github.fusionflux.portalcubed.framework.model.blendmode.MultiBlendModeWrapper;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
-import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
-
 public enum PortalCubedModelLoadingPlugin implements PreparableModelLoadingPlugin<EmissiveData> {
 	INSTANCE;
 
 	private static final Collection<ResourceLocation> FIRE_MODELS = Util.make(() -> {
 		ImmutableSet.Builder<ResourceLocation> builder = ImmutableSet.builder();
-		var types = new String[]{
-			"floor0",
-			"floor1",
-			"side_alt0",
-			"side_alt1",
-			"side0",
-			"side1",
-			"up_alt0",
-			"up_alt1",
-			"up0",
-			"up1",
-		};
-		for (var type : types) {
+		for (String type : new String[]{
+				"floor0",
+				"floor1",
+				"side_alt0",
+				"side_alt1",
+				"side0",
+				"side1",
+				"up_alt0",
+				"up_alt1",
+				"up0",
+				"up1",
+		}) {
 			builder.add(new ResourceLocation("block/fire_" + type));
 		}
 		return builder.build();

@@ -1,9 +1,5 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
-import io.github.fusionflux.portalcubed.content.cannon.CannonSettings.Configured;
-import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool.ModelInfo;
-
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14C;
@@ -14,7 +10,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.cannon.CannonSettings.Configured;
+import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool.ModelInfo;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
@@ -40,8 +39,8 @@ public class ConstructPreviewRenderer {
 		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource bufferSource))
 			return;
 
-		var minecraft = Minecraft.getInstance();
-		var player = minecraft.player;
+		Minecraft minecraft = Minecraft.getInstance();
+		Player player = minecraft.player;
 		if (player == null)
 			return;
 
@@ -95,8 +94,8 @@ public class ConstructPreviewRenderer {
 
 	@Nullable
 	private static InteractionHand getHandHoldingCannon(Player player) {
-		var mainHand = player.getMainHandItem();
-		var offhand = player.getOffhandItem();
+		ItemStack mainHand = player.getMainHandItem();
+		ItemStack offhand = player.getOffhandItem();
 
 		if (mainHand.is(PortalCubedItems.CONSTRUCTION_CANNON)) {
 			return InteractionHand.MAIN_HAND;

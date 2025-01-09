@@ -1,28 +1,24 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-
-import io.github.fusionflux.portalcubed.content.misc.LemonadeItem;
-import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
-
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraft.world.level.Level;
-
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-
-import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
-import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
-import net.minecraft.world.entity.player.Player;
-
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+
+import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
+import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
+import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
+import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 @Mixin(Player.class)
 public class PlayerMixin implements PlayerExt {

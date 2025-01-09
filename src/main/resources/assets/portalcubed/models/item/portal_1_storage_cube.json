@@ -2,7 +2,7 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 16],
 	"textures": {
-		"1": "portalcubed:item/portal_1_storage_cube"
+		"1": "portalcubed:prop/portal_1_storage_cube"
 	},
 	"elements": [
 		{

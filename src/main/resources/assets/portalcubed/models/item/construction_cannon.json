@@ -3,8 +3,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "portalcubed:item/construction_cannon",
-		"1": "portalcubed:item/construction_cannon_screen",
-		"2": "portalcubed:item/construction_cannon_screen_e",
+		"2": "portalcubed:item/construction_cannon_screen",
 		"particle": "portalcubed:item/construction_cannon"
 	},
 	"elements": [
@@ -13,20 +12,21 @@
 			"to": [11.99, 13.49, 1.565],
 			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 9, 1.5]},
 			"faces": {
-				"north": {"uv": [0.016, 0.016, 7.984, 7.984], "texture": "#1"},
+				"north": {"uv": [7, 10.5, 11, 14.5], "texture": "#0"},
 				"east": {"uv": [6.016, 10.516, 6.484, 14.484], "texture": "#0"},
-				"south": {"uv": [7.016, 10.516, 10.984, 14.484], "texture": "#0"},
+				"south": {"uv": [7, 10.5, 11, 14.5], "texture": "#0"},
 				"west": {"uv": [6.016, 10.516, 6.484, 14.484], "texture": "#0"},
 				"up": {"uv": [6.016, 10.516, 6.484, 14.484], "rotation": 90, "texture": "#0"},
 				"down": {"uv": [6.016, 10.516, 6.484, 14.484], "rotation": 90, "texture": "#0"}
 			}
 		},
 		{
-			"from": [3.99, 5.49, 0.565],
-			"to": [11.99, 13.49, 0.565],
+			"from": [4.965, 6.465, 0.59],
+			"to": [11.015, 12.515, 1.54],
 			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 9, 1.5]},
 			"faces": {
-				"north": {"uv": [0.016, 0.016, 7.984, 7.984], "texture": "#2"}
+				"north": {"uv": [1, 1, 7, 7], "texture": "#2"},
+				"south": {"uv": [11.5, 12.5, 14.5, 15.5], "texture": "#0"}
 			}
 		},
 		{
@@ -119,7 +119,7 @@
 			"to": [11, 7.5, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 2, 0]},
 			"faces": {
-				"north": {"uv": [11.516, 12.516, 14.484, 15.484], "texture": "#0"},
+				"north": {"uv": [8.016, 7.016, 10.984, 9.984], "texture": "#0"},
 				"east": {"uv": [6.984, 3.516, 6.016, 6.484], "texture": "#0"},
 				"south": {"uv": [11.516, 9.016, 14.484, 11.984], "texture": "#0"},
 				"west": {"uv": [6.016, 3.516, 6.984, 6.484], "texture": "#0"},

@@ -62,7 +62,7 @@ public class PortalCubedPackets {
 	}
 
 	private static <T extends ClientboundPacket> ResourceLocation clientbound(String name, ClientboundPacket.Factory<T> factory) {
-		var id = PortalCubed.id(name);
+		ResourceLocation id = PortalCubed.id(name);
 		CustomPayloads.registerS2CPayload(id, factory);
 		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT)
 			registerClientReceiver(id);
@@ -70,7 +70,7 @@ public class PortalCubedPackets {
 	}
 
 	private static <T extends ServerboundPacket> ResourceLocation serverbound(String name, ServerboundPacket.Factory<T> factory) {
-		var id = PortalCubed.id(name);
+		ResourceLocation id = PortalCubed.id(name);
 		CustomPayloads.registerC2SPayload(id, factory);
 		ServerPlayNetworking.registerGlobalReceiver(id, ServerboundPacket::receive);
 		return id;
