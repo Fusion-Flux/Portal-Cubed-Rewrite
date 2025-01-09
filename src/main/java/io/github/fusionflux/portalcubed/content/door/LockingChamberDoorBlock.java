@@ -34,6 +34,7 @@ public class LockingChamberDoorBlock extends ChamberDoorBlock {
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		// Can't call super because we have to replace the open property with the state property
 		builder.add(HALF, FACING, STATE, HINGE, POWERED);
 	}
 

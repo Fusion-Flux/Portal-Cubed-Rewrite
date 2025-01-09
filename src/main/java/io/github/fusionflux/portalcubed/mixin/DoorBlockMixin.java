@@ -15,7 +15,10 @@ import net.minecraft.world.level.block.state.properties.Property;
 
 @Mixin(DoorBlock.class)
 public class DoorBlockMixin {
-	@SuppressWarnings("rawtypes")
+	/*
+	We have to register the default state here instead of the constructor,
+	because the one in DoorBlock will crash the game due to the open property not being in the block state definition
+	 */
 	@WrapOperation(
 			method = "<init>",
 			at = @At(
@@ -24,13 +27,12 @@ public class DoorBlockMixin {
 					ordinal = 1
 			)
 	)
-	private Object registerStatePropertyDefault(BlockState instance, Property property, Comparable comparable, Operation<Object> original) {
+	private Object registerStatePropertyDefault(BlockState instance, Property<Boolean> property, Comparable<Boolean> comparable, Operation<Object> original) {
 		if ((Object) this instanceof LockingChamberDoorBlock)
 			return original.call(instance, LockingChamberDoorBlock.STATE, LockingChamberDoorBlock.State.CLOSED);
 		return original.call(instance, property, comparable);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@WrapOperation(
 			method = "getStateForPlacement",
 			at = @At(
@@ -39,13 +41,12 @@ public class DoorBlockMixin {
 					ordinal = 3
 			)
 	)
-	private Object setStatePropertyForPlacement(BlockState instance, Property property, Comparable comparable, Operation<Object> original) {
+	private Object setStatePropertyForPlacement(BlockState instance, Property<Boolean> property, Comparable<Boolean> comparable, Operation<Object> original) {
 		if ((Object) this instanceof LockingChamberDoorBlock)
 			return original.call(instance, LockingChamberDoorBlock.STATE, ((Boolean) comparable) ? LockingChamberDoorBlock.State.OPEN : LockingChamberDoorBlock.State.CLOSED);
 		return original.call(instance, property, comparable);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@WrapOperation(
 			method = "isPathfindable",
 			at = @At(
@@ -53,8 +54,8 @@ public class DoorBlockMixin {
 					target = "Lnet/minecraft/world/level/block/state/BlockState;getValue(Lnet/minecraft/world/level/block/state/properties/Property;)Ljava/lang/Comparable;"
 			)
 	)
-	private Comparable useIsOpen(BlockState instance, Property property, Operation<Comparable> original) {
-		return ((DoorBlock) (Object) this).isOpen(instance);
+	private Comparable<Boolean> useIsOpen(BlockState instance, Property<Boolean> property, Operation<Comparable<Boolean>> original) {
+		return ((Object) this instanceof ChamberDoorBlock) ? ((DoorBlock) (Object) this).isOpen(instance) : original.call(instance, property);
 	}
 
 	@ModifyArg(

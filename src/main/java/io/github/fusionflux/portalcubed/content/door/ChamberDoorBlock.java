@@ -65,6 +65,10 @@ public class ChamberDoorBlock extends DoorBlock implements BigShapeBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return (this.isOpen(state) ? this.openShape.get(state.getValue(HINGE)) : this.shape).get(state.getValue(FACING));
+		return (
+				this.isOpen(state)
+						? this.openShape.get(state.getValue(HINGE))
+						: this.shape
+		).get(state.getValue(FACING));
 	}
 }
