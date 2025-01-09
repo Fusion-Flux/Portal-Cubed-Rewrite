@@ -1,10 +1,5 @@
 package io.github.fusionflux.portalcubed.content.door;
 
-import java.util.Locale;
-import java.util.Optional;
-
-import org.jetbrains.annotations.Nullable;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -24,11 +19,16 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 
-public class UnlockingChamberDoorBlock extends ChamberDoorBlock {
+import java.util.Locale;
+import java.util.Optional;
+
+public class LockingChamberDoorBlock extends ChamberDoorBlock {
 	public static final EnumProperty<State> STATE = EnumProperty.create("state", State.class);
+	public static final int UNLOCK_DELAY = 5;
 
-	public UnlockingChamberDoorBlock(Properties settings) {
+	public LockingChamberDoorBlock(Properties settings) {
 		super(settings);
 	}
 
@@ -87,7 +87,7 @@ public class UnlockingChamberDoorBlock extends ChamberDoorBlock {
 			});
 
 			world.setBlock(pos, state.setValue(POWERED, powered).setValue(STATE, State.UNLOCKED), Block.UPDATE_CLIENTS);
-			world.scheduleTick(pos, this, 5);
+			world.scheduleTick(pos, this, UNLOCK_DELAY);
 		}
 	}
 

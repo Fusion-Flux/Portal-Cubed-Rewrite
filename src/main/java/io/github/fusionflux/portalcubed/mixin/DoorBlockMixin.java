@@ -8,7 +8,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.door.ChamberDoorBlock;
-import io.github.fusionflux.portalcubed.content.door.UnlockingChamberDoorBlock;
+import io.github.fusionflux.portalcubed.content.door.LockingChamberDoorBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -25,8 +25,8 @@ public class DoorBlockMixin {
 			)
 	)
 	private Object registerStatePropertyDefault(BlockState instance, Property property, Comparable comparable, Operation<Object> original) {
-		if ((Object) this instanceof UnlockingChamberDoorBlock)
-			return original.call(instance, UnlockingChamberDoorBlock.STATE, UnlockingChamberDoorBlock.State.CLOSED);
+		if ((Object) this instanceof LockingChamberDoorBlock)
+			return original.call(instance, LockingChamberDoorBlock.STATE, LockingChamberDoorBlock.State.CLOSED);
 		return original.call(instance, property, comparable);
 	}
 
@@ -40,8 +40,8 @@ public class DoorBlockMixin {
 			)
 	)
 	private Object setStatePropertyForPlacement(BlockState instance, Property property, Comparable comparable, Operation<Object> original) {
-		if ((Object) this instanceof UnlockingChamberDoorBlock)
-			return original.call(instance, UnlockingChamberDoorBlock.STATE, ((Boolean) comparable) ? UnlockingChamberDoorBlock.State.OPEN : UnlockingChamberDoorBlock.State.CLOSED);
+		if ((Object) this instanceof LockingChamberDoorBlock)
+			return original.call(instance, LockingChamberDoorBlock.STATE, ((Boolean) comparable) ? LockingChamberDoorBlock.State.OPEN : LockingChamberDoorBlock.State.CLOSED);
 		return original.call(instance, property, comparable);
 	}
 

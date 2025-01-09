@@ -1,6 +1,10 @@
 package io.github.fusionflux.portalcubed.content;
 
+import java.util.Map;
+import java.util.function.Consumer;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.door.ChamberDoorType;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
@@ -18,9 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-
-import java.util.Map;
-import java.util.function.Consumer;
 
 public class PortalCubedTabs {
 	public static final ResourceKey<CreativeModeTab> TEST_ELEMENTS = create("test_elements", builder -> {
@@ -40,6 +41,11 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.AGED_LARGE_SIGNAGE);
 			output.accept(PortalCubedBlocks.PEDESTAL_BUTTON);
 			output.accept(PortalCubedBlocks.OLD_AP_PEDESTAL_BUTTON);
+			for (ChamberDoorType type : ChamberDoorType.values()) {
+				PortalCubedBlocks.CHAMBER_DOORS.get(type)
+						.values()
+						.forEach(output::accept);
+			}
 			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
 			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
 			addProp(output, PropType.STORAGE_CUBE);

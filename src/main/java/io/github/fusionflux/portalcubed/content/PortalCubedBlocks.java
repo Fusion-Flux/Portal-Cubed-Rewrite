@@ -112,19 +112,19 @@ public class PortalCubedBlocks {
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- chamber doors -----
-	public static final Map<ChamberDoorMaterial, Map<ChamberDoorType, ChamberDoorBlock>> CHAMBER_DOORS = Util.make(
-			new EnumMap<>(ChamberDoorMaterial.class),
+	public static final Map<ChamberDoorType, Map<ChamberDoorMaterial, ChamberDoorBlock>> CHAMBER_DOORS = Util.make(
+			new EnumMap<>(ChamberDoorType.class),
 			materials -> {
-				for (ChamberDoorMaterial material : ChamberDoorMaterial.values()) {
-					Map<ChamberDoorType, ChamberDoorBlock> blocks = new EnumMap<>(ChamberDoorType.class);
-					materials.put(material, blocks);
-					for (ChamberDoorType type : material.types) {
+				for (ChamberDoorType type : ChamberDoorType.values()) {
+					Map<ChamberDoorMaterial, ChamberDoorBlock> blocks = new EnumMap<>(ChamberDoorMaterial.class);
+					materials.put(type, blocks);
+					for (ChamberDoorMaterial material : type.materials) {
 						String name = material.name + "_" + type.name;
 						ChamberDoorBlock block = REGISTRAR.blocks.create(name, type::createBlock)
 								.settings(material.getSettings())
 								.renderType(RenderTypes.CUTOUT)
 								.build();
-						blocks.put(type, block);
+						blocks.put(material, block);
 					}
 				}
 			}
