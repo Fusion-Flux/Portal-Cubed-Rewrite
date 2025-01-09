@@ -485,7 +485,6 @@ public class PortalCommand {
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
 				int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
 				return portal.settings().color() == PortalSettings.fixAlpha(color)
-
 						? this.fail(ctx, "#" + Integer.toHexString(color))
 						: portal.withSettings(portal.settings().withColor(color));
 			}
