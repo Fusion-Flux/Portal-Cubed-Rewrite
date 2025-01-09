@@ -1,57 +1,61 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-
-import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
-import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
-import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
-import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
-
-import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
-
-import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData;
-
-import net.minecraft.server.level.ServerLevel;
-
-import net.minecraft.server.level.ServerPlayer;
-
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.AABB;
+import java.util.Collection;
 
 import org.quiltmc.qsl.networking.api.PlayerLookup;
+
+import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
+
+import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
+
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
+import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
+import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.Collection;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityExt {
@@ -115,12 +119,78 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract Vec3 position();
 
+	@Shadow
+	public int tickCount;
+
+	@Shadow
+	public abstract int getId();
+
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
 	private boolean disintegrating;
 	@Unique
 	private int disintegrateTicks;
+	@Unique
+	private int portalCollisionRecursionDepth;
+	@Unique
+	private TeleportProgressTracker teleportProgressTracker;
+	@Unique
+	private boolean isNextTeleportNonLocal;
+
+	@WrapOperation(
+			method = {"move", "lerpPositionAndRotationStep"},
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V"
+			)
+	)
+	private void moveThroughPortals(Entity self, double x, double y, double z, Operation<Void> original) {
+		if (!PortalTeleportHandler.handle(self, x, y, z)) {
+			original.call(self, x, y, z);
+		}
+	}
+
+	@Redirect(
+			method = "method_30022", // betweenClosedStream lambda in isInWall
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/level/block/state/BlockState;getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"
+			)
+	)
+	private VoxelShape provideEntityContext(BlockState instance, BlockGetter blockGetter, BlockPos blockPos) {
+		return instance.getCollisionShape(blockGetter, blockPos, CollisionContext.of((Entity) (Object) this));
+	}
+
+	@Override
+	public int pc$getPortalCollisionRecursionDepth() {
+		return portalCollisionRecursionDepth;
+	}
+
+	@Override
+	public void pc$setPortalCollisionRecursionDepth(int depth) {
+		this.portalCollisionRecursionDepth = depth;
+	}
+
+	@Override
+	public void pc$setNextTeleportNonLocal(boolean value) {
+		this.isNextTeleportNonLocal = value;
+	}
+
+	@Override
+	public boolean pc$isNextTeleportNonLocal() {
+		return this.isNextTeleportNonLocal;
+	}
+
+	@Override
+	public TeleportProgressTracker getTeleportProgressTracker() {
+		return this.teleportProgressTracker;
+	}
+
+	@Override
+	public void setTeleportProgressTracker(@Nullable TeleportProgressTracker tracker) {
+		this.teleportProgressTracker = tracker;
+	}
 
 	@Override
 	public boolean pc$disintegrate() {
@@ -223,6 +293,31 @@ public abstract class EntityMixin implements EntityExt {
 		} else {
 			this.pc$disintegrateTick();
 		}
+	}
+
+	@Inject(method = "tick", at = @At("HEAD"))
+	private void tickTeleportTracker(CallbackInfo ci) {
+		TeleportProgressTracker tracker = this.getTeleportProgressTracker();
+		if (tracker != null && tracker.hasTimedOut(this.tickCount)) {
+			this.setTeleportProgressTracker(null);
+			// timeout. something has gone wrong, request a refresh from server
+			PortalCubedPackets.sendToServer(new RequestEntitySyncPacket(this.getId()));
+		}
+	}
+
+	@WrapOperation(
+			method = {
+					"teleportTo(DDD)V",
+					"teleportTo(Lnet/minecraft/server/level/ServerLevel;DDDLjava/util/Set;FF)Z"
+			},
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/Entity;teleportPassengers()V"
+			)
+	)
+	private void onTeleport(Entity instance, Operation<Void> original) {
+		original.call(instance);
+		this.pc$setNextTeleportNonLocal(true);
 	}
 
 	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))

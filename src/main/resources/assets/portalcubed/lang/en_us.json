@@ -6,22 +6,35 @@
 
   "key.categories.portalcubed": "Portal Cubed",
   "key.portalcubed.grab": "Grab",
+  "key.portalcubed.clear_portals": "Clear Portals",
 
 
   "gamerule.category.portalcubed": "Portal Cubed",
+
   "gamerule.propSnatching": "Prop Snatching",
-  "gamerule.propSnatching.description": "Allows props being held by a player to be grabbed by other players without the holder dropping it first.",
+  "gamerule.propSnatching.description": "Controls whether or not props being held by a player are able to be grabbed by other players without being dropped first.",
+
   "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
   "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
   "gamerule.toxicGooDamage": "Toxic Goo Damage",
-  "gamerule.toxicGooDamage.description": "The amount of damage (per second) toxic goo does to entities inside it.",
+  "gamerule.toxicGooDamage.description": "Damage (per second) toxic goo deals to entities touching it.",
+
+  "gamerule.portalPositionSnapping": "Portal Position Snapping",
+  "gamerule.portalPositionSnapping.description": "Controls the position alignment of portals to blocks, in fractions of a full block (1/n).  Setting to 0 disables position snapping entirely.",
+  "gamerule.portalRotationSnapping": "Portal Rotation Snapping",
+  "gamerule.portalRotationSnapping.description": "Controls the rotation alignment of portals placed on floors and ceilings, in degrees.  Setting to 90 aligns portals with blocks, and setting to 0 disables rotation snapping entirely.",
+  "gamerule.portalsVanishOnDeath": "Player Portals Vanish on Death",
+  "gamerule.portalsVanishOnDeath.description": "Whether player-placed portals vanish when that player dies.",
+  "gamerule.restrictValidPortalSurfaces": "Restrict Valid Portal Surfaces",
+  "gamerule.restrictValidPortalSurfaces.description": "Changes the list of valid portal surface blocks from a blacklist (#portalcubed:cant_place_portal_on) to a whitelist (#portalcubed:unrestricted_portal_surfaces). Intended for use in custom maps.",
+  "gamerule.disableManualPortalClearing": "Disable Manual Portal Clearing",
+  "gamerule.disableManualPortalClearing.description": "Disables the ability for players to clear their portals with a keybind. Intended for use in custom maps.",
+  "gamerule.disablePortalValidation": "Disable Portal Validation",
+  "gamerule.disablePortalValidation.description": "Disables placement checks when shooting portals, allowing them to be placed on any surface, including overhangs. May cause unexpected behavior - Issues caused by invalid portals will not be fixed.",
 
   "gamerule.allowCrouchFlyGlitch": "Allow Crouch Fly Glitch",
   "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
-  "gamerule.disablePortalValidation": "Disable Portal Validation",
-  "gamerule.disablePortalValidation.description": "Disables placement checks when shooting portals, allowing them to be placed on any surface, including overhangs. May cause unexpected behavior - Issues caused by invalid portals will not be fixed.",
-  "gamerule.portalAlignment": "Portal Alignment",
-  "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
+
 
   "container.portalcubed.large_signage": "Large Signage",
   "container.portalcubed.aged_large_signage": "Aged Large Signage",
@@ -100,7 +113,28 @@
   "container.portalcubed.construction_cannon.tab.settings.replace_mode": "Replace mode",
   "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
 
+  "parsing.portalcubed.enum.Polarity.expected": "Expected polarity",
+  "parsing.portalcubed.enum.Polarity.invalid": "Invalid polarity '%s'",
+  "parsing.portalcubed.enum.Direction.expected": "Expected direction",
+  "parsing.portalcubed.enum.Direction.invalid": "Invalid direction '%s'",
+  "parsing.portalcubed.enum.PortalShape.expected": "Expected portal type",
+  "parsing.portalcubed.enum.PortalShape.invalid": "Invalid portal type '%s'",
+  "parsing.portalcubed.color.expected": "Expected hex color",
+  "parsing.portalcubed.color.invalid": "Invalid hex color",
+  "parsing.portalcubed.flag.no_rendering.expected": "Expected flag 'no_rendering'",
+  "parsing.portalcubed.flag.no_rendering.invalid": "Invalid flag '%s' is not 'no_rendering'",
+  "parsing.portalcubed.flag.no_validation.expected": "Expected flag 'no_validation'",
+  "parsing.portalcubed.flag.no_validation.invalid": "Invalid flag '%s' is not 'no_validation'",
+
+  "argument.portalcubed.portal_key.targeted_portal": "Targeted Portal",
+  "argument.portalcubed.portal_key.targeted_entity": "Targeted Entity",
+  "argument.portalcubed.portal_key.existing_key": "Existing Portal Pair",
+  "argument.portalcubed.portal_key.online_player": "Online Player",
+
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
+  "commands.portalcubed.create_construct.failure": "Failed to create construct: %s",
+  "commands.portalcubed.create_construct.failure.no_blocks": "Construct must contain at least one non-air block",
+  "commands.portalcubed.create_construct.failure.too_large": "Construct is too large! Must be no larger than 48 blocks tall, wide, or deep",
 
   "commands.portalcubed.fizzle.portal_clearing.success": "Successfully cleared the portals of %s",
   "commands.portalcubed.fizzle.portal_clearing.success.multiple": "Successfully cleared the portals of %s entities",
@@ -117,6 +151,59 @@
   "commands.portalcubed.fizzle.paint_clearing.mixed": "Successfully cleared the paint of %1$s entities.  Could not clear the paint of %2$s entities",
   "commands.portalcubed.fizzle.paint_clearing.failure": "Could not clear the paint of %s",
   "commands.portalcubed.fizzle.paint_clearing.failure.multiple": "Could not clear the paint of %s entities",
+
+  "commands.portalcubed.portal.create.success": "Portal created",
+  "commands.portalcubed.portal.create.failure": "Failed to create portal: %s",
+  "commands.portalcubed.portal.create.failure.already_exists": "Portal with pair ID %1$s and %2$s polarity already exists",
+  "commands.portalcubed.portal.create.failure.id_all": "Nice try",
+  "commands.portalcubed.portal.create.failure.id_too_long": "Pair ID must not exceed 32 characters",
+  "commands.portalcubed.portal.create.failure.invalid_rendering": "Portal type %s does not support rendering",
+  "commands.portalcubed.portal.create.failure.shot_from.miss": "Portal shot must not travel for more than 16 blocks",
+
+  "commands.portalcubed.portal.remove.success": "Portal removed",
+  "commands.portalcubed.portal.remove.success.multiple": "Portals removed",
+  "commands.portalcubed.portal.remove.success.all": "All portals removed",
+  "commands.portalcubed.portal.remove.failure": "Failed to remove portal: %s",
+  "commands.portalcubed.portal.remove.failure.multiple": "Failed to remove portals: %s",
+  "commands.portalcubed.portal.remove.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.remove.failure.nonexistent.multiple": "Portals with pair ID %s do not exist",
+  "commands.portalcubed.portal.remove.failure.no_portals": "No portals were found",
+
+  "commands.portalcubed.portal.modify.success": "Portal modified",
+  "commands.portalcubed.portal.modify.failure": "Failed to modify portal: %s",
+  "commands.portalcubed.portal.modify.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.modify.failure.invalid_rendering": "Portal type %s does not support rendering",
+  "commands.portalcubed.portal.modify.failure.unchanged": "Nothing changed. This portal's %1$s is already %2$s",
+  "commands.portalcubed.portal.modify.type": "type",
+  "commands.portalcubed.portal.modify.color": "color",
+  "commands.portalcubed.portal.modify.rendering": "rendering",
+  "commands.portalcubed.portal.modify.rendering.enabled": "enabled",
+  "commands.portalcubed.portal.modify.rendering.disabled": "disabled",
+  "commands.portalcubed.portal.modify.location": "location",
+  "commands.portalcubed.portal.modify.rotation": "rotation",
+  "commands.portalcubed.portal.modify.validate": "validation",
+  "commands.portalcubed.portal.modify.validate.true": "set to true",
+  "commands.portalcubed.portal.modify.validate.false": "set to false",
+
+  "commands.portalcubed.client.portal_recursions.query": "Number of portal recursions is currently set to %s",
+  "commands.portalcubed.client.portal_recursions.success": "Set number of portal recursions to %s",
+  "commands.portalcubed.client.portal_recursions.failure": "Could not set number of portal recursions to %1$s: %2$s",
+  "commands.portalcubed.client.portal_recursions.failure.out_of_range": "Must be between 1 and 16",
+  "commands.portalcubed.client.portal_recursions.failure.unchanged": "Nothing changed. The number of Portal Recursions is already set to that amount",
+
+  "commands.portalcubed.client.portal_rendering.query": "Portal rendering is currently %s",
+  "commands.portalcubed.client.portal_rendering.toggle": "Portal rendering is now %s",
+  "commands.portalcubed.client.portal_rendering.enabled": "enabled",
+  "commands.portalcubed.client.portal_rendering.disabled": "disabled",
+  "commands.portalcubed.client.portal_rendering.failure": "Could not set Portal Rendering to %1$s: %2$s",
+  "commands.portalcubed.client.portal_rendering.failure.unchanged": "Nothing changed. Portal Rendering is already %s",
+
+
+  "commands.portalcubed.client.portal_camera_smoothing_time.query": "Portal camera smoothing time is currently set to %s milliseconds",
+  "commands.portalcubed.client.portal_camera_smoothing_time.success": "Set portal camera smoothing time to %s milliseconds",
+  "commands.portalcubed.client.portal_camera_smoothing_time.failure": "Could not set portal camera smoothing time to %1$s: %2$s",
+  "commands.portalcubed.client.portal_camera_smoothing_time.failure.out_of_range": "Must be between 0 and 2000",
+  "commands.portalcubed.client.portal_camera_smoothing_time.failure.unchanged": "Nothing changed. Camera smoothing time is already set to that amount",
 
 
   "item.portalcubed.construction_cannon.material": "Material: ",
@@ -238,7 +325,9 @@
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
 
+
   "attribute.name.generic.fall_damage_absorption": "Fall Damage Absorption",
+
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
@@ -462,7 +551,7 @@
   "item.portalcubed.bendy_portal_gun": "Bendy's Portal Gun",
   "item.portalcubed.lego_portal_gun": "Portal Gun (LEGO Dimensions)",
   "item.portalcubed.damaged_portal_gun": "Damaged Portal Gun (Portal Revolution)",
-  "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
+  "item.portalcubed.painted_portal_gun": "Painted Portal Gun (Portal Revolution)",
   "item.portalcubed.missing_texture_portal_gun": "item.portalcubed.portal_gun",
   "item.portalcubed.pistol_portal_gun": "Gun That Makes Holes (Not Bullet Holes)",
   "item.portalcubed.splash_o_matic": "Splash-o-Matic",
@@ -473,6 +562,8 @@
   "item.portalcubed.peashooter": "Peashooter",
   "item.portalcubed.paintbrush": "Paintbrush",
   "item.portalcubed.polaroid": "Polaroid",
+  "item.portalcubed.pipis_cannon": "Pipis Cannon",
+  "item.portalcubed.portal_gun_rick": "Rick's Portal Gun",
 
   "item.portalcubed.long_fall_boots": "Long Fall Boots",
   "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",

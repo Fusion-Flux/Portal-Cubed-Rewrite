@@ -1,4 +1,11 @@
-package io.github.fusionflux.portalcubed.content.boots;
+package io.github.fusionflux.portalcubed.content.misc;
+
+import com.mojang.math.Axis;
+
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
 import org.joml.Vector3f;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
@@ -72,18 +79,13 @@ public class SourcePhysics {
 		if (dot < 0.1)
 			return;
 
-		Vec3 projection = projection(vel, accel);
+		Vec3 projection = TransformUtils.project(vel, accel);
 		if (projection.length() > SPEED_LIMIT) {
 			// too fast, discard
 			// don't use 0, will stop sprinting
 			player.input.leftImpulse = 1E-4f;
 			player.input.forwardImpulse = 1E-4f;
 		}
-	}
-
-	public static Vec3 projection(Vec3 a, Vec3 b) {
-		double length = a.dot(b) / (b.length() * b.length());
-		return b.scale(length);
 	}
 
 	@ClientOnly
@@ -148,7 +150,7 @@ public class SourcePhysics {
 
 			Vec3 accel = getAcceleration(player);
 			if (accel.length() > 0) {
-				Vec3 projection = projection(vel, accel).scale(SCALE);
+				Vec3 projection = TransformUtils.project(vel, accel).scale(SCALE);
 				renderVec(projection, PROJECTION_COLOR);
 				renderVec(accel.scale(SCALE), ACCEL_COLOR);
 			}

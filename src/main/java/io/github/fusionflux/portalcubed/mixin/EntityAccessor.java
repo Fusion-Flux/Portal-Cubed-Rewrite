@@ -12,4 +12,7 @@ public interface EntityAccessor {
 	static Vec3 callGetInputVector(Vec3 movementInput, float speed, float yaw) {
 		throw new AbstractMethodError();
 	}
+
+	@Invoker
+	Vec3 callCollide(Vec3 movement);
 }

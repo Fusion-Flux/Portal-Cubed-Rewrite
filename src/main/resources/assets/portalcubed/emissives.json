@@ -72,7 +72,7 @@
   "block/gray_chamber_door_bottom_left_open": "block/chamber_door_emissive",
   "block/gray_chamber_door_bottom_left_unlocked": "block/chamber_door_emissive",
 
-  "item/portal_gun": "item/portal_gun_dyeable",
+  "item/portal_gun_default": "item/portal_gun_dyeable",
   "item/portal_gun_primary": "item/portal_gun_dyeable",
   "item/portal_gun_secondary": "item/portal_gun_dyeable",
   "item/portal_gun_atlas": "item/portal_gun_dyeable",
@@ -84,7 +84,7 @@
   "item/mel_portal_gun": "item/portal_gun_dyeable",
   "item/lego_portal_gun": "item/portal_gun_dyeable",
   "item/damaged_portal_gun": "item/portal_gun_dyeable",
-  "item/revolution_portal_gun": "item/portal_gun_dyeable",
+  "item/painted_portal_gun": "item/portal_gun_dyeable",
   "item/2d_portal_gun": "item/2d_portal_gun_dyeable",
   "item/2d_portal_gun_atlas": "item/2d_portal_gun_dyeable",
   "item/2d_portal_gun_p_body": "item/2d_portal_gun_dyeable",
@@ -96,6 +96,7 @@
   "item/tiny_potatos_portal_gun": "item/portal_gun_dyeable",
   "item/wand": "item/wand_orb",
   "item/smithers_portal_gun": "item/portal_gun_dyeable",
+  "item/rick_portal_gun": "item/portal_gun_dyeable",
 
   "item/storage_cube": "prop/storage_cube_ring",
   "item/storage_cube_lit": "prop/storage_cube_ring",

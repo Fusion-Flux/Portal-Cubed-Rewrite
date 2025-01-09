@@ -1,5 +1,12 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
+
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
+
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -9,6 +16,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
+
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.core.BlockPos;
@@ -17,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
-	// WHY IS THIS TARGET SO LARGE
 	@WrapOperation(
 		method = "renderLevel",
 		at = @At(
@@ -35,6 +42,23 @@ public class LevelRendererMixin {
 			}
 		} else {
 			original.call(instance, state, pos, world, matrices, vertexConsumer);
+		}
+	}
+
+	@WrapOperation(method = "renderLevel",  at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", remap = false))
+	private void replaceClearingIfRenderingPortal(int mask, boolean checkError, Operation<Void> original) {
+		if (PortalRenderer.isRenderingView()) {
+			// Setup state
+			RenderSystem.depthFunc(GL11.GL_ALWAYS);
+			GL11.glDepthRange(1, 1);
+
+			RenderingUtils.renderFullScreenQuad(RenderingUtils.CLEAR_COLOR);
+
+			// Cleanup state
+			RenderSystem.depthFunc(GL11.GL_LEQUAL);
+			GL11.glDepthRange(0, 1);
+		} else {
+			original.call(mask, checkError);
 		}
 	}
 }

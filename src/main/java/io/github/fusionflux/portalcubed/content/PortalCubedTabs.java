@@ -266,7 +266,7 @@ public class PortalCubedTabs {
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 205, "blueprint_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 206, "lego_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 207, "damaged_portal_gun");
-			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 208, "revolution_portal_gun");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 208, "painted_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 209, "missing_texture_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 210, "pistol_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 211, "splash_o_matic");
@@ -277,6 +277,8 @@ public class PortalCubedTabs {
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 216, "peashooter");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 217, "paintbrush");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 218, "polaroid");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 219, "pipis_cannon");
+			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 220, "portal_gun_rick");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 301, "2d_portal_gun");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 302, "2d_portal_gun_atlas");
 			addItemVariant(output, PortalCubedItems.PORTAL_GUN, 303, "2d_portal_gun_p_body");

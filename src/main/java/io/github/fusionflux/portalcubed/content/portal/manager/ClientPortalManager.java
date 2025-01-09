@@ -1,21 +1,14 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
-import io.github.fusionflux.portalcubed.framework.extension.ClientLevelExt;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import net.minecraft.client.multiplayer.ClientLevel;
 
 public class ClientPortalManager extends PortalManager {
-	private final ClientLevel level;
-
 	public ClientPortalManager(ClientLevel level) {
-		this.level = level;
+		super(level);
 	}
 
-	public static ClientPortalManager of(ClientLevel level) {
-		return ((ClientLevelExt) level).pc$portalManager();
-	}
-
-	public void addPortal(Portal portal) {
-		this.storage.addPortal(portal);
+	public void setSyncedPair(String key, PortalPair pair) {
+		this.setPair(key, pair);
 	}
 }

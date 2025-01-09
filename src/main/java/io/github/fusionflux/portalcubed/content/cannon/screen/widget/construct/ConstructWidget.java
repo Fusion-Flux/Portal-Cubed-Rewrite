@@ -9,7 +9,6 @@ import com.mojang.math.Axis;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
-import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
@@ -17,6 +16,8 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 
 public abstract class ConstructWidget extends AbstractWidget {
 	public ConstructWidget(int size, Component message) {
@@ -76,7 +77,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 
 		if (ConstructPreviewRenderer.getModelPool() != null) {
 			ConstructModelPool.ModelInfo model = ConstructPreviewRenderer.getModelPool().getOrBuildModel(preview);
-			RenderingUtil.drawGuiManaged(() -> model.draw(matrices, () -> {}));
+			RenderingUtils.drawGuiManaged(() -> model.draw(matrices, () -> {}));
 			model.bufferBlockEntities(matrices, graphics.bufferSource());
 			graphics.flush();
 		}

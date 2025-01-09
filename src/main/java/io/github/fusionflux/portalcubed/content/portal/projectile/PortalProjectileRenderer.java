@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
-import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -28,7 +28,7 @@ public class PortalProjectileRenderer extends EntityRenderer<PortalProjectile> {
 		matrices.mulPose(entityRenderDispatcher.cameraOrientation());
 		matrices.mulPose(Axis.YP.rotationDegrees(180));
 		matrices.mulPose(Axis.XP.rotationDegrees(90));
-		RenderingUtil.renderQuad(matrices, vertices, light, entity.getColor());
+		RenderingUtils.renderQuad(matrices, vertices, light, entity.getColor());
 		matrices.popPose();
 	}
 

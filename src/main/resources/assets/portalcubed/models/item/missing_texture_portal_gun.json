@@ -2,8 +2,8 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "minecraft:missingno",
-		"particle": "minecraft:missingno"
+		"1": "missingno",
+		"particle": "missingno"
 	},
 	"elements": [
 		{
@@ -53,15 +53,6 @@
 				"south": {"uv": [11.484, 3.016, 8.516, 5.484], "texture": "#1", "tintindex": 1},
 				"west": {"uv": [0.016, 13.016, 4.468, 15.484], "texture": "#1", "tintindex": 1},
 				"up": {"uv": [0.016, 0.016, 2.984, 4.484], "texture": "#1", "tintindex": 1}
-			}
-		},
-		{
-			"name": "cutout",
-			"from": [5.98, 5.955, 9.78],
-			"to": [9.02, 5.995, 12.82],
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 5.975, 10.8]},
-			"faces": {
-				"up": {"uv": [14.516, 14.516, 15.984, 15.984], "texture": "#1", "tintindex": 0}
 			}
 		},
 		{
@@ -166,18 +157,6 @@
 		},
 		{
 			"name": "cutout",
-			"from": [7.615, 3.3, 4.925],
-			"to": [8.815, 4.5, 9.075],
-			"rotation": {"angle": 45, "axis": "z", "origin": [8.7, 3.35, 7]},
-			"faces": {
-				"east": {"uv": [14.484, 15.984, 14.016, 14.025], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"west": {"uv": [14.484, 15.984, 14.016, 14.025], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"up": {"uv": [14.484, 15.984, 14.016, 14.025], "texture": "#1", "tintindex": 0},
-				"down": {"uv": [14.484, 15.984, 14.016, 14.025], "texture": "#1", "tintindex": 0}
-			}
-		},
-		{
-			"name": "cutout",
 			"from": [1.5, 2.575, -4],
 			"to": [7.5, 2.575, 12],
 			"rotation": {"angle": 22.5, "axis": "z", "origin": [6.5, 2.575, 5.5]},
@@ -244,18 +223,6 @@
 			"faces": {
 				"north": {"uv": [6.516, 6.984, 6.984, 5.516], "rotation": 180, "texture": "#1"},
 				"south": {"uv": [6.516, 6.984, 6.984, 5.516], "texture": "#1"}
-			}
-		},
-		{
-			"name": "cutout",
-			"from": [9.04, 4.4, 8.975],
-			"to": [7.04, 2.4, 5.025],
-			"rotation": {"angle": 45, "axis": "z", "origin": [8.025, 3.35, 7]},
-			"faces": {
-				"north": {"uv": [8.516, 9.516, 9.484, 10.484], "texture": "#1"},
-				"east": {"uv": [7.516, 4.984, 8.484, 3.016], "rotation": 90, "texture": "#1"},
-				"south": {"uv": [8.516, 9.516, 9.484, 10.484], "texture": "#1"},
-				"up": {"uv": [7.516, 4.984, 8.484, 3.016], "texture": "#1"}
 			}
 		},
 		{

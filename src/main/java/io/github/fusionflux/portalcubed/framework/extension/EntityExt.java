@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.extension;
 import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.fabricmc.fabric.api.event.Event;
@@ -12,6 +13,9 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -65,6 +69,33 @@ public interface EntityExt {
 	}
 
 	default void pc$disintegrateTick() {
+		throw new AbstractMethodError();
+	}
+
+	default int pc$getPortalCollisionRecursionDepth() {
+		throw new AbstractMethodError();
+	}
+
+	default void pc$setPortalCollisionRecursionDepth(int depth) {
+		throw new AbstractMethodError();
+	}
+
+	default void pc$setNextTeleportNonLocal(boolean value) {
+		throw new AbstractMethodError();
+	}
+
+	default boolean pc$isNextTeleportNonLocal() {
+		throw new AbstractMethodError();
+	}
+
+	// no prefix needed, unique descriptors
+
+	@Nullable
+	default TeleportProgressTracker getTeleportProgressTracker() {
+		throw new AbstractMethodError();
+	}
+
+	default void setTeleportProgressTracker(@Nullable TeleportProgressTracker tracker) {
 		throw new AbstractMethodError();
 	}
 }

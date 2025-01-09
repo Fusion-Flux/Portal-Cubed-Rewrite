@@ -6,6 +6,9 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+
 import io.github.fusionflux.portalcubed.content.lemon.Lemonade;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -14,6 +17,12 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
+
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ThrowableProjectile.class)
 public abstract class ThrowableProjectileMixin extends Entity {
@@ -41,5 +50,18 @@ public abstract class ThrowableProjectileMixin extends Entity {
 			return false;
 		}
 		return true;
+	}
+
+	@WrapOperation(
+			method = "tick",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/projectile/ThrowableProjectile;setPos(DDD)V"
+			)
+	)
+	private void moveThroughPortals(ThrowableProjectile self, double x, double y, double z, Operation<Void> original) {
+		if (!PortalTeleportHandler.handle(self, x, y, z)) {
+			original.call(self, x, y, z);
+		}
 	}
 }

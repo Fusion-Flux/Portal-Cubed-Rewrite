@@ -25,6 +25,7 @@ public class PortalCubedEntityTags {
 	// floor buttons
 	public static final TagKey<EntityType<?>> PRESSES_CUBE_BUTTONS = create("presses_cube_buttons");
 	public static final TagKey<EntityType<?>> PRESSES_FLOOR_BUTTONS = create("presses_floor_buttons");
+	public static final TagKey<EntityType<?>> PORTAL_BLACKLIST = create("portal_blacklist");
 
 	public static final TagKey<EntityType<?>> IMMUNE_TO_TOXIC_GOO = create("immune_to_toxic_goo");
 
