@@ -5,8 +5,9 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
-import io.github.fusionflux.portalcubed.framework.command.argument.PortalTypeArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
@@ -20,11 +21,12 @@ public class PortalCubedArgumentTypes {
 	public static void init() {
 		register("color", ColorArgumentType.class, SingletonArgumentInfo.contextFree(ColorArgumentType::color));
 		register("direction", DirectionArgumentType.class, SingletonArgumentInfo.contextFree(DirectionArgumentType::direction));
-		register("polarity", PortalTypeArgumentType.class, SingletonArgumentInfo.contextFree(PortalTypeArgumentType::portalType));
+		register("polarity", PolarityArgumentType.class, SingletonArgumentInfo.contextFree(PolarityArgumentType::polarity));
 		register("shape", PortalShapeArgumentType.class, SingletonArgumentInfo.contextFree(PortalShapeArgumentType::shape));
 		register("quaternion", QuaternionArgumentType.class, SingletonArgumentInfo.contextFree(QuaternionArgumentType::quaternion));
 		register("tri_state", TriStateArgumentType.class, SingletonArgumentInfo.contextFree(TriStateArgumentType::triState));
 		register("portal_key", PortalKeyArgumentType.class, SingletonArgumentInfo.contextFree(PortalKeyArgumentType::portalKey));
+		register("flag", FlagArgumentType.class, FlagArgumentType.Serializer.INSTANCE);
 	}
 
 	private static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>> void register(

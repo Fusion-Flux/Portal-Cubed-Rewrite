@@ -1,12 +1,7 @@
 package io.github.fusionflux.portalcubed.content.command;
 
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.collection;
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.getOptional;
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.getOptionalBool;
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.hasArgument;
-import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.optionalArg;
-import static net.minecraft.commands.Commands.argument;
-import static net.minecraft.commands.Commands.literal;
+import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.*;
+import static net.minecraft.commands.Commands.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -29,6 +24,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
+import io.github.fusionflux.portalcubed.content.PortalCubedSuggestionProviders;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
@@ -41,7 +37,7 @@ import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgument
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
-import io.github.fusionflux.portalcubed.framework.command.argument.PortalTypeArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
 import net.fabricmc.fabric.api.util.TriState;
@@ -72,7 +68,6 @@ public class PortalCommand {
 	public static final Component MODIFY_SUCCESS = lang("modify.success");
 	public static final String MODIFY_FAILURE = "modify.failure";
 	public static final String MODIFY_NONEXISTENT = MODIFY_FAILURE + ".nonexistent";
-	public static final String INVALID_RENDERING = MODIFY_FAILURE + ".invalid_rendering";
 	public static final String MODIFY_UNCHANGED = MODIFY_FAILURE + ".unchanged";
 
 	public static final Component REMOVE_SINGLE = lang("remove.success");
@@ -94,27 +89,29 @@ public class PortalCommand {
 				.requires(source -> source.hasPermission(2))
 				.then(
 						literal("create").then(
-								argument("key", PortalKeyArgumentType.portalKey()).then(
-										argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
-												Arrays.stream(PlacementStrategy.values())
-														.map(strategy -> strategy.build(inner -> inner.then(
-																optionalArg("shape", PortalShapeArgumentType.shape()).then(
-																		optionalArg("color", ColorArgumentType.color()).then(
-																				optionalArg("render", BoolArgumentType.bool()).then(
-																						optionalArg("validate", BoolArgumentType.bool())
-																								.executes(ctx -> create(ctx, strategy))
+								argument("key", PortalKeyArgumentType.portalKey())
+										.suggests(PortalCubedSuggestionProviders.PORTAL_CREATION_KEYS)
+										.then(
+												argument("polarity", PolarityArgumentType.polarity()).then(collection(
+														Arrays.stream(PlacementStrategy.values())
+																.map(strategy -> strategy.build(inner -> inner.then(
+																		optionalArg("shape", PortalShapeArgumentType.shape()).then(
+																				optionalArg("color", ColorArgumentType.color()).then(
+																						flag("no_rendering").then(
+																								flag("no_validation")
+																										.executes(ctx -> create(ctx, strategy))
+																						)
 																				)
 																		)
-																)
-														)))
-														.toList()
-										))
-								)
+																)))
+																.toList()
+												))
+										)
 						)
 				).then(
 						literal("modify").then(
 								argument("key", PortalKeyArgumentType.portalKey()).then(
-										argument("polarity", PortalTypeArgumentType.portalType()).then(collection(
+										argument("polarity", PolarityArgumentType.polarity()).then(collection(
 												Arrays.stream(PortalAttribute.values())
 														.map(attribute -> literal(attribute.name).then(
 																attribute.build(
@@ -129,7 +126,7 @@ public class PortalCommand {
 						literal("remove")
 								.then(
 										argument("key", PortalKeyArgumentType.portalKey()).then(
-												optionalArg("polarity", PortalTypeArgumentType.portalType())
+												optionalArg("polarity", PolarityArgumentType.polarity())
 														.executes(PortalCommand::remove)
 										)
 								).then(
@@ -141,11 +138,11 @@ public class PortalCommand {
 	private static int create(CommandContext<CommandSourceStack> ctx, PlacementStrategy strategy) throws CommandSyntaxException{
 		Placement placement = strategy.getPlacement(ctx);
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
+		Polarity polarity = PolarityArgumentType.getPolarity(ctx, "polarity");
 		PortalShape shape = getOptional(ctx, "shape", PortalShapeArgumentType::getShape, PortalShape.SQUARE);
 		int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
-		TriState render = getOptionalBool(ctx, "render");
-		boolean validate = getOptional(ctx, "validate", BoolArgumentType::getBool, true);
+		boolean noRender = getFlag(ctx, "no_rendering");
+		boolean noValidate = getFlag(ctx, "no_validation");
 
 		if ("all".equals(key)) {
 			return fail(ctx, CREATE_FAILURE, ID_ALL);
@@ -153,19 +150,13 @@ public class PortalCommand {
 			return fail(ctx, CREATE_FAILURE, ID_TOO_LONG);
 		}
 
-		// TODO: custom portal types
-//		boolean supportsRendering = true;
-//		if (render == TriState.TRUE && !supportsRendering) {
-//			return fail(ctx, CREATE_FAILURE, lang("create.failure.invalid_rendering", typeId));
-//		}
-
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
 		PortalPair pair = manager.getPair(key);
 		if (pair != null && pair.get(polarity).isPresent()) {
 			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
 		}
 
-		PortalSettings settings = new PortalSettings(color, shape);
+		PortalSettings settings = new PortalSettings(color, shape, !noRender, !noValidate);
 		PortalData data = new PortalData(placement.pos, placement.rotation, settings);
 		manager.createPortal(key, polarity, data);
 		ctx.getSource().sendSuccess(() -> lang("create.success"), true);
@@ -174,7 +165,7 @@ public class PortalCommand {
 
 	private static int modify(CommandContext<CommandSourceStack> ctx, PortalAttribute attribute) throws CommandSyntaxException {
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		Polarity polarity = PortalTypeArgumentType.getPortalType(ctx, "polarity");
+		Polarity polarity = PolarityArgumentType.getPolarity(ctx, "polarity");
 
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
 		PortalPair pair = manager.getPair(key);
@@ -195,7 +186,7 @@ public class PortalCommand {
 
 	private static int remove(CommandContext<CommandSourceStack> ctx) {
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
-		Optional<Polarity> maybePolarity = getOptional(ctx, "polarity", PortalTypeArgumentType::getPortalType);
+		Optional<Polarity> maybePolarity = getOptional(ctx, "polarity", PolarityArgumentType::getPolarity);
 
 		CommandSourceStack source = ctx.getSource();
 		ServerPortalManager manager = source.getLevel().portalManager();
@@ -484,15 +475,17 @@ public class PortalCommand {
 		COLOR {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(Command<CommandSourceStack> command) {
-				return argument("color", ColorArgumentType.color())
-						.executes(command)
-						.then(literal("default").executes(command));
+				return collection(List.of(
+						argument("color", ColorArgumentType.color()).executes(command),
+						literal("default").executes(command)
+				));
 			}
 
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
 				int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
 				return portal.settings().color() == PortalSettings.fixAlpha(color)
+
 						? this.fail(ctx, "#" + Integer.toHexString(color))
 						: portal.withSettings(portal.settings().withColor(color));
 			}
