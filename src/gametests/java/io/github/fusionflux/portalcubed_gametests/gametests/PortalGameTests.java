@@ -183,6 +183,32 @@ public class PortalGameTests implements QuiltGameTest {
 		//todo
 	}
 
+	//Test the "create" portion of the portal command
+	@GameTest(template = GROUP + "portal_command_create")
+	public void portalCommandCreate(GameTestHelper helper) {
+
+		//todo
+
+		helper.succeedWhen(() -> {
+			//placeOn1.primary().assertPresent();
+			//placeOn1.secondary().assertPresent();
+			//placeAt1.primary().assertPresent();
+			//placeAt1.secondary().assertPresent();
+			//shotFrom1.primary().assertPresent();
+			//shotFrom1.secondary().assertPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
+			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+	//Test the "remove" portion of the portal command
+	@GameTest(template = GROUP + "portal_command_remove")
+	public void portalCommandRemove(GameTestHelper helper) {
+
+		//todo
+	}
+
 
 	//Test portals becoming obstructed by solid blocks that they cannot exist within
 	@GameTest(template = GROUP + "portal_become_obstructed")
@@ -217,7 +243,7 @@ public class PortalGameTests implements QuiltGameTest {
 			//doorTrapdoor.secondary().assertNotPresent();
 
 			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
-			//leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		});
 	}
 
@@ -241,7 +267,7 @@ public class PortalGameTests implements QuiltGameTest {
 			//facadeSurfaces.secondary().assertPresent();
 
 			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
-			//leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		});
 
 	}
