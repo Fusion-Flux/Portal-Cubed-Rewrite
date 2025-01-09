@@ -20,6 +20,9 @@ import io.github.fusionflux.portalcubed.content.decoration.CrossbarBlock;
 import io.github.fusionflux.portalcubed.content.decoration.CrossbarPillarBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
+import io.github.fusionflux.portalcubed.content.door.ChamberDoorBlock;
+import io.github.fusionflux.portalcubed.content.door.ChamberDoorMaterial;
+import io.github.fusionflux.portalcubed.content.door.ChamberDoorType;
 import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
@@ -108,6 +111,24 @@ public class PortalCubedBlocks {
 			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
+	// ----- chamber doors -----
+	public static final Map<ChamberDoorMaterial, Map<ChamberDoorType, ChamberDoorBlock>> CHAMBER_DOORS = Util.make(
+			new EnumMap<>(ChamberDoorMaterial.class),
+			materials -> {
+				for (ChamberDoorMaterial material : ChamberDoorMaterial.values()) {
+					Map<ChamberDoorType, ChamberDoorBlock> blocks = new EnumMap<>(ChamberDoorType.class);
+					materials.put(material, blocks);
+					for (ChamberDoorType type : material.types) {
+						String name = material.name + "_" + type.name;
+						ChamberDoorBlock block = REGISTRAR.blocks.create(name, type::createBlock)
+								.settings(material.getSettings())
+								.renderType(RenderTypes.CUTOUT)
+								.build();
+						blocks.put(type, block);
+					}
+				}
+			}
+	);
 	// ----- panels -----
 	public static final Map<PanelMaterial, Map<PanelPart, Block>> PANELS = Util.make(
 			new EnumMap<>(PanelMaterial.class),
