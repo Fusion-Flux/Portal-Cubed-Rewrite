@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "magnesium_ingot",
+  "key": {
+    "#": "portalcubed:magnesium_nugget"
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "id": "portalcubed:magnesium_ingot"
+  }
+}

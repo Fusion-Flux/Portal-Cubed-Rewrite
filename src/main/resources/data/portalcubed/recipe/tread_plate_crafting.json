@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YY",
+        "XX"
+    ],
+    "key": {
+        "Y": "portalcubed:magnesium_ingot",
+        "X": "portalcubed:metal_plating"
+    },
+    "result": {
+        "id": "portalcubed:tread_plate",
+        "count": 4
+    }
+}

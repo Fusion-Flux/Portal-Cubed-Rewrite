@@ -2,11 +2,9 @@ package io.github.fusionflux.portalcubed.framework.registration.particle;
 
 import java.util.function.Supplier;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
@@ -35,7 +33,7 @@ public class ParticleBuilderImpl<O extends ParticleOptions, T extends ParticleTy
 		return Registry.register(BuiltInRegistries.PARTICLE_TYPE, registrar.id(name), type);
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	private void buildClient(T type) {
 		ParticleFactoryRegistry.getInstance().register(type, this.clientFactorySupplier.get().get());
 	}

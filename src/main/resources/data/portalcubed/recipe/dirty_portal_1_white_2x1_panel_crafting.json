@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X",
+        "X"
+    ],
+    "key": {
+        "X": "#portalcubed:dirty_portal_1_white_panel_materials"
+    },
+    "result": {
+        "id": "portalcubed:dirty_portal_1_white_2x1_panel",
+        "count": 2
+    },
+  "group": "dirty_portal_1_white_panel_2x1_panel"
+}

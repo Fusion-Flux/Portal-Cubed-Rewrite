@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YY",
+        "XX"
+    ],
+    "key": {
+        "X": "portalcubed:office_concrete",
+        "Y": "minecraft:cyan_terracotta"
+    },
+    "result": {
+        "id": "portalcubed:striped_office_concrete",
+        "count": 4
+    }
+}

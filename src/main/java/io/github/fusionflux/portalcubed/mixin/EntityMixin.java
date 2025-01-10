@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.mixin;
 import java.util.Collection;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,6 +29,7 @@ import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -81,10 +81,6 @@ public abstract class EntityMixin implements EntityExt {
 
 	@Shadow
 	public abstract void setDeltaMovement(Vec3 velocity);
-
-	@Shadow
-	public abstract BlockState getFeetBlockState();
-
 	@Shadow
 	public abstract BlockPos blockPosition();
 
@@ -121,6 +117,9 @@ public abstract class EntityMixin implements EntityExt {
 
 	@Shadow
 	public abstract int getId();
+
+	@Shadow
+	public abstract BlockState getBlockStateOn();
 
 	@Unique
 	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
@@ -196,9 +195,9 @@ public abstract class EntityMixin implements EntityExt {
 				world.gameEvent(self, GameEvent.ENTITY_DIE, this.position());
 
 				// In portal buttons push back on the objects that are on them, disintegration makes objects lose all their mass, so they get ejected but we cant do that here so lets just apply a slight force
-				BlockState feetState = this.getFeetBlockState();
+				BlockState feetState = this.getBlockStateOn();
 				if (feetState.getBlock() instanceof FloorButtonBlock floorButton && floorButton.isEntityPressing(feetState, this.blockPosition(), self))
-					this.setDeltaMovement(Vec3.atLowerCornerOf(feetState.getValue(FloorButtonBlock.FACING).getNormal()).scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
+					this.setDeltaMovement(feetState.getValue(FloorButtonBlock.FACING).getUnitVec3().scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
 
 				this.disintegrateTicks = DISINTEGRATE_TICKS;
 				Collection<ServerPlayer> tracking = (Object) this instanceof ServerPlayer serverPlayer ? PortalCubedPackets.trackingAndSelf(serverPlayer) : PlayerLookup.tracking(self);
@@ -305,7 +304,7 @@ public abstract class EntityMixin implements EntityExt {
 	@WrapOperation(
 			method = {
 					"teleportTo(DDD)V",
-					"teleportTo(Lnet/minecraft/server/level/ServerLevel;DDDLjava/util/Set;FF)Z"
+					"teleportTo(Lnet/minecraft/server/level/ServerLevel;DDDLjava/util/Set;FFZ)Z"
 			},
 			at = @At(
 					value = "INVOKE",

@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XY",
+        "YX"
+    ],
+    "key": {
+        "X": "#minecraft:planks",
+        "Y": "#minecraft:logs"
+    },
+    "result": {
+        "id": "portalcubed:plywood",
+        "count": 8
+    }
+}

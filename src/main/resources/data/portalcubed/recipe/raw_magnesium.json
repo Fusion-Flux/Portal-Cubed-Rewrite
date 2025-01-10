@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "portalcubed:raw_magnesium_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "portalcubed:raw_magnesium"
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:dirty_portal_1_metal_panel"
+    },
+    "result": {
+        "id": "portalcubed:dirty_portal_1_metal_panel_stairs",
+        "count": 4
+    },
+  "group": "dirty_portal_1_metal_panel_stairs"
+}

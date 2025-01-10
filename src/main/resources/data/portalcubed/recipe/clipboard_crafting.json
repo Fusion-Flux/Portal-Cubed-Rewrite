@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "Y",
+        "Z",
+        "X"
+    ],
+    "key": {
+        "X": "#minecraft:wooden_slabs",
+        "Y": "portalcubed:magnesium_nugget",
+        "Z": "minecraft:paper"
+    },
+    "result": {
+        "id": "portalcubed:clipboard",
+        "count": 2
+    }
+}

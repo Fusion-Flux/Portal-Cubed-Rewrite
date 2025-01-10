@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YX",
+        "XY"
+    ],
+    "key": {
+        "X": "minecraft:smooth_basalt",
+        "Y": "minecraft:cobbled_deepslate"
+    },
+    "result": {
+        "id": "portalcubed:smooth_gray_panel",
+        "count": 8
+    },
+  "group": "smooth_gray_panel"
+}

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "pattern": [
+        " YX",
+        " Y ",
+        "X  "
+    ],
+    "key": {
+        "X": "minecraft:iron_ingot",
+        "Y": "minecraft:copper_ingot"
+    },
+    "result": {
+        "id": "portalcubed:crowbar",
+        "count": 1
+    }
+}

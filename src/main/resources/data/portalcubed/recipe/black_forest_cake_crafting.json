@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "BCB",
+        "XAZ",
+        "BYB"
+    ],
+    "key": {
+        "X": "minecraft:wheat",
+        "Y": "minecraft:egg",
+        "Z": "minecraft:sugar",
+        "A": "minecraft:milk_bucket",
+        "B": "minecraft:cocoa_beans",
+        "C": "minecraft:sweet_berries"
+    },
+    "result": {
+        "id": "portalcubed:black_forest_cake",
+        "count": 1
+    }
+}

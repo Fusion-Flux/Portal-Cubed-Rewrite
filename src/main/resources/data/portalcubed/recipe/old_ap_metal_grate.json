@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YXY",
+        "X X",
+        "YXY"
+    ],
+    "key": {
+        "X": "minecraft:copper_ingot",
+        "Y": "portalcubed:magnesium_block"
+    },
+    "result": {
+        "id": "portalcubed:old_ap_metal_grate",
+        "count": 8
+    }
+}

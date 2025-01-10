@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:striped_office_concrete"
+    },
+    "result": {
+        "id": "portalcubed:striped_office_concrete_slab",
+        "count": 6
+    }
+}

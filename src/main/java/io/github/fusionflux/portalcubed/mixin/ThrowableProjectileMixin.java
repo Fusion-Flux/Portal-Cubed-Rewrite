@@ -5,11 +5,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.lemon.Lemonade;
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
@@ -27,15 +24,15 @@ public abstract class ThrowableProjectileMixin extends Entity {
 		super(variant, world);
 	}
 
-	@WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/ThrowableProjectile;checkInsideBlocks()V"))
+	@WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/ThrowableProjectile;applyEffectsFromBlocks()V"))
 	private boolean dontCheckInsideBlocksAgain(ThrowableProjectile instance) {
 		return !hasCollisions;
 	}
 
-	@WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/ThrowableProjectile;setPos(DDD)V"))
-	private boolean moveInsteadOfSetPos(ThrowableProjectile instance, double x, double y, double z) {
+	@WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/ThrowableProjectile;setPos(Lnet/minecraft/world/phys/Vec3;)V"))
+	private boolean moveInsteadOfSetPos(ThrowableProjectile instance, Vec3 newPos) {
 		if (hasCollisions) {
-			this.move(MoverType.SELF, new Vec3(x - getX(), y - getY(), z - getZ()));
+			this.move(MoverType.SELF, newPos.subtract(this.position()));
 			if (this.onGround()) {
 				Block blockAffectingMovement = this.level().getBlockState(this.getBlockPosBelowThatAffectsMyMovement()).getBlock();
 				float friction = blockAffectingMovement.getFriction() * 0.91f;
@@ -44,18 +41,5 @@ public abstract class ThrowableProjectileMixin extends Entity {
 			return false;
 		}
 		return true;
-	}
-
-	@WrapOperation(
-			method = "tick",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/projectile/ThrowableProjectile;setPos(DDD)V"
-			)
-	)
-	private void moveThroughPortals(ThrowableProjectile self, double x, double y, double z, Operation<Void> original) {
-		if (!PortalTeleportHandler.handle(self, x, y, z)) {
-			original.call(self, x, y, z);
-		}
 	}
 }

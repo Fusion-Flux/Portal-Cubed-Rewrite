@@ -138,7 +138,7 @@ public abstract class LivingEntityMixin extends Entity {
 	}
 
 	@WrapOperation(
-			method = "travel",
+			method = "travelInAir",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/entity/LivingEntity;handleRelativeFrictionAndCalculateMovement(Lnet/minecraft/world/phys/Vec3;F)Lnet/minecraft/world/phys/Vec3;"

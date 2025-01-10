@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "portalcubed:white_panel_slab",
+    "#portalcubed:aged_crafting_materials"
+  ],
+  "result": {
+    "count": 1,
+    "id": "portalcubed:aged_white_panel_slab"
+  },
+  "group": "aged_white_panel_slab"
+}

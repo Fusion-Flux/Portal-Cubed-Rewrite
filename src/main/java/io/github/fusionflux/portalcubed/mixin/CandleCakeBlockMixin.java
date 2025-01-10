@@ -27,7 +27,7 @@ public class CandleCakeBlockMixin {
 	}
 
 	@ModifyArg(
-			method = "use",
+			method = "useWithoutItem",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/level/block/CakeBlock;eat(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/InteractionResult;"

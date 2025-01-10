@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "YXY",
+        "XXX",
+        "YXY"
+    ],
+    "key": {
+        "Y": "minecraft:dried_kelp",
+        "X": "#minecraft:planks"
+    },
+    "result": {
+        "id": "portalcubed:old_ap_cube",
+        "count": 1
+    }
+}

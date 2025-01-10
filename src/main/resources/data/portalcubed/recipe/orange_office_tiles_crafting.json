@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YX",
+        "XY"
+    ],
+    "key": {
+        "X": "minecraft:orange_terracotta",
+        "Y": "minecraft:yellow_terracotta"
+    },
+    "result": {
+        "id": "portalcubed:orange_office_tiles",
+        "count": 8
+    }
+}

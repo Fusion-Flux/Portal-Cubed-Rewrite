@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XYX",
+        "XZX",
+        "XYX"
+    ],
+    "key": {
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "minecraft:cyan_wool",
+        "Z": "minecraft:note_block"
+    },
+    "result": {
+        "id": "portalcubed:elevator_wall_middle",
+        "count": 4
+    },
+  "group": "elevator_walls"
+}

@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "pattern": [
+        "X",
+        "Y",
+        "Z"
+    ],
+    "key": {
+        "X": "minecraft:iron_block",
+        "Y": "minecraft:stick",
+        "Z": "minecraft:planks"
+    },
+    "result": {
+        "id": "portalcubed:hammer",
+        "count": 1
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "values": [
+    "minecraft:area_effect_cloud",
+    "minecraft:interaction",
+    "minecraft:item_display",
+    "minecraft:block_display",
+    "minecraft:leash_knot",
+    "minecraft:lightning_bolt",
+    "minecraft:marker",
+    "minecraft:text_display"
+  ]
+}

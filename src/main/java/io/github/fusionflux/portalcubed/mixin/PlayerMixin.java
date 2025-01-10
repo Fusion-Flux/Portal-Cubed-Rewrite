@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,6 +13,8 @@ import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -26,14 +27,16 @@ public class PlayerMixin implements PlayerExt {
 	@Nullable
 	private HoldableEntity heldEntity;
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	@Unique
 	private int grabSoundTimer = 0;
-	@ClientOnly
+
+	@Environment(EnvType.CLIENT)
 	@Unique
 	@Nullable
 	private FollowingSoundInstance grabSound = null;
-	@ClientOnly
+
+	@Environment(EnvType.CLIENT)
 	@Unique
 	@Nullable
 	private FollowingSoundInstance holdLoopSound = null;

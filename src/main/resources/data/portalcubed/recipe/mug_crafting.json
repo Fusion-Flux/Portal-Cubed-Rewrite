@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:flower_pot",
+       "minecraft:blue_dye",
+        "minecraft:yellow_dye",
+        "minecraft:white_dye",
+        "minecraft:orange_dye",
+        "minecraft:red_dye"
+    ],
+    "result": {
+        "id": "portalcubed:mug",
+        "count": 5
+    }
+}
