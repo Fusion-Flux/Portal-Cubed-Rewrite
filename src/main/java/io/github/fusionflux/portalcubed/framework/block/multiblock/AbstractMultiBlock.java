@@ -11,15 +11,16 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -108,19 +109,19 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 		sizeProperties().z.map(builder::add);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	@NotNull
-	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+	protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
 		if (state.getValue(WATERLOGGED))
-			world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+			scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 
 		Size rotatedSize = size.rotated(state.getValue(FACING));
 		if (rotatedSize.contains(getOriginPos(pos, state), pos.relative(direction)) && !neighborState.is(this)) {
-			world.levelEvent(null, LevelEvent.PARTICLES_DESTROY_BLOCK, pos, getId(state));
+//			world.levelEvent(null, LevelEvent.PARTICLES_DESTROY_BLOCK, pos, getId(state));
+			// TODO: PORT
 			return Blocks.AIR.defaultBlockState();
 		} else {
-			return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+			return super.updateShape(state, world, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
 		}
 	}
 
@@ -135,7 +136,6 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 		return state;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	@NotNull
 	public List<ItemStack> getDrops(BlockState state, Builder lootParameterBuilder) {
@@ -144,21 +144,18 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 		return List.of();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	@NotNull
 	public FluidState getFluidState(BlockState state) {
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	@NotNull
 	public BlockState rotate(BlockState state, Rotation rotation) {
 		return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	@NotNull
 	public BlockState mirror(BlockState state, Mirror mirror) {

@@ -14,6 +14,7 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -21,7 +22,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -34,14 +34,14 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 
 public abstract class GooFluid extends FlowingFluid {
-	public static void hurt(Level world, Entity entity) {
-		if (world.isClientSide || !entity.isAlive() || entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_TOXIC_GOO) || (entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO)))
+	public static void hurt(ServerLevel world, Entity entity) {
+		if (!entity.isAlive() || entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_TOXIC_GOO) || (entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO)))
 			return;
 
 		if (entity.getType().is(PortalCubedEntityTags.DISINTEGRATES_WHEN_FIZZLED)) {
 			FizzleBehaviour.DISINTEGRATION.fizzle(entity);
 		} else {
-			entity.hurt(PortalCubedDamageSources.toxicGoo(world), world.getGameRules().getInt(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
+			entity.hurtServer(world, PortalCubedDamageSources.toxicGoo(world), world.getGameRules().getInt(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
 		}
 	}
 
@@ -64,8 +64,8 @@ public abstract class GooFluid extends FlowingFluid {
 	}
 
 	@Override
-	protected boolean canConvertToSource(Level world) {
-		return world.getGameRules().getBoolean(PortalCubedGameRules.TOXIC_GOO_SOURCE_CONVERSION);
+	protected boolean canConvertToSource(ServerLevel level) {
+		return level.getGameRules().getBoolean(PortalCubedGameRules.TOXIC_GOO_SOURCE_CONVERSION);
 	}
 
 	@Override

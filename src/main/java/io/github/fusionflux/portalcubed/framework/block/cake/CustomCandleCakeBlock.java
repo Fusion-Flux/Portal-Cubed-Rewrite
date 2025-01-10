@@ -19,7 +19,7 @@ public class CustomCandleCakeBlock extends CandleCakeBlock {
 
 	@Override
 	@NotNull
-	public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
+	protected ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData) {
 		return new ItemStack(this.cake);
 	}
 

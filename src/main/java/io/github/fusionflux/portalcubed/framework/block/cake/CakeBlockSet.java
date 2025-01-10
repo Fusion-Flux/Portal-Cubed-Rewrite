@@ -5,7 +5,6 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockHelper;
@@ -17,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class CakeBlockSet {
 	private final Block cake;
@@ -24,7 +24,7 @@ public class CakeBlockSet {
 	private final Map<DyeColor, Block> candled;
 	private final Map<Block, Block> candleToCake;
 
-	public CakeBlockSet(String name, Registrar registrar, QuiltBlockSettings settings) {
+	public CakeBlockSet(String name, Registrar registrar, BlockBehaviour.Properties settings) {
 		this.candled = new EnumMap<>(DyeColor.class);
 		this.candleToCake = new IdentityHashMap<>();
 
@@ -39,7 +39,8 @@ public class CakeBlockSet {
 
 		for (DyeColor color : DyeColor.values()) {
 			String candleName = color.getSerializedName() + "_candle";
-			ResourceKey<Block> candleKey = ResourceKey.create(Registries.BLOCK, new ResourceLocation(candleName));
+			ResourceKey<Block> candleKey = ResourceKey.create(Registries.BLOCK, ResourceLocation.withDefaultNamespace(candleName));
+			// TODO: PORT
 			Block candleBlock = BuiltInRegistries.BLOCK.getOrThrow(candleKey);
 
 			Block candleCake = blocks.create(candleName + "_" + name, s -> new CustomCandleCakeBlock(this.cake, candleBlock, s))

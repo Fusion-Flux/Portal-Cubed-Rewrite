@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.panel;
 
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
 import io.github.fusionflux.portalcubed.framework.block.ConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
@@ -10,6 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GlazedTerracottaBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public enum PanelPart {
 	CHECKERED("checkered_panel"), // white only
@@ -43,7 +42,7 @@ public enum PanelPart {
 		this.factory = factory;
 	}
 
-	public Block createBlock(QuiltBlockSettings settings) {
+	public Block createBlock(BlockBehaviour.Properties settings) {
 		return this.factory.create(settings);
 	}
 }

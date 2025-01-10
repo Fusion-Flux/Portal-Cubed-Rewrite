@@ -5,6 +5,7 @@ import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class SignageSlotWidget extends TexturedStickyButton {
@@ -43,7 +44,7 @@ public class SignageSlotWidget extends TexturedStickyButton {
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		super.renderWidget(graphics, mouseX, mouseY, delta);
 		int scale = this.size == Signage.Size.SMALL ? 2 : 1;
-		graphics.blit(this.signageTexture, this.getX() + OFFSET, this.getY() + OFFSET, 0, 0, 16, 16, 16 * scale, 16 * scale);
+		graphics.blitSprite(RenderType::guiTextured, this.signageTexture, this.getX() + OFFSET, this.getY() + OFFSET, 0, 0, 16, 16, 16 * scale, 16 * scale);
 		if (this.isHovered())
 			this.tooltip.render(graphics, mouseX, mouseY);
 	}

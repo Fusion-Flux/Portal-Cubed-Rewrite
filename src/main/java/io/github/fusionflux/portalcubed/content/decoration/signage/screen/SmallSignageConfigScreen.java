@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.apache.commons.lang3.function.TriConsumer;
-import org.quiltmc.qsl.base.api.util.TriState;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
