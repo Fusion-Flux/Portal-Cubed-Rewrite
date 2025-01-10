@@ -32,13 +32,13 @@ public class PortalCubedDamageSources {
 	private final Holder.Reference<DamageType> disintegrationDamageType;
 	private final DamageSource toxicGooDamage;
 
-	public PortalCubedDamageSources(RegistryAccess registryAccess) {
-		Registry<DamageType> damageTypes = registryAccess.registryOrThrow(Registries.DAMAGE_TYPE);
-		this.landingDamageType = damageTypes.getHolderOrThrow(LANDING_DAMAGE);
-		this.lemonadeDamageType = damageTypes.getHolderOrThrow(LEMONADE);
-		this.lemonadePlayerDamageType = damageTypes.getHolderOrThrow(LEMONADE_PLAYER);
-		this.disintegrationDamageType = damageTypes.getHolderOrThrow(DISINTEGRATION);
-		this.toxicGooDamage = new DamageSource(damageTypes.getHolderOrThrow(TOXIC_GOO));
+	public PortalCubedDamageSources(RegistryAccess registries) {
+		Registry<DamageType> damageTypes = registries.lookupOrThrow(Registries.DAMAGE_TYPE);
+		this.landingDamageType = damageTypes.getOrThrow(LANDING_DAMAGE);
+		this.lemonadeDamageType = damageTypes.getOrThrow(LEMONADE);
+		this.lemonadePlayerDamageType = damageTypes.getOrThrow(LEMONADE_PLAYER);
+		this.disintegrationDamageType = damageTypes.getOrThrow(DISINTEGRATION);
+		this.toxicGooDamage = new DamageSource(damageTypes.getOrThrow(TOXIC_GOO));
 	}
 
 	public static DamageSource landingDamage(Level level, @Nullable Entity source, @Nullable Entity attacked) {
@@ -72,13 +72,13 @@ public class PortalCubedDamageSources {
 		@NotNull
 		@Override
 		public Component getLocalizedDeathMessage(LivingEntity attacked) {
-			String id = "death.attack." + type().msgId();
-			Component sourceName = Objects.requireNonNull(getDirectEntity()).getDisplayName();
-			if (!(getEntity() instanceof LivingEntity attacker))
+			String id = "death.attack." + this.type().msgId();
+			Component sourceName = Objects.requireNonNull(this.getDirectEntity()).getDisplayName();
+			if (!(this.getEntity() instanceof LivingEntity attacker))
 				return Component.translatable(id, attacked.getDisplayName(), sourceName);
-			Component causeName = getEntity().getDisplayName();
+			Component causeName = this.getEntity().getDisplayName();
 			ItemStack attackerHeldStack = attacker.getMainHandItem();
-			return !attackerHeldStack.isEmpty() && attackerHeldStack.hasCustomHoverName()
+			return !attackerHeldStack.isEmpty() && attackerHeldStack.getCustomName() != null
 				? Component.translatable(id + ".item", attacked.getDisplayName(), sourceName, causeName, attackerHeldStack.getDisplayName())
 				: Component.translatable(id + ".player", attacked.getDisplayName(), sourceName, causeName);
 		}
