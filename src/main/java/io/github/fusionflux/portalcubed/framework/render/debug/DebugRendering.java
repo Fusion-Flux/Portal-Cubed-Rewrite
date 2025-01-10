@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.fusionflux.portalcubed.framework.render.debug.entry.DebugPos;
 import io.github.fusionflux.portalcubed.framework.util.Color;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
@@ -27,7 +26,7 @@ public class DebugRendering {
 	// internal
 
 	public static void init() {
-		ClientTickEvents.START.register(DebugRendering::tick);
+		ClientTickEvents.START_CLIENT_TICK.register(DebugRendering::tick);
 		WorldRenderEvents.AFTER_ENTITIES.register(DebugRendering::render);
 	}
 
