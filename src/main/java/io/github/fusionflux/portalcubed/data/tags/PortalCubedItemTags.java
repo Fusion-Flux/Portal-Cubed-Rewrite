@@ -21,6 +21,6 @@ public class PortalCubedItemTags {
 	}
 
 	private static TagKey<Item> createCommon(String name) {
-		return TagKey.create(Registries.ITEM, new ResourceLocation("c", name));
+		return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name));
 	}
 }

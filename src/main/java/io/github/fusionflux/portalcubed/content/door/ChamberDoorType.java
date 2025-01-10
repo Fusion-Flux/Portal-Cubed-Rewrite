@@ -2,9 +2,8 @@ package io.github.fusionflux.portalcubed.content.door;
 
 import java.util.List;
 
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockFactory;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public enum ChamberDoorType {
 	PORTAL_1("portal_1_chamber_door", ChamberDoorBlock::p1, ChamberDoorMaterial.WHITE, ChamberDoorMaterial.METAL),
@@ -26,7 +25,7 @@ public enum ChamberDoorType {
 		this(name, factory, ChamberDoorMaterial.WHITE, ChamberDoorMaterial.GRAY);
 	}
 
-	public ChamberDoorBlock createBlock(QuiltBlockSettings settings) {
+	public ChamberDoorBlock createBlock(BlockBehaviour.Properties settings) {
 		return this.factory.create(settings);
 	}
 }

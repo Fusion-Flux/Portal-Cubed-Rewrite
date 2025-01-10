@@ -3,9 +3,8 @@ package io.github.fusionflux.portalcubed.content.door;
 import java.util.Locale;
 import java.util.function.Supplier;
 
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
 
 public enum ChamberDoorMaterial {
@@ -15,16 +14,16 @@ public enum ChamberDoorMaterial {
 	OLD_AP(PanelMaterial::oldApWhiteSettings);
 
 	public final String name;
-	private final QuiltBlockSettings settings;
+	private final BlockBehaviour.Properties settings;
 
-	ChamberDoorMaterial(Supplier<QuiltBlockSettings> settingsCreator) {
+	ChamberDoorMaterial(Supplier<BlockBehaviour.Properties> settingsCreator) {
 		this.name = this.name().toLowerCase(Locale.ROOT);
 		this.settings = settingsCreator.get()
-				.nonOpaque()
-				.pistonBehavior(PushReaction.DESTROY);
+				.noOcclusion()
+				.pushReaction(PushReaction.DESTROY);
 	}
 
-	public QuiltBlockSettings getSettings() {
+	public BlockBehaviour.Properties getSettings() {
 		return QuiltBlockSettings.copyOf(this.settings);
 	}
 }

@@ -3,11 +3,11 @@ package io.github.fusionflux.portalcubed.content;
 import java.util.EnumMap;
 import java.util.Map;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -76,7 +76,7 @@ public class PortalCubedSounds {
 		return random.nextInt(10) >= random.nextInt(100) ? SURPRISE : TIMER_DING;
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	public static FollowingSoundInstance createPortalGunHoldLoop(Player player) {
 		FollowingSoundInstance sound = new FollowingSoundInstance(PORTAL_GUN_HOLD_LOOP, player.getSoundSource(), player);
 		sound.setLooping(true);

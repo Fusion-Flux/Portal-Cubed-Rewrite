@@ -5,8 +5,6 @@ import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 import java.util.EnumMap;
 import java.util.Map;
 
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
-
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -72,10 +70,10 @@ public class PortalCubedItems {
 	public static final LemonadeItem LEMONADE = REGISTRAR.items.create("lemonade", LemonadeItem::new)
 			.properties(s -> s.stacksTo(1))
 			.build();
-	public static final SignItem LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new SignItem(s, PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN))
+	public static final SignItem LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new SignItem(PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN, s))
 			.properties(s -> s.stacksTo(16))
 			.build();
-	public static final SignItem LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new SignItem(s, PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN))
+	public static final SignItem LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new SignItem(PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN, s))
 			.properties(s -> s.stacksTo(16))
 			.build();
 	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_boat"), PortalCubedEntities.LEMON_BOAT, false);
@@ -86,11 +84,11 @@ public class PortalCubedItems {
 			.build();
 
 	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
-			.properties(QuiltItemSettings::fireResistant)
+			.properties(Item.Properties::fireResistant)
 			.colored(() -> () -> LongFallBootsColorProvider.INSTANCE)
 			.build();
 	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(AdvancedKneeReplacementsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
-			.properties(QuiltItemSettings::fireResistant)
+			.properties(Item.Properties::fireResistant)
 			.build();
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {

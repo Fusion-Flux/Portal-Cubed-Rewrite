@@ -1,19 +1,17 @@
 package io.github.fusionflux.portalcubed;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
-import io.github.fusionflux.portalcubed.content.lemon.Armed;
-import net.fabricmc.api.ClientModInitializer;
-
 import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
+import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.boots.LongFallBootsModel;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
+import io.github.fusionflux.portalcubed.content.lemon.Armed;
 import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.framework.entity.EntityDebugRendering;
@@ -21,6 +19,7 @@ import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
@@ -48,7 +47,7 @@ public class PortalCubedClient implements ClientModInitializer {
 		ConditionalItemModelProperties.ID_MAPPER.put(PortalCubed.id("lemonade/armed"), Armed.MAP_CODEC);
 
 		LongFallBootsModel.init();
-		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT.location());
+		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT);
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 		PortalCubedReloadListeners.registerAssets();
 

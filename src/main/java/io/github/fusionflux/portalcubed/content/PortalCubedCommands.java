@@ -9,8 +9,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
-
 import com.mojang.brigadier.Message;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
@@ -29,6 +27,7 @@ import io.github.fusionflux.portalcubed.framework.command.CollectionSmuggler;
 import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
 import io.github.fusionflux.portalcubed.framework.extension.RequiredArgumentBuilderExt;
 import io.github.fusionflux.portalcubed.mixin.CommandContextAccessor;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
