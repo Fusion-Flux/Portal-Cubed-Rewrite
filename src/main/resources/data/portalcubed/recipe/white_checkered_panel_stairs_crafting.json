@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:white_checkered_panel"
+    },
+    "result": {
+        "id": "portalcubed:white_checkered_panel_stairs",
+        "count": 4
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "portalcubed:magnesium_ingot"
+  ],
+  "result": {
+    "count": 9,
+    "id": "portalcubed:magnesium_nugget"
+  }
+}

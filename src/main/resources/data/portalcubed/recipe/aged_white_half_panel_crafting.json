@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XX",
+        "XX"
+    ],
+    "key": {
+        "X": "portalcubed:aged_white_panel"
+    },
+    "result": {
+        "id": "portalcubed:aged_white_half_panel",
+        "count": 4
+    },
+  "group": "aged_white_half_panel"
+}

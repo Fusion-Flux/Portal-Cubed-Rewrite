@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "YYY",
+        "YXY",
+        "YYY"
+    ],
+    "key": {
+        "Y": "portalcubed:magnesium_ingot",
+        "X": "minecraft:gray_dye"
+    },
+    "result": {
+        "id": "portalcubed:portal_1_storage_cube",
+        "count": 1
+    },
+  "group": "storage_cubes"
+}

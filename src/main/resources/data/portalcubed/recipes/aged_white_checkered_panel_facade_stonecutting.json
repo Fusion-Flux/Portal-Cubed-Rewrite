@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 6,
-  "ingredient": {
-    "item": "portalcubed:aged_white_checkered_panel"
-  },
-  "result": "portalcubed:aged_white_checkered_panel_facade"
-}

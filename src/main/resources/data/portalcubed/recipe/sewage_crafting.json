@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "ingredients": [
+        "minecraft:mud",
+        "minecraft:ice",
+        "minecraft:honey_block"
+    ],
+    "result": {
+        "id": "portalcubed:sewage",
+        "count": 8
+    }
+}

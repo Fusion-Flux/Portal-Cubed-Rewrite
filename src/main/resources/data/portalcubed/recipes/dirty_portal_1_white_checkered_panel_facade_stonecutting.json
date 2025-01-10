@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 6,
-  "ingredient": {
-    "item": "portalcubed:dirty_portal_1_white_checkered_panel"
-  },
-  "result": "portalcubed:dirty_portal_1_white_checkered_panel_facade"
-}

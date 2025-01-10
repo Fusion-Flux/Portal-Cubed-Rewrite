@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YX",
+        "XY"
+    ],
+    "key": {
+        "Y": "minecraft:gray_concrete",
+        "X": "minecraft:cyan_terracotta"
+    },
+    "result": {
+        "id": "portalcubed:gray_chamber_exterior",
+        "count": 8
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "portalcubed:mesh_grate",
+    "portalcubed:mesh_grate_slab",
+    "portalcubed:mesh_grate_facade",
+    "portalcubed:insulation",
+    "portalcubed:insulation_facade"
+  ]
+}

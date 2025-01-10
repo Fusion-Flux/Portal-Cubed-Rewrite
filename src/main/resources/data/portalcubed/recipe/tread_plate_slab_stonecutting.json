@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:tread_plate",
+  "result": {
+    "count": 2,
+    "id": "portalcubed:tread_plate_slab"
+  }
+}

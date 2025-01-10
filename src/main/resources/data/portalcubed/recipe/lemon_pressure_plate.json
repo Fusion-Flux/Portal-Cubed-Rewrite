@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_pressure_plate",
+  "key": {
+    "#": "portalcubed:lemon_planks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "portalcubed:lemon_pressure_plate"
+  },
+  "show_notification": true
+}

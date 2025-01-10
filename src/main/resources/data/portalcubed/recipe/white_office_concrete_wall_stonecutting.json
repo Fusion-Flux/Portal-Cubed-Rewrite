@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:white_office_concrete",
+  "result": {
+    "count": 1,
+    "id": "portalcubed:white_office_concrete_wall"
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:aged_smooth_gray_panel"
+    },
+    "result": {
+        "id": "portalcubed:aged_smooth_gray_panel_stairs",
+        "count": 4
+    },
+  "group": "aged_smooth_gray_panel_stairs"
+}

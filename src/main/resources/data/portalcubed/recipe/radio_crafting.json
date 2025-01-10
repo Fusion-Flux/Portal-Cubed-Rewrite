@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " Z ",
+        "ZYZ",
+        "XAX"
+    ],
+    "key": {
+        "Y": "minecraft:jukebox",
+        "X": "minecraft:black_dye",
+        "A": "minecraft:light_blue_dye",
+        "Z": "portalcubed:magnesium_ingot"
+    },
+    "result": {
+        "id": "portalcubed:radio",
+        "count": 1
+    }
+}

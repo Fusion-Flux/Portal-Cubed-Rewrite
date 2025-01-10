@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:dirty_metal_plating"
+    },
+    "result": {
+        "id": "portalcubed:dirty_metal_plating_slab",
+        "count": 6
+    },
+  "group": "dirty_metal_plating_slab"
+}

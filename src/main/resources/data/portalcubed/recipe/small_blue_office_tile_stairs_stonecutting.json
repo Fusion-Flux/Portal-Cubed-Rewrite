@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:small_blue_office_tiles",
+  "result": {
+    "count": 1,
+    "id": "portalcubed:small_blue_office_tile_stairs"
+  }
+}

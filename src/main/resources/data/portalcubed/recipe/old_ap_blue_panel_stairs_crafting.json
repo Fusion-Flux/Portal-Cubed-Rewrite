@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:old_ap_blue_panel"
+    },
+    "result": {
+        "id": "portalcubed:old_ap_blue_panel_stairs",
+        "count": 4
+    }
+}

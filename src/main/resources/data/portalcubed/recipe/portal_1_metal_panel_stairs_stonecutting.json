@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:portal_1_metal_panel",
+  "result": {
+    "count": 1,
+    "id": "portalcubed:portal_1_metal_panel_stairs"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:dirty_metal_plating",
+  "result": {
+    "count": 1,
+    "id": "portalcubed:dirty_metal_plating_stairs"
+  }
+}

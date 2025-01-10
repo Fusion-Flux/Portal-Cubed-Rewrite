@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 6,
-  "ingredient": {
-    "item": "portalcubed:gray_chamber_exterior"
-  },
-  "result": "portalcubed:gray_chamber_exterior_facade"
-}

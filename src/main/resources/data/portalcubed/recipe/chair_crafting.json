@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "  Y",
+        "XYX",
+        "X X"
+    ],
+    "key": {
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "minecraft:wool"
+    },
+    "result": {
+        "id": "portalcubed:chair",
+        "count": 4
+    }
+}

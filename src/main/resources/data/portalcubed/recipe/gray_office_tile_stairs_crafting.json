@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:gray_office_tiles"
+    },
+    "result": {
+        "id": "portalcubed:gray_office_tile_stairs",
+        "count": 4
+    }
+}

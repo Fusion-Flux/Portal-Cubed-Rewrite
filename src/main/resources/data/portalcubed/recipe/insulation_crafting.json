@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YXY",
+        "XYX",
+        "YXY"
+    ],
+    "key": {
+        "X": "minecraft:yellow_wool",
+        "Y": "portalcubed:magnesium_ingot"
+    },
+    "result": {
+        "id": "portalcubed:insulation",
+        "count": 8
+    }
+}

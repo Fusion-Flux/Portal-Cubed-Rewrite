@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XX",
+        "XX"
+    ],
+    "key": {
+        "X": "portalcubed:portal_1_metal_half_panel"
+    },
+    "result": {
+        "id": "portalcubed:portal_1_metal_tiles",
+        "count": 4
+    }
+}

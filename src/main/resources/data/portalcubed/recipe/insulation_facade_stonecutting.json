@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:insulation",
+  "result": {
+    "count": 6,
+    "id": "portalcubed:insulation_facade"
+  }
+}

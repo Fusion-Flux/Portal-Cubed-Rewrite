@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:padded_gray_half_panel",
+  "result": {
+    "count": 6,
+    "id": "portalcubed:padded_gray_half_panel_facade"
+  }
+}

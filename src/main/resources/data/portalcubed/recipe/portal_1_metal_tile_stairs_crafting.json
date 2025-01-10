@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:portal_1_metal_tiles"
+    },
+    "result": {
+        "id": "portalcubed:portal_1_metal_tile_stairs",
+        "count": 4
+    }
+}

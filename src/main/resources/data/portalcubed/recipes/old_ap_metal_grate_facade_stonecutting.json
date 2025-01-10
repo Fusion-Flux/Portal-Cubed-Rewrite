@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 6,
-  "ingredient": {
-    "item": "portalcubed:old_ap_metal_grate"
-  },
-  "result": "portalcubed:old_ap_metal_grate_facade"
-}

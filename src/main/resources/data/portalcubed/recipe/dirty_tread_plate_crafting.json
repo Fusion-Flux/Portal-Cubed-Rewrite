@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YY",
+        "XX"
+    ],
+    "key": {
+        "Y": "portalcubed:magnesium_ingot",
+        "X": "portalcubed:dirty_metal_plating"
+    },
+    "result": {
+        "id": "portalcubed:dirty_tread_plate",
+        "count": 4
+    },
+  "group": "dirty_tread_plate"
+}

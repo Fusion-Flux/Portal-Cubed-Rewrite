@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "XYX",
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "minecraft:orange_dye"
+    },
+    "result": {
+        "id": "portalcubed:computer",
+        "count": 4
+    }
+}
