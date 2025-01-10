@@ -34,7 +34,7 @@ public class EvenMoreCodecs {
 					path = id.substring(0, separator);
 				}
 			}
-			return DataResult.success(new ResourceLocation(namespace, path));
+			return DataResult.success(ResourceLocation.fromNamespaceAndPath(namespace, path));
 		} catch (ResourceLocationException e) {
 			return DataResult.error(() -> "Not a valid resource location: " + id + " " + e.getMessage());
 		}
