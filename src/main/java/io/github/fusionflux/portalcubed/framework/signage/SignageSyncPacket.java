@@ -2,32 +2,30 @@ package io.github.fusionflux.portalcubed.framework.signage;
 
 import java.util.Map;
 
-import org.quiltmc.qsl.networking.api.PacketSender;
+import org.jetbrains.annotations.NotNull;
 
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.FriendlyByteBuf;
+import io.netty.buffer.ByteBuf;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public record SignageSyncPacket(Map<ResourceLocation, Signage> entries) implements ClientboundPacket {
-	public SignageSyncPacket(FriendlyByteBuf buf) {
-		this(buf.readMap(FriendlyByteBuf::readResourceLocation, $ -> buf.readJsonWithCodec(Signage.CODEC)));
-	}
+	public static final StreamCodec<ByteBuf, SignageSyncPacket> CODEC = PortalCubedStreamCodecs.map(
+			ResourceLocation.STREAM_CODEC, Signage.STREAM_CODEC
+	).map(SignageSyncPacket::new, SignageSyncPacket::entries);
 
 	@Override
-	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
-		SignageManager.INSTANCE.readFromPacket(this);
-	}
-
-	@Override
-	public void write(FriendlyByteBuf buf) {
-		buf.writeMap(this.entries, FriendlyByteBuf::writeResourceLocation, ($, value) -> buf.writeJsonWithCodec(Signage.CODEC, value));
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	@NotNull
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.SYNC_SIGNAGE;
+	}
+
+	@Override
+	public void handle(ClientPlayNetworking.Context ctx) {
+		SignageManager.INSTANCE.readFromPacket(this);
 	}
 }

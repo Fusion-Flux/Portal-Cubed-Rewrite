@@ -10,37 +10,25 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
-import org.quiltmc.qsl.networking.api.ServerPlayConnectionEvents;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
-import org.quiltmc.qsl.resource.loader.api.reloader.IdentifiableResourceReloader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.Optionull;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-public class SignageManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloader {
+public class SignageManager extends SimpleJsonResourceReloadListener<Signage> implements IdentifiableResourceReloadListener {
 	public static final ResourceLocation ID = PortalCubed.id("signage");
-
-	private static final Logger logger = LoggerFactory.getLogger(ConstructManager.class);
-	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	public static final FileToIdConverter CONVERTER = FileToIdConverter.json("signage");
 
 	public static final SignageManager INSTANCE = new SignageManager();
 
@@ -49,24 +37,19 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 	private final Set<ResourceLocation> loaded = new HashSet<>();
 
 	private SignageManager() {
-		super(gson, ID.getPath());
+		super(Signage.CODEC, CONVERTER);
 	}
 
 	@Override
 	@NotNull
-	public ResourceLocation getQuiltId() {
+	public ResourceLocation getFabricId() {
 		return ID;
 	}
 
 	@Override
-	protected void apply(Map<ResourceLocation, JsonElement> cache, ResourceManager manager, ProfilerFiller profiler) {
+	protected void apply(Map<ResourceLocation, Signage> entries, ResourceManager manager, ProfilerFiller profiler) {
 		this.reset();
-		for (Map.Entry<ResourceLocation, JsonElement> entry : cache.entrySet()) {
-			ResourceLocation id = entry.getKey();
-			Signage.CODEC.parse(JsonOps.INSTANCE, entry.getValue())
-					.resultOrPartial(message -> logger.error("Failed to parse signage {}: {}", id, message))
-					.ifPresent(signage -> this.loadSignage(id, signage));
-		}
+		entries.forEach(this::addSignage);
 		this.update();
 	}
 
@@ -84,11 +67,11 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 
 	public void readFromPacket(SignageSyncPacket packet) {
 		this.reset();
-		packet.entries().forEach(this::loadSignage);
+		packet.entries().forEach(this::addSignage);
 		this.update();
 	}
 
-	private void loadSignage(ResourceLocation id, Signage signage) {
+	private void addSignage(ResourceLocation id, Signage signage) {
 		this.entries.computeIfAbsent(id, $ -> new Signage.Holder(id, null))
 				.bindValue(signage);
 		this.loaded.add(id);
