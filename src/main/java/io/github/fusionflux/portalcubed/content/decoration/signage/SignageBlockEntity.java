@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage;
 
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.qsl.block.entity.api.QuiltBlockEntity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class SignageBlockEntity extends BlockEntity implements QuiltBlockEntity {
+public abstract class SignageBlockEntity extends BlockEntity {
 	public static final String SIGNAGE_KEY = "signage";
 
 	public final boolean aged;
@@ -37,7 +37,7 @@ public abstract class SignageBlockEntity extends BlockEntity implements QuiltBlo
 
 	@NotNull
 	@Override
-	public final CompoundTag getUpdateTag() {
-		return this.saveWithoutMetadata();
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		return this.saveWithoutMetadata(registries);
 	}
 }

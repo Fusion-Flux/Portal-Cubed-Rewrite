@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
 import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,16 +43,16 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		Signage.Holder signage = SignageManager.INSTANCE.get(ResourceLocation.tryParse(nbt.getString(SIGNAGE_KEY)));
+	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		Signage.Holder signage = SignageManager.INSTANCE.get(ResourceLocation.tryParse(tag.getString(SIGNAGE_KEY)));
 		if (signage != null)
 			this.update(signage);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag nbt) {
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
 		if (this.holder != null)
-			nbt.putString(SIGNAGE_KEY, this.holder.id().toString());
+			tag.putString(SIGNAGE_KEY, this.holder.id().toString());
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.TriState;
 
 public class SmallSignageConfigScreen extends SignageConfigScreen {
 	public static final int TAB_WIDTH = 44;
@@ -83,7 +84,7 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 			PortalCubedPackets.sendToServer(new ConfigureSignageConfigPacket.Small(
 					this.smallSignage.getBlockPos(),
 					this.tab.quadrant(),
-					TriState.fromBoolean(this.slotsEnabled),
+					this.slotsEnabled ? TriState.TRUE : TriState.FALSE,
 					null
 			));
 		}));

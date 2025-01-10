@@ -13,6 +13,7 @@ import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
 import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -48,8 +49,8 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		CompoundTag quadrantsTag = nbt.getCompound(SIGNAGE_KEY);
+	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		CompoundTag quadrantsTag = tag.getCompound(SIGNAGE_KEY);
 		for (SmallSignageBlock.Quadrant quadrant : SmallSignageBlock.Quadrant.VALUES) {
 			Signage.Holder signage = SignageManager.INSTANCE.get(ResourceLocation.tryParse(quadrantsTag.getString(quadrant.name)));
 			if (signage != null)
@@ -58,12 +59,12 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag nbt) {
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
 		CompoundTag quadrantsTag = new CompoundTag();
 		for (Map.Entry<SmallSignageBlock.Quadrant, Signage.Holder> entry : this.quadrants.entrySet()) {
 			quadrantsTag.putString(entry.getKey().name, entry.getValue().id().toString());
 		}
-		nbt.put(SIGNAGE_KEY, quadrantsTag);
+		tag.put(SIGNAGE_KEY, quadrantsTag);
 	}
 
 	@Override

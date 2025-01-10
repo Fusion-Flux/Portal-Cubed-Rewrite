@@ -58,7 +58,7 @@ public class DecalParticle extends TextureSheetParticle {
 		this.quadSize = .5f;
 
 		this.basePos = basePos;
-		this.direction = Direction.getNearest(dx, dy, dz);
+		this.direction = Direction.getApproximateNearest(dx, dy, dz);
 		this.matrix = new Matrix4f()
 				.rotate(this.direction.getRotation())
 				.translate(-ONE_PIXEL, 0, -ONE_PIXEL)
@@ -93,7 +93,7 @@ public class DecalParticle extends TextureSheetParticle {
 		if (this.lastBaseState != null && this.lastBaseState != currentBaseState) {
 			VoxelShape baseShape = currentBaseState.getCollisionShape(this.level, this.basePos);
 			Vec3 rayStart = new Vec3(this.x, this.y, this.z);
-			Vec3 rayEnd = rayStart.subtract(Vec3.atLowerCornerOf(this.direction.getNormal()).scale(ONE_PIXEL));
+			Vec3 rayEnd = rayStart.subtract(this.direction.getUnitVec3().scale(ONE_PIXEL));
 			BlockHitResult hit = baseShape.clip(rayStart, rayEnd, this.basePos);
 			if (Optionull.mapOrDefault(hit, BlockHitResult::isInside, true))
 				this.remove();
