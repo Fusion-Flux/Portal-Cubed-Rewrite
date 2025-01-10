@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
-import org.quiltmc.qsl.networking.api.ServerPlayConnectionEvents;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
@@ -17,7 +17,6 @@ import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 
 public interface EntityExt {
 	int DISINTEGRATE_TICKS = 3 * 20;
