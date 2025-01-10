@@ -6,13 +6,13 @@ import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.util.Mth;
@@ -22,7 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 public record ShootCannonPacket(InteractionHand hand, CannonUseResult useResult) implements ClientboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, ShootCannonPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, ShootCannonPacket> CODEC = StreamCodec.composite(
 			PortalCubedStreamCodecs.HAND, ShootCannonPacket::hand,
 			CannonUseResult.STREAM_CODEC, ShootCannonPacket::useResult,
 			ShootCannonPacket::new

@@ -6,8 +6,8 @@ import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -19,7 +19,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public record CrowbarSwingPacket(@Nullable BlockHitResult hit, boolean didSwingAnim) implements ServerboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, CrowbarSwingPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, CrowbarSwingPacket> CODEC = StreamCodec.composite(
 			PortalCubedStreamCodecs.nullable(PortalCubedStreamCodecs.BLOCK_HIT_RESULT), CrowbarSwingPacket::hit,
 			ByteBufCodecs.BOOL, CrowbarSwingPacket::didSwingAnim,
 			CrowbarSwingPacket::new

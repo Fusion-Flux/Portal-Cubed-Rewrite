@@ -9,9 +9,9 @@ import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBl
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pressTime, Offset offset, boolean base) implements ServerboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, ConfigurePedestalButtonPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, ConfigurePedestalButtonPacket> CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC, ConfigurePedestalButtonPacket::pedestalButtonPos,
 			ByteBufCodecs.VAR_INT, ConfigurePedestalButtonPacket::pressTime,
 			PortalCubedStreamCodecs.ofEnum(Offset.class), ConfigurePedestalButtonPacket::offset,

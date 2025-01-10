@@ -8,10 +8,6 @@ import java.util.Map;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.boots.AdvancedKneeReplacementsMaterial;
-import io.github.fusionflux.portalcubed.content.boots.LongFallBoots;
-import io.github.fusionflux.portalcubed.content.boots.LongFallBootsColorProvider;
-import io.github.fusionflux.portalcubed.content.boots.LongFallBootsMaterial;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
@@ -32,6 +28,7 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -82,11 +79,10 @@ public class PortalCubedItems {
 			.properties(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))
 			.build();
 
-	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
+	public static final ArmorItem LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new ArmorItem(PortalCubedArmorMaterials.LONG_FALL_BOOTS, ArmorType.BOOTS, s))
 			.properties(Item.Properties::fireResistant)
-			.colored(() -> () -> LongFallBootsColorProvider.INSTANCE)
 			.build();
-	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(AdvancedKneeReplacementsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
+	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(PortalCubedArmorMaterials.ADVANCED_KNEE_REPLACEMENTS, ArmorType.BOOTS, s))
 			.properties(Item.Properties::fireResistant)
 			.build();
 

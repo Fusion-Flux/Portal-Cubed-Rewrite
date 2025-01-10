@@ -3,8 +3,8 @@ package io.github.fusionflux.portalcubed.packet.serverbound;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 
 public record GrabPacket(int grabbed) implements ServerboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, GrabPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, GrabPacket> CODEC = StreamCodec.composite(
 			ByteBufCodecs.VAR_INT, GrabPacket::grabbed,
 			GrabPacket::new
 	);

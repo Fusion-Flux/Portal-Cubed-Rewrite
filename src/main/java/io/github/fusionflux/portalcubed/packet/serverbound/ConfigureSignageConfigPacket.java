@@ -11,9 +11,9 @@ import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.util.TriState;
@@ -40,7 +40,7 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 	}
 
 	record Large(BlockPos signagePos, @Nullable Signage.Holder signage) implements ConfigureSignageConfigPacket {
-		public static final StreamCodec<RegistryFriendlyByteBuf, Large> CODEC = StreamCodec.composite(
+		public static final StreamCodec<ByteBuf, Large> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Large::signagePos,
 				Signage.Holder.STREAM_CODEC, Large::signage,
 				Large::new
@@ -59,7 +59,7 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 	}
 
 	record Small(BlockPos signagePos, SmallSignageBlock.Quadrant quadrant, TriState enabled, @Nullable Signage.Holder signage) implements ConfigureSignageConfigPacket {
-		public static final StreamCodec<RegistryFriendlyByteBuf, Small> CODEC = StreamCodec.composite(
+		public static final StreamCodec<ByteBuf, Small> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Small::signagePos,
 				PortalCubedStreamCodecs.ofEnum(SmallSignageBlock.Quadrant.class), Small::quadrant,
 				PortalCubedStreamCodecs.ofEnum(TriState.class), Small::enabled,

@@ -28,6 +28,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -55,6 +56,9 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Shadow
 	public abstract void releaseUsingItem();
+
+	@Shadow
+	public abstract void onEquippedItemBroken(Item item, EquipmentSlot slot);
 
 	@Unique
 	private boolean lemonadeArmingFinished;
@@ -87,11 +91,8 @@ public abstract class LivingEntityMixin extends Entity {
 		ItemStack boots = this.getItemBySlot(EquipmentSlot.FEET);
 		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE) && !damageSource.is(PortalCubedDamageTypeTags.BYPASSES_FALL_DAMAGE_ABSORPTION)) {
 			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
-			int bootDamage = LongFallBoots.calculateFallDamage(boots, fallDamage);
-			((ItemStackExt) (Object) boots).pc$hurtAndBreakNoUnbreaking(
-					bootDamage, (LivingEntity) (Object) this, e -> e.broadcastBreakEvent(EquipmentSlot.FEET)
-			);
-
+			int bootDamage = LongFallBoots.calculateFallDamage(this.registryAccess(), boots, fallDamage);
+			((ItemStackExt) (Object) boots).pc$hurtEquipmentNoUnbreaking(bootDamage, (LivingEntity) (Object) this, EquipmentSlot.FEET);
 			if (!boots.isEmpty())
 				cir.setReturnValue(false);
 		}

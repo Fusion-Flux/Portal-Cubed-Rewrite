@@ -63,6 +63,7 @@
     "client.GameRendererMixin",
     "client.GlStateManagerMixin",
     "client.GuiGraphicsAccessor",
+    "client.HumanoidArmorLayerMixin",
     "client.ItemInHandRendererMixin",
     "client.ItemRendererAccessor",
     "client.KeyValueConditionAccessor",
