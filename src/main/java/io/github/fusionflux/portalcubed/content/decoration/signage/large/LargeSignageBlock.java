@@ -41,7 +41,7 @@ public class LargeSignageBlock extends SignageBlock {
 	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (player instanceof ServerPlayer serverPlayer)
 			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Large(pos));
-		return InteractionResult.sidedSuccess(world.isClientSide);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -115,8 +116,8 @@ public abstract class SignageConfigScreen extends Screen {
 
 	@Override
 	public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.renderBackground(graphics, mouseX, mouseY, delta);
-		graphics.blit(this.background(), this.leftPos, this.topPos + this.yOffset(), 0, 0, WIDTH, HEIGHT);
+		this.renderTransparentBackground(graphics);
+		graphics.blit(RenderType::guiTextured, this.background(), this.leftPos, this.topPos + this.yOffset(), 0, 0, WIDTH, HEIGHT, 256, 256);
 	}
 
 	@Override

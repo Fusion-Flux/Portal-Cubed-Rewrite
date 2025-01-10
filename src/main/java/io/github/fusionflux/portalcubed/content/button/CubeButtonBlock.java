@@ -42,7 +42,6 @@ public class CubeButtonBlock extends FloorButtonBlock {
 		super(properties, SHAPES, BUTTON_SHAPE, entity -> entity.getType().is(PortalCubedEntityTags.PRESSES_CUBE_BUTTONS), PortalCubedSounds.FLOOR_BUTTON_PRESS, PortalCubedSounds.FLOOR_BUTTON_RELEASE);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		Direction facing = state.getValue(FACING);
@@ -61,7 +60,6 @@ public class CubeButtonBlock extends FloorButtonBlock {
 		return super.getCollisionShape(state, world, pos, context);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
 		if (isOrigin(state)) {

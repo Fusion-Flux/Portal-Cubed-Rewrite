@@ -11,11 +11,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 public class VerticalConnectiveDirectionalBlock extends Block {
 	public static final MapCodec<VerticalConnectiveDirectionalBlock> CODEC = simpleCodec(VerticalConnectiveDirectionalBlock::new);
-	public static final DirectionProperty FACING = BlockStateProperties.VERTICAL_DIRECTION;
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.VERTICAL_DIRECTION;
 
 	public VerticalConnectiveDirectionalBlock(Properties properties) {
 		super(properties);

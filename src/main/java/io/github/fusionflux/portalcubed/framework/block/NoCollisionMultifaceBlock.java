@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,9 +12,7 @@ public class NoCollisionMultifaceBlock extends SimpleMultifaceBlock {
 		super(properties);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	@NotNull
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
 	}

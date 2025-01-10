@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
@@ -37,7 +36,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FloorButtonBlock extends AbstractMultiBlock {
-	// TODO: When data driven blocks drop this should probably be a more advanced codec
 	public static final MapCodec<FloorButtonBlock> CODEC = simpleCodec(FloorButtonBlock::new);
 
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);
@@ -179,7 +177,6 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		builder.add(ACTIVE);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		int y = getY(state);
@@ -193,31 +190,26 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		return shape.get(facing);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+	protected VoxelShape getOcclusionShape(BlockState state) {
 		return Shapes.empty();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) ? 15 : 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) && state.getValue(FACING) == direction ? 15 : 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 		if (!level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate).isEmpty()) {
@@ -227,7 +219,6 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
 		if (!level.isClientSide) {
@@ -248,9 +239,10 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 			buttonActivated.setActivated(true);
 	}
 
-	@Override
-	public String getDescriptionId() {
-		boolean hasEasterEgg = this == PortalCubedBlocks.FLOOR_BUTTON_BLOCK || this == PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK;
-		return (easterEgg && hasEasterEgg) ? "block.portalcubed.floor_button.easter_egg" : super.getDescriptionId();
-	}
+	// TODO: PORT
+//	@Override
+//	public String getDescriptionId() {
+//		boolean hasEasterEgg = this == PortalCubedBlocks.FLOOR_BUTTON_BLOCK || this == PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK;
+//		return (easterEgg && hasEasterEgg) ? "block.portalcubed.floor_button.easter_egg" : super.getDescriptionId();
+//	}
 }
