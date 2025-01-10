@@ -7,14 +7,14 @@ import org.lwjgl.system.MemoryStack;
 
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormatElement;
 
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.framework.util.DelegatingVertexConsumer;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.caffeinemc.mods.sodium.api.util.ColorMixer;
-import net.caffeinemc.mods.sodium.api.vertex.attributes.CommonVertexAttribute;
 import net.caffeinemc.mods.sodium.api.vertex.attributes.common.ColorAttribute;
-import net.caffeinemc.mods.sodium.api.vertex.format.VertexFormatDescription;
 import net.minecraft.client.renderer.RenderType;
 
 public class DisintegrationVertexConsumer extends DelegatingVertexConsumer {
@@ -36,11 +36,11 @@ public class DisintegrationVertexConsumer extends DelegatingVertexConsumer {
 		this.delta = Math.min(progress * (1 + TRANSLUCENCY_START_PROGRESS), 1);
 	}
 
-	@NotNull
 	@Override
-	public VertexConsumer color(int red, int green, int blue, int alpha) {
+	@NotNull
+	public VertexConsumer setColor(int red, int green, int blue, int alpha) {
 		int packedColor = ColorMixer.mix(this.packedColor, ColorABGR.pack(red, green, blue, alpha), this.delta);
-		delegate.color(
+		this.delegate.setColor(
 				ColorABGR.unpackRed(packedColor),
 				ColorABGR.unpackGreen(packedColor),
 				ColorABGR.unpackBlue(packedColor),
@@ -50,9 +50,9 @@ public class DisintegrationVertexConsumer extends DelegatingVertexConsumer {
 	}
 
 	@Override
-	public void push(MemoryStack stack, long ptr, int count, VertexFormatDescription format) {
-		long stride = format.stride();
-		long offsetColor = format.getElementOffset(CommonVertexAttribute.COLOR);
+	public void push(MemoryStack stack, long ptr, int count, VertexFormat format) {
+		long stride = format.getVertexSize();
+		long offsetColor = format.getOffset(VertexFormatElement.COLOR);
 		for (int vertexIndex = 0; vertexIndex < count; vertexIndex++) {
 			long attributePtr = (ptr + (stride * vertexIndex)) + offsetColor;
 			ColorAttribute.set(

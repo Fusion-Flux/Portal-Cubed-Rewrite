@@ -51,13 +51,12 @@ public class DisintegrationRenderer {
 	}
 
 	private static void flashVertex(VertexConsumer vertexConsumer, Matrix4f matrix, float x, float y, int color, int textureU, int textureV) {
-		vertexConsumer.vertex(matrix, x, y, 0)
-				.color(color)
-				.uv(textureU, textureV)
-				.overlayCoords(OverlayTexture.NO_OVERLAY)
-				.uv2(LightTexture.FULL_BRIGHT)
-				.normal(0, 1, 0)
-				.endVertex();
+		vertexConsumer.addVertex(matrix, x, y, 0)
+				.setColor(color)
+				.setUv(textureU, textureV)
+				.setOverlay(OverlayTexture.NO_OVERLAY)
+				.setLight(LightTexture.FULL_BRIGHT)
+				.setNormal(0, 1, 0);
 	}
 
 	// this allocates a lot, but it's probably not a problem unless there's like 1000+ disintegrating entities
