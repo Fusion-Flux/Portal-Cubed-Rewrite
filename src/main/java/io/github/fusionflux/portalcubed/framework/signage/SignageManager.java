@@ -116,9 +116,7 @@ public class SignageManager extends SimpleJsonResourceReloadListener implements 
 		}
 	}
 
-	public static void init() {
-		ResourceLoader.get(PackType.SERVER_DATA).registerReloader(INSTANCE);
-
+	public static void registerEventListeners() {
 		// events for syncing to players
 		ServerPlayConnectionEvents.JOIN.register(
 				(handler, sender, server) -> INSTANCE.syncToPlayer(handler.player)

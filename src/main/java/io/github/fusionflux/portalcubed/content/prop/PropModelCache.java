@@ -1,11 +1,14 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import java.util.Collection;
 import java.util.EnumMap;
+import java.util.List;
+
+import io.github.fusionflux.portalcubed.framework.util.SimpleSynchronousReloadListener;
+
+import net.fabricmc.fabric.api.resource.ResourceReloadListenerKeys;
 
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
-import org.quiltmc.qsl.resource.loader.api.reloader.ResourceReloaderKeys;
-import org.quiltmc.qsl.resource.loader.api.reloader.SimpleSynchronousResourceReloader;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
@@ -22,16 +25,11 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public enum PropModelCache implements SimpleSynchronousResourceReloader {
+public enum PropModelCache implements SimpleSynchronousReloadListener {
 	INSTANCE;
 
 	public static final ResourceLocation ID = PortalCubed.id("prop_models");
-
-	public static void register() {
-		ResourceLoader resourceLoader = ResourceLoader.get(PackType.CLIENT_RESOURCES);
-		resourceLoader.addReloaderOrdering(ResourceReloaderKeys.Client.MODELS, ID);
-		resourceLoader.registerReloader(INSTANCE);
-	}
+	public static final Collection<ResourceLocation> DEPENDENCIES = List.of(ResourceReloadListenerKeys.MODELS);
 
 	private final EnumMap<PropType, ObjectArrayList<BakedModel>> models = new EnumMap<>(PropType.class);
 
@@ -41,9 +39,13 @@ public enum PropModelCache implements SimpleSynchronousResourceReloader {
 	}
 
 	@Override
-	@NotNull
-	public ResourceLocation getQuiltId() {
+	public ResourceLocation getFabricId() {
 		return ID;
+	}
+
+	@Override
+	public Collection<ResourceLocation> getFabricDependencies() {
+		return DEPENDENCIES;
 	}
 
 	@Override

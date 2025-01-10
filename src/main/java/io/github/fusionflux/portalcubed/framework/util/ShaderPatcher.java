@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 public class ShaderPatcher {
 	public static final String CLIPPING_PLANE_UNIFORM_NAME = PortalCubed.ID + "_ClippingPlane";
@@ -39,10 +41,6 @@ public class ShaderPatcher {
 		return builder.toString();
 	}
 
-	public static void clearCache() {
-		CACHE.clear();
-	}
-
 	private enum ShaderType {
 		SODIUM(Pattern.compile("sodium:blocks/block_layer_opaque\\.vsh"), "u_ProjectionMatrix"),
 		VANILLA(Pattern.compile("^((particle)|(rendertype_(?!gui).*))\\.vsh"), "ProjMat");
@@ -61,6 +59,22 @@ public class ShaderPatcher {
 					return Optional.of(type);
 			}
 			return Optional.empty();
+		}
+	}
+
+	public enum ReloadListener implements SimpleSynchronousReloadListener {
+		INSTANCE;
+
+		public static final ResourceLocation ID = PortalCubed.id("shader_patcher");
+
+		@Override
+		public ResourceLocation getFabricId() {
+			return ID;
+		}
+
+		@Override
+		public void onResourceManagerReload(ResourceManager manager) {
+			CACHE.clear();
 		}
 	}
 }
