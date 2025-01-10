@@ -1,8 +1,12 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.syncher.EntityDataSerializers;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.PropSoundInstance;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
@@ -17,9 +21,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
 public class Radio extends Prop implements AmbientSoundEmitter {
-	private static final EntityDataAccessor<SoundEvent> TRACK = SynchedEntityData.defineId(Radio.class, PortalCubedSerializers.SOUND_EVENT);
+	public static final EntityDataAccessor<String> TRACK = SynchedEntityData.defineId(Radio.class, EntityDataSerializers.STRING);
 
-	@ClientOnly
+	private static final String defaultSong = PortalCubedSounds.RADIO_SONG.location().toString();
+
+	@Environment(EnvType.CLIENT)
 	private PropSoundInstance soundInstance;
 
 	public Radio(PropType type, EntityType<?> entityType, Level level) {
@@ -27,39 +33,42 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		entityData.define(TRACK, PortalCubedSounds.RADIO_SONG);
+	protected void defineSynchedData(Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(TRACK, defaultSong);
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
 		super.onSyncedDataUpdated(data);
-		if (level().isClientSide && TRACK.equals(data) && !isSilent())
-			playAmbientSound();
+		if (this.level().isClientSide && TRACK.equals(data) && !this.isSilent())
+			this.playAmbientSound();
 	}
 
-	@ClientOnly
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void playAmbientSound() {
-		if (soundInstance != null) soundInstance.forceStop();
-		soundInstance = new PropSoundInstance(entityData.get(TRACK), this);
-		Minecraft.getInstance().getSoundManager().play(soundInstance);
+		if (this.soundInstance != null)
+			this.soundInstance.forceStop();
+		String track = this.entityData.get(TRACK);
+		ResourceLocation id = ResourceLocation.tryParse(track);
+		if (id != null) {
+			BuiltInRegistries.SOUND_EVENT.get(id).ifPresent(holder -> {
+				this.soundInstance = new PropSoundInstance(holder.value(), this);
+				Minecraft.getInstance().getSoundManager().play(this.soundInstance);
+			});
+		}
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
-		tag.putString("radio_track", entityData.get(TRACK).getLocation().toString());
+		tag.putString("radio_track", this.entityData.get(TRACK));
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		ResourceLocation trackId = ResourceLocation.tryParse(tag.getString("radio_track"));
-		if (trackId == null) trackId = PortalCubedSounds.RADIO_SONG.getLocation();
-		if (trackId.equals(entityData.get(TRACK).getLocation())) return;
-		entityData.set(TRACK, SoundEvent.createVariableRangeEvent(trackId));
+		this.entityData.set(TRACK, tag.getString("radio_track"));
 	}
 }

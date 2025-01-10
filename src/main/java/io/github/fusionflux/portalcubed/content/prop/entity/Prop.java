@@ -21,6 +21,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -177,41 +179,45 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	@Override
 	public void setRemainingFireTicks(int ticks) {
 		super.setRemainingFireTicks(ticks);
-		if (getType().is(PortalCubedEntityTags.CAN_BE_CHARRED) && getRemainingFireTicks() > 0) setDirty(true);
+		if (this.getType().is(PortalCubedEntityTags.CAN_BE_CHARRED) && this.getRemainingFireTicks() > 0)
+			this.setDirty(true);
 	}
 
-	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
+		if (this.isInvulnerable() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY))
+			return true;
+
 		if (source.getDirectEntity() instanceof Player player) {
-			Abilities abilities = player.getAbilities();
-			return (isInvulnerable() && !abilities.instabuild) || !(abilities.instabuild || (abilities.mayBuild && HammerItem.usingHammer(player)));
+			return !player.getAbilities().instabuild && !HammerItem.usingHammer(player);
 		}
-		return isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
+
+		return true;
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
-		if (!isInvulnerableTo(source)) {
-			if (!level().isClientSide) {
-				if (!(source.getDirectEntity() instanceof Player player && (player.getAbilities().instabuild && !HammerItem.usingHammer(player))))
-					dropLoot(source);
-				kill();
-			}
-			return true;
-		}
-		return false;
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+		if (this.isInvulnerableTo(source))
+			return false;
+
+		if (shouldDropLoot(source))
+			this.dropLoot(level, source);
+
+		this.kill(level);
+		return true;
 	}
 
-	protected void dropLoot(DamageSource source) {
-		if (level() instanceof ServerLevel level) {
-			ResourceLocation lootTableId = getType().getDefaultLootTable();
-			LootTable lootTable = level.getServer().getLootData().getLootTable(lootTableId);
-			LootParams.Builder builder = new LootParams.Builder(level)
-					.withParameter(LootContextParams.THIS_ENTITY, this)
-					.withParameter(LootContextParams.ORIGIN, position())
-					.withParameter(LootContextParams.DAMAGE_SOURCE, source);
-			lootTable.getRandomItems(builder.create(LootContextParamSets.ENTITY), 0, this::spawnAtLocation);
-		}
+	protected void dropLoot(ServerLevel level, DamageSource source) {
+		Optional<ResourceKey<LootTable>> maybeLootTable = this.getLootTable();
+		if (maybeLootTable.isEmpty())
+			return;
+
+		LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(maybeLootTable.get());
+		LootParams.Builder builder = new LootParams.Builder(level)
+				.withParameter(LootContextParams.THIS_ENTITY, this)
+				.withParameter(LootContextParams.ORIGIN, this.position())
+				.withParameter(LootContextParams.DAMAGE_SOURCE, source);
+		LootParams params = builder.create(LootContextParamSets.ENTITY);
+		lootTable.getRandomItems(params, 0, stack -> this.spawnAtLocation(level, stack));
 	}
 
 	@Override
@@ -264,9 +270,9 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		entityData.define(VARIANT, 0);
+	protected void defineSynchedData(Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(VARIANT, 0);
 	}
 
 	@Override
@@ -279,5 +285,15 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	protected void readAdditionalSaveData(CompoundTag tag) {
 		setVariant(tag.getInt("variant"));
 		setVariantFromItem(tag.getInt("variant_from_item"));
+	}
+
+	private static boolean shouldDropLoot(DamageSource source) {
+		if (!(source.getDirectEntity() instanceof Player player))
+			return false;
+
+		if (player.getAbilities().instabuild)
+			return false;
+
+		return HammerItem.usingHammer(player);
 	}
 }

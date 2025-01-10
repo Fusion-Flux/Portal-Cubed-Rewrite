@@ -14,7 +14,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
-import io.github.fusionflux.portalcubed.content.PortalCubedSerializers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
@@ -22,7 +21,6 @@ import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
@@ -52,7 +50,6 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
-		PortalCubedSerializers.init();
 		PortalCubedFeatures.init();
 		PortalCubedSounds.init();
 		PortalCubedParticles.init();
@@ -62,7 +59,6 @@ public class PortalCubed implements ModInitializer {
 
 		ConstructManager.registerEventListeners();
 		SignageManager.registerEventListeners();
-		HoldableEntity.registerEventListeners();
 		EntityExt.registerEventListeners();
 		HammerableBlock.registerEventListeners();
 		LemonadeItem.registerEventListeners();

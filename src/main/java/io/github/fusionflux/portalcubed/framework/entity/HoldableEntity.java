@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.framework.entity;
 import java.util.OptionalInt;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -11,6 +10,7 @@ import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -41,8 +41,8 @@ public abstract class HoldableEntity extends LerpableEntity {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(HOLDER, OptionalInt.empty());
+	protected void defineSynchedData(Builder builder) {
+		builder.define(HOLDER, OptionalInt.empty());
 	}
 
 	@Override
@@ -163,14 +163,10 @@ public abstract class HoldableEntity extends LerpableEntity {
 		}
 	}
 
-	public static void registerEventListeners() {
-		EntityTrackingEvents.AFTER_START_TRACKING.register((tracked, player) -> {
-			if (tracked instanceof ServerPlayer otherPlayer) {
-				HoldableEntity held = otherPlayer.getHeldEntity();
-				if (held != null) {
-					PortalCubedPackets.sendToClient(player, new HoldStatusPacket(otherPlayer, held));
-				}
-			}
-		});
+	@Override
+	public void startSeenByPlayer(ServerPlayer player) {
+		if (this.holder instanceof ServerPlayer holder) {
+			PortalCubedPackets.sendToClient(player, new HoldStatusPacket(holder, this));
+		}
 	}
 }
