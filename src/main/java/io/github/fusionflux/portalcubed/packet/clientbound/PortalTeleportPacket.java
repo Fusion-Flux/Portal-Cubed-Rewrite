@@ -6,18 +6,18 @@ import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.Entity;
 
 public record PortalTeleportPacket(int entityId, PortalTeleportInfo info) implements ClientboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, PortalTeleportPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, PortalTeleportPacket> CODEC = StreamCodec.composite(
 			ByteBufCodecs.VAR_INT, PortalTeleportPacket::entityId,
 			PortalTeleportInfo.STREAM_CODEC, PortalTeleportPacket::info,
 			PortalTeleportPacket::new

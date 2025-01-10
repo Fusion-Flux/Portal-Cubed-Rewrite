@@ -12,13 +12,13 @@ import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSi
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -43,7 +43,7 @@ public sealed interface OpenSignageConfigPacket extends ClientboundPacket permit
 	}
 
 	record Large(BlockPos signagePos) implements OpenSignageConfigPacket {
-		public static final StreamCodec<RegistryFriendlyByteBuf, Large> CODEC = StreamCodec.composite(
+		public static final StreamCodec<ByteBuf, Large> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Large::signagePos,
 				Large::new
 		);
@@ -62,7 +62,7 @@ public sealed interface OpenSignageConfigPacket extends ClientboundPacket permit
 	}
 
 	record Small(BlockHitResult hit) implements OpenSignageConfigPacket {
-		public static final StreamCodec<RegistryFriendlyByteBuf, Small> CODEC = StreamCodec.composite(
+		public static final StreamCodec<ByteBuf, Small> CODEC = StreamCodec.composite(
 				PortalCubedStreamCodecs.BLOCK_HIT_RESULT, Small::hit,
 				Small::new
 		);

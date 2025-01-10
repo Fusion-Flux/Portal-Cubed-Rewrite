@@ -5,7 +5,7 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
@@ -18,7 +18,7 @@ import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
  * TP packets are assumed to be non-local unless set otherwise by ServerEntityMixin for compatibility.
  */
 public record LocalTeleportPacket(ClientboundTeleportEntityPacket wrapped) implements ClientboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, LocalTeleportPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<FriendlyByteBuf, LocalTeleportPacket> CODEC = StreamCodec.composite(
 			ClientboundTeleportEntityPacket.STREAM_CODEC, LocalTeleportPacket::wrapped,
 			LocalTeleportPacket::new
 	);

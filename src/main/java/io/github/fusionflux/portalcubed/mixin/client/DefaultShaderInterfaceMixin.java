@@ -9,13 +9,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.framework.util.ShaderPatcher;
-import me.jellysquid.mods.sodium.client.gl.shader.uniform.GlUniformFloat4v;
-import me.jellysquid.mods.sodium.client.render.chunk.shader.ChunkShaderInterface;
-import me.jellysquid.mods.sodium.client.render.chunk.shader.ChunkShaderOptions;
-import me.jellysquid.mods.sodium.client.render.chunk.shader.ShaderBindingContext;
+import net.caffeinemc.mods.sodium.client.gl.shader.uniform.GlUniformFloat4v;
+import net.caffeinemc.mods.sodium.client.render.chunk.shader.ChunkShaderOptions;
+import net.caffeinemc.mods.sodium.client.render.chunk.shader.DefaultShaderInterface;
+import net.caffeinemc.mods.sodium.client.render.chunk.shader.ShaderBindingContext;
 
-@Mixin(value = ChunkShaderInterface.class, remap = false)
-public class ChunkShaderInterfaceMixin {
+@Mixin(value = DefaultShaderInterface.class, remap = false)
+public class DefaultShaderInterfaceMixin {
 	@Unique
 	private GlUniformFloat4v uniformClippingPlane;
 

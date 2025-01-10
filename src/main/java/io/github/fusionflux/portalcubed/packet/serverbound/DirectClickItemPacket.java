@@ -6,8 +6,8 @@ import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -18,7 +18,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public record DirectClickItemPacket(boolean attack, InteractionHand hand, @Nullable BlockHitResult hit) implements ServerboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, DirectClickItemPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, DirectClickItemPacket> CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL, DirectClickItemPacket::attack,
 			PortalCubedStreamCodecs.HAND, DirectClickItemPacket::hand,
 			PortalCubedStreamCodecs.nullable(PortalCubedStreamCodecs.BLOCK_HIT_RESULT), DirectClickItemPacket::hit,

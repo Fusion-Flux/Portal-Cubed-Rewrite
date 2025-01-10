@@ -10,11 +10,11 @@ import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -23,7 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
 public record HoldStatusPacket(int holder, OptionalInt held) implements ClientboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, HoldStatusPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, HoldStatusPacket> CODEC = StreamCodec.composite(
 			ByteBufCodecs.VAR_INT, HoldStatusPacket::holder,
 			ByteBufCodecs.OPTIONAL_VAR_INT, HoldStatusPacket::held,
 			HoldStatusPacket::new

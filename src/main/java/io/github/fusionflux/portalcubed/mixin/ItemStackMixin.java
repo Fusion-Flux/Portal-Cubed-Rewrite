@@ -17,10 +17,10 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -32,7 +32,7 @@ public abstract class ItemStackMixin implements ItemStackExt {
 	public abstract boolean is(TagKey<Item> tag);
 
 	@Shadow
-	public abstract void hurtAndBreak(int damage, ServerLevel level, @Nullable ServerPlayer player, Consumer<Item> onBreak);
+	public abstract void hurtAndBreak(int amount, LivingEntity entity, EquipmentSlot slot);
 
 	@Unique
 	private boolean hurtWithoutUnbreaking;
@@ -43,9 +43,9 @@ public abstract class ItemStackMixin implements ItemStackExt {
 	}
 
 	@Override
-	public void pc$hurtAndBreakNoUnbreaking(int amount, ServerLevel level, @Nullable ServerPlayer player, Consumer<Item> onBreak) {
+	public void pc$hurtEquipmentNoUnbreaking(int amount, LivingEntity entity, EquipmentSlot slot) {
 		this.hurtWithoutUnbreaking = true;
-		this.hurtAndBreak(amount, level, player, onBreak);
+		this.hurtAndBreak(amount, entity, slot);
 		this.hurtWithoutUnbreaking = false;
 	}
 

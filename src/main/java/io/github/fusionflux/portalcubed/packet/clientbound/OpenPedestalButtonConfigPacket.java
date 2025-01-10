@@ -4,17 +4,17 @@ import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBl
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonConfigScreen;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 public record OpenPedestalButtonConfigPacket(BlockPos pedestalButtonPos) implements ClientboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, OpenPedestalButtonConfigPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, OpenPedestalButtonConfigPacket> CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC, OpenPedestalButtonConfigPacket::pedestalButtonPos,
 			OpenPedestalButtonConfigPacket::new
 	);

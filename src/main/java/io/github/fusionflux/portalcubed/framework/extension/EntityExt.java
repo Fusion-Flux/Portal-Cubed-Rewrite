@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
-import org.quiltmc.qsl.networking.api.ServerPlayConnectionEvents;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
@@ -15,9 +15,10 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 
 public interface EntityExt {
 	int DISINTEGRATE_TICKS = 3 * 20;
@@ -25,12 +26,12 @@ public interface EntityExt {
 	ResourceLocation DISINTEGRATION_INTERACTION_PHASE = PortalCubed.id("disintegration");
 
 	static void registerEventListeners() {
-		EntityTrackingEvents.AFTER_START_TRACKING.register((tracked, player) -> {
+		EntityTrackingEvents.START_TRACKING.register((tracked, player) -> {
 			if (tracked.pc$disintegrating()) PortalCubedPackets.sendToClient(player, new DisintegratePacket(tracked));
 		});
 
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-			if (handler.player.pc$disintegrating()) sender.sendPayload(new DisintegratePacket(handler.player));
+			if (handler.player.pc$disintegrating()) sender.sendPacket(new DisintegratePacket(handler.player));
 		});
 
 		AttackBlockCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);
@@ -46,7 +47,7 @@ public interface EntityExt {
 		UseEntityCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand, entity, hitResult) ->
 				(player.pc$disintegrating() || entity.pc$disintegrating()) ? InteractionResult.FAIL : InteractionResult.PASS);
 		UseItemCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);
-		UseItemCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand) -> player.pc$disintegrating() ? InteractionResultHolder.fail(player.getItemInHand(hand)) : InteractionResultHolder.pass(player.getItemInHand(hand)));
+		UseItemCallback.EVENT.register(DISINTEGRATION_INTERACTION_PHASE, (player, world, hand) -> player.pc$disintegrating() ? InteractionResult.FAIL : InteractionResult.PASS);
 	}
 
 	default boolean pc$disintegrate() {

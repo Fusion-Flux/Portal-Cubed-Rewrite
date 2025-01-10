@@ -10,18 +10,19 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import io.github.fusionflux.portalcubed.framework.util.EvenMoreCodecs;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.Optionull;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 
 public record Signage(Optional<ResourceLocation> cleanTexture, Optional<ResourceLocation> agedTexture, Component name, Size size) {
-	public static final Codec<Signage> CODEC = ExtraCodecs.validate(
+	public static final Codec<Signage> CODEC = EvenMoreCodecs.validate(
 			RecordCodecBuilder.create(instance -> instance.group(
 					ResourceLocation.CODEC.optionalFieldOf("clean_texture").forGetter(Signage::cleanTexture),
 					ResourceLocation.CODEC.optionalFieldOf("aged_texture").forGetter(Signage::agedTexture),
@@ -29,6 +30,14 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 					Size.CODEC.fieldOf("size").forGetter(Signage::size)
 			).apply(instance, Signage::new)),
 			Signage::validate
+	);
+
+	public static final StreamCodec<ByteBuf, Signage> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC), Signage::cleanTexture,
+			ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC), Signage::agedTexture,
+			ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC, Signage::name,
+			Size.STREAM_CODEC, Signage::size,
+			Signage::new
 	);
 
 	public ResourceLocation selectTexture(boolean aged) {
@@ -94,6 +103,7 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 		SMALL;
 
 		public static final Codec<Size> CODEC = StringRepresentable.fromEnum(Size::values);
+		public static final StreamCodec<ByteBuf, Size> STREAM_CODEC = PortalCubedStreamCodecs.ofEnum(Size.class);
 
 		public final String name = this.name().toLowerCase(Locale.ROOT);
 

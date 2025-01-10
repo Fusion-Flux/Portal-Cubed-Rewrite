@@ -8,8 +8,8 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import io.github.fusionflux.portalcubed.content.portal.RecursionAttachedResource;
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
-import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderList;
-import me.jellysquid.mods.sodium.client.render.chunk.region.RenderRegion;
+import net.caffeinemc.mods.sodium.client.render.chunk.lists.ChunkRenderList;
+import net.caffeinemc.mods.sodium.client.render.chunk.region.RenderRegion;
 
 @Mixin(value = RenderRegion.class, remap = false)
 public class RenderRegionMixin {

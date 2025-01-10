@@ -6,8 +6,8 @@ import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.InteractionHand;
@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public record ConfigureCannonPacket(InteractionHand hand, CannonSettings settings) implements ServerboundPacket {
-	public static final StreamCodec<RegistryFriendlyByteBuf, ConfigureCannonPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<ByteBuf, ConfigureCannonPacket> CODEC = StreamCodec.composite(
 			PortalCubedStreamCodecs.HAND, ConfigureCannonPacket::hand,
 			CannonSettings.STREAM_CODEC, ConfigureCannonPacket::settings,
 			ConfigureCannonPacket::new
