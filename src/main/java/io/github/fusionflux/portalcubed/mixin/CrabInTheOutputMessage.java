@@ -12,7 +12,7 @@ import net.minecraft.gametest.framework.TestCommand;
  * he probably went out for lunch at this point, and his favorite restaurant is pretty far away. we'll update you when he returns,
  * but for now we hope you enjoy the company of crab in the output message.
  */
-@Mixin(value = TestCommand.class, priority = 1001)
+@Mixin(value = TestCommand.TestSummaryDisplayer.class, priority = 1001)
 public class CrabInTheOutputMessage {
 	// Can't use @ModifyConstant here because QSL already does.
 	@ModifyExpressionValue(method = "showTestSummaryIfAllDone", at = @At(value = "CONSTANT", args = "stringValue=All required tests passed :)"), require = 0)
