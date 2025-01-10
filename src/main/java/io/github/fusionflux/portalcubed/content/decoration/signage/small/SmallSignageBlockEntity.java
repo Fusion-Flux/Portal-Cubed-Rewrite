@@ -38,11 +38,10 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 		if (holder != null && !holder.equals(currentHolder)) {
 			this.quadrants.put(quadrant, holder);
 			if (this.level != null) {
-				if (!this.level.isClientSide) {
-					this.sync();
-					this.level.blockEntityChanged(this.worldPosition);
-				} else {
+				if (this.level.isClientSide) {
 					this.updateModel();
+				} else {
+					this.setChangedAndSync();
 				}
 			}
 		}
