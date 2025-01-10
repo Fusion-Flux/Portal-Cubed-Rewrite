@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;

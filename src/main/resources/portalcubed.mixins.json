@@ -53,7 +53,7 @@
     "client.BlockModelMixin",
     "client.CameraAccessor",
     "client.CameraMixin",
-    "client.ChunkShaderInterfaceMixin",
+    "client.DefaultShaderInterfaceMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
     "client.ClientSuggestionProviderMixin",
