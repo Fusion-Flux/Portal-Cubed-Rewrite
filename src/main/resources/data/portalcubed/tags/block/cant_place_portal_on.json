@@ -26,6 +26,14 @@
     "portalcubed:insulation",
     "portalcubed:insulation_facade",
 
+    "portalcubed:white_chamber_door",
+    "portalcubed:gray_chamber_door",
+    "portalcubed:white_octopus_chamber_door",
+    "portalcubed:gray_octopus_chamber_door",
+    "portalcubed:white_portal_1_chamber_door",
+    "portalcubed:metal_portal_1_chamber_door",
+    "portalcubed:old_ap_chamber_door",
+
     "#c:glass_blocks",
     "#c:glass_panes",
     "#c:shulker_boxes",
