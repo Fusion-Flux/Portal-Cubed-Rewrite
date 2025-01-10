@@ -24,7 +24,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 
-public interface OpenSignageConfigPacket extends ClientboundPacket {
+public sealed interface OpenSignageConfigPacket extends ClientboundPacket permits OpenSignageConfigPacket.Large, OpenSignageConfigPacket.Small {
 	Logger logger = LoggerFactory.getLogger(OpenSignageConfigPacket.class);
 
 	BlockPos signagePos();

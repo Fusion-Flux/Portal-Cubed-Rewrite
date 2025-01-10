@@ -21,7 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public interface ConfigureSignageConfigPacket extends ServerboundPacket {
+public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket permits ConfigureSignageConfigPacket.Large, ConfigureSignageConfigPacket.Small {
 	Logger logger = LoggerFactory.getLogger(ConfigureSignageConfigPacket.class);
 
 	BlockPos signagePos();

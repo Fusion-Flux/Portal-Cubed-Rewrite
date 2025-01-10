@@ -15,10 +15,10 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public interface HammerableBlock {
 	@NotNull
-	InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult);
+	InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit);
 
 	static void registerEventListeners() {
-		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
+		UseBlockCallback.EVENT.register((player, world, hand, hit) -> {
 			ItemStack stack = player.getItemInHand(hand);
 			if (!stack.is(PortalCubedItemTags.WRENCHES))
 				return InteractionResult.PASS;
@@ -26,13 +26,13 @@ public interface HammerableBlock {
 			if (!player.mayBuild())
 				return InteractionResult.PASS;
 
-			BlockPos pos = hitResult.getBlockPos();
+			BlockPos pos = hit.getBlockPos();
 			BlockState state = world.getBlockState(pos);
 			if (!(state.getBlock() instanceof HammerableBlock hammerable))
 				return InteractionResult.PASS;
 
-			InteractionResult result = hammerable.onHammered(state, world, pos, player, hitResult);
-			if (result.shouldAwardStats())
+			InteractionResult result = hammerable.onHammered(state, world, pos, player, hit);
+			if (result instanceof InteractionResult.Success)
 				player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
 			return result;
 		});
