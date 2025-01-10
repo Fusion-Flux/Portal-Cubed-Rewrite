@@ -2,40 +2,36 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 
 import java.util.UUID;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
-
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.FriendlyByteBuf;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 public record OtherPlayerShootCannonPacket(UUID player) implements ClientboundPacket {
+	public static final StreamCodec<RegistryFriendlyByteBuf, OtherPlayerShootCannonPacket> CODEC = StreamCodec.composite(
+			UUIDUtil.STREAM_CODEC, OtherPlayerShootCannonPacket::player,
+			OtherPlayerShootCannonPacket::new
+	);
+
 	public OtherPlayerShootCannonPacket(Player player) {
 		this(player.getUUID());
 	}
 
-	public OtherPlayerShootCannonPacket(FriendlyByteBuf buf) {
-		this(buf.readUUID());
-	}
-
 	@Override
-	public void write(FriendlyByteBuf buf) {
-		buf.writeUUID(this.player);
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.SHOOT_CANNON_OTHER;
 	}
 
+	@Environment(EnvType.CLIENT)
 	@Override
-	@ClientOnly
-	public void handle(LocalPlayer localPlayer, PacketSender<CustomPacketPayload> responder) {
-		Player player = localPlayer.clientLevel.getPlayerByUUID(this.player);
+	public void handle(ClientPlayNetworking.Context ctx) {
+		Player player = ctx.player().clientLevel.getPlayerByUUID(this.player);
 		if (player != null) {
 			ShootCannonPacket.spawnParticlesForPlayer(player);
 		}

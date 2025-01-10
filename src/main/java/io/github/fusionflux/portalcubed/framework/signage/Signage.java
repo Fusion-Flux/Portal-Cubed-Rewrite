@@ -10,8 +10,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.Optionull;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
@@ -42,6 +46,10 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 	}
 
 	public static final class Holder implements Comparable<Holder> {
+		public static final StreamCodec<ByteBuf, @Nullable Holder> STREAM_CODEC = PortalCubedStreamCodecs
+				.nullable(ResourceLocation.STREAM_CODEC)
+				.map(SignageManager.INSTANCE::get, holder -> Optionull.map(holder, Holder::id));
+
 		private final ResourceLocation id;
 		private Signage value;
 

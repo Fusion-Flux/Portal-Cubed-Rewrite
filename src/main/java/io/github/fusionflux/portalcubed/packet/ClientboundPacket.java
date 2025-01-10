@@ -1,23 +1,11 @@
 package io.github.fusionflux.portalcubed.packet;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.LocalPlayer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public interface ClientboundPacket extends BasePacket {
-	@ClientOnly
-	void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder);
-
-	static void receive(Minecraft client, ClientPacketListener handler, ClientboundPacket payload,
-			PacketSender<CustomPacketPayload> responder) {
-		if (client.isSameThread()) {
-			payload.handle(client.player, responder);
-		} else {
-			client.execute(() -> payload.handle(client.player, responder));
-		}
-	}
+public interface ClientboundPacket extends CustomPacketPayload {
+	@Environment(EnvType.CLIENT)
+	void handle(ClientPlayNetworking.Context ctx);
 }

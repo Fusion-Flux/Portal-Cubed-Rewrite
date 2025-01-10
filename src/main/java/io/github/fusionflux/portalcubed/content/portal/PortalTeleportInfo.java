@@ -5,9 +5,21 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.datafixers.util.Pair;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
-import net.minecraft.network.FriendlyByteBuf;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 public record PortalTeleportInfo(String pairKey, Polarity entered, @Nullable PortalTeleportInfo next) {
+	public static final StreamCodec<ByteBuf, PortalTeleportInfo> STREAM_CODEC = StreamCodec.recursive(
+			streamCodec -> StreamCodec.composite(
+					ByteBufCodecs.STRING_UTF8, PortalTeleportInfo::pairKey,
+					PortalCubedStreamCodecs.ofEnum(Polarity.class), PortalTeleportInfo::entered,
+					PortalCubedStreamCodecs.nullable(streamCodec), PortalTeleportInfo::next,
+					PortalTeleportInfo::new
+			)
+	);
+
 	public boolean matches(String pairKey, Polarity entered) {
 		return this.pairKey.equals(pairKey) && this.entered == entered;
 	}
@@ -48,22 +60,5 @@ public record PortalTeleportInfo(String pairKey, Polarity entered, @Nullable Por
 
 		PortalInstance last = lastPair.getOrThrow(lastInfo.entered.opposite());
 		return Pair.of(first, last);
-	}
-
-	public void toNetwork(FriendlyByteBuf buf) {
-		toNetwork(buf, this);
-	}
-
-	private static void toNetwork(FriendlyByteBuf buf, PortalTeleportInfo info) {
-		buf.writeUtf(info.pairKey);
-		buf.writeEnum(info.entered);
-		buf.writeNullable(info.next, PortalTeleportInfo::toNetwork);
-	}
-
-	public static PortalTeleportInfo fromNetwork(FriendlyByteBuf buf) {
-		String pairKey = buf.readUtf();
-		Polarity entered = buf.readEnum(Polarity.class);
-		PortalTeleportInfo next = buf.readNullable(PortalTeleportInfo::fromNetwork);
-		return new PortalTeleportInfo(pairKey, entered, next);
 	}
 }
