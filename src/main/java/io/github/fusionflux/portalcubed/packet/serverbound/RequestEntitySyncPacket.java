@@ -1,39 +1,40 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
-import org.quiltmc.qsl.networking.api.PacketSender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
-import net.minecraft.network.FriendlyByteBuf;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 
 public record RequestEntitySyncPacket(int entityId) implements ServerboundPacket {
-	public RequestEntitySyncPacket(FriendlyByteBuf buf) {
-		this(buf.readVarInt());
-	}
+	public static final StreamCodec<RegistryFriendlyByteBuf, RequestEntitySyncPacket> CODEC = StreamCodec.composite(
+			ByteBufCodecs.VAR_INT, RequestEntitySyncPacket::entityId,
+			RequestEntitySyncPacket::new
+	);
+
+	private static final Logger logger = LoggerFactory.getLogger(RequestEntitySyncPacket.class);
 
 	@Override
-	public void write(FriendlyByteBuf buf) {
-		buf.writeVarInt(this.entityId);
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.REQUEST_ENTITY_SYNC;
 	}
 
 	@Override
-	public void handle(ServerPlayer player, PacketSender<CustomPacketPayload> responder) {
+	public void handle(ServerPlayNetworking.Context ctx) {
+		ServerPlayer player = ctx.player();
 		Level level = player.level();
 		Entity entity = level.getEntity(this.entityId);
 		if (entity == null) {
-			PortalCubed.LOGGER.error("Player {} requested sync packet for unknown entity {}", player.getName(), this.entityId);
+			logger.error("Player {} requested sync packet for unknown entity {}", player.getName(), this.entityId);
 			return;
 		}
 

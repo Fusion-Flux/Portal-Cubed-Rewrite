@@ -1,39 +1,37 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportInfo;
 import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.FriendlyByteBuf;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 public record PortalTeleportPacket(int entityId, PortalTeleportInfo info) implements ClientboundPacket {
-	public PortalTeleportPacket(FriendlyByteBuf buf) {
-		this(buf.readVarInt(), PortalTeleportInfo.fromNetwork(buf));
-	}
+	public static final StreamCodec<RegistryFriendlyByteBuf, PortalTeleportPacket> CODEC = StreamCodec.composite(
+			ByteBufCodecs.VAR_INT, PortalTeleportPacket::entityId,
+			PortalTeleportInfo.STREAM_CODEC, PortalTeleportPacket::info,
+			PortalTeleportPacket::new
+	);
 
 	@Override
-	public void write(FriendlyByteBuf buf) {
-		buf.writeVarInt(this.entityId);
-		this.info.toNetwork(buf);
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.PORTAL_TELEPORT;
 	}
 
+	@Environment(EnvType.CLIENT)
 	@Override
-	@ClientOnly
-	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
+	public void handle(ClientPlayNetworking.Context ctx) {
+		AbstractClientPlayer player = ctx.player();
 		Entity entity = player.clientLevel.getEntity(this.entityId);
 		if (entity == null) {
 			PortalCubed.LOGGER.warn("Received portal teleport for unknown entity: {}", this.entityId);

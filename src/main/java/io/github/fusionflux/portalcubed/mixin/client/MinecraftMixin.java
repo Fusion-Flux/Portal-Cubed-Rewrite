@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.mixin.client;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,6 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
@@ -72,7 +72,7 @@ public class MinecraftMixin {
 				if (result == TriState.TRUE) {
 					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND, hitResult));
 				}
-				cir.setReturnValue(result.toBoolean());
+				cir.setReturnValue(result.toBoolean(false));
 			}
 		}
 	}

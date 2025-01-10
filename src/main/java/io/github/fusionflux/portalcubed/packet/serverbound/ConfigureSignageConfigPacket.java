@@ -1,126 +1,86 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
-import org.quiltmc.qsl.networking.api.PacketSender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlockEntity;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlockEntity;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
-import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
-import net.minecraft.Optionull;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.util.TriState;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.Vec3;
 
-public abstract class ConfigureSignageConfigPacket implements ServerboundPacket {
-	protected final BlockPos signagePos;
+public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket permits ConfigureSignageConfigPacket.Large, ConfigureSignageConfigPacket.Small {
+	Logger logger = LoggerFactory.getLogger(ConfigureSignageConfigPacket.class);
 
-	private ConfigureSignageConfigPacket(BlockPos signagePos) {
-		this.signagePos = signagePos;
-	}
+	BlockPos signagePos();
 
-	protected abstract void configure(@Nullable BlockEntity blockEntity);
+	void configure(@Nullable BlockEntity blockEntity);
 
 	@Override
-	public void write(FriendlyByteBuf buf) {
-		buf.writeBlockPos(this.signagePos);
-	}
-
-	@Override
-	public final void handle(ServerPlayer player, PacketSender<CustomPacketPayload> responder) {
-		Vec3 posCenter = Vec3.atBottomCenterOf(this.signagePos);
-		if (!(player.getEyePosition().distanceToSqr(posCenter) > ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE)) {
-			this.configure(player.level().getBlockEntity(this.signagePos));
+	default void handle(ServerPlayNetworking.Context ctx) {
+		Player player = ctx.player();
+		BlockPos signagePos = this.signagePos();
+		if (player.canInteractWithBlock(signagePos, 1)) {
+			this.configure(player.level().getBlockEntity(signagePos));
 		} else {
-			PortalCubed.LOGGER.warn("Rejecting ConfigureSignageConfigPacket from {}: Location too far away from hit block {}.", player.getGameProfile().getName(), this.signagePos);
+			logger.warn("Rejecting packet from {}: Can't interact with block {}.", player.getGameProfile().getName(), signagePos);
 		}
 	}
 
-	public static final class Large extends ConfigureSignageConfigPacket {
-		private final Signage.Holder signage;
+	record Large(BlockPos signagePos, @Nullable Signage.Holder signage) implements ConfigureSignageConfigPacket {
+		public static final StreamCodec<RegistryFriendlyByteBuf, Large> CODEC = StreamCodec.composite(
+				BlockPos.STREAM_CODEC, Large::signagePos,
+				Signage.Holder.STREAM_CODEC, Large::signage,
+				Large::new
+		);
 
-		public Large(BlockPos signagePos, Signage.Holder signage) {
-			super(signagePos);
-			this.signage = signage;
-		}
-
-		public Large(FriendlyByteBuf buf) {
-			this(buf.readBlockPos(), SignageManager.INSTANCE.get(buf.readResourceLocation()));
+		@Override
+		public Type<? extends CustomPacketPayload> type() {
+			return PortalCubedPackets.CONFIGURE_LARGE_SIGNAGE;
 		}
 
 		@Override
-		protected void configure(@Nullable BlockEntity blockEntity) {
+		public void configure(@Nullable BlockEntity blockEntity) {
 			if (blockEntity instanceof LargeSignageBlockEntity signageBlock)
 				signageBlock.update(this.signage);
 		}
-
-		@Override
-		public void write(FriendlyByteBuf buf) {
-			super.write(buf);
-			buf.writeResourceLocation(this.signage.id());
-		}
-
-		@Override
-		public ResourceLocation getId() {
-			return PortalCubedPackets.CONFIGURE_LARGE_SIGNAGE;
-		}
 	}
 
-	public static final class Small extends ConfigureSignageConfigPacket {
-		private final SmallSignageBlock.Quadrant quadrant;
-		private final TriState enabled;
-		@Nullable
-		private final Signage.Holder signage;
+	record Small(BlockPos signagePos, SmallSignageBlock.Quadrant quadrant, TriState enabled, @Nullable Signage.Holder signage) implements ConfigureSignageConfigPacket {
+		public static final StreamCodec<RegistryFriendlyByteBuf, Small> CODEC = StreamCodec.composite(
+				BlockPos.STREAM_CODEC, Small::signagePos,
+				PortalCubedStreamCodecs.ofEnum(SmallSignageBlock.Quadrant.class), Small::quadrant,
+				PortalCubedStreamCodecs.ofEnum(TriState.class), Small::enabled,
+				Signage.Holder.STREAM_CODEC, Small::signage,
+				Small::new
+		);
 
-		public Small(BlockPos signagePos, SmallSignageBlock.Quadrant quadrant, TriState enabled, @Nullable Signage.Holder signage) {
-			super(signagePos);
-			this.quadrant = quadrant;
-			this.enabled = enabled;
-			this.signage = signage;
-		}
-
-		public Small(FriendlyByteBuf buf) {
-			this(
-					buf.readBlockPos(),
-					buf.readEnum(SmallSignageBlock.Quadrant.class),
-					buf.readEnum(TriState.class),
-					Optionull.map(buf.readNullable(FriendlyByteBuf::readResourceLocation), SignageManager.INSTANCE::get)
-			);
+		@Override
+		public Type<? extends CustomPacketPayload> type() {
+			return PortalCubedPackets.CONFIGURE_SMALL_SIGNAGE;
 		}
 
 		@Override
-		protected void configure(@Nullable BlockEntity blockEntity) {
+		public void configure(@Nullable BlockEntity blockEntity) {
 			if (blockEntity instanceof SmallSignageBlockEntity signageBlock) {
 				Level world = signageBlock.getLevel();
 				if (this.enabled != TriState.DEFAULT && world != null)
-					SmallSignageBlock.setQuadrant(world, this.signagePos, quadrant, this.enabled.toBooleanOrElse(true));
+					SmallSignageBlock.setQuadrant(world, this.signagePos, quadrant, this.enabled.toBoolean(true));
 				if (this.signage != null)
 					signageBlock.updateQuadrant(this.quadrant, this.signage);
 			}
-		}
-
-		@Override
-		public void write(FriendlyByteBuf buf) {
-			super.write(buf);
-			buf.writeEnum(this.quadrant);
-			buf.writeEnum(this.enabled);
-			buf.writeNullable(Optionull.map(this.signage, Signage.Holder::id), FriendlyByteBuf::writeResourceLocation);
-		}
-
-		@Override
-		public ResourceLocation getId() {
-			return PortalCubedPackets.CONFIGURE_SMALL_SIGNAGE;
 		}
 	}
 }

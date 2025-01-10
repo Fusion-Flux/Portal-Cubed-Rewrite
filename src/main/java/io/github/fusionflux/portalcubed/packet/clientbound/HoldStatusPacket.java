@@ -3,49 +3,45 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 import java.util.OptionalInt;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
-import io.github.fusionflux.portalcubed.framework.util.PacketUtils;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
 public record HoldStatusPacket(int holder, OptionalInt held) implements ClientboundPacket {
+	public static final StreamCodec<RegistryFriendlyByteBuf, HoldStatusPacket> CODEC = StreamCodec.composite(
+			ByteBufCodecs.VAR_INT, HoldStatusPacket::holder,
+			ByteBufCodecs.OPTIONAL_VAR_INT, HoldStatusPacket::held,
+			HoldStatusPacket::new
+	);
+
 	public HoldStatusPacket(ServerPlayer holder, @Nullable HoldableEntity held) {
 		this(holder.getId(), held == null ? OptionalInt.empty() : OptionalInt.of(held.getId()));
 	}
 
-	public HoldStatusPacket(FriendlyByteBuf buf) {
-		this(buf.readVarInt(), PacketUtils.readOptionalInt(buf));
-	}
-
 	@Override
-	public void write(FriendlyByteBuf buf) {
-		buf.writeVarInt(this.holder);
-		PacketUtils.writeOptionalInt(buf, this.held);
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.HOLD_STATUS;
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	@Override
-	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
-		ClientLevel level = player.clientLevel;
+	public void handle(ClientPlayNetworking.Context ctx) {
+		ClientLevel level = ctx.player().clientLevel;
 		if (level.getEntity(this.holder) instanceof Player otherPlayer) {
 			if (this.held.isPresent()) {
 				Entity entity = level.getEntity(this.held.getAsInt());

@@ -1,15 +1,14 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.networking.api.PacketSender;
-
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.FriendlyByteBuf;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
-import net.minecraft.resources.ResourceLocation;
 
 /**
  * Teleports need to be assumed to be local, because they're used for two completely different cases.
@@ -19,28 +18,24 @@ import net.minecraft.resources.ResourceLocation;
  * TP packets are assumed to be non-local unless set otherwise by ServerEntityMixin for compatibility.
  */
 public record LocalTeleportPacket(ClientboundTeleportEntityPacket wrapped) implements ClientboundPacket {
+	public static final StreamCodec<RegistryFriendlyByteBuf, LocalTeleportPacket> CODEC = StreamCodec.composite(
+			ClientboundTeleportEntityPacket.STREAM_CODEC, LocalTeleportPacket::wrapped,
+			LocalTeleportPacket::new
+	);
+
 	public LocalTeleportPacket(ClientboundTeleportEntityPacket wrapped) {
 		this.wrapped = wrapped;
 		this.wrapped.pc$setLocal(true);
 	}
 
-	public LocalTeleportPacket(FriendlyByteBuf buf) {
-		this(new ClientboundTeleportEntityPacket(buf));
-	}
-
 	@Override
-	public void write(FriendlyByteBuf buf) {
-		this.wrapped.write(buf);
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.LOCAL_TELEPORT;
 	}
 
+	@Environment(EnvType.CLIENT)
 	@Override
-	@ClientOnly
-	public void handle(LocalPlayer player, PacketSender<CustomPacketPayload> responder) {
-		this.wrapped.handle(player.connection);
+	public void handle(ClientPlayNetworking.Context ctx) {
+		this.wrapped.handle(ctx.player().connection);
 	}
 }

@@ -9,7 +9,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -30,6 +33,15 @@ public record CannonSettings(
 			Codec.FLOAT.fieldOf("preview_opacity").forGetter(CannonSettings::previewOpacity),
 			Codec.BOOL.fieldOf("replace_mode").forGetter(CannonSettings::replaceMode)
 	).apply(instance, CannonSettings::new));
+
+	public static final StreamCodec<ByteBuf, CannonSettings> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.optional(TagKey.streamCodec(Registries.ITEM)), CannonSettings::material,
+			ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC), CannonSettings::construct,
+			ByteBufCodecs.BOOL, CannonSettings::preview,
+			ByteBufCodecs.FLOAT, CannonSettings::previewOpacity,
+			ByteBufCodecs.BOOL, CannonSettings::replaceMode,
+			CannonSettings::new
+	);
 
 	public static final CannonSettings DEFAULT = new CannonSettings(
 			Optional.empty(), Optional.empty(), true, .55f, false

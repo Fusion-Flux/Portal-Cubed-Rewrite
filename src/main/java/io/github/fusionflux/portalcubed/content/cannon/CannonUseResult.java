@@ -3,7 +3,10 @@ package io.github.fusionflux.portalcubed.content.cannon;
 import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 
@@ -13,6 +16,8 @@ public enum CannonUseResult {
 	MISSING_MATERIALS,
 	NO_PERMS,
 	MISCONFIGURED;
+
+	public static final StreamCodec<ByteBuf, CannonUseResult> STREAM_CODEC = PortalCubedStreamCodecs.ofEnum(CannonUseResult.class);
 
 	public boolean shouldRecoil() {
 		return this == PLACED || this == MISSING_MATERIALS;

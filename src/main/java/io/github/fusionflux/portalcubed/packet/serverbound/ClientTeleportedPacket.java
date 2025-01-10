@@ -1,43 +1,48 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
-import org.quiltmc.qsl.networking.api.PacketSender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportInfo;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
-import net.minecraft.network.FriendlyByteBuf;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
 public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xRot, float yRot) implements ServerboundPacket {
+	public static final StreamCodec<RegistryFriendlyByteBuf, ClientTeleportedPacket> CODEC = StreamCodec.composite(
+			PortalTeleportInfo.STREAM_CODEC, ClientTeleportedPacket::info,
+			PortalCubedStreamCodecs.VEC3, ClientTeleportedPacket::pos,
+			ByteBufCodecs.FLOAT, ClientTeleportedPacket::xRot,
+			ByteBufCodecs.FLOAT, ClientTeleportedPacket::yRot,
+			ClientTeleportedPacket::new
+	);
 	public static final double GLIDING_MAX = Math.sqrt(300);
 	public static final double NORMAL_MAX = Math.sqrt(100);
 
-	public ClientTeleportedPacket(FriendlyByteBuf buf) {
-		this(PortalTeleportInfo.fromNetwork(buf), buf.readVec3(), buf.readFloat(), buf.readFloat());
-	}
+	private static final Logger logger = LoggerFactory.getLogger(ClientTeleportedPacket.class);
 
 	@Override
-	public void write(FriendlyByteBuf buf) {
-		this.info.toNetwork(buf);
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.CLIENT_TELEPORTED;
 	}
 
 	@Override
-	public void handle(ServerPlayer player, PacketSender<CustomPacketPayload> responder) {
+	public void handle(ServerPlayNetworking.Context ctx) {
+		ServerPlayer player = ctx.player();
+
 		if (this.isTeleportInvalid(player)) {
-			PortalCubed.LOGGER.warn("Player attempted an invalid teleport: {}", player.getName());
+			logger.warn("Player attempted an invalid teleport: {}", player.getName());
 			player.connection.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
 			return;
 		}
