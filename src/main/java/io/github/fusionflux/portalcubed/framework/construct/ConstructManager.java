@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
-import org.jetbrains.annotations.NotNull;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+
+import net.minecraft.resources.FileToIdConverter;
+
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.networking.api.ServerPlayConnectionEvents;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
@@ -21,9 +23,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.mojang.serialization.DynamicOps;
-import com.mojang.serialization.JsonOps;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
@@ -31,41 +30,38 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 
-public class ConstructManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloader {
+public class ConstructManager extends SimpleJsonResourceReloadListener<ConstructSet> implements IdentifiableResourceReloadListener {
 	public static final ResourceLocation ID = PortalCubed.id("constructs");
 	public static final String DIR = "construct_sets";
+	public static final FileToIdConverter CONVERTER = FileToIdConverter.json("construct_set");
 
 	private static final Logger logger = LoggerFactory.getLogger(ConstructManager.class);
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	public static ConstructManager INSTANCE = new ConstructManager();
+	public static final ConstructManager INSTANCE = new ConstructManager();
 
 	private final BiMap<ResourceLocation, ConstructSet> constructSets = HashBiMap.create();
 	private final Map<TagKey<Item>, List<ConstructSet>> byMaterial = new IdentityHashMap<>();
 
 	private ConstructManager() {
-		super(gson, DIR);
+		super(ConstructSet.CODEC, CONVERTER);
 	}
 
 	@Override
-	@NotNull
-	public ResourceLocation getQuiltId() {
+	public ResourceLocation getFabricId() {
 		return ID;
 	}
 
 	@Override
-	protected void apply(Map<ResourceLocation, JsonElement> cache, ResourceManager manager, ProfilerFiller profiler) {
+	protected void apply(Map<ResourceLocation, ConstructSet> sets, ResourceManager manager, ProfilerFiller profiler) {
 		this.reset();
-		cache.forEach(
-				(id, json) -> tryParseConstruct(id, JsonOps.INSTANCE, json).ifPresent(this::addConstruct)
-		);
+		sets.forEach(this::addConstruct);
 		this.sortConstructs();
 	}
 
@@ -80,32 +76,19 @@ public class ConstructManager extends SimpleJsonResourceReloadListener implement
 
 	public void readFromPacket(ConstructSyncPacket packet) {
 		this.reset();
-		packet.getConstructs().forEach(this::addConstruct);
+		packet.constructs().forEach(this::addConstruct);
 		this.sortConstructs();
-	}
-
-	protected static <T> Optional<ConstructSet.Holder> tryParseConstruct(ResourceLocation id, DynamicOps<T> ops, T data) {
-		ConstructSet constructSet = ConstructSet.CODEC.parse(ops, data).get().map(
-				Function.identity(),
-				partial -> {
-					logger.error("Failed to parse construct {}: {}", id, partial.message());
-					return null;
-				}
-		);
-
-		return constructSet == null ? Optional.empty() : Optional.of(new ConstructSet.Holder(id, constructSet));
 	}
 
 	private void sortConstructs() {
 		this.byMaterial.values().forEach(list -> list.sort(ConstructSet.BY_SIZE_COMPARATOR));
 	}
 
-	private void addConstruct(ConstructSet.Holder holder) {
-		ConstructSet constructSet = holder.constructSet();
-		this.constructSets.put(holder.id(), constructSet);
+	private void addConstruct(ResourceLocation id, ConstructSet set) {
+		this.constructSets.put(id, set);
 		this.byMaterial.computeIfAbsent(
-				constructSet.material, $ -> new ArrayList<>()
-		).add(constructSet);
+				set.material, $ -> new ArrayList<>()
+		).add(set);
 	}
 
 	private void reset() {

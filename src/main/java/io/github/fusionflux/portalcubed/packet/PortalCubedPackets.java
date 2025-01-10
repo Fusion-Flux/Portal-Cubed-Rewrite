@@ -71,7 +71,7 @@ public class PortalCubedPackets {
 	public static void init() {
 	}
 
-	private static <T extends ClientboundPacket> CustomPacketPayload.Type<T> clientbound(String name, StreamCodec<RegistryFriendlyByteBuf, T> codec) {
+	private static <T extends ClientboundPacket> CustomPacketPayload.Type<T> clientbound(String name, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
 		CustomPacketPayload.Type<T> type = new CustomPacketPayload.Type<>(PortalCubed.id(name));
 		PayloadTypeRegistry.playS2C().register(type, codec);
 
@@ -82,7 +82,7 @@ public class PortalCubedPackets {
 		return type;
 	}
 
-	private static <T extends ServerboundPacket> CustomPacketPayload.Type<T> serverbound(String name, StreamCodec<RegistryFriendlyByteBuf, T> codec) {
+	private static <T extends ServerboundPacket> CustomPacketPayload.Type<T> serverbound(String name, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
 		CustomPacketPayload.Type<T> type = new CustomPacketPayload.Type<>(PortalCubed.id(name));
 		PayloadTypeRegistry.playC2S().register(type, codec);
 		ServerPlayNetworking.registerGlobalReceiver(type, ServerboundPacket::handle);

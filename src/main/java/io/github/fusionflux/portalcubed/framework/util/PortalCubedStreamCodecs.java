@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,6 +14,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Unit;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -48,6 +53,9 @@ public interface PortalCubedStreamCodecs {
 							new BlockHitResult(location, direction, blockPos, isInside)
 	);
 
+	// from EntityDataSerializers
+	StreamCodec<ByteBuf, BlockState> BLOCK_STATE = ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY);
+
 	static <T extends Enum<T>> StreamCodec<ByteBuf, T> ofEnum(Class<? extends T> clazz) {
 		T[] values = clazz.getEnumConstants();
 		return new StreamCodec<>() {
@@ -61,6 +69,11 @@ public interface PortalCubedStreamCodecs {
 				VarInt.write(buf, value.ordinal());
 			}
 		};
+	}
+
+	// hides the HashMap, pleases generics
+	static <B extends ByteBuf, K, V> StreamCodec<B, Map<K, V>> map(StreamCodec<? super B, K> key, StreamCodec<? super B, V> value) {
+		return ByteBufCodecs.map(HashMap::new, key, value);
 	}
 
 	static <B extends ByteBuf, V> StreamCodec<B, @Nullable V> nullable(StreamCodec<B, V> base) {

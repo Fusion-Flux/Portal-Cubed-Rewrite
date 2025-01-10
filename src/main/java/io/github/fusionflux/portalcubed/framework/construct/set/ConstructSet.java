@@ -2,20 +2,23 @@ package io.github.fusionflux.portalcubed.framework.construct.set;
 
 import java.util.Comparator;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
@@ -28,6 +31,9 @@ import net.minecraft.world.level.block.Rotation;
 public abstract class ConstructSet {
 	public static final Codec<ConstructSet> CODEC = Type.CODEC.dispatch(
 			construct -> construct.type, Type::codec
+	);
+	public static final StreamCodec<ByteBuf, ConstructSet> STREAM_CODEC = Type.STREAM_CODEC.dispatch(
+			construct -> construct.type, Type::streamCodec
 	);
 
 	public static final Comparator<ConstructSet> BY_SIZE_COMPARATOR = (a, b) -> {
@@ -54,14 +60,14 @@ public abstract class ConstructSet {
 	public final int cost;
 	public final ConfiguredConstruct preview;
 
-	public ConstructSet(Type type, TagKey<Item> material, int cost, ConfiguredConstruct preview) {
+	protected ConstructSet(Type type, TagKey<Item> material, int cost, ConfiguredConstruct preview) {
 		this.type = type;
 		this.material = material;
 		this.cost = cost;
 		this.preview = preview;
 	}
 
-	public ConstructSet(Type type, TagKey<Item> material, int cost, Construct preview) {
+	protected ConstructSet(Type type, TagKey<Item> material, int cost, Construct preview) {
 		this(type, material, cost, new ConfiguredConstruct(preview));
 	}
 
@@ -79,24 +85,21 @@ public abstract class ConstructSet {
 		return cost.orElseGet(() -> construct.getBlocks(Rotation.NONE).size());
 	}
 
-	public record Holder(ResourceLocation id, ConstructSet constructSet) {
-		public Holder(Map.Entry<ResourceLocation, ConstructSet> entry) {
-			this(entry.getKey(), entry.getValue());
-		}
-	}
-
 	public enum Type implements StringRepresentable {
-		SINGLE(() -> SingleConstructSet.CODEC),
-		PILLAR(() -> PillarConstructSet.CODEC);
+		SINGLE(() -> SingleConstructSet.CODEC, () -> SingleConstructSet.STREAM_CODEC),
+		PILLAR(() -> PillarConstructSet.CODEC, () -> PillarConstructSet.STREAM_CODEC);
 
-		public static Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
+		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
+		public static final StreamCodec<ByteBuf, Type> STREAM_CODEC = PortalCubedStreamCodecs.ofEnum(Type.class);
 
 		private final String name;
-		private final Supplier<Codec<? extends ConstructSet>> supplier;
+		private final Supplier<MapCodec<? extends ConstructSet>> codec;
+		private final Supplier<StreamCodec<ByteBuf, ? extends ConstructSet>> streamCodec;
 
-		Type(Supplier<Codec<? extends ConstructSet>> supplier) {
+		Type(Supplier<MapCodec<? extends ConstructSet>> codec, Supplier<StreamCodec<ByteBuf, ? extends ConstructSet>> streamCodec) {
 			this.name = this.name().toLowerCase(Locale.ROOT);
-			this.supplier = supplier;
+			this.codec = codec;
+			this.streamCodec = streamCodec;
 		}
 
 		@Override
@@ -105,8 +108,12 @@ public abstract class ConstructSet {
 			return this.name;
 		}
 
-		public Codec<? extends ConstructSet> codec() {
-			return this.supplier.get();
+		public MapCodec<? extends ConstructSet> codec() {
+			return this.codec.get();
+		}
+
+		public StreamCodec<ByteBuf, ? extends ConstructSet> streamCodec() {
+			return this.streamCodec.get();
 		}
 	}
 }

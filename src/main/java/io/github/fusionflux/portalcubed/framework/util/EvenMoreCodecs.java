@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -9,6 +10,8 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+
+import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import net.minecraft.ResourceLocationException;
@@ -116,5 +119,10 @@ public class EvenMoreCodecs {
 						))
 						.toList()
 		);
+	}
+
+	// this is needed because generics tend to freak out with validate on RecordCodecBuilders
+	public static <T> MapCodec<T> validate(MapCodec<T> codec, Function<T, DataResult<T>> verifier) {
+		return codec.validate(verifier);
 	}
 }
