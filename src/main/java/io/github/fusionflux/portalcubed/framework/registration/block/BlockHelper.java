@@ -17,26 +17,26 @@ public class BlockHelper {
 	}
 
 	public BlockBuilder<Block> create(String name) {
-		return create(name, Block::new);
+		return this.create(name, Block::new);
 	}
 
 	public <T extends Block> BlockBuilder<T> create(String name, BlockFactory<T> factory) {
-		return new BlockBuilderImpl<>(registrar, name, factory);
+		return new BlockBuilderImpl<>(this.registrar, name, factory);
 	}
 
 	public BlockBuilder<Block> createFrom(String name, Block copyFrom) {
-		return create(name).copyFrom(copyFrom);
+		return this.create(name).copyFrom(copyFrom);
 	}
 
 	public <T extends Block> BlockBuilder<T> createFrom(String name, BlockFactory<T> factory, Block copyFrom) {
-		return create(name, factory).copyFrom(copyFrom);
+		return this.create(name, factory).copyFrom(copyFrom);
 	}
 
 	public Block simple(String name, Block copyFrom) {
-		return create(name).copyFrom(copyFrom).build();
+		return this.create(name).copyFrom(copyFrom).build();
 	}
 
 	public <T extends Block> T simple(String name, BlockFactory<T> factory, Block copyFrom) {
-		return create(name, factory).copyFrom(copyFrom).build();
+		return this.create(name, factory).copyFrom(copyFrom).build();
 	}
 }

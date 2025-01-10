@@ -31,9 +31,9 @@ public class CakeBlockSet {
 		BlockHelper blocks = registrar.blocks;
 
 		this.cake = blocks.create(name, s -> new CustomCakeBlock(s, this.candleToCake))
-				.settings(settings).build();
+				.properties(settings).build();
 		this.uncoloredCandled = blocks.create("candle_" + name, s -> new CustomCandleCakeBlock(this.cake, Blocks.CANDLE, s))
-				.settings(settings).item(BlockItemProvider::noItem).build();
+				.properties(settings).item(BlockItemProvider::noItem).build();
 
 		this.candleToCake.put(Blocks.CANDLE, this.uncoloredCandled);
 
@@ -44,7 +44,7 @@ public class CakeBlockSet {
 			Block candleBlock = BuiltInRegistries.BLOCK.getOrThrow(candleKey);
 
 			Block candleCake = blocks.create(candleName + "_" + name, s -> new CustomCandleCakeBlock(this.cake, candleBlock, s))
-					.settings(settings).item(BlockItemProvider::noItem).build();
+					.properties(settings).item(BlockItemProvider::noItem).build();
 
 			this.candleToCake.put(candleBlock, candleCake);
 			this.candled.put(color, candleCake);

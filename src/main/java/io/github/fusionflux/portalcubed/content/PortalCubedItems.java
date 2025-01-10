@@ -41,7 +41,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
-			.settings(s -> s.stacksTo(1).fireResistant())
+			.properties(s -> s.stacksTo(1).fireResistant())
 			.colored(() -> () -> PortalGunColorProvider.INSTANCE)
 			.build();
 
@@ -55,42 +55,42 @@ public class PortalCubedItems {
 			.build();
 
 	public static final CrowbarItem CROWBAR = REGISTRAR.items.create("crowbar", CrowbarItem::new)
-			.settings(s -> s.stacksTo(1))
+			.properties(s -> s.stacksTo(1))
 			.build();
 
 	public static final HammerItem HAMMER = REGISTRAR.items.create("hammer", HammerItem::new)
-			.settings(s -> s.stacksTo(1))
+			.properties(s -> s.stacksTo(1))
 			.build();
 
 	public static final ConstructionCannonItem CONSTRUCTION_CANNON = REGISTRAR.items.create("construction_cannon", ConstructionCannonItem::new)
-			.settings(s -> s.stacksTo(1).fireResistant())
+			.properties(s -> s.stacksTo(1).fireResistant())
 			.build();
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
-			.settings(s -> s.food(Foods.APPLE))
+			.properties(s -> s.food(Foods.APPLE))
 			.build();
 	public static final LemonadeItem LEMONADE = REGISTRAR.items.create("lemonade", LemonadeItem::new)
-			.settings(s -> s.stacksTo(1))
+			.properties(s -> s.stacksTo(1))
 			.build();
 	public static final SignItem LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new SignItem(s, PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN))
-			.settings(s -> s.stacksTo(16))
+			.properties(s -> s.stacksTo(16))
 			.build();
 	public static final SignItem LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new SignItem(s, PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN))
-			.settings(s -> s.stacksTo(16))
+			.properties(s -> s.stacksTo(16))
 			.build();
 	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_boat"), PortalCubedEntities.LEMON_BOAT, false);
 	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon_chest_boat"), PortalCubedEntities.LEMON_BOAT, true);
 
 	public static final Item GOO_BUCKET = REGISTRAR.items.create("toxic_goo_bucket", s -> new BucketItem(PortalCubedFluids.GOO, s))
-			.settings(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))
+			.properties(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))
 			.build();
 
 	public static final LongFallBoots LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new LongFallBoots(LongFallBootsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
-			.settings(QuiltItemSettings::fireResistant)
+			.properties(QuiltItemSettings::fireResistant)
 			.colored(() -> () -> LongFallBootsColorProvider.INSTANCE)
 			.build();
 	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(AdvancedKneeReplacementsMaterial.INSTANCE, ArmorItem.Type.BOOTS, s))
-			.settings(QuiltItemSettings::fireResistant)
+			.properties(QuiltItemSettings::fireResistant)
 			.build();
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {

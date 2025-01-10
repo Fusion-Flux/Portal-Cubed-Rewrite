@@ -72,10 +72,10 @@ public class PortalCubedBlocks {
 	public static final Block MAGNESIUM_ORE = REGISTRAR.blocks.simple("magnesium_ore", Blocks.IRON_ORE);
 	public static final Block DEEPSLATE_MAGNESIUM_ORE = REGISTRAR.blocks.simple("deepslate_magnesium_ore", Blocks.DEEPSLATE_IRON_ORE);
 	public static final Block MAGNESIUM_BLOCK = REGISTRAR.blocks.createFrom("magnesium_block", Blocks.IRON_BLOCK)
-			.settings(s -> s.mapColor(MapColor.CLAY))
+			.properties(s -> s.mapColor(MapColor.CLAY))
 			.build();
 	public static final Block RAW_MAGNESIUM_BLOCK = REGISTRAR.blocks.createFrom("raw_magnesium_block", Blocks.RAW_IRON_BLOCK)
-			.settings(s -> s.mapColor(MapColor.CLAY))
+			.properties(s -> s.mapColor(MapColor.CLAY))
 			.build();
 	// ----- cake -----
 	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
@@ -84,31 +84,31 @@ public class PortalCubedBlocks {
 	// ----- floor buttons -----
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("floor_button", FloorButtonBlock::new, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock CUBE_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("cube_button", CubeButtonBlock::new, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock OLD_AP_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("old_ap_floor_button", FloorButtonBlock::oldAp, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock PORTAL_1_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("portal_1_floor_button", FloorButtonBlock::p1, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- pedestal buttons -----
 	public static final PedestalButtonBlock PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("pedestal_button", PedestalButtonBlock::new, Blocks.STONE)
-			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("old_ap_pedestal_button", PedestalButtonBlock::oldAp, Blocks.STONE)
-			.settings(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- chamber doors -----
@@ -138,7 +138,7 @@ public class PortalCubedBlocks {
 					materials.put(material, blocks);
 
 					Block base = REGISTRAR.blocks.create(material.name + "_panel")
-							.settings(material.getSettings())
+							.properties(material.getSettings())
 							.build();
 					blocks.put(PanelPart.SINGLE, base);
 
@@ -148,7 +148,7 @@ public class PortalCubedBlocks {
 
 						String name = material.name + "_" + part.name;
 						Block block = REGISTRAR.blocks.create(name, part::createBlock)
-								.settings(material.getSettings()).build();
+								.properties(material.getSettings()).build();
 						blocks.put(part, block);
 					}
 				}
@@ -156,19 +156,19 @@ public class PortalCubedBlocks {
 	// ----- lemon -----
 	public static final RotatedPillarBlock LEMON_LOG = REGISTRAR.blocks.create("lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.OAK_LOG)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
 			.build();
 	public static final RotatedPillarBlock STRIPPED_LEMON_LOG = REGISTRAR.blocks.create("stripped_lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.STRIPPED_OAK_LOG)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final RotatedPillarBlock LEMON_WOOD = REGISTRAR.blocks.create("lemon_wood", RotatedPillarBlock::new)
 			.copyFrom(Blocks.STRIPPED_OAK_WOOD)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
 			.build();
 	public static final RotatedPillarBlock STRIPPED_LEMON_WOOD = REGISTRAR.blocks.create("stripped_lemon_wood", RotatedPillarBlock::new)
 			.copyFrom(Blocks.OAK_WOOD)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final LeavesBlock LEMON_LEAVES = REGISTRAR.blocks.create("lemon_leaves", LeavesBlock::new)
 			.copyFrom(Blocks.OAK_LEAVES)
@@ -184,43 +184,43 @@ public class PortalCubedBlocks {
 			.build();
 	public static final Block LEMON_PLANKS = REGISTRAR.blocks.create("lemon_planks", Block::new)
 			.copyFrom(Blocks.OAK_PLANKS)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final SlabBlock LEMON_SLAB = REGISTRAR.blocks.create("lemon_slab", SlabBlock::new)
 			.copyFrom(Blocks.OAK_SLAB)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final SaneStairBlock LEMON_STAIRS = REGISTRAR.blocks.create("lemon_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.OAK_STAIRS)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final FenceBlock LEMON_FENCE = REGISTRAR.blocks.create("lemon_fence", FenceBlock::new)
 			.copyFrom(Blocks.OAK_FENCE)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final FenceGateBlock LEMON_FENCE_GATE = REGISTRAR.blocks.create("lemon_fence_gate", properties -> new FenceGateBlock(WoodType.OAK, properties))
 			.copyFrom(Blocks.OAK_FENCE_GATE)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final ButtonBlock LEMON_BUTTON = REGISTRAR.blocks.create("lemon_button", properties -> new ButtonBlock(BlockSetType.OAK, 30, properties))
 			.copyFrom(Blocks.OAK_BUTTON)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final PressurePlateBlock LEMON_PRESSURE_PLATE = REGISTRAR.blocks.create("lemon_pressure_plate", properties -> new PressurePlateBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_PRESSURE_PLATE)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final ResourceLocation LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
 	public static final TerraformSignBlock LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_SIGN)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 			)
 			.item(BlockItemProvider::noItem)
 			.build();
 	public static final TerraformWallSignBlock LEMON_WALL_SIGN = REGISTRAR.blocks.create("lemon_wall_sign", properties -> new TerraformWallSignBlock(LEMON_SIGN_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_WALL_SIGN)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.dropsLike(LEMON_SIGN)
 			)
@@ -230,12 +230,12 @@ public class PortalCubedBlocks {
 	public static final ResourceLocation LEMON_HANGING_SIGN_GUI_TEXTURE = PortalCubed.id("textures/gui/hanging_signs/lemon");
 	public static final TerraformHangingSignBlock LEMON_HANGING_SIGN = REGISTRAR.blocks.create("lemon_hanging_sign", properties -> new TerraformHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_HANGING_SIGN)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.item(BlockItemProvider::noItem)
 			.build();
 	public static final TerraformWallHangingSignBlock LEMON_WALL_HANGING_SIGN = REGISTRAR.blocks.create("lemon_wall_hanging_sign", properties -> new TerraformWallHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_WALL_HANGING_SIGN)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.dropsLike(LEMON_HANGING_SIGN)
 			)
@@ -243,18 +243,18 @@ public class PortalCubedBlocks {
 			.build();
 	public static final DoorBlock LEMON_DOOR = REGISTRAR.blocks.create("lemon_door", properties -> new DoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_DOOR)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final TrapDoorBlock LEMON_TRAPDOOR = REGISTRAR.blocks.create("lemon_trapdoor", properties -> new TrapDoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_TRAPDOOR)
-			.settings(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 
 	// ----- signage -----
 	public static final LargeSignageBlock LARGE_SIGNAGE = REGISTRAR.blocks.create("large_signage", LargeSignageBlock::new)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.instrument(NoteBlockInstrument.HAT)
 					.strength(0.3F)
 					.mapColor(MapColor.QUARTZ)
@@ -262,40 +262,40 @@ public class PortalCubedBlocks {
 			)
 			.build();
 	public static final LargeSignageBlock AGED_LARGE_SIGNAGE = REGISTRAR.blocks.createFrom("aged_large_signage", LargeSignageBlock::new, LARGE_SIGNAGE)
-			.settings(settings -> settings.mapColor(MapColor.SAND))
+			.properties(settings -> settings.mapColor(MapColor.SAND))
 			.build();
 	public static final SmallSignageBlock SMALL_SIGNAGE = REGISTRAR.blocks.createFrom("small_signage", SmallSignageBlock::new, LARGE_SIGNAGE)
-			.settings(QuiltBlockSettings::nonOpaque)
+			.properties(QuiltBlockSettings::nonOpaque)
 			.build();
 	public static final SmallSignageBlock AGED_SMALL_SIGNAGE = REGISTRAR.blocks.createFrom("aged_small_signage", SmallSignageBlock::new, SMALL_SIGNAGE)
-			.settings(settings -> settings.mapColor(MapColor.SAND))
+			.properties(settings -> settings.mapColor(MapColor.SAND))
 			.build();
 
 	// ----- misc blocks - tiles -----
 	public static final Block PORTAL_1_METAL_TILES = REGISTRAR.blocks.create("portal_1_metal_tiles", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.STONE)
 			)
 			.build();
 	public static final SlabBlock PORTAL_1_METAL_TILE_SLAB = REGISTRAR.blocks.create("portal_1_metal_tile_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.STONE)
 			)
 			.build();
 	public static final SaneStairBlock PORTAL_1_METAL_TILE_STAIRS = REGISTRAR.blocks.create("portal_1_metal_tile_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.STONE)
 			)
 			.build();
 	public static final NoCollisionMultifaceBlock PORTAL_1_METAL_TILE_FACADE = REGISTRAR.blocks.create("portal_1_metal_tile_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.STONE)
 			)
@@ -436,18 +436,18 @@ public class PortalCubedBlocks {
 	// ----- misc blocks - elevator_walls -----
 	public static final Block ELEVATOR_WALL_MIDDLE = REGISTRAR.blocks.create("elevator_wall_middle", Block::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
-			.settings(settings -> settings.mapColor(MapColor.CLAY))
+			.properties(settings -> settings.mapColor(MapColor.CLAY))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final VerticalConnectiveDirectionalBlock ELEVATOR_WALL_END = REGISTRAR.blocks.create("elevator_wall_end", VerticalConnectiveDirectionalBlock::new)
 			.copyFrom(Blocks.WHITE_CONCRETE)
-			.settings(settings -> settings.mapColor(MapColor.CLAY))
+			.properties(settings -> settings.mapColor(MapColor.CLAY))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- misc blocks - grates -----
 	public static final WaterloggedTransparentBlock METAL_GRATE = REGISTRAR.blocks.create("metal_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -458,7 +458,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SlabBlock METAL_GRATE_SLAB = REGISTRAR.blocks.create("metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -467,7 +467,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SimpleMultifaceBlock METAL_GRATE_FACADE = REGISTRAR.blocks.create("metal_grate_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -476,7 +476,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final WaterloggedTransparentBlock OLD_AP_METAL_GRATE = REGISTRAR.blocks.create("old_ap_metal_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.noOcclusion()
@@ -487,7 +487,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SlabBlock OLD_AP_METAL_GRATE_SLAB = REGISTRAR.blocks.create("old_ap_metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.noOcclusion()
@@ -496,7 +496,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SimpleMultifaceBlock OLD_AP_METAL_GRATE_FACADE = REGISTRAR.blocks.create("old_ap_metal_grate_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.noOcclusion()
@@ -505,7 +505,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final WaterloggedTransparentBlock PORTAL_1_METAL_GRATE = REGISTRAR.blocks.create("portal_1_metal_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.SAND)
 					.noOcclusion()
@@ -516,7 +516,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SlabBlock PORTAL_1_METAL_GRATE_SLAB = REGISTRAR.blocks.create("portal_1_metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.SAND)
 					.noOcclusion()
@@ -525,7 +525,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SimpleMultifaceBlock PORTAL_1_METAL_GRATE_FACADE = REGISTRAR.blocks.create("portal_1_metal_grate_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.SAND)
 					.noOcclusion()
@@ -534,7 +534,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final WaterloggedTransparentBlock MESH_GRATE = REGISTRAR.blocks.create("mesh_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.VINE)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
@@ -544,7 +544,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SlabBlock MESH_GRATE_SLAB = REGISTRAR.blocks.create("mesh_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.VINE)
 					.noOcclusion()
 			)
@@ -552,7 +552,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SimpleMultifaceBlock MESH_GRATE_FACADE = REGISTRAR.blocks.create("mesh_grate_facade", SimpleMultifaceBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.VINE)
 					.noOcclusion()
 			)
@@ -561,7 +561,7 @@ public class PortalCubedBlocks {
 	// ----- misc blocks - crossbars -----
 	public static final CrossbarPillarBlock CROSSBAR_PILLAR = REGISTRAR.blocks.create("crossbar_pillar", CrossbarPillarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -572,7 +572,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_top_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -583,7 +583,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_top_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -594,7 +594,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -605,7 +605,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -616,7 +616,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("2x2_crossbar_top_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -627,7 +627,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_top_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -638,7 +638,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("2x2_crossbar_bottom_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -649,7 +649,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_bottom_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.sounds(SoundType.LANTERN)
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
@@ -661,126 +661,126 @@ public class PortalCubedBlocks {
 	// ----- misc blocks - metal plating -----
 	public static final Block METAL_PLATING = REGISTRAR.blocks.create("metal_plating", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_CYAN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final SlabBlock METAL_PLATING_SLAB = REGISTRAR.blocks.create("metal_plating_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_CYAN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final SaneStairBlock METAL_PLATING_STAIRS = REGISTRAR.blocks.create("metal_plating_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_CYAN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final NoCollisionMultifaceBlock METAL_PLATING_FACADE = REGISTRAR.blocks.create("metal_plating_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final Block CUT_METAL_PLATING = REGISTRAR.blocks.create("cut_metal_plating", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_CYAN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final SlabBlock CUT_METAL_PLATING_SLAB = REGISTRAR.blocks.create("cut_metal_plating_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_CYAN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final Block TREAD_PLATE = REGISTRAR.blocks.create("tread_plate", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.COLOR_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final SlabBlock TREAD_PLATE_SLAB = REGISTRAR.blocks.create("tread_plate_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.COLOR_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final NoCollisionMultifaceBlock TREAD_PLATE_FACADE = REGISTRAR.blocks.create("tread_plate_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.COLOR_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final Block DIRTY_TREAD_PLATE = REGISTRAR.blocks.create("dirty_tread_plate", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.COLOR_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final Block DIRTY_METAL_PLATING = REGISTRAR.blocks.create("dirty_metal_plating", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final SlabBlock DIRTY_METAL_PLATING_SLAB = REGISTRAR.blocks.create("dirty_metal_plating_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final SaneStairBlock DIRTY_METAL_PLATING_STAIRS = REGISTRAR.blocks.create("dirty_metal_plating_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final NoCollisionMultifaceBlock DIRTY_METAL_PLATING_FACADE = REGISTRAR.blocks.create("dirty_metal_plating_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final Block DIRTY_CUT_METAL_PLATING = REGISTRAR.blocks.create("dirty_cut_metal_plating", Block::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final SlabBlock DIRTY_CUT_METAL_PLATING_SLAB = REGISTRAR.blocks.create("dirty_cut_metal_plating_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_BROWN)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final SlabBlock DIRTY_TREAD_PLATE_SLAB = REGISTRAR.blocks.create("dirty_tread_plate_slab", SlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
 	public static final NoCollisionMultifaceBlock DIRTY_TREAD_PLATE_FACADE = REGISTRAR.blocks.create("dirty_tread_plate_facade", NoCollisionMultifaceBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK)
-			.settings(settings -> settings
+			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
 					.sounds(SoundType.NETHERITE_BLOCK)
 			)
@@ -870,7 +870,7 @@ public class PortalCubedBlocks {
 			.build();
 
 	public static final Block SEWAGE = REGISTRAR.blocks.createFrom("sewage", Blocks.MUD)
-			.settings(s -> s
+			.properties(s -> s
 					.mapColor(MapColor.COLOR_BROWN)
 					.slipperiness(0.9f)
 					.jumpVelocityMultiplier(0.05f)
@@ -886,12 +886,12 @@ public class PortalCubedBlocks {
 			.build();
 
 	public static final PropBarrierBlock PROP_BARRIER = REGISTRAR.blocks.createFrom("prop_barrier", PropBarrierBlock::new, Blocks.BARRIER)
-			.settings(QuiltBlockSettings::dynamicShape)
+			.properties(QuiltBlockSettings::dynamicShape)
 			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 
 	public static final Block GOO = REGISTRAR.blocks.createFrom("toxic_goo", GooBlock::new, Blocks.WATER)
-			.settings(s -> s.mapColor(MapColor.TERRACOTTA_GREEN))
+			.properties(s -> s.mapColor(MapColor.TERRACOTTA_GREEN))
 			.item(BlockItemProvider::noItem)
 			.build();
 

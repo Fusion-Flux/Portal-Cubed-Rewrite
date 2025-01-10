@@ -21,7 +21,7 @@ public class ParticleHelper {
 			ParticleBuilder.Provider<O, T> provider,
 			Supplier<Supplier<ParticleFactoryRegistry.PendingParticleFactory<O>>> clientFactory
 	) {
-		return new ParticleBuilderImpl<>(registrar, name, provider, clientFactory);
+		return new ParticleBuilderImpl<>(this.registrar, name, provider, clientFactory);
 	}
 
 	public SimpleParticleType simple(String name, Supplier<Supplier<ParticleFactoryRegistry.PendingParticleFactory<SimpleParticleType>>> clientFactory) {

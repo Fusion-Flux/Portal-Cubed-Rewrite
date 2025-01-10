@@ -2,8 +2,8 @@ package io.github.fusionflux.portalcubed.framework.registration;
 
 import java.util.function.Supplier;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 
 public enum RenderTypes {
@@ -17,7 +17,7 @@ public enum RenderTypes {
 		this.supplier = supplier;
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	public RenderType vanilla() {
 		return supplier.get().get().get();
 	}

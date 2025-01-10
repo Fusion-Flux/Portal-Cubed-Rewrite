@@ -25,6 +25,6 @@ public class Registrar {
 	}
 
 	public ResourceLocation id(String path) {
-		return new ResourceLocation(this.modId, path);
+		return ResourceLocation.fromNamespaceAndPath(this.modId, path);
 	}
 }

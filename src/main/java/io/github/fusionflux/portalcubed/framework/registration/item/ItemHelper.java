@@ -11,18 +11,18 @@ public class ItemHelper {
 	}
 
 	public ItemBuilder<Item> create(String name) {
-		return create(name, Item::new);
+		return this.create(name, Item::new);
 	}
 
 	public <T extends Item> ItemBuilder<T> create(String name, ItemFactory<T> factory) {
-		return new ItemBuilderImpl<>(registrar, name, factory);
+		return new ItemBuilderImpl<>(this.registrar, name, factory);
 	}
 
 	public Item simple(String name) {
-		return create(name).build();
+		return this.create(name).build();
 	}
 
 	public <T extends Item> T simple(String name, ItemFactory<T> factory) {
-		return create(name, factory).build();
+		return this.create(name, factory).build();
 	}
 }

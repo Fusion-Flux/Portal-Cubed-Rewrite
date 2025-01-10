@@ -12,6 +12,6 @@ public class EntityHelper {
 	}
 
 	public <T extends Entity> EntityBuilder<T> create(String name, EntityType.EntityFactory<T> factory) {
-		return new EntityBuilderImpl<>(registrar, name, factory);
+		return new EntityBuilderImpl<>(this.registrar, name, factory);
 	}
 }

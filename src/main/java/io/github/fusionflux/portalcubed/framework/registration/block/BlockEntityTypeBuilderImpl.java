@@ -2,12 +2,12 @@ package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import java.util.function.Supplier;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.core.Registry;
@@ -20,14 +20,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 public class BlockEntityTypeBuilderImpl<T extends BlockEntity> implements BlockEntityTypeBuilder<T> {
 	private final Registrar registrar;
 	private final String name;
-	private final QuiltBlockEntityTypeBuilder<T> typeBuilder;
+	private final FabricBlockEntityTypeBuilder<T> typeBuilder;
 
 	private Supplier<Supplier<BlockEntityRendererProvider<T>>> rendererSupplier;
 
-	public BlockEntityTypeBuilderImpl(Registrar registrar, String name, BlockEntityType.BlockEntitySupplier<T> factory) {
+	public BlockEntityTypeBuilderImpl(Registrar registrar, String name, FabricBlockEntityTypeBuilder.Factory<T> factory) {
 		this.registrar = registrar;
 		this.name = name;
-		this.typeBuilder = QuiltBlockEntityTypeBuilder.create(factory);
+		this.typeBuilder = FabricBlockEntityTypeBuilder.create(factory);
 	}
 
 	@Override
@@ -44,18 +44,18 @@ public class BlockEntityTypeBuilderImpl<T extends BlockEntity> implements BlockE
 
 	@Override
 	public BlockEntityType<T> build() {
-		BlockEntityType<T> type = typeBuilder.build();
-		ResourceLocation id = registrar.id(this.name);
+		BlockEntityType<T> type = this.typeBuilder.build();
+		ResourceLocation id = this.registrar.id(this.name);
 		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, id, type);
 
-		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
-			buildClient(type);
+		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+			this.buildClient(type);
 		}
 
 		return type;
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	private void buildClient(BlockEntityType<T> type) {
 		if (this.rendererSupplier != null) {
 			BlockEntityRenderers.register(type, this.rendererSupplier.get().get());

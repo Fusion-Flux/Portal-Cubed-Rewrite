@@ -2,11 +2,14 @@ package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import java.util.function.Consumer;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
@@ -25,7 +28,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private final BlockFactory<T> factory;
 
 	// mutable properties
-	private QuiltBlockSettings settings;
+	private BlockBehaviour.Properties properties;
 	@Nullable
 	private RenderTypes renderType;
 	@Nullable
@@ -40,21 +43,21 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 
 	@Override
 	public BlockBuilder<T> copyFrom(Block block) {
-		this.settings = QuiltBlockSettings.copyOf(block);
-		this.renderType = registrar.blocks.renderTypes.get(block);
+		this.properties = BlockBehaviour.Properties.ofFullCopy(block);
+		this.renderType = this.registrar.blocks.renderTypes.get(block);
 		return this;
 	}
 
 	@Override
-	public BlockBuilder<T> settings(QuiltBlockSettings settings) {
-		this.settings = QuiltBlockSettings.copyOf(settings);
+	public BlockBuilder<T> properties(BlockBehaviour.Properties properties) {
+		this.properties = BlockBehaviour.Properties.copyOf(properties);
 		return this;
 	}
 
 	@Override
-	public BlockBuilder<T> settings(Consumer<QuiltBlockSettings> consumer) {
-		checkSettings();
-		consumer.accept(this.settings);
+	public BlockBuilder<T> properties(Consumer<BlockBehaviour.Properties> consumer) {
+		this.checkSettings();
+		consumer.accept(this.properties);
 		return this;
 	}
 
@@ -71,35 +74,37 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	}
 
 	@Override
-	public <I extends Item> BlockBuilder<T> item(BlockItemFactory<T> factory) {
+	public BlockBuilder<T> item(BlockItemFactory<T> factory) {
 		this.itemFactory = factory;
 		return this;
 	}
 
 	@Override
 	public T build() {
-		checkSettings();
-		T block = this.factory.create(this.settings);
-		ResourceLocation id = registrar.id(this.name);
+		this.checkSettings();
+		ResourceLocation id = this.registrar.id(this.name);
+		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
+		this.properties.setId(key);
+		T block = this.factory.create(this.properties);
+
 		Registry.register(BuiltInRegistries.BLOCK, id, block);
 
-		Item item = null;
 		if (this.itemProvider != null) {
-			ItemBuilder<Item> itemBuilder = registrar.items.create(
+			ItemBuilder<Item> itemBuilder = this.registrar.items.create(
 					this.name, settings -> this.itemFactory.create(block, settings)
 			);
 			ItemBuilder<Item> modifiedBuilder = this.itemProvider.create(this.name, block, itemBuilder);
 			if (modifiedBuilder != null) {
-				item = modifiedBuilder.build(); // registers the item
+				modifiedBuilder.build(); // registers the item
 			}
 		}
 
-		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
-			buildClient(block);
+		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+			this.buildClient(block);
 		}
 
 		if (this.renderType != null) {
-			registrar.blocks.renderTypes.put(block, renderType);
+			this.registrar.blocks.renderTypes.put(block, this.renderType);
 		}
 
 		return block;
@@ -107,16 +112,16 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 
 	// internal utils
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	private void buildClient(Block block) {
 		if (this.renderType != null) {
-			BlockRenderLayerMap.put(this.renderType.vanilla(), block);
+			BlockRenderLayerMap.INSTANCE.putBlock(block, this.renderType.vanilla());
 		}
 	}
 
 	private void checkSettings() {
-		if (this.settings == null) {
-			this.settings = QuiltBlockSettings.create();
+		if (this.properties == null) {
+			this.properties = BlockBehaviour.Properties.of();
 		}
 	}
 

@@ -4,17 +4,16 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
+import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -27,9 +26,9 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	private final ItemFactory<T> factory;
 
 	// mutable properties
-	private QuiltItemSettings settings = new QuiltItemSettings();
+	private Item.Properties properties = new Item.Properties();
 	// track the original settings for safety checking
-	private final QuiltItemSettings originalSettings = settings;
+	private final Item.Properties originalProperties = this.properties;
 
 	private ResourceKey<CreativeModeTab> itemGroup;
 	private Supplier<Supplier<ItemColor>> colorProvider;
@@ -41,17 +40,17 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	}
 
 	@Override
-	public ItemBuilder<T> settings(QuiltItemSettings settings) {
-		this.settings = Objects.requireNonNull(settings);
+	public ItemBuilder<T> properties(Item.Properties properties) {
+		this.properties = Objects.requireNonNull(properties);
 		return this;
 	}
 
 	@Override
-	public ItemBuilder<T> settings(Consumer<QuiltItemSettings> consumer) {
-		if (this.originalSettings != this.settings) {
-			throw new IllegalArgumentException("Cannot modify replaced item settings.");
+	public ItemBuilder<T> properties(Consumer<Item.Properties> consumer) {
+		if (this.originalProperties != this.properties) {
+			throw new IllegalArgumentException("Cannot modify replaced item properties.");
 		} else {
-			consumer.accept(this.settings);
+			consumer.accept(this.properties);
 		}
 		return this;
 	}
@@ -70,8 +69,11 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 
 	@Override
 	public T build() {
-		T item = this.factory.create(this.settings);
-		ResourceLocation id = registrar.id(this.name);
+		ResourceLocation id = this.registrar.id(this.name);
+		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
+		this.properties.setId(key);
+		T item = this.factory.create(this.properties);
+
 		Registry.register(BuiltInRegistries.ITEM, id, item);
 
 		if (this.itemGroup != null) {
@@ -79,14 +81,14 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 			ItemGroupEvents.modifyEntriesEvent(this.itemGroup).register(entries -> entries.accept(stack));
 		}
 
-		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
+		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			this.buildClient(item);
 		}
 
 		return item;
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	private void buildClient(T item) {
 		if (this.colorProvider != null) {
 			ColorProviderRegistry.ITEM.register(this.colorProvider.get().get(), item);
