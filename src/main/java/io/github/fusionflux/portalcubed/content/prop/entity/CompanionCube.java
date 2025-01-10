@@ -1,11 +1,11 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.PropSoundInstance;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -15,7 +15,7 @@ public class CompanionCube extends ButtonActivatedProp implements AmbientSoundEm
 		super(type, entityType, level);
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	@Override
 	public void playAmbientSound() {
 		Minecraft.getInstance().getSoundManager().play(new PropSoundInstance(PortalCubedSounds.COMPANION_CUBE_AMBIANCE, this));

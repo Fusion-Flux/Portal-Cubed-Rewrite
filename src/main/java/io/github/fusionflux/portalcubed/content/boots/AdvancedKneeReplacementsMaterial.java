@@ -1,10 +1,11 @@
 package io.github.fusionflux.portalcubed.content.boots;
 
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ArmorItem;
@@ -63,7 +64,7 @@ public enum AdvancedKneeReplacementsMaterial implements ArmorMaterial {
 	}
 
 	@Override
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	@NotNull
 	public ResourceLocation getTexture() {
 		return TEXTURE;

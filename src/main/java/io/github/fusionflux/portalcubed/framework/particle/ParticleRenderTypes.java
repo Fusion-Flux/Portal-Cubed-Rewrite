@@ -2,8 +2,8 @@ package io.github.fusionflux.portalcubed.framework.particle;
 
 import java.util.function.Supplier;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.ParticleRenderType;
 
 public enum ParticleRenderTypes {
@@ -17,7 +17,7 @@ public enum ParticleRenderTypes {
 		this.supplier = supplier;
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	public ParticleRenderType vanilla() {
 		return supplier.get().get();
 	}

@@ -1,8 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.gui.widget;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 public interface TickableWidget {
 	void tick();
 }

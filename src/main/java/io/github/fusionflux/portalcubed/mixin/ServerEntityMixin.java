@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -16,6 +15,7 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 
 import io.github.fusionflux.portalcubed.packet.clientbound.LocalTeleportPacket;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBundlePacket;
@@ -42,7 +42,7 @@ public abstract class ServerEntityMixin {
 			this.broadcast = packets::add;
 			original.call();
 			//noinspection unchecked
-			List<Packet<ClientGamePacketListener>> casted = (List<Packet<ClientGamePacketListener>>) (Object) packets;
+			List<Packet<? super ClientGamePacketListener>> casted = (List<Packet<? super ClientGamePacketListener>>) packets;
 			originalBroadcast.accept(new ClientboundBundlePacket(casted));
 		} finally {
 			this.broadcast = originalBroadcast;
