@@ -12,8 +12,10 @@ import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.Plane;
 import io.github.fusionflux.portalcubed.framework.util.Quad;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -25,6 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public final class PortalInstance {
 	public static final Codec<PortalInstance> CODEC = PortalData.CODEC.xmap(PortalInstance::new, instance -> instance.data);
+	public static final StreamCodec<ByteBuf, PortalInstance> STREAM_CODEC = PortalData.STREAM_CODEC.map(PortalInstance::new, instance -> instance.data);
 
 	public static final double HEIGHT = 2;
 	public static final double WIDTH = 1;

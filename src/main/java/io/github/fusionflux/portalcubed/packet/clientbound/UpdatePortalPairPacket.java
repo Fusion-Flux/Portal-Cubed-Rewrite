@@ -4,34 +4,33 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 public record UpdatePortalPairPacket(String key, @Nullable PortalPair pair) implements ClientboundPacket {
-	public UpdatePortalPairPacket(FriendlyByteBuf buf) {
-		this(buf.readUtf(), buf.readNullable(buffer -> buf.readJsonWithCodec(PortalPair.CODEC)));
-	}
+	public static final StreamCodec<ByteBuf, UpdatePortalPairPacket> CODEC = StreamCodec.composite(
+			ByteBufCodecs.STRING_UTF8, UpdatePortalPairPacket::key,
+			PortalCubedStreamCodecs.nullable(PortalPair.STREAM_CODEC), UpdatePortalPairPacket::pair,
+			UpdatePortalPairPacket::new
+	);
 
 	@Override
-	public void write(FriendlyByteBuf buf) {
-		buf.writeUtf(this.key);
-		buf.writeNullable(this.pair, (buffer, pair) -> buffer.writeJsonWithCodec(PortalPair.CODEC, pair));
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.UPDATE_PORTAL_PAIR;
 	}
 
-	@Environment(EnvType.CLIENT)
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayNetworking.Context ctx) {
-		ClientPortalManager manager = player.clientLevel.portalManager();
+		ClientPortalManager manager = ctx.player().clientLevel.portalManager();
 		manager.setSyncedPair(this.key, this.pair);
 	}
 }
