@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 
@@ -14,6 +17,7 @@ public enum PortalShape implements StringRepresentable {
 	SQUARE, ROUND;
 
 	public static final Codec<PortalShape> CODEC = StringRepresentable.fromEnum(PortalShape::values);
+	public static final StreamCodec<ByteBuf, PortalShape> STREAM_CODEC = PortalCubedStreamCodecs.ofEnum(PortalShape.class);
 
 	public final String name;
 	public final ResourceLocation texture;

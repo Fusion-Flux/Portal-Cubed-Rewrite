@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.item;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
 
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

@@ -7,6 +7,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings> secondary, Polarity active, Optional<String> pair) {
 	public static final Codec<PortalGunSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -15,6 +18,14 @@ public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings>
 			Polarity.CODEC.fieldOf("active").forGetter(PortalGunSettings::active),
 			Codec.STRING.optionalFieldOf("pair").forGetter(PortalGunSettings::pair)
 	).apply(instance, PortalGunSettings::new));
+
+	public static final StreamCodec<ByteBuf, PortalGunSettings> STREAM_CODEC = StreamCodec.composite(
+			PortalSettings.STREAM_CODEC, PortalGunSettings::primary,
+			ByteBufCodecs.optional(PortalSettings.STREAM_CODEC), PortalGunSettings::secondary,
+			Polarity.STREAM_CODEC, PortalGunSettings::active,
+			ByteBufCodecs.optional(ByteBufCodecs.STRING_UTF8), PortalGunSettings::pair,
+			PortalGunSettings::new
+	);
 
 	public static final PortalGunSettings DEFAULT = new PortalGunSettings(
 			PortalSettings.DEFAULT_PRIMARY,

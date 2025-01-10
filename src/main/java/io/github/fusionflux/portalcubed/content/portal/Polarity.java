@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 import com.mojang.serialization.Codec;
 
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 
 public enum Polarity implements StringRepresentable {
@@ -13,6 +16,7 @@ public enum Polarity implements StringRepresentable {
 	SECONDARY(0xffff8e1e);
 
 	public static final Codec<Polarity> CODEC = StringRepresentable.fromEnum(Polarity::values);
+	public static final StreamCodec<ByteBuf, Polarity> STREAM_CODEC = PortalCubedStreamCodecs.ofEnum(Polarity.class);
 
 	public final String name;
 	public final int defaultColor;

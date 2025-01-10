@@ -1,21 +1,20 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -23,9 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class PortalGunItem extends Item implements DirectClickItem, DyeableLeatherItem {
+public class PortalGunItem extends Item implements DirectClickItem {
 	public static final int DEFAULT_SHELL_COLOR = 0xFFFFFFFF;
-	public static final String DATA_KEY = "portal_gun_settings";
 
 	public PortalGunItem(Properties settings) {
 		super(settings);
@@ -72,22 +70,11 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 		}
 	}
 
-	@Override
-	public int getColor(ItemStack stack) {
-		int color = DyeableLeatherItem.super.getColor(stack);
-		return color == DyeableLeatherItem.DEFAULT_LEATHER_COLOR ? DEFAULT_SHELL_COLOR : color;
-	}
-
 	public static PortalGunSettings getGunSettings(ItemStack stack) {
-		CompoundTag tag = stack.getTagElement(DATA_KEY);
-		return PortalGunSettings.CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(PortalGunSettings.DEFAULT);
+		return stack.getOrDefault(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT);
 	}
 
 	public static ItemStack setGunSettings(ItemStack stack, PortalGunSettings data) {
-		return PortalGunSettings.CODEC.encodeStart(NbtOps.INSTANCE, data).result().map(tag -> {
-			ItemStack copy = stack.copy();
-			copy.getOrCreateTag().put(DATA_KEY, tag);
-			return copy;
-		}).orElse(stack);
+		stack.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, data);
 	}
 }
