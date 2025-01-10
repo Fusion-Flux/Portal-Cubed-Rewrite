@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "portalcubed",
+  "version": "${version}",
+  "name": "Portal Cubed",
+  "description": "A Portal mod for Fabric.",
+  "authors": [
+    "Fusion Flux",
+    "Maximum",
+    "TropheusJ",
+    "Cart3r"
+  ],
+  "contact": {
+    "sources": "https://github.com/Fusion-Flux/Portal-Cubed-Rewrite",
+    "issues": "https://github.com/Fusion-Flux/Portal-Cubed-Rewrite/issues"
+  },
+  "license": "MPL-2.0",
+  "icon": "assets/portalcubed/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [ "io.github.fusionflux.portalcubed.PortalCubed" ],
+    "client": [ "io.github.fusionflux.portalcubed.PortalCubedClient" ],
+    "fabric-datagen": [ "io.github.fusionflux.portalcubed.PortalCubedDataGen" ]
+  },
+  "mixins": [ "portalcubed.mixins.json" ],
+  "accessWidener": "portalcubed.accesswidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": ">=${fapi_version}",
+    "minecraft": "${minecraft_dependency}",
+    "terraform-wood-api-v1": "${wood_api_version}",
+    "sodium": "${sodium_version}"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/class_1657": [ "io/github/fusionflux/portalcubed/framework/extension/PlayerExt" ],
+      "net/minecraft/class_1937": [ "io/github/fusionflux/portalcubed/framework/extension/LevelExt" ],
+      "net/minecraft/class_3218": [ "io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt" ],
+      "net/minecraft/class_638": [ "io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt" ],
+      "net/minecraft/class_1297": [ "io/github/fusionflux/portalcubed/framework/extension/EntityExt"],
+      "net/minecraft/class_2777": [ "io/github/fusionflux/portalcubed/framework/extension/ClientboundTeleportEntityPacketExt" ]
+    }
+  }
+}
