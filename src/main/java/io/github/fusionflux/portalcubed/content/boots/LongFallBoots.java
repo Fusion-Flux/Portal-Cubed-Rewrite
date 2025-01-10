@@ -1,13 +1,14 @@
 package io.github.fusionflux.portalcubed.content.boots;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.DyeableArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 
-public class LongFallBoots extends DyeableArmorItem {
+public class LongFallBoots extends ArmorItem {
 	public LongFallBoots(ArmorMaterial armorMaterial, Type type, Properties properties) {
 		super(armorMaterial, type, properties);
 	}

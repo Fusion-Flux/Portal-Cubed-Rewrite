@@ -8,10 +8,12 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class Lemonade extends ThrowableItemProjectile {
@@ -27,12 +29,12 @@ public class Lemonade extends ThrowableItemProjectile {
 		super(entityType, level);
 	}
 
-	public Lemonade(Level world, LivingEntity owner) {
-		super(PortalCubedEntities.LEMONADE, owner, world);
+	public Lemonade(LivingEntity owner, Level level, ItemStack stack) {
+		super(PortalCubedEntities.LEMONADE, owner, level, stack);
 	}
 
-	public Lemonade(Level world, double x, double y, double z) {
-		super(PortalCubedEntities.LEMONADE, x, y, z, world);
+	public Lemonade(Level world, double x, double y, double z, ItemStack stack) {
+		super(PortalCubedEntities.LEMONADE, x, y, z, world, stack);
 	}
 
 	public static Lemonade create(EntityType<Lemonade> entityType, Level level) {
@@ -41,22 +43,27 @@ public class Lemonade extends ThrowableItemProjectile {
 
 	@Override
 	public void tick() {
-		if (level() instanceof ServerLevel level) {
-			if (--explodeTicks <= 0) {
-				level.explode(
-						this,
-						PortalCubedDamageSources.lemonade(level, this, getOwner() instanceof LivingEntity livingEntity ? livingEntity : null),
-						null,
-						position(),
-						Math.max(this.random.nextFloat() * MAX_EXPLOSION_POWER, MIN_EXPLOSION_POWER),
-						true,
-						Level.ExplosionInteraction.NONE
+		if (this.level() instanceof ServerLevel level) {
+			this.explodeTicks--;
+			if (this.explodeTicks <= 0) {
+				DamageSource source = PortalCubedDamageSources.lemonade(
+						level, this, this.getOwner() instanceof LivingEntity livingEntity ? livingEntity : null
 				);
-				discard();
+
+				level.explode(
+						this, source, null, this.position(),
+						Math.max(this.random.nextFloat() * MAX_EXPLOSION_POWER, MIN_EXPLOSION_POWER),
+						true, Level.ExplosionInteraction.NONE
+				);
+
+				this.discard();
 				return;
 			}
-			if (explodeTicks == DING_TICK) playSound(PortalCubedSounds.timerDing(random));
-			if (explodeTicks % TICKS_PER_TIMER_TICK == 0 && explodeTicks != 0) playSound(PortalCubedSounds.OLD_AP_TIMER);
+			if (this.explodeTicks == DING_TICK)
+				this.playSound(PortalCubedSounds.timerDing(this.random));
+
+			if (this.explodeTicks % TICKS_PER_TIMER_TICK == 0 && this.explodeTicks != 0)
+				this.playSound(PortalCubedSounds.OLD_AP_TIMER);
 		}
 		super.tick();
 	}

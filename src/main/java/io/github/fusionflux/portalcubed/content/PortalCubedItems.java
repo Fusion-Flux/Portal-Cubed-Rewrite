@@ -13,7 +13,6 @@ import io.github.fusionflux.portalcubed.content.boots.LongFallBoots;
 import io.github.fusionflux.portalcubed.content.boots.LongFallBootsColorProvider;
 import io.github.fusionflux.portalcubed.content.boots.LongFallBootsMaterial;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
-import io.github.fusionflux.portalcubed.content.lemon.LemonadeDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunColorProvider;
@@ -23,7 +22,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.Util;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.sounds.SoundEvents;
@@ -106,13 +105,17 @@ public class PortalCubedItems {
 		));
 		DispenserBlock.registerBehavior(GOO_BUCKET, new BucketDispenseBehaviour());
 
-		CauldronInteraction.WATER.map().put(LONG_FALL_BOOTS, CauldronInteraction.DYED_ITEM);
+		Map<Item, CauldronInteraction> map = CauldronInteraction.WATER.map();
+		// grab it through leather boots since the method is private
+		CauldronInteraction dyedItem = map.get(Items.LEATHER_BOOTS);
+		map.put(LONG_FALL_BOOTS, dyedItem);
 
-		DispenserBlock.registerBehavior(LEMONADE, new LemonadeDispenseBehavior());
+		DispenserBlock.registerProjectileBehavior(LEMONADE);
 
-		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
-			if (BuiltInLootTables.SNIFFER_DIGGING.equals(id) && source.isBuiltin())
-				tableBuilder.modifyPools(builder -> builder.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));
+		LootTableEvents.MODIFY.register((key, builder, source, registries) -> {
+			if (key == BuiltInLootTables.SNIFFER_DIGGING && source.isBuiltin()) {
+				builder.modifyPools(pool -> pool.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));
+			}
 		});
 	}
 }

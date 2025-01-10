@@ -9,12 +9,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.VarInt;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.Unit;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public interface PortalCubedStreamCodecs {
+	StreamCodec<ByteBuf, Unit> UNIT = StreamCodec.unit(Unit.INSTANCE);
+
 	StreamCodec<ByteBuf, Vec3> VEC3 = new StreamCodec<>() {
 		@Override
 		public @NotNull Vec3 decode(ByteBuf buffer) {
