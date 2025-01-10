@@ -22,6 +22,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
+import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.Util;
 import net.minecraft.core.cauldron.CauldronInteraction;
@@ -65,6 +66,7 @@ public class PortalCubedItems {
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
 			.properties(s -> s.food(Foods.APPLE))
+			.compostChance(0.65)
 			.build();
 	public static final LemonadeItem LEMONADE = REGISTRAR.items.create("lemonade", LemonadeItem::new)
 			.properties(s -> s.stacksTo(1))
@@ -92,7 +94,9 @@ public class PortalCubedItems {
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
-			PropItem item = REGISTRAR.items.simple(type.toString(), s -> new PropItem(s, type));
+			ItemBuilder<PropItem> builder = REGISTRAR.items.create(type.toString(), s -> new PropItem(s, type));
+			type.modify(builder);
+			PropItem item = builder.build();
 			map.put(type, item);
 
 			DispenserBlock.registerBehavior(item, new PropDispenseBehavior(item));

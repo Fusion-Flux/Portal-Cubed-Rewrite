@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public interface BlockBuilder<T extends Block> {
@@ -27,6 +28,17 @@ public interface BlockBuilder<T extends Block> {
 	 * Set the render type of this block.
 	 */
 	BlockBuilder<T> renderType(RenderTypes type);
+
+	/**
+	 * Set the flammability of this block.
+	 * @see FireBlock#bootStrap()
+	 */
+	BlockBuilder<T> flammability(int burn, int spread);
+
+	/**
+	 * Set this block as the stripped variant of another.
+	 */
+	BlockBuilder<T> strippedOf(Block original);
 
 	/**
 	 * Modify the item for this block.

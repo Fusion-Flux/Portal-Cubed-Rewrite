@@ -1,6 +1,9 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.Locale;
+import java.util.function.Consumer;
+
+import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 
 import org.apache.commons.lang3.stream.IntStreams;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +45,7 @@ public enum PropType {
 	// REDIRECTION_CUBE(4, false, EntityDimensions.fixed(.625f, .6875f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, EntityDimensions.fixed(.625f, .6875f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, EntityDimensions.fixed(.625f, .6875f), ButtonActivatedProp::new),
-	THE_TACO			   (2, false, new TacoDimensions(), Taco::new, false),
+	THE_TACO			   (2, false, new TacoDimensions(), Taco::new, false, builder -> builder.compostChance(1)),
 	ERROR                  (EntityDimensions.fixed(1f, 1f));
 
 	public final int[] variants;
@@ -50,6 +53,8 @@ public enum PropType {
 	public final EntityDimensions dimensions;
 	public final EntityFactory<Prop> factory;
 	public final boolean facesPlayer;
+
+	private final Consumer<ItemBuilder<PropItem>> itemModifier;
 
 	PropType(EntityDimensions dimensions) {
 		this(1, false, dimensions);
@@ -64,11 +69,17 @@ public enum PropType {
 	}
 
 	PropType(int variants, boolean randomVariantOnSpawn, EntityDimensions dimensions, PropFactory factory, boolean facesPlayer) {
+		this(variants, randomVariantOnSpawn, dimensions, factory, facesPlayer, builder -> {});
+	}
+
+	PropType(int variants, boolean randomVariantOnSpawn, EntityDimensions dimensions, PropFactory factory,
+			 boolean facesPlayer, Consumer<ItemBuilder<PropItem>> itemModifier) {
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnSpawn = randomVariantOnSpawn;
 		this.dimensions = dimensions;
 		this.factory = (entityType, level) -> factory.create(this, entityType, level);
 		this.facesPlayer = facesPlayer;
+		this.itemModifier = itemModifier;
 	}
 
 	public Item item() {
@@ -85,6 +96,10 @@ public enum PropType {
 			prop.setVariant(!(randomizeVariant && randomVariantOnSpawn) ? variant : world.random.nextInt(variants.length - 1) + 1);
 			prop.setCustomName(customName);
 		}, pos, reason, alignPosition, invertY) != null;
+	}
+
+	public void modify(ItemBuilder<PropItem> builder) {
+		this.itemModifier.accept(builder);
 	}
 
 	@Override

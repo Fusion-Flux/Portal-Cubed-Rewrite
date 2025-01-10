@@ -26,6 +26,7 @@ import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.block.NoCollisionMultifaceBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.SimpleMultifaceBlock;
@@ -35,6 +36,7 @@ import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
 import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.Util;
@@ -77,6 +79,7 @@ public class PortalCubedBlocks {
 			.properties(s -> s.mapColor(MapColor.CLAY))
 			.build();
 	// ----- cake -----
+	// TODO: PORT, 1.0 compost chance, needs some refactoring
 	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
 			"black_forest_cake", REGISTRAR, BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
 	);
@@ -160,6 +163,7 @@ public class PortalCubedBlocks {
 	public static final RotatedPillarBlock STRIPPED_LEMON_LOG = REGISTRAR.blocks.create("stripped_lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.STRIPPED_OAK_LOG)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.strippedOf(LEMON_LOG)
 			.build();
 	public static final RotatedPillarBlock LEMON_WOOD = REGISTRAR.blocks.create("lemon_wood", RotatedPillarBlock::new)
 			.copyFrom(Blocks.STRIPPED_OAK_WOOD)
@@ -168,13 +172,17 @@ public class PortalCubedBlocks {
 	public static final RotatedPillarBlock STRIPPED_LEMON_WOOD = REGISTRAR.blocks.create("stripped_lemon_wood", RotatedPillarBlock::new)
 			.copyFrom(Blocks.OAK_WOOD)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.strippedOf(LEMON_WOOD)
 			.build();
 	public static final LeavesBlock LEMON_LEAVES = REGISTRAR.blocks.create("lemon_leaves", LeavesBlock::new)
 			.copyFrom(Blocks.OAK_LEAVES)
+			.flammability(60, 30)
+			.item((name, block, builder) -> builder.compostChance(0.3))
 			.build();
 	public static final SaplingBlock LEMON_SAPLING = REGISTRAR.blocks.create("lemon_sapling", settings -> new SaplingBlock(PortalCubedFeatures.LEMON_TREE_GROWER, settings))
 			.copyFrom(Blocks.OAK_SAPLING)
 			.renderType(RenderTypes.CUTOUT)
+			.item((name, block, builder) -> builder.compostChance(0.3))
 			.build();
 	public static final FlowerPotBlock POTTED_LEMON_SAPLING = REGISTRAR.blocks.create("potted_lemon_sapling", settings -> new FlowerPotBlock(LEMON_SAPLING, settings))
 			.copyFrom(Blocks.POTTED_OAK_SAPLING)
@@ -184,22 +192,27 @@ public class PortalCubedBlocks {
 	public static final Block LEMON_PLANKS = REGISTRAR.blocks.create("lemon_planks", Block::new)
 			.copyFrom(Blocks.OAK_PLANKS)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.flammability(20, 5)
 			.build();
 	public static final SlabBlock LEMON_SLAB = REGISTRAR.blocks.create("lemon_slab", SlabBlock::new)
 			.copyFrom(Blocks.OAK_SLAB)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.flammability(20, 5)
 			.build();
 	public static final SaneStairBlock LEMON_STAIRS = REGISTRAR.blocks.create("lemon_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.OAK_STAIRS)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.flammability(20, 5)
 			.build();
 	public static final FenceBlock LEMON_FENCE = REGISTRAR.blocks.create("lemon_fence", FenceBlock::new)
 			.copyFrom(Blocks.OAK_FENCE)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.flammability(20, 5)
 			.build();
 	public static final FenceGateBlock LEMON_FENCE_GATE = REGISTRAR.blocks.create("lemon_fence_gate", properties -> new FenceGateBlock(WoodType.OAK, properties))
 			.copyFrom(Blocks.OAK_FENCE_GATE)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.flammability(20, 5)
 			.build();
 	public static final ButtonBlock LEMON_BUTTON = REGISTRAR.blocks.create("lemon_button", properties -> new ButtonBlock(BlockSetType.OAK, 30, properties))
 			.copyFrom(Blocks.OAK_BUTTON)
@@ -900,5 +913,8 @@ public class PortalCubedBlocks {
 
 	public static void init() {
 		CauldronFluidContent.registerCauldron(GOO_CAULDRON, PortalCubedFluids.GOO, FluidConstants.BUCKET, null);
+		FlammableBlockRegistry registry = FlammableBlockRegistry.getDefaultInstance();
+		registry.add(PortalCubedBlockTags.MAGNESIUM_FIRE_BASE_BLOCKS, 1, 20);
+		registry.add(PortalCubedBlockTags.LEMON_LOGS, 5, 5);
 	}
 }

@@ -4,6 +4,8 @@ import java.util.function.Consumer;
 
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -31,6 +33,10 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private BlockBehaviour.Properties properties;
 	@Nullable
 	private RenderTypes renderType;
+	@Nullable
+	private Flammability flammability;
+	@Nullable
+	private Block unstripped;
 	@Nullable
 	private BlockItemProvider<T> itemProvider = BlockBuilderImpl::defaultBlock;
 	private BlockItemFactory<T> itemFactory = BlockItem::new;
@@ -68,6 +74,18 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	}
 
 	@Override
+	public BlockBuilder<T> flammability(int burn, int spread) {
+		this.flammability = new Flammability(burn, spread);
+		return this;
+	}
+
+	@Override
+	public BlockBuilder<T> strippedOf(Block original) {
+		this.unstripped = original;
+		return this;
+	}
+
+	@Override
 	public BlockBuilder<T> item(BlockItemProvider<T> provider) {
 		this.itemProvider = provider;
 		return this;
@@ -88,6 +106,14 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 		T block = this.factory.create(this.properties);
 
 		Registry.register(BuiltInRegistries.BLOCK, id, block);
+
+		if (this.flammability != null) {
+			FlammableBlockRegistry.getDefaultInstance().add(block, this.flammability.burn, this.flammability.spread);
+		}
+
+		if (this.unstripped != null) {
+			StrippableBlockRegistry.register(this.unstripped, block);
+		}
 
 		if (this.itemProvider != null) {
 			ItemBuilder<Item> itemBuilder = this.registrar.items.create(
@@ -127,5 +153,8 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 
 	private static ItemBuilder<Item> defaultBlock(String name, Block block, ItemBuilder<Item> builder) {
 		return builder;
+	}
+
+	private record Flammability(int burn, int spread) {
 	}
 }

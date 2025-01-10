@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
@@ -20,6 +21,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import org.jetbrains.annotations.Nullable;
+
 public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	private final Registrar registrar;
 	private final String name;
@@ -31,6 +34,8 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	private final Item.Properties originalProperties = this.properties;
 
 	private ResourceKey<CreativeModeTab> itemGroup;
+	@Nullable
+	private Float compostChance;
 	private Supplier<Supplier<ItemColor>> colorProvider;
 
 	public ItemBuilderImpl(Registrar registrar, String name, ItemFactory<T> factory) {
@@ -62,6 +67,13 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	}
 
 	@Override
+	public ItemBuilder<T> compostChance(double chance) {
+		// argument is a double to avoid needing to add an f to the end
+		this.compostChance = (float) chance;
+		return this;
+	}
+
+	@Override
 	public ItemBuilder<T> colored(Supplier<Supplier<ItemColor>> colorProvider) {
 		this.colorProvider = colorProvider;
 		return this;
@@ -79,6 +91,10 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 		if (this.itemGroup != null) {
 			ItemStack stack = new ItemStack(item);
 			ItemGroupEvents.modifyEntriesEvent(this.itemGroup).register(entries -> entries.accept(stack));
+		}
+
+		if (this.compostChance != null) {
+			CompostingChanceRegistry.INSTANCE.add(item, this.compostChance);
 		}
 
 		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
