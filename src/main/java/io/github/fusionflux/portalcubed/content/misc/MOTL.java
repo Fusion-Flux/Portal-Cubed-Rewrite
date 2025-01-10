@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.quiltmc.loader.api.ModMetadata;
-import org.quiltmc.loader.api.QuiltLoader;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.Util;
 import net.minecraft.util.RandomSource;
 
@@ -20,9 +20,11 @@ public class MOTL {
 
 	static {
 		register(() -> {
-			ModMetadata meta = QuiltLoader.getModContainer(PortalCubed.ID).orElseThrow().metadata();
-			return Util.getRandomSafe(List.copyOf(meta.contributors()), RandomSource.create()).map(
-					contributor -> "I loved the part when " + contributor.name() + " said \"It's Portalin' time\" and portal'd all over the place"
+			ModContainer container = FabricLoader.getInstance().getModContainer(PortalCubed.ID).orElseThrow();
+			List<String> names = container.getMetadata().getAuthors().stream().map(Person::getName).toList();
+
+			return Util.getRandomSafe(names, RandomSource.create()).map(
+					name -> "I loved the part when " + name + " said \"It's Portalin' time\" and portal'd all over the place"
 			).orElse(null);
 		});
 	}

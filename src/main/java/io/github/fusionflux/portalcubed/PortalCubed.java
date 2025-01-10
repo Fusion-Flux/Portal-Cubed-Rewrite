@@ -1,8 +1,5 @@
 package io.github.fusionflux.portalcubed;
 
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.ModMetadata;
-import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +26,9 @@ import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.resources.ResourceLocation;
 
 public class PortalCubed implements ModInitializer {
@@ -38,9 +38,10 @@ public class PortalCubed implements ModInitializer {
 	public static final Registrar REGISTRAR = new Registrar(ID);
 
 	@Override
-	public void onInitialize(ModContainer mod) {
-		ModMetadata metadata = mod.metadata();
-		LOGGER.info("Portal Cubed ({}) initializing...", metadata.version());
+	public void onInitialize() {
+		ModContainer container = FabricLoader.getInstance().getModContainer(ID).orElseThrow();
+		String version = container.getMetadata().getVersion().toString();
+		LOGGER.info("Portal Cubed ({}) initializing...", version);
 		LOGGER.info(MOTL.get());
 
 		PortalCubedGameRules.init();
@@ -66,10 +67,10 @@ public class PortalCubed implements ModInitializer {
 		LemonadeItem.registerEventListeners();
 		DisintegrationSoundType.init();
 
-		LOGGER.info("Portal Cubed ({}) initialized!", metadata.version());
+		LOGGER.info("Portal Cubed initialized!");
 	}
 
 	public static ResourceLocation id(String path) {
-		return new ResourceLocation(ID, path);
+		return ResourceLocation.fromNamespaceAndPath(ID, path);
 	}
 }
