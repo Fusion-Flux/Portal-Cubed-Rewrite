@@ -77,15 +77,15 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 		private static final RenderType CUTOUT_RENDER_TYPE = Sheets.cutoutBlockSheet();
 
 		private Function<RenderType, VertexConsumer> bufferMapper;
-		private final WrapperModel model = new WrapperModel();
+		private final DelegateModel model = new DelegateModel();
 
 		private void prepare(Function<RenderType, VertexConsumer> bufferMapper, BakedModel model) {
-			this.model.setWrappedModel(model);
+			this.model.setDelegate(model);
 			this.bufferMapper = bufferMapper;
 		}
 
 		private void cleanup() {
-			this.model.setWrappedModel(null);
+			this.model.setDelegate(null);
 			this.bufferMapper = null;
 			this.delegate = null;
 		}
@@ -103,16 +103,16 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 			this.delegate = this.bufferMapper.apply(renderType);
 		}
 
-		private final class WrapperModel extends TransformingBakedModel {
-			private WrapperModel() {
+		private final class DelegateModel extends TransformingBakedModel {
+			private DelegateModel() {
 				super((quad -> {
 					ModelEmitter.this.prepareForMaterial(quad.material());
 					return true;
 				}));
 			}
 
-			private void setWrappedModel(BakedModel wrapped) {
-				this.wrapped = wrapped;
+			private void setDelegate(BakedModel delegate) {
+				this.delegate = delegate;
 			}
 		}
 	}

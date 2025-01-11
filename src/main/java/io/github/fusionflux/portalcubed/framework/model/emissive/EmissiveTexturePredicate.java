@@ -6,15 +6,15 @@ import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.framework.util.EvenMoreCodecs;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.ResourceLocationPattern;
 import net.minecraft.util.StringRepresentable;
 
 public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
-	Codec<EmissiveTexturePredicate> CODEC = ExtraCodecs.withAlternative(
+	Codec<EmissiveTexturePredicate> CODEC = Codec.withAlternative(
 			Type.CODEC.dispatch(EmissiveTexturePredicate::type, Type::codec),
 			Single.CODEC
 	);
@@ -71,11 +71,11 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
 
 		private final String name;
-		private final Codec<? extends EmissiveTexturePredicate> codec;
+		private final MapCodec<? extends EmissiveTexturePredicate> codec;
 
 		Type(Codec<? extends EmissiveTexturePredicate> codec) {
 			this.name = this.name().toLowerCase(Locale.ROOT);
-			this.codec = codec.fieldOf(this.name).codec();
+			this.codec = codec.fieldOf(this.name);
 		}
 
 		@Override
@@ -84,7 +84,7 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 			return this.name;
 		}
 
-		public Codec<? extends EmissiveTexturePredicate> codec() {
+		public MapCodec<? extends EmissiveTexturePredicate> codec() {
 			return this.codec;
 		}
 	}

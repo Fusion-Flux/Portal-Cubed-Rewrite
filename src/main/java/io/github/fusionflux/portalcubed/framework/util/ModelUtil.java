@@ -59,7 +59,7 @@ public class ModelUtil {
 	) {
 		RenderMaterial material = (model.useAmbientOcclusion() || item) ? RenderMaterials.STANDARD : RenderMaterials.NO_AO;
 		for (Direction face : FACES) {
-			if (!item && cullTest.test(face))
+			if (cullTest.test(face))
 				continue;
 			List<BakedQuad> quads = model.getQuads(state, face, randomSupplier.get());
 			for (BakedQuad quad : quads) {
