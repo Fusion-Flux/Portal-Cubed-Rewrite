@@ -123,7 +123,7 @@ public class PortalCubedBlocks {
 					for (ChamberDoorMaterial material : type.materials) {
 						String name = material.name + "_" + type.name;
 						ChamberDoorBlock block = REGISTRAR.blocks.create(name, type::createBlock)
-								.properties(material.getSettings())
+								.properties(material::makeProperties)
 								.renderType(RenderTypes.CUTOUT)
 								.build();
 						blocks.put(material, block);
@@ -140,7 +140,7 @@ public class PortalCubedBlocks {
 					materials.put(material, blocks);
 
 					Block base = REGISTRAR.blocks.create(material.name + "_panel")
-							.properties(material.getSettings())
+							.properties(material::makeProperties)
 							.build();
 					blocks.put(PanelPart.SINGLE, base);
 
@@ -150,7 +150,7 @@ public class PortalCubedBlocks {
 
 						String name = material.name + "_" + part.name;
 						Block block = REGISTRAR.blocks.create(name, part::createBlock)
-								.properties(material.getSettings()).build();
+								.properties(material::makeProperties).build();
 						blocks.put(part, block);
 					}
 				}

@@ -1,15 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import java.util.function.Consumer;
-
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -17,12 +9,20 @@ import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private final Registrar registrar;
@@ -55,14 +55,14 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	}
 
 	@Override
-	public BlockBuilder<T> properties(BlockBehaviour.Properties properties) {
-		this.properties = BlockBehaviour.Properties.copyOf(properties);
+	public BlockBuilder<T> properties(Supplier<BlockBehaviour.Properties> properties) {
+		this.properties = properties.get();
 		return this;
 	}
 
 	@Override
 	public BlockBuilder<T> properties(Consumer<BlockBehaviour.Properties> consumer) {
-		this.checkSettings();
+		this.checkProperties();
 		consumer.accept(this.properties);
 		return this;
 	}
@@ -99,7 +99,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 
 	@Override
 	public T build() {
-		this.checkSettings();
+		this.checkProperties();
 		ResourceLocation id = this.registrar.id(this.name);
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
 		this.properties.setId(key);
@@ -145,7 +145,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 		}
 	}
 
-	private void checkSettings() {
+	private void checkProperties() {
 		if (this.properties == null) {
 			this.properties = BlockBehaviour.Properties.of();
 		}

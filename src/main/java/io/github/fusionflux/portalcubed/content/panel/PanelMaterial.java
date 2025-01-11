@@ -43,10 +43,11 @@ public enum PanelMaterial {
 	public final String name;
 	public final List<PanelPart> parts;
 
-	private final BlockBehaviour.Properties settings;
+	private final Supplier<BlockBehaviour.Properties> properties;
 
-	PanelMaterial(Supplier<BlockBehaviour.Properties> settingsCreator, Flags... flags) {
+	PanelMaterial(Supplier<BlockBehaviour.Properties> properties, Flags... flags) {
 		this.name = this.name().toLowerCase(Locale.ROOT);
+		this.properties = properties;
 
 		Set<Flags> set = Set.of(flags);
 		this.parts = Arrays.stream(PanelPart.values())
@@ -60,13 +61,10 @@ public enum PanelMaterial {
 					default -> true;
 				})
 				.toList();
-
-		this.settings = settingsCreator.get();
 	}
 
-	public BlockBehaviour.Properties getSettings() {
-		// TODO: PORT (copy somehow)
-		return this.settings;
+	public BlockBehaviour.Properties makeProperties() {
+		return this.properties.get();
 	}
 
 	public static BlockBehaviour.Properties p1WhiteSettings() {

@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import net.minecraft.world.level.block.Block;
@@ -14,10 +15,11 @@ public interface BlockBuilder<T extends Block> {
 	BlockBuilder<T> copyFrom(Block block);
 
 	/**
-	 * Set the properties of this block to the given value.
-	 * Settings are copied, it is safe to re-use the same instance.
+	 * Set the properties of this block to those provided by the given supplier.
+	 * This supplier is expected to return a new Properties instance
+	 * each time it is called to avoid problems with mutability.
 	 */
-	BlockBuilder<T> properties(BlockBehaviour.Properties properties);
+	BlockBuilder<T> properties(Supplier<BlockBehaviour.Properties> properties);
 
 	/**
 	 * Modify the current properties of this block.

@@ -21,7 +21,7 @@ public enum ChamberDoorMaterial {
 		this.settings = settingsCreator;
 	}
 
-	public BlockBehaviour.Properties getSettings() {
+	public BlockBehaviour.Properties makeProperties() {
 		return this.settings.get()
 				.noCollission()
 				.pushReaction(PushReaction.DESTROY);
