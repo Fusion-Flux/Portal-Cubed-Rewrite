@@ -79,10 +79,10 @@ public class PortalCubedBlocks {
 			.properties(s -> s.mapColor(MapColor.CLAY))
 			.build();
 	// ----- cake -----
-	// TODO: PORT, 1.0 compost chance, needs some refactoring
-	public static final CakeBlockSet BLACK_FOREST_CAKE = new CakeBlockSet(
-			"black_forest_cake", REGISTRAR, BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE)
-	);
+	public static final CakeBlockSet BLACK_FOREST_CAKE = CakeBlockSet.builder("black_forest_cake", REGISTRAR)
+			.all(builder -> builder.copyFrom(Blocks.CAKE))
+			.base(builder -> builder.item((name, block, item) -> item.compostChance(1)))
+			.build();
 	// ----- floor buttons -----
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("floor_button", FloorButtonBlock::new, Blocks.STONE)
 			.item(MultiBlockItem::new)

@@ -242,7 +242,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.RAW_MAGNESIUM);
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
-			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
+			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getBase());
 			output.accept(PortalCubedItems.LEMON);
 			output.accept(PortalCubedItems.LEMONADE);
 			output.accept(PortalCubedItems.LEMON_BOAT);
@@ -427,7 +427,7 @@ public class PortalCubedTabs {
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {
 			entries.addAfter(Items.ENCHANTED_GOLDEN_APPLE, PortalCubedItems.LEMON);
-			entries.addAfter(Items.CAKE, PortalCubedBlocks.BLACK_FOREST_CAKE.getCake());
+			entries.addAfter(Items.CAKE, PortalCubedBlocks.BLACK_FOREST_CAKE.getBase());
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
