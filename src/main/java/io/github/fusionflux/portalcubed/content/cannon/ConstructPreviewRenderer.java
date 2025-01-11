@@ -92,7 +92,6 @@ public class ConstructPreviewRenderer {
 		RenderSystem.disableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
-		model.bufferBlockEntities(matrices, bufferSource);
 		bufferSource.endBatch();
 
 		matrices.popPose();

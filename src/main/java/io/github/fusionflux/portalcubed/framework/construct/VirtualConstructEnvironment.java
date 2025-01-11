@@ -28,10 +28,7 @@ public final class VirtualConstructEnvironment extends VirtualBlockGetter {
 	@Override
 	@Nullable
 	public BlockEntity getBlockEntity(BlockPos pos) {
-		return cachedBlockEntities.computeIfAbsent(pos.asLong(), $ -> {
-			BlockInfo blockInfo = getBlockInfo(pos);
-			return blockInfo.maybeNbt().map(nbt -> BlockEntity.loadStatic(pos, blockInfo.state(), nbt)).orElse(null);
-		});
+		return null;
 	}
 
 	@Override
@@ -46,7 +43,7 @@ public final class VirtualConstructEnvironment extends VirtualBlockGetter {
 	}
 
 	@Override
-	public int getMinBuildHeight() {
+	public int getMinY() {
 		return 0;
 	}
 

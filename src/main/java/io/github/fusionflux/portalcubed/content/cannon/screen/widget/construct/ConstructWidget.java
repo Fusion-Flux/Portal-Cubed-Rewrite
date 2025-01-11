@@ -77,7 +77,6 @@ public abstract class ConstructWidget extends AbstractWidget {
 		if (ConstructPreviewRenderer.getModelPool() != null) {
 			ConstructModelPool.ModelInfo model = ConstructPreviewRenderer.getModelPool().getOrBuildModel(preview);
 			RenderingUtils.drawGuiManaged(() -> model.draw(matrices, () -> {}));
-			model.bufferBlockEntities(matrices, graphics.bufferSource());
 			graphics.flush();
 		}
 
