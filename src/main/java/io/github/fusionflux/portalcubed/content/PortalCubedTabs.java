@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -11,6 +12,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -20,6 +22,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -362,9 +365,9 @@ public class PortalCubedTabs {
 		output.accept(type.item());
 	}
 
-	private static void addPropVariant(CreativeModeTab.Output output, PropType item, int cmd) {
+	private static void addPropVariant(CreativeModeTab.Output output, PropType item, int variant) {
 		ItemStack stack = new ItemStack(item.item());
-		stack.getOrCreateTag().putInt("CustomModelData", cmd);
+		stack.set(PortalCubedDataComponents.PROP_VARIANT, variant);
 		output.accept(stack);
 	}
 
@@ -372,9 +375,8 @@ public class PortalCubedTabs {
 	//This one will still get used, but only for a few things
 	private static void addItemVariant(CreativeModeTab.Output output, Item item, int cmd, String lang) {
 		ItemStack stack = new ItemStack(item);
-		stack.getOrCreateTag().putInt("CustomModelData", cmd);
-		Component name = Component.translatable("item.portalcubed." + lang).withStyle(style -> style.withItalic(false));
-		stack.setHoverName(name);
+		stack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of(), List.of(cmd)));
+		stack.set(DataComponents.ITEM_NAME, Component.translatable("item.portalcubed." + lang).withStyle(style -> style.withItalic(false)));
 		output.accept(stack);
 	}
 
