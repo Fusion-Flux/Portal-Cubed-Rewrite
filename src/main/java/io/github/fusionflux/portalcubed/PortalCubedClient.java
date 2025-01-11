@@ -4,7 +4,6 @@ import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
-import io.github.fusionflux.portalcubed.content.PortalCubedItemTintSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
@@ -31,6 +30,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperties;
 import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
+import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.player.Player;
 
 public class PortalCubedClient implements ClientModInitializer {
