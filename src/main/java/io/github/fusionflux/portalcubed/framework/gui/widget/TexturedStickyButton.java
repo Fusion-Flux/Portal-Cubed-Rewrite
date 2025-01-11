@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -33,7 +34,7 @@ public class TexturedStickyButton extends AbstractWidget {
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		Textures textures = this.isActive() ? this.textures : this.disabledTextures;
 		if (textures != null)
-			graphics.blitSprite(textures.choose(this.isHovered(), this.selected), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+			graphics.blitSprite(RenderType::guiTextured, textures.choose(this.isHovered(), this.selected), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
 
 	@Override

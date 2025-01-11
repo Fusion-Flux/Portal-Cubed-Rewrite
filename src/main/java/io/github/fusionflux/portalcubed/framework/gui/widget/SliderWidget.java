@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -44,10 +45,10 @@ public class SliderWidget extends AbstractWidget {
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		boolean active = isActive();
-		graphics.blitSprite(active ? sprite : disabledSprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		graphics.blitSprite(RenderType::guiTextured, active ? sprite : disabledSprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 		int handleX = Mth.floor(handlePos * bound);
-		graphics.blitSprite(handleSprites.get(active, isHovered()), this.getX() + handleX, this.getY(), HANDLE_WIDTH, BACKGROUND_HEIGHT);
+		graphics.blitSprite(RenderType::guiTextured, handleSprites.get(active, isHovered()), this.getX() + handleX, this.getY(), HANDLE_WIDTH, BACKGROUND_HEIGHT);
 	}
 
 	@Override
