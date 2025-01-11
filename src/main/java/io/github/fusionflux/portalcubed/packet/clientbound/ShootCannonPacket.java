@@ -42,8 +42,8 @@ public record ShootCannonPacket(InteractionHand hand, CannonUseResult useResult)
 	@Override
 	public void handle(ClientPlayNetworking.Context ctx) {
 		Player player = ctx.player();
-		if (player.getItemInHand(hand).getItem() instanceof ConstructionCannonItem) {
-			ConstructionCannonAnimator.onShoot(useResult);
+		if (player.getItemInHand(this.hand).getItem() instanceof ConstructionCannonItem) {
+			ConstructionCannonAnimator.onShoot(this.useResult);
 			if (this.useResult == CannonUseResult.PLACED)
 				spawnParticlesForPlayer(player);
 		}
