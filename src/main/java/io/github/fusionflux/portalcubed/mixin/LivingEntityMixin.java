@@ -20,6 +20,7 @@ import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedDamageTypeTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import io.github.fusionflux.portalcubed.framework.extension.AbstractClientPlayerExt;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -28,14 +29,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
-	public LivingEntityMixin(EntityType<?> variant, Level world) {
+	protected LivingEntityMixin(EntityType<?> variant, Level world) {
 		super(variant, world);
 	}
 
@@ -56,9 +56,6 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Shadow
 	public abstract void releaseUsingItem();
-
-	@Shadow
-	public abstract void onEquippedItemBroken(Item item, EquipmentSlot slot);
 
 	@Unique
 	private boolean lemonadeArmingFinished;
@@ -106,7 +103,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Inject(method = "stopUsingItem", at = @At("HEAD"))
 	private void finishLemonadeArmingOnStop(CallbackInfo ci) {
 		Level level = this.level();
-		if (!level.isClientSide && !lemonadeArmingFinished) {
+		if (!level.isClientSide && !this.lemonadeArmingFinished) {
 			ItemStack useItem = this.getUseItem();
 			if (useItem.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(useItem)) {
 				// setting to true here isn't useless in some rare cases (skeletons for example) setItemInHand might cause another invoke of this method
@@ -166,5 +163,12 @@ public abstract class LivingEntityMixin extends Entity {
 
 		// no source physics, change nothing
 		return original.call(self, movementInput, slipperiness);
+	}
+
+	@Inject(method = "onEquipItem", at = @At("HEAD"))
+	private void onEquipItem(EquipmentSlot slot, ItemStack oldItem, ItemStack newItem, CallbackInfo ci) {
+		if (this instanceof AbstractClientPlayerExt ext && this.level().isClientSide && slot == EquipmentSlot.MAINHAND) {
+			ext.grabSoundManager().onMainHandChange(oldItem, newItem);
+		}
 	}
 }

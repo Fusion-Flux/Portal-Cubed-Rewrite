@@ -5,9 +5,8 @@ import java.util.OptionalInt;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
+import io.github.fusionflux.portalcubed.framework.extension.AbstractClientPlayerExt;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
@@ -55,30 +54,11 @@ public record HoldStatusPacket(int holder, OptionalInt held) implements Clientbo
 	}
 
 	private static void updateHeldEntity(Player player, @Nullable HoldableEntity held) {
-		HoldableEntity oldHeld = player.getHeldEntity();
 		player.setHeldEntity(held);
 
 		// update sounds
-		if (!player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN))
-			return;
-
-		if (held != null && oldHeld == null && player.pc$grabSound() == null) { // grabbed, not currently playing a sound
-			player.pc$grabSoundTimer(28);
-			FollowingSoundInstance grabSound = new FollowingSoundInstance(PortalCubedSounds.PORTAL_GUN_GRAB, player.getSoundSource(), player);
-			player.pc$grabSound(grabSound);
-			player.level().pc$playSoundInstance(grabSound);
-		} else if (held == null && oldHeld != null) { // dropped
-			FollowingSoundInstance grabSound = (FollowingSoundInstance) player.pc$grabSound();
-			if (grabSound != null) {
-				grabSound.forceStop();
-				player.pc$grabSound(null);
-			}
-			FollowingSoundInstance holdLoopSound = (FollowingSoundInstance) player.pc$holdLoopSound();
-			if (holdLoopSound != null) {
-				holdLoopSound.forceStop();
-				player.pc$holdLoopSound(null);
-			}
-			player.playSound(PortalCubedSounds.PORTAL_GUN_DROP, 1, 1);
+		if (player instanceof AbstractClientPlayerExt ext && player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN)) {
+			ext.grabSoundManager().onHeldEntityChange(held);
 		}
 	}
 }

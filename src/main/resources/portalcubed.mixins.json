@@ -44,13 +44,13 @@
     "UseOnContextAccessor"
   ],
   "client": [
+    "client.AbstractClientPlayerMixin",
     "client.AbstractContainerScreenMixin",
     "client.BakedQuadMixin",
     "client.BlockElement_DeserializerMixin",
     "client.BlockElementMixin",
     "client.BlockModel_DeserializerMixin",
     "client.BlockModelAccessor",
-    "client.SimpleBakedModelMixin",
     "client.CameraAccessor",
     "client.CameraMixin",
     "client.ClientLevelMixin",
@@ -88,6 +88,7 @@
     "client.ShaderInstanceMixin",
     "client.ShaderLoaderMixin",
     "client.SimpleBakedModelAccessor",
+    "client.SimpleBakedModelMixin",
     "client.SodiumWorldRendererAccessor",
     "client.TooltipAccessor",
     "client.Variant_DeserializerMixin",

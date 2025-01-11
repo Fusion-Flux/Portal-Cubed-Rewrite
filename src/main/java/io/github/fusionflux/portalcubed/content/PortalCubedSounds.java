@@ -5,16 +5,12 @@ import java.util.Map;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
-import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
 
 public class PortalCubedSounds {
 	public static final SoundEvent CHAMBER_DOOR_OPEN = register("chamber_door_open");
@@ -74,13 +70,6 @@ public class PortalCubedSounds {
 
 	public static SoundEvent timerDing(RandomSource random) {
 		return random.nextInt(10) >= random.nextInt(100) ? SURPRISE : TIMER_DING;
-	}
-
-	@Environment(EnvType.CLIENT)
-	public static FollowingSoundInstance createPortalGunHoldLoop(Player player) {
-		FollowingSoundInstance sound = new FollowingSoundInstance(PORTAL_GUN_HOLD_LOOP, player.getSoundSource(), player);
-		sound.setLooping(true);
-		return sound;
 	}
 
 	public static void init() {
