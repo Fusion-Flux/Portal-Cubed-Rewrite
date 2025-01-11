@@ -62,7 +62,7 @@ public class ConfiguredConstruct {
 			info.maybeNbt().ifPresent(nbt -> {
 				BlockEntity be = level.getBlockEntity(blockPos);
 				if (be != null) {
-					be.load(nbt);
+					be.loadWithComponents(nbt, level.registryAccess());
 				}
 			});
 

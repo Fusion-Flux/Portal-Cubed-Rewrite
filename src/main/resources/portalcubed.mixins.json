@@ -50,7 +50,7 @@
     "client.BlockElementMixin",
     "client.BlockModel_DeserializerMixin",
     "client.BlockModelAccessor",
-    "client.BlockModelMixin",
+    "client.SimpleBakedModelMixin",
     "client.CameraAccessor",
     "client.CameraMixin",
     "client.ClientLevelMixin",

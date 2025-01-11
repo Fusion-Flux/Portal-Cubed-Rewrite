@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
+import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -38,6 +38,6 @@ public record RequestEntitySyncPacket(int entityId) implements ServerboundPacket
 			return;
 		}
 
-		player.connection.send(new ClientboundTeleportEntityPacket(entity));
+		player.connection.send(ClientboundEntityPositionSyncPacket.of(entity));
 	}
 }

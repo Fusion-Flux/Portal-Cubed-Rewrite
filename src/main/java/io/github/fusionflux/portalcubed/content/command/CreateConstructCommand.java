@@ -8,9 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -32,7 +29,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.LevelResource;
 
 public class CreateConstructCommand {
-	private static final Logger logger = LoggerFactory.getLogger(CreateConstructCommand.class);
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	public static LiteralArgumentBuilder<CommandSourceStack> build() {
@@ -65,7 +61,7 @@ public class CreateConstructCommand {
 													BlockEntity be = level.getBlockEntity(pos);
 													if (be != null) {
 														stats.blockEntities++;
-														nbt = be.saveWithId();
+														nbt = be.saveWithId(level.registryAccess());
 													}
 
 													BlockPos relative = pos.subtract(origin);
@@ -80,7 +76,7 @@ public class CreateConstructCommand {
 													.resolve(id.getPath() + ".json");
 
 											JsonObject json = Construct.CODEC.encodeStart(JsonOps.INSTANCE, builder.build())
-													.getOrThrow(false, logger::error).getAsJsonObject();
+													.getOrThrow().getAsJsonObject();
 
 											String string = gson.toJson(json);
 

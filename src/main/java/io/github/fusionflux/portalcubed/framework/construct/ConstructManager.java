@@ -7,28 +7,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-
-import net.minecraft.resources.FileToIdConverter;
-
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.ServerPlayConnectionEvents;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
-import org.quiltmc.qsl.resource.loader.api.reloader.IdentifiableResourceReloader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -36,13 +27,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 
-public class ConstructManager extends SimpleJsonResourceReloadListener<ConstructSet> implements IdentifiableResourceReloadListener {
+public final class ConstructManager extends SimpleJsonResourceReloadListener<ConstructSet> implements IdentifiableResourceReloadListener {
 	public static final ResourceLocation ID = PortalCubed.id("constructs");
-	public static final String DIR = "construct_sets";
 	public static final FileToIdConverter CONVERTER = FileToIdConverter.json("construct_set");
-
-	private static final Logger logger = LoggerFactory.getLogger(ConstructManager.class);
-	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	public static final ConstructManager INSTANCE = new ConstructManager();
 
@@ -101,13 +88,8 @@ public class ConstructManager extends SimpleJsonResourceReloadListener<Construct
 		ServerPlayConnectionEvents.JOIN.register(
 				(handler, sender, server) -> INSTANCE.syncToPlayer(handler.player)
 		);
-		ResourceLoaderEvents.END_DATA_PACK_RELOAD.register(
-				ctx -> {
-					MinecraftServer server = ctx.server();
-					if (server != null) {
-						server.getPlayerList().getPlayers().forEach(INSTANCE::syncToPlayer);
-					}
-				}
+		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register(
+				(server, manager, success) -> server.getPlayerList().getPlayers().forEach(INSTANCE::syncToPlayer)
 		);
 	}
 

@@ -54,8 +54,8 @@ public class MaterialsTab {
 
 	private static List<TagKey<Item>> getMaterials() {
 		// cursed idea: get a weight for a tag by averaging the raw int IDs of its contents
-		ArrayList<TagKey<Item>> materials = new ArrayList<>(ConstructManager.INSTANCE.getMaterials());
-		materials.sort(Comparator.comparingInt(key -> BuiltInRegistries.ITEM.getTag(key).map(tag -> {
+		List<TagKey<Item>> materials = new ArrayList<>(ConstructManager.INSTANCE.getMaterials());
+		materials.sort(Comparator.comparingInt(key -> BuiltInRegistries.ITEM.get(key).map(tag -> {
 			if (tag.size() == 0)
 				return 0;
 

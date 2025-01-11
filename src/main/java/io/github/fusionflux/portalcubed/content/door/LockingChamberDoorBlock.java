@@ -12,7 +12,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -23,6 +22,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class LockingChamberDoorBlock extends ChamberDoorBlock {
@@ -40,7 +40,7 @@ public class LockingChamberDoorBlock extends ChamberDoorBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
 		return InteractionResult.PASS;
 	}
 
@@ -66,7 +66,6 @@ public class LockingChamberDoorBlock extends ChamberDoorBlock {
 	open (no sound) -> unlocked (close sound) -> closed (lock sound)
 	 */
 	@Override
-	@SuppressWarnings("deprecation")
 	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 		if (state.getValue(STATE) == State.UNLOCKED) {
 			if (state.getValue(POWERED)) {
@@ -80,18 +79,20 @@ public class LockingChamberDoorBlock extends ChamberDoorBlock {
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-		boolean powered = world.hasNeighborSignal(pos) || world.hasNeighborSignal(state.getValue(HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos.below());
-		if (!this.defaultBlockState().is(block) && powered != state.getValue(POWERED)) {
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
+		BlockPos powerPos = state.getValue(HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos.below();
+		boolean powered = level.hasNeighborSignal(pos) || level.hasNeighborSignal(powerPos);
+		if (neighborBlock != this && state.getValue(POWERED) != powered) {
 			state.getValue(STATE).toBoolean().ifPresent(open -> {
-				this.playSound(world, pos, open ? PortalCubedSounds.CHAMBER_DOOR_CLOSE : PortalCubedSounds.CHAMBER_DOOR_UNLOCK);
-				world.gameEvent(null, open ? GameEvent.BLOCK_CLOSE : GameEvent.BLOCK_OPEN, pos);
+				this.playSound(level, pos, open ? PortalCubedSounds.CHAMBER_DOOR_CLOSE : PortalCubedSounds.CHAMBER_DOOR_UNLOCK);
+				level.gameEvent(null, open ? GameEvent.BLOCK_CLOSE : GameEvent.BLOCK_OPEN, pos);
 			});
 
-			world.setBlock(pos, state.setValue(POWERED, powered).setValue(STATE, State.UNLOCKED), Block.UPDATE_CLIENTS);
-			world.scheduleTick(pos, this, UNLOCK_DELAY);
+			level.setBlock(pos, state.setValue(POWERED, powered).setValue(STATE, State.UNLOCKED), Block.UPDATE_CLIENTS);
+			level.scheduleTick(pos, this, UNLOCK_DELAY);
 		}
 	}
+
 
 	public enum State implements StringRepresentable {
 		CLOSED, UNLOCKED, OPEN;

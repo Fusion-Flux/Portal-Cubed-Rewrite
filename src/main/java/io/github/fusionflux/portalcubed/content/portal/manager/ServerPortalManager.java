@@ -2,9 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import java.util.HashSet;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 import com.mojang.datafixers.util.Pair;
 
@@ -15,6 +13,8 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -93,7 +93,7 @@ public class ServerPortalManager extends PortalManager {
 		}
 	}
 
-	public static class PersistentState extends SavedData {
+	public static final class PersistentState extends SavedData {
 		public static final String ID = PortalCubed.id("portals").toString();
 		public final ServerPortalManager manager;
 
@@ -107,15 +107,14 @@ public class ServerPortalManager extends PortalManager {
 		}
 
 		@Override
-		@NotNull
-		public CompoundTag save(CompoundTag nbt) {
+		public CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
 			return this.manager.save(nbt);
 		}
 
 		public static Factory<PersistentState> factory(ServerLevel level) {
 			return new Factory<>(
 					() -> new PersistentState(level),
-					nbt -> new PersistentState(level, nbt),
+					(nbt, registries) -> new PersistentState(level, nbt),
 					null // FAPI makes this fine
 			);
 		}

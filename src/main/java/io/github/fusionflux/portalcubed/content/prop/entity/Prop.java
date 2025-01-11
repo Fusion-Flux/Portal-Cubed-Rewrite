@@ -244,13 +244,12 @@ public class Prop extends HoldableEntity implements CollisionListener {
 
 	@Override
 	public void onCollision() {
-		Level world = this.level();
-		if (world.isClientSide)
+		if (!(this.level() instanceof ServerLevel level))
 			return;
 
 		if (!this.isSilent()) {
-			world.playSound(null, this.getX(), this.getY(), this.getZ(), this.impactSound, SoundSource.PLAYERS, 1, 1);
-			world.gameEvent(this, GameEvent.HIT_GROUND, this.position());
+			level.playSound(null, this.getX(), this.getY(), this.getZ(), this.impactSound, SoundSource.PLAYERS, 1, 1);
+			level.gameEvent(this, GameEvent.HIT_GROUND, this.position());
 		}
 
 		if (this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && this.verticalCollisionBelow) {
@@ -260,8 +259,8 @@ public class Prop extends HoldableEntity implements CollisionListener {
 				Predicate<Entity> selector = EntitySelector.NO_CREATIVE_OR_SPECTATOR
 						.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)
 						.and(this::notHeldBy);
-				world.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector).forEach(
-						entity -> entity.hurt(PortalCubedDamageSources.landingDamage(world, this, entity), damage)
+				level.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector).forEach(
+						entity -> entity.hurtServer(level, PortalCubedDamageSources.landingDamage(level, this, entity), damage)
 				);
 			}
 		}

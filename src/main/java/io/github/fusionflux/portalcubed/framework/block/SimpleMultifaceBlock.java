@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
@@ -44,7 +45,9 @@ public class SimpleMultifaceBlock extends MultifaceBlock {
 				if (hasAnyFace(newState)) {
 					BlockState fakeDropState = this.defaultBlockState()
 							.setValue(getFaceProperty(direction), true);
-					Block.dropResources(fakeDropState, world, pos, null);
+					if (world instanceof LevelAccessor level) {
+						Block.dropResources(fakeDropState, level, pos, null);
+					}
 				}
 				return newState;
 			}

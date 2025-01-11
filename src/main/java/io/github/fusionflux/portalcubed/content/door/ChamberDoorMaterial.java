@@ -14,16 +14,16 @@ public enum ChamberDoorMaterial {
 	OLD_AP(PanelMaterial::oldApWhiteSettings);
 
 	public final String name;
-	private final BlockBehaviour.Properties settings;
+	private final Supplier<BlockBehaviour.Properties> settings;
 
 	ChamberDoorMaterial(Supplier<BlockBehaviour.Properties> settingsCreator) {
 		this.name = this.name().toLowerCase(Locale.ROOT);
-		this.settings = settingsCreator.get()
-				.noOcclusion()
-				.pushReaction(PushReaction.DESTROY);
+		this.settings = settingsCreator;
 	}
 
 	public BlockBehaviour.Properties getSettings() {
-		return QuiltBlockSettings.copyOf(this.settings);
+		return this.settings.get()
+				.noCollission()
+				.pushReaction(PushReaction.DESTROY);
 	}
 }

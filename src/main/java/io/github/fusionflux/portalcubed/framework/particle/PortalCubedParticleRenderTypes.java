@@ -10,9 +10,14 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.TriState;
 
 public class PortalCubedParticleRenderTypes {
+	// there is no replacement as of 1.21.4
+	@SuppressWarnings("deprecation")
+	private static final ResourceLocation atlas = TextureAtlas.LOCATION_PARTICLES;
+
 	public static final ParticleRenderType MULTIPLY = new ParticleRenderType(
 			PortalCubed.id("multiply").toString(),
 			RenderType.create(
@@ -24,7 +29,7 @@ public class PortalCubedParticleRenderTypes {
 					false,
 					RenderType.CompositeState.builder()
 							.setShaderState(RenderStateShard.PARTICLE_SHADER)
-							.setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_PARTICLES, TriState.FALSE, false))
+							.setTextureState(new RenderStateShard.TextureStateShard(atlas, TriState.FALSE, false))
 							.setTransparencyState(
 									new RenderStateShard.TransparencyStateShard(
 											"multiply_transparency",

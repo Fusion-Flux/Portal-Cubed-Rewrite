@@ -48,7 +48,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 	public MaterialSlotWidget(TagKey<Item> tag, int x, int y, Runnable onSelect) {
 		super(x, y, SIZE, SIZE, TagTranslation.translate(tag), TEXTURES, onSelect);
 
-		List<ItemStack> items = BuiltInRegistries.ITEM.getTag(tag)
+		List<ItemStack> items = BuiltInRegistries.ITEM.get(tag)
 				.map(ListBacked::stream)
 				.orElseGet(Stream::of)
 				.map(Holder::value)

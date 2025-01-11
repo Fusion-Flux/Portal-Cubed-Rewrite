@@ -14,19 +14,19 @@ import org.jetbrains.annotations.Nullable;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.Optionull;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-public class SignageManager extends SimpleJsonResourceReloadListener<Signage> implements IdentifiableResourceReloadListener {
+public final class SignageManager extends SimpleJsonResourceReloadListener<Signage> implements IdentifiableResourceReloadListener {
 	public static final ResourceLocation ID = PortalCubed.id("signage");
 	public static final FileToIdConverter CONVERTER = FileToIdConverter.json("signage");
 
@@ -104,11 +104,9 @@ public class SignageManager extends SimpleJsonResourceReloadListener<Signage> im
 		ServerPlayConnectionEvents.JOIN.register(
 				(handler, sender, server) -> INSTANCE.syncToPlayer(handler.player)
 		);
-		ResourceLoaderEvents.END_DATA_PACK_RELOAD.register(ctx -> {
-			MinecraftServer server = ctx.server();
-			if (server != null)
-				PlayerLookup.all(server).forEach(INSTANCE::syncToPlayer);
-		});
+		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register(
+				(server, manager, success) -> PlayerLookup.all(server).forEach(INSTANCE::syncToPlayer)
+		);
 	}
 
 	// API

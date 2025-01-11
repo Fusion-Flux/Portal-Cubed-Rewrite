@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
 import org.joml.Quaternionf;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
@@ -13,6 +12,7 @@ import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.server.level.ServerPlayer;

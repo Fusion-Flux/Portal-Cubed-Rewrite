@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import java.util.Objects;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,6 +15,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import io.github.fusionflux.portalcubed.framework.extension.BigShapeBlock;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -20,11 +23,13 @@ import net.minecraft.world.entity.LivingEntity;
 public class GameRendererMixin {
 	@Shadow
 	@Final
-	Minecraft minecraft;
+	private Minecraft minecraft;
 
 	@Inject(method = "pick(F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;pop()V", shift = At.Shift.BEFORE))
 	private void bigShapePick(float tickDelta, CallbackInfo ci) {
-		BigShapeBlock.pick(minecraft.gameMode.getPickRange(), tickDelta);
+		LocalPlayer player = Objects.requireNonNull(this.minecraft.player);
+		double range = player.blockInteractionRange();
+		BigShapeBlock.pick(range, tickDelta);
 	}
 
 	@ModifyExpressionValue(method = "getFov", at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"))

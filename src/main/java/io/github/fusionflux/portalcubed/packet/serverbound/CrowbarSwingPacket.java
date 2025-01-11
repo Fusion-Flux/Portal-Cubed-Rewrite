@@ -11,7 +11,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -38,7 +38,14 @@ public record CrowbarSwingPacket(@Nullable BlockHitResult hit, boolean didSwingA
 	public void handle(ServerPlayNetworking.Context ctx) {
 		Player player = ctx.player();
 		ItemStack hand = player.getItemInHand(InteractionHand.MAIN_HAND);
-		if (hand.getItem() instanceof CrowbarItem crowbar && (hit == null || player.getEyePosition().distanceToSqr(this.hit.getLocation()) <= ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE))
+		if (hand.getItem() instanceof CrowbarItem crowbar && this.isHitValid(player))
 			crowbar.onSwing(player, this.hit, this.didSwingAnim);
+	}
+
+	private boolean isHitValid(Player player) {
+		if (this.hit == null)
+			return true;
+
+		return player.canInteractWithBlock(this.hit.getBlockPos(), Container.DEFAULT_DISTANCE_BUFFER);
 	}
 }

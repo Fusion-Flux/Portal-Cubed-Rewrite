@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.mixin.client;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,8 +19,9 @@ import io.github.fusionflux.portalcubed.framework.model.RenderMaterials;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.client.renderer.block.model.BlockModel.Deserializer;
 
-@Mixin(BlockModel.Deserializer.class)
+@Mixin(Deserializer.class)
 public class BlockModel_DeserializerMixin {
 	@ModifyReturnValue(
 			method = "deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Lnet/minecraft/client/renderer/block/model/BlockModel;",
@@ -46,7 +48,8 @@ public class BlockModel_DeserializerMixin {
 			});
 
 			// apply read materials to elements
-			for (BlockElement element : original.getElements()) {
+			List<BlockElement> elements = ((BlockModelAccessor) original).callGetElements();
+			for (BlockElement element : elements) {
 				BlockElementExt ext = (BlockElementExt) element;
 				String name = ext.pc$name();
 				if (name != null && elementModes.containsKey(name))
