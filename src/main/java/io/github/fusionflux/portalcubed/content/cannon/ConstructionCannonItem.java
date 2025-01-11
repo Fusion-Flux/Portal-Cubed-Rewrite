@@ -31,6 +31,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.TagKey;
@@ -72,14 +73,13 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 		if (context.isSecondaryUseActive())
 			return InteractionResult.PASS; // fall back to use
 
-		if (!(context.getPlayer() instanceof ServerPlayer player)) {
+		if (!(context.getPlayer() instanceof ServerPlayer player))
 			return InteractionResult.PASS;
-		}
 
 		CannonUseResult result = this.tryPlace(context, player);
 
 		// feedback
-		result.sound().ifPresent(player::playSound);
+		result.sound().ifPresent(sound -> playSound(player, sound, 1, 1));
 		result.feedback(player.getRandom()).ifPresent(
 				feedback -> player.displayClientMessage(feedback, true)
 		);
@@ -92,13 +92,11 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 		} else if (result == CannonUseResult.PLACED) {
 			// kaboom
 			float pitch = player.getRandom().nextIntBetweenInclusive(120, 270) / 100f;
-			player.playSound(SoundEvents.GENERIC_EXPLODE.value(), 0.4f, pitch);
-			if (player instanceof ServerPlayer) {
-				OtherPlayerShootCannonPacket packet = new OtherPlayerShootCannonPacket(player);
-				PlayerLookup.tracking(player).forEach(
-						tracking -> PortalCubedPackets.sendToClient(tracking, packet)
-				);
-			}
+			playSound(player, SoundEvents.GENERIC_EXPLODE.value(), 0.4f, pitch);
+			OtherPlayerShootCannonPacket packet = new OtherPlayerShootCannonPacket(player);
+			PlayerLookup.tracking(player).forEach(
+					tracking -> PortalCubedPackets.sendToClient(tracking, packet)
+			);
 			return InteractionResult.CONSUME;
 		}
 
@@ -226,6 +224,13 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	private static void tryOpenConfig(Player player, InteractionHand hand) {
 		if (player instanceof ServerPlayer serverPlayer) {
 			PortalCubedPackets.sendToClient(serverPlayer, new OpenCannonConfigPacket(hand));
+		}
+	}
+
+	private static void playSound(ServerPlayer player, SoundEvent sound, float volume, float pitch) {
+		if (!player.isSilent()) {
+			player.playSound(sound, volume, pitch); // plays to other players
+			player.playNotifySound(sound, player.getSoundSource(), volume, pitch); // plays to self
 		}
 	}
 }
