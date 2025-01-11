@@ -6,7 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 
@@ -25,7 +24,7 @@ public class PropDispenseBehavior extends DefaultDispenseItemBehavior {
 
 		ServerLevel level = pointer.level();
 		Direction direction = pointer.state().getValue(DispenserBlock.FACING);
-		this.item.use(level, pointer.pos().relative(direction), MobSpawnType.DISPENSER, direction != Direction.UP, false, stack, null);
+		this.item.use(level, pointer.pos().relative(direction), stack, null);
 		return stack;
 	}
 }

@@ -19,7 +19,7 @@ public class Chair extends Prop {
 			if (!level.isClientSide) {
 				player.startRiding(this);
 			}
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.SUCCESS;
 		}
 		return super.interact(player, hand);
 	}

@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content;
 
-import io.github.fusionflux.portalcubed.content.prop.PropModelCache;
+import io.github.fusionflux.portalcubed.content.prop.renderer.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
 import io.github.fusionflux.portalcubed.framework.util.ShaderPatcher;

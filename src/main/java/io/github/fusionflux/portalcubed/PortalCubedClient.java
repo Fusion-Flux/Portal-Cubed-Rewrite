@@ -8,12 +8,12 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.boots.LongFallBootsModel;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.lemon.Armed;
 import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.prop.renderer.PropVariantProperty;
 import io.github.fusionflux.portalcubed.framework.entity.EntityDebugRendering;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
@@ -27,6 +27,7 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperties;
+import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
 import net.minecraft.world.entity.player.Player;
 
 public class PortalCubedClient implements ClientModInitializer {
@@ -45,8 +46,8 @@ public class PortalCubedClient implements ClientModInitializer {
 		);
 
 		ConditionalItemModelProperties.ID_MAPPER.put(PortalCubed.id("lemonade/armed"), Armed.MAP_CODEC);
+		SelectItemModelProperties.ID_MAPPER.put(PortalCubed.id("prop_variant"), PropVariantProperty.TYPE);
 
-		LongFallBootsModel.init();
 		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT);
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 		PortalCubedReloadListeners.registerAssets();

@@ -1,19 +1,23 @@
 package io.github.fusionflux.portalcubed.framework.model;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
-import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import org.jetbrains.annotations.Nullable;
+
+import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
+import net.fabricmc.fabric.api.renderer.v1.mesh.QuadTransform;
+import net.minecraft.client.resources.model.DelegateBakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class TransformingBakedModel extends ForwardingBakedModel {
-	private final RenderContext.QuadTransform transform;
+public class TransformingBakedModel extends DelegateBakedModel {
+	private final QuadTransform transform;
 
-	public TransformingBakedModel(RenderContext.QuadTransform transform) {
+	public TransformingBakedModel(QuadTransform transform) {
 		this.transform = transform;
 	}
 
@@ -23,16 +27,16 @@ public class TransformingBakedModel extends ForwardingBakedModel {
 	}
 
 	@Override
-	public void emitItemQuads(ItemStack stack, Supplier<RandomSource> randomSupplier, RenderContext context) {
-		context.pushTransform(this.transform);
-		super.emitItemQuads(stack, randomSupplier, context);
-		context.popTransform();
+	public void emitBlockQuads(QuadEmitter emitter, BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, Predicate<@Nullable Direction> cullTest) {
+		emitter.pushTransform(this.transform);
+		super.emitBlockQuads(emitter, blockView, state, pos, randomSupplier, cullTest);
+		emitter.popTransform();
 	}
 
 	@Override
-	public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
-		context.pushTransform(this.transform);
-		super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
-		context.popTransform();
+	public void emitItemQuads(QuadEmitter emitter, Supplier<RandomSource> randomSupplier) {
+		emitter.pushTransform(this.transform);
+		super.emitItemQuads(emitter, randomSupplier);
+		emitter.popTransform();
 	}
 }

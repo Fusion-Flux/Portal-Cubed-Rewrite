@@ -9,9 +9,9 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.lemon.Lemonade;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectileRenderer;
-import io.github.fusionflux.portalcubed.content.prop.PropRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
+import io.github.fusionflux.portalcubed.content.prop.renderer.PropRenderer;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -37,7 +37,7 @@ public class PortalCubedEntities {
 	public static final Map<PropType, EntityType<Prop>> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
 			EntityType<Prop> entityType = REGISTRAR.entities.create(type.toString(), type.factory)
-					.size(type.dimensions)
+					.size(type.width, type.height)
 					.renderer(() -> () -> PropRenderer::new)
 					.build();
 			map.put(type, entityType);

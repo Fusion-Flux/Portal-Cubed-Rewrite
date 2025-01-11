@@ -1,24 +1,25 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
@@ -37,49 +38,52 @@ public class PropItem extends Item {
 			BlockPos clickedPos = context.getClickedPos();
 			Direction clickedFace = context.getClickedFace();
 			BlockState state = world.getBlockState(clickedPos);
-			boolean invertY = false;
-			if (!state.getCollisionShape(world, clickedPos).isEmpty()) {
-				clickedPos = clickedPos.relative(clickedFace);
-				invertY = clickedFace == Direction.UP;
-			}
+			// TODO: rework this when the game launches
+//			boolean invertY = false;
+//			if (!state.getCollisionShape(world, clickedPos).isEmpty()) {
+//				clickedPos = clickedPos.relative(clickedFace);
+//				invertY = clickedFace == Direction.UP;
+//			}
 
-			this.use(world, clickedPos, MobSpawnType.SPAWN_EGG, true, invertY, context.getItemInHand(), context.getPlayer());
-			return InteractionResult.CONSUME;
+			this.use(world, clickedPos, context.getItemInHand(), context.getPlayer());
+			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.SUCCESS;
 	}
 
 	@Override
 	@NotNull
-	public String getDescriptionId(ItemStack stack) {
-		int variant = getVariant(stack);
-		return variant > 0 ? this.getDescriptionId() + "." + variant : super.getDescriptionId(stack);
+	public Component getName(ItemStack stack) {
+		return getVariant(stack)
+				.map(variant -> (Component) Component.translatable(this.getDescriptionId() + "." + variant))
+				.orElseGet(() -> super.getName(stack));
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
-		super.appendHoverText(stack, world, tooltip, context);
-		if (context.isCreative() && (this.type.randomVariantOnSpawn && getVariant(stack) <= 0))
-			tooltip.add(translate("tooltip.random").withStyle(ChatFormatting.GRAY));
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {
+		super.appendHoverText(stack, context, tooltipComponents, flag);
+		if (flag.isCreative() && (this.type.randomVariantOnSpawn && getVariant(stack).isEmpty()))
+			tooltipComponents.add(translate("tooltip.random").withStyle(ChatFormatting.GRAY));
 	}
 
-	public boolean use(ServerLevel world, BlockPos pos, MobSpawnType spawnReason, boolean alignPosition, boolean invertY, ItemStack stack, @Nullable Entity spawner) {
-		int variant = getVariant(stack);
-		Component customName = stack.getTagElement("display") != null ? stack.getHoverName() : null;
-
-		if (this.type.spawn(world, pos, spawnReason, alignPosition, invertY, variant, variant <= 0, customName)) {
-			stack.shrink(1);
-			world.gameEvent(spawner, GameEvent.ENTITY_PLACE, pos);
-			return true;
-		}
-		return false;
+	public boolean use(ServerLevel world, BlockPos pos, ItemStack stack, @Nullable Player spawner) {
+		Optional<Integer> maybeVariant = getVariant(stack);
+		return Optionull.mapOrDefault(
+				this.type.spawn(world, pos, stack, spawner, maybeVariant.orElse(0), maybeVariant.isEmpty()),
+				prop -> {
+					stack.shrink(1);
+					prop.gameEvent(GameEvent.ENTITY_PLACE, spawner);
+					return true;
+				},
+				false
+		);
 	}
 
 	public MutableComponent translate(String key) {
 		return Component.translatable(this.getDescriptionId() + "." + key);
 	}
 
-	public static int getVariant(ItemStack stack) {
-		return stack.hasTag() ? stack.getTag().getInt("CustomModelData") : 0;
+	public static Optional<Integer> getVariant(ItemStack stack) {
+		return Optional.ofNullable(stack.get(PortalCubedDataComponents.PROP_VARIANT));
 	}
 }

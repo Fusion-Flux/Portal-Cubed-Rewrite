@@ -1,13 +1,8 @@
-package io.github.fusionflux.portalcubed.content.prop;
-
-import java.util.function.Function;
-
-import org.jetbrains.annotations.NotNull;
+package io.github.fusionflux.portalcubed.content.prop.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.framework.model.TransformingBakedModel;
 import io.github.fusionflux.portalcubed.framework.util.DelegatingVertexConsumer;
@@ -19,45 +14,60 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 
-public class PropRenderer extends EntityRenderer<Prop> {
+import java.util.function.Function;
+
+public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 	private static final ModelEmitter EMITTER = new ModelEmitter();
-	private static final ItemStack NON_EMPTY_STACK = new ItemStack(Items.BARRIER);
 	private static final float Y_OFFSET = 2 / 16f;
 
-	private final ItemRenderer itemRenderer;
+	private static final int[] NO_TINT = new int[0];
 
 	public PropRenderer(Context ctx) {
 		super(ctx);
-		this.itemRenderer = ctx.getItemRenderer();
 	}
 
 	@Override
-	public void render(Prop prop, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light) {
-		super.render(prop, yaw, tickDelta, matrices, vertexConsumers, light);
+	public void render(PropRenderState renderState, PoseStack matrices, MultiBufferSource bufferSource, int light) {
+		super.render(renderState, matrices, bufferSource, light);
 
-		EMITTER.prepare(vertexConsumers::getBuffer, PropModelCache.INSTANCE.get(prop));
+		EMITTER.prepare(bufferSource::getBuffer, PropModelCache.INSTANCE.get(renderState));
 		matrices.pushPose();
-		matrices.mulPose(Axis.YP.rotationDegrees(180 - prop.getYRot()));
+		matrices.mulPose(Axis.YP.rotationDegrees(180 - renderState.yRot));
 		matrices.translate(0, Y_OFFSET, 0);
 		matrices.scale(2, 2, 2);
-		this.itemRenderer.render(NON_EMPTY_STACK, ItemDisplayContext.GROUND, false, matrices, renderType -> EMITTER, light, OverlayTexture.NO_OVERLAY, EMITTER.model);
+		ItemRenderer.renderItem(
+				ItemDisplayContext.GROUND,
+				matrices,
+				renderType -> EMITTER,
+				light,
+				OverlayTexture.NO_OVERLAY,
+				NO_TINT,
+				EMITTER.model,
+				ModelEmitter.DEFAULT_RENDER_TYPE,
+				ItemStackRenderState.FoilType.NONE
+		);
 		matrices.popPose();
 		EMITTER.cleanup();
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	@NotNull
-	public ResourceLocation getTextureLocation(Prop entity) {
-		return TextureAtlas.LOCATION_BLOCKS;
+	public PropRenderState createRenderState() {
+		return new PropRenderState();
+	}
+
+	@Override
+	public void extractRenderState(Prop prop, PropRenderState reusedState, float tickDelta) {
+		super.extractRenderState(prop, reusedState, tickDelta);
+		reusedState.type = prop.type;
+		reusedState.yRot = prop.getYRot(tickDelta);
 	}
 
 	private static final class ModelEmitter extends DelegatingVertexConsumer {

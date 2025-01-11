@@ -17,7 +17,6 @@ public class PropBarrierBlock extends BarrierBlock {
 		super(properties);
 	}
 
-	@SuppressWarnings("deprecation")
 	@NotNull
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
@@ -26,7 +25,6 @@ public class PropBarrierBlock extends BarrierBlock {
 		return Shapes.empty();
 	}
 
-	@SuppressWarnings("deprecation")
 	@NotNull
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
