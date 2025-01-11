@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.entity;
 
-import io.github.fusionflux.portalcubed.mixin.AbstractMinecartAccessor;
-import io.github.fusionflux.portalcubed.mixin.BoatAccessor;
+import io.github.fusionflux.portalcubed.mixin.AbstractBoatAccessor;
 import io.github.fusionflux.portalcubed.mixin.LivingEntityAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -78,10 +77,10 @@ public abstract class LerpableEntity extends Entity {
 			return living.getLerpSteps();
 		} else if (entity instanceof LerpableEntity lerpable) {
 			return lerpable.lerpSteps;
-		} else if (entity instanceof BoatAccessor boat) {
+		} else if (entity instanceof AbstractBoatAccessor boat) {
 			return boat.getLerpSteps();
-		} else if (entity instanceof AbstractMinecartAccessor minecart) {
-			return minecart.getLerpSteps();
+//		} else if (entity instanceof AbstractMinecartAccessor minecart) {
+//			return minecart.getLerpSteps();
 		} else {
 			return 0;
 		}
@@ -92,10 +91,11 @@ public abstract class LerpableEntity extends Entity {
 			living.setLerpSteps(steps);
 		} else if (entity instanceof LerpableEntity lerpable) {
 			lerpable.lerpSteps = steps;
-		} else if (entity instanceof BoatAccessor boat) {
+		} else if (entity instanceof AbstractBoatAccessor boat) {
 			boat.setLerpSteps(steps);
-		} else if (entity instanceof AbstractMinecartAccessor minecart) {
-			minecart.setLerpSteps(steps);
 		}
+//		} else if (entity instanceof AbstractMinecartAccessor minecart) {
+//			minecart.setLerpSteps(steps);
+//		}
 	}
 }

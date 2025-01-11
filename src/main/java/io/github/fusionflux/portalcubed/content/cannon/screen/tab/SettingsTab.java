@@ -12,7 +12,6 @@ import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.SliderWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButton;
-import io.github.fusionflux.portalcubed.mixin.client.TooltipAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Tooltip;
@@ -39,7 +38,6 @@ public class SettingsTab {
 				settings.get().previewOpacity(), slider -> {
 					settings.update(s -> s.withPreviewOpacity(slider.handlePos()));
 					Tooltip tooltip = createPreviewOpacityTooltip(settings);
-					((TooltipAccessor) tooltip).setWasHoveredOrFocused(slider.isHoveredOrFocused());
 					slider.setTooltip(tooltip);
 				}
 		);

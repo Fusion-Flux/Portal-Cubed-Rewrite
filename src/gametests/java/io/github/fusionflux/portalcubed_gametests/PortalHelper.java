@@ -11,7 +11,6 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManag
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
@@ -38,8 +37,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			ServerLevel level = this.helper.getLevel();
 			PortalProjectile projectile = new PortalProjectile(level, this.settings, yRot, this.key, this.polarity);
 			projectile.moveTo(this.helper.absoluteVec(from));
-			Vec3i normal = facing.getNormal();
-			Vec3 vel = Vec3.atLowerCornerOf(normal).scale(PortalProjectile.SPEED);
+			Vec3 vel = facing.getUnitVec3().scale(PortalProjectile.SPEED);
 			projectile.setDeltaMovement(vel);
 			level.addFreshEntity(projectile);
 		}

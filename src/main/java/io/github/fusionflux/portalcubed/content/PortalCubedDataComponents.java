@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content;
 
 import com.mojang.serialization.Codec;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
@@ -31,6 +32,9 @@ public class PortalCubedDataComponents {
 	private static <T> DataComponentType<T> register(String name, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
 		DataComponentType.Builder<T> builder = DataComponentType.builder();
 		builder.persistent(codec).networkSynchronized(streamCodec);
-		return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, name, builder.build());
+		return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, PortalCubed.id(name), builder.build());
+	}
+
+	public static void init() {
 	}
 }

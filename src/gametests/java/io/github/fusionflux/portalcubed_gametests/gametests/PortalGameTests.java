@@ -1,10 +1,9 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
-
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import io.github.fusionflux.portalcubed_gametests.PortalHelper;
+import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
@@ -14,7 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.phys.Vec3;
 
-public class PortalGameTests implements QuiltGameTest {
+public class PortalGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":portals/";
 
 	//Test entities being dropped into portals and maintaining momentum

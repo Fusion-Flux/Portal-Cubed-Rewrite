@@ -35,7 +35,7 @@ public class CandleCakeBlockMixin {
 	)
 	private BlockState changeCake(BlockState state) {
 		if ((Object) this instanceof CustomCandleCakeBlock self) {
-			return self.getCake().defaultBlockState();
+			return self.cake.defaultBlockState();
 		}
 		return state;
 	}

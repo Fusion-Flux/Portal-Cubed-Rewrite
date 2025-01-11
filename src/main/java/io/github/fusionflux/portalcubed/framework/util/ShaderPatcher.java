@@ -1,16 +1,19 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.client.renderer.ShaderProgramConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public class ShaderPatcher {
 	public static final String CLIPPING_PLANE_UNIFORM_NAME = PortalCubed.ID + "_ClippingPlane";
+	public static final ShaderProgramConfig.Uniform CLIPPING_PLANE_UNIFORM_CONFIG = new ShaderProgramConfig.Uniform(CLIPPING_PLANE_UNIFORM_NAME, "float", 4, List.of());
 
 	private static final String CLIPPING_PLANE_UNIFORM_INJECTION = String.format("uniform vec4 %s;\n", CLIPPING_PLANE_UNIFORM_NAME);
 	private static final String PROJECTION_MATRIX_PLACEHOLDER = "{projectionMatrix}";

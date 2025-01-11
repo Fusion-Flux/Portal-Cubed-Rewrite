@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
@@ -9,6 +7,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed_gametests.Batches;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
+import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
@@ -20,10 +19,11 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.phys.Vec3;
 
-public class PropGameTests implements QuiltGameTest {
+public class PropGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":props/";
 
 	//Delay entity-on-button tests by 20 ticks to give the entities time to fall onto the buttons before checking states
@@ -160,7 +160,7 @@ public class PropGameTests implements QuiltGameTest {
 		Prop p2CompanionCube = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 3, 2));
 		Prop radio = spawnProp(helper, PropType.RADIO, new BlockPos(1, 3, 3));
 
-		Player gerald = helper.makeMockSurvivalPlayer();
+		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.MOSS_BLOCK, 3));
 		p2StorageCube.interact(gerald, InteractionHand.MAIN_HAND);
 		p2CompanionCube.interact(gerald, InteractionHand.MAIN_HAND);
@@ -182,8 +182,8 @@ public class PropGameTests implements QuiltGameTest {
 		Prop hammeredCube = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 2, 1));
 		Prop smackedCube = spawnProp(helper, PropType.PORTAL_1_STORAGE_CUBE, new BlockPos(1, 2, 1));
 
-		Player gerald = helper.makeMockSurvivalPlayer();
-		Player geraldTwoTheLongAwaitedSequel = helper.makeMockSurvivalPlayer();
+		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
+		Player geraldTwoTheLongAwaitedSequel = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(PortalCubedItems.HAMMER));
 		gerald.attack(hammeredCube);
 		geraldTwoTheLongAwaitedSequel.attack(smackedCube);

@@ -7,6 +7,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedArgumentTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFeatures;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
@@ -47,6 +48,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedFluids.init();
 		PortalCubedBlocks.init();
 		PortalCubedBlockEntityTypes.init();
+		PortalCubedDataComponents.init();
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();

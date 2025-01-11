@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.framework.gui.util.TagWithCountTooltipCo
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton.Textures;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -45,7 +46,7 @@ public class ConstructButtonWidget extends ConstructWidget {
 
 		super.renderWidget(graphics, mouseX, mouseY, delta);
 		ResourceLocation texture = this.textures.choose(this.isHovered(), this.selected);
-		graphics.blitSprite(texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		graphics.blitSprite(RenderType::guiTextured, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 		if (this.isHovered()) {
 			PoseStack matrices = graphics.pose();

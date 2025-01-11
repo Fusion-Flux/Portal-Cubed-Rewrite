@@ -1,15 +1,14 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
-
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
+import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 
-public class GooGameTests implements QuiltGameTest {
+public class GooGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":goo/";
 
 	//Test goo bucket dispenser behavior

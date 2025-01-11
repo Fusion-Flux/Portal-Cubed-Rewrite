@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 import org.spongepowered.asm.mixin.Final;
@@ -11,14 +9,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-
 import io.github.fusionflux.portalcubed.packet.clientbound.LocalTeleportPacket;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBundlePacket;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.world.entity.Entity;
@@ -34,20 +27,21 @@ public abstract class ServerEntityMixin {
 	@Final
 	private Entity entity;
 
-	@WrapMethod(method = "sendChanges")
-	private void bundlePackets(Operation<Void> original) {
-		Consumer<Packet<?>> originalBroadcast = this.broadcast;
-		try {
-			List<Packet<?>> packets = new ArrayList<>();
-			this.broadcast = packets::add;
-			original.call();
-			//noinspection unchecked
-			List<Packet<? super ClientGamePacketListener>> casted = (List<Packet<? super ClientGamePacketListener>>) packets;
-			originalBroadcast.accept(new ClientboundBundlePacket(casted));
-		} finally {
-			this.broadcast = originalBroadcast;
-		}
-	}
+	// TODO: Look into this again, it requires changes because of the networking rewrite
+//	@WrapMethod(method = "sendChanges")
+//	private void bundlePackets(Operation<Void> original) {
+//		Consumer<Packet<?>> originalBroadcast = this.broadcast;
+//		try {
+//			List<Packet<?>> packets = new ArrayList<>();
+//			this.broadcast = packets::add;
+//			original.call();
+//			//noinspection unchecked
+//			List<Packet<? super ClientGamePacketListener>> casted = (List<Packet<? super ClientGamePacketListener>>) packets;
+//			originalBroadcast.accept(new ClientboundBundlePacket(casted));
+//		} finally {
+//			this.broadcast = originalBroadcast;
+//		}
+//	}
 
 	@ModifyArg(
 			method = "sendChanges",

@@ -9,7 +9,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.lemon.Armed;
-import io.github.fusionflux.portalcubed.content.misc.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunTintSource;
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropVariantProperty;
@@ -22,7 +21,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperties;
 import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
@@ -50,7 +48,8 @@ public class PortalCubedClient implements ClientModInitializer {
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 		PortalCubedReloadListeners.registerAssets();
 
-		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);
+		// TODO: The whole class needs a rewrite
+//		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);
 
 		ClientTickEvents.END_CLIENT_TICK.register(ConstructionCannonAnimator::tick);
 	}

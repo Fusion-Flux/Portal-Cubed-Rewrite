@@ -64,7 +64,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 		float maxWidth = (float) Math.sqrt(2 * (sizeOnLargestAxis * sizeOnLargestAxis));
 		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
 
-		matrices.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
+		matrices.mulPose(new Matrix4f().scaling(1, -1, 1));
 		// tilt construct downwards, like items
 		matrices.mulPose(Axis.XP.rotationDegrees(30));
 		// apply custom transformations

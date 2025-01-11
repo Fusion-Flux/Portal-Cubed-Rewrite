@@ -1,9 +1,8 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
-
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
@@ -76,5 +75,6 @@ public class PortalGunItem extends Item implements DirectClickItem {
 
 	public static ItemStack setGunSettings(ItemStack stack, PortalGunSettings data) {
 		stack.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, data);
+		return stack;
 	}
 }

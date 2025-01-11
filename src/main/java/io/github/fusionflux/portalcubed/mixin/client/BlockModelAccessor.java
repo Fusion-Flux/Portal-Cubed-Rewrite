@@ -1,22 +1,19 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
 import java.util.List;
-import java.util.Map;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-import com.mojang.datafixers.util.Either;
-
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.renderer.block.model.TextureSlots;
 
 @Mixin(BlockModel.class)
 public interface BlockModelAccessor {
 	@Accessor
-	Map<String, Either<Material, String>> getTextureMap();
+	TextureSlots.Data getTextureSlots();
 
 	@Invoker
 	List<BlockElement> callGetElements();

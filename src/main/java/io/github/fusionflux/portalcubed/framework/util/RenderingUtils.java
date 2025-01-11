@@ -15,9 +15,9 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.CoreShaders;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -62,7 +62,7 @@ public class RenderingUtils {
 
 	public static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, AABB box, Color color) {
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
-		LevelRenderer.renderLineBox(matrices, vertices, box, color.r(), color.g(), color.b(), color.a());
+		ShapeRenderer.renderLineBox(matrices, vertices, box, color.r(), color.g(), color.b(), color.a());
 	}
 
 	public static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, OBB box, Color color) {

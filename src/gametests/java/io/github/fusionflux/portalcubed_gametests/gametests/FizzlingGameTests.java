@@ -1,9 +1,8 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
-
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
+import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -11,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 
-public class FizzlingGameTests implements QuiltGameTest {
+public class FizzlingGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":fizzling/";
 
 	//Test container items dropping their contents when fizzled

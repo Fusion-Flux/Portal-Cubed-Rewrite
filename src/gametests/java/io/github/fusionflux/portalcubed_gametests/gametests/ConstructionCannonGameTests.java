@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
@@ -11,6 +9,7 @@ import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
+import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -19,9 +18,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 
-public class ConstructionCannonGameTests implements QuiltGameTest {
+public class ConstructionCannonGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":construction_cannon/";
 
 	@SuppressWarnings("deprecation") // builtInRegistryHolder
@@ -46,7 +46,7 @@ public class ConstructionCannonGameTests implements QuiltGameTest {
 	@GameTest(template = GROUP + "construct_place_normal")
 	public void constructPlaceNormal(GameTestHelper helper) {
 
-		Player gerald = helper.makeMockSurvivalPlayer();
+		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
 		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
 		helper.useBlock(new BlockPos(2, 2, 1), gerald);
@@ -61,7 +61,7 @@ public class ConstructionCannonGameTests implements QuiltGameTest {
 	@GameTest(template = GROUP + "construct_place_replace")
 	public void constructPlaceReplace(GameTestHelper helper) {
 
-		Player gerald = helper.makeMockSurvivalPlayer();
+		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, true));
 		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
 		helper.useBlock(new BlockPos(2, 2, 1), gerald);
@@ -76,7 +76,7 @@ public class ConstructionCannonGameTests implements QuiltGameTest {
 	@GameTest(template = GROUP + "construct_place_obstructed")
 	public void constructPlaceObstructed(GameTestHelper helper) {
 
-		Player gerald = helper.makeMockSurvivalPlayer();
+		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
 		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
 		helper.useBlock(new BlockPos(2, 2, 1), gerald);
@@ -91,7 +91,7 @@ public class ConstructionCannonGameTests implements QuiltGameTest {
 	@GameTest(template = GROUP + "construct_place_no_material")
 	public void constructPlaceNoMaterial(GameTestHelper helper) {
 
-		Player gerald = helper.makeMockSurvivalPlayer();
+		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
 		helper.useBlock(new BlockPos(2, 2, 1), gerald);
 
@@ -102,7 +102,7 @@ public class ConstructionCannonGameTests implements QuiltGameTest {
 	@GameTest(template = GROUP + "construct_place_not_enough_material")
 	public void constructPlaceNotEnoughMaterial(GameTestHelper helper) {
 
-		Player gerald = helper.makeMockSurvivalPlayer();
+		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
 		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 1));
 		helper.useBlock(new BlockPos(2, 2, 1), gerald);

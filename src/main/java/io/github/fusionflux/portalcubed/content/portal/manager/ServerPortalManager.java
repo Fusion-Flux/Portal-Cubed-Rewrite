@@ -94,7 +94,7 @@ public class ServerPortalManager extends PortalManager {
 	}
 
 	public static final class PersistentState extends SavedData {
-		public static final String ID = PortalCubed.id("portals").toString();
+		public static final String ID = PortalCubed.id("portals").toString().replace(":", "_");
 		public final ServerPortalManager manager;
 
 		private PersistentState(ServerLevel level) {

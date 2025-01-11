@@ -41,14 +41,12 @@ import net.caffeinemc.mods.sodium.client.render.chunk.lists.SortedRenderLists;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.FogParameters;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -182,13 +180,12 @@ public class PortalRenderer {
 			linked.plane.getClipping(view.last().pose(), camPos, CLIPPING_PLANES.get());
 
 			GameRenderer gameRenderer = context.gameRenderer();
-			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(view, linked.data.origin(), gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
+//			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(view, linked.data.origin(), gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
 
 			// Render the world
 			RenderingUtils.setupStencilToRenderIfValue(recursion);
 			RenderSystem.stencilMask(0x00);
 			RenderSystemAccessor.setModelViewStack(new Matrix4fStack());
-			((LevelRendererAccessor) worldRenderer).setEntityEffect(null);
 			GL11.glEnable(GL11.GL_CLIP_PLANE0);
 			// TODO: This whole function needs reworking
 //			worldRenderer.renderLevel(
@@ -256,7 +253,6 @@ public class PortalRenderer {
 			Vector3f cameraUpVector,
 			Vector3f cameraLeftVector,
 			Vector3f[] shaderLightDirections,
-			PostChain entityEffect,
 			FogParameters fog,
 			RenderBuffers renderBuffers,
 			SortedRenderLists renderLists,
@@ -282,7 +278,6 @@ public class PortalRenderer {
 					new Vector3f(camera.getUpVector()),
 					new Vector3f(camera.getLeftVector()),
 					RenderSystemAccessor.getShaderLightDirections().clone(),
-					((LevelRendererAccessor) worldRenderer).getEntityEffect(),
 					RenderSystem.getShaderFog(),
 					((LevelRendererAccessor) worldRenderer).getRenderBuffers(),
 					renderSectionManager.getRenderLists(),
@@ -300,7 +295,6 @@ public class PortalRenderer {
 			camera.getUpVector().set(this.cameraUpVector);
 			camera.getLeftVector().set(this.cameraLeftVector);
 			RenderSystem.setShaderLights(this.shaderLightDirections[0], this.shaderLightDirections[1]);
-			((LevelRendererAccessor) worldRenderer).setEntityEffect(this.entityEffect);
 			RenderSystem.setShaderFog(this.fog);
 			((LevelRendererAccessor) worldRenderer).setRenderBuffers(this.renderBuffers);
 

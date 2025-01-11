@@ -117,7 +117,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 
 		if (this.itemProvider != null) {
 			ItemBuilder<Item> itemBuilder = this.registrar.items.create(
-					this.name, settings -> this.itemFactory.create(block, settings)
+					this.name, settings -> this.itemFactory.create(block, settings.useBlockDescriptionPrefix())
 			);
 			ItemBuilder<Item> modifiedBuilder = this.itemProvider.create(this.name, block, itemBuilder);
 			if (modifiedBuilder != null) {

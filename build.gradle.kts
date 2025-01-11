@@ -7,7 +7,7 @@ val parchmentVersion = "2025.01.05"
 val loaderVersion = "0.16.9"
 val fapiVersion = "0.114.2+1.21.4"
 // https://modrinth.com/mod/sodium/versions?l=fabric
-val sodiumVersion = "mc1.21.4-0.6.6-fabric"
+val sodiumVersion = "0.6.6"
 // https://github.com/TerraformersMC/Terraform/releases
 val woodApiVersion = "13.0.0-alpha.2"
 // https://github.com/LlamaLad7/MixinExtras/releases
@@ -58,7 +58,7 @@ dependencies {
     modImplementation("com.terraformersmc.terraform-api:terraform-wood-api-v1:$woodApiVersion")
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixinExtrasVersion")!!)
     include("io.github.llamalad7:mixinextras-fabric:$mixinExtrasVersion:slim")
-    modImplementation("maven.modrinth:sodium:$sodiumVersion")
+    modImplementation("maven.modrinth:sodium:mc$minecraftVersion-$sodiumVersion-fabric")
 
     // dev env
     modLocalRuntime("maven.modrinth:modmenu:$modmenuVersion")
@@ -71,7 +71,7 @@ tasks.withType(ProcessResources::class) {
         "fapi_version" to fapiVersion,
         "minecraft_dependency" to minecraftDep,
         "wood_api_version" to woodApiVersion,
-        "sodium_version" to sodiumVersion
+        "sodium_version" to "$sodiumVersion+$minecraftVersion"
     )
 
     inputs.properties(properties)
