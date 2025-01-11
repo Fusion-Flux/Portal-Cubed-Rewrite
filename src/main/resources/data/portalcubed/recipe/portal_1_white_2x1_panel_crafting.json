@@ -6,7 +6,7 @@
         "X"
     ],
     "key": {
-        "X": "portalcubed:portal_1_white_panel_materials"
+        "X": "#portalcubed:portal_1_white_panel_materials"
     },
     "result": {
         "id": "portalcubed:portal_1_white_2x1_panel",

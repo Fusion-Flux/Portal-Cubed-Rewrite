@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:magnesium_ingot"
+      "id": "portalcubed:magnesium_ingot"
     },
     "title": {
       "translate": "advancement.portalcubed.root.title"

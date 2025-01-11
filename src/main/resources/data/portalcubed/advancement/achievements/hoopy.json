@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:hoopy"
+      "id": "portalcubed:hoopy"
     },
     "title": {
       "translate": "advancement.portalcubed.hoopy.title"

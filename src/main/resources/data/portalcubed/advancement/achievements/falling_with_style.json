@@ -1,8 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:long_fall_boots",
-      "nbt": "{Trim:{pattern:tide,material:emerald}}"
+      "id": "portalcubed:long_fall_boots",
+      "components": {
+        "minecraft:trim": {
+          "material": "minecraft:emerald",
+          "pattern": "minecraft:tide"
+        }
+      }
     },
     "title": {
       "translate": "advancement.portalcubed.falling_with_style.title"

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:long_fall_boots"
+      "id": "portalcubed:long_fall_boots"
     },
     "title": {
       "translate": "advancement.portalcubed.boots.title"
@@ -26,7 +26,7 @@
             "predicate": {
               "equipment": {
                 "feet": {
-                  "tag": "portalcubed:absorb_fall_damage"
+                  "items": "#portalcubed:absorb_fall_damage"
                 }
               }
             }

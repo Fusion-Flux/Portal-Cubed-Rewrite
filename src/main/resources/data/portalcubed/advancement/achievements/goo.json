@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:toxic_goo_bucket"
+      "id": "portalcubed:toxic_goo_bucket"
     },
     "title": {
       "translate": "advancement.portalcubed.goo.title"

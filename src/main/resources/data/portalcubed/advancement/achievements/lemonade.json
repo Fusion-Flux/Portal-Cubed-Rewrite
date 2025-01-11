@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:lemonade"
+      "id": "portalcubed:lemonade"
     },
     "title": {
       "translate": "advancement.portalcubed.lemonade.title"

@@ -2,7 +2,8 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "portalcubed:prop/clipboard"
+		"0": "portalcubed:prop/clipboard",
+		"particle": "portalcubed:prop/clipboard"
 	},
 	"elements": [
 		{

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:portal_gun"
+      "id": "portalcubed:portal_gun"
     },
     "title": {
       "translate": "advancement.portalcubed.portal_gun.title"

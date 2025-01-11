@@ -2,12 +2,8 @@
     "type": "minecraft:crafting_shapeless",
     "category": "building",
     "ingredients": [
-        {
-            "item": "portalcubed:padded_gray_panel_stairs"
-        },
-        {
-            "tag": "portalcubed:aged_crafting_materials"
-        }
+        "portalcubed:padded_gray_panel_stairs",
+        "#portalcubed:aged_crafting_materials"
     ],
     "result": {
         "id": "portalcubed:aged_padded_gray_panel_stairs",

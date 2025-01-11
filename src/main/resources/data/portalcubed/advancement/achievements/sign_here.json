@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:large_signage"
+      "id": "portalcubed:large_signage"
     },
     "title": {
       "translate": "advancement.portalcubed.sign_here.title"

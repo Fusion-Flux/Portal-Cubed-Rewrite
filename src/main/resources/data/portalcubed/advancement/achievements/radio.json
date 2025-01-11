@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:radio"
+      "id": "portalcubed:radio"
     },
     "title": {
       "translate": "advancement.portalcubed.radio.title"

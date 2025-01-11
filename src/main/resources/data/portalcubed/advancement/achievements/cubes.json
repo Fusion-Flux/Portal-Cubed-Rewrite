@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:companion_cube"
+      "id": "portalcubed:companion_cube"
     },
     "title": {
       "translate": "advancement.portalcubed.cubes.title"
