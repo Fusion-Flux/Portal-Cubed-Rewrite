@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.registration.item;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
@@ -29,11 +28,6 @@ public interface ItemBuilder<T extends Item> {
 	 * Set the compost chance of this item when used on a composter.
 	 */
 	ItemBuilder<T> compostChance(double chance);
-
-	/**
-	 * Register a color provider for this item.
-	 */
-	ItemBuilder<T> colored(Supplier<Supplier<ItemColor>> colorProvider);
 
 	/**
 	 * Build this builder into an item.
