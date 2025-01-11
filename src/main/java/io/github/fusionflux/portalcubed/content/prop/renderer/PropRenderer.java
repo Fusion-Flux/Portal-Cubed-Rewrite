@@ -1,8 +1,13 @@
 package io.github.fusionflux.portalcubed.content.prop.renderer;
 
+import java.util.function.Function;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.framework.model.TransformingBakedModel;
 import io.github.fusionflux.portalcubed.framework.util.DelegatingVertexConsumer;
@@ -19,15 +24,11 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemDisplayContext;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Function;
 
 public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 	private static final ModelEmitter EMITTER = new ModelEmitter();
+	private static final int[] EMPTY_TINT_LAYERS = new int[0];
 	private static final float Y_OFFSET = 2 / 16f;
-
-	private static final int[] NO_TINT = new int[0];
 
 	public PropRenderer(Context ctx) {
 		super(ctx);
@@ -37,18 +38,20 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 	public void render(PropRenderState renderState, PoseStack matrices, MultiBufferSource bufferSource, int light) {
 		super.render(renderState, matrices, bufferSource, light);
 
-		EMITTER.prepare(bufferSource::getBuffer, PropModelCache.INSTANCE.get(renderState));
+		PropModelCache.ModelTransformPair modelTransformPair = PropModelCache.INSTANCE.get(renderState);
+		EMITTER.prepare(bufferSource::getBuffer, modelTransformPair.model());
 		matrices.pushPose();
 		matrices.mulPose(Axis.YP.rotationDegrees(180 - renderState.yRot));
 		matrices.translate(0, Y_OFFSET, 0);
 		matrices.scale(2, 2, 2);
+		modelTransformPair.applyTransform(matrices);
 		ItemRenderer.renderItem(
 				ItemDisplayContext.GROUND,
 				matrices,
 				renderType -> EMITTER,
 				light,
 				OverlayTexture.NO_OVERLAY,
-				NO_TINT,
+				EMPTY_TINT_LAYERS,
 				EMITTER.model,
 				ModelEmitter.DEFAULT_RENDER_TYPE,
 				ItemStackRenderState.FoilType.NONE
