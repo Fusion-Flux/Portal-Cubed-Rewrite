@@ -61,6 +61,8 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	private static final float FALL_DAMAGE_PER_BLOCK = 2 * 1.5f;
 	// Makes it so the damage applies even when the collision box is outside the target
 	private static final double CHECK_BOX_EPSILON = 1E-7;
+	public static final String VARIANT_KEY = "variant";
+	public static final String VARIANT_FROM_ITEM_KEY = "variant_from_item";
 	public final PropType type;
 	private final SoundEvent impactSound;
 
@@ -274,14 +276,14 @@ public class Prop extends HoldableEntity implements CollisionListener {
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag tag) {
-		tag.putInt("variant", getVariant());
-		tag.putInt("variant_from_item", variantFromItem);
+		tag.putInt(VARIANT_KEY, getVariant());
+		tag.putInt(VARIANT_FROM_ITEM_KEY, variantFromItem);
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
-		setVariant(tag.getInt("variant"));
-		setVariantFromItem(tag.getInt("variant_from_item"));
+		setVariant(tag.getInt(VARIANT_KEY));
+		setVariantFromItem(tag.getInt(VARIANT_FROM_ITEM_KEY));
 	}
 
 	private static boolean shouldDropLoot(DamageSource source) {
