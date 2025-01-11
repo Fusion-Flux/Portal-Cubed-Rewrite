@@ -1,13 +1,11 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
 import java.util.List;
-import java.util.Objects;
-
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
@@ -18,6 +16,9 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
@@ -25,9 +26,6 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -47,7 +45,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
-public class ConstructionCannonItem extends Item implements @ClientOnly CustomHoldPoseItem {
+public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	public static final Component MATERIAL_TOOLTIP = translate("material").withStyle(ChatFormatting.GRAY);
 	public static final Component CONSTRUCT_TOOLTIP = translate("construct_set").withStyle(ChatFormatting.GRAY);
 
@@ -57,16 +55,15 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 
 	@Override
 	@NotNull
-	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
-		ItemStack held = user.getItemInHand(hand);
+	public InteractionResult use(Level world, Player user, InteractionHand hand) {
 		if (user.isSecondaryUseActive()) {
 			tryOpenConfig(user, hand);
 			user.awardStat(Stats.ITEM_USED.get(this));
-			return InteractionResultHolder.success(held);
+			return InteractionResult.SUCCESS;
 		}
 
 		// do nothing
-		return InteractionResultHolder.pass(held);
+		return InteractionResult.PASS;
 	}
 
 	@Override
@@ -75,28 +72,27 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		if (context.isSecondaryUseActive())
 			return InteractionResult.PASS; // fall back to use
 
-		Player player = context.getPlayer();
-		// player is required for material consumption
-		if (player == null)
+		if (!(context.getPlayer() instanceof ServerPlayer player)) {
 			return InteractionResult.PASS;
+		}
 
-		CannonUseResult result = this.tryPlace(context);
+		CannonUseResult result = this.tryPlace(context, player);
 
 		// feedback
 		result.sound().ifPresent(player::playSound);
 		result.feedback(player.getRandom()).ifPresent(
 				feedback -> player.displayClientMessage(feedback, true)
 		);
-		if (player instanceof ServerPlayer serverPlayer) {
-			PortalCubedPackets.sendToClient(serverPlayer, new ShootCannonPacket(context.getHand(), result));
-		}
+
+		PortalCubedPackets.sendToClient(player, new ShootCannonPacket(context.getHand(), result));
 
 		if (result == CannonUseResult.MISCONFIGURED) {
 			tryOpenConfig(player, context.getHand());
 			return InteractionResult.CONSUME;
 		} else if (result == CannonUseResult.PLACED) {
 			// kaboom
-			player.playSound(SoundEvents.GENERIC_EXPLODE, 0.4f, player.getRandom().nextIntBetweenInclusive(120, 270) / 100f);
+			float pitch = player.getRandom().nextIntBetweenInclusive(120, 270) / 100f;
+			player.playSound(SoundEvents.GENERIC_EXPLODE.value(), 0.4f, pitch);
 			if (player instanceof ServerPlayer) {
 				OtherPlayerShootCannonPacket packet = new OtherPlayerShootCannonPacket(player);
 				PlayerLookup.tracking(player).forEach(
@@ -110,7 +106,7 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
 		CannonSettings settings = getCannonSettings(stack);
 		if (settings == null)
 			return;
@@ -127,13 +123,13 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		}
 	}
 
-	@ClientOnly
 	@Override
+	@Environment(EnvType.CLIENT)
 	public ArmPose getHoldPose(ItemStack stack) {
 		return ArmPose.CROSSBOW_HOLD;
 	}
 
-	protected CannonUseResult tryPlace(UseOnContext ctx) {
+	protected CannonUseResult tryPlace(UseOnContext ctx, ServerPlayer player) {
 		ItemStack stack = ctx.getItemInHand();
 		CannonSettings settings = getCannonSettings(stack);
 		if (settings == null) // invalid state
@@ -150,31 +146,23 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 		BlockPos clicked = getPlacementPos(ctx, replaceMode);
 
 		BoundingBox bounds = construct.getAbsoluteBounds(clicked);
-		if (!this.mayBuild(ctx, bounds))
+		if (!this.mayBuild(player, bounds))
 			return CannonUseResult.NO_PERMS;
 
-		if (construct.isObstructed(ctx.getLevel(), clicked, replaceMode))
+		ServerLevel level = player.serverLevel();
+		if (construct.isObstructed(level, clicked, replaceMode))
 			return CannonUseResult.OBSTRUCTED;
 
-		Player player = Objects.requireNonNull(ctx.getPlayer()); // null is checked on use
 		if (!this.consumeMaterials(player, constructSet.material, constructSet.cost))
 			return CannonUseResult.MISSING_MATERIALS;
 
-		if (ctx.getLevel() instanceof ServerLevel level) {
-			construct.place(level, clicked, player, stack);
-		}
-
+		construct.place(level, clicked, player, stack);
 		return CannonUseResult.PLACED;
 	}
 
-	protected boolean mayBuild(UseOnContext ctx, BoundingBox box) {
-		Player player = ctx.getPlayer();
-		if (player == null)
-			return true;
-
-		Level level = ctx.getLevel();
+	protected boolean mayBuild(ServerPlayer player, BoundingBox box) {
 		return BlockPos.betweenClosedStream(box).allMatch(
-				pos -> player.mayInteract(level, pos)
+				pos -> player.mayInteract(player.serverLevel(), pos)
 		);
 	}
 
@@ -217,17 +205,11 @@ public class ConstructionCannonItem extends Item implements @ClientOnly CustomHo
 
 	@Nullable
 	public static CannonSettings getCannonSettings(ItemStack stack) {
-		CompoundTag nbt = stack.getTag();
-		if (nbt != null && nbt.contains(CannonSettings.NBT_KEY, Tag.TAG_COMPOUND)) {
-			CompoundTag dataNbt = nbt.getCompound(CannonSettings.NBT_KEY);
-			return CannonSettings.CODEC.parse(NbtOps.INSTANCE, dataNbt).result().orElse(null);
-		}
-		return null;
+		return stack.get(PortalCubedDataComponents.CANNON_SETTINGS);
 	}
 
 	public static void setCannonSettings(ItemStack stack, CannonSettings settings) {
-		CannonSettings.CODEC.encodeStart(NbtOps.INSTANCE, settings).result()
-				.ifPresent(nbt -> stack.addTagElement(CannonSettings.NBT_KEY, nbt));
+		stack.set(PortalCubedDataComponents.CANNON_SETTINGS, settings);
 	}
 
 	public static MutableComponent translate(String key) {

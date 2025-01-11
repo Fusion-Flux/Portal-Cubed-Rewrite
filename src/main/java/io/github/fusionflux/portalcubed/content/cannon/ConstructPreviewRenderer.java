@@ -1,27 +1,33 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14C;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.CannonSettings.Configured;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
+import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool.ModelInfo;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
+import io.github.fusionflux.portalcubed.framework.util.SimpleSynchronousReloadListener;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +42,7 @@ public class ConstructPreviewRenderer {
 
 	private static void renderPreview(WorldRenderContext context) {
 		if (modelPool == null) return;
-		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource bufferSource))
+		if (!(context.consumers() instanceof MultiBufferSource.BufferSource bufferSource))
 			return;
 
 		Minecraft minecraft = Minecraft.getInstance();
@@ -120,9 +126,30 @@ public class ConstructPreviewRenderer {
 
 	public static void init() {
 		WorldRenderEvents.AFTER_TRANSLUCENT.register(ConstructPreviewRenderer::renderPreview);
-		ResourceLoaderEvents.END_DATA_PACK_RELOAD.register(ctx -> {
-			if (ctx.server() instanceof IntegratedServer)
-				reload();
-		});
+	}
+
+	// Normally, construct syncing is what reloads the preview.
+	// For the local player, the packet is skipped, so a reload listener is used instead.
+	// Note that this is a data listener, not an asset listener.
+	public enum ReloadListener implements SimpleSynchronousReloadListener {
+		INSTANCE;
+
+		public static final ResourceLocation ID = PortalCubed.id("construct_preview");
+		public static final Collection<ResourceLocation> DEPENDENCIES = List.of(ConstructManager.ID);
+
+		@Override
+		public ResourceLocation getFabricId() {
+			return ID;
+		}
+
+		@Override
+		public Collection<ResourceLocation> getFabricDependencies() {
+			return DEPENDENCIES;
+		}
+
+		@Override
+		public void onResourceManagerReload(ResourceManager manager) {
+			ConstructPreviewRenderer.reload();
+		}
 	}
 }

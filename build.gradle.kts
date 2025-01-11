@@ -123,3 +123,8 @@ loom {
         }
     }
 }
+
+tasks.named<JavaCompile>("compileJava") {
+    options.compilerArgs.add("-Xmaxerrs")
+    options.compilerArgs.add("10000")
+}

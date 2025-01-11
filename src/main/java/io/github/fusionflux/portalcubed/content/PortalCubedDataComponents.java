@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content;
 
 import com.mojang.serialization.Codec;
 
+import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import net.minecraft.core.Registry;
@@ -16,6 +17,9 @@ import net.minecraft.util.Unit;
 public class PortalCubedDataComponents {
 	public static final DataComponentType<PortalGunSettings> PORTAL_GUN_SETTINGS = register(
 			"portal_gun_settings", PortalGunSettings.CODEC, PortalGunSettings.STREAM_CODEC
+	);
+	public static final DataComponentType<CannonSettings> CANNON_SETTINGS = register(
+			"cannon_settings", CannonSettings.CODEC, CannonSettings.STREAM_CODEC
 	);
 	public static final DataComponentType<Unit> LEMONADE_ARMED = register(
 			"lemonade_armed", Unit.CODEC, PortalCubedStreamCodecs.UNIT

@@ -24,8 +24,6 @@ public record CannonSettings(
 		float previewOpacity,
 		boolean replaceMode
 ) {
-	public static final String NBT_KEY = "cannon_settings";
-
 	public static final Codec<CannonSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			TagKey.codec(Registries.ITEM).optionalFieldOf("material").forGetter(CannonSettings::material),
 			ResourceLocation.CODEC.optionalFieldOf("construct").forGetter(CannonSettings::construct),
