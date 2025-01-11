@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.github.fusionflux.portalcubed.framework.particle.MultiplyParticleRenderType;
+import io.github.fusionflux.portalcubed.framework.particle.PortalCubedParticleRenderTypes;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
 
@@ -25,6 +25,6 @@ public class ParticleEngineMixin {
 	@Inject(method = "<clinit>", at = @At("TAIL"))
 	private static void addMultiplyRenderType(CallbackInfo ci) {
 		RENDER_ORDER = new ArrayList<>(RENDER_ORDER);
-		RENDER_ORDER.add(MultiplyParticleRenderType.INSTANCE);
+		RENDER_ORDER.add(PortalCubedParticleRenderTypes.MULTIPLY);
 	}
 }
