@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -24,17 +25,20 @@ public class CopyPropVariantLootFunction extends LootItemConditionalFunction {
 			instance -> commonFields(instance)
 					.and(
 							instance.group(
-									NbtProviders.CODEC.fieldOf("source").forGetter(function -> function.source)
-							).t1()
+									NbtProviders.CODEC.fieldOf("source").forGetter(function -> function.source),
+									Codec.BOOL.optionalFieldOf("variant_from_item", true).forGetter(function -> function.fromItem)
+							)
 					)
 					.apply(instance, CopyPropVariantLootFunction::new)
 	);
 
 	private final NbtProvider source;
+	private final boolean fromItem;
 
-	CopyPropVariantLootFunction(List<LootItemCondition> predicates, NbtProvider source) {
+	CopyPropVariantLootFunction(List<LootItemCondition> predicates, NbtProvider source, boolean fromItem) {
 		super(predicates);
 		this.source = source;
+		this.fromItem = fromItem;
 	}
 
 	@Override
@@ -46,8 +50,9 @@ public class CopyPropVariantLootFunction extends LootItemConditionalFunction {
 	@Override
 	@NotNull
 	protected ItemStack run(ItemStack stack, LootContext context) {
-		if (this.source.get(context) instanceof CompoundTag tag && tag.contains(Prop.VARIANT_FROM_ITEM_KEY))
-			stack.set(PortalCubedDataComponents.PROP_VARIANT, tag.getInt(Prop.VARIANT_FROM_ITEM_KEY));
+		String key = this.fromItem ? Prop.VARIANT_FROM_ITEM_KEY : Prop.VARIANT_KEY;
+		if (this.source.get(context) instanceof CompoundTag tag && tag.contains(key))
+			stack.set(PortalCubedDataComponents.PROP_VARIANT, tag.getInt(key));
 		return stack;
 	}
 }
