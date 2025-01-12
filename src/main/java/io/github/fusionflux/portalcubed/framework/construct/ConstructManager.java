@@ -53,12 +53,14 @@ public final class ConstructManager extends SimpleJsonResourceReloadListener<Con
 	}
 
 	public void syncToPlayer(ServerPlayer player) {
-		if (player.server.isSingleplayerOwner(player.getGameProfile()))
-			return; // in LAN, don't sync to self
-
-		// build packet
-		ConstructSyncPacket packet = new ConstructSyncPacket(this.constructSets);
-		PortalCubedPackets.sendToClient(player, packet);
+		if (player.server.isSingleplayerOwner(player.getGameProfile())) {
+			// in LAN, don't sync to self
+			// but since there's no sync, the preview needs to be reloaded separately
+			PortalCubedPackets.sendToClient(player, ReloadConstructPreview.INSTANCE);
+		} else {
+			ConstructSyncPacket packet = new ConstructSyncPacket(this.constructSets);
+			PortalCubedPackets.sendToClient(player, packet);
+		}
 	}
 
 	public void readFromPacket(ConstructSyncPacket packet) {

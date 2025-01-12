@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.content;
 
-import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
@@ -13,7 +12,6 @@ public class PortalCubedReloadListeners {
 		ResourceManagerHelper helper = ResourceManagerHelper.get(PackType.SERVER_DATA);
 		helper.registerReloadListener(SignageManager.INSTANCE);
 		helper.registerReloadListener(ConstructManager.INSTANCE);
-		helper.registerReloadListener(ConstructPreviewRenderer.ReloadListener.INSTANCE);
 	}
 
 	public static void registerAssets() {
