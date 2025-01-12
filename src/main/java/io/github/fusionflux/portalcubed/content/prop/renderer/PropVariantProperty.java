@@ -1,30 +1,30 @@
 package io.github.fusionflux.portalcubed.content.prop.renderer;
 
-import com.mojang.serialization.MapCodec;
-import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperty;
-import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public record PropVariantProperty() implements SelectItemModelProperty<Integer> {
-	public static final SelectItemModelProperty.Type<PropVariantProperty, Integer> TYPE = SelectItemModelProperty.Type.create(
-			MapCodec.unit(new PropVariantProperty()), ExtraCodecs.NON_NEGATIVE_INT
-	);
+import com.mojang.serialization.MapCodec;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperty;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+
+public record PropVariantProperty() implements RangeSelectItemModelProperty {
+	public static final MapCodec<PropVariantProperty> MAP_CODEC = MapCodec.unit(new PropVariantProperty());
 
 	@Override
-	@Nullable
-	public Integer get(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed, ItemDisplayContext displayContext) {
-		return stack.get(PortalCubedDataComponents.PROP_VARIANT);
+	public float get(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
+		Integer propVariant = stack.get(PortalCubedDataComponents.PROP_VARIANT);
+		if (propVariant != null)
+			return propVariant;
+		return 0;
 	}
 
 	@Override
 	@NotNull
-	public Type<? extends SelectItemModelProperty<Integer>, Integer> type() {
-		return TYPE;
+	public MapCodec<PropVariantProperty> type() {
+		return MAP_CODEC;
 	}
 }
