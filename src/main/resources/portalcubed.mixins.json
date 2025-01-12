@@ -39,7 +39,8 @@
     "SpongeBlockMixin",
     "StructureUtilsMixin",
     "ThrowableProjectileMixin",
-    "UseOnContextAccessor"
+    "UseOnContextAccessor",
+    "WalkNodeEvaluatorMixin"
   ],
   "client": [
     "client.AbstractClientPlayerMixin",
