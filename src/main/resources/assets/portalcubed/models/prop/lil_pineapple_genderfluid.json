@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:item/template_lil_pineapple",
+  "parent": "portalcubed:prop/template_lil_pineapple",
   "textures": {
     "pineapple": "portalcubed:prop/lil_prideapple_genderfluid"
   }

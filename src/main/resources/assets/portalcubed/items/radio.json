@@ -1,0 +1,43 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "portalcubed:prop_variant",
+    "entries": [
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/radio"
+        }
+      },
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/dirty_radio"
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/radio_awaiting_transmission"
+        }
+      },
+      {
+        "threshold": 3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/radio_transmission_received"
+        }
+      },
+      {
+        "threshold": 4,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/boombox"
+        }
+      }
+    ]
+  }
+}

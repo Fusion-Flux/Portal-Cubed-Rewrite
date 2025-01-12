@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:item/template_storage_cube_lit",
+  "parent": "portalcubed:prop/template_storage_cube_lit",
   "textures": {
     "cube": "portalcubed:prop/dirty_storage_cube",
     "ring": "portalcubed:prop/dirty_storage_cube_ring"

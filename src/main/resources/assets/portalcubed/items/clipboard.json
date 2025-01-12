@@ -1,0 +1,57 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "portalcubed:prop_variant",
+    "entries": [
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/clipboard_blank"
+        }
+      },
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/clipboard_blank"
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/clipboard_chell"
+        }
+      },
+      {
+        "threshold": 3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/clipboard_chicken"
+        }
+      },
+      {
+        "threshold": 4,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/clipboard_hazards"
+        }
+      },
+      {
+        "threshold": 5,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/clipboard_knee"
+        }
+      },
+      {
+        "threshold": 6,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/clipboard_text"
+        }
+      }
+    ]
+  }
+}

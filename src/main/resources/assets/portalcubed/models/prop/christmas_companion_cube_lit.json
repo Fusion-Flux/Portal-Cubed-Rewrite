@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:item/template_christmas_cube",
+  "parent": "portalcubed:prop/template_christmas_cube",
   "textures": {
     "cube": "portalcubed:prop/christmas_companion_cube",
     "bow": "portalcubed:prop/christmas_companion_cube_bow_lit"

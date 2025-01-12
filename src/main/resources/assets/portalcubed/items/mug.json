@@ -1,0 +1,64 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "portalcubed:prop_variant",
+    "entries": [
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/mug_blue"
+        }
+      },
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/mug_blue"
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/mug_red"
+        }
+      },
+      {
+        "threshold": 3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/mug_yellow"
+        }
+      },
+      {
+        "threshold": 4,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/mug_white"
+        }
+      },
+      {
+        "threshold": 5,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/mug_orange"
+        }
+      },
+      {
+        "threshold": 6,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/mug_aperture"
+        }
+      },
+      {
+        "threshold": 7,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/mug_fall"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "portalcubed:prop_variant",
+    "entries": [
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/open_beans"
+        }
+      },
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/open_beans"
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/closed_beans"
+        }
+      }
+    ]
+  }
+}

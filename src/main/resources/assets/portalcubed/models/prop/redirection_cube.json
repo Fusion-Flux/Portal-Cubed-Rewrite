@@ -1,11 +1,6 @@
 {
-  "parent": "portalcubed:item/template_laser_cube",
+  "parent": "portalcubed:prop/template_laser_cube",
   "textures": {
     "cube": "portalcubed:prop/redirection_cube"
-  },
-	"overrides": [
-		{"model": "portalcubed:item/redirection_cube_lit", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/dirty_redirection_cube", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/dirty_redirection_cube_lit", "predicate": {"custom_model_data": 3}}
-	]
+  }
 }

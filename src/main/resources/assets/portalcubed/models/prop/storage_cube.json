@@ -1,12 +1,7 @@
 {
-  "parent": "portalcubed:item/template_storage_cube",
+  "parent": "portalcubed:prop/template_storage_cube",
   "textures": {
     "cube": "portalcubed:prop/storage_cube",
     "ring": "portalcubed:prop/storage_cube_ring"
-  },
-	"overrides": [
-		{"model": "portalcubed:item/storage_cube_lit", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/dirty_storage_cube", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/dirty_storage_cube_lit", "predicate": {"custom_model_data": 3}}
-	]
+  }
 }

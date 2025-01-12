@@ -1,12 +1,7 @@
 {
-  "parent": "portalcubed:item/template_companion_cube",
+  "parent": "portalcubed:prop/template_companion_cube",
   "textures": {
     "cube": "portalcubed:prop/companion_cube",
     "ring": "portalcubed:prop/companion_cube_ring"
-  },
-	"overrides": [
-		{"model": "portalcubed:item/companion_cube_lit", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/dirty_companion_cube", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/dirty_companion_cube_lit", "predicate": {"custom_model_data": 3}}
-	]
+  }
 }

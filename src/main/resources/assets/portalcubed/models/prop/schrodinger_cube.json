@@ -1,11 +1,6 @@
 {
-  "parent": "portalcubed:item/template_laser_cube_lit",
+  "parent": "portalcubed:prop/template_laser_cube",
   "textures": {
     "cube": "portalcubed:prop/schrodinger_cube"
-  },
-	"overrides": [
-		{"model": "portalcubed:item/schrodinger_cube_lit", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/dirty_schrodinger_cube", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/dirty_schrodinger_cube_lit", "predicate": {"custom_model_data": 3}}
-	]
+  }
 }

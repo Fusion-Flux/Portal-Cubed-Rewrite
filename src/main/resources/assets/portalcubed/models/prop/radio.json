@@ -62,12 +62,6 @@
 			}
 		}
 	],
-	"overrides": [
-		{"model": "portalcubed:item/dirty_radio", "predicate": {"custom_model_data": 1}},
-		{"model": "portalcubed:item/radio_awaiting_transmission", "predicate": {"custom_model_data": 2}},
-		{"model": "portalcubed:item/radio_transmission_received", "predicate": {"custom_model_data": 3}},
-		{"model": "portalcubed:item/boombox", "predicate": {"custom_model_data": 4}}
-	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [75, 45, 0],
