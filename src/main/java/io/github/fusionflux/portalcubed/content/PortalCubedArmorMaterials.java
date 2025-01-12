@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -18,7 +18,7 @@ public class PortalCubedArmorMaterials {
 			ArmorMaterials.IRON.equipSound(),
 			0,
 			0,
-			ItemTags.REPAIRS_LEATHER_ARMOR,
+			PortalCubedItemTags.REPAIRS_MAGNESIUM_ARMOR,
 			createEquipmentAsset("advanced_knee_replacements")
 	);
 	public static final ArmorMaterial LONG_FALL_BOOTS = new ArmorMaterial(
@@ -28,7 +28,7 @@ public class PortalCubedArmorMaterials {
 			ArmorMaterials.IRON.equipSound(),
 			0,
 			0,
-			ItemTags.REPAIRS_LEATHER_ARMOR,
+			PortalCubedItemTags.REPAIRS_MAGNESIUM_ARMOR,
 			createEquipmentAsset("long_fall_boots")
 	);
 

@@ -205,6 +205,14 @@
   "commands.portalcubed.client.portal_camera_smoothing_time.failure.out_of_range": "Must be between 0 and 2000",
   "commands.portalcubed.client.portal_camera_smoothing_time.failure.unchanged": "Nothing changed. Camera smoothing time is already set to that amount",
 
+  "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
+  "tag.item.portalcubed.dirty_crafting_materials": "Dirty Panel Crafting Materials",
+  "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
+  "tag.item.portalcubed.absorb_fall_damage": "Absorbs Fall Damage",
+  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
+  "tag.item.portalcubed.lemon_logs": "Lemon Logs",
+  "tag.item.portalcubed.immune_to_toxic_goo": "Immune to Toxic Goo",
+  "tag.item.portalcubed.repairs_magnesium_armor": "Repairs Magnesium Armor",
 
   "item.portalcubed.construction_cannon.material": "Material: ",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
@@ -226,10 +234,6 @@
   "tag.item.portalcubed.office_concrete_materials": "Office Concretes",
   "tag.item.portalcubed.gray_chamber_exterior_materials": "Gray Chamber Exteriors",
   "tag.item.portalcubed.yellow_chamber_exterior_materials": "Yellow Chamber Exteriors",
-  "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
-  "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
-  "tag.item.portalcubed.absorb_fall_damage": "Absorbs Fall Damage",
-  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
   "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
 
   "item.portalcubed.construction_cannon.feedback.obstructed": "Placement location obstructed",
