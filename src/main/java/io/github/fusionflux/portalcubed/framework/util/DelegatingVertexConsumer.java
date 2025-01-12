@@ -16,7 +16,7 @@ public class DelegatingVertexConsumer implements VertexConsumer, VertexBufferWri
 	@Override
 	@NotNull
 	public VertexConsumer addVertex(float x, float y, float z) {
-		this.delegate = delegate.addVertex(x, y, z);
+		this.delegate.addVertex(x, y, z);
 		return this;
 	}
 
