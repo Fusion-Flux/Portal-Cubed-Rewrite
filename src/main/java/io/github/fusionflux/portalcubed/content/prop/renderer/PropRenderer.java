@@ -4,16 +4,20 @@ import java.util.function.Function;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.framework.model.TransformingBakedModel;
 import io.github.fusionflux.portalcubed.framework.util.DelegatingVertexConsumer;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -23,6 +27,7 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.util.TriState;
 import net.minecraft.world.item.ItemDisplayContext;
 
 public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
@@ -76,7 +81,20 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 
 	private static final class ModelEmitter extends DelegatingVertexConsumer {
 		@SuppressWarnings("deprecation")
-		private static final RenderType EMISSIVE_RENDER_TYPE = RenderType.beaconBeam(TextureAtlas.LOCATION_BLOCKS, false);
+		private static final RenderType EMISSIVE_RENDER_TYPE = RenderType.create(
+				PortalCubed.id("emissive").toString(),
+				DefaultVertexFormat.BLOCK,
+				VertexFormat.Mode.QUADS,
+				RenderType.TRANSIENT_BUFFER_SIZE,
+				false,
+				true,
+				RenderType.CompositeState.builder()
+						.setShaderState(RenderStateShard.RENDERTYPE_BEACON_BEAM_SHADER)
+						.setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, TriState.FALSE, false))
+						.setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+						.setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
+						.createCompositeState(true)
+		);
 		private static final RenderType DEFAULT_RENDER_TYPE = Sheets.translucentItemSheet();
 		private static final RenderType CUTOUT_RENDER_TYPE = Sheets.cutoutBlockSheet();
 

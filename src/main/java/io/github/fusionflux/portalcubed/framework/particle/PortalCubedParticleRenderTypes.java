@@ -24,7 +24,7 @@ public class PortalCubedParticleRenderTypes {
 					PortalCubed.id("multiply_particle").toString(),
 					DefaultVertexFormat.PARTICLE,
 					VertexFormat.Mode.QUADS,
-					1536,
+					RenderType.TRANSIENT_BUFFER_SIZE,
 					false,
 					false,
 					RenderType.CompositeState.builder()
