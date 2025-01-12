@@ -8,7 +8,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportInfo;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
 import io.netty.buffer.ByteBuf;
@@ -22,7 +21,7 @@ import net.minecraft.world.phys.Vec3;
 public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xRot, float yRot) implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, ClientTeleportedPacket> CODEC = StreamCodec.composite(
 			PortalTeleportInfo.STREAM_CODEC, ClientTeleportedPacket::info,
-			PortalCubedStreamCodecs.VEC3, ClientTeleportedPacket::pos,
+			Vec3.STREAM_CODEC, ClientTeleportedPacket::pos,
 			ByteBufCodecs.FLOAT, ClientTeleportedPacket::xRot,
 			ByteBufCodecs.FLOAT, ClientTeleportedPacket::yRot,
 			ClientTeleportedPacket::new

@@ -23,20 +23,6 @@ import net.minecraft.world.phys.Vec3;
 public interface PortalCubedStreamCodecs {
 	StreamCodec<ByteBuf, Unit> UNIT = StreamCodec.unit(Unit.INSTANCE);
 
-	StreamCodec<ByteBuf, Vec3> VEC3 = new StreamCodec<>() {
-		@Override
-		public @NotNull Vec3 decode(ByteBuf buffer) {
-			return new Vec3(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
-		}
-
-		@Override
-		public void encode(ByteBuf buffer, Vec3 value) {
-			buffer.writeDouble(value.x);
-			buffer.writeDouble(value.y);
-			buffer.writeDouble(value.z);
-		}
-	};
-
 	StreamCodec<ByteBuf, InteractionHand> HAND = ByteBufCodecs.BOOL.map(
 			value -> value ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND,
 			hand -> hand == InteractionHand.MAIN_HAND
@@ -44,7 +30,7 @@ public interface PortalCubedStreamCodecs {
 
 	StreamCodec<ByteBuf, BlockHitResult> BLOCK_HIT_RESULT = StreamCodec.composite(
 			ByteBufCodecs.BOOL, i -> i.getType() == HitResult.Type.MISS,
-			VEC3, HitResult::getLocation,
+			Vec3.STREAM_CODEC, HitResult::getLocation,
 			Direction.STREAM_CODEC, BlockHitResult::getDirection,
 			BlockPos.STREAM_CODEC, BlockHitResult::getBlockPos,
 			ByteBufCodecs.BOOL, BlockHitResult::isInside,

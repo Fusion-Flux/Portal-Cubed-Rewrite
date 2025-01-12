@@ -5,7 +5,6 @@ import org.joml.Quaternionf;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -23,7 +22,7 @@ public record PortalData(Vec3 origin, Quaternionf rotation, PortalSettings setti
 	).apply(instance, PortalData::new));
 
 	public static final StreamCodec<ByteBuf, PortalData> STREAM_CODEC = StreamCodec.composite(
-			PortalCubedStreamCodecs.VEC3, PortalData::origin,
+			Vec3.STREAM_CODEC, PortalData::origin,
 			ByteBufCodecs.QUATERNIONF, PortalData::rotation,
 			PortalSettings.STREAM_CODEC, PortalData::settings,
 			PortalData::new
