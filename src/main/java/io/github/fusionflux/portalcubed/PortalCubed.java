@@ -20,6 +20,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.MOTL;
+import io.github.fusionflux.portalcubed.data.loot.PortalCubedLootFunctions;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
@@ -49,6 +50,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedBlocks.init();
 		PortalCubedBlockEntityTypes.init();
 		PortalCubedDataComponents.init();
+		PortalCubedLootFunctions.init();
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();

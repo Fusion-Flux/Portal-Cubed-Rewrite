@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:beans"
+      "id": "portalcubed:beans"
     },
     "title": {
       "translate": "advancement.portalcubed.rattmann.title"

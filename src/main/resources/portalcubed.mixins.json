@@ -88,6 +88,7 @@
     "client.SimpleBakedModelAccessor",
     "client.SimpleBakedModelMixin",
     "client.SodiumWorldRendererAccessor",
+    "client.TextureSlots_ResolverMixin",
     "client.Variant_DeserializerMixin",
     "client.VariantMixin"
   ],

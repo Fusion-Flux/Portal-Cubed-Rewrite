@@ -1,7 +1,8 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
-		"0": "#mug"
+		"0": "#mug",
+		"particle": "#mug"
 	},
 	"elements": [
 		{

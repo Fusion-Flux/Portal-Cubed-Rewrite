@@ -9,7 +9,7 @@
     "key": {
         "X": "minecraft:iron_block",
         "Y": "minecraft:stick",
-        "Z": "minecraft:planks"
+        "Z": "#minecraft:planks"
     },
     "result": {
         "id": "portalcubed:hammer",

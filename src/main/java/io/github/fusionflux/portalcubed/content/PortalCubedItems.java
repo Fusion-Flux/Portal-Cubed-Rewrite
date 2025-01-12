@@ -67,10 +67,10 @@ public class PortalCubedItems {
 			.properties(s -> s.stacksTo(1))
 			.build();
 	public static final SignItem LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new SignItem(PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN, s))
-			.properties(s -> s.stacksTo(16))
+			.properties(s -> s.useBlockDescriptionPrefix().stacksTo(16))
 			.build();
 	public static final SignItem LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new SignItem(PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN, s))
-			.properties(s -> s.stacksTo(16))
+			.properties(s -> s.useBlockDescriptionPrefix().stacksTo(16))
 			.build();
 	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), false, false);
 	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), true, false);

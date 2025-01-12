@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "portalcubed:hammer"
+      "id": "portalcubed:hammer"
     },
     "title": {
       "translate": "advancement.portalcubed.hammer_time.title"
@@ -24,14 +24,14 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
-                "tag": "portalcubed:configurable_test_elements"
+                "blocks": "#portalcubed:configurable_test_elements"
               }
             }
           },
           {
             "condition": "minecraft:match_tool",
             "predicate": {
-              "tag": "c:wrenches"
+              "items": "#c:wrenches"
             }
           }
         ]

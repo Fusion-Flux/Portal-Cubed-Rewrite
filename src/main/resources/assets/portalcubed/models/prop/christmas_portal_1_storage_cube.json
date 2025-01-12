@@ -1,0 +1,7 @@
+{
+  "parent": "portalcubed:prop/template_christmas_cube",
+  "textures": {
+    "cube": "portalcubed:prop/christmas_portal_1_storage_cube",
+    "bow": "portalcubed:prop/christmas_portal_1_storage_cube_bow"
+  }
+}

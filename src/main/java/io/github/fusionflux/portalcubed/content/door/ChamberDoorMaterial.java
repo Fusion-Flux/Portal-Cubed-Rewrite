@@ -23,7 +23,7 @@ public enum ChamberDoorMaterial {
 
 	public BlockBehaviour.Properties makeProperties() {
 		return this.settings.get()
-				.noCollission()
+				.noOcclusion()
 				.pushReaction(PushReaction.DESTROY);
 	}
 }

@@ -75,6 +75,7 @@ public class ConstructPreviewRenderer {
 		BlockPos pos = ConstructionCannonItem.getPlacementPos(placeContext, replaceMode);
 
 		matrices.pushPose();
+		matrices.mulPose(context.positionMatrix());
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 		matrices.translate(pos.getX() + construct.offset.getX(), pos.getY() + construct.offset.getY(), pos.getZ() + construct.offset.getZ());
 

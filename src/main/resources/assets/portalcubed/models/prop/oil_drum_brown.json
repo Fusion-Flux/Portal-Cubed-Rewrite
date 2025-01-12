@@ -2,7 +2,8 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [64, 32],
 	"textures": {
-		"0": "portalcubed:prop/oil_drum_brown"
+		"0": "portalcubed:prop/oil_drum_brown",
+		"particle": "portalcubed:prop/oil_drum_brown"
 	},
 	"elements": [
 		{

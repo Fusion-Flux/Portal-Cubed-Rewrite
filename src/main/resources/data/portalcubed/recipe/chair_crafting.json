@@ -7,7 +7,7 @@
     ],
     "key": {
         "X": "portalcubed:magnesium_ingot",
-        "Y": "minecraft:wool"
+        "Y": "#minecraft:wool"
     },
     "result": {
         "id": "portalcubed:chair",
