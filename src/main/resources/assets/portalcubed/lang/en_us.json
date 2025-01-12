@@ -925,6 +925,8 @@
   "block.portalcubed.stripped_lemon_wood": "Stripped Lemon Wood",
   "item.portalcubed.lemon_boat": "Lemon Boat",
   "item.portalcubed.lemon_chest_boat": "Lemon Boat with Chest",
+  "entity.portalcubed.lemon_boat": "Lemon Boat",
+  "entity.portalcubed.lemon_chest_boat": "Lemon Boat with Chest",
   "item.portalcubed.lemon": "Lemon",
   "item.portalcubed.lemonade": "Lemonade",
 
