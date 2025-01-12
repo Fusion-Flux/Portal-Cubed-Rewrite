@@ -2,6 +2,9 @@ package io.github.fusionflux.portalcubed.content.cannon;
 
 import java.util.List;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
+import net.minecraft.resources.ResourceLocation;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,6 +50,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
+	public static final ResourceLocation REACH_BOOST = PortalCubed.id("construction_cannon_reach_boost");
 	public static final Component MATERIAL_TOOLTIP = translate("material").withStyle(ChatFormatting.GRAY);
 	public static final Component CONSTRUCT_TOOLTIP = translate("construct_set").withStyle(ChatFormatting.GRAY);
 

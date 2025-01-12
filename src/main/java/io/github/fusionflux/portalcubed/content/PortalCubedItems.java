@@ -21,13 +21,19 @@ import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.Util;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -57,6 +63,15 @@ public class PortalCubedItems {
 
 	public static final ConstructionCannonItem CONSTRUCTION_CANNON = REGISTRAR.items.create("construction_cannon", ConstructionCannonItem::new)
 			.properties(s -> s.stacksTo(1).fireResistant())
+			.properties(p -> p.component(
+					DataComponents.ATTRIBUTE_MODIFIERS,
+					ItemAttributeModifiers.builder().add(
+									Attributes.BLOCK_INTERACTION_RANGE,
+									new AttributeModifier(ConstructionCannonItem.REACH_BOOST, 2.5, Operation.ADD_VALUE),
+									EquipmentSlotGroup.MAINHAND
+							)
+							.build()
+			))
 			.build();
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
