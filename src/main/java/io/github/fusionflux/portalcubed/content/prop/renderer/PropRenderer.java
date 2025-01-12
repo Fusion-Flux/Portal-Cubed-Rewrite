@@ -70,12 +70,13 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 	public void extractRenderState(Prop prop, PropRenderState reusedState, float tickDelta) {
 		super.extractRenderState(prop, reusedState, tickDelta);
 		reusedState.type = prop.type;
+		reusedState.variant = prop.getVariant();
 		reusedState.yRot = prop.getYRot(tickDelta);
 	}
 
 	private static final class ModelEmitter extends DelegatingVertexConsumer {
 		@SuppressWarnings("deprecation")
-		private static final RenderType EMISSIVE_RENDER_TYPE = RenderType.beaconBeam(TextureAtlas.LOCATION_BLOCKS, true);
+		private static final RenderType EMISSIVE_RENDER_TYPE = RenderType.entityTranslucentEmissive(TextureAtlas.LOCATION_BLOCKS);
 		private static final RenderType DEFAULT_RENDER_TYPE = Sheets.translucentItemSheet();
 		private static final RenderType CUTOUT_RENDER_TYPE = Sheets.cutoutBlockSheet();
 
