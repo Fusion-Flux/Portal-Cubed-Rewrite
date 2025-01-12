@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "portalcubed:toxic_goo"
+    "portalcubed:toxic_goo",
+    "portalcubed:landing_damage"
   ]
 }
