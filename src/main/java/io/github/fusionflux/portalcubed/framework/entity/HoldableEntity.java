@@ -75,6 +75,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 		Vec3 toPoint = this.position().vectorTo(holdPoint);
 		this.setDeltaMovement(toPoint);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
+		this.applyEffectsFromBlocks();
 		if (toPoint.y == 0)
 			this.resetFallDistance();
 

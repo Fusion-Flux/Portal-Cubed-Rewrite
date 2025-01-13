@@ -28,7 +28,6 @@ public abstract class LerpableEntity extends Entity {
 	private void tickLerp() {
 		if (this.isControlledByLocalInstance()) {
 			this.lerpSteps = 0;
-			this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
 		}
 
 		if (this.lerpSteps > 0) {
@@ -44,7 +43,7 @@ public abstract class LerpableEntity extends Entity {
 		this.lerpZ = z;
 		this.lerpYRot = yaw;
 		this.lerpXRot = pitch;
-		this.lerpSteps = interpolationSteps * 3; // I don't know why 3x, it makes it smoother
+		this.lerpSteps = 3;
 	}
 
 	@Override

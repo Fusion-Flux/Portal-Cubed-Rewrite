@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperty;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +16,7 @@ public record PropVariantProperty() implements RangeSelectItemModelProperty {
 
 	@Override
 	public float get(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
-		Integer propVariant = stack.get(PortalCubedDataComponents.PROP_VARIANT);
+		Integer propVariant = PropItem.getVariant(stack);
 		if (propVariant != null)
 			return propVariant;
 		return 0;

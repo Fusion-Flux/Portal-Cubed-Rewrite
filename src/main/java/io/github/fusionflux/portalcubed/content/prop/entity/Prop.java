@@ -103,22 +103,30 @@ public class Prop extends HoldableEntity implements CollisionListener {
 	}
 
 	@Override
+	protected double getDefaultGravity() {
+		return LivingEntity.DEFAULT_BASE_GRAVITY;
+	}
+
+	@Override
 	public void tick() {
 		super.tick();
+		Level level = this.level();
+		if (level.isClientSide)
+			return;
+
 		this.tickState();
 
 		// apply gravity and friction when not held
 		if (!this.isHeld()) {
+			this.applyGravity();
 			Vec3 vel = this.getDeltaMovement();
-			if (!this.isNoGravity()) { // gravity
-				double gravity = LivingEntity.DEFAULT_BASE_GRAVITY / (isInWater() ? 16 : 1);
-				vel = vel.subtract(0, gravity, 0);
-			}
+
 			// friction logic from LivingEntity
 			BlockPos posBelow = this.getBlockPosBelowThatAffectsMyMovement();
 			float friction = this.level().getBlockState(posBelow).getBlock().getFriction();
 			friction = this.onGround() ? friction * .91f : .91f;
 			vel = new Vec3(vel.x * friction, vel.y, vel.z * friction);
+
 			// speed caps
 			if (vel.length() > MAX_SPEED_SQR) {
 				double y = vel.y;
@@ -131,15 +139,12 @@ public class Prop extends HoldableEntity implements CollisionListener {
 			}
 
 			this.setDeltaMovement(vel);
-			this.move(MoverType.SELF, this.getDeltaMovement());
+			this.move(MoverType.SELF, vel);
+			this.applyEffectsFromBlocks();
 		}
 	}
 
 	protected void tickState() {
-		Level level = this.level();
-		if (level.isClientSide)
-			return;
-
 		boolean dirty = this.isDirty().orElse(false);
 		if (!dirty)
 			return;
