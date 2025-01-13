@@ -96,9 +96,9 @@ loom {
         register("datagen") {
             client()
             name("Minecraft Data")
-            vmArg("-Dfabric-api.datagen")
-            vmArg("-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}")
-            vmArg("-Dfabric-api.datagen.modid=portalcubed")
+            property("fabric-api.datagen")
+            property("fabric-api.datagen.output-dir", file("src/generated/resources").absolutePath)
+            property("fabric-api.datagen.modid", "portalcubed")
         }
 
         register("gametest") {
@@ -106,7 +106,7 @@ loom {
             source(gametests)
             ideConfigGenerated(false) // this is meant for CI
             property("fabric-api.gametest")
-            property("fabric-api.gametest.report-file=${layout.buildDirectory}/junit.xml")
+            property("fabric-api.gametest.report-file", "${layout.buildDirectory}/junit.xml")
             runDir("run/gametest_server")
         }
 
@@ -114,12 +114,14 @@ loom {
             source(gametests)
             // required for gametests to tick.
             // note that setting this on a server will have unforeseen consequences
-            vmArg("-Dquilt.game_test=true")
+            property("quilt.game_test", "true")
         }
 
         configureEach {
-            vmArg("-Dmixin.debug.export=true")
-            vmArg("-Dfabric.game_test.command=true")
+            property("mixin.debug.export", "true")
+            property("fabric.game_test.command", "true")
+            property("fabric-tag-conventions-v2.missingTagTranslationWarning", "SILENCED")
+            property("fabric-tag-conventions-v1.legacyTagWarning", "VERBOSE")
         }
     }
 }
