@@ -3,6 +3,8 @@ package io.github.fusionflux.portalcubed.content.prop;
 import java.util.Locale;
 import java.util.function.Consumer;
 
+import net.minecraft.Util;
+
 import org.apache.commons.lang3.stream.IntStreams;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,19 +94,26 @@ public enum PropType {
 	}
 
 	@Nullable
-	public Prop spawn(ServerLevel world, BlockPos pos, @Nullable ItemStack stack, @Nullable Player player, int variant, boolean randomizeVariant) {
+	public Prop spawn(ServerLevel level, BlockPos pos, @Nullable ItemStack stack, @Nullable Player player,
+					  EntitySpawnReason reason, @Nullable Integer variant, boolean offsetY, boolean offsetYMore) {
 		Consumer<Prop> consumer = prop -> {
-			prop.setVariantFromItem(variant);
-			prop.setVariant(!(randomizeVariant && randomVariantOnSpawn) ? variant : world.random.nextInt(variants.length - 1) + 1);
+			prop.setVariantFromItem(variant != null ? variant : 0);
+			boolean randomize = variant == null;
+			if (randomize && this.randomVariantOnSpawn) {
+				int randomVariant = Util.getRandom(this.variants, prop.getRandom());
+				prop.setVariant(randomVariant);
+			} else {
+				prop.setVariant(variant != null ? variant : 0);
+			}
 		};
 
 		return this.entityType().spawn(
-				world,
-				stack != null ? EntityType.appendDefaultStackConfig(consumer, world, stack, player) : consumer,
+				level,
+				stack != null ? EntityType.appendDefaultStackConfig(consumer, level, stack, player) : consumer,
 				pos,
-				EntitySpawnReason.SPAWN_ITEM_USE,
-				true,
-				true
+				reason,
+				offsetY,
+				offsetYMore
 		);
 	}
 
