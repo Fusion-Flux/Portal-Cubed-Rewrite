@@ -27,7 +27,7 @@ public class FizzleDarkParticle extends FadingParticle {
 		super(world, x, y, z);
 		this.gravity = GRAVITY;
 		this.xd = (Math.random() * 2d - 1d) * HORIZONTAL_SPEED;
-		this.yd = (Math.random() * 2d - 1d) * HORIZONTAL_SPEED;
+		this.zd = (Math.random() * 2d - 1d) * HORIZONTAL_SPEED;
 		this.quadSize = SIZE;
 		this.fadeStartLife = FADE_START_LIFE;
 		this.fadeAlpha = false;
