@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunCauldronInteraction;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
@@ -122,6 +123,7 @@ public class PortalCubedItems {
 		// grab it through leather boots since the method is private
 		CauldronInteraction dyedItem = map.get(Items.LEATHER_BOOTS);
 		map.put(LONG_FALL_BOOTS, dyedItem);
+		map.put(PORTAL_GUN, new PortalGunCauldronInteraction(dyedItem));
 
 		DispenserBlock.registerProjectileBehavior(LEMONADE);
 
