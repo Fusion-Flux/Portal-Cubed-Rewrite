@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import net.minecraft.core.BlockPos;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -156,7 +158,10 @@ public abstract class LivingEntityMixin extends Entity {
 			if (!wasGrounded && isGrounded) {
 				// when landing, re-calculate friction.
 				// Otherwise, air friction is used for an extra tick, building infinite speed.
-				friction.set(blockFriction * 0.91f);
+				BlockPos movementEffectingPos = this.getBlockPosBelowThatAffectsMyMovement();
+				float newBlockFriction = this.level().getBlockState(movementEffectingPos).getBlock().getFriction();
+				float newFriction = newBlockFriction * 0.91f;
+				friction.set(newFriction);
 			}
 			return newVel;
 		}
