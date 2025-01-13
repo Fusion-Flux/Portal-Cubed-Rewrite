@@ -1,0 +1,24 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "portalcubed:portal_gun/paintbrush",
+    "tints": [
+      {
+        "type": "portalcubed:portal_gun",
+        "polarity": "active"
+      },
+      {
+        "type": "minecraft:dye",
+        "default": -1
+      },
+      {
+        "type": "portalcubed:portal_gun",
+        "polarity": "primary"
+      },
+      {
+        "type": "portalcubed:portal_gun",
+        "polarity": "secondary"
+      }
+    ]
+  }
+}

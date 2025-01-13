@@ -3,7 +3,7 @@
 	"textures": {
 		"0": "portalcubed:item/portal_gun_dyeable",
 		"1": "portalcubed:item/smithers_portal_gun",
-		"particle": "portalcubed:item/portal_gun_dyeable"
+		"particle": "portalcubed:item/smithers_portal_gun"
 	},
 	"elements": [
 		{
@@ -108,10 +108,6 @@
 			"to": [9, 0, 6],
 			"rotation": {"angle": 0, "axis": "x", "origin": [8, 0, 4]},
 			"faces": {
-				"north": {"uv": [0, 0, 2, 0], "texture": "#missing"},
-				"east": {"uv": [0, 0, 4, 0], "texture": "#missing"},
-				"south": {"uv": [0, 0, 2, 0], "texture": "#missing"},
-				"west": {"uv": [0, 0, 4, 0], "texture": "#missing"},
 				"up": {"uv": [0, 0, 2, 4], "texture": "#1"},
 				"down": {"uv": [0, 0, 2, 4], "texture": "#1"}
 			}

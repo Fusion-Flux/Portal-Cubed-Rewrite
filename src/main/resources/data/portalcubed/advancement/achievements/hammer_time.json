@@ -31,7 +31,7 @@
           {
             "condition": "minecraft:match_tool",
             "predicate": {
-              "items": "#c:wrenches"
+              "items": "#c:tools/wrenches"
             }
           }
         ]

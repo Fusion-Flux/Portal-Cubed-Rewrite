@@ -4,7 +4,8 @@
 	"textures": {
 		"1": "portalcubed:item/portal_gun_dyeable",
 		"2": "portalcubed:item/portal_gun_stripes",
-		"3": "portalcubed:item/legacy_portal_gun"
+		"3": "portalcubed:item/legacy_portal_gun",
+		"particle": "portalcubed:item/legacy_portal_gun"
 	},
 	"elements": [
 		{
