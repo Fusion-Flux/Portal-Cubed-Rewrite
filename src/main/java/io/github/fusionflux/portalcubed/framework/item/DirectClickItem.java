@@ -16,10 +16,14 @@ public interface DirectClickItem {
 	/**
 	 * @return DEFAULT to fall back to vanilla, FALSE to cancel, TRUE to continue to server / cancel
 	 */
-	TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hit);
+	default TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hit) {
+		return TriState.DEFAULT;
+	}
 
 	/**
 	 * @return DEFAULT to fall back to vanilla, FALSE to cancel, TRUE to continue to server / cancel
 	 */
-	TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hit, InteractionHand hand);
+	default TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hit, InteractionHand hand) {
+		return TriState.DEFAULT;
+	}
 }

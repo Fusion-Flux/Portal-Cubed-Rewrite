@@ -64,11 +64,6 @@ public class CrowbarItem extends Item implements DirectClickItem {
 	}
 
 	@Override
-	public TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hitResult, InteractionHand hand) {
-		return TriState.DEFAULT;
-	}
-
-	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
 		return true;

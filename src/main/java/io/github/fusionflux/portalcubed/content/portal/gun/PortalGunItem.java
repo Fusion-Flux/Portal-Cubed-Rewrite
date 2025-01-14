@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import net.minecraft.world.InteractionResult;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
@@ -22,8 +24,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class PortalGunItem extends Item implements DirectClickItem {
-	public static final int DEFAULT_SHELL_COLOR = 0xFFFFFFFF;
-
 	public PortalGunItem(Properties settings) {
 		super(settings);
 	}
@@ -35,42 +35,48 @@ public class PortalGunItem extends Item implements DirectClickItem {
 
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hit) {
-		this.shoot(level, player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY);
-		return TriState.TRUE;
+		return this.shoot(level, player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY) ? TriState.TRUE : TriState.DEFAULT;
 	}
 
 	@Override
-	public TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hit, InteractionHand hand) {
-		this.shoot(level, player, stack, hand, Polarity.SECONDARY);
-		return TriState.TRUE;
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+		InteractionResult result = super.use(level, player, hand);
+		if (result.consumesAction())
+			return result;
+
+		ItemStack stack = player.getItemInHand(hand);
+		return this.shoot(level, player, stack, hand, Polarity.SECONDARY) ? InteractionResult.SUCCESS : InteractionResult.PASS;
 	}
 
-	public void shoot(Level level, Player player, ItemStack stack, InteractionHand hand, Polarity polarity) {
-		if (level instanceof ServerLevel serverLevel) {
-			PortalGunSettings gunSettings = getGunSettings(stack);
-			PortalSettings portalSettings = gunSettings.portalSettingsOf(polarity);
+	public boolean shoot(Level level, Player player, ItemStack stack, InteractionHand hand, Polarity polarity) {
+		PortalGunSettings gunSettings = getGunSettings(stack);
+		if (gunSettings == null)
+			return false;
 
-			Vec3 lookAngle = player.getLookAngle();
-			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
-			float yRot = player.getYRot() + 180;
-			String pair = gunSettings.pair().orElse(player.getGameProfile().getName());
+		if (!(level instanceof ServerLevel))
+			return true;
 
-			PortalProjectile projectile = new PortalProjectile(level, portalSettings, yRot, pair, polarity);
-			projectile.setDeltaMovement(velocity);
-			projectile.moveTo(player.getEyePosition());
-			level.addFreshEntity(projectile);
-			level.playSound(null, player.blockPosition(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS);
+		PortalSettings portalSettings = gunSettings.portalSettingsOf(polarity);
+		Vec3 lookAngle = player.getLookAngle();
+		Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
+		float yRot = player.getYRot() + 180;
+		String pair = gunSettings.pair().orElse(player.getGameProfile().getName());
 
-			PortalGunSettings modifiedData = gunSettings.withActive(polarity);
-			ItemStack newStack = setGunSettings(stack, modifiedData);
-			player.setItemInHand(hand, newStack);
-		} else { // client-side
-			player.swing(hand);
-		}
+		PortalProjectile projectile = new PortalProjectile(level, portalSettings, yRot, pair, polarity);
+		projectile.setDeltaMovement(velocity);
+		projectile.moveTo(player.getEyePosition());
+		level.addFreshEntity(projectile);
+		level.playSound(null, player.blockPosition(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS);
+
+		PortalGunSettings modifiedData = gunSettings.withActive(polarity);
+		ItemStack newStack = setGunSettings(stack, modifiedData);
+		player.setItemInHand(hand, newStack);
+		return true;
 	}
 
+	@Nullable
 	public static PortalGunSettings getGunSettings(ItemStack stack) {
-		return stack.getOrDefault(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT);
+		return stack.get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
 	}
 
 	public static ItemStack setGunSettings(ItemStack stack, PortalGunSettings data) {

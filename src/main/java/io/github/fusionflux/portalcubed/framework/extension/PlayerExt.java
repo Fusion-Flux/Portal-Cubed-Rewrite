@@ -15,10 +15,11 @@ public interface PlayerExt {
 		throw new AbstractMethodError();
 	}
 
-	void pc$grabSoundTimer(int timer);
-	int pc$grabSoundTimer();
-	void pc$grabSound(Object grabSound);
-	Object pc$grabSound();
-	void pc$holdLoopSound(Object holdLoopSound);
-	Object pc$holdLoopSound();
+	default void pc$setHasSubmergedTheOperationalEndOfTheDevice(boolean hasSubmergedTheOperationalEndOfTheDevice) {
+		throw new AbstractMethodError();
+	}
+
+	default boolean pc$hasSubmergedTheOperationalEndOfTheDevice() {
+		throw new AbstractMethodError();
+	}
 }

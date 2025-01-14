@@ -13,6 +13,7 @@ import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunCauldronInteraction;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.prop.PropItem;
@@ -45,6 +46,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
 			.properties(s -> s.stacksTo(1).fireResistant())
+			.properties(p -> p.component(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT))
 			.build();
 
 	public static final Item MAGNESIUM_INGOT = REGISTRAR.items.create("magnesium_ingot", Item::new)

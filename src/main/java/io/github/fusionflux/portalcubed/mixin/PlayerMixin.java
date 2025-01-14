@@ -29,19 +29,8 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerExt {
 	@Nullable
 	private HoldableEntity heldEntity;
 
-	@Environment(EnvType.CLIENT)
 	@Unique
-	private int grabSoundTimer = 0;
-
-	@Environment(EnvType.CLIENT)
-	@Unique
-	@Nullable
-	private FollowingSoundInstance grabSound = null;
-
-	@Environment(EnvType.CLIENT)
-	@Unique
-	@Nullable
-	private FollowingSoundInstance holdLoopSound = null;
+	private boolean hasSubmergedTheOperationalEndOfTheDevice;
 
 	protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level level) {
 		super(entityType, level);
@@ -79,32 +68,12 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerExt {
 	}
 
 	@Override
-	public void pc$grabSoundTimer(int timer) {
-		grabSoundTimer = timer;
+	public void pc$setHasSubmergedTheOperationalEndOfTheDevice(boolean hasSubmergedTheOperationalEndOfTheDevice) {
+		this.hasSubmergedTheOperationalEndOfTheDevice = hasSubmergedTheOperationalEndOfTheDevice;
 	}
 
 	@Override
-	public int pc$grabSoundTimer() {
-		return grabSoundTimer;
-	}
-
-	@Override
-	public void pc$grabSound(Object grabSound) {
-		this.grabSound = (FollowingSoundInstance) grabSound;
-	}
-
-	@Override
-	public Object pc$grabSound() {
-		return grabSound;
-	}
-
-	@Override
-	public void pc$holdLoopSound(Object holdLoopSound) {
-		this.holdLoopSound = (FollowingSoundInstance) holdLoopSound;
-	}
-
-	@Override
-	public Object pc$holdLoopSound() {
-		return holdLoopSound;
+	public boolean pc$hasSubmergedTheOperationalEndOfTheDevice() {
+		return this.hasSubmergedTheOperationalEndOfTheDevice;
 	}
 }

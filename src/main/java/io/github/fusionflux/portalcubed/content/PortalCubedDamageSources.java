@@ -2,6 +2,10 @@ package io.github.fusionflux.portalcubed.content;
 
 import java.util.Objects;
 
+import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
+
+import net.minecraft.core.Holder.Reference;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,11 +29,13 @@ public class PortalCubedDamageSources {
 	public static final ResourceKey<DamageType> LEMONADE_PLAYER = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("lemonade_player"));
 	public static final ResourceKey<DamageType> TOXIC_GOO = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("toxic_goo"));
 	public static final ResourceKey<DamageType> DISINTEGRATION = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("disintegration"));
+	public static final ResourceKey<DamageType> SUBMERGED_THE_OPERATIONAL_END_OF_THE_DEVICE = ResourceKey.create(Registries.DAMAGE_TYPE, PortalCubed.id("submerged_the_operational_end_of_the_device"));
 
 	private final Holder.Reference<DamageType> landingDamageType;
 	private final Holder.Reference<DamageType> lemonadeDamageType;
 	private final Holder.Reference<DamageType> lemonadePlayerDamageType;
 	private final Holder.Reference<DamageType> disintegrationDamageType;
+	private final Holder.Reference<DamageType> submergedTheOperationalEndOfTheDeviceDamageType;
 	private final DamageSource toxicGooDamage;
 
 	public PortalCubedDamageSources(RegistryAccess registries) {
@@ -38,6 +44,7 @@ public class PortalCubedDamageSources {
 		this.lemonadeDamageType = damageTypes.getOrThrow(LEMONADE);
 		this.lemonadePlayerDamageType = damageTypes.getOrThrow(LEMONADE_PLAYER);
 		this.disintegrationDamageType = damageTypes.getOrThrow(DISINTEGRATION);
+		this.submergedTheOperationalEndOfTheDeviceDamageType = damageTypes.getOrThrow(SUBMERGED_THE_OPERATIONAL_END_OF_THE_DEVICE);
 		this.toxicGooDamage = new DamageSource(damageTypes.getOrThrow(TOXIC_GOO));
 	}
 
@@ -58,10 +65,19 @@ public class PortalCubedDamageSources {
 	}
 
 	public static DamageSource disintegration(Level level, Entity attacked) {
-		Holder.Reference<DamageType> damageType = level.pc$damageSources().disintegrationDamageType;
+		Reference<DamageType> type = getDisintegrationDamageType(attacked, level.pc$damageSources());
 		if (attacked instanceof LivingEntity livingEntity)
-			return new DamageSource(damageType, null, livingEntity.getKillCredit());
-		return new DamageSource(damageType, null, null);
+			return new DamageSource(type, null, livingEntity.getKillCredit());
+		return new DamageSource(type, null, null);
+	}
+
+	private static Holder.Reference<DamageType> getDisintegrationDamageType(Entity damaged, PortalCubedDamageSources sources) {
+		if (damaged instanceof PlayerExt player && player.pc$hasSubmergedTheOperationalEndOfTheDevice()) {
+			player.pc$setHasSubmergedTheOperationalEndOfTheDevice(false);
+			return sources.submergedTheOperationalEndOfTheDeviceDamageType;
+		} else {
+			return sources.disintegrationDamageType;
+		}
 	}
 
 	public static class LandingDamageSource extends DamageSource {
