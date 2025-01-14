@@ -13,7 +13,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 
 public class ShaderPatcher {
 	public static final String CLIPPING_PLANE_UNIFORM_NAME = PortalCubed.ID + "_ClippingPlane";
-	public static final ShaderProgramConfig.Uniform CLIPPING_PLANE_UNIFORM_CONFIG = new ShaderProgramConfig.Uniform(CLIPPING_PLANE_UNIFORM_NAME, "float", 4, List.of());
+	public static final ShaderProgramConfig.Uniform CLIPPING_PLANE_UNIFORM_CONFIG = new ShaderProgramConfig.Uniform(CLIPPING_PLANE_UNIFORM_NAME, "float", 4, List.of(0f, 0f, 0f, 1f));
 
 	private static final String CLIPPING_PLANE_UNIFORM_INJECTION = String.format("uniform vec4 %s;\n", CLIPPING_PLANE_UNIFORM_NAME);
 	private static final String PROJECTION_MATRIX_PLACEHOLDER = "{projectionMatrix}";
@@ -33,11 +33,16 @@ public class ShaderPatcher {
 
 	private static String patch(ShaderType type, String src) {
 		StringBuilder builder = new StringBuilder();
+		boolean insertedUniform = false;
+		boolean foundMain = false;
 		for (String line : src.split("\n")) {
 			builder.append(line).append("\n");
-			if (line.contains("#version")) {
+			if (line.contains("#version") && !insertedUniform) {
 				builder.append(CLIPPING_PLANE_UNIFORM_INJECTION);
-			} else if (line.contains("gl_Position =")) {
+				insertedUniform = true;
+			} else if (line.contains("void main() {")) {
+				foundMain = true;
+			} else if (line.contains("gl_Position =") && foundMain) {
 				builder.append(CLIPPING_INJECTION.replace(PROJECTION_MATRIX_PLACEHOLDER, type.projectionMatrixName));
 			}
 		}
@@ -46,7 +51,7 @@ public class ShaderPatcher {
 
 	private enum ShaderType {
 		SODIUM(Pattern.compile("sodium:blocks/block_layer_opaque\\.vsh"), "u_ProjectionMatrix"),
-		VANILLA(Pattern.compile("^((particle)|(rendertype_(?!gui).*))\\.vsh"), "ProjMat");
+		VANILLA(Pattern.compile("^(minecraft:core/(?!gui|lightmap|blit_screen).*)\\.vsh"), "ProjMat");
 
 		private final Predicate<String> matcher;
 		public final String projectionMatrixName;

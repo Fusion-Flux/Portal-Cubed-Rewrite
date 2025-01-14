@@ -1,14 +1,20 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import org.joml.Vector4f;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.core.BlockPos;
@@ -37,21 +43,20 @@ public class LevelRendererMixin {
 		}
 	}
 
-	// TODO: rework this with portal rendering
-//	@WrapOperation(method = "renderLevel",  at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", remap = false))
-//	private void replaceClearingIfRenderingPortal(int mask, boolean checkError, Operation<Void> original) {
-//		if (PortalRenderer.isRenderingView()) {
-//			// Setup state
-//			RenderSystem.depthFunc(GL11.GL_ALWAYS);
-//			GL11.glDepthRange(1, 1);
-//
-//			RenderingUtils.renderFullScreenQuad(RenderingUtils.CLEAR_COLOR);
-//
-//			// Cleanup state
-//			RenderSystem.depthFunc(GL11.GL_LEQUAL);
-//			GL11.glDepthRange(0, 1);
-//		} else {
-//			original.call(mask, checkError);
-//		}
-//	}
+	@WrapOperation(method = "method_62218",  at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(I)V", remap = false))
+	private static void replaceClearingIfRenderingPortal(int mask, Operation<Void> original, @Local(argsOnly = true) Vector4f clearColor) {
+		if (PortalRenderer.isRenderingView()) {
+			// Setup state
+			RenderSystem.depthFunc(GL11.GL_ALWAYS);
+			GL11.glDepthRange(1, 1);
+
+			RenderingUtils.renderFullScreenQuad(clearColor.x, clearColor.y, clearColor.z);
+
+			// Cleanup state
+			RenderSystem.depthFunc(GL11.GL_LEQUAL);
+			GL11.glDepthRange(0, 1);
+		} else {
+			original.call(mask);
+		}
+	}
 }
