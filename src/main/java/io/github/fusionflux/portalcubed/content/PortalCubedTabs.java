@@ -244,6 +244,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.LEMONADE);
 			output.accept(PortalCubedItems.LEMON_BOAT);
 			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
+			output.accept(PortalCubedItems.APERTURE_BANNER_PATTERN);
 			output.accept(PortalCubedItems.GOO_BUCKET);
 			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
 			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
@@ -433,6 +434,7 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.RAW_IRON, PortalCubedItems.RAW_MAGNESIUM);
 			entries.addAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
 			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
+			entries.addAfter(Items.GUSTER_BANNER_PATTERN, PortalCubedItems.APERTURE_BANNER_PATTERN);
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {

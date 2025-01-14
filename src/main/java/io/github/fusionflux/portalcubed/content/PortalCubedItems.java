@@ -17,6 +17,7 @@ import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedBannerPatternTags;
 import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
@@ -30,6 +31,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -52,6 +54,10 @@ public class PortalCubedItems {
 			.build();
 
 	public static final Item RAW_MAGNESIUM = REGISTRAR.items.create("raw_magnesium", Item::new)
+			.build();
+
+	public static final BannerPatternItem APERTURE_BANNER_PATTERN = REGISTRAR.items.create("aperture_banner_pattern", s -> new BannerPatternItem(PortalCubedBannerPatternTags.APERTURE, s))
+			.properties(s -> s.stacksTo(1))
 			.build();
 
 	public static final CrowbarItem CROWBAR = REGISTRAR.items.create("crowbar", CrowbarItem::new)

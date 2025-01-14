@@ -120,7 +120,7 @@
     "sounds": [
       {
         "name": "portalcubed:door/portal_1_chamber_door",
-        "volume": 0.6
+        "volume": 0.5
       }
     ],
     "subtitle": "subtitles.portalcubed.chamber_door_open"
@@ -129,7 +129,7 @@
     "sounds": [
       {
         "name": "portalcubed:door/portal_1_chamber_door",
-        "volume": 0.6
+        "volume": 0.5
       }
     ],
     "subtitle": "subtitles.portalcubed.chamber_door_close"
@@ -174,7 +174,7 @@
     "sounds": [
       {
         "name": "portalcubed:door/old_ap_chamber_door_open",
-        "volume": 0.65
+        "volume": 0.5
       }
     ],
     "subtitle": "subtitles.portalcubed.chamber_door_open"
@@ -183,7 +183,7 @@
     "sounds": [
       {
         "name": "portalcubed:door/old_ap_chamber_door_close",
-        "volume": 0.65
+        "volume": 0.5
       }
     ],
     "subtitle": "subtitles.portalcubed.chamber_door_close"
