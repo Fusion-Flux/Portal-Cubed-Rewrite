@@ -1,7 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -17,7 +19,8 @@ public record PortalGunCauldronInteraction(CauldronInteraction doFirst) implemen
 		if (!result.consumesAction())
 			return result;
 
-		if (!level.isClientSide) {
+		if (player instanceof ServerPlayer serverPlayer) {
+			PortalCubedCriteriaTriggers.SUBMERGED_THE_OPERATIONAL_END_OF_THE_DEVICE.trigger(serverPlayer);
 			player.pc$setHasSubmergedTheOperationalEndOfTheDevice(true);
 			player.pc$disintegrate();
 			FallingBlockEntity cauldron = FallingBlockEntity.fall(level, pos, state);
