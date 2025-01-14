@@ -384,9 +384,11 @@
   "advancement.portalcubed.portal_gun.description": "Obtain a Portal Gun",
   "advancement.portalcubed.dyed_portal_gun.title": "Pretty Painted Portal Producer",
   "advancement.portalcubed.dyed_portal_gun.description": "Dye the shell of a Portal Gun",
+  "advancement.portalcubed.wash_portal_gun.title": "Do Not Submerge The Operational End of the Device",
+  "advancement.portalcubed.wash_portal_gun.description": "Submerge the operational end of the device",
   "advancement.portalcubed.portal_gun_fox.title": "You Shouldn't be Eating That",
   "advancement.portalcubed.portal_gun_fox.description": "Give a Portal Gun to a Fox",
-  "advancement.portalcubed.construction_cannon.title": "Trust me, I'm an Engineer",
+  "advancement.portalcubed.construction_cannon.title": "Trust Me, I'm an Engineer",
   "advancement.portalcubed.construction_cannon.description": "Use a Construction Cannon",
 
   "advancement.portalcubed.lemon.title": "Get Mad!",
@@ -394,7 +396,7 @@
   "advancement.portalcubed.lemonade.title": "Burn Life's House Down!",
   "advancement.portalcubed.lemonade.description": "Create and use a combustible lemon",
 
-  "advancement.portalcubed.configure_test_element.title": "Give it a good whack",
+  "advancement.portalcubed.configure_test_element.title": "Give it a Good Whack",
   "advancement.portalcubed.configure_test_element.description": "Use a Hammer to configure a test element",
   "advancement.portalcubed.stalemate_associate.title": "Certified Stalemate Associate",
   "advancement.portalcubed.stalemate_associate.description": "Configure a Pedestal Button",
@@ -424,8 +426,6 @@
 
   "advancement.portalcubed.autoportal.title": "That Portal Was Framed",
   "advancement.portalcubed.autoportal.description": "Place an Autoportal",
-  "advancement.portalcubed.rainbow_autoportals.title": "Pretty Painted Portal Producers",
-  "advancement.portalcubed.rainbow_autoportals.description": "Use Red, Orange, Yellow, Green, Blue, and Purple dyes on Autoportals. Any shade of each color works.",
 
   "advancement.portalcubed.fizzler.title": "Fizzle Me This",
   "advancement.portalcubed.fizzler.description": "Walk through a Material Emancipation Grill",
