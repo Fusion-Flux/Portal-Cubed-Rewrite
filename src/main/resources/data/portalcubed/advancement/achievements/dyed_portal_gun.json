@@ -1,0 +1,35 @@
+{
+  "parent": "portalcubed:achievements/portal_gun",
+  "criteria": {
+    "dye": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "minecraft:armor_dye",
+        "ingredients": [
+          {
+            "items": "portalcubed:portal_gun"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.dyed_portal_gun.description"
+    },
+    "frame": "task",
+    "icon": {
+      "components": {
+        "minecraft:dyed_color": {
+          "rgb": 14317805,
+          "show_in_tooltip": false
+        }
+      },
+      "count": 1,
+      "id": "portalcubed:portal_gun"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.dyed_portal_gun.title"
+    }
+  }
+}

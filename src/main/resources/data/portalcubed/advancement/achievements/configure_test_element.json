@@ -4,10 +4,10 @@
       "id": "portalcubed:hammer"
     },
     "title": {
-      "translate": "advancement.portalcubed.hammer_time.title"
+      "translate": "advancement.portalcubed.configure_test_element.title"
     },
     "description": {
-      "translate": "advancement.portalcubed.hammer_time.description"
+      "translate": "advancement.portalcubed.configure_test_element.description"
     },
     "frame": "goal",
     "show_toast": true,

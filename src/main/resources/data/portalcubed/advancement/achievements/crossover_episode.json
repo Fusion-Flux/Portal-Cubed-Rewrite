@@ -13,7 +13,7 @@
     "announce_to_chat": false,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/hammer_time",
+  "parent": "portalcubed:achievements/configure_test_element",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",

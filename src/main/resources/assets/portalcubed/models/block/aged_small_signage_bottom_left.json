@@ -2,7 +2,7 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:signage/aged_small_signage_blank",
-		"particle": "portalcubed:signage/aged_small_signage_blank",
+		"particle": "portalcubed:signage/aged_large_signage_blank",
 		"signage_bottom_left": "#portalcubed:dynamic"
 	},
 	"elements": [

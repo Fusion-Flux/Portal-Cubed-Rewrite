@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:paper",
+    "portalcubed:lemon"
+  ],
+  "result": {
+    "count": 1,
+    "id": "portalcubed:aperture_banner_pattern"
+  }
+}

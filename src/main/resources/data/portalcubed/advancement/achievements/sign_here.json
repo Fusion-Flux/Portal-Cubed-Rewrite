@@ -14,7 +14,7 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/hammer_time",
+  "parent": "portalcubed:achievements/configure_test_element",
   "criteria": {
     "large_signage": {
       "trigger": "minecraft:placed_block",
