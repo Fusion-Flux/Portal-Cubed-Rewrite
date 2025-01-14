@@ -21,8 +21,6 @@ public record PortalGunCauldronInteraction(CauldronInteraction doFirst) implemen
 			player.pc$setHasSubmergedTheOperationalEndOfTheDevice(true);
 			player.pc$disintegrate();
 			FallingBlockEntity cauldron = FallingBlockEntity.fall(level, pos, state);
-			level.removeBlock(pos, false);
-			level.addFreshEntity(cauldron);
 			cauldron.pc$disintegrate();
 		}
 
