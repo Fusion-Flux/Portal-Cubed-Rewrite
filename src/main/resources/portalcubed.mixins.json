@@ -36,6 +36,7 @@
     "ServerGamePacketListenerImplMixin",
     "ServerLevelMixin",
     "SlabBlockMixin",
+    "SmithingTrimRecipeMixin",
     "SpongeBlockMixin",
     "StructureUtilsMixin",
     "ThrowableProjectileMixin",
