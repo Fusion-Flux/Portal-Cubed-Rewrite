@@ -11,7 +11,10 @@ run/
 *.launch
 
 # IntelliJ Idea
-.idea/
+.idea/*
+!.idea/inspectionProfiles
+.idea/inspectionProfiles/*
+!.idea/inspectionProfiles/Portal_Cubed.xml
 *.iml
 *.ipr
 *.iws
