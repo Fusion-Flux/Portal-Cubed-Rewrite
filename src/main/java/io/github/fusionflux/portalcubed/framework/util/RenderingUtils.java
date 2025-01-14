@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.framework.util;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -27,8 +26,6 @@ public class RenderingUtils {
 	private static final Matrix4f MATRIX = new Matrix4f();
 	private static final Matrix4f IDENTITY_MATRIX = new Matrix4f();
 	private static VertexBuffer FULLSCREEN_QUAD = null;
-
-	public static final Vector3f CLEAR_COLOR = new Vector3f();
 
 	// mostly yoinked from DragonFireballRenderer
 	public static void renderQuad(PoseStack matrices, VertexConsumer vertices, int light, int color) {
@@ -128,7 +125,7 @@ public class RenderingUtils {
 		RenderSystem.stencilMask(0xFF);
 	}
 
-	public static void renderFullScreenQuad(Vector3f color) {
+	public static void renderFullScreenQuad(float red, float green, float blue) {
 		if (FULLSCREEN_QUAD == null) {
 			FULLSCREEN_QUAD = VertexBuffer.uploadStatic(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR, builder -> {
 				builder.addVertex(-1, -1, 0).setColor(0xFFFFFFFF);
@@ -139,8 +136,10 @@ public class RenderingUtils {
 		}
 
 		FULLSCREEN_QUAD.bind();
-		RenderSystem.setShaderColor(color.x, color.y, color.z, 1f);
+		RenderSystem.setShaderColor(red, green, blue, 1f);
+		GL11.glDisable(GL11.GL_CLIP_PLANE0);
 		FULLSCREEN_QUAD.drawWithShader(IDENTITY_MATRIX, IDENTITY_MATRIX, Minecraft.getInstance().getShaderManager().getProgram(CoreShaders.POSITION_COLOR));
+		GL11.glEnable(GL11.GL_CLIP_PLANE0);
 		VertexBuffer.unbind();
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}

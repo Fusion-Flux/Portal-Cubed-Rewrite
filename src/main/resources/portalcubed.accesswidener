@@ -4,6 +4,5 @@ accessible field net/minecraft/client/renderer/RenderStateShard name Ljava/lang/
 accessible class net/minecraft/client/renderer/FogRenderer$FogData
 accessible class net/minecraft/client/renderer/block/model/TextureSlots$Reference
 
-#mutable field com/mojang/blaze3d/systems/RenderSystem modelViewStack Lcom/mojang/blaze3d/vertex/PoseStack;
-#mutable field net/minecraft/client/Camera rotation Lorg/joml/Quaternionf;
-#mutable field net/minecraft/client/renderer/LevelRenderer renderBuffers Lnet/minecraft/client/renderer/RenderBuffers;
+mutable field com/mojang/blaze3d/systems/RenderSystem modelViewStack Lorg/joml/Matrix4fStack;
+mutable field net/minecraft/client/renderer/LevelRenderer renderBuffers Lnet/minecraft/client/renderer/RenderBuffers;

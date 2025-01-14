@@ -28,6 +28,7 @@ import io.github.fusionflux.portalcubed.content.portal.RecursionAttachedResource
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import io.github.fusionflux.portalcubed.mixin.client.CameraAccessor;
+import io.github.fusionflux.portalcubed.mixin.client.GameRendererAccessor;
 import io.github.fusionflux.portalcubed.mixin.client.LevelRendererAccessor;
 import io.github.fusionflux.portalcubed.mixin.client.RenderSectionManagerAccessor;
 import io.github.fusionflux.portalcubed.mixin.client.RenderSystemAccessor;
@@ -41,6 +42,7 @@ import net.caffeinemc.mods.sodium.client.render.chunk.lists.SortedRenderLists;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.FogParameters;
 import net.minecraft.client.renderer.GameRenderer;
@@ -56,7 +58,6 @@ public class PortalRenderer {
 	public static final double OFFSET_FROM_WALL = 0.001;
 
 	private static int maxRecursions = 5;
-	private static final RecursionAttachedResource<PoseStack> VIEW_MATRICES = RecursionAttachedResource.create(PoseStack::new);
 	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
 	public static final RecursionAttachedResource<Vector4f> CLIPPING_PLANES = RecursionAttachedResource.create(Vector4f::new);
 	private static int recursion = 0;
@@ -167,37 +168,30 @@ public class PortalRenderer {
 
 			Quaternionf camRot = camera.rotation();
 			camRot.premul(portal.rotation().invert(new Quaternionf())).premul(linked.rotation180);
-			camera.getLookVector().set(0, 1, 0).rotate(camRot);
-			camera.getUpVector().set(0, 1, 0).rotate(camRot);
-			camera.getLeftVector().set(1, 0, 0).rotate(camRot);
+			camRot.transform(0, 0, -1, camera.getLookVector());
+			camRot.transform(0, 1, 0, camera.getUpVector());
+			camRot.transform(-1, 0, 0, camera.getLeftVector());
+			Matrix4f viewMatrix = new Matrix4f().rotation(camRot.conjugate(new Quaternionf())) ;
 
-			PoseStack view = VIEW_MATRICES.get();
-			view.setIdentity();
-			view.mulPose(Axis.YP.rotationDegrees(180));
-			view.mulPose(camRot.conjugate(new Quaternionf()));
-
-//			RenderSystem.setInverseViewRotationMatrix(view.last().normal().invert(new Matrix3f()));
-			linked.plane.getClipping(view.last().pose(), camPos, CLIPPING_PLANES.get());
+			linked.plane.getClipping(viewMatrix, camPos, CLIPPING_PLANES.get());
 
 			GameRenderer gameRenderer = context.gameRenderer();
-//			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(view, linked.data.origin(), gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
+			((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(linked.data.origin(), viewMatrix, gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
 
 			// Render the world
 			RenderingUtils.setupStencilToRenderIfValue(recursion);
 			RenderSystem.stencilMask(0x00);
-			RenderSystemAccessor.setModelViewStack(new Matrix4fStack());
+			RenderSystemAccessor.setModelViewStack(new Matrix4fStack(16));
 			GL11.glEnable(GL11.GL_CLIP_PLANE0);
-			// TODO: This whole function needs reworking
-//			worldRenderer.renderLevel(
-//					view,
-//					context.tickCounter(),
-//					context.limitTime(),
-//					false,
-//					camera,
-//					gameRenderer,
-//					context.lightmapTextureManager(),
-//					context.projectionMatrix()
-//			);
+			worldRenderer.renderLevel(
+					((GameRendererAccessor) gameRenderer).getResourcePool(),
+					context.tickCounter(),
+					false,
+					camera,
+					gameRenderer,
+					viewMatrix,
+					context.projectionMatrix()
+			);
 			GL11.glDisable(GL11.GL_CLIP_PLANE0);
 
 			// Restore old state
@@ -243,9 +237,7 @@ public class PortalRenderer {
 	}
 
 	private record StateCapture(
-//			Matrix3f inverseViewRotationMatrix,
 			Matrix4fStack modelViewStack,
-			Matrix4f modelViewMatrix,
 			Frustum frustum,
 			Vec3 cameraPosition,
 			Quaternionf cameraRotation,
@@ -270,7 +262,6 @@ public class PortalRenderer {
 			return new StateCapture(
 //					RenderSystem.getInverseViewRotationMatrix(),
 					RenderSystem.getModelViewStack(),
-					new Matrix4f(RenderSystem.getModelViewMatrix()),
 					((LevelRendererAccessor) worldRenderer).getCullingFrustum(),
 					camera.getPosition(),
 					new Quaternionf(camera.rotation()),
@@ -290,7 +281,7 @@ public class PortalRenderer {
 			RenderSystemAccessor.setModelViewStack(this.modelViewStack);
 			((LevelRendererAccessor) worldRenderer).setCullingFrustum(this.frustum);
 			((CameraAccessor) camera).pc$setPosition(this.cameraPosition);
-			((CameraAccessor) camera).setRotation(this.cameraRotation);
+			camera.rotation().set(this.cameraRotation);
 			camera.getLookVector().set(this.cameraLookVector);
 			camera.getUpVector().set(this.cameraUpVector);
 			camera.getLeftVector().set(this.cameraLeftVector);

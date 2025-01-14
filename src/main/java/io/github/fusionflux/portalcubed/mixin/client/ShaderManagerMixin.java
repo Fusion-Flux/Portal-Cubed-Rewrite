@@ -32,7 +32,7 @@ public class ShaderManagerMixin {
 			Operation<Void> original,
 			@Local(argsOnly = true) ShaderProgramConfig config
 	) {
-		if (ShaderPatcher.shouldPatch(config.vertex().getPath() + ".vsh") || ShaderPatcher.shouldPatch(config.fragment().getPath() + ".fsh"))
+		if (ShaderPatcher.shouldPatch(config.vertex() + ".vsh") || ShaderPatcher.shouldPatch(config.fragment() + ".fsh"))
 			original.call(instance, Util.make(new ArrayList<>(uniforms), list -> list.add(ShaderPatcher.CLIPPING_PLANE_UNIFORM_CONFIG)), samplers);
 		original.call(instance, uniforms, samplers);
 	}
