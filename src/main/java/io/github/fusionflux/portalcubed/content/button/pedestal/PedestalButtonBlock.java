@@ -2,6 +2,10 @@ package io.github.fusionflux.portalcubed.content.button.pedestal;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.BiConsumer;
+
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -211,6 +215,15 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 			this.press(player, state, world, pos);
 		}
 		return InteractionResult.SUCCESS;
+	}
+
+	@Override
+	protected void onExplosionHit(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer) {
+		if (explosion.canTriggerBlocks() && !state.getValue(ACTIVE)) {
+			this.press(null, state, level, pos);
+		}
+
+		super.onExplosionHit(state, level, pos, explosion, dropConsumer);
 	}
 
 	private void press(@Nullable Player player, BlockState state, Level world, BlockPos pos) {
