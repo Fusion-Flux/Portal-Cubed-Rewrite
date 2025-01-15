@@ -2,6 +2,8 @@ package io.github.fusionflux.portalcubed.framework.entity;
 
 import java.util.OptionalInt;
 
+import net.minecraft.world.Container;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
@@ -31,7 +33,6 @@ import net.minecraft.world.phys.Vec3;
 // - For existing holds, additional HoldStatusPackets are sent in AFTER_START_TRACKING.
 public abstract class HoldableEntity extends LerpableEntity {
 	public static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
-	public static final double MAX_DIST_SQR = 3 * 3;
 
 	@Nullable
 	private Player holder;
@@ -127,7 +128,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 	public boolean canHold(Player player) {
 		return (!this.pc$disintegrating() && !this.isPassenger() && !this.hasPassenger(player)) // Self checks
-				&& (!player.isSpectator() && this.position().distanceToSqr(player.getEyePosition()) < MAX_DIST_SQR); // Holder checks
+				&& (!player.isSpectator() && player.canInteractWithEntity(this, Container.DEFAULT_DISTANCE_BUFFER)); // Holder checks
 	}
 
 	public void grab(ServerPlayer player) {

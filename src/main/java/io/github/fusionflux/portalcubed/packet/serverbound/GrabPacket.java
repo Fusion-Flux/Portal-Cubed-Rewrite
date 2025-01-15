@@ -10,6 +10,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 
 public record GrabPacket(int grabbed) implements ServerboundPacket {
@@ -33,7 +34,7 @@ public record GrabPacket(int grabbed) implements ServerboundPacket {
 		ServerLevel level = player.serverLevel();
 		Entity entity = level.getEntity(this.grabbed);
 		if (entity instanceof HoldableEntity holdable) {
-			if (!player.pc$disintegrating() && entity.position().distanceToSqr(player.getEyePosition()) < HoldableEntity.MAX_DIST_SQR) {
+			if (!player.pc$disintegrating() && player.canInteractWithEntity(entity, Container.DEFAULT_DISTANCE_BUFFER)) {
 				holdable.grab(player);
 			}
 		}
