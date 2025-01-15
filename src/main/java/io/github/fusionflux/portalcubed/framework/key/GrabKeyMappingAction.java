@@ -15,7 +15,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class GrabKeyMappingAction implements KeyMappingAction {
-	public static final double RANGE_MULT = 0.6;
+	public static final double RANGE_MULT = 1;
 
 	@Override
 	public void onPressed(Minecraft mc) {

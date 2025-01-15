@@ -28,7 +28,7 @@ public class PortalCubedTabs {
 		builder.icon(() -> new ItemStack(PortalCubedItems.PORTAL_GUN));
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
-			addPortalGunVariant(output, "portal_gun", "portal_gun");
+			addPortalGunVariant(output, "portal_gun", "portal_guns/portal_gun");
 			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
 			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 			output.accept(PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK);
