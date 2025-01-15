@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 
 import org.slf4j.Logger;
@@ -67,6 +68,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedArgumentTypes.init();
 		PortalCubedCriteriaTriggers.init();
 		PortalCubedStats.init();
+		PortalCubedGameEvents.init();
 
 		ConstructManager.registerEventListeners();
 		SignageManager.registerEventListeners();
