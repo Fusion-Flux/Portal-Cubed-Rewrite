@@ -13,6 +13,7 @@ import com.terraformersmc.terraform.sign.api.block.TerraformWallSignBlock;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.button.CubeButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
+import io.github.fusionflux.portalcubed.content.button.P1FloorButtonBlockItem;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
 import io.github.fusionflux.portalcubed.content.decoration.CrossbarBlock;
 import io.github.fusionflux.portalcubed.content.decoration.CrossbarPillarBlock;
@@ -85,7 +86,7 @@ public class PortalCubedBlocks {
 			.build();
 	// ----- floor buttons -----
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("floor_button", FloorButtonBlock::new, Blocks.STONE)
-			.item(MultiBlockItem::new)
+			.item(P1FloorButtonBlockItem::new)
 			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();
@@ -100,7 +101,7 @@ public class PortalCubedBlocks {
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock PORTAL_1_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("portal_1_floor_button", FloorButtonBlock::p1, Blocks.STONE)
-			.item(MultiBlockItem::new)
+			.item(P1FloorButtonBlockItem::new)
 			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
 			.build();

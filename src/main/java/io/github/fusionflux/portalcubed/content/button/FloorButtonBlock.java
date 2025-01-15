@@ -42,7 +42,6 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 	public static final int PRESSED_TIME = 5;
 	public static final double DISINTEGRATION_EJECTION_FORCE = 0.05;
-	public static boolean easterEgg = true;
 
 	private static final VoxelShaper[][] SHAPES = new VoxelShaper[][]{
 		new VoxelShaper[]{
@@ -238,11 +237,4 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		if (entity instanceof ButtonActivatedProp buttonActivated)
 			buttonActivated.setActivated(true);
 	}
-
-	// TODO: PORT
-//	@Override
-//	public String getDescriptionId() {
-//		boolean hasEasterEgg = this == PortalCubedBlocks.FLOOR_BUTTON_BLOCK || this == PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK;
-//		return (easterEgg && hasEasterEgg) ? "block.portalcubed.floor_button.easter_egg" : super.getDescriptionId();
-//	}
 }
