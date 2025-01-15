@@ -1,6 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.InteractionResult;
+
+import net.minecraft.world.item.component.UseCooldown;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -35,7 +38,20 @@ public class PortalGunItem extends Item implements DirectClickItem {
 
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hit) {
-		return this.shoot(level, player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY) ? TriState.TRUE : TriState.DEFAULT;
+		if (player.getCooldowns().isOnCooldown(stack))
+			return TriState.FALSE;
+
+		if (!this.shoot(level, player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY))
+			return TriState.DEFAULT;
+
+		if (!level.isClientSide) {
+			UseCooldown cooldown = stack.get(DataComponents.USE_COOLDOWN);
+			if (cooldown != null) {
+				cooldown.apply(stack, player);
+			}
+		}
+
+		return TriState.TRUE;
 	}
 
 	@Override
