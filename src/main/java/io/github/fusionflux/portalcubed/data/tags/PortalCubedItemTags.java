@@ -15,7 +15,6 @@ public class PortalCubedItemTags {
 
 	public static final TagKey<Item> REPAIRS_MAGNESIUM_ARMOR = create("repairs_magnesium_armor");
 
-	public static final TagKey<Item> ABSORB_FALL_DAMAGE = create("absorb_fall_damage");
 	public static final TagKey<Item> APPLY_SOURCE_PHYSICS = create("apply_source_physics");
 
 	private static TagKey<Item> create(String name) {

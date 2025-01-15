@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 
 import net.minecraft.Util;
 
+import net.minecraft.world.item.Rarity;
+
 import org.apache.commons.lang3.stream.IntStreams;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,8 +48,11 @@ public enum PropType {
 	// REDIRECTION_CUBE(4, false, .625f, .6875f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, .625f, .6875f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, .625f, .6875f, ButtonActivatedProp::new),
-	THE_TACO			   (2, false, .69375f, .38125f, Taco::new, false, builder -> builder.compostChance(1)),
-	ERROR                  (1f, 1f);
+	THE_TACO               (2, false, .69375f, .38125f, Taco::new, false, builder -> builder
+			.compostChance(1)
+			.properties(p -> p.rarity(Rarity.EPIC))
+	),
+	ERROR                  (1f, 1f);  //add epic rarity to this later too, I just couldn't figure it out lol - Carter
 
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;

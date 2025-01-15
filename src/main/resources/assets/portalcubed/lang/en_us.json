@@ -208,7 +208,6 @@
   "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
   "tag.item.portalcubed.dirty_crafting_materials": "Dirty Panel Crafting Materials",
   "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
-  "tag.item.portalcubed.absorb_fall_damage": "Absorbs Fall Damage",
   "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
   "tag.item.portalcubed.lemon_logs": "Lemon Logs",
   "tag.item.portalcubed.immune_to_toxic_goo": "Immune to Toxic Goo",
@@ -330,7 +329,7 @@
   "container.portalcubed.pedestal_button.base": "Include Base",
 
 
-  "attribute.name.generic.fall_damage_absorption": "Fall Damage Absorption",
+  "attribute.name.fall_damage_absorption": "Fall Damage Absorption",
 
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",

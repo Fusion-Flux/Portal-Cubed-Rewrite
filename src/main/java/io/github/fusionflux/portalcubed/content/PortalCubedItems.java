@@ -36,6 +36,7 @@ import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -49,6 +50,7 @@ public class PortalCubedItems {
 					.stacksTo(1)
 					.fireResistant()
 					.component(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT)
+					.rarity(Rarity.RARE)
 			)
 			.build();
 
@@ -62,7 +64,10 @@ public class PortalCubedItems {
 			.build();
 
 	public static final BannerPatternItem APERTURE_BANNER_PATTERN = REGISTRAR.items.create("aperture_banner_pattern", s -> new BannerPatternItem(PortalCubedBannerPatternTags.APERTURE, s))
-			.properties(s -> s.stacksTo(1))
+			.properties(s -> s
+					.stacksTo(1)
+					.rarity(Rarity.UNCOMMON)
+			)
 			.build();
 
 	public static final CrowbarItem CROWBAR = REGISTRAR.items.create("crowbar", CrowbarItem::new)

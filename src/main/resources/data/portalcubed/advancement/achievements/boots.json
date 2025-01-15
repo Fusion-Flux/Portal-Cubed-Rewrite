@@ -26,7 +26,10 @@
             "predicate": {
               "equipment": {
                 "feet": {
-                  "items": "#portalcubed:absorb_fall_damage"
+                  "items": [
+                    "portalcubed:long_fall_boots",
+                    "portalcubed:advanced_knee_replacements"
+                  ]
                 }
               }
             }
