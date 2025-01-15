@@ -1,14 +1,14 @@
 package io.github.fusionflux.portalcubed;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedArgumentTypes;
+import io.github.fusionflux.portalcubed.content.PortalCubedAttributes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFeatures;
@@ -52,6 +52,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedBlocks.init();
 		PortalCubedBlockEntityTypes.init();
 		PortalCubedDataComponents.init();
+		PortalCubedAttributes.init();
 		PortalCubedLootFunctions.init();
 		PortalCubedItems.init();
 		PortalCubedTabs.init();

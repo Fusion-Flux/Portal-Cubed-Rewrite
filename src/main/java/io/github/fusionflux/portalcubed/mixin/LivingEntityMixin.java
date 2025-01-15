@@ -1,35 +1,38 @@
 package io.github.fusionflux.portalcubed.mixin;
 
-import net.minecraft.core.BlockPos;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedAttributes;
 import io.github.fusionflux.portalcubed.content.boots.LongFallBoots;
 import io.github.fusionflux.portalcubed.content.boots.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedDamageTypeTags;
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.AbstractClientPlayerExt;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -59,6 +62,12 @@ public abstract class LivingEntityMixin extends Entity {
 	@Shadow
 	public abstract void releaseUsingItem();
 
+	@Shadow
+	public abstract double getAttributeValue(Holder<Attribute> attribute);
+
+	@Shadow
+	public abstract void remove(RemovalReason reason);
+
 	@Unique
 	private boolean lemonadeArmingFinished;
 
@@ -77,24 +86,32 @@ public abstract class LivingEntityMixin extends Entity {
 		this.pc$setNextTeleportNonLocal(false);
 	}
 
-	@Inject(
+	@ModifyReturnValue(method = "createLivingAttributes", at = @At("RETURN"))
+	private static AttributeSupplier.Builder addFallDamageAbsorptionAttribute(AttributeSupplier.Builder builder) {
+		return builder.add(PortalCubedAttributes.FALL_DAMAGE_ABSORPTION);
+	}
+
+	@WrapOperation(
 			method = "causeFallDamage",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/LivingEntity;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V",
-					shift = At.Shift.BEFORE
-			),
-			cancellable = true
+					target = "Lnet/minecraft/world/entity/LivingEntity;calculateFallDamage(FF)I"
+			)
 	)
-	private void absorbFallDamageIntoBoots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, @Local int fallDamage) {
+	private int absorbFallDamageIntoBoots(LivingEntity instance, float fallDistance, float damageMultiplier, Operation<Integer> original, @Local(argsOnly = true) DamageSource source) {
+		int fallDamage = original.call(instance, fallDistance, damageMultiplier);
+
+		double absorption = this.getAttributeValue(PortalCubedAttributes.FALL_DAMAGE_ABSORPTION);
 		ItemStack boots = this.getItemBySlot(EquipmentSlot.FEET);
-		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE) && !damageSource.is(PortalCubedDamageTypeTags.BYPASSES_FALL_DAMAGE_ABSORPTION)) {
-			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
-			int bootDamage = LongFallBoots.calculateFallDamage(this.registryAccess(), boots, fallDamage);
-			((ItemStackExt) (Object) boots).pc$hurtEquipmentNoUnbreaking(bootDamage, (LivingEntity) (Object) this, EquipmentSlot.FEET);
+		if (!source.is(PortalCubedDamageTypeTags.BYPASSES_FALL_DAMAGE_ABSORPTION) && absorption > 0 && !boots.isEmpty()) {
+			int bootDamage = LongFallBoots.calculateDamage(this.registryAccess(), boots, absorption, fallDamage);
+			((ItemStackExt) (Object) boots).pc$hurtEquipmentNoUnbreaking(bootDamage, instance, EquipmentSlot.FEET);
+
 			if (!boots.isEmpty())
-				cir.setReturnValue(false);
+				return Mth.floor(fallDamage * (1 - absorption));
 		}
+
+		return fallDamage;
 	}
 
 	@Inject(method = {"releaseUsingItem", "completeUsingItem"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;stopUsingItem()V"))

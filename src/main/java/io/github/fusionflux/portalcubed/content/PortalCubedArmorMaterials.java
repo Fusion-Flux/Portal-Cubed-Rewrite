@@ -23,7 +23,7 @@ public class PortalCubedArmorMaterials {
 	);
 	public static final ArmorMaterial LONG_FALL_BOOTS = new ArmorMaterial(
 			ArmorMaterials.IRON.durability(),
-			Util.makeEnumMap(ArmorType.class, ArmorMaterials.IRON.defense()::get),
+			ArmorMaterials.IRON.defense(),
 			ArmorMaterials.IRON.enchantmentValue(),
 			ArmorMaterials.IRON.equipSound(),
 			0,

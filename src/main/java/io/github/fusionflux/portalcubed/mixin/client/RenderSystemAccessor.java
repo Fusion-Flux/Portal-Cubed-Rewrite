@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-@Mixin(RenderSystem.class)
+@Mixin(value = RenderSystem.class, remap = false)
 public interface RenderSystemAccessor {
 	@Accessor
 	static void setModelViewStack(Matrix4fStack matrices) {

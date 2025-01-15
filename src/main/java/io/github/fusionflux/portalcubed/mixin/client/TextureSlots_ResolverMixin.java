@@ -20,7 +20,8 @@ public class TextureSlots_ResolverMixin {
 			method = "resolve",
 			at = @At(
 					value = "INVOKE",
-					target = "Lit/unimi/dsi/fastutil/objects/Object2ObjectMap;get(Ljava/lang/Object;)Ljava/lang/Object;"
+					target = "Lit/unimi/dsi/fastutil/objects/Object2ObjectMap;get(Ljava/lang/Object;)Ljava/lang/Object;",
+					remap = false
 			)
 	)
 	private void insertDynamicTextureMarker(

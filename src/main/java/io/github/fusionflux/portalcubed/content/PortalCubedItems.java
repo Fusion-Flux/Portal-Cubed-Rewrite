@@ -45,8 +45,11 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
-			.properties(s -> s.stacksTo(1).fireResistant())
-			.properties(p -> p.component(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT))
+			.properties(s -> s
+					.stacksTo(1)
+					.fireResistant()
+					.component(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT)
+			)
 			.build();
 
 	public static final Item MAGNESIUM_INGOT = REGISTRAR.items.create("magnesium_ingot", Item::new)
@@ -71,16 +74,18 @@ public class PortalCubedItems {
 			.build();
 
 	public static final ConstructionCannonItem CONSTRUCTION_CANNON = REGISTRAR.items.create("construction_cannon", ConstructionCannonItem::new)
-			.properties(s -> s.stacksTo(1).fireResistant())
-			.properties(p -> p.component(
-					DataComponents.ATTRIBUTE_MODIFIERS,
-					ItemAttributeModifiers.builder().add(
-									Attributes.BLOCK_INTERACTION_RANGE,
-									new AttributeModifier(ConstructionCannonItem.REACH_BOOST, 2.5, Operation.ADD_VALUE),
-									EquipmentSlotGroup.MAINHAND
-							)
-							.build()
-			))
+			.properties(s -> s
+					.stacksTo(1)
+					.fireResistant()
+					.component(
+						DataComponents.ATTRIBUTE_MODIFIERS,
+						ItemAttributeModifiers.builder().add(
+								Attributes.BLOCK_INTERACTION_RANGE,
+								new AttributeModifier(ConstructionCannonItem.REACH_BOOST, 2.5, Operation.ADD_VALUE),
+								EquipmentSlotGroup.MAINHAND
+						).build()
+					)
+			)
 			.build();
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)

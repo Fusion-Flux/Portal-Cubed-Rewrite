@@ -10,18 +10,18 @@ public class LongFallBoots {
 	public static final int BASE_BLOCKS_PER_POINT = 4;
 	public static final int DAMAGE_INTERVAL_SIZE = 50;
 
-	public static int calculateFallDamage(RegistryAccess registryAccess, ItemStack stack, int fallDist) {
+	public static int calculateDamage(RegistryAccess registryAccess, ItemStack stack, double absorption, int fallDist) {
 		int unbreakingLevel = registryAccess
 				.lookup(Registries.ENCHANTMENT)
 				.flatMap(registry -> registry.get(Enchantments.UNBREAKING))
 				.map(stack.getEnchantments()::getLevel)
 				.orElse(0);
 		int blocksPerPoint = BASE_BLOCKS_PER_POINT + unbreakingLevel;
-		float bootDamage = 0;
+		double bootDamage = 0;
 
 		// loop through intervals
 		while (fallDist > 0) {
-			float pointsPerBlock = 1f / blocksPerPoint;
+			double pointsPerBlock = 1d / blocksPerPoint;
 			// distance fallen this interval, maxed at interval size
 			int dist = Math.min(DAMAGE_INTERVAL_SIZE, fallDist);
 			fallDist -= dist;
@@ -32,6 +32,6 @@ public class LongFallBoots {
 				blocksPerPoint--;
 		}
 
-		return Mth.floor(bootDamage);
+		return Mth.floor(bootDamage * absorption);
 	}
 }
