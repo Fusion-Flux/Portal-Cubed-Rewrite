@@ -1,6 +1,9 @@
 package io.github.fusionflux.portalcubed.mixin;
 
+import java.util.ArrayList;
 import java.util.Collection;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -191,8 +194,9 @@ public abstract class EntityMixin implements EntityExt {
 	@Override
 	public boolean pc$disintegrate() {
 		if (!this.disintegrating) {
-			if (this.level() instanceof ServerLevel world && (Object) this instanceof Entity self) {
-				world.gameEvent(self, GameEvent.ENTITY_DIE, this.position());
+			if (this.level() instanceof ServerLevel level) {
+				Entity self = (Entity) (Object) this;
+				level.gameEvent(self, GameEvent.ENTITY_DIE, this.position());
 
 				// In portal buttons push back on the objects that are on them, disintegration makes objects lose all their mass, so they get ejected but we cant do that here so lets just apply a slight force
 				BlockState feetState = this.getBlockStateOn();
@@ -200,11 +204,21 @@ public abstract class EntityMixin implements EntityExt {
 					this.setDeltaMovement(feetState.getValue(FloorButtonBlock.FACING).getUnitVec3().scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
 
 				this.disintegrateTicks = DISINTEGRATE_TICKS;
-				Collection<ServerPlayer> tracking = (Object) this instanceof ServerPlayer serverPlayer ? PortalCubedPackets.trackingAndSelf(serverPlayer) : PlayerLookup.tracking(self);
-				DisintegratePacket packet = new DisintegratePacket(self);
-				for (ServerPlayer toUpdate : tracking) {
-					PortalCubedPackets.sendToClient(toUpdate, packet);
+
+				Collection<ServerPlayer> tracking = PlayerLookup.tracking(self);
+				if ((Object) this instanceof ServerPlayer serverPlayer) {
+					tracking = new ArrayList<>(tracking);
+					tracking.add(serverPlayer);
+					serverPlayer.awardStat(PortalCubedStats.TIMES_DISINTEGRATED);
 				}
+
+				if (!tracking.isEmpty()) {
+					DisintegratePacket packet = new DisintegratePacket(self);
+					for (ServerPlayer toUpdate : tracking) {
+						PortalCubedPackets.sendToClient(toUpdate, packet);
+					}
+				}
+
 				this.stopRiding();
 			}
 			this.disintegrating = true;
