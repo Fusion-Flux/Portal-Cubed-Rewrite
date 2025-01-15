@@ -16,6 +16,7 @@ public class PortalCubedEntityTags {
 	public static final TagKey<EntityType<?>> CAN_BE_CHARRED = create("can_be_charred");
 	public static final TagKey<EntityType<?>> CAN_BE_WASHED = create("can_be_washed");
 	public static final TagKey<EntityType<?>> DEALS_LANDING_DAMAGE = create("deals_landing_damage");
+	public static final TagKey<EntityType<?>> DONT_ROTATE_RANDOMLY = create("dont_rotate_randomly");
 	public static final Map<ImpactSoundType, TagKey<EntityType<?>>> IMPACT_SOUNDS = Util.make(new EnumMap<>(ImpactSoundType.class), map -> {
 		for (ImpactSoundType type : ImpactSoundType.values()) {
 			map.put(type, create(type.toString() + "_impact_sound"));

@@ -23,6 +23,7 @@
     "DoorBlockMixin",
     "EntityAccessor",
     "EntityMixin",
+    "EntityTypeMixin",
     "GameTestInfoMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
