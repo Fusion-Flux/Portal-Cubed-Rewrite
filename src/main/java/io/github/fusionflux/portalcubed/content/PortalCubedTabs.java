@@ -264,9 +264,9 @@ public class PortalCubedTabs {
 			addPortalGunVariant(output, "legacy_portal_gun_reloaded", "portal_guns/legacy_portal_gun_reloaded");
 
 			addPortalGunVariant(output, "2d_portal_gun", "portal_guns/2d_portal_gun");
-			addPortalGunVariant(output, "2d_portal_gun_atlas", "portal_guns/2d_portal_gun");
-			addPortalGunVariant(output, "2d_portal_gun_p_body", "portal_guns/2d_portal_gun");
-			addPortalGunVariant(output, "2d_portal_gun_reloaded", "portal_guns/2d_portal_gun");
+			addPortalGunVariant(output, "2d_portal_gun_atlas", "portal_guns/2d_portal_gun_atlas");
+			addPortalGunVariant(output, "2d_portal_gun_p_body", "portal_guns/2d_portal_gun_p_body");
+			addPortalGunVariant(output, "2d_portal_gun_reloaded", "portal_guns/2d_portal_gun_reloaded");
 
 			addPortalGunVariant(output, "mel_portal_gun", "portal_guns/mel_portal_gun");
 
