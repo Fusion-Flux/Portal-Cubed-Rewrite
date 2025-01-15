@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 public record PortalGunTintSource(Selection selection, int defaultColor) implements ItemTintSource {
 	public static final MapCodec<PortalGunTintSource> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			Selection.CODEC.fieldOf("polarity").forGetter(PortalGunTintSource::selection),
-			ExtraCodecs.RGB_COLOR_CODEC.optionalFieldOf("default", 0).forGetter(PortalGunTintSource::defaultColor)
+			ExtraCodecs.RGB_COLOR_CODEC.optionalFieldOf("default", 0xFF313131).forGetter(PortalGunTintSource::defaultColor)
 	).apply(i, PortalGunTintSource::new));
 
 	@Override

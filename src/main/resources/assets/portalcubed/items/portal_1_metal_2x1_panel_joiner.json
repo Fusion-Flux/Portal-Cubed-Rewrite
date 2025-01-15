@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "portalcubed:block/portal_1_metal_2x1_panel_top"
+    "model": "portalcubed:block/portal_1_metal_2x1_panel_joiner"
   }
 }
