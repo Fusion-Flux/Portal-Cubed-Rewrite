@@ -1,7 +1,7 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "portalcubed:portal_gun/default/humanoid/portal_gun",
+    "model": "portalcubed:portal_gun/splash_o_matic/humanoid/splash_o_matic",
     "tints": [
       {
         "type": "portalcubed:portal_gun",

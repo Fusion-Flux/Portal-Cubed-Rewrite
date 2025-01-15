@@ -1,0 +1,39 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "portalcubed:portal_gun/legacy/humanoid/legacy_portal_gun",
+        "tints": [
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "active"
+          },
+          {
+            "type": "minecraft:dye",
+            "default": -1
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "primary"
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "secondary"
+          }
+        ]
+      },
+      {
+        "type": "minecraft:model",
+        "model": "portalcubed:portal_gun/legacy/humanoid/legacy_stripes_model_part",
+        "tints": [
+          {
+            "type": "minecraft:constant",
+            "value": -12427883
+          }
+        ]
+      }
+    ]
+  }
+}

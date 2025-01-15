@@ -251,45 +251,45 @@ public class PortalCubedTabs {
 
 			// ----- portal guns -----
 
-			addPortalGunVariant(output, "portal_gun", "portal_gun");
-			addPortalGunVariant(output, "potatos_portal_gun", "potatos_portal_gun");
-			addPortalGunVariant(output, "portal_gun_atlas", "portal_gun_atlas");
-			addPortalGunVariant(output, "portal_gun_p_body", "portal_gun_p_body");
-			addPortalGunVariant(output, "portal_gun_reloaded", "portal_gun_reloaded");
-			addPortalGunVariant(output, "tiny_potatos_portal_gun", "portal_gun");
+			addPortalGunVariant(output, "portal_gun", "portal_guns/portal_gun");
+			addPortalGunVariant(output, "potatos_portal_gun", "portal_guns/potatos_portal_gun");
+			addPortalGunVariant(output, "portal_gun_atlas", "portal_guns/portal_gun_atlas");
+			addPortalGunVariant(output, "portal_gun_p_body", "portal_guns/portal_gun_p_body");
+			addPortalGunVariant(output, "portal_gun_reloaded", "portal_guns/portal_gun_reloaded");
+			addPortalGunVariant(output, "tiny_potatos_portal_gun", "portal_guns/tiny_potatos_portal_gun");
 
-			addPortalGunVariant(output, "legacy_portal_gun", "legacy_portal_gun");
-			addPortalGunVariant(output, "legacy_portal_gun_atlas", "legacy_portal_gun_atlas");
-			addPortalGunVariant(output, "legacy_portal_gun_p_body", "legacy_portal_gun_p_body");
-			addPortalGunVariant(output, "legacy_portal_gun_reloaded", "legacy_portal_gun_reloaded");
+			addPortalGunVariant(output, "legacy_portal_gun", "portal_guns/legacy_portal_gun");
+			addPortalGunVariant(output, "legacy_portal_gun_atlas", "portal_guns/legacy_portal_gun_atlas");
+			addPortalGunVariant(output, "legacy_portal_gun_p_body", "portal_guns/legacy_portal_gun_p_body");
+			addPortalGunVariant(output, "legacy_portal_gun_reloaded", "portal_guns/legacy_portal_gun_reloaded");
 
-			addPortalGunVariant(output, "2d_portal_gun", "2d_portal_gun");
-			addPortalGunVariant(output, "2d_portal_gun_atlas", "2d_portal_gun");
-			addPortalGunVariant(output, "2d_portal_gun_p_body", "2d_portal_gun");
-			addPortalGunVariant(output, "2d_portal_gun_reloaded", "2d_portal_gun");
+			addPortalGunVariant(output, "2d_portal_gun", "portal_guns/2d_portal_gun");
+			addPortalGunVariant(output, "2d_portal_gun_atlas", "portal_guns/2d_portal_gun");
+			addPortalGunVariant(output, "2d_portal_gun_p_body", "portal_guns/2d_portal_gun");
+			addPortalGunVariant(output, "2d_portal_gun_reloaded", "portal_guns/2d_portal_gun");
 
-			addPortalGunVariant(output, "mel_portal_gun", "mel_portal_gun");
+			addPortalGunVariant(output, "mel_portal_gun", "portal_guns/mel_portal_gun");
 
-			addPortalGunVariant(output, "2005_beta_portal_gun", "2005_beta_portal_gun");
-			addPortalGunVariant(output, "2006_beta_portal_gun", "2006_beta_portal_gun");
+			addPortalGunVariant(output, "2005_beta_portal_gun", "portal_guns/2005_beta_portal_gun");
+			addPortalGunVariant(output, "2006_beta_portal_gun", "portal_guns/2006_beta_portal_gun");
 
-			addPortalGunVariant(output, "damaged_portal_gun", "damaged_portal_gun");
-			addPortalGunVariant(output, "painted_portal_gun", "painted_portal_gun");
+			addPortalGunVariant(output, "damaged_portal_gun", "portal_guns/damaged_portal_gun");
+			addPortalGunVariant(output, "painted_portal_gun", "portal_guns/painted_portal_gun");
 
-			addPortalGunVariant(output, "lego_portal_gun", "lego_portal_gun");
-			addPortalGunVariant(output, "bendy_portal_gun", "bendy_portal_gun");
-			addPortalGunVariant(output, "blueprint_portal_gun", "blueprint_portal_gun");
-			addPortalGunVariant(output, "missing_texture_portal_gun", "missing_texture_portal_gun");
-			addPortalGunVariant(output, "pistol_portal_gun", "pistol");
-			addPortalGunVariant(output, "splash_o_matic", "splash_o_matic");
-			addPortalGunVariant(output, "salmon_gun", "salmon_gun");
-			addPortalGunVariant(output, "wand", "wand");
-			addPortalGunVariant(output, "smithers_portal_gun", "smithers_portal_gun");
-			addPortalGunVariant(output, "peashooter", "peashooter");
-			addPortalGunVariant(output, "paintbrush", "paintbrush");
-			addPortalGunVariant(output, "polaroid", "polaroid");
-			addPortalGunVariant(output, "pipis_cannon", "pipis_cannon");
-			addPortalGunVariant(output, "portal_gun_rick", "portal_gun_rick");
+			addPortalGunVariant(output, "lego_portal_gun", "portal_guns/lego_portal_gun");
+			addPortalGunVariant(output, "bendy_portal_gun", "portal_guns/bendy_portal_gun");
+			addPortalGunVariant(output, "blueprint_portal_gun", "portal_guns/blueprint_portal_gun");
+			addPortalGunVariant(output, "missing_texture_portal_gun", "portal_guns/missing_texture_portal_gun");
+			addPortalGunVariant(output, "pistol_portal_gun", "portal_guns/pistol");
+			addPortalGunVariant(output, "splash_o_matic", "portal_guns/splash_o_matic");
+			addPortalGunVariant(output, "salmon_gun", "portal_guns/salmon_gun");
+			addPortalGunVariant(output, "wand", "portal_guns/wand");
+			addPortalGunVariant(output, "smithers_portal_gun", "portal_guns/smithers_portal_gun");
+			addPortalGunVariant(output, "peashooter", "portal_guns/peashooter");
+			addPortalGunVariant(output, "paintbrush", "portal_guns/paintbrush");
+			addPortalGunVariant(output, "polaroid", "portal_guns/polaroid");
+			addPortalGunVariant(output, "pipis_cannon", "portal_guns/pipis_cannon");
+			addPortalGunVariant(output, "portal_gun_rick", "portal_guns/portal_gun_rick");
 
 			// ----- props -----
 			output.accept(PortalCubedBlocks.PROP_BARRIER);

@@ -49,6 +49,7 @@ public class PortalCubedItems {
 			.properties(s -> s
 					.stacksTo(1)
 					.fireResistant()
+					.component(DataComponents.ITEM_MODEL, PortalCubed.id("portal_guns/portal_gun"))  //fixme, this doesn't do anything for some reason despite the exact same thing working in the tabs with addPortalGunVariant.  I just added a workaround for now
 					.component(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT)
 					.rarity(Rarity.RARE)
 			)

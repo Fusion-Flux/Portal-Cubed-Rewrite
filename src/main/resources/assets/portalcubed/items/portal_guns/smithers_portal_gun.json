@@ -1,7 +1,7 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "portalcubed:portal_gun/default/humanoid/portal_gun",
+    "model": "portalcubed:portal_gun/smithers/humanoid/smithers_portal_gun",
     "tints": [
       {
         "type": "portalcubed:portal_gun",
@@ -9,7 +9,7 @@
       },
       {
         "type": "minecraft:dye",
-        "default": -1
+        "default": -14445061
       },
       {
         "type": "portalcubed:portal_gun",

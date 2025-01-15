@@ -1,7 +1,7 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "portalcubed:portal_gun/default/humanoid/portal_gun",
+    "model": "portalcubed:portal_gun/polaroid/humanoid/polaroid",
     "tints": [
       {
         "type": "portalcubed:portal_gun",
