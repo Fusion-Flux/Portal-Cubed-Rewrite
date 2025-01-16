@@ -55,6 +55,11 @@ public class CrossbarPillarBlock extends RotatedPillarBlock implements SimpleWat
 	}
 
 	@Override
+	protected VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) {
+		return Shapes.block();
+	}
+
+	@Override
 	@NotNull
 	public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
