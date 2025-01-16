@@ -20,7 +20,7 @@ public class DebugRendering {
 	private static final List<DebugRenderEntry> entries = new ArrayList<>();
 
 	public static void addPos(int ticks, Vec3 pos, Color color) {
-	    entries.add(new DebugPos(60, pos, color));
+	    entries.add(new DebugPos(ticks, nudge(pos), color));
 	}
 
 	// internal
@@ -32,6 +32,11 @@ public class DebugRendering {
 
 	private static void tick(Minecraft mc) {
 		entries.removeIf(entry -> entry.ticksLeft-- <= 0);
+	}
+
+	private static Vec3 nudge(Vec3 pos) {
+		double offset = Math.random() / 1000;
+		return pos.add(offset);
 	}
 
 	private static void render(WorldRenderContext ctx) {
