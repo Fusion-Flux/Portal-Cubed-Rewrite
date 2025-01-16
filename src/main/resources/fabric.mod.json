@@ -40,7 +40,8 @@
       "net/minecraft/class_1297": [ "io/github/fusionflux/portalcubed/framework/extension/EntityExt"],
       "net/minecraft/class_2777": [ "io/github/fusionflux/portalcubed/framework/extension/ClientboundTeleportEntityPacketExt" ],
       "net/minecraft/class_813": [ "io/github/fusionflux/portalcubed/framework/extension/VariantExt" ],
-      "net/minecraft/class_742": [ "io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt" ]
+      "net/minecraft/class_742": [ "io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt" ],
+      "net/minecraft/class_1792\u0024class_1793": [ "io/github/fusionflux/portalcubed/framework/extension/ItemPropertiesExt" ]
     }
   }
 }

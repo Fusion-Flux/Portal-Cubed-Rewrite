@@ -25,6 +25,7 @@
     "EntityMixin",
     "EntityTypeMixin",
     "GameTestInfoMixin",
+    "ItemPropertiesMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
     "LevelMixin",
