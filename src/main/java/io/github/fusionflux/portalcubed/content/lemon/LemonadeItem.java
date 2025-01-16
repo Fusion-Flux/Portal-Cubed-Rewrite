@@ -1,12 +1,12 @@
 package io.github.fusionflux.portalcubed.content.lemon;
 
+import net.minecraft.world.phys.Vec3;
+
 import org.jetbrains.annotations.NotNull;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Position;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
@@ -15,20 +15,14 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.ProjectileItem;
 import net.minecraft.world.level.Level;
 
-public class LemonadeItem extends Item implements ProjectileItem {
+public class LemonadeItem extends Item {
 	public static final float MIN_THROW_POWER = 0.375f;
 	public static final float MAX_THROW_POWER = 0.8f;
-
-	public static final DispenseConfig DISPENSE_CONFIG = DispenseConfig.builder()
-			.power(MAX_THROW_POWER)
-			.build();
 
 	public LemonadeItem(Properties settings) {
 		super(settings);
@@ -52,11 +46,12 @@ public class LemonadeItem extends Item implements ProjectileItem {
 			if (user instanceof Player player && !player.getAbilities().mayBuild) {
 				world.playSound(null, user.getX(), user.getY(), user.getZ(), PortalCubedSounds.SURPRISE, user.getSoundSource(), 1f, 1f);
 			} else {
-				Lemonade lemonade = new Lemonade(user, world, stack);
+				int explodeTicks = stack.getUseDuration(user) - armTime;
+				Lemonade lemonade = new Lemonade(world, stack, user, explodeTicks);
 
-				lemonade.explodeTicks = stack.getUseDuration(user) - armTime;
 				float power = Mth.lerp(Math.min(1, armTime / Lemonade.TICKS_PER_TIMER_TICK), MIN_THROW_POWER, MAX_THROW_POWER);
-				lemonade.shootFromRotation(user, user.getXRot(), user.getYRot(), 0f, power, 1f);
+				Vec3 spawnPos = user.getEyePosition().subtract(0, 0.1, 0);
+				lemonade.doThrow(spawnPos, user.getViewVector(1), power);
 
 				if (world.addFreshEntity(lemonade) && (!(user instanceof Player player) || !player.isCreative()))
 					return ItemStack.EMPTY;
@@ -117,18 +112,6 @@ public class LemonadeItem extends Item implements ProjectileItem {
 	@Override
 	public ItemUseAnimation getUseAnimation(ItemStack stack) {
 		return ItemUseAnimation.BOW;
-	}
-
-	@Override
-	public Projectile asProjectile(Level level, Position pos, ItemStack stack, Direction direction) {
-		Lemonade lemonade = new Lemonade(level, pos.x(), pos.y(), pos.z(), setArmed(true, stack));
-		lemonade.explodeTicks = Lemonade.MAX_ARM_TIME;
-		return lemonade;
-	}
-
-	@Override
-	public DispenseConfig createDispenseConfig() {
-		return DISPENSE_CONFIG;
 	}
 
 	public static void registerEventListeners() {

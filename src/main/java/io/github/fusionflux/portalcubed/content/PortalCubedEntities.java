@@ -27,7 +27,7 @@ public class PortalCubedEntities {
 			.build();
 
 	public static final EntityType<Lemonade> LEMONADE = REGISTRAR.entities.create("lemonade", Lemonade::create)
-			.configure(b -> b.clientTrackingRange(4).updateInterval(10))
+			.configure(b -> b.clientTrackingRange(4))
 			.size(0.375f, 0.375f)
 			.renderer(() -> () -> ThrownItemRenderer::new)
 			.build();

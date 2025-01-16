@@ -9,6 +9,7 @@ import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
+import io.github.fusionflux.portalcubed.content.lemon.LemonadeDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunCauldronInteraction;
@@ -144,7 +145,7 @@ public class PortalCubedItems {
 		map.put(LONG_FALL_BOOTS, dyedItem);
 		map.put(PORTAL_GUN, new PortalGunCauldronInteraction(dyedItem));
 
-		DispenserBlock.registerProjectileBehavior(LEMONADE);
+		DispenserBlock.registerBehavior(LEMONADE, LemonadeDispenseBehavior.INSTANCE);
 
 		LootTableEvents.MODIFY.register((key, builder, source, registries) -> {
 			if (key == BuiltInLootTables.SNIFFER_DIGGING && source.isBuiltin()) {
