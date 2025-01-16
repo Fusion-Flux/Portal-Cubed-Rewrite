@@ -17,9 +17,9 @@ public class ShaderPatcher {
 
 	private static final String CLIPPING_PLANE_UNIFORM_INJECTION = String.format("uniform vec4 %s;\n", CLIPPING_PLANE_UNIFORM_NAME);
 	private static final String PROJECTION_MATRIX_PLACEHOLDER = "{projectionMatrix}";
-	private static final String CLIPPING_INJECTION = String.format("gl_ClipDistance[0] = dot(%s.xyz, (inverse(%s) * gl_Position).xyz) + %1$1s.w;\n", CLIPPING_PLANE_UNIFORM_NAME, PROJECTION_MATRIX_PLACEHOLDER);
+	private static final String CLIPPING_INJECTION = String.format("    gl_ClipDistance[0] = dot(%s.xyz, (inverse(%s) * gl_Position).xyz) + %1$1s.w;\n", CLIPPING_PLANE_UNIFORM_NAME, PROJECTION_MATRIX_PLACEHOLDER);
 
-	private static final Object2ObjectOpenHashMap<String, String> CACHE = new Object2ObjectOpenHashMap<>();
+	private static final Object2ObjectOpenHashMap<CacheKey, String> CACHE = new Object2ObjectOpenHashMap<>();
 
 	public static boolean shouldPatch(String name) {
 		return ShaderType.matches(name).isPresent();
@@ -28,7 +28,7 @@ public class ShaderPatcher {
 	public static Optional<String> tryPatch(String src, String name) {
 		return ShaderType
 				.matches(name)
-				.map(type -> CACHE.computeIfAbsent(name, $ -> patch(type, src)));
+				.map(type -> CACHE.computeIfAbsent(new CacheKey(name, src), $ -> patch(type, src)));
 	}
 
 	private static String patch(ShaderType type, String src) {
@@ -37,7 +37,7 @@ public class ShaderPatcher {
 		boolean foundMain = false;
 		for (String line : src.split("\n")) {
 			builder.append(line).append("\n");
-			if (line.contains("#version") && !insertedUniform) {
+			if (line.contains("uniform ") && !insertedUniform) {
 				builder.append(CLIPPING_PLANE_UNIFORM_INJECTION);
 				insertedUniform = true;
 			} else if (line.contains("void main() {")) {
@@ -69,6 +69,8 @@ public class ShaderPatcher {
 			return Optional.empty();
 		}
 	}
+
+	private record CacheKey(String name, String src) {}
 
 	public enum ReloadListener implements SimpleSynchronousReloadListener {
 		INSTANCE;
