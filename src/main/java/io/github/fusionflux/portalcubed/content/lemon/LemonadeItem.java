@@ -21,8 +21,8 @@ import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 
 public class LemonadeItem extends Item {
-	public static final float MIN_THROW_POWER = 0.375f;
-	public static final float MAX_THROW_POWER = 0.8f;
+	public static final float MIN_THROW_POWER = 0.75f;
+	public static final float MAX_THROW_POWER = 1.6f;
 
 	public LemonadeItem(Properties settings) {
 		super(settings);

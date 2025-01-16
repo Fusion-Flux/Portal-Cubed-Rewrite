@@ -105,10 +105,12 @@ public class Lemonade extends LerpableEntity implements ItemSupplier, TraceableE
 		Vec3 vel = this.getDeltaMovement();
 
 		// friction logic from LivingEntity
-		BlockPos posBelow = this.getBlockPosBelowThatAffectsMyMovement();
-		float friction = this.level().getBlockState(posBelow).getBlock().getFriction();
-		friction = this.onGround() ? friction * .91f : .91f;
-		vel = new Vec3(vel.x * friction, vel.y, vel.z * friction);
+		float friction = 0.91f;
+		if (this.onGround()) {
+			BlockPos posBelow = this.getBlockPosBelowThatAffectsMyMovement();
+			friction *= this.level().getBlockState(posBelow).getBlock().getFriction();
+		}
+		vel = new Vec3(vel.x * friction, vel.y * friction, vel.z * friction);
 
 		this.setDeltaMovement(vel);
 		this.move(MoverType.SELF, vel);
@@ -149,6 +151,11 @@ public class Lemonade extends LerpableEntity implements ItemSupplier, TraceableE
 	@Override
 	protected double getDefaultGravity() {
 		return 0.05; // same as AbstractArrow
+	}
+
+	@Override
+	public boolean shouldRender(double x, double y, double z) {
+		return this.tickCount > 2 && super.shouldRender(x, y, z);
 	}
 
 	@Override
