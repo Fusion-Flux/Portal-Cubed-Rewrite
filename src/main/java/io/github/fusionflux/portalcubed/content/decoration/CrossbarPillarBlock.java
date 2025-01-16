@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed.content.decoration;
 
+import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
+
+import net.minecraft.core.Direction.Axis;
+
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.BlockPos;
@@ -25,6 +29,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class CrossbarPillarBlock extends RotatedPillarBlock implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
+	public static final VoxelShaper SHAPER = VoxelShaper.forAxis(
+			Shapes.or(
+					Block.box(0, 0, 0, 16, 16, 2),
+					Block.box(0, 0, 0, 2, 16, 16),
+					Block.box(0, 0, 14, 16, 16, 16),
+					Block.box(14, 0, 0, 16, 16, 16)
+			),
+			Axis.Y
+	);
+
 	public CrossbarPillarBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false));
@@ -33,6 +47,11 @@ public class CrossbarPillarBlock extends RotatedPillarBlock implements SimpleWat
 	@Override
 	public boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {
 		return (stateFrom.getBlock() instanceof CrossbarPillarBlock) || super.skipRendering(state, stateFrom, direction);
+	}
+
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return SHAPER.get(state.getValue(AXIS));
 	}
 
 	@Override
