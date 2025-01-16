@@ -1,33 +1,85 @@
 {
   "model": {
-    "type": "minecraft:composite",
-    "models": [
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
       {
-        "type": "minecraft:model",
-        "model": "portalcubed:portal_gun/default/humanoid/portal_gun",
-        "tints": [
-          {
-            "type": "portalcubed:portal_gun",
-            "polarity": "active"
-          },
-          {
-            "type": "minecraft:dye",
-            "default": -1
-          },
-          {
-            "type": "portalcubed:portal_gun",
-            "polarity": "primary"
-          },
-          {
-            "type": "portalcubed:portal_gun",
-            "polarity": "secondary"
-          }
-        ]
-      },
-      {
-        "type": "minecraft:model",
-        "model": "portalcubed:portal_gun/default/humanoid/potatos_model_part"
+        "when": "minecraft:fox",
+        "model": {
+          "type": "minecraft:composite",
+          "models": [
+            {
+              "type": "minecraft:model",
+              "model": "portalcubed:portal_gun/default/fox/portal_gun",
+              "tints": [
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "active"
+                },
+                {
+                  "type": "minecraft:dye",
+                  "default": -1
+                },
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "primary"
+                },
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "secondary"
+                }
+              ]
+            },
+            {
+              "type": "minecraft:model",
+              "model": "portalcubed:portal_gun/default/fox/potatos_model_part",
+              "tints": [
+                {
+                  "type": "minecraft:constant",
+                  "value": -1
+                }
+              ]
+            }
+          ]
+        }
       }
-    ]
+    ],
+    "fallback": {
+      "type": "minecraft:composite",
+      "models": [
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/default/humanoid/portal_gun",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "active"
+            },
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "primary"
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "secondary"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/default/humanoid/potatos_model_part",
+          "tints": [
+            {
+              "type": "minecraft:constant",
+              "value": -1
+            }
+          ]
+        }
+      ]
+    }
   }
 }

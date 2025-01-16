@@ -1,24 +1,55 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "portalcubed:portal_gun/beta/humanoid/2006_beta_portal_gun",
-    "tints": [
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
       {
-        "type": "portalcubed:portal_gun",
-        "polarity": "active"
-      },
-      {
-        "type": "minecraft:dye",
-        "default": -1
-      },
-      {
-        "type": "portalcubed:portal_gun",
-        "polarity": "primary"
-      },
-      {
-        "type": "portalcubed:portal_gun",
-        "polarity": "secondary"
+        "when": "minecraft:fox",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/beta/fox/2006_beta_portal_gun",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
       }
-    ]
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "portalcubed:portal_gun/beta/humanoid/2006_beta_portal_gun",
+      "tints": [
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "active"
+        },
+        {
+          "type": "minecraft:dye",
+          "default": -1
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "primary"
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "secondary"
+        }
+      ]
+    }
   }
 }
