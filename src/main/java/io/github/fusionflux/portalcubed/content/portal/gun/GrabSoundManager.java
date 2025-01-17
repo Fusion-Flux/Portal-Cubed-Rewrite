@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
@@ -11,7 +13,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 
 public class GrabSoundManager {
 	// magic number of ticks between the starts of the grab and hold sounds
@@ -25,19 +26,23 @@ public class GrabSoundManager {
 	private FollowingSoundInstance holdSound;
 
 	private int grabTimer;
+	private ItemVariant lastHeldItem;
 
 	public GrabSoundManager(Player player) {
 		this.player = player;
+		this.lastHeldItem = this.findHeldItem();
 	}
 
-	public void onMainHandChange(ItemStack oldStack, ItemStack newStack) {
-		if (!newStack.is(PortalCubedItems.PORTAL_GUN)) {
+	public void onHeldItemChange(ItemVariant newItem) {
+		if (!newItem.isOf(PortalCubedItems.PORTAL_GUN)) {
 			// unequipped portal gun
 			this.stop();
-		} else if (!oldStack.is(PortalCubedItems.PORTAL_GUN)) {
+		} else if (!this.lastHeldItem.isOf(PortalCubedItems.PORTAL_GUN) && this.playerIsHolding()) {
 			// equipped portal gun
 			this.startHold();
 		}
+
+		this.lastHeldItem = newItem;
 	}
 
 	public void onHeldEntityChange(@Nullable HoldableEntity held) {
@@ -58,10 +63,23 @@ public class GrabSoundManager {
 				this.startHold();
 			}
 		}
+
+		ItemVariant held = this.findHeldItem();
+		if (!this.lastHeldItem.equals(held)) {
+			this.onHeldItemChange(held);
+		}
 	}
 
 	private boolean isActive() {
 		return this.grabSound != null || this.holdSound != null;
+	}
+
+	private boolean playerIsHolding() {
+		return this.player.getHeldEntity() != null;
+	}
+
+	private ItemVariant findHeldItem() {
+		return ItemVariant.of(this.player.getMainHandItem());
 	}
 
 	private void stop() {

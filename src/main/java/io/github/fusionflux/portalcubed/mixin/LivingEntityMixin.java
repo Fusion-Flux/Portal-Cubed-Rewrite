@@ -20,7 +20,6 @@ import io.github.fusionflux.portalcubed.content.boots.LongFallBoots;
 import io.github.fusionflux.portalcubed.content.boots.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedDamageTypeTags;
-import io.github.fusionflux.portalcubed.framework.extension.AbstractClientPlayerExt;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -185,12 +184,5 @@ public abstract class LivingEntityMixin extends Entity {
 
 		// no source physics, change nothing
 		return original.call(self, movementInput, slipperiness);
-	}
-
-	@Inject(method = "onEquipItem", at = @At("HEAD"))
-	private void onEquipItem(EquipmentSlot slot, ItemStack oldItem, ItemStack newItem, CallbackInfo ci) {
-		if (this instanceof AbstractClientPlayerExt ext && this.level().isClientSide && slot == EquipmentSlot.MAINHAND) {
-			ext.grabSoundManager().onMainHandChange(oldItem, newItem);
-		}
 	}
 }
