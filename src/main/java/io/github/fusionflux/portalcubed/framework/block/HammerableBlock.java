@@ -24,10 +24,7 @@ public interface HammerableBlock {
 	static void registerEventListeners() {
 		UseBlockCallback.EVENT.register((player, world, hand, hit) -> {
 			ItemStack stack = player.getItemInHand(hand);
-			if (!stack.is(PortalCubedItemTags.WRENCHES))
-				return InteractionResult.PASS;
-
-			if (!player.mayBuild())
+			if (!stack.is(PortalCubedItemTags.WRENCHES) || !player.mayBuild() || player.getCooldowns().isOnCooldown(stack))
 				return InteractionResult.PASS;
 
 			BlockPos pos = hit.getBlockPos();
