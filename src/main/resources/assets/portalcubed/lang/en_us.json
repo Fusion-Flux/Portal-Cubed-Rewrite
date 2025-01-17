@@ -398,17 +398,18 @@
   "advancement.portalcubed.lemonade.title": "Burn Life's House Down!",
   "advancement.portalcubed.lemonade.description": "Create and use a combustible lemon",
 
-  "advancement.portalcubed.configure_test_element.title": "Give it a Good Whack",
-  "advancement.portalcubed.configure_test_element.description": "Use a Hammer to configure a test element",
+  "advancement.portalcubed.make_hammer.title": "Give it a Good Whack",
+  "advancement.portalcubed.make_hammer.description": "Craft a Hammer so you can start configuring test elements",
   "advancement.portalcubed.stalemate_associate.title": "Certified Stalemate Associate",
   "advancement.portalcubed.stalemate_associate.description": "Configure a Pedestal Button",
   "advancement.portalcubed.hammer_time.title": "Stop - Hammer Time!",
   "advancement.portalcubed.hammer_time.description": "Change the timer of a test element",
+  "advancement.portalcubed.sign_here.title": "Sign Here",
+  "advancement.portalcubed.sign_here.description": "Place a Signage block",
+
   "advancement.portalcubed.crossover_episode.title": "Crossover Episode",
   "advancement.portalcubed.crossover_episode.description": "Obtain a Crowbar",
 
-  "advancement.portalcubed.sign_here.title": "Sign Here",
-  "advancement.portalcubed.sign_here.description": "Place a Signage block",
 
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",

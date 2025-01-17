@@ -16,7 +16,7 @@
     "description": {
       "translate": "advancement.portalcubed.feather_falling_boots.description"
     },
-    "frame": "task",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": true
