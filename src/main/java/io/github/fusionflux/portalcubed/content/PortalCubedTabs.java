@@ -465,8 +465,11 @@ public class PortalCubedTabs {
 		});
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.OP_BLOCKS).register(entries -> {
-			if (entries.shouldShowOpRestrictedItems())
-				entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER);
+			if (!entries.shouldShowOpRestrictedItems())
+				return;
+
+			entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER);
+			entries.addAfter(Items.DEBUG_STICK, PortalCubedItems.FIZZLEINATOR);
 		});
 	}
 }

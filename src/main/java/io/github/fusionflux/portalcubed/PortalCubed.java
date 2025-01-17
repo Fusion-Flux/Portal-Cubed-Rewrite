@@ -3,6 +3,8 @@ package io.github.fusionflux.portalcubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 
+import io.github.fusionflux.portalcubed.content.fizzler.tool.FizzleinatorItem;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +77,7 @@ public class PortalCubed implements ModInitializer {
 		EntityExt.registerEventListeners();
 		HammerableBlock.registerEventListeners();
 		LemonadeItem.registerEventListeners();
+		FizzleinatorItem.registerEventListeners();
 		DisintegrationSoundType.init();
 
 		PortalCubedReloadListeners.registerData();

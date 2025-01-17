@@ -1,12 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
+import io.github.fusionflux.portalcubed.content.fizzler.tool.FizzleinatorItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -23,8 +23,7 @@ public record PortalGunCauldronInteraction(CauldronInteraction doFirst) implemen
 			PortalCubedCriteriaTriggers.SUBMERGED_THE_OPERATIONAL_END_OF_THE_DEVICE.trigger(serverPlayer);
 			player.pc$setHasSubmergedTheOperationalEndOfTheDevice(true);
 			player.pc$disintegrate();
-			FallingBlockEntity cauldron = FallingBlockEntity.fall(level, pos, state);
-			cauldron.pc$disintegrate();
+			FizzleinatorItem.fizzleBlock(serverPlayer.serverLevel(), pos);
 		}
 
 		return InteractionResult.SUCCESS;

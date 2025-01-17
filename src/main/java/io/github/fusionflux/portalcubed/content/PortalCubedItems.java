@@ -9,6 +9,7 @@ import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
+import io.github.fusionflux.portalcubed.content.fizzler.tool.FizzleinatorItem;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
@@ -93,6 +94,11 @@ public class PortalCubedItems {
 						).build()
 					)
 			)
+			.build();
+
+	public static final FizzleinatorItem FIZZLEINATOR = REGISTRAR.items.create("fizzleinator", FizzleinatorItem::new)
+			.properties(p -> p.rarity(Rarity.EPIC))
+			.properties(p -> p.stacksTo(1))
 			.build();
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
