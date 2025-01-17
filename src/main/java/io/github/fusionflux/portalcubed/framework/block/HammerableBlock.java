@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
+import net.minecraft.core.component.DataComponents;
+
+import net.minecraft.world.item.component.UseCooldown;
+
 import org.jetbrains.annotations.NotNull;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
@@ -32,8 +36,13 @@ public interface HammerableBlock {
 				return InteractionResult.PASS;
 
 			InteractionResult result = hammerable.onHammered(state, world, pos, player, hit);
-			if (result instanceof InteractionResult.Success)
+			if (result instanceof InteractionResult.Success success && success.wasItemInteraction()) {
 				player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+				UseCooldown cooldown = stack.get(DataComponents.USE_COOLDOWN);
+				if (cooldown != null) {
+					cooldown.apply(stack, player);
+				}
+			}
 			return result;
 		});
 	}

@@ -3,7 +3,10 @@ package io.github.fusionflux.portalcubed.content.cannon;
 import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+
+import net.minecraft.world.item.component.UseCooldown;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -101,6 +104,13 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 			PlayerLookup.tracking(player).forEach(
 					tracking -> PortalCubedPackets.sendToClient(tracking, packet)
 			);
+
+			ItemStack stack = context.getItemInHand();
+			UseCooldown cooldown = stack.get(DataComponents.USE_COOLDOWN);
+			if (cooldown != null) {
+				cooldown.apply(stack, player);
+			}
+
 			return InteractionResult.CONSUME;
 		}
 
