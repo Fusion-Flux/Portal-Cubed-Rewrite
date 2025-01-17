@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.fizzler.tool;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -7,6 +8,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -37,10 +39,11 @@ public class FizzleinatorItem extends Item {
 
 	public static void registerEventListeners() {
 		UseEntityCallback.EVENT.register((player, level, hand, entity, hit) -> {
-			if (player.isSecondaryUseActive() || level.isClientSide)
+			if (player.isSecondaryUseActive() || level.isClientSide || !player.getAbilities().instabuild)
 				return InteractionResult.PASS;
 
-			if (player.getAbilities().instabuild) {
+			ItemStack held = player.getItemInHand(hand);
+			if (held.is(PortalCubedItems.FIZZLEINATOR)) {
 				entity.pc$disintegrate();
 				return InteractionResult.SUCCESS;
 			}
