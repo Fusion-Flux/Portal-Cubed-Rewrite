@@ -1,0 +1,33 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "minecraft:item/carrot_on_a_stick"
+      },
+      {
+        "type": "minecraft:model",
+        "model": "portalcubed:portal_gun/mr_thingy/humanoid/mr_thingy_model_part",
+        "tints": [
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "active"
+          },
+          {
+            "type": "minecraft:dye",
+            "default": -1338011
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "primary"
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "secondary"
+          }
+        ]
+      }
+    ]
+  }
+}

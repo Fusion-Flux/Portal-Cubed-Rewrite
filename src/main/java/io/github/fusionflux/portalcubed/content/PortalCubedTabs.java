@@ -284,6 +284,8 @@ public class PortalCubedTabs {
 			addPortalGunVariant(output, "splash_o_matic", "portal_guns/splash_o_matic");
 			addPortalGunVariant(output, "salmon_gun", "portal_guns/salmon_gun");
 			addPortalGunVariant(output, "wand", "portal_guns/wand");
+			addPortalGunVariant(output, "black_hole_crossbow", "portal_guns/black_hole_crossbow");
+			addPortalGunVariant(output, "mr_thingy", "portal_guns/mr_thingy");
 			addPortalGunVariant(output, "smithers_portal_gun", "portal_guns/smithers_portal_gun");
 			addPortalGunVariant(output, "peashooter", "portal_guns/peashooter");
 			addPortalGunVariant(output, "paintbrush", "portal_guns/paintbrush");
