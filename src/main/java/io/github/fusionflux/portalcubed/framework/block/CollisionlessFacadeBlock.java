@@ -7,8 +7,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class NoCollisionMultifaceBlock extends SimpleMultifaceBlock {
-	public NoCollisionMultifaceBlock(Properties properties) {
+public class CollisionlessFacadeBlock extends FacadeBlock {
+	public CollisionlessFacadeBlock(Properties properties) {
 		super(properties);
 	}
 
