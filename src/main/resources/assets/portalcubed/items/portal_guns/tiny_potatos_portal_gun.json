@@ -32,13 +32,7 @@
             },
             {
               "type": "minecraft:model",
-              "model": "portalcubed:portal_gun/default/fox/tiny_potatos_model_part",
-              "tints": [
-                {
-                  "type": "minecraft:constant",
-                  "value": -1
-                }
-              ]
+              "model": "portalcubed:portal_gun/default/fox/tiny_potatos_model_part"
             }
           ]
         }
@@ -71,13 +65,7 @@
         },
         {
           "type": "minecraft:model",
-          "model": "portalcubed:portal_gun/default/humanoid/tiny_potatos_model_part",
-          "tints": [
-            {
-              "type": "minecraft:constant",
-              "value": -1
-            }
-          ]
+          "model": "portalcubed:portal_gun/default/humanoid/tiny_potatos_model_part"
         }
       ]
     }

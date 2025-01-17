@@ -1,6 +1,19 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "portalcubed:item/fizzleinator"
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": "minecraft:fox",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:item/fizzleinator_fox"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "portalcubed:item/fizzleinator"
+    }
   }
 }
