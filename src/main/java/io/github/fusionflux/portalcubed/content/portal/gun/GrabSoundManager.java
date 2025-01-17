@@ -34,12 +34,12 @@ public class GrabSoundManager {
 	}
 
 	public void onHeldItemChange(ItemVariant newItem) {
-		if (!newItem.isOf(PortalCubedItems.PORTAL_GUN)) {
+		if (isPortalGun(this.lastHeldItem) && !isPortalGun(newItem) && this.isActive()) {
 			// unequipped portal gun
-			this.stop();
-		} else if (!this.lastHeldItem.isOf(PortalCubedItems.PORTAL_GUN) && this.playerIsHolding()) {
+			this.drop();
+		} else if (!isPortalGun(this.lastHeldItem) && isPortalGun(newItem) && this.playerIsHolding()) {
 			// equipped portal gun
-			this.startHold();
+			this.startGrab();
 		}
 
 		this.lastHeldItem = newItem;
@@ -48,7 +48,6 @@ public class GrabSoundManager {
 	public void onHeldEntityChange(@Nullable HoldableEntity held) {
 		if (held == null) {
 			if (this.isActive()) {
-				this.stop();
 				this.drop();
 			}
 		} else {
@@ -112,6 +111,7 @@ public class GrabSoundManager {
 	}
 
 	private void drop() {
+		this.stop();
 		this.player.playSound(PortalCubedSounds.PORTAL_GUN_DROP, 1, 1);
 	}
 
@@ -120,5 +120,9 @@ public class GrabSoundManager {
 		instance.setLooping(loop);
 		Minecraft.getInstance().getSoundManager().play(instance);
 		return instance;
+	}
+
+	private static boolean isPortalGun(ItemVariant item) {
+		return item.isOf(PortalCubedItems.PORTAL_GUN);
 	}
 }
