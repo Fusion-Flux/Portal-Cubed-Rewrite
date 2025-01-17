@@ -100,6 +100,9 @@
   "portal_gun/wand/villager/wand": "item/wand_orb",
   "portal_gun/wand/allay/wand": "item/wand_orb",
 
+  "portal_gun/crossbow/humanoid/black_hole_model_part": "item/wand_orb",
+
+
   "portal_gun/smithers/humanoid/smithers_portal_gun": "item/portal_gun_dyeable",
   "portal_gun/smithers/fox/smithers_portal_gun": "item/portal_gun_dyeable",
 

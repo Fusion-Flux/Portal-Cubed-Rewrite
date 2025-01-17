@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "portalcubed:block/white_panel_facade_inventory"
+    "model": "portalcubed:block/white_half_panel_facade_inventory"
   }
 }
