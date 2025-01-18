@@ -37,7 +37,7 @@ public interface BigShapeBlock {
 					if (hit == null || hit.getType() == HitResult.Type.MISS) continue;
 					if (currentHit != null && Vec3.atCenterOf(cur).distanceToSqr(start) >= Vec3.atCenterOf(currentHit.getBlockPos()).distanceTo(start))
 						continue;
-					currentHit = new BlockHitResult(Vec3.atCenterOf(cur), hit.getDirection(), cur.immutable(), hit.isInside());
+					currentHit = new BlockHitResult(hit.getLocation(), hit.getDirection(), cur.immutable(), hit.isInside());
 				}
 			}
 			return currentHit;
