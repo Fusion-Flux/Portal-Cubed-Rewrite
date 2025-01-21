@@ -28,7 +28,7 @@ public class DefaultShaderInterfaceMixin {
 	private void updateClippingPlaneUniform(CallbackInfo ci) {
 		if (PortalRenderer.isRenderingView()) {
 			Vector4f clippingPlane = PortalRenderer.CLIPPING_PLANES.get();
-			this.uniformClippingPlane.set(new float[]{clippingPlane.x, clippingPlane.y, clippingPlane.z, clippingPlane.w});
+			this.uniformClippingPlane.set(clippingPlane.x, clippingPlane.y, clippingPlane.z, clippingPlane.w);
 		}
 	}
 }

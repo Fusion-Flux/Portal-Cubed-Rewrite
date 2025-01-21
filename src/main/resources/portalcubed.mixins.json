@@ -32,7 +32,6 @@
     "LevelMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
-    "MultifaceBlockAccessor",
     "PlayerMixin",
     "RangedBowAttackGoalMixin",
     "RequiredArgumentBuilderMixin",
@@ -43,7 +42,6 @@
     "SmithingTrimRecipeMixin",
     "SpongeBlockMixin",
     "StructureUtilsMixin",
-    "ThrowableProjectileMixin",
     "UseOnContextAccessor",
     "WalkNodeEvaluatorMixin"
   ],
