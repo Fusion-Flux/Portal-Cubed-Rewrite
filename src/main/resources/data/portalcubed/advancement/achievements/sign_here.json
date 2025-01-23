@@ -14,7 +14,7 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/make_hammer",
+  "parent": "portalcubed:achievements/hammer",
   "criteria": {
     "large_signage": {
       "trigger": "minecraft:placed_block",

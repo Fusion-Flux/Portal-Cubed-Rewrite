@@ -4,6 +4,29 @@
     "cases": [
       {
         "model": {
+          "type": "minecraft:composite",
+          "models": [
+            {
+              "type": "minecraft:model",
+              "model": "portalcubed:prop/portal_1_storage_cube"
+            },
+            {
+              "type": "minecraft:model",
+              "model": "portalcubed:prop/party_hat_orange_portal"
+            }
+          ]
+        },
+        "when": [
+          "10-09",
+          "10-10",
+          "10-11",
+          "4-18",
+          "4-19",
+          "4-20"
+        ]
+      },
+      {
+        "model": {
           "type": "minecraft:model",
           "model": "portalcubed:prop/christmas_portal_1_storage_cube"
         },

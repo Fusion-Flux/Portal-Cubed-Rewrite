@@ -23,7 +23,7 @@
   },
   "parent": "portalcubed:achievements/boots",
   "criteria": {
-    "feather_falling1": {
+    "feather_falling": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -32,84 +32,19 @@
               "portalcubed:long_fall_boots",
               "portalcubed:advanced_knee_replacements"
             ],
-            "components": {
-              "minecraft:enchantments": {
-                "levels": {
-                  "minecraft:feather_falling": 1
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "minecraft:feather_falling",
+                  "levels": {
+                    "min": 1
+                  }
                 }
-              }
-            }
-          }
-        ]
-      }
-    },
-    "feather_falling2": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "portalcubed:long_fall_boots",
-              "portalcubed:advanced_knee_replacements"
-            ],
-            "components": {
-              "minecraft:enchantments": {
-                "levels": {
-                  "minecraft:feather_falling": 2
-                }
-              }
-            }
-          }
-        ]
-      }
-    },
-    "feather_falling3": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "portalcubed:long_fall_boots",
-              "portalcubed:advanced_knee_replacements"
-            ],
-            "components": {
-              "minecraft:enchantments": {
-                "levels": {
-                  "minecraft:feather_falling": 3
-                }
-              }
-            }
-          }
-        ]
-      }
-    },
-    "feather_falling4": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "portalcubed:long_fall_boots",
-              "portalcubed:advanced_knee_replacements"
-            ],
-            "components": {
-              "minecraft:enchantments": {
-                "levels": {
-                  "minecraft:feather_falling": 4
-                }
-              }
+              ]
             }
           }
         ]
       }
     }
-  },
-  "requirements": [
-    [
-      "feather_falling1",
-      "feather_falling2",
-      "feather_falling3",
-      "feather_falling4"
-    ]
-  ]
+  }
 }

@@ -13,7 +13,7 @@
     "announce_to_chat": false,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/make_hammer",
+  "parent": "portalcubed:achievements/hammer",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",

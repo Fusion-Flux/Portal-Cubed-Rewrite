@@ -10,12 +10,106 @@
             {
               "threshold": 0,
               "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/companion_cube"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_heart"
+                  }
+                ]
+              }
+            },
+            {
+              "threshold": 1,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/companion_cube_lit"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_heart"
+                  }
+                ]
+              }
+            },
+            {
+              "threshold": 2,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/dirty_companion_cube"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_heart"
+                  }
+                ]
+              }
+            },
+            {
+              "threshold": 3,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/dirty_companion_cube_lit"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_heart"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "when": [
+          "10-09",
+          "10-10",
+          "10-11",
+          "4-18",
+          "4-19",
+          "4-20"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:range_dispatch",
+          "property": "portalcubed:prop_variant",
+          "entries": [
+            {
+              "threshold": 0,
+              "model": {
                 "type": "minecraft:model",
                 "model": "portalcubed:prop/christmas_companion_cube"
               }
             },
             {
               "threshold": 1,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/christmas_companion_cube_lit"
+              }
+            },
+            {
+              "threshold": 2,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/christmas_companion_cube"
+              }
+            },
+            {
+              "threshold": 3,
               "model": {
                 "type": "minecraft:model",
                 "model": "portalcubed:prop/christmas_companion_cube_lit"
