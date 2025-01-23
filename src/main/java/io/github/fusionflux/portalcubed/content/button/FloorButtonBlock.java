@@ -24,7 +24,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -117,22 +116,22 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	@Override
-	protected MapCodec<? extends DirectionalBlock> codec() {
+	protected MapCodec<? extends Block> codec() {
 		return CODEC;
 	}
 
-	public AABB getButtonBounds(Direction direction) {
-		return buttonBounds.computeIfAbsent(direction, $ -> {
+	public AABB getButtonBounds(Direction face) {
+		return buttonBounds.computeIfAbsent(face, $ -> {
 			AABB baseButtonBounds = buttonBounds.get(Direction.SOUTH);
 
 			Vec3 min = new Vec3(baseButtonBounds.minX, baseButtonBounds.minY, baseButtonBounds.minZ);
 			Vec3 max = new Vec3(baseButtonBounds.maxX, baseButtonBounds.maxY, baseButtonBounds.maxZ);
-			if (direction.getAxisDirection() == Direction.AxisDirection.NEGATIVE) {
+			if (face.getAxisDirection() == Direction.AxisDirection.NEGATIVE) {
 				min = VoxelShaper.rotate(min.subtract(1, 0, .5), 180, Direction.Axis.Y).add(1, 0, .5);
 				max = VoxelShaper.rotate(max.subtract(1, 0, .5), 180, Direction.Axis.Y).add(1, 0, .5);
 			}
 
-			return switch (direction.getAxis()) {
+			return switch (face.getAxis()) {
 				case X -> new AABB(min.z, min.y, min.x, max.z, max.y, max.x);
 				case Y -> new AABB(min.x, min.z, min.y, max.x, max.z, max.y);
 				case Z -> new AABB(min.x, min.y, min.z, max.x, max.y, max.z);
@@ -162,7 +161,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 
 	protected void updateNeighbours(BlockState state, Level world, BlockPos pos) {
 		world.updateNeighborsAt(pos, this);
-		world.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
+		world.updateNeighborsAt(pos.relative(state.getValue(FACE).getOpposite()), this);
 	}
 
 	@Override
@@ -180,13 +179,13 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		int y = getY(state);
 		int x = getX(state);
-		Direction facing = state.getValue(FACING);
-		VoxelShaper shape = switch (facing) {
+		Direction face = state.getValue(FACE);
+		VoxelShaper shape = switch (face) {
 			case NORTH, EAST ->       shapes[y == 1 ? 0 : 1][x == 1 ? 0 : 1];
 			case DOWN, WEST, SOUTH -> shapes[y == 1 ? 0 : 1][x];
 			default ->                shapes[y][x];
 		};
-		return shape.get(facing);
+		return shape.get(face);
 	}
 
 	@Override
@@ -201,7 +200,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 
 	@Override
 	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
-		return state.getValue(ACTIVE) && state.getValue(FACING) == direction ? 15 : 0;
+		return state.getValue(ACTIVE) && state.getValue(FACE) == direction ? 15 : 0;
 	}
 
 	@Override
@@ -211,7 +210,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-		if (!level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate).isEmpty()) {
+		if (!level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACE)).move(pos), entityPredicate).isEmpty()) {
 			level.scheduleTick(pos, this, PRESSED_TIME);
 		} else if (state.getValue(ACTIVE)) {
 			toggle(state, level, pos, null, true);
@@ -228,7 +227,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	public boolean isEntityPressing(BlockState state, BlockPos pos, Entity entity) {
-		return entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(getOriginPos(pos, state)).intersects(entity.getBoundingBox());
+		return entityPredicate.test(entity) && getButtonBounds(state.getValue(FACE)).move(getOriginPos(pos, state)).intersects(entity.getBoundingBox());
 	}
 
 	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {

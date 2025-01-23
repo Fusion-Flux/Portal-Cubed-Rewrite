@@ -3,8 +3,6 @@ package io.github.fusionflux.portalcubed.mixin;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedStats;
-
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,6 +19,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
+import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
@@ -201,7 +200,7 @@ public abstract class EntityMixin implements EntityExt {
 				// In portal buttons push back on the objects that are on them, disintegration makes objects lose all their mass, so they get ejected but we cant do that here so lets just apply a slight force
 				BlockState feetState = this.getBlockStateOn();
 				if (feetState.getBlock() instanceof FloorButtonBlock floorButton && floorButton.isEntityPressing(feetState, this.blockPosition(), self))
-					this.setDeltaMovement(feetState.getValue(FloorButtonBlock.FACING).getUnitVec3().scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
+					this.setDeltaMovement(feetState.getValue(FloorButtonBlock.FACE).getUnitVec3().scale(FloorButtonBlock.DISINTEGRATION_EJECTION_FORCE));
 
 				this.disintegrateTicks = DISINTEGRATE_TICKS;
 

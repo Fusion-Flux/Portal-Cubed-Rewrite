@@ -1,11 +1,11 @@
 package io.github.fusionflux.portalcubed.framework.block.multiblock;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -13,14 +13,13 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -28,14 +27,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractMultiBlock extends DirectionalBlock implements SimpleWaterloggedBlock {
+public abstract class AbstractMultiBlock extends Block implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	public static final EnumProperty<Direction> FACE = PortalCubedStateProperties.FACE;
 
 	public final SizeProperties sizeProperties;
 	public final Size size;
@@ -46,7 +46,7 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 		this.sizeProperties = sizeProperties();
 		this.size = new Size(Direction.SOUTH, sizeProperties.xMax, sizeProperties.yMax, sizeProperties.zMax);
 
-		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACING, size.direction));
+		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACE, size.direction));
 	}
 
 	public abstract SizeProperties sizeProperties();
@@ -83,7 +83,7 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 		int x = -getX(state);
 		int y = -getY(state);
 		int z = -getZ(state);
-		return switch (state.getValue(FACING).getAxis()) {
+		return switch (state.getValue(FACE).getAxis()) {
 			case X -> pos.offset(z, y, x);
 			case Y -> pos.offset(x, z, y);
 			case Z -> pos.offset(x, y, z);
@@ -91,19 +91,20 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 	}
 
 	public Iterable<BlockPos> quadrants(BlockPos pos, BlockState state) {
-		Size rotatedSize = size.rotated(state.getValue(FACING));
+		Size rotatedSize = size.rotated(state.getValue(FACE));
 		return BlockPos.betweenClosed(pos, pos.offset(rotatedSize.x - 1, rotatedSize.y - 1, rotatedSize.z - 1));
 	}
 
 	public void playSoundAtCenter(SoundEvent sound, double xOff, double yOff, double zOff, float volume, float pitch, BlockPos pos, BlockState state, Level level) {
-		Vec3 center = size.rotated(state.getValue(FACING)).center(xOff, yOff, zOff)
+		Vec3 center = this.size.rotated(state.getValue(FACE))
+				.center(xOff, yOff, zOff)
 				.add(pos.getX(), pos.getY(), pos.getZ());
 		level.playSound(null, center.x, center.y, center.z, sound, SoundSource.BLOCKS, volume, pitch);
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(WATERLOGGED, FACING);
+		builder.add(WATERLOGGED, FACE);
 		sizeProperties().x.map(builder::add);
 		sizeProperties().y.map(builder::add);
 		sizeProperties().z.map(builder::add);
@@ -115,10 +116,8 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 		if (state.getValue(WATERLOGGED))
 			scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 
-		Size rotatedSize = size.rotated(state.getValue(FACING));
-		if (rotatedSize.contains(getOriginPos(pos, state), pos.relative(direction)) && !neighborState.is(this)) {
-//			world.levelEvent(null, LevelEvent.PARTICLES_DESTROY_BLOCK, pos, getId(state));
-			// TODO: PORT
+		Size rotatedSize = this.size.rotated(state.getValue(FACE));
+		if (rotatedSize.contains(this.getOriginPos(pos, state), neighborPos) && !neighborState.is(this)) {;
 			return Blocks.AIR.defaultBlockState();
 		} else {
 			return super.updateShape(state, world, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
@@ -128,20 +127,18 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 	@Override
 	@NotNull
 	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
-		if (player.getAbilities().instabuild) {
-			for (BlockPos quadrantPos : quadrants(getOriginPos(pos, state), state)) {
-				world.destroyBlock(quadrantPos, false, player);
+		// prevents drop from origin quadrant if this quadrant wouldn't drop anything
+		if (player.isCreative() || !player.hasCorrectToolForDrops(state)) {
+			BlockPos originPos = this.getOriginPos(pos, state);
+			if (originPos != pos) {
+				BlockState originState = world.getBlockState(originPos);
+				world.setBlock(originPos, originState.getFluidState().createLegacyBlock(), Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_ALL);
+
+				// use null instead of the player here or else it will send the packet to everyone but this player
+				world.levelEvent(null, LevelEvent.PARTICLES_DESTROY_BLOCK, originPos, Block.getId(originState));
 			}
 		}
-		return state;
-	}
-
-	@Override
-	@NotNull
-	public List<ItemStack> getDrops(BlockState state, Builder lootParameterBuilder) {
-		if (isOrigin(state))
-			return super.getDrops(state, lootParameterBuilder);
-		return List.of();
+		return super.playerWillDestroy(world, pos, state, player);
 	}
 
 	@Override
@@ -153,30 +150,32 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 	@Override
 	@NotNull
 	public BlockState rotate(BlockState state, Rotation rotation) {
-		return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+		return state.setValue(FACE, rotation.rotate(state.getValue(FACE)));
 	}
 
 	@Override
 	@NotNull
 	public BlockState mirror(BlockState state, Mirror mirror) {
-		return state.rotate(mirror.getRotation(state.getValue(FACING)));
+		return state.rotate(mirror.getRotation(state.getValue(FACE)));
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
 		FluidState fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
-		return defaultBlockState().setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER).setValue(FACING, ctx.getClickedFace());
+		return this.defaultBlockState()
+				.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER)
+				.setValue(FACE, ctx.getClickedFace());
 	}
 
 	public record Size(Direction direction, int x, int y, int z) {
 		private static final EnumMap<Direction, Size> ROTATED = new EnumMap<>(Direction.class);
 
 		public Vec3 center(double xOffset, double yOffset, double zOffset) {
-			Direction.Axis axis = direction.getAxis();
+			Direction.Axis axis = this.direction.getAxis();
 			return new Vec3(
-					(x / 2d) + axis.choose(zOffset, xOffset, xOffset),
-					(y / 2d) + axis.choose(yOffset, zOffset, yOffset),
-					(z / 2d) + axis.choose(xOffset, yOffset, zOffset)
+					(this.x / 2d) + axis.choose(zOffset, xOffset, xOffset),
+					(this.y / 2d) + axis.choose(yOffset, zOffset, yOffset),
+					(this.z / 2d) + axis.choose(xOffset, yOffset, zOffset)
 			);
 		}
 
@@ -187,9 +186,9 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 			int minX = origin.getX();
 			int minY = origin.getY();
 			int minZ = origin.getZ();
-			int maxX = minX + x - 1;
-			int maxY = minY + y - 1;
-			int maxZ = minZ + z - 1;
+			int maxX = minX + this.x - 1;
+			int maxY = minY + this.y - 1;
+			int maxZ = minZ + this.z - 1;
 			return testX >= minX && testX <= maxX &&
 					testZ >= minZ && testZ <= maxZ &&
 					testY >= minY && testY <= maxY;
@@ -197,7 +196,7 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 
 		public Vec3i relative(Vec3i origin, Vec3i pos) {
 			Vec3i relative = pos.subtract(origin);
-			return switch (direction.getAxis()) {
+			return switch (this.direction.getAxis()) {
 				case Y -> new Vec3i(relative.getX(), relative.getZ(), relative.getY());
 				case X -> new Vec3i(relative.getZ(), relative.getY(), relative.getX());
 				case Z -> relative;
@@ -206,9 +205,9 @@ public abstract class AbstractMultiBlock extends DirectionalBlock implements Sim
 
 		public Size rotated(Direction direction) {
 			return ROTATED.computeIfAbsent(direction, $ -> switch (direction.getAxis()) {
-				case X -> new Size(direction, z, y, x);
-				case Y -> new Size(direction, x, z, y);
-				case Z -> new Size(direction, x, y, z);
+				case X -> new Size(direction, this.z, this.y, this.x);
+				case Y -> new Size(direction, this.x, this.z, this.y);
+				case Z -> new Size(direction, this.x, this.y, this.z);
 			});
 		}
 	}

@@ -44,7 +44,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		Direction facing = state.getValue(FACING);
+		Direction facing = state.getValue(FACE);
 		if (getY(state) == 0 && facing.getAxis().isHorizontal() && context instanceof EntityCollisionContext entityContext) {
 			Entity entity = entityContext.getEntity();
 			if (entity != null && entityPredicate.test(entity)) {
@@ -63,7 +63,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 	@Override
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
 		if (isOrigin(state)) {
-			world.getEntities((Entity) null, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate)
+			world.getEntities((Entity) null, getButtonBounds(state.getValue(FACE)).move(pos), entityPredicate)
 				.forEach(e -> e.setDeltaMovement(Vec3.ZERO));
 		}
 	}
@@ -75,20 +75,20 @@ public class CubeButtonBlock extends FloorButtonBlock {
 		if (entity instanceof Prop prop && prop.isHeld())
 			return;
 
-		Direction facing = state.getValue(FACING);
-		AABB buttonBounds = getButtonBounds(facing).move(pos);
+		Direction face = state.getValue(FACE);
+		AABB buttonBounds = getButtonBounds(face).move(pos);
 		if (Iterables.any(world.getEntities((Entity) null, buttonBounds, entityPredicate), e -> e != entity))
 			return;
 
-		Direction.Axis facingAxis = facing.getAxis();
-		boolean horizontal = facingAxis.isHorizontal();
+		Direction.Axis faceAxis = face.getAxis();
+		boolean horizontal = faceAxis.isHorizontal();
 		if (horizontal && !entity.isNoGravity())
 			return;
 
 		Vec3 nudgeSpeed = new Vec3(
-			facingAxis.choose(0, NUDGE_SPEED, NUDGE_SPEED),
-			facingAxis.choose(NUDGE_SPEED, 0, NUDGE_SPEED),
-			facingAxis.choose(NUDGE_SPEED, NUDGE_SPEED, 0)
+			faceAxis.choose(0, NUDGE_SPEED, NUDGE_SPEED),
+			faceAxis.choose(NUDGE_SPEED, 0, NUDGE_SPEED),
+			faceAxis.choose(NUDGE_SPEED, NUDGE_SPEED, 0)
 		);
 		Vec3 nudge = entity.position()
 				.vectorTo(buttonBounds

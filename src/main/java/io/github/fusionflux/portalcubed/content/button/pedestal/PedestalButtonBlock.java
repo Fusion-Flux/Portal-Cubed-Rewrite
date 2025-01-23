@@ -4,9 +4,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Explosion;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,8 +28,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -59,7 +58,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, HammerableBlock, BigShapeBlock {
 	public static final MapCodec<PedestalButtonBlock> CODEC = simpleCodec(PedestalButtonBlock::new);
 
-	public static final EnumProperty<Direction> FACE = EnumProperty.create("face", Direction.class);
+	public static final EnumProperty<Direction> FACE = PortalCubedStateProperties.FACE;
 	public static final EnumProperty<Offset> OFFSET = EnumProperty.create("offset", Offset.class);
 	public static final BooleanProperty BASE = BooleanProperty.create("base");
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;

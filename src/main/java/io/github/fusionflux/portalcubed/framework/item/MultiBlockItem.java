@@ -47,11 +47,11 @@ public class MultiBlockItem extends BlockItem {
 
 	@Override
 	protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
-		Direction facing = state.getValue(AbstractMultiBlock.FACING);
-		Direction.Axis facingAxis = facing.getAxis();
-		AbstractMultiBlock.Size rotatedSize = multiBlock.size.rotated(facing);
+		Direction face = state.getValue(AbstractMultiBlock.FACE);
+		Direction.Axis faceAxis = face.getAxis();
+		AbstractMultiBlock.Size rotatedSize = multiBlock.size.rotated(face);
 
-		Direction perspectiveDirection = facingAxis.isHorizontal() ? facing.getOpposite() : context.getHorizontalDirection();
+		Direction perspectiveDirection = faceAxis.isHorizontal() ? face.getOpposite() : context.getHorizontalDirection();
 		Direction.Axis perspectiveAxis = perspectiveDirection.getAxis();
 
 		BlockPos.MutableBlockPos origin = context.getClickedPos().mutable();
@@ -59,7 +59,7 @@ public class MultiBlockItem extends BlockItem {
 
 		if (perspectiveDirection == Direction.SOUTH || perspectiveDirection == Direction.WEST)
 			origin.move(perspectiveDirection.getClockWise());
-		if (facingAxis.isVertical() && perspectiveDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
+		if (faceAxis.isVertical() && perspectiveDirection.getAxisDirection() == Direction.AxisDirection.NEGATIVE)
 			origin.move(perspectiveDirection);
 
 		Set<BlockPos> collisions = quadrantCollide(context, origin, state);
@@ -75,10 +75,10 @@ public class MultiBlockItem extends BlockItem {
 			boolean collideZ = Math.abs(collisionNormal.z) > .5;
 
 			boolean collideHorizontal = perspectiveAxis == Direction.Axis.X ? collideZ : collideX;
-			boolean collideVertical = facingAxis.isHorizontal() ? collideY : (perspectiveAxis == Direction.Axis.X ? collideX : collideZ);
+			boolean collideVertical = faceAxis.isHorizontal() ? collideY : (perspectiveAxis == Direction.Axis.X ? collideX : collideZ);
 
 			if (collideHorizontal && collideVertical) {
-				origin.move(facingAxis.isHorizontal() ? Direction.DOWN : perspectiveDirection.getOpposite());
+				origin.move(faceAxis.isHorizontal() ? Direction.DOWN : perspectiveDirection.getOpposite());
 				if (canNotFit(context, origin, state))
 					origin.move(perspectiveDirection.getCounterClockWise());
 			} else {
