@@ -43,24 +43,28 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 	public void render(PropRenderState renderState, PoseStack matrices, MultiBufferSource bufferSource, int light) {
 		super.render(renderState, matrices, bufferSource, light);
 
-		PropModelCache.ModelTransformPair modelTransformPair = PropModelCache.INSTANCE.get(renderState);
-		EMITTER.prepare(bufferSource::getBuffer, modelTransformPair.model());
 		matrices.pushPose();
 		matrices.mulPose(Axis.YP.rotationDegrees(180 - renderState.yRot));
 		matrices.translate(0, Y_OFFSET, 0);
 		matrices.scale(2, 2, 2);
-		modelTransformPair.applyTransform(matrices);
-		ItemRenderer.renderItem(
-				ItemDisplayContext.GROUND,
-				matrices,
-				renderType -> EMITTER,
-				light,
-				OverlayTexture.NO_OVERLAY,
-				EMPTY_TINT_LAYERS,
-				EMITTER.model,
-				ModelEmitter.DEFAULT_RENDER_TYPE,
-				ItemStackRenderState.FoilType.NONE
-		);
+		PropModelCache.ModelTransformPair[] layers = PropModelCache.INSTANCE.get(renderState);
+		for (PropModelCache.ModelTransformPair layer : layers) {
+			EMITTER.prepare(bufferSource::getBuffer, layer.model());
+			matrices.pushPose();
+			layer.applyTransform(matrices);
+			ItemRenderer.renderItem(
+					ItemDisplayContext.GROUND,
+					matrices,
+					renderType -> EMITTER,
+					light,
+					OverlayTexture.NO_OVERLAY,
+					EMPTY_TINT_LAYERS,
+					EMITTER.model,
+					ModelEmitter.DEFAULT_RENDER_TYPE,
+					ItemStackRenderState.FoilType.NONE
+			);
+			matrices.popPose();
+		}
 		matrices.popPose();
 		EMITTER.cleanup();
 	}

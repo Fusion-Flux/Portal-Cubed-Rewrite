@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.prop.renderer;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
@@ -12,7 +13,6 @@ import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.util.SimpleSynchronousReloadListener;
 import io.github.fusionflux.portalcubed.mixin.client.ItemStackRenderStateAccessor;
 import io.github.fusionflux.portalcubed.mixin.client.LayerRenderStateAccessor;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.fabricmc.fabric.api.resource.ResourceReloadListenerKeys;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -33,11 +33,11 @@ public enum PropModelCache implements SimpleSynchronousReloadListener {
 	public static final Collection<ResourceLocation> DEPENDENCIES = List.of(ResourceReloadListenerKeys.MODELS);
 
 	private final ItemStackRenderState scratchRenderState = new ItemStackRenderState();
-	private final EnumMap<PropType, ObjectArrayList<ModelTransformPair>> cache = new EnumMap<>(PropType.class);
+	private final EnumMap<PropType, ModelTransformPair[][]> cache = new EnumMap<>(PropType.class);
 
-	public ModelTransformPair get(PropRenderState renderState) {
-		ObjectArrayList<ModelTransformPair> variants = this.cache.get(renderState.type);
-		return variants.get(Math.min(renderState.variant, variants.size()));
+	public ModelTransformPair[] get(PropRenderState renderState) {
+		ModelTransformPair[][] variants = this.cache.get(renderState.type);
+		return variants[Math.min(renderState.variant, variants.length)];
 	}
 
 	@Override
@@ -52,30 +52,37 @@ public enum PropModelCache implements SimpleSynchronousReloadListener {
 
 	@Override
 	public void onResourceManagerReload(ResourceManager manager) {
+		this.cache.clear();
 		ItemModelResolver modelResolver = Minecraft.getInstance().getItemModelResolver();
 		BakedModel missingModel = Minecraft.getInstance().getModelManager().getMissingModel();
 		for (PropType type : PropType.values()) {
 			Item item = type.item();
 			ItemStack stack = item.getDefaultInstance();
-			ObjectArrayList<ModelTransformPair> variants = this.cache.compute(
+			ModelTransformPair[][] variants = this.cache.compute(
 					type,
-					($, v) -> v == null ? new ObjectArrayList<>() : Util.make(v, ObjectArrayList::clear)
+					($, v) -> v == null ? new ModelTransformPair[type.variants.length][] : Util.make(v, arr -> Arrays.fill(arr, null))
 			);
 			for (int variant : type.variants) {
 				stack.set(PortalCubedDataComponents.PROP_VARIANT, variant);
 				modelResolver.updateForTopItem(this.scratchRenderState, stack, ItemDisplayContext.GROUND, false, null, null, 42);
-				ItemStackRenderState.LayerRenderState layer = ((ItemStackRenderStateAccessor) this.scratchRenderState).callFirstLayer();
-				BakedModel model = ((LayerRenderStateAccessor) layer).getModel();
-				ItemTransform transform = ((LayerRenderStateAccessor) layer).callTransform();
-				variants.add(new ModelTransformPair(model == null ? missingModel : model, transform));
+
+				ItemStackRenderState.LayerRenderState[] layers = ((ItemStackRenderStateAccessor) this.scratchRenderState).getLayers();
+				ModelTransformPair[] modelTransformPairs = new ModelTransformPair[((ItemStackRenderStateAccessor) this.scratchRenderState).getActiveLayerCount()];
+				for (int i = 0; i < modelTransformPairs.length; i++) {
+					ItemStackRenderState.LayerRenderState layer = layers[i];
+					BakedModel model = ((LayerRenderStateAccessor) layer).getModel();
+					ItemTransform transform = ((LayerRenderStateAccessor) layer).callTransform();
+					modelTransformPairs[i] = new ModelTransformPair(model == null ? missingModel : model, transform);
+				}
+
+				variants[variant] = modelTransformPairs;
 			}
 		}
-		this.scratchRenderState.clear();
 	}
 
 	public record ModelTransformPair(BakedModel model, ItemTransform transform) {
 		public void applyTransform(PoseStack matrices) {
-			transform.apply(false, matrices);
+			this.transform.apply(false, matrices);
 			matrices.translate(-.5, -.5, -.5);
 		}
 	}
