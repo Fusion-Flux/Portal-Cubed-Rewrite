@@ -14,7 +14,7 @@ import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip.Builder;
-import io.github.fusionflux.portalcubed.framework.util.EvenMoreCodecs;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
@@ -34,7 +34,7 @@ import net.minecraft.world.level.block.Rotation;
  * A construct set that places one of two constructs based on the chosen axis.
  */
 public class PillarConstructSet extends ConstructSet {
-	public static final MapCodec<PillarConstructSet> CODEC = EvenMoreCodecs.validate(
+	public static final MapCodec<PillarConstructSet> CODEC = PortalCubedCodecs.validate(
 			RecordCodecBuilder.mapCodec(instance -> instance.group(
 					TagKey.hashedCodec(Registries.ITEM).fieldOf("material").forGetter(c -> c.material),
 					ExtraCodecs.POSITIVE_INT.optionalFieldOf("cost").forGetter(c -> Optional.of(c.cost)),

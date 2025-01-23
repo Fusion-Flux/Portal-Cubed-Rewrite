@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_laser_through_portals",
+  "aged_texture": "portalcubed:signage/aged_large_signage_laser_through_portals",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.laser_through_portals"
+  }
+}

@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.small;
 
 import java.util.EnumMap;
-import java.util.Map;
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -9,33 +9,36 @@ import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureRenderData;
+import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
-import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
-import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SmallSignageBlockEntity extends SignageBlockEntity {
-	private final EnumMap<SmallSignageBlock.Quadrant, Signage.Holder> quadrants;
+	private final EnumMap<SmallSignageBlock.Quadrant, Holder<Signage>> quadrants = new EnumMap<>(SmallSignageBlock.Quadrant.class);
 
 	public SmallSignageBlockEntity(BlockPos pos, BlockState state) {
 		super(PortalCubedBlockEntityTypes.SMALL_SIGNAGE, pos, state, PortalCubedBlocks.AGED_SMALL_SIGNAGE);
-		this.quadrants = new EnumMap<>(SmallSignageBlock.Quadrant.class);
-		for (SmallSignageBlock.Quadrant quadrant : SmallSignageBlock.Quadrant.VALUES) {
-			this.quadrants.put(quadrant, SignageManager.INSTANCE.getBlank(Signage.Size.SMALL));
+	}
+
+	public Holder<Signage> getQuadrant(SmallSignageBlock.Quadrant quadrant) {
+		Holder<Signage> holder = this.quadrants.get(quadrant);
+		if (holder == null && this.level != null) {
+			return this.level.registryAccess()
+					.get(Signage.SMALL_BLANK)
+					.orElse(null);
 		}
+		return holder;
 	}
 
-	public Signage.Holder getQuadrant(SmallSignageBlock.Quadrant quadrant) {
-		return this.quadrants.get(quadrant);
-	}
-
-	public void updateQuadrant(SmallSignageBlock.Quadrant quadrant, Signage.Holder holder) {
-		Signage.Holder currentHolder = this.getQuadrant(quadrant);
-		if (holder != null && !holder.equals(currentHolder)) {
+	public void updateQuadrant(SmallSignageBlock.Quadrant quadrant, Holder<Signage> holder) {
+		Holder<Signage> currentHolder = this.getQuadrant(quadrant);
+		if (holder != null && holder != currentHolder) {
 			this.quadrants.put(quadrant, holder);
 			if (this.level != null) {
 				if (this.level.isClientSide) {
@@ -51,17 +54,20 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
 		CompoundTag quadrantsTag = tag.getCompound(SIGNAGE_KEY);
 		for (SmallSignageBlock.Quadrant quadrant : SmallSignageBlock.Quadrant.VALUES) {
-			Signage.Holder signage = SignageManager.INSTANCE.get(ResourceLocation.tryParse(quadrantsTag.getString(quadrant.name)));
-			if (signage != null)
-				this.updateQuadrant(quadrant, signage);
+			Optional.ofNullable(ResourceLocation.tryParse(quadrantsTag.getString(quadrant.name)))
+					.map(id -> ResourceKey.create(PortalCubedRegistries.SMALL_SIGNAGE, id))
+					.flatMap(registries::get)
+					.ifPresent(signage -> this.updateQuadrant(quadrant, signage));
 		}
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
 		CompoundTag quadrantsTag = new CompoundTag();
-		for (Map.Entry<SmallSignageBlock.Quadrant, Signage.Holder> entry : this.quadrants.entrySet()) {
-			quadrantsTag.putString(entry.getKey().name, entry.getValue().id().toString());
+		for (SmallSignageBlock.Quadrant quadrant : SmallSignageBlock.Quadrant.VALUES) {
+			this.getQuadrant(quadrant)
+					.unwrapKey()
+					.ifPresent(key -> quadrantsTag.putString(quadrant.name, key.location().toString()));
 		}
 		tag.put(SIGNAGE_KEY, quadrantsTag);
 	}
@@ -70,11 +76,8 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 	@Nullable
 	public Object getRenderData() {
 		DynamicTextureRenderData.Builder builder = new DynamicTextureRenderData.Builder();
-		for (Map.Entry<SmallSignageBlock.Quadrant, Signage.Holder> entry : this.quadrants.entrySet()) {
-			Optionull.map(
-					entry.getValue().value(),
-					signage -> builder.put("#signage_" + entry.getKey().name, signage.selectTexture(this.aged))
-			);
+		for (SmallSignageBlock.Quadrant quadrant : SmallSignageBlock.Quadrant.VALUES) {
+			builder.put("#signage_" + quadrant.name, this.getQuadrant(quadrant).value().selectTexture(this.aged));
 		}
 		return builder.build();
 	}

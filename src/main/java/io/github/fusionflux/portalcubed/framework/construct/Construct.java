@@ -11,7 +11,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import io.github.fusionflux.portalcubed.framework.util.EvenMoreCodecs;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -32,7 +32,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
  */
 public final class Construct {
 	public static final Codec<Construct> CODEC = Codec.unboundedMap(
-			EvenMoreCodecs.BLOCKPOS_STRING,
+			PortalCubedCodecs.BLOCKPOS_STRING,
 			BlockInfo.CODEC
 	).xmap(Construct::new, construct -> construct.blocks).validate(Construct::validate);
 
@@ -113,11 +113,11 @@ public final class Construct {
 
 	public record BlockInfo(BlockState state, Optional<CompoundTag> maybeNbt) {
 		private static final Codec<BlockInfo> fullCodec = RecordCodecBuilder.create(instance -> instance.group(
-				EvenMoreCodecs.BLOCKSTATE.fieldOf("state").forGetter(BlockInfo::state),
+				PortalCubedCodecs.BLOCKSTATE.fieldOf("state").forGetter(BlockInfo::state),
 				CompoundTag.CODEC.optionalFieldOf("nbt").forGetter(BlockInfo::maybeNbt)
 		).apply(instance, BlockInfo::new));
 
-		private static final Codec<BlockInfo> byState = EvenMoreCodecs.BLOCKSTATE.flatComapMap(
+		private static final Codec<BlockInfo> byState = PortalCubedCodecs.BLOCKSTATE.flatComapMap(
 				BlockInfo::new, info -> {
 					if (info.maybeNbt.isPresent()) {
 						return DataResult.error(() -> "NBT is present");
@@ -126,7 +126,7 @@ public final class Construct {
 				}
 		);
 
-		public static final Codec<BlockInfo> CODEC = EvenMoreCodecs.multiFormat(
+		public static final Codec<BlockInfo> CODEC = PortalCubedCodecs.multiFormat(
 				byState, fullCodec, info -> info.maybeNbt.isPresent()
 		);
 

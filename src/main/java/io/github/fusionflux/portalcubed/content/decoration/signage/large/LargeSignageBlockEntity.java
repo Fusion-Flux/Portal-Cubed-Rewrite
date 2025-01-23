@@ -1,35 +1,42 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureRenderData;
+import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
-import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
-import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LargeSignageBlockEntity extends SignageBlockEntity {
 	@Nullable
-	private Signage.Holder holder;
+	private Holder<Signage> holder;
 
 	public LargeSignageBlockEntity(BlockPos pos, BlockState state) {
 		super(PortalCubedBlockEntityTypes.LARGE_SIGNAGE, pos, state, PortalCubedBlocks.AGED_LARGE_SIGNAGE);
-		this.holder = SignageManager.INSTANCE.getBlank(Signage.Size.LARGE);
 	}
 
-	public Signage.Holder holder() {
+	public Holder<Signage> holder() {
+		if (this.holder == null && this.level != null) {
+			return this.level.registryAccess()
+					.get(Signage.LARGE_BLANK)
+					.orElse(null);
+		}
 		return this.holder;
 	}
 
-	public void update(Signage.Holder holder) {
-		if (holder != null && !holder.equals(this.holder)) {
+	public void update(Holder<Signage> holder) {
+		if (holder != null && holder != this.holder()) {
 			this.holder = holder;
 			if (this.level != null) {
 				if (this.level.isClientSide) {
@@ -43,24 +50,22 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 
 	@Override
 	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		Signage.Holder signage = SignageManager.INSTANCE.get(ResourceLocation.tryParse(tag.getString(SIGNAGE_KEY)));
-		if (signage != null)
-			this.update(signage);
+		Optional.ofNullable(ResourceLocation.tryParse(tag.getString(SIGNAGE_KEY)))
+				.map(id -> ResourceKey.create(PortalCubedRegistries.LARGE_SIGNAGE, id))
+				.flatMap(registries::get)
+				.ifPresent(this::update);
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		if (this.holder != null)
-			tag.putString(SIGNAGE_KEY, this.holder.id().toString());
+		this.holder().unwrapKey().ifPresent(key -> tag.putString(SIGNAGE_KEY, key.location().toString()));
 	}
 
 	@Override
 	@Nullable
 	public Object getRenderData() {
 		DynamicTextureRenderData.Builder builder = new DynamicTextureRenderData.Builder();
-		Signage signage = Optionull.map(this.holder, Signage.Holder::value);
-		if (signage != null)
-			builder.put("#signage", signage.selectTexture(this.aged));
+		builder.put("#signage", this.holder().value().selectTexture(this.aged));
 		return builder.build();
 	}
 }

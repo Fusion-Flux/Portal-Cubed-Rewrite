@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
+import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;

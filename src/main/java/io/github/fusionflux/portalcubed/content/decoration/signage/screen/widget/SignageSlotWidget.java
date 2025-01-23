@@ -24,24 +24,24 @@ public class SignageSlotWidget extends TexturedStickyButton {
 	);
 
 	private final ResourceLocation signageTexture;
-	private final Signage.Size size;
+	private final boolean small;
 	private final AdvancedTooltip tooltip;
 
-	public SignageSlotWidget(Signage signage, boolean aged, Runnable onSelect) {
-		this(signage, aged, 0, 0, onSelect);
+	public SignageSlotWidget(Signage signage, boolean small, boolean aged, Runnable onSelect) {
+		this(signage, small, aged, 0, 0, onSelect);
 	}
 
-	public SignageSlotWidget(Signage signage, boolean aged, int x, int y, Runnable onSelect) {
+	public SignageSlotWidget(Signage signage, boolean small, boolean aged, int x, int y, Runnable onSelect) {
 		super(x, y, SIZE, SIZE, signage.name(), DISABLED_TEXTURES, TEXTURES, onSelect);
 		this.signageTexture = signage.selectTexture(aged);
-		this.size = signage.size();
+		this.small = small;
 		this.tooltip = new AdvancedTooltip(builder -> builder.add(signage.name()));
 	}
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		super.renderWidget(graphics, mouseX, mouseY, delta);
-		int scale = this.size == Signage.Size.SMALL ? 2 : 1;
+		int scale = this.small ? 2 : 1;
 		graphics.blitSprite(RenderType::guiTextured, this.signageTexture, 16 * scale, 16 * scale, 0, 0, this.getX() + OFFSET, this.getY() + OFFSET, 16, 16);
 		if (this.isHovered())
 			this.tooltip.render(graphics, mouseX, mouseY);

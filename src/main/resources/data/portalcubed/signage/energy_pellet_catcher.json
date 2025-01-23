@@ -1,8 +1,0 @@
-{
-  "clean_texture": "portalcubed:signage/large_signage_energy_pellet_catcher",
-  "aged_texture": "portalcubed:signage/aged_large_signage_energy_pellet_catcher",
-  "name": {
-    "translate": "signage.portalcubed.large_signage.energy_pellet_catcher"
-  },
-  "size": "large"
-}

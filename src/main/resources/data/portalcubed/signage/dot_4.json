@@ -1,8 +1,0 @@
-{
-  "clean_texture": "portalcubed:signage/small_signage_dot_four",
-  "aged_texture": "portalcubed:signage/aged_small_signage_dot_four",
-  "name": {
-    "translate": "signage.portalcubed.small_signage.dot_four"
-  },
-  "size": "small"
-}

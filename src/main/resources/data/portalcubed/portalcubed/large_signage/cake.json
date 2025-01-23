@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_cake",
+  "aged_texture": "portalcubed:signage/aged_large_signage_cake",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.cake"
+  }
+}

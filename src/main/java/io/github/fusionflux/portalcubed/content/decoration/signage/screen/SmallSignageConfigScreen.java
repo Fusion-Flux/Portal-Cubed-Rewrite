@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.screen;
 
-import java.util.Collection;
 import java.util.Locale;
 
 import org.apache.commons.lang3.function.TriConsumer;
@@ -12,14 +11,17 @@ import io.github.fusionflux.portalcubed.framework.gui.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButton;
+import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
-import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.TriState;
 
@@ -98,17 +100,17 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 	}
 
 	@Override
-	protected Collection<Signage.Holder> signage() {
-		return SignageManager.INSTANCE.allOfSize(Signage.Size.SMALL);
+	protected ResourceKey<Registry<Signage>> registryKey() {
+		return PortalCubedRegistries.SMALL_SIGNAGE;
 	}
 
 	@Override
-	protected Signage.Holder selectedSignage() {
+	protected Holder<Signage> selectedSignage() {
 		return this.smallSignage.getQuadrant(this.tab.quadrant());
 	}
 
 	@Override
-	protected void updateSignage(Signage.Holder holder) {
+	protected void updateSignage(Holder<Signage> holder) {
 		PortalCubedPackets.sendToServer(new ConfigureSignageConfigPacket.Small(
 				this.smallSignage.getBlockPos(),
 				this.tab.quadrant(),

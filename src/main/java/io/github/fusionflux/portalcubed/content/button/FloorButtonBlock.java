@@ -8,9 +8,9 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import net.minecraft.core.BlockPos;

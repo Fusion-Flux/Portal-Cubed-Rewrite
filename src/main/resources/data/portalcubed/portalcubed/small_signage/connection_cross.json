@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/small_signage_connection_cross",
+  "aged_texture": "portalcubed:signage/aged_small_signage_connection_cross",
+  "name": {
+    "translate": "signage.portalcubed.small_signage.connection_cross"
+  }
+}

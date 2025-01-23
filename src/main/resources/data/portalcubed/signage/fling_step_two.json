@@ -1,8 +1,0 @@
-{
-  "clean_texture": "portalcubed:signage/large_signage_fling_step_two",
-  "aged_texture": "portalcubed:signage/aged_large_signage_fling_step_two",
-  "name": {
-    "translate": "signage.portalcubed.large_signage.fling_step_two"
-  },
-  "size": "large"
-}

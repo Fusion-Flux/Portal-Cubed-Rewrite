@@ -1,8 +1,0 @@
-{
-  "clean_texture": "portalcubed:signage/large_signage_laser_burning_turret",
-  "aged_texture": "portalcubed:signage/aged_large_signage_laser_burning_turret",
-  "name": {
-    "translate": "signage.portalcubed.large_signage.laser_burning_turret"
-  },
-  "size": "large"
-}

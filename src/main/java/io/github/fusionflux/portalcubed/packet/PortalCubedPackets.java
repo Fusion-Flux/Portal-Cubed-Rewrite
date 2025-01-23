@@ -5,9 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.framework.construct.ReloadConstructPreview;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
-import io.github.fusionflux.portalcubed.framework.signage.SignageSyncPacket;
+import io.github.fusionflux.portalcubed.framework.construct.ReloadConstructPreview;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.LocalTeleportPacket;
@@ -49,7 +48,6 @@ public class PortalCubedPackets {
 			OPEN_PEDESTAL_BUTTON_CONFIG = clientbound("open_pedestal_button_config", OpenPedestalButtonConfigPacket.CODEC),
 			SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket.CODEC),
 			RELOAD_CONSTRUCT_PREVIEW = clientbound("reload_construct_preview", ReloadConstructPreview.CODEC),
-			SYNC_SIGNAGE = clientbound("sync_signage", SignageSyncPacket.CODEC),
 			SHOOT_CANNON = clientbound("shoot_cannon", ShootCannonPacket.CODEC),
 			SHOOT_CANNON_OTHER = clientbound("shoot_cannon_other", OtherPlayerShootCannonPacket.CODEC),
 			OPEN_CANNON_CONFIG = clientbound("open_cannon_config", OpenCannonConfigPacket.CODEC),

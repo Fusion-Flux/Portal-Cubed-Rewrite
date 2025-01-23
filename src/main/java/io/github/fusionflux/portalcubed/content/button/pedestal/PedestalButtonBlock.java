@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
+import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.extension.BigShapeBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper.DefaultRotationValues;

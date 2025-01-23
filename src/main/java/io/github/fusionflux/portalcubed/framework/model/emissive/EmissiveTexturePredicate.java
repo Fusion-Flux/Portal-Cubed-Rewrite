@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 
-import io.github.fusionflux.portalcubed.framework.util.EvenMoreCodecs;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ResourceLocationPattern;
 import net.minecraft.util.StringRepresentable;
@@ -22,7 +22,7 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 	Type type();
 
 	record Single(ResourceLocation id) implements EmissiveTexturePredicate {
-		public static final Codec<Single> CODEC = EvenMoreCodecs.MOD_ID.xmap(Single::new, Single::id);
+		public static final Codec<Single> CODEC = PortalCubedCodecs.MOD_ID.xmap(Single::new, Single::id);
 
 		@Override
 		public boolean test(ResourceLocation resourceLocation) {
@@ -36,7 +36,7 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 	}
 
 	record Folder(ResourceLocation id) implements EmissiveTexturePredicate {
-		public static final Codec<Folder> CODEC = EvenMoreCodecs.MOD_ID.xmap(Folder::new, Folder::id);
+		public static final Codec<Folder> CODEC = PortalCubedCodecs.MOD_ID.xmap(Folder::new, Folder::id);
 
 		@Override
 		public boolean test(ResourceLocation resourceLocation) {
