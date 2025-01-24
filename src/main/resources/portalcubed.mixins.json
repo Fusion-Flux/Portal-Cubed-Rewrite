@@ -19,7 +19,6 @@
     "CandleCakeBlockMixin",
     "ClientboundTeleportEntityPacketMixin",
     "CommandContextAccessor",
-    "CrabInTheOutputMessage",
     "CubeVoxelShapeAccessor",
     "DoorBlockMixin",
     "EntityAccessor",

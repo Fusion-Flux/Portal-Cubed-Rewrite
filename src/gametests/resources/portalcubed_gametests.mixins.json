@@ -4,6 +4,7 @@
   "package": "io.github.fusionflux.portalcubed_gametests.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "CrabInTheOutputMessage",
     "StructureUtilsMixin"
   ],
   "client": [
