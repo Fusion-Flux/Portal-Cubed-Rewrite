@@ -42,6 +42,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -259,10 +260,10 @@ public class Prop extends HoldableEntity {
 	public void move(MoverType type, Vec3 movement) {
 		super.move(type, movement);
 
-		if (this.level() instanceof ServerLevel world) {
+		if (!this.level().isClientSide) {
 			if (this.horizontalCollision) {
 				if (!this.sideColliding)
-					this.onCollision(world);
+					this.onCollision();
 				this.sideColliding = true;
 			} else {
 				this.sideColliding = false;
@@ -270,7 +271,7 @@ public class Prop extends HoldableEntity {
 
 			if (this.verticalCollision) {
 				if (!this.topColliding)
-					this.onCollision(world);
+					this.onCollision();
 				this.topColliding = true;
 			} else {
 				this.topColliding = false;
@@ -278,7 +279,7 @@ public class Prop extends HoldableEntity {
 
 			if (this.verticalCollisionBelow) {
 				if (!this.bottomColliding)
-					this.onCollision(world);
+					this.onCollision();
 				this.bottomColliding = true;
 			} else {
 				this.bottomColliding = false;
@@ -286,13 +287,14 @@ public class Prop extends HoldableEntity {
 		}
 	}
 
-	protected void onCollision(ServerLevel world) {
-		if (!this.isSilent()) {
-			world.playSound(null, this.getX(), this.getY(), this.getZ(), this.impactSound, SoundSource.PLAYERS, 1, 1);
-			world.gameEvent(this, GameEvent.HIT_GROUND, this.position());
-		}
+	protected void onCollision() {
+		this.playSound(this.impactSound);
+		this.gameEvent(GameEvent.HIT_GROUND);
+	}
 
-		if (this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE) && this.verticalCollisionBelow) {
+	@Override
+	protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
+		if (this.level() instanceof ServerLevel world && this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE)) {
 			int blocksFallen = Mth.ceil(this.fallDistance);
 			if (blocksFallen > 0) {
 				float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
@@ -304,6 +306,7 @@ public class Prop extends HoldableEntity {
 				);
 			}
 		}
+		super.checkFallDamage(y, onGround, state, pos);
 	}
 
 	@Override
