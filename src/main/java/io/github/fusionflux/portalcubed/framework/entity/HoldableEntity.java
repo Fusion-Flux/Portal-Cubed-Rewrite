@@ -2,8 +2,6 @@ package io.github.fusionflux.portalcubed.framework.entity;
 
 import java.util.OptionalInt;
 
-import net.minecraft.world.Container;
-
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
@@ -14,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
@@ -37,7 +36,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 	@Nullable
 	private Player holder;
 
-	public HoldableEntity(EntityType<?> variant, Level world) {
+	protected HoldableEntity(EntityType<?> variant, Level world) {
 		super(variant, world);
 	}
 
@@ -60,6 +59,12 @@ public abstract class HoldableEntity extends LerpableEntity {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean isControlledByLocalInstance() {
+		Player holder = this.getHolder();
+		return super.isControlledByLocalInstance() || (holder != null && holder.isLocalPlayer());
 	}
 
 	@Override
@@ -101,7 +106,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 	@Override
 	public boolean pc$disintegrate() {
 		if (!this.level().isClientSide)
-			drop();
+			this.drop();
 		return super.pc$disintegrate();
 	}
 
@@ -111,7 +116,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 	@Nullable
 	public Player getHolder() {
-		return holder;
+		return this.holder;
 	}
 
 	public boolean isHeld() {

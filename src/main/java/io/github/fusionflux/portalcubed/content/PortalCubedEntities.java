@@ -37,6 +37,7 @@ public class PortalCubedEntities {
 	public static final Map<PropType, EntityType<Prop>> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
 			EntityType<Prop> entityType = REGISTRAR.entities.create(type.toString(), type.factory)
+					.configure(b -> b.updateInterval(1))
 					.size(type.width, type.height)
 					.renderer(() -> () -> PropRenderer::new)
 					.build();
