@@ -27,7 +27,13 @@ public class FogRendererMixin {
 	@Shadow
 	private static long biomeChangedTime;
 
-	@Inject(method = "computeFogColor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/FogRenderer;getPriorityFogFunction(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/client/renderer/FogRenderer$MobEffectFogFunction;"))
+	@Inject(
+			method = "computeFogColor",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/FogRenderer;getPriorityFogFunction(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/client/renderer/FogRenderer$MobEffectFogFunction;"
+			)
+	)
 	private static void setupToxicGooFogColor(
 			Camera camera,
 			float tickDelta,
@@ -48,19 +54,28 @@ public class FogRendererMixin {
 				fogGreen.set(29 / 255f);
 				fogBlue.set(1 / 255f);
 				biomeChangedTime = -1L;
+
+				// Lava behaviour in the next few conditionals is the closet to what we want
 				fogType.set(FogType.LAVA);
 			}
 		}
 	}
 
-	@Inject(method = "setupFog", at = @At(value = "RETURN", ordinal = 1))
+	@Inject(
+			method = "setupFog",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/FogRenderer;getPriorityFogFunction(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/client/renderer/FogRenderer$MobEffectFogFunction;"
+			),
+			cancellable = true
+	)
 	private static void setupToxicGooFog(
 			Camera camera,
 			FogRenderer.FogMode fogMode,
 			Vector4f fogColor,
 			float renderDistance,
 			boolean isFoggy,
-			float tickDelta,
+			float partialTick,
 			CallbackInfoReturnable<FogParameters> cir,
 			@Local FogRenderer.FogData fogData
 	) {
@@ -70,13 +85,14 @@ public class FogRendererMixin {
 		FluidState state = world.getFluidState(cameraBlockPos);
 		if (state.getType() instanceof GooFluid) {
 			if (camera.getPosition().y < (cameraBlockPos.getY() + state.getHeight(world, cameraBlockPos))) {
-				if (camera.getEntity().isSpectator()) {
+				if (cameraEntity.isSpectator()) {
 					fogData.start = -8f;
 					fogData.end = renderDistance * 0.5f;
 				} else {
 					fogData.start = 0f;
 					fogData.end = 3f;
 				}
+				cir.setReturnValue(new FogParameters(fogData.start, fogData.end, fogData.shape, fogColor.x, fogColor.y, fogColor.z, fogColor.w));
 			}
 		}
 	}

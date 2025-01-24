@@ -19,8 +19,8 @@ public class BootsGameTests implements FabricGameTest {
 	//Test entities falling with/without the boots
 	@GameTest(template = GROUP + "boots_test")
 	public void bootsTest(GameTestHelper helper) {
-		Mob entityWithBoots = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 48, 2));
-		Mob entityWithNoBoots = helper.spawnWithNoFreeWill(EntityType.STRAY, new BlockPos(3, 48, 2));  //you're part of the control group, by the way
+		Mob entityWithBoots = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 47, 2));
+		Mob entityWithNoBoots = helper.spawnWithNoFreeWill(EntityType.STRAY, new BlockPos(3, 47, 2));  //you're part of the control group, by the way
 
 		//Delay by 50 ticks to give them a chance to hit the ground; it takes ~40 for this to happen
 		helper.runAfterDelay(TICKS_FOR_FALL, () -> helper.succeedIf(() -> {
@@ -32,8 +32,8 @@ public class BootsGameTests implements FabricGameTest {
 	//Test entities falling with the boots onto dripstone
 	@GameTest(template = GROUP + "boots_bypass_test")
 	public void bootsBypassTest(GameTestHelper helper) {
-		Mob dripstone = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 48, 2));
-		Mob noDripstone = spawnWithBoots(helper, EntityType.STRAY, new BlockPos(3, 48, 2));  //you're part of the control group, by the way
+		Mob dripstone = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 47, 2));
+		Mob noDripstone = spawnWithBoots(helper, EntityType.STRAY, new BlockPos(3, 47, 2));  //you're part of the control group, by the way
 
 		//Delay by 50 ticks to give them a chance to hit the ground; it takes ~40 for this to happen
 		helper.runAfterDelay(TICKS_FOR_FALL, () -> helper.succeedIf(() -> {
