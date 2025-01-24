@@ -26,7 +26,6 @@ import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
-import io.github.fusionflux.portalcubed.framework.extension.CollisionListener;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
@@ -61,8 +60,6 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	@Final
 	private static EntityDataAccessor<Boolean> DATA_SILENT;
-	@Shadow
-	public boolean horizontalCollision, verticalCollision, verticalCollisionBelow;
 
 	@Shadow
 	public abstract Level level();
@@ -123,8 +120,6 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract BlockState getBlockStateOn();
 
-	@Unique
-	private boolean isHorizontalColliding, isTopColliding, isBelowColliding;
 	@Unique
 	private boolean disintegrating;
 	@Unique
@@ -252,7 +247,8 @@ public abstract class EntityMixin implements EntityExt {
 		this.setDeltaMovement(velocity);
 
 		Level world = this.level();
-		if (--this.disintegrateTicks <= 0 && !world.isClientSide) {
+		--this.disintegrateTicks;
+		if (this.disintegrateTicks <= 0 && !world.isClientSide) {
 			if ((Object) this instanceof LivingEntity livingEntity) {
 				if (livingEntity.isDeadOrDying()) return;
 				DamageSource damageSource = PortalCubedDamageSources.disintegration(world, livingEntity);
@@ -376,39 +372,6 @@ public abstract class EntityMixin implements EntityExt {
 		if (level().isClientSide && (Object) this instanceof AmbientSoundEmitter ambientSoundEmitter) {
 			if (DATA_SILENT.equals(data) && !getEntityData().get(DATA_SILENT))
 				ambientSoundEmitter.playAmbientSound();
-		}
-	}
-
-	@Inject(
-		method = "move",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/world/entity/Entity;checkFallDamage(DZLnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)V",
-			shift = At.Shift.BEFORE
-		)
-	)
-	private void listenForCollisions(MoverType movementType, Vec3 movement, CallbackInfo ci) {
-		if (this instanceof CollisionListener collisionListener) {
-			if (horizontalCollision) {
-				if (!isHorizontalColliding) collisionListener.onCollision();
-				isHorizontalColliding = true;
-			} else {
-				isHorizontalColliding = false;
-			}
-
-			if (verticalCollision) {
-				if (!isTopColliding) collisionListener.onCollision();
-				isTopColliding = true;
-			} else {
-				isTopColliding = false;
-			}
-
-			if (verticalCollisionBelow) {
-				if (!isBelowColliding) collisionListener.onCollision();
-				isBelowColliding = true;
-			} else {
-				isBelowColliding = false;
-			}
 		}
 	}
 
