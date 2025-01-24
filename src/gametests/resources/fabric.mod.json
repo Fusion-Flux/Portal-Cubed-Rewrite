@@ -6,6 +6,7 @@
   "description": "GameTests for Portal Cubed",
   "icon": "assets/portalcubed_gametests/icon.png",
   "environment": "*",
+  "mixins": [ "portalcubed_gametests.mixins.json" ],
   "entrypoints": {
     "fabric-gametest": [
       "io.github.fusionflux.portalcubed_gametests.Batches",
