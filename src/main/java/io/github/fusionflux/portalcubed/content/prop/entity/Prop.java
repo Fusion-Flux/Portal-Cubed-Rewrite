@@ -51,7 +51,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class Prop extends HoldableEntity {
 	// Max speed of a dropped prop, to avoid flinging things cross chambers
-	public static final double MAX_SPEED_SQR = 0.9 * 0.9;
+	public static final double MAX_SPEED_SQR = Mth.square(0.9);
 	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Prop.class, EntityDataSerializers.INT);
 	// Terminal velocity of props in source units converted to blocks/tick
 	private static final double TERMINAL_VELOCITY = 66.6667f / 20f;
