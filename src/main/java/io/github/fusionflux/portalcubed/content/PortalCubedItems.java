@@ -130,7 +130,7 @@ public class PortalCubedItems {
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {
-			ItemBuilder<PropItem> builder = REGISTRAR.items.create(type.toString(), s -> new PropItem(s, type));
+			ItemBuilder<PropItem> builder = REGISTRAR.items.create(type.name, s -> new PropItem(s, type));
 			type.modify(builder);
 			PropItem item = builder.build();
 			map.put(type, item);

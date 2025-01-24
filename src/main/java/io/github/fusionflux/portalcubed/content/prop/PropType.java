@@ -3,10 +3,6 @@ package io.github.fusionflux.portalcubed.content.prop;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-import net.minecraft.Util;
-
-import net.minecraft.world.item.Rarity;
-
 import org.apache.commons.lang3.stream.IntStreams;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +15,7 @@ import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.content.prop.entity.Radio;
 import io.github.fusionflux.portalcubed.content.prop.entity.Taco;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -27,6 +24,7 @@ import net.minecraft.world.entity.EntityType.EntityFactory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
 public enum PropType {
@@ -54,6 +52,7 @@ public enum PropType {
 	),
 	ERROR                  (1f, 1f);  //add epic rarity to this later too, I just couldn't figure it out lol - Carter
 
+	public final String name;
 	public final int[] variants;
 	public final boolean randomVariantOnSpawn;
 	public final float width;
@@ -81,6 +80,7 @@ public enum PropType {
 
 	PropType(int variants, boolean randomVariantOnSpawn, float width, float height, PropFactory factory,
 			 boolean facesPlayer, Consumer<ItemBuilder<PropItem>> itemModifier) {
+		this.name = this.name().toLowerCase(Locale.ROOT);
 		this.variants = IntStreams.range(variants).toArray();
 		this.randomVariantOnSpawn = randomVariantOnSpawn;
 		this.width = width;
@@ -126,11 +126,7 @@ public enum PropType {
 		this.itemModifier.accept(builder);
 	}
 
-	@Override
-	public String toString() {
-		return name().toLowerCase(Locale.ROOT);
-	}
-
+	@FunctionalInterface
 	public interface PropFactory {
 		Prop create(PropType type, EntityType<Prop> entityType, Level level);
 	}

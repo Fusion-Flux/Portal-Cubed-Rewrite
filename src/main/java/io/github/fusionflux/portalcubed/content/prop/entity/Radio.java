@@ -1,22 +1,20 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.syncher.EntityDataSerializers;
-
-import net.minecraft.network.syncher.SynchedEntityData.Builder;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.PropSoundInstance;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
@@ -26,7 +24,7 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 	private static final String defaultSong = PortalCubedSounds.RADIO_SONG.location().toString();
 
 	@Environment(EnvType.CLIENT)
-	private PropSoundInstance soundInstance;
+	private Object soundInstance;
 
 	public Radio(PropType type, EntityType<?> entityType, Level level) {
 		super(type, entityType, level);
@@ -48,14 +46,14 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void playAmbientSound() {
-		if (this.soundInstance != null)
-			this.soundInstance.forceStop();
+		if (this.soundInstance instanceof PropSoundInstance soundInstance)
+			soundInstance.forceStop();
 		String track = this.entityData.get(TRACK);
 		ResourceLocation id = ResourceLocation.tryParse(track);
 		if (id != null) {
 			BuiltInRegistries.SOUND_EVENT.get(id).ifPresent(holder -> {
 				this.soundInstance = new PropSoundInstance(holder.value(), this);
-				Minecraft.getInstance().getSoundManager().play(this.soundInstance);
+				Minecraft.getInstance().getSoundManager().play((SoundInstance) this.soundInstance);
 			});
 		}
 	}
