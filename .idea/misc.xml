@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="EntryPointsManager">
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="net.minecraft.gametest.framework.GameTest" />
-      <item index="1" class="java.lang.String" itemvalue="net.minecraft.gametest.framework.GameTestGenerator" />
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="net.minecraft.gametest.framework.AfterBatch" />
+      <item index="1" class="java.lang.String" itemvalue="net.minecraft.gametest.framework.BeforeBatch" />
+      <item index="2" class="java.lang.String" itemvalue="net.minecraft.gametest.framework.GameTest" />
+      <item index="3" class="java.lang.String" itemvalue="net.minecraft.gametest.framework.GameTestGenerator" />
     </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />

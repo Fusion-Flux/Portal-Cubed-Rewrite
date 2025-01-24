@@ -23,8 +23,16 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 	public PortalHelper(GameTestHelper helper, String key, int primaryColor, int secondaryColor) {
 		this(
 				helper, key,
-				new SinglePortalHelper(helper, key, new PortalSettings(primaryColor, PortalShape.SQUARE), Polarity.PRIMARY),
-				new SinglePortalHelper(helper, key, new PortalSettings(secondaryColor, PortalShape.SQUARE), Polarity.SECONDARY)
+				new SinglePortalHelper(
+						helper, key,
+						new PortalSettings(primaryColor, PortalShape.SQUARE, false, true),
+						Polarity.PRIMARY
+				),
+				new SinglePortalHelper(
+						helper, key,
+						new PortalSettings(secondaryColor, PortalShape.SQUARE, false, true),
+						Polarity.SECONDARY
+				)
 		);
 	}
 

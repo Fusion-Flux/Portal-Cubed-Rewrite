@@ -1,0 +1,21 @@
+{
+	"schemaVersion": 1,
+  "id": "portalcubed_gametests",
+  "version": "1.0.0",
+  "name": "Portal Cubed GameTests",
+  "description": "GameTests for Portal Cubed",
+  "icon": "assets/portalcubed_gametests/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": [
+      "io.github.fusionflux.portalcubed_gametests.Batches",
+      "io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests",
+      "io.github.fusionflux.portalcubed_gametests.gametests.BootsGameTests",
+      "io.github.fusionflux.portalcubed_gametests.gametests.LemonGameTests",
+      "io.github.fusionflux.portalcubed_gametests.gametests.GooGameTests",
+      "io.github.fusionflux.portalcubed_gametests.gametests.ConstructionCannonGameTests",
+      "io.github.fusionflux.portalcubed_gametests.gametests.FizzlingGameTests",
+      "io.github.fusionflux.portalcubed_gametests.gametests.PortalGameTests"
+    ]
+  }
+}
