@@ -7,7 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 public class PortalCubedItemTags {
-	public static final TagKey<Item> WRENCHES = createCommon("tools/wrenches");
+	public static final TagKey<Item> WRENCH = createCommon("tools/wrench");
 
 	public static final TagKey<Item> AGED_CRAFTING_MATERIALS = create("aged_crafting_materials");
 
