@@ -23,17 +23,17 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper armorStandPair = new PortalHelper(helper, "armor_stand", 0x2055fe, 0xfe7020);
 		PortalHelper cubePair = new PortalHelper(helper, "cube", 0xfe2020, 0xfeed20);
 
-		armorStandPair.primary().placeOn(new BlockPos(10, 1, 1), Direction.UP, -90);
-		cubePair.primary().placeOn(new BlockPos(10, 1, 3), Direction.UP, -90);
-		armorStandPair.secondary().placeOn(new BlockPos(7, 3, 1), Direction.WEST);
-		cubePair.secondary().placeOn(new BlockPos(7, 3, 3), Direction.WEST);
+		armorStandPair.primary().placeOn(new BlockPos(10, 0, 1), Direction.UP, -90);
+		cubePair.primary().placeOn(new BlockPos(10, 0, 3), Direction.UP, -90);
+		armorStandPair.secondary().placeOn(new BlockPos(7, 2, 1), Direction.WEST);
+		cubePair.secondary().placeOn(new BlockPos(7, 2, 3), Direction.WEST);
 
-		helper.setBlock(9, 4, 1, Blocks.AIR);
-		helper.setBlock(9, 4, 3, Blocks.AIR);
+		helper.setBlock(9, 3, 1, Blocks.AIR);
+		helper.setBlock(9, 3, 3, Blocks.AIR);
 
 		helper.succeedWhen(() -> {
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 2, 1));
-			helper.assertEntityPresent(PropType.PORTAL_1_STORAGE_CUBE.entityType(), new BlockPos(2, 2, 3));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 1, 1));
+			helper.assertEntityPresent(PropType.PORTAL_1_STORAGE_CUBE.entityType(), new BlockPos(2, 1, 3));
 		});
 	}
 
@@ -49,34 +49,34 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper pairFive = new PortalHelper(helper, "five", 0xffffff, 0x000000);
 		PortalHelper pairSix = new PortalHelper(helper, "six", 0x2f8f8e, 0xff74e4);
 
-		pairOne.primary().placeOn(new BlockPos(22, 1, 1), Direction.UP, -90);
-		pairTwo.primary().placeOn(new BlockPos(22, 1, 3), Direction.UP, -90);
-		pairThree.primary().placeOn(new BlockPos(22, 1, 5), Direction.UP, -90);
-		pairFour.primary().placeOn(new BlockPos(22, 1, 7), Direction.UP, -90);
-		pairFive.primary().placeOn(new BlockPos(22, 1, 9), Direction.UP, -90);
-		pairSix.primary().placeOn(new BlockPos(22, 1, 11), Direction.UP, -90);
+		pairOne.primary().placeOn(new BlockPos(22, 0, 1), Direction.UP, -90);
+		pairTwo.primary().placeOn(new BlockPos(22, 0, 3), Direction.UP, -90);
+		pairThree.primary().placeOn(new BlockPos(22, 0, 5), Direction.UP, -90);
+		pairFour.primary().placeOn(new BlockPos(22, 0, 7), Direction.UP, -90);
+		pairFive.primary().placeOn(new BlockPos(22, 0, 9), Direction.UP, -90);
+		pairSix.primary().placeOn(new BlockPos(22, 0, 11), Direction.UP, -90);
 
-		pairOne.secondary().placeOn(new BlockPos(18, 7, 1), Direction.WEST);
-		pairTwo.secondary().placeOn(new BlockPos(18, 7, 3), Direction.WEST);
-		pairThree.secondary().placeOn(new BlockPos(18, 7, 5), Direction.WEST);
-		pairFour.secondary().placeOn(new BlockPos(18, 7, 7), Direction.WEST);
-		pairFive.secondary().placeOn(new BlockPos(18, 7, 9), Direction.WEST);
-		pairSix.secondary().placeOn(new BlockPos(18, 7, 11), Direction.WEST);
+		pairOne.secondary().placeOn(new BlockPos(18, 6, 1), Direction.WEST);
+		pairTwo.secondary().placeOn(new BlockPos(18, 6, 3), Direction.WEST);
+		pairThree.secondary().placeOn(new BlockPos(18, 6, 5), Direction.WEST);
+		pairFour.secondary().placeOn(new BlockPos(18, 6, 7), Direction.WEST);
+		pairFive.secondary().placeOn(new BlockPos(18, 6, 9), Direction.WEST);
+		pairSix.secondary().placeOn(new BlockPos(18, 6, 11), Direction.WEST);
 
-		helper.setBlock(21, 3, 1, Blocks.AIR);
-		helper.setBlock(21, 6, 3, Blocks.AIR);
-		helper.setBlock(21, 9, 5, Blocks.AIR);
-		helper.setBlock(21, 12, 7, Blocks.AIR);
-		helper.setBlock(21, 15, 9, Blocks.AIR);
-		helper.setBlock(21, 18, 11, Blocks.AIR);
+		helper.setBlock(21, 2, 1, Blocks.AIR);
+		helper.setBlock(21, 5, 3, Blocks.AIR);
+		helper.setBlock(21, 8, 5, Blocks.AIR);
+		helper.setBlock(21, 11, 7, Blocks.AIR);
+		helper.setBlock(21, 14, 9, Blocks.AIR);
+		helper.setBlock(21, 17, 11, Blocks.AIR);
 
 		helper.succeedWhen(() -> {
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(12, 2, 1));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(10, 2, 3));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(9, 2, 5));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(8, 2, 7));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 2, 9));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 2, 11));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(12, 1, 1));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(10, 1, 3));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(9, 1, 5));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(8, 1, 7));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 1, 9));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 1, 11));
 		});
 	}
 
@@ -87,9 +87,9 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper infiniteFall = new PortalHelper(helper, "infinite_fall", 0x2055fe, 0xfe7020);
 
-		helper.setBlock(3, 6, 2, Blocks.AIR);
-		infiniteFall.primary().placeOn(new BlockPos(3, 4, 2), Direction.UP, -90);
-		infiniteFall.secondary().placeOn(new BlockPos(3, 10, 2), Direction.DOWN, 90);
+		helper.setBlock(3, 5, 2, Blocks.AIR);
+		infiniteFall.primary().placeOn(new BlockPos(3, 3, 2), Direction.UP, -90);
+		infiniteFall.secondary().placeOn(new BlockPos(3, 9, 2), Direction.DOWN, 90);
 
 		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> helper.assertEntityPresent(EntityType.ARMOR_STAND)));
 	}
@@ -108,35 +108,35 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper trapdoor = new PortalHelper(helper, "trapdoor", 0x2055fe, 0xfe7020);
 		PortalHelper path = new PortalHelper(helper, "path", 0x2055fe, 0xfe7020);
 
-		daylightSensor.primary().shootFrom(new Vec3(23, 3, 2.5), Direction.DOWN, 0);
-		slab.primary().shootFrom(new Vec3(20, 3, 2.5), Direction.DOWN, 0);
-		stairsIn.primary().shootFrom(new Vec3(17, 4, 2.5), Direction.DOWN, 0);
-		stairsOut.primary().shootFrom(new Vec3(14, 4, 2.5), Direction.DOWN, 0);
-		carpet.primary().shootFrom(new Vec3(11, 3, 2.5), Direction.DOWN, 0);
-		stonecutter.primary().shootFrom(new Vec3(8, 3, 2.5), Direction.DOWN, 0);
-		trapdoor.primary().shootFrom(new Vec3(5, 3, 2.5), Direction.DOWN, 0);
-		path.primary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN, 0);
+		daylightSensor.primary().shootFrom(new Vec3(23, 2, 2.5), Direction.DOWN, 0);
+		slab.primary().shootFrom(new Vec3(20, 2, 2.5), Direction.DOWN, 0);
+		stairsIn.primary().shootFrom(new Vec3(17, 3, 2.5), Direction.DOWN, 0);
+		stairsOut.primary().shootFrom(new Vec3(14, 3, 2.5), Direction.DOWN, 0);
+		carpet.primary().shootFrom(new Vec3(11, 2, 2.5), Direction.DOWN, 0);
+		stonecutter.primary().shootFrom(new Vec3(8, 2, 2.5), Direction.DOWN, 0);
+		trapdoor.primary().shootFrom(new Vec3(5, 2, 2.5), Direction.DOWN, 0);
+		path.primary().shootFrom(new Vec3(2, 2, 2.5), Direction.DOWN, 0);
 
-		daylightSensor.secondary().shootFrom(new Vec3(23, 7, 6.5), Direction.UP, 90);
-		slab.secondary().shootFrom(new Vec3(20, 7, 6.5), Direction.UP, 90);
-		stairsIn.secondary().shootFrom(new Vec3(17, 7, 6.5), Direction.UP, 0);
-		stairsOut.secondary().shootFrom(new Vec3(14, 7, 6.5), Direction.UP, 0);
-		carpet.secondary().shootFrom(new Vec3(11, 7, 6.5), Direction.UP, 90);
-		stonecutter.secondary().shootFrom(new Vec3(8, 7, 6.5), Direction.UP, 90);
-		trapdoor.secondary().shootFrom(new Vec3(5, 7, 6.5), Direction.UP, 90);
-		path.secondary().shootFrom(new Vec3(2, 7, 6.5), Direction.UP, 90);
+		daylightSensor.secondary().shootFrom(new Vec3(23, 6, 6.5), Direction.UP, 90);
+		slab.secondary().shootFrom(new Vec3(20, 6, 6.5), Direction.UP, 90);
+		stairsIn.secondary().shootFrom(new Vec3(17, 6, 6.5), Direction.UP, 0);
+		stairsOut.secondary().shootFrom(new Vec3(14, 6, 6.5), Direction.UP, 0);
+		carpet.secondary().shootFrom(new Vec3(11, 6, 6.5), Direction.UP, 90);
+		stonecutter.secondary().shootFrom(new Vec3(8, 6, 6.5), Direction.UP, 90);
+		trapdoor.secondary().shootFrom(new Vec3(5, 6, 6.5), Direction.UP, 90);
+		path.secondary().shootFrom(new Vec3(2, 6, 6.5), Direction.UP, 90);
 
-		helper.pressButton(12, 2, 9);
+		helper.pressButton(12, 1, 9);
 
 		helper.succeedWhen(() -> {
-			helper.assertBlockProperty(new BlockPos(22, 8, 0), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(19, 8, 0), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(16, 8, 0), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(13, 8, 0), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(10, 8, 0), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(7, 8, 0), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(4, 8, 0), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(1, 8, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(22, 7, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(19, 7, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(16, 7, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(13, 7, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(10, 7, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(7, 7, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(4, 7, 0), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(1, 7, 0), RedstoneLampBlock.LIT, true);
 		});
 	}
 	@GameTest(template = GROUP + "odd_portal_surfaces_horizontal")
@@ -145,17 +145,17 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper wallPair = new PortalHelper(helper, "wall", 0x2055fe, 0xfe7020);
 		PortalHelper doorPair = new PortalHelper(helper, "door", 0x2055fe, 0xfe7020);
 
-		wallPair.primary().shootFrom(new Vec3(8, 3, 1.5), Direction.WEST);
-		doorPair.primary().shootFrom(new Vec3(8, 3, 3.5), Direction.WEST);
+		wallPair.primary().shootFrom(new Vec3(8, 2, 1.5), Direction.WEST);
+		doorPair.primary().shootFrom(new Vec3(8, 2, 3.5), Direction.WEST);
 
-		wallPair.secondary().placeOn(new BlockPos(3, 2, 1), Direction.WEST);
-		doorPair.secondary().placeOn(new BlockPos(3, 2, 3), Direction.WEST);
+		wallPair.secondary().placeOn(new BlockPos(3, 1, 1), Direction.WEST);
+		doorPair.secondary().placeOn(new BlockPos(3, 1, 3), Direction.WEST);
 
-		helper.pressButton(14, 3, 2);
+		helper.pressButton(14, 2, 2);
 
 		helper.succeedWhen(() -> {
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 2, 1));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 2, 3));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 1, 1));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 1, 3));
 		});
 	}
 
@@ -219,18 +219,18 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper waterFlow = new PortalHelper(helper, "water_flow", 0x2055fe, 0xfe7020);
 		PortalHelper doorTrapdoor = new PortalHelper(helper, "door_trapdoor", 0x2055fe, 0xfe7020);
 
-		pistonSolid.primary().placeOn(new BlockPos(7, 2, 8), Direction.NORTH);
-		pistonNonSolid.primary().placeOn(new BlockPos(5, 2, 8), Direction.NORTH);
-		waterFlow.primary().placeOn(new BlockPos(3, 2, 8), Direction.NORTH);
-		doorTrapdoor.primary().placeOn(new BlockPos(1, 2, 8), Direction.NORTH);
+		pistonSolid.primary().placeOn(new BlockPos(7, 1, 8), Direction.NORTH);
+		pistonNonSolid.primary().placeOn(new BlockPos(5, 1, 8), Direction.NORTH);
+		waterFlow.primary().placeOn(new BlockPos(3, 1, 8), Direction.NORTH);
+		doorTrapdoor.primary().placeOn(new BlockPos(1, 1, 8), Direction.NORTH);
 
-		pistonSolid.secondary().placeOn(new BlockPos(7, 1, 1), Direction.UP, 180);
-		pistonNonSolid.secondary().placeOn(new BlockPos(5, 1, 1), Direction.UP, 180);
-		waterFlow.secondary().placeOn(new BlockPos(3, 1, 1), Direction.UP, 180);
-		doorTrapdoor.secondary().placeOn(new BlockPos(1, 1, 1), Direction.UP, 180);
+		pistonSolid.secondary().placeOn(new BlockPos(7, 0, 1), Direction.UP, 180);
+		pistonNonSolid.secondary().placeOn(new BlockPos(5, 0, 1), Direction.UP, 180);
+		waterFlow.secondary().placeOn(new BlockPos(3, 0, 1), Direction.UP, 180);
+		doorTrapdoor.secondary().placeOn(new BlockPos(1, 0, 1), Direction.UP, 180);
 
-		helper.pullLever(6, 3, 5);
-		helper.pullLever(2, 3, 5);
+		helper.pullLever(6, 2, 5);
+		helper.pullLever(2, 2, 5);
 
 		helper.succeedWhen(() -> {
 			//pistonSolid.primary().assertNotPresent();
@@ -255,10 +255,10 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper sanePortalSurfaces = new PortalHelper(helper, "sane_surfaces", 0x2055fe, 0xfe7020);
 		PortalHelper facadeSurfaces = new PortalHelper(helper, "facade_surfaces", 0x2055fe, 0xfe7020);
 
-		sanePortalSurfaces.primary().shootFrom(new Vec3(11.5, 4, 1), Direction.SOUTH);
-		sanePortalSurfaces.secondary().shootFrom(new Vec3(8.5, 4, 1), Direction.SOUTH);
-		facadeSurfaces.primary().shootFrom(new Vec3(5.5, 4, 1), Direction.SOUTH);
-		facadeSurfaces.secondary().shootFrom(new Vec3(2.5, 4, 1), Direction.SOUTH);
+		sanePortalSurfaces.primary().shootFrom(new Vec3(11.5, 3, 1), Direction.SOUTH);
+		sanePortalSurfaces.secondary().shootFrom(new Vec3(8.5, 3, 1), Direction.SOUTH);
+		facadeSurfaces.primary().shootFrom(new Vec3(5.5, 3, 1), Direction.SOUTH);
+		facadeSurfaces.secondary().shootFrom(new Vec3(2.5, 3, 1), Direction.SOUTH);
 
 		helper.succeedWhen(() -> {
 			//sanePortalSurfaces.primary().assertPresent();
@@ -279,24 +279,24 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper collisionSides = new PortalHelper(helper, "collision_sides", 0x2055fe, 0xfe7020);
 
-		collisionSides.primary().placeOn(new BlockPos(5, 7, 5), Direction.NORTH);
-		collisionSides.secondary().placeOn(new BlockPos(5, 15, 5), Direction.NORTH);
+		collisionSides.primary().placeOn(new BlockPos(5, 6, 5), Direction.NORTH);
+		collisionSides.secondary().placeOn(new BlockPos(5, 14, 5), Direction.NORTH);
 
-		helper.setBlock(5, 10, 5, Blocks.AIR);
-		helper.pressButton(new BlockPos(5, 2, 4));
-		helper.pressButton(new BlockPos(4, 7, 10));
-		helper.pressButton(new BlockPos(6, 7, 0));
-		helper.pressButton(new BlockPos(0, 7, 4));
-		helper.pressButton(new BlockPos(10, 7, 6));
+		helper.setBlock(5, 9, 5, Blocks.AIR);
+		helper.pressButton(new BlockPos(5, 1, 4));
+		helper.pressButton(new BlockPos(4, 6, 10));
+		helper.pressButton(new BlockPos(6, 6, 0));
+		helper.pressButton(new BlockPos(0, 6, 4));
+		helper.pressButton(new BlockPos(10, 6, 6));
 
 		helper.succeedWhen(() -> {
-			helper.assertEntityNotPresent(EntityType.ARMOR_STAND, new BlockPos(5, 7, 4));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 7, 5));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(4, 7, 5));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 7, 6));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 9, 5));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 15, 4));
-			helper.assertBlockProperty(new BlockPos(3, 4, 5), RedstoneLampBlock.LIT, true);
+			helper.assertEntityNotPresent(EntityType.ARMOR_STAND, new BlockPos(5, 6, 4));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 6, 5));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(4, 6, 5));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 6, 6));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 8, 5));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(5, 14, 4));
+			helper.assertBlockProperty(new BlockPos(3, 3, 5), RedstoneLampBlock.LIT, true);
 		});
 	}
 
@@ -307,17 +307,17 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper collisionEdges = new PortalHelper(helper, "collision_edges", 0x2055fe, 0xfe7020);
 
-		collisionEdges.primary().placeOn(new BlockPos(3, 2, 5), Direction.NORTH);
-		collisionEdges.secondary().placeOn(new BlockPos(3, 2, 7), Direction.SOUTH);
+		collisionEdges.primary().placeOn(new BlockPos(3, 1, 5), Direction.NORTH);
+		collisionEdges.secondary().placeOn(new BlockPos(3, 1, 7), Direction.SOUTH);
 
-		helper.pressButton(new BlockPos(4, 2, 0));
+		helper.pressButton(new BlockPos(4, 1, 0));
 
 		helper.succeedWhen(() -> {
-			helper.assertBlockProperty(new BlockPos(5, 2, 4), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(1, 2, 4), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(2, 2, 10), RedstoneLampBlock.LIT, false);
-			helper.assertBlockProperty(new BlockPos(3, 2, 10), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(4, 2, 10), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(5, 1, 4), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(1, 1, 4), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(2, 1, 10), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(3, 1, 10), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(4, 1, 10), RedstoneLampBlock.LIT, false);
 		});
 	}
 
@@ -336,46 +336,46 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper ceilingPairTwo = new PortalHelper(helper, "ceiling_pair_two", 0x2055fe, 0xfe7020);
 		PortalHelper ceilingPairThree = new PortalHelper(helper, "ceiling_pair_three", 0x2055fe, 0xfe7020);
 
-		floorPairOne.primary().placeOn(new BlockPos(5, 1, 1), Direction.UP);
-		floorPairOne.secondary().placeOn(new BlockPos(4, 1, 1), Direction.UP);
-		floorPairTwo.primary().placeOn(new BlockPos(3, 1, 1), Direction.UP);
-		floorPairTwo.secondary().placeOn(new BlockPos(2, 1, 1), Direction.UP);
-		floorPairThree.primary().placeOn(new BlockPos(1, 1, 1), Direction.UP);
-		floorPairThree.secondary().placeOn(new BlockPos(0, 1, 1), Direction.UP);
+		floorPairOne.primary().placeOn(new BlockPos(5, 0, 1), Direction.UP);
+		floorPairOne.secondary().placeOn(new BlockPos(4, 0, 1), Direction.UP);
+		floorPairTwo.primary().placeOn(new BlockPos(3, 0, 1), Direction.UP);
+		floorPairTwo.secondary().placeOn(new BlockPos(2, 0, 1), Direction.UP);
+		floorPairThree.primary().placeOn(new BlockPos(1, 0, 1), Direction.UP);
+		floorPairThree.secondary().placeOn(new BlockPos(0, 0, 1), Direction.UP);
 
-		wallPairOne.primary().placeOn(new BlockPos(5, 3, 4), Direction.NORTH);
-		wallPairOne.secondary().placeOn(new BlockPos(4, 3, 4), Direction.NORTH);
-		wallPairTwo.primary().placeOn(new BlockPos(3, 3, 4), Direction.NORTH);
-		wallPairTwo.secondary().placeOn(new BlockPos(2, 3, 4), Direction.NORTH);
-		wallPairThree.primary().placeOn(new BlockPos(1, 3, 4), Direction.NORTH);
-		wallPairThree.secondary().placeOn(new BlockPos(0, 3, 4), Direction.NORTH);
+		wallPairOne.primary().placeOn(new BlockPos(5, 2, 4), Direction.NORTH);
+		wallPairOne.secondary().placeOn(new BlockPos(4, 2, 4), Direction.NORTH);
+		wallPairTwo.primary().placeOn(new BlockPos(3, 2, 4), Direction.NORTH);
+		wallPairTwo.secondary().placeOn(new BlockPos(2, 2, 4), Direction.NORTH);
+		wallPairThree.primary().placeOn(new BlockPos(1, 2, 4), Direction.NORTH);
+		wallPairThree.secondary().placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
 
-		ceilingPairOne.primary().placeOn(new BlockPos(5, 5, 1), Direction.DOWN);
-		ceilingPairOne.secondary().placeOn(new BlockPos(4, 5, 1), Direction.DOWN);
-		ceilingPairTwo.primary().placeOn(new BlockPos(3, 5, 1), Direction.DOWN);
-		ceilingPairTwo.secondary().placeOn(new BlockPos(2, 5, 1), Direction.DOWN);
-		ceilingPairThree.primary().placeOn(new BlockPos(1, 5, 1), Direction.DOWN);
-		ceilingPairThree.secondary().placeOn(new BlockPos(0, 5, 1), Direction.DOWN);
+		ceilingPairOne.primary().placeOn(new BlockPos(5, 4, 1), Direction.DOWN);
+		ceilingPairOne.secondary().placeOn(new BlockPos(4, 4, 1), Direction.DOWN);
+		ceilingPairTwo.primary().placeOn(new BlockPos(3, 4, 1), Direction.DOWN);
+		ceilingPairTwo.secondary().placeOn(new BlockPos(2, 4, 1), Direction.DOWN);
+		ceilingPairThree.primary().placeOn(new BlockPos(1, 4, 1), Direction.DOWN);
+		ceilingPairThree.secondary().placeOn(new BlockPos(0, 4, 1), Direction.DOWN);
 
 		helper.succeedWhen(() -> {
 			//Floor
-			helper.assertBlockPresent(Blocks.AIR, 5, 2 ,1);
-			helper.assertBlockPresent(Blocks.AIR, 4, 2 ,1);
-			helper.assertBlockPresent(Blocks.AIR, 3, 2 ,1);
-			helper.assertBlockPresent(Blocks.AIR, 2, 2 ,1);
-			helper.assertBlockPresent(Blocks.AIR, 1, 2 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 5, 1 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 4, 1 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 3, 1 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 2, 1 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 1, 1 ,1);
 			//Wall
-			helper.assertBlockPresent(Blocks.AIR, 5, 3 ,3);
-			helper.assertBlockPresent(Blocks.AIR, 4, 3 ,3);
-			helper.assertBlockPresent(Blocks.AIR, 3, 3 ,3);
-			helper.assertBlockPresent(Blocks.AIR, 2, 3 ,3);
-			helper.assertBlockPresent(Blocks.AIR, 1, 3 ,3);
+			helper.assertBlockPresent(Blocks.AIR, 5, 2 ,3);
+			helper.assertBlockPresent(Blocks.AIR, 4, 2 ,3);
+			helper.assertBlockPresent(Blocks.AIR, 3, 2 ,3);
+			helper.assertBlockPresent(Blocks.AIR, 2, 2 ,3);
+			helper.assertBlockPresent(Blocks.AIR, 1, 2 ,3);
 			//Ceiling
-			helper.assertBlockPresent(Blocks.AIR, 5, 4 ,1);
-			helper.assertBlockPresent(Blocks.AIR, 4, 4 ,1);
-			helper.assertBlockPresent(Blocks.AIR, 3, 4 ,1);
-			helper.assertBlockPresent(Blocks.AIR, 2, 4 ,1);
-			helper.assertBlockPresent(Blocks.AIR, 1, 4 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 5, 3 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 4, 3 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 3, 3 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 2, 3 ,1);
+			helper.assertBlockPresent(Blocks.AIR, 1, 3 ,1);
 		});
 	}
 

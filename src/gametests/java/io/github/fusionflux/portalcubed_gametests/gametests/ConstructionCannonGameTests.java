@@ -49,11 +49,11 @@ public class ConstructionCannonGameTests implements FabricGameTest {
 		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
 		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
-		helper.useBlock(new BlockPos(2, 2, 1), gerald);
+		helper.useBlock(new BlockPos(2, 1, 1), gerald);
 
 		helper.succeedIf(() -> {
 			//add check for remaining items here max, should be 0
-			helper.assertBlockNotPresent(Blocks.AIR, 2, 2, 1);
+			helper.assertBlockNotPresent(Blocks.AIR, 2, 1, 1);
 		});
 	}
 
@@ -64,11 +64,11 @@ public class ConstructionCannonGameTests implements FabricGameTest {
 		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, true));
 		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
-		helper.useBlock(new BlockPos(2, 2, 1), gerald);
+		helper.useBlock(new BlockPos(2, 1, 1), gerald);
 
 		helper.succeedIf(() -> {
 			//add check for remaining items here max, should be 0
-			helper.assertBlockNotPresent(PortalCubedBlocks.OFFICE_CONCRETE, 2, 2, 1);
+			helper.assertBlockNotPresent(PortalCubedBlocks.OFFICE_CONCRETE, 2, 1, 1);
 		});
 	}
 
@@ -79,11 +79,11 @@ public class ConstructionCannonGameTests implements FabricGameTest {
 		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
 		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
-		helper.useBlock(new BlockPos(2, 2, 1), gerald);
+		helper.useBlock(new BlockPos(2, 1, 1), gerald);
 
 		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> {
 			//add check for remaining items here max, should be 4
-			helper.succeedWhenBlockPresent(Blocks.AIR, 2, 2, 1);
+			helper.succeedWhenBlockPresent(Blocks.AIR, 2, 1, 1);
 		});
 	}
 
@@ -93,9 +93,9 @@ public class ConstructionCannonGameTests implements FabricGameTest {
 
 		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
-		helper.useBlock(new BlockPos(2, 2, 1), gerald);
+		helper.useBlock(new BlockPos(2, 1, 1), gerald);
 
-		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> helper.succeedWhenBlockPresent(Blocks.AIR, 2, 2, 1));
+		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> helper.succeedWhenBlockPresent(Blocks.AIR, 2, 1, 1));
 	}
 
 	//Tests a survival mockplayer using a Construction Cannon in normal mode, with 1 of the required blocks to place the structure (4 needed)
@@ -105,11 +105,11 @@ public class ConstructionCannonGameTests implements FabricGameTest {
 		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
 		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
 		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 1));
-		helper.useBlock(new BlockPos(2, 2, 1), gerald);
+		helper.useBlock(new BlockPos(2, 1, 1), gerald);
 
 		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> {
 			//add check for remaining items here max, should be 1
-			helper.succeedWhenBlockPresent(Blocks.AIR, 2, 2, 1);
+			helper.succeedWhenBlockPresent(Blocks.AIR, 2, 1, 1);
 		});
 	}
 
