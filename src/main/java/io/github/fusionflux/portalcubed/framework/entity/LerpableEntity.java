@@ -15,7 +15,7 @@ public abstract class LerpableEntity extends Entity {
 	private double lerpYRot;
 	private double lerpXRot;
 
-	public LerpableEntity(EntityType<?> variant, Level world) {
+	protected LerpableEntity(EntityType<?> variant, Level world) {
 		super(variant, world);
 	}
 

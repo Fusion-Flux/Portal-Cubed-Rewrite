@@ -15,8 +15,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class GrabKeyMappingAction implements KeyMappingAction {
-	public static final double RANGE_MULT = 1;
-
 	@Override
 	public void onPressed(Minecraft mc) {
 		LocalPlayer player = mc.player;
@@ -24,12 +22,11 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 			return;
 
 		HoldableEntity held = player.getHeldEntity();
-		double range = player.entityInteractionRange() * RANGE_MULT;
 		if (held == null) { // not holding, grab
 			HitResult hit = ProjectileUtil.getHitResultOnViewVector(
 					player,
 					EntitySelector.NO_SPECTATORS.and(Entity::isPickable),
-					range
+					player.entityInteractionRange()
 			);
 
 			if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof HoldableEntity holdable) {

@@ -12,7 +12,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
@@ -133,7 +132,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 	public boolean canHold(Player player) {
 		return (!this.pc$disintegrating() && !this.isPassenger() && !this.hasPassenger(player)) // Self checks
-				&& (!player.isSpectator() && player.canInteractWithEntity(this, Container.DEFAULT_DISTANCE_BUFFER)); // Holder checks
+				&& (!player.isSpectator() && player.canInteractWithEntity(this, 0)); // Holder checks
 	}
 
 	public void grab(ServerPlayer player) {
