@@ -7,7 +7,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -23,8 +23,6 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 			).apply(instance, Signage::new)),
 			Signage::validate
 	);
-	public static final ResourceKey<Signage> LARGE_BLANK = ResourceKey.create(PortalCubedRegistries.LARGE_SIGNAGE, PortalCubed.id("blank"));
-	public static final ResourceKey<Signage> SMALL_BLANK = ResourceKey.create(PortalCubedRegistries.SMALL_SIGNAGE, PortalCubed.id("blank"));
 
 	public ResourceLocation selectTexture(boolean aged) {
 		if (this.cleanTexture.isPresent() && !aged)

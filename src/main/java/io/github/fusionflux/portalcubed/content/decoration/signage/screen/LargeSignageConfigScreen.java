@@ -1,10 +1,11 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.screen;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+
 import org.apache.commons.lang3.function.TriConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlockEntity;
-import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;

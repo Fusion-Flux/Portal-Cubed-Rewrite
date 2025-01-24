@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedTestElementSettings;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +33,6 @@ import io.github.fusionflux.portalcubed.data.loot.PortalCubedLootFunctions;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
-import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.fabricmc.api.ModInitializer;
@@ -50,6 +53,7 @@ public class PortalCubed implements ModInitializer {
 		LOGGER.info("Portal Cubed ({}) initializing...", version);
 		LOGGER.info(MOTL.get());
 
+		PortalCubedRegistries.init();
 		PortalCubedGameRules.init();
 		PortalCubedFluids.init();
 		PortalCubedBlocks.init();
@@ -57,7 +61,6 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedDataComponents.init();
 		PortalCubedAttributes.init();
 		PortalCubedLootFunctions.init();
-		PortalCubedRegistries.init();
 		PortalCubedItems.init();
 		PortalCubedTabs.init();
 		PortalCubedEntities.init();
@@ -70,6 +73,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedCriteriaTriggers.init();
 		PortalCubedStats.init();
 		PortalCubedGameEvents.init();
+		PortalCubedTestElementSettings.init();
 
 		ConstructManager.registerEventListeners();
 		EntityExt.registerEventListeners();

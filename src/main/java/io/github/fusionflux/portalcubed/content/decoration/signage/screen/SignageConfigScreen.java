@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+
 import org.apache.commons.lang3.function.TriConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -14,7 +16,6 @@ import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
-import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;

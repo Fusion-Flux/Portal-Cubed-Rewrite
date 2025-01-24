@@ -3,13 +3,15 @@ package io.github.fusionflux.portalcubed.content.decoration.signage.small;
 import java.util.EnumMap;
 import java.util.Optional;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureRenderData;
-import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -20,6 +22,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SmallSignageBlockEntity extends SignageBlockEntity {
+	public static final ResourceKey<Signage> SMALL_BLANK = ResourceKey.create(PortalCubedRegistries.SMALL_SIGNAGE, PortalCubed.id("blank"));
+
 	private final EnumMap<SmallSignageBlock.Quadrant, Holder<Signage>> quadrants = new EnumMap<>(SmallSignageBlock.Quadrant.class);
 
 	public SmallSignageBlockEntity(BlockPos pos, BlockState state) {
@@ -30,7 +34,7 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 		Holder<Signage> holder = this.quadrants.get(quadrant);
 		if (holder == null && this.level != null) {
 			return this.level.registryAccess()
-					.get(Signage.SMALL_BLANK)
+					.get(SMALL_BLANK)
 					.orElse(null);
 		}
 		return holder;

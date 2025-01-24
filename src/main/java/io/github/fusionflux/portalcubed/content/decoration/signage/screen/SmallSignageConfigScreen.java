@@ -2,6 +2,8 @@ package io.github.fusionflux.portalcubed.content.decoration.signage.screen;
 
 import java.util.Locale;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+
 import org.apache.commons.lang3.function.TriConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -11,7 +13,6 @@ import io.github.fusionflux.portalcubed.framework.gui.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButton;
-import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;

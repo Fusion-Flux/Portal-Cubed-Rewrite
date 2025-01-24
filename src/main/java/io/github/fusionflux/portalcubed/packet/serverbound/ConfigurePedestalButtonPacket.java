@@ -1,5 +1,11 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
+import io.github.fusionflux.portalcubed.content.PortalCubedTestElementSettings;
+import net.minecraft.resources.ResourceLocation;
+
+import net.minecraft.server.level.ServerPlayer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +26,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pressTime, Offset offset, boolean base) implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, ConfigurePedestalButtonPacket> CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC, ConfigurePedestalButtonPacket::pedestalButtonPos,
@@ -38,18 +47,37 @@ public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pres
 
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
-		Player player = ctx.player();
-		if (player.canInteractWithBlock(this.pedestalButtonPos, 1)) {
-			Level world = player.level();
-			if (world.getBlockEntity(this.pedestalButtonPos) instanceof PedestalButtonBlockEntity pedestalButton) {
-				BlockState oldState = world.getBlockState(this.pedestalButtonPos);
-				world.setBlock(this.pedestalButtonPos, oldState
-						.setValue(PedestalButtonBlock.OFFSET, offset)
-						.setValue(PedestalButtonBlock.BASE, base), Block.UPDATE_ALL);
-				pedestalButton.setPressTime(pressTime);
-			}
-		} else {
+		ServerPlayer player = ctx.player();
+		if (!player.canInteractWithBlock(this.pedestalButtonPos, 1)) {
 			logger.warn("Rejecting packet from {}: Can't interact with block {}.", player.getGameProfile().getName(), this.pedestalButtonPos);
+			return;
+		}
+
+		Level world = player.level();
+		if (world.getBlockEntity(this.pedestalButtonPos) instanceof PedestalButtonBlockEntity pedestalButton) {
+			BlockState state = world.getBlockState(this.pedestalButtonPos);
+			Set<ResourceLocation> changedSettings = new HashSet<>();
+
+			if (this.offset != state.getValue(PedestalButtonBlock.OFFSET)) {
+				state = state.setValue(PedestalButtonBlock.OFFSET, this.offset);
+				changedSettings.add(PortalCubedTestElementSettings.PEDESTAL_BUTTON_BASE_POSITION);
+			}
+
+			if (this.base != state.getValue(PedestalButtonBlock.BASE)) {
+				state = state.setValue(PedestalButtonBlock.BASE, this.base);
+				changedSettings.add(PortalCubedTestElementSettings.PEDESTAL_BUTTON_BASE_TOGGLE);
+			}
+
+			if (!changedSettings.isEmpty()) {
+				world.setBlock(this.pedestalButtonPos, state, Block.UPDATE_ALL);
+			}
+
+			if (this.pressTime != pedestalButton.getPressTime()) {
+				changedSettings.add(PortalCubedTestElementSettings.PEDESTAL_BUTTON_TIMER);
+				pedestalButton.setPressTime(this.pressTime);
+			}
+
+			PortalCubedCriteriaTriggers.CONFIGURE_TEST_ELEMENT.trigger(player, changedSettings);
 		}
 	}
 }

@@ -1,0 +1,29 @@
+{
+  "parent": "portalcubed:achievements/hammer",
+  "criteria": {
+    "configure": {
+      "trigger": "portalcubed:configure_test_element",
+      "conditions": {
+        "test_element_settings": [
+          "portalcubed:pedestal_button/timer",
+          "portalcubed:pedestal_button/base/toggle",
+          "portalcubed:pedestal_button/base/position"
+        ]
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.stalemate_associate.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "portalcubed:pedestal_button"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.stalemate_associate.title"
+    },
+    "frame": "task",
+    "hidden": false
+  }
+}

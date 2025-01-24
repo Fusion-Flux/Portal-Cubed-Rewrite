@@ -1,6 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -117,6 +120,44 @@ public interface PortalCubedCodecs {
 								Either.<V, List<V>>right(List.copyOf(e.getValue()))
 						))
 						.toList()
+		);
+	}
+
+	/**
+	 * Codec that can read/write either a single T or a set of them. The set is strict and will fail to decode
+	 * when duplicates are present.
+	 */
+	static <T> Codec<Set<T>> singleOrStrictSetOf(Codec<T> codec) {
+		return Codec.xor(
+				strictSetOf(codec),
+				codec.flatComapMap(Set::of, set -> {
+					if (set.size() == 1) {
+						return DataResult.success(set.iterator().next());
+					} else {
+						return DataResult.error(() -> "Set size >1");
+					}
+				})
+		).xmap(
+				either -> either.left().or(either::right).orElseThrow(),
+				set -> set.size() == 1 ? Either.left(set) : Either.right(set)
+		);
+	}
+
+	/**
+	 * Create a codec for a set of T which fails to decode when duplicates are present
+	 */
+	static <T> Codec<Set<T>> strictSetOf(Codec<T> codec) {
+		return codec.listOf().comapFlatMap(
+				list -> {
+					Set<T> set = new HashSet<>();
+					for (T t : list) {
+						if (!set.add(t)) {
+							return DataResult.error(() -> "Set contains duplicate: " + t);
+						}
+					}
+					return DataResult.success(set);
+				},
+				ArrayList::new
 		);
 	}
 

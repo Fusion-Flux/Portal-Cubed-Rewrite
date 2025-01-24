@@ -1,5 +1,12 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedTestElementSettings;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlockEntity;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlockEntity;
-import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -24,19 +30,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket permits ConfigureSignageConfigPacket.Large, ConfigureSignageConfigPacket.Small {
 	Logger logger = LoggerFactory.getLogger(ConfigureSignageConfigPacket.class);
 
 	BlockPos signagePos();
 
-	void configure(@Nullable BlockEntity blockEntity);
+	void configure(ServerPlayer player, @Nullable BlockEntity blockEntity);
 
 	@Override
 	default void handle(ServerPlayNetworking.Context ctx) {
-		Player player = ctx.player();
+		ServerPlayer player = ctx.player();
 		BlockPos signagePos = this.signagePos();
 		if (player.canInteractWithBlock(signagePos, 1)) {
-			this.configure(player.level().getBlockEntity(signagePos));
+			this.configure(player, player.level().getBlockEntity(signagePos));
 		} else {
 			logger.warn("Rejecting packet from {}: Can't interact with block {}.", player.getGameProfile().getName(), signagePos);
 		}
@@ -45,7 +54,7 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 	record Large(BlockPos signagePos, Holder<Signage> signage) implements ConfigureSignageConfigPacket {
 		public static final StreamCodec<RegistryFriendlyByteBuf, Large> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Large::signagePos,
-				ByteBufCodecs.holderRegistry(PortalCubedRegistries.LARGE_SIGNAGE), Large::signage,
+				ByteBufCodecs.holderRegistry(io.github.fusionflux.portalcubed.content.PortalCubedRegistries.LARGE_SIGNAGE), Large::signage,
 				Large::new
 		);
 
@@ -55,9 +64,14 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 		}
 
 		@Override
-		public void configure(@Nullable BlockEntity blockEntity) {
-			if (blockEntity instanceof LargeSignageBlockEntity signageBlock)
+		public void configure(ServerPlayer player, @Nullable BlockEntity blockEntity) {
+			if (blockEntity instanceof LargeSignageBlockEntity signageBlock) {
 				signageBlock.update(this.signage);
+				PortalCubedCriteriaTriggers.CONFIGURE_TEST_ELEMENT.trigger(
+						player,
+						Set.of(PortalCubedTestElementSettings.LARGE_SIGNAGE_IMAGE)
+				);
+			}
 		}
 	}
 
@@ -76,13 +90,24 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 		}
 
 		@Override
-		public void configure(@Nullable BlockEntity blockEntity) {
+		public void configure(ServerPlayer player, @Nullable BlockEntity blockEntity) {
 			if (blockEntity instanceof SmallSignageBlockEntity signageBlock) {
 				Level world = signageBlock.getLevel();
-				if (this.enabled != TriState.DEFAULT && world != null)
+				Set<ResourceLocation> changedSettings = new HashSet<>();
+
+				if (this.enabled != TriState.DEFAULT && world != null) {
 					SmallSignageBlock.setQuadrant(world, this.signagePos, this.quadrant, this.enabled.toBoolean(true));
-				if (this.signage != null)
+					changedSettings.add(PortalCubedTestElementSettings.SMALL_SIGNAGE_QUADRANT_TOGGLE);
+				}
+
+				if (this.signage != null) {
 					signageBlock.updateQuadrant(this.quadrant, this.signage);
+					changedSettings.add(PortalCubedTestElementSettings.SMALL_SIGNAGE_IMAGE);
+				}
+
+				if (!changedSettings.isEmpty()) {
+					PortalCubedCriteriaTriggers.CONFIGURE_TEST_ELEMENT.trigger(player, changedSettings);
+				}
 			}
 		}
 	}

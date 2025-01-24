@@ -2,13 +2,15 @@ package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
 import java.util.Optional;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureRenderData;
-import io.github.fusionflux.portalcubed.framework.registration.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -19,6 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LargeSignageBlockEntity extends SignageBlockEntity {
+	public static final ResourceKey<Signage> LARGE_BLANK = ResourceKey.create(PortalCubedRegistries.LARGE_SIGNAGE, PortalCubed.id("blank"));
+
 	@Nullable
 	private Holder<Signage> holder;
 
@@ -29,7 +33,7 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 	public Holder<Signage> holder() {
 		if (this.holder == null && this.level != null) {
 			return this.level.registryAccess()
-					.get(Signage.LARGE_BLANK)
+					.get(LARGE_BLANK)
 					.orElse(null);
 		}
 		return this.holder;
