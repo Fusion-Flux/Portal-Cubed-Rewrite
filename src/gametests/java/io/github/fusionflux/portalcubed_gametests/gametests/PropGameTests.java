@@ -212,6 +212,18 @@ public class PropGameTests implements FabricGameTest {
 		}));
 	}
 
+	//Test prop barriers
+	@GameTest(template = GROUP + "prop_barrier")
+	public void propBarrier(GameTestHelper helper) {
+		helper.pullLever(0, 1, 2);
+
+		helper.runAfterDelay(40, () -> helper.succeedIf(() -> { //Wait for pistons to move cubes
+			helper.assertEntityNotPresent(PropType.STORAGE_CUBE.entityType(), 2, 1, 0);
+			helper.assertEntityNotPresent(PropType.STORAGE_CUBE.entityType(), 2, 3, 2);
+			helper.assertEntityNotPresent(PropType.STORAGE_CUBE.entityType(), 3, 1, 4);
+		}));
+	}
+
 	public static Prop spawnProp(GameTestHelper helper, PropType type, BlockPos pos) {
 		return Util.make(helper.spawn(type.entityType(), pos), p -> p.setSilent(true));
 	}
