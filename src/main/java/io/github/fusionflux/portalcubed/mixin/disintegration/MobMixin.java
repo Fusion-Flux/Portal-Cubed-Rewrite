@@ -6,13 +6,20 @@ import org.spongepowered.asm.mixin.injection.At;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
-import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
 import net.minecraft.world.entity.ConversionParams;
 import net.minecraft.world.entity.ConversionType;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Leashable;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
 
 @Mixin(Mob.class)
-public class MobMixin implements DisintegrationExt {
+public abstract class MobMixin extends LivingEntity implements Leashable {
+	protected MobMixin(EntityType<? extends LivingEntity> entityType, Level level) {
+		super(entityType, level);
+	}
+
 	@WrapOperation(
 			method = "convertTo(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/ConversionParams;Lnet/minecraft/world/entity/EntitySpawnReason;Lnet/minecraft/world/entity/ConversionParams$AfterConversion;)Lnet/minecraft/world/entity/Mob;",
 			at = @At(
@@ -25,5 +32,17 @@ public class MobMixin implements DisintegrationExt {
 		this.pc$disintegrating(false);
 		original.call(instance, oldMob, newMob, conversionParams);
 		this.pc$disintegrating(wasDisintegrating);
+	}
+
+	@Override
+	public boolean pc$disintegrate() {
+		if (!this.level().isClientSide)
+			this.dropLeash();
+		return super.pc$disintegrate();
+	}
+
+	@Override
+	public boolean canHaveALeashAttachedToIt() {
+		return Leashable.super.canHaveALeashAttachedToIt() && !this.pc$disintegrating();
 	}
 }

@@ -2,26 +2,28 @@ package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrateEffect;
+import io.github.fusionflux.portalcubed.mixin.disintegration.ArmorStandAccessor;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class PortalCubedDisintegrateEffects {
 	public static final DisintegrateEffect DAMAGE = register(
 			"damage",
 			new DisintegrateEffect(
-					entity -> entity instanceof LivingEntity,
+					entity -> entity instanceof LivingEntity && !(entity instanceof ArmorStand),
 					(world, entity) -> entity.hurtServer(world, PortalCubedDamageSources.disintegration(world, entity), Float.MAX_VALUE)
 			)
 	);
-	public static final DisintegrateEffect REMOVE = register(
-			"remove",
+	private static final DisintegrateEffect BREAK_ARMOR_STAND = register(
+			"break_armor_stand",
 			new DisintegrateEffect(
-					entity -> !(entity instanceof ServerPlayer),
-					(world, entity) -> entity.remove(Entity.RemovalReason.KILLED)
+					entity -> entity instanceof ArmorStand,
+					(world, entity) -> ((ArmorStandAccessor) entity).callBrokenByAnything(world, PortalCubedDamageSources.disintegration(world, entity))
 			)
 	);
 	private static final DisintegrateEffect DESTROY_ITEM = register(
@@ -29,6 +31,13 @@ public class PortalCubedDisintegrateEffects {
 			new DisintegrateEffect(
 					entity -> entity instanceof ItemEntity,
 					(world, entity) -> ((ItemEntity) entity).getItem().onDestroyed((ItemEntity) entity)
+			)
+	);
+	public static final DisintegrateEffect REMOVE = register(
+			"remove",
+			new DisintegrateEffect(
+					entity -> !(entity instanceof Player),
+					(world, entity) -> entity.remove(Entity.RemovalReason.KILLED)
 			)
 	);
 

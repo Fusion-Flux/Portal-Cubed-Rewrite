@@ -43,6 +43,7 @@
     "StructureUtilsMixin",
     "UseOnContextAccessor",
     "WalkNodeEvaluatorMixin",
+    "disintegration.ArmorStandAccessor",
     "disintegration.EntityMixin",
     "disintegration.MobMixin",
     "disintegration.ServerEntityMixin",
