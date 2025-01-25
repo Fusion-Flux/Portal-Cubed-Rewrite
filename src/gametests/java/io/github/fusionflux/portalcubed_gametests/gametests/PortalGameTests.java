@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed_gametests.Batches;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import io.github.fusionflux.portalcubed_gametests.PortalHelper;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
@@ -160,19 +161,62 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test portals against solid surfaces to make sure the entity traveling through doesn't clip where it shouldn't
+	//Test portals against solid surfaces to make sure the entity traveling through doesn't clip when it shouldn't.  Currently only tests full blocks, could be expanded in the future
 	@GameTest(template = GROUP + "portal_against_solid_blocks")
 	public void portalAgainstSolidBlocks(GameTestHelper helper) {
 
-		//todo
+		PortalHelper verticalGrate = new PortalHelper(helper, "vertical_grate", 0x2055fe, 0xfe7020);
+		PortalHelper horizontalGrate = new PortalHelper(helper, "horizontal_grate", 0x2055fe, 0xfe7020);
+
+		verticalGrate.primary().placeOn(new BlockPos(7, 1, 2), Direction.UP, 180);
+		horizontalGrate.primary().placeOn(new BlockPos(2, 1, 2), Direction.UP, 180);
+
+		verticalGrate.secondary().placeOn(new BlockPos(7, 2, 8), Direction.NORTH);
+		horizontalGrate.secondary().placeOn(new BlockPos(2, 4, 6), Direction.DOWN, 0);
+
+		helper.setBlock(7, 3, 2, Blocks.AIR);
+		helper.setBlock(2, 3, 2, Blocks.AIR);
+
+		helper.runAfterDelay(40, () -> helper.succeedWhen(() -> {
+			helper.assertBlockProperty(new BlockPos(7, 1, 8), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(0, 1, 6), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(0, 1, 7), RedstoneLampBlock.LIT, false);
+		}));
+
+	}
+
+	//Test portals being shot through solid and nonsolid blocks such as grates
+	@GameTest(template = GROUP + "portal_shots_through_nonsolid_blocks")
+	public void portalShotsThroughNonsolidBlocks(GameTestHelper helper) {
+
+		PortalHelper nonsolidSurfaceShot = new PortalHelper(helper, "nonsolidSurfaceShot", 0x2055fe, 0xfe7020);
+
+		nonsolidSurfaceShot.primary().shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
+		nonsolidSurfaceShot.secondary().shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
+
+		helper.runAfterDelay(20, () -> helper.succeedWhen(() -> {
+			//nonsolidSurfaceShot.primary().assertPresent();
+			//nonsolidSurfaceShot.secondary().assertPresent();
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
+			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		}));
 	}
 
 
 	//Test the gamerule for more restrictive portal surfaces.  Ran separately as its own batch; toggles the gamerule on before running, then off when finishing
-	@GameTest(template = GROUP + "restrictive_portal_surfaces")
+	@GameTest(template = GROUP + "restrictive_portal_surfaces", batch = Batches.RESTRICTED_PORTAL_SURFACES)
 	public void restrictivePortalSurfaces(GameTestHelper helper) {
 
-		//todo, implement once the gamerule exists
+		PortalHelper restrictiveSurface = new PortalHelper(helper, "restrictive_surface", 0x2055fe, 0xfe7020);
+
+		restrictiveSurface.primary().shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
+		restrictiveSurface.secondary().shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
+
+		helper.runAfterDelay(20, () -> helper.succeedWhen(() -> {
+			//restrictiveSurface.primary().assertNotPresent();
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
+			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		}));
 	}
 
 
@@ -187,7 +231,7 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "portal_command_create")
 	public void portalCommandCreate(GameTestHelper helper) {
 
-		//todo
+		helper.pressButton(0, 2, 1);
 
 		helper.succeedWhen(() -> {
 			//placeOn1.primary().assertPresent();

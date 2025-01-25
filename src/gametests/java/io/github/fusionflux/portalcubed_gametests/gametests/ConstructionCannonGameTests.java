@@ -80,42 +80,42 @@ public class ConstructionCannonGameTests implements FabricGameTest {
 		helper.useBlock(ASSERT_POS, player);
 	}
 
-	// Creative player using a Construction Cannon in normal mode, with no materials
+	//Tests a creative player using a Construction Cannon in normal mode, with no materials
 	@GameTest(template = GROUP + "construct_place_normal")
 	public void constructPlaceCreative(GameTestHelper helper) {
 		this.commonTest(helper, true, 0, false);
 		helper.succeedWhenBlockPresent(ASSERT_BLOCK, ASSERT_POS);
 	}
 
-	// Survival player using a Construction Cannon in normal mode, with the correct amount of blocks to place the structure
+	//Tests a survival player using a Construction Cannon in normal mode, with the correct amount of blocks to place the structure
 	@GameTest(template = GROUP + "construct_place_normal")
 	public void constructPlaceNormal(GameTestHelper helper) {
 		this.commonTest(helper, false, 4, false);
 		helper.succeedWhenBlockPresent(ASSERT_BLOCK, ASSERT_POS);
 	}
 
-	// Survival player using a Construction Cannon in replace mode, with the correct amount of blocks to place the structure
+	//Tests a survival player using a Construction Cannon in replace mode, with the correct amount of blocks to place the structure
 	@GameTest(template = GROUP + "construct_place_replace")
 	public void constructPlaceReplace(GameTestHelper helper) {
 		this.commonTest(helper, false, 4, true);
 		helper.succeedWhenBlockPresent(ASSERT_BLOCK, ASSERT_POS);
 	}
 
-	// Survival player using a Construction Cannon in normal mode, but the placement location is blocked
+	//Tests a survival player using a Construction Cannon in normal mode, but the placement location is blocked
 	@GameTest(template = GROUP + "construct_place_obstructed")
 	public void constructPlaceObstructed(GameTestHelper helper) {
 		this.commonTest(helper, false, 4, false);
 		helper.succeedWhenBlockPresent(Blocks.AIR, ASSERT_POS);
 	}
 
-	// Survival player using a Construction Cannon in normal mode, with no materials
+	//Tests a survival player using a Construction Cannon in normal mode, with no materials
 	@GameTest(template = GROUP + "construct_place_no_material")
 	public void constructPlaceNoMaterial(GameTestHelper helper) {
 		this.commonTest(helper, false, 0, false);
 		helper.succeedWhenBlockPresent(Blocks.AIR, ASSERT_POS);
 	}
 
-	// Survival player using a Construction Cannon in normal mode, with not enough material
+	//Tests a survival player using a Construction Cannon in normal mode, with not enough material
 	@GameTest(template = GROUP + "construct_place_not_enough_material")
 	public void constructPlaceNotEnoughMaterial(GameTestHelper helper) {
 		this.commonTest(helper, false, 3, false);
