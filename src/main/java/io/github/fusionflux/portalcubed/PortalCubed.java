@@ -13,7 +13,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedDisintegrateEffects;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFeatures;
-import io.github.fusionflux.portalcubed.content.PortalCubedFizzleBehaviours;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
@@ -74,7 +73,6 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedGameEvents.init();
 		PortalCubedTestElementSettings.init();
 		PortalCubedDisintegrateEffects.init();
-		PortalCubedFizzleBehaviours.init();
 
 		ConstructManager.registerEventListeners();
 		DisintegrationExt.registerEventListeners();

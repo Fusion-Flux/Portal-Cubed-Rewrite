@@ -6,7 +6,6 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrateEffect;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
-import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.core.Registry;
@@ -17,7 +16,6 @@ public class PortalCubedRegistries {
 	// static
 	public static final Registry<ResourceLocation> TEST_ELEMENT_SETTINGS = simple("test_element_settings");
 	public static final Registry<DisintegrateEffect> DISINTEGRATE_EFFECT = simple("disintegrate_effect");
-	public static final Registry<FizzleBehaviour> FIZZLE_BEHAVIOUR = simple("fizzle_behaviour");
 	// dynamic
 	public static final ResourceKey<Registry<Signage>> LARGE_SIGNAGE = syncedDynamic("large_signage", Signage.DIRECT_CODEC);
 	public static final ResourceKey<Registry<Signage>> SMALL_SIGNAGE = syncedDynamic("small_signage", Signage.DIRECT_CODEC);

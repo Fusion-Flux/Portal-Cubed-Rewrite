@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedFizzleBehaviours;
+import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
@@ -52,7 +52,7 @@ public class FizzlingGameTests implements FabricGameTest {
 		Entity armorStand = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(3, 1, 3));
 
 		helper.runAfterDelay(20, () -> {
-			PortalCubedFizzleBehaviours.DISINTEGRATION.fizzle(armorStand);
+			FizzleBehaviour.DISINTEGRATION.fizzle(armorStand);
 			helper.succeedWhen(() -> helper.assertBlockProperty(new BlockPos(1, 0, 1), RedstoneLampBlock.LIT, true));
 		});
 	}
