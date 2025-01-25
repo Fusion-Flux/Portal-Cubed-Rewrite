@@ -1,116 +1,125 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import java.util.UUID;
+
+import com.mojang.authlib.GameProfile;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
-import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
-import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
+import io.netty.channel.embedded.EmbeddedChannel;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.CommonListenerCookie;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 public class ConstructionCannonGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":construction_cannon/";
 
-	@SuppressWarnings("deprecation") // builtInRegistryHolder
-	public static ItemStack createCannon(ResourceLocation construct, PanelMaterial material, Boolean replace_mode) {
-		Item materialItem = PortalCubedBlocks.PANELS.get(material).get(PanelPart.SINGLE).asItem();
-		ItemStack cannon = PortalCubedItems.CONSTRUCTION_CANNON.getDefaultInstance();
-		materialItem.builtInRegistryHolder().tags()
-				.filter(ConstructManager.INSTANCE.getMaterials()::contains)
+	private static final CommonListenerCookie MOCK_PLAYER_COOKIE = CommonListenerCookie.createInitial(new GameProfile(UUID.randomUUID(), "test-mock-player"), false);
+	private static final ResourceLocation CONSTRUCT = PortalCubed.id("panels/white/white_2x2_panel");
+	private static final ItemStack MATERIAL_ITEM = new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE), 4);
+	private static final BlockPos ASSERT_POS = new BlockPos(2, 1, 1);
+	private static final Block ASSERT_BLOCK = PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.MULTI_2x2_BOTTOM_LEFT);
+
+	private void commonTest(GameTestHelper helper, boolean creative, int materialAmount, boolean replaceMode) {
+		ServerLevel world = helper.getLevel();
+		MinecraftServer server = world.getServer();
+		ServerPlayer player = new ServerPlayer(server, world, MOCK_PLAYER_COOKIE.gameProfile(), MOCK_PLAYER_COOKIE.clientInformation()) {
+			@Override
+			public boolean isSpectator() {
+				return false;
+			}
+
+			@Override
+			public boolean isCreative() {
+				return creative;
+			}
+		};
+		Connection connection = new Connection(PacketFlow.SERVERBOUND);
+		new EmbeddedChannel(connection);
+		player.connection = new ServerGamePacketListenerImpl(server, connection, player, MOCK_PLAYER_COOKIE);
+
+		TagKey<Item> material = MATERIAL_ITEM.getItemHolder()
+				.tags()
 				.findFirst()
-				.ifPresent(tag -> ConstructionCannonItem.setCannonSettings(cannon, CannonSettings.DEFAULT
-						.withMaterial(tag)
-						.withConstruct(construct)
-						.withReplaceMode(replace_mode)
-				));
-		return cannon;
+				.orElseThrow(() -> new GameTestAssertException("No tags found for material item!"));
+		player.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Holder.direct(PortalCubedItems.CONSTRUCTION_CANNON), 1, DataComponentPatch.builder().set(
+				PortalCubedDataComponents.CANNON_SETTINGS,
+				CannonSettings.DEFAULT
+						.withMaterial(material)
+						.withConstruct(CONSTRUCT)
+						.withReplaceMode(replaceMode)
+		).build()));
+
+		if (materialAmount > 0)
+			player.addItem(MATERIAL_ITEM.copyWithCount(materialAmount));
+
+		helper.useBlock(ASSERT_POS, player);
 	}
 
-	//If a test is checking that a construct is not placed, don't pass instantly because the position also starts as air
-	private static final int TICKS_FOR_CONSTRUCT_PLACE = 10;
+	// Creative player using a Construction Cannon in normal mode, with no materials
+	@GameTest(template = GROUP + "construct_place_normal")
+	public void constructPlaceCreative(GameTestHelper helper) {
+		this.commonTest(helper, true, 0, false);
+		helper.succeedWhenBlockPresent(ASSERT_BLOCK, ASSERT_POS);
+	}
 
-	//Tests a survival mockplayer using a Construction Cannon in normal mode, with the correct amount of blocks to place the structure
+	// Survival player using a Construction Cannon in normal mode, with the correct amount of blocks to place the structure
 	@GameTest(template = GROUP + "construct_place_normal")
 	public void constructPlaceNormal(GameTestHelper helper) {
-
-		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
-		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
-		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
-		helper.useBlock(new BlockPos(2, 1, 1), gerald);
-
-		helper.succeedIf(() -> {
-			//add check for remaining items here max, should be 0
-			helper.assertBlockNotPresent(Blocks.AIR, 2, 1, 1);
-		});
+		this.commonTest(helper, false, 4, false);
+		helper.succeedWhenBlockPresent(ASSERT_BLOCK, ASSERT_POS);
 	}
 
-	//Tests a survival mockplayer using a Construction Cannon in replace mode, with the correct amount of blocks to place the structure
+	// Survival player using a Construction Cannon in replace mode, with the correct amount of blocks to place the structure
 	@GameTest(template = GROUP + "construct_place_replace")
 	public void constructPlaceReplace(GameTestHelper helper) {
-
-		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
-		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, true));
-		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
-		helper.useBlock(new BlockPos(2, 1, 1), gerald);
-
-		helper.succeedIf(() -> {
-			//add check for remaining items here max, should be 0
-			helper.assertBlockNotPresent(PortalCubedBlocks.OFFICE_CONCRETE, 2, 1, 1);
-		});
+		this.commonTest(helper, false, 4, true);
+		helper.succeedWhenBlockPresent(ASSERT_BLOCK, ASSERT_POS);
 	}
 
-	//Tests a survival mockplayer using a Construction Cannon in normal mode, but the placement location is blocked
+	// Survival player using a Construction Cannon in normal mode, but the placement location is blocked
 	@GameTest(template = GROUP + "construct_place_obstructed")
 	public void constructPlaceObstructed(GameTestHelper helper) {
-
-		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
-		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
-		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 4));
-		helper.useBlock(new BlockPos(2, 1, 1), gerald);
-
-		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> {
-			//add check for remaining items here max, should be 4
-			helper.succeedWhenBlockPresent(Blocks.AIR, 2, 1, 1);
-		});
+		this.commonTest(helper, false, 4, false);
+		helper.succeedWhenBlockPresent(Blocks.AIR, ASSERT_POS);
 	}
 
-	//Tests a survival mockplayer using a Construction Cannon in normal mode, with 0 of the required blocks to place the structure
+	// Survival player using a Construction Cannon in normal mode, with no materials
 	@GameTest(template = GROUP + "construct_place_no_material")
 	public void constructPlaceNoMaterial(GameTestHelper helper) {
-
-		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
-		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
-		helper.useBlock(new BlockPos(2, 1, 1), gerald);
-
-		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> helper.succeedWhenBlockPresent(Blocks.AIR, 2, 1, 1));
+		this.commonTest(helper, false, 0, false);
+		helper.succeedWhenBlockPresent(Blocks.AIR, ASSERT_POS);
 	}
 
-	//Tests a survival mockplayer using a Construction Cannon in normal mode, with 1 of the required blocks to place the structure (4 needed)
+	// Survival player using a Construction Cannon in normal mode, with not enough material
 	@GameTest(template = GROUP + "construct_place_not_enough_material")
 	public void constructPlaceNotEnoughMaterial(GameTestHelper helper) {
-
-		Player gerald = helper.makeMockPlayer(GameType.SURVIVAL);
-		gerald.setItemInHand(InteractionHand.MAIN_HAND, createCannon(PortalCubed.id("panels/white/white_2x2_panel"), PanelMaterial.WHITE, false));
-		gerald.getInventory().add(new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE).asItem(), 1));
-		helper.useBlock(new BlockPos(2, 1, 1), gerald);
-
-		helper.runAfterDelay(TICKS_FOR_CONSTRUCT_PLACE, () -> {
-			//add check for remaining items here max, should be 1
-			helper.succeedWhenBlockPresent(Blocks.AIR, 2, 1, 1);
-		});
+		this.commonTest(helper, false, 3, false);
+		helper.succeedWhenBlockPresent(Blocks.AIR, ASSERT_POS);
 	}
 
 }

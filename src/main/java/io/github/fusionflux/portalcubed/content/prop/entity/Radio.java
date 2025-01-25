@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.prop.entity;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.PropSoundInstance;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,6 +24,7 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 
 	private static final String defaultSong = PortalCubedSounds.RADIO_SONG.location().toString();
 
+	// This needs to be an object or else the server will crash while loading PropType
 	@Environment(EnvType.CLIENT)
 	private Object soundInstance;
 
@@ -46,8 +48,8 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void playAmbientSound() {
-		if (this.soundInstance instanceof PropSoundInstance soundInstance)
-			soundInstance.forceStop();
+		if (this.soundInstance != null)
+			((FollowingSoundInstance) this.soundInstance).forceStop();
 		String track = this.entityData.get(TRACK);
 		ResourceLocation id = ResourceLocation.tryParse(track);
 		if (id != null) {
