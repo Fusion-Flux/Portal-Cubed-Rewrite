@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.screen.widget;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
-import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;

@@ -6,10 +6,10 @@ import org.jetbrains.annotations.NotNull;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.PortalCubedFizzleBehaviours;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import net.minecraft.core.BlockPos;
@@ -39,7 +39,7 @@ public abstract class GooFluid extends FlowingFluid {
 			return;
 
 		if (entity.getType().is(PortalCubedEntityTags.DISINTEGRATES_WHEN_FIZZLED)) {
-			FizzleBehaviour.DISINTEGRATION.fizzle(entity);
+			PortalCubedFizzleBehaviours.DISINTEGRATION.fizzle(entity);
 		} else {
 			entity.hurtServer(world, PortalCubedDamageSources.toxicGoo(world), world.getGameRules().getInt(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
 		}

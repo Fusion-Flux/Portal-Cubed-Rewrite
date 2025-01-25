@@ -114,7 +114,7 @@
         {pos: [1, 4, 4], state: "minecraft:glass"},
         {pos: [2, 4, 0], state: "minecraft:air"},
         {pos: [2, 4, 1], state: "minecraft:air"},
-        {pos: [2, 4, 2], state: "minecraft:command_block{conditional:false,facing:up}", nbt: {Command: "portalcubed fizzle disintegration @e[type=item,distance=..5,limit=2]", CustomName: '"@"', SuccessCount: 0, TrackOutput: 1b, UpdateLastExecution: 1b, auto: 0b, conditionMet: 0b, id: "minecraft:command_block", powered: 0b}},
+        {pos: [2, 4, 2], state: "minecraft:command_block{conditional:false,facing:up}", nbt: {Command: "portalcubed fizzle portalcubed:disintegration @e[type=item,distance=..5,limit=2]", CustomName: '"@"', SuccessCount: 0, TrackOutput: 1b, UpdateLastExecution: 1b, auto: 0b, conditionMet: 0b, id: "minecraft:command_block", powered: 0b}},
         {pos: [2, 4, 3], state: "minecraft:repeater{delay:4,facing:south,locked:false,powered:false}"},
         {pos: [2, 4, 4], state: "minecraft:lever{face:floor,facing:south,powered:false}"},
         {pos: [3, 4, 0], state: "minecraft:air"},

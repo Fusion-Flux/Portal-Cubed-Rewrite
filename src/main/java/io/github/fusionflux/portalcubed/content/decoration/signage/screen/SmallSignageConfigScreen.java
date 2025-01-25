@@ -2,18 +2,17 @@ package io.github.fusionflux.portalcubed.content.decoration.signage.screen;
 
 import java.util.Locale;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
-
 import org.apache.commons.lang3.function.TriConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlockEntity;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ToggleButton;
-import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
 import net.minecraft.client.gui.layouts.LayoutElement;

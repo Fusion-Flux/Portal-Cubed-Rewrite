@@ -3,16 +3,15 @@ package io.github.fusionflux.portalcubed.content.decoration.signage.small;
 import java.util.EnumMap;
 import java.util.Optional;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
-
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureRenderData;
-import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;

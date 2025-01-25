@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+import io.github.fusionflux.portalcubed.content.PortalCubedFizzleBehaviours;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed_gametests.Batches;
@@ -73,8 +73,8 @@ public class PropGameTests implements FabricGameTest {
 		Prop aSecondGeraldHasHitTheGametest = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 2, 4));
 
 		helper.runAfterDelay(TICKS_FOR_BUTTON_LAND, () -> {
-			FizzleBehaviour.DISINTEGRATION.fizzle(gerald);
-			FizzleBehaviour.DISINTEGRATION.fizzle(aSecondGeraldHasHitTheGametest);
+			PortalCubedFizzleBehaviours.DISINTEGRATION.fizzle(gerald);
+			PortalCubedFizzleBehaviours.DISINTEGRATION.fizzle(aSecondGeraldHasHitTheGametest);
 
 			helper.succeedWhen(() -> {
 				helper.assertBlockProperty(new BlockPos(0, 1, 0), RedstoneLampBlock.LIT, false);

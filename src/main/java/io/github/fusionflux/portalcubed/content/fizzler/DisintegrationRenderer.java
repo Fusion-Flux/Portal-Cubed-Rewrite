@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
-import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
+import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
@@ -27,7 +27,7 @@ public class DisintegrationRenderer {
 
 	public static void renderFlash(Entity entity, PoseStack matrices, float tickDelta, MultiBufferSource vertexConsumers) {
 		float ticks = entity.pc$disintegrateTicks() + tickDelta;
-		if (entity.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_FLASH) || ticks <= EntityExt.TRANSLUCENCY_START_TICKS)
+		if (entity.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_FLASH) || ticks <= DisintegrationExt.TRANSLUCENCY_START_TICKS)
 			return;
 
 		matrices.pushPose();

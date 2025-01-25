@@ -1,40 +1,54 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
+import java.util.function.Supplier;
 
-import com.google.common.collect.Iterables;
+import com.google.common.base.Suppliers;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.TagKey;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
-public enum DisintegrationSoundType {
-	GENERIC,
-	RADIO,
-	TURRET;
+public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, List<ResourceLocation> sounds) {
+	public static final Codec<DisintegrationSoundType> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("entities").forGetter(DisintegrationSoundType::entities),
+			ExtraCodecs.compactListCodec(ResourceLocation.CODEC).fieldOf("sounds").forGetter(DisintegrationSoundType::sounds)
+	).apply(instance, DisintegrationSoundType::new));
+	public static final Supplier<ResourceKey<DisintegrationSoundType>> GENERIC_KEY = Suppliers.memoize(() -> ResourceKey.create(PortalCubedRegistries.DISINTEGRATION_SOUND_TYPE, PortalCubed.id("generic")));
 
-	public final String name = this.name().toLowerCase(Locale.ROOT);
-	public final SoundEvent sound;
-	public final TagKey<EntityType<?>> tag;
-
-	DisintegrationSoundType() {
-		ResourceLocation id = PortalCubed.id(name + "_disintegration");
-		this.sound = Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
-		this.tag = TagKey.create(Registries.ENTITY_TYPE, id.withSuffix("_sound"));
+	public static DisintegrationSoundType lookup(Entity entity) {
+		HolderLookup<DisintegrationSoundType> registryLookup = entity.registryAccess().lookupOrThrow(PortalCubedRegistries.DISINTEGRATION_SOUND_TYPE);
+		return registryLookup
+				.listElements()
+				.map(Holder::value)
+				.filter(type -> entity.getType().is(type.entities))
+				.findFirst()
+				.orElse(registryLookup.getOrThrow(GENERIC_KEY.get()).value());
 	}
 
-	public static Iterable<DisintegrationSoundType> allFor(EntityType<?> entityType) {
-		Iterable<DisintegrationSoundType> iterable = Iterables.filter(List.of(values()), soundType -> entityType.is(soundType.tag));
-		return Iterables.isEmpty(iterable) ? Collections.singleton(GENERIC) : iterable;
-	}
+	@Environment(EnvType.CLIENT)
+	public static void playAll(Entity entity) {
+		if (entity.isSilent())
+			return;
 
-	public static void init() {
+		DisintegrationSoundType type = lookup(entity);
+		for (ResourceLocation sound : type.sounds) {
+			entity.level().pc$playSoundInstance(new FollowingSoundInstance(SoundEvent.createVariableRangeEvent(sound), entity.getSoundSource(), entity, false));
+		}
 	}
 }

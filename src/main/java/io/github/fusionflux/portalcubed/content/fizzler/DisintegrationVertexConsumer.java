@@ -11,7 +11,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
+import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
 import io.github.fusionflux.portalcubed.framework.util.DelegatingVertexConsumer;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.caffeinemc.mods.sodium.api.util.ColorMixer;
@@ -20,7 +20,7 @@ import net.minecraft.client.renderer.RenderType;
 
 public class DisintegrationVertexConsumer extends DelegatingVertexConsumer {
 	private static final float DARKEN = 0.15f;
-	private static final float TRANSLUCENCY_START_PROGRESS = (EntityExt.DISINTEGRATE_TICKS - EntityExt.TRANSLUCENCY_START_TICKS) / (float) EntityExt.DISINTEGRATE_TICKS;
+	private static final float TRANSLUCENCY_START_PROGRESS = (DisintegrationExt.DISINTEGRATE_TICKS - DisintegrationExt.TRANSLUCENCY_START_TICKS) / (float) DisintegrationExt.DISINTEGRATE_TICKS;
 
 	// Compare names and not the objects because all entity render types create a new object
 	private static final Set<String> DONT_DARKEN_RENDER_TYPES = ImmutableSet.of("eyes", "entity_translucent_emissive", "beacon_beam", PortalCubed.id("emissive").toString());
@@ -31,7 +31,7 @@ public class DisintegrationVertexConsumer extends DelegatingVertexConsumer {
 	public DisintegrationVertexConsumer(VertexConsumer delegate, RenderType renderType, float ticks) {
 		this.delegate = delegate;
 
-		float progress = 1 - Math.min(ticks / EntityExt.DISINTEGRATE_TICKS, 1);
+		float progress = 1 - Math.min(ticks / DisintegrationExt.DISINTEGRATE_TICKS, 1);
 		float alpha = 1 - Math.min((Math.max(0, progress - TRANSLUCENCY_START_PROGRESS) / (1 - TRANSLUCENCY_START_PROGRESS)) * 3, 1);
 		this.packedColor = DONT_DARKEN_RENDER_TYPES.contains(renderType.name) ? ColorABGR.withAlpha(0xFFFFFF, alpha) : ColorABGR.pack(DARKEN, DARKEN, DARKEN, alpha);
 		this.delta = Math.min(progress * (1 + TRANSLUCENCY_START_PROGRESS), 1);

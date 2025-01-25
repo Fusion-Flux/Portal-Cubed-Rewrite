@@ -5,18 +5,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
-
 import org.apache.commons.lang3.function.TriConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.content.decoration.signage.screen.widget.SignageSlotWidget;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
-import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -25,8 +24,8 @@ import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -40,7 +39,7 @@ public abstract class SignageConfigScreen extends Screen {
 	public static final int SLOT_COLUMNS = 6;
 	public static final int SLOT_GRID_SIZE = SLOT_COLUMNS * SLOT_ROWS;
 
-	private final RegistryAccess registryAccess;
+	private final HolderLookup<Signage> registryLookup;
 	private final SignageBlockEntity signageBlock;
 
 	protected boolean slotsEnabled = true;
@@ -51,7 +50,7 @@ public abstract class SignageConfigScreen extends Screen {
 
 	SignageConfigScreen(SignageBlockEntity signageBlock, Component title) {
 		super(title);
-		this.registryAccess = Objects.requireNonNull(signageBlock.getLevel()).registryAccess();
+		this.registryLookup = Objects.requireNonNull(signageBlock.getLevel()).holderLookup(this.registryKey());
 		this.signageBlock = signageBlock;
 		this.resetScrollBar();
 	}
@@ -86,10 +85,10 @@ public abstract class SignageConfigScreen extends Screen {
 		root.addChild(8, 6 + this.yOffset(), new TitleWidget(this.title, this.font));
 
 		GridLayout slots = root.addChild(15, 16 + this.yOffset(), new GridLayout());
-		List<Holder.Reference<Signage>> signage = this.registryAccess
-				.lookupOrThrow(this.registryKey())
-				.listElements()
-				.sorted(Comparator.comparing(holder -> holder.key().location()))
+		List<Holder.Reference<Signage>> signage = this.registryLookup
+				.listElementIds()
+				.sorted(Comparator.comparing(ResourceKey::location))
+				.map(this.registryLookup::getOrThrow)
 				.toList();
 
 		int rowCount = Mth.positiveCeilDiv(signage.size(), SLOT_COLUMNS) - SLOT_ROWS;

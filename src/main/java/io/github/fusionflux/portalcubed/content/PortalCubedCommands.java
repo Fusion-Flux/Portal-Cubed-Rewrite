@@ -38,7 +38,7 @@ public class PortalCubedCommands {
 		CommandRegistrationCallback.EVENT.register((dispatcher, ctx, env) -> dispatcher.register(
 				literal(PortalCubed.ID)
 						.then(CreateConstructCommand.build())
-						.then(FizzleCommand.build())
+						.then(FizzleCommand.build(ctx))
 						.then(PortalCommand.build())
 		));
 	}

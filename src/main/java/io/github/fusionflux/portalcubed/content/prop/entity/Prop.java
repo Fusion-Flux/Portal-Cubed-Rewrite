@@ -256,7 +256,7 @@ public class Prop extends HoldableEntity {
 	public void move(MoverType type, Vec3 movement) {
 		super.move(type, movement);
 
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide && !this.pc$disintegrating()) {
 			if (this.horizontalCollision) {
 				if (!this.sideColliding)
 					this.onCollision();
@@ -290,7 +290,7 @@ public class Prop extends HoldableEntity {
 
 	@Override
 	protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
-		if (this.level() instanceof ServerLevel world && this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE)) {
+		if (this.level() instanceof ServerLevel world && !this.pc$disintegrating() && this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE)) {
 			int blocksFallen = Mth.ceil(this.fallDistance);
 			if (blocksFallen > 0) {
 				float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);

@@ -42,7 +42,11 @@
     "SpongeBlockMixin",
     "StructureUtilsMixin",
     "UseOnContextAccessor",
-    "WalkNodeEvaluatorMixin"
+    "WalkNodeEvaluatorMixin",
+    "disintegration.EntityMixin",
+    "disintegration.MobMixin",
+    "disintegration.ServerEntityMixin",
+    "disintegration.ServerLevelMixin"
   ],
   "client": [
     "client.AbstractClientPlayerMixin",

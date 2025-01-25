@@ -1,8 +1,7 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
-import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
-import io.github.fusionflux.portalcubed.framework.extension.EntityExt;
+import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
@@ -35,11 +34,9 @@ public record DisintegratePacket(int entity, int ticks) implements ClientboundPa
 	public void handle(ClientPlayNetworking.Context ctx) {
 		Entity entity = ctx.player().clientLevel.getEntity(this.entity);
 		if (entity != null) {
-			if (!entity.isSilent() && ticks >= EntityExt.DISINTEGRATE_TICKS) {
-				DisintegrationSoundType.allFor(entity.getType()).forEach(soundType ->
-						entity.level().pc$playSoundInstance(new FollowingSoundInstance(soundType.sound, entity.getSoundSource(), entity, false)));
-			}
-			entity.pc$disintegrate(ticks);
+			if (!entity.isSilent() && this.ticks >= DisintegrationExt.DISINTEGRATE_TICKS)
+				DisintegrationSoundType.playAll(entity);
+			entity.pc$disintegrate(this.ticks);
 		}
 	}
 }
