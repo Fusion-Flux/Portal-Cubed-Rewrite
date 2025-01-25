@@ -2,15 +2,10 @@ package io.github.fusionflux.portalcubed.content.cannon;
 
 import java.util.List;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraft.world.item.component.UseCooldown;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
@@ -32,9 +27,11 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -47,6 +44,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.UseCooldown;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -188,7 +186,7 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 			PlayerInventoryStorage storage = PlayerInventoryStorage.of(player);
 			for (StorageView<ItemVariant> view : storage.nonEmptyViews()) {
 				ItemVariant variant = view.getResource();
-				if (variant.getItem().builtInRegistryHolder().is(tag)) {
+				if (variant.getRegistryEntry().is(tag)) {
 					// matches
 					long extract = Math.min(count, view.getAmount());
 					long extracted = view.extract(variant, extract, t);

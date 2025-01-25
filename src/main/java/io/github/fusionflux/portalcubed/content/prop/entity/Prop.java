@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
-import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
@@ -250,10 +249,7 @@ public class Prop extends HoldableEntity {
 
 	@Override
 	public ItemStack getPickResult() {
-		ItemStack stack = this.type.item().getDefaultInstance();
-		if (this.variantFromItem != 0)
-			stack.set(PortalCubedDataComponents.PROP_VARIANT, this.variantFromItem);
-		return stack;
+		return new ItemStack(this.type.item());
 	}
 
 	@Override
