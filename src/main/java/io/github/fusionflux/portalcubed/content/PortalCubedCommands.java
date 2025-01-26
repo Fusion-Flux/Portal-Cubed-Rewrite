@@ -83,7 +83,7 @@ public class PortalCubedCommands {
 		return FlagArgumentType.getFlag(ctx, name);
 	}
 
-	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message messag) {
-		return SharedSuggestionProvider.suggest(iterable, builder, Function.identity(), $ -> messag);
+	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message message) {
+		return SharedSuggestionProvider.suggest(iterable, builder, Function.identity(), $ -> message);
 	}
 }
