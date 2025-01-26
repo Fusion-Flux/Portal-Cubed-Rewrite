@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -69,7 +70,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 	}
 
 	@Override
-	protected void entityPressing(BlockState state, Level world, BlockPos pos, Entity entity) {
+	protected void entityPressing(BlockState state, ServerLevel world, BlockPos pos, Entity entity) {
 		super.entityPressing(state, world, pos, entity);
 
 		if (entity instanceof Prop prop && prop.isHeld())

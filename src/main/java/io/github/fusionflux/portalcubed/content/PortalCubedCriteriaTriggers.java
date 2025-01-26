@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.button.EntityOnButtonTrigger;
 import io.github.fusionflux.portalcubed.content.misc.ConfigureTestElementTrigger;
 import io.github.fusionflux.portalcubed.content.portal.gun.SubmergedTheOperationalEndOfTheDeviceTrigger;
 import net.minecraft.advancements.CriterionTrigger;
@@ -14,6 +15,9 @@ public class PortalCubedCriteriaTriggers {
 	);
 	public static final ConfigureTestElementTrigger CONFIGURE_TEST_ELEMENT = register(
 			"configure_test_element", new ConfigureTestElementTrigger()
+	);
+	public static final EntityOnButtonTrigger ENTITY_ON_BUTTON = register(
+			"entity_on_button", new EntityOnButtonTrigger()
 	);
 
 	private static <T extends CriterionTrigger<?>> T register(String name, T trigger) {

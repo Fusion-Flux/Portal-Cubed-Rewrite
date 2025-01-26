@@ -1,12 +1,14 @@
 package io.github.fusionflux.portalcubed.content.button;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
@@ -17,6 +19,7 @@ import io.github.fusionflux.portalcubed.mixin.PufferfishAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -224,10 +227,10 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-		if (!level.isClientSide) {
+		if (level instanceof ServerLevel serverLevel) {
 			boolean entityInsideBounds = isEntityPressing(state, pos, entity);
 			if (entityInsideBounds)
-				entityPressing(state, level, getOriginPos(pos, state), entity);
+				entityPressing(state, serverLevel, getOriginPos(pos, state), entity);
 		}
 	}
 
@@ -235,10 +238,18 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		return entityPredicate.test(entity) && getButtonBounds(state.getValue(FACE)).move(getOriginPos(pos, state)).intersects(entity.getBoundingBox());
 	}
 
-	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
+	protected void entityPressing(BlockState state, ServerLevel level, BlockPos pos, Entity entity) {
 		if (!state.getValue(ACTIVE))
 			toggle(state, level, pos, entity, false);
 
+		// trigger advancements
+		AABB area = new AABB(pos).inflate(16);
+		List<ServerPlayer> players = level.getEntitiesOfClass(ServerPlayer.class, area);
+		for (ServerPlayer player : players) {
+			PortalCubedCriteriaTriggers.ENTITY_ON_BUTTON.trigger(player, pos, entity);
+		}
+
+		// special effects
 		if (entity instanceof ButtonActivatedProp buttonActivated) {
 			buttonActivated.setActivated(true);
 		} if (entity instanceof Armadillo armadillo && armadillo.canStayRolledUp()) {
