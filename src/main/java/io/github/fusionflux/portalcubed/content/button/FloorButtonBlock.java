@@ -13,14 +13,19 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
+import io.github.fusionflux.portalcubed.mixin.PufferfishAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.animal.Pufferfish;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -233,7 +238,19 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
 		if (!state.getValue(ACTIVE))
 			toggle(state, level, pos, entity, false);
-		if (entity instanceof ButtonActivatedProp buttonActivated)
+
+		if (entity instanceof ButtonActivatedProp buttonActivated) {
 			buttonActivated.setActivated(true);
+		} if (entity instanceof Armadillo armadillo && armadillo.canStayRolledUp()) {
+			armadillo.getBrain().setMemoryWithExpiry(MemoryModuleType.DANGER_DETECTED_RECENTLY, true, 80);
+			armadillo.rollUp();
+		} else if (entity instanceof Pufferfish pufferfish) {
+			if (pufferfish.getPuffState() != Pufferfish.STATE_FULL) {
+				pufferfish.makeSound(SoundEvents.PUFFER_FISH_BLOW_UP);
+			}
+
+			pufferfish.setPuffState(Pufferfish.STATE_FULL);
+			((PufferfishAccessor) pufferfish).setDeflateTimer(0);
+		}
 	}
 }
