@@ -26,7 +26,7 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 
 		@Override
 		public boolean test(ResourceLocation resourceLocation) {
-			return resourceLocation.equals(id);
+			return resourceLocation.equals(this.id);
 		}
 
 		@Override
@@ -40,7 +40,7 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 
 		@Override
 		public boolean test(ResourceLocation resourceLocation) {
-			return resourceLocation.getNamespace().equals(id.getNamespace()) && resourceLocation.getPath().startsWith(id.getPath() + "/");
+			return resourceLocation.getNamespace().equals(this.id.getNamespace()) && resourceLocation.getPath().startsWith(this.id.getPath() + "/");
 		}
 
 		@Override
@@ -54,7 +54,7 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 
 		@Override
 		public boolean test(ResourceLocation resourceLocation) {
-			return pattern.locationPredicate().test(resourceLocation);
+			return this.pattern.locationPredicate().test(resourceLocation);
 		}
 
 		@Override

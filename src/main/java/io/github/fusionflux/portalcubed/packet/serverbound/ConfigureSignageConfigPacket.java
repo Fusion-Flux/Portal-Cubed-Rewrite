@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
-import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.PortalCubedTestElementSettings;
 import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlockEntity;
@@ -21,7 +20,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -51,7 +49,7 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 	record Large(BlockPos signagePos, Holder<Signage> signage) implements ConfigureSignageConfigPacket {
 		public static final StreamCodec<RegistryFriendlyByteBuf, Large> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Large::signagePos,
-				ByteBufCodecs.holderRegistry(io.github.fusionflux.portalcubed.content.PortalCubedRegistries.LARGE_SIGNAGE), Large::signage,
+				Signage.LARGE_STREAM_CODEC, Large::signage,
 				Large::new
 		);
 
@@ -75,9 +73,9 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 	record Small(BlockPos signagePos, SmallSignageBlock.Quadrant quadrant, TriState enabled, @Nullable Holder<Signage> signage) implements ConfigureSignageConfigPacket {
 		public static final StreamCodec<RegistryFriendlyByteBuf, Small> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Small::signagePos,
-				PortalCubedStreamCodecs.ofEnum(SmallSignageBlock.Quadrant.class), Small::quadrant,
+				SmallSignageBlock.Quadrant.STREAM_CODEC, Small::quadrant,
 				PortalCubedStreamCodecs.ofEnum(TriState.class), Small::enabled,
-				PortalCubedStreamCodecs.nullable(ByteBufCodecs.holderRegistry(PortalCubedRegistries.SMALL_SIGNAGE)), Small::signage,
+				PortalCubedStreamCodecs.nullable(Signage.SMALL_STREAM_CODEC), Small::signage,
 				Small::new
 		);
 
