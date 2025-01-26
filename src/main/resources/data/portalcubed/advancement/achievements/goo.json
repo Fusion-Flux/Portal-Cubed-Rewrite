@@ -16,23 +16,20 @@
   },
   "parent": "portalcubed:achievements/root",
   "criteria": {
-    "goo": {
-      "trigger": "minecraft:enter_block",
+    "take_goo_damage": {
+      "trigger": "minecraft:entity_hurt_player",
       "conditions": {
-        "block": "portalcubed:toxic_goo"
-      }
-    },
-    "goo_cauldron": {
-      "trigger": "minecraft:enter_block",
-      "conditions": {
-        "block": "portalcubed:toxic_goo_cauldron"
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "portalcubed:is_toxic_goo",
+                "expected": true
+              }
+            ]
+          }
+        }
       }
     }
-  },
-  "requirements": [
-    [
-      "goo",
-      "goo_cauldron"
-    ]
-  ]
+  }
 }
