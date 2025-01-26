@@ -410,6 +410,9 @@
   "advancement.portalcubed.crossover_episode.title": "Crossover Episode",
   "advancement.portalcubed.crossover_episode.description": "Obtain a Crowbar",
 
+  "advancement.portalcubed.cube_shaped.title": "If Not Cube, Why Cube Shaped?",
+  "advancement.portalcubed.cube_shaped.description": "Put a Cube-Shaped entity on a Cube Button",
+
 
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",
@@ -988,8 +991,11 @@
 
   "block.portalcubed.small_signage": "Small Signage",
   "block.portalcubed.aged_small_signage": "Aged Small Signage",
+  "block.portalcubed.small_signage.images": "Images:",
+
   "block.portalcubed.large_signage": "Large Signage",
   "block.portalcubed.aged_large_signage": "Aged Large Signage",
+  "block.portalcubed.large_signage.image": "Image",
 
   "block.portalcubed.white_portal_1_chamber_door": "White Portal 1 Chamber Door",
   "block.portalcubed.metal_portal_1_chamber_door": "Metal Portal 1 Chamber Door",
