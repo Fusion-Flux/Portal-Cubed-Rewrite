@@ -216,7 +216,7 @@
   "tag.item.portalcubed.immune_to_toxic_goo": "Immune to Toxic Goo",
   "tag.item.portalcubed.repairs_magnesium_armor": "Repairs Magnesium Armor",
 
-  "item.portalcubed.construction_cannon.material": "Material: ",
+  "item.portalcubed.construction_cannon.material": "Material:",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
   "tag.item.portalcubed.aged_smooth_gray_panel_materials": "Aged Smooth Gray Panels",
   "tag.item.portalcubed.aged_white_panel_materials": "Aged White Panels",
@@ -243,7 +243,7 @@
   "item.portalcubed.construction_cannon.feedback.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
   "item.portalcubed.construction_cannon.feedback.no_perms": "You do not have permission to build here",
 
-  "item.portalcubed.construction_cannon.construct_set": "Construct: ",
+  "item.portalcubed.construction_cannon.construct_set": "Construct:",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_panel": "Aged Padded Gray Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_half_panel": "Aged Padded Gray Half Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_2x1_panel": "Aged Padded Gray 2x1 Panel",
@@ -473,6 +473,9 @@
   "item.portalcubed.hammer": "Hammer",
   "item.portalcubed.crowbar": "Crowbar",
   "item.portalcubed.construction_cannon": "Construction Cannon",
+
+  "block.portalcubed.hammerable.desc1": "Interact with Hammer:",
+  "block.portalcubed.hammerable.desc2": "Configures Test Element",
 
   "item.portalcubed.aperture_banner_pattern": "Aperture Banner Pattern",
   "block.portalcubed.banner.aperture.white": "White Aperture",

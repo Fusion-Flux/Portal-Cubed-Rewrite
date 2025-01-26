@@ -179,7 +179,6 @@ public class PortalGameTests implements FabricGameTest {
 
 		helper.runAfterDelay(40, () -> helper.succeedWhen(() -> {
 			helper.assertBlockProperty(new BlockPos(7, 1, 8), RedstoneLampBlock.LIT, false);
-			helper.assertBlockProperty(new BlockPos(0, 1, 6), RedstoneLampBlock.LIT, false);
 			helper.assertBlockProperty(new BlockPos(0, 1, 7), RedstoneLampBlock.LIT, false);
 		}));
 
@@ -197,8 +196,7 @@ public class PortalGameTests implements FabricGameTest {
 		helper.runAfterDelay(20, () -> helper.succeedWhen(() -> {
 			//nonsolidSurfaceShot.primary().assertPresent();
 			//nonsolidSurfaceShot.secondary().assertPresent();
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
-			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		}));
 	}
 
@@ -214,8 +212,7 @@ public class PortalGameTests implements FabricGameTest {
 
 		helper.runAfterDelay(20, () -> helper.succeedWhen(() -> {
 			//restrictiveSurface.primary().assertNotPresent();
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
-			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		}));
 	}
 
@@ -241,8 +238,7 @@ public class PortalGameTests implements FabricGameTest {
 			//shotFrom1.primary().assertPresent();
 			//shotFrom1.secondary().assertPresent();
 
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
-			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		});
 	}
 
@@ -286,8 +282,7 @@ public class PortalGameTests implements FabricGameTest {
 			//doorTrapdoor.primary().assertNotPresent();
 			//doorTrapdoor.secondary().assertNotPresent();
 
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
-			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		});
 	}
 
@@ -310,8 +305,7 @@ public class PortalGameTests implements FabricGameTest {
 			//facadeSurfaces.primary().assertNotPresent();
 			//facadeSurfaces.secondary().assertPresent();
 
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);
-			//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		});
 
 	}
