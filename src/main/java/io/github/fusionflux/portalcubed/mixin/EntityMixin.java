@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -15,6 +16,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
@@ -28,9 +30,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -205,5 +209,21 @@ public abstract class EntityMixin implements EntityExt {
 		} else if ((Object) this instanceof HoldableEntity holdable && holdable.isHeld()) {
 			holdable.drop();
 		}
+	}
+
+	@ModifyArg(
+			method = "pick",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/level/Level;clip(Lnet/minecraft/world/level/ClipContext;)Lnet/minecraft/world/phys/BlockHitResult;"
+			)
+	)
+	private ClipContext crowbarIgnoresInteractionOverride(ClipContext ctx) {
+		//noinspection ConstantValue
+		if ((Object) this instanceof LivingEntity living && living.getMainHandItem().is(PortalCubedItems.CROWBAR)) {
+			ctx.pc$setIgnoreInteractionOverride(true);
+		}
+
+		return ctx;
 	}
 }

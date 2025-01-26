@@ -42,7 +42,8 @@
       "net/minecraft/class_813": [ "io/github/fusionflux/portalcubed/framework/extension/VariantExt" ],
       "net/minecraft/class_742": [ "io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt" ],
       "net/minecraft/class_1792\u0024class_1793": [ "io/github/fusionflux/portalcubed/framework/extension/ItemPropertiesExt" ],
-      "net/minecraft/class_4970\u0024class_2251": [ "io/github/fusionflux/portalcubed/framework/extension/BlockBehaviourPropertiesExt" ]
+      "net/minecraft/class_4970\u0024class_2251": [ "io/github/fusionflux/portalcubed/framework/extension/BlockBehaviourPropertiesExt" ],
+      "net/minecraft/class_3959": [ "io/github/fusionflux/portalcubed/framework/extension/ClipContextExt" ]
     }
   }
 }
