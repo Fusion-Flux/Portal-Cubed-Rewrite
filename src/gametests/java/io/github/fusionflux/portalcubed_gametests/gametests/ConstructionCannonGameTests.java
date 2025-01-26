@@ -68,10 +68,11 @@ public class ConstructionCannonGameTests implements FabricGameTest {
 				.orElseThrow(() -> new GameTestAssertException("No tags found for material item!"));
 		player.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Holder.direct(PortalCubedItems.CONSTRUCTION_CANNON), 1, DataComponentPatch.builder().set(
 				PortalCubedDataComponents.CANNON_SETTINGS,
-				CannonSettings.DEFAULT
-						.withMaterial(material)
-						.withConstruct(CONSTRUCT)
-						.withReplaceMode(replaceMode)
+				CannonSettings.builder()
+						.setMaterial(material)
+						.setConstruct(CONSTRUCT)
+						.setReplaceMode(replaceMode)
+						.build()
 		).build()));
 
 		if (materialAmount > 0)

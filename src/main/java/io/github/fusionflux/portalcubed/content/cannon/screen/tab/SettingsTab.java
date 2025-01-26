@@ -36,7 +36,7 @@ public class SettingsTab {
 		SliderWidget previewOpacitySlider = new SliderWidget(
 				PREVIEW_OPACITY_SLIDER_SPRITE, PREVIEW_OPACITY_SLIDER_WIDTH,
 				settings.get().previewOpacity(), slider -> {
-					settings.update(s -> s.withPreviewOpacity(slider.handlePos()));
+					settings.update(b -> b.setPreviewOpacity(slider.handlePos()));
 					Tooltip tooltip = createPreviewOpacityTooltip(settings);
 					slider.setTooltip(tooltip);
 				}
@@ -82,17 +82,17 @@ public class SettingsTab {
 	}
 
 	public enum ToggleSetting {
-		REPLACE_MODE(CannonSettings::replaceMode, CannonSettings::withReplaceMode),
-		PREVIEW(CannonSettings::preview, CannonSettings::withPreview);
+		REPLACE_MODE(CannonSettings::replaceMode, CannonSettings.Builder::setReplaceMode),
+		PREVIEW(CannonSettings::preview, CannonSettings.Builder::setPreview);
 
 		public final String name = this.name().toLowerCase(Locale.ROOT);
 		public final Component title = ConstructionCannonScreen.translate("tab.settings." + this.name);
 		public final Component description = ConstructionCannonScreen.translate("tab.settings." + this.name + ".description");
 		public final ResourceLocation sprite = PortalCubed.id("construction_cannon/settings_tab/" + this.name + "_toggle");
 		public final Predicate<CannonSettings> settingGetter;
-		public final BiFunction<CannonSettings, Boolean, CannonSettings> settingSetter;
+		public final BiFunction<CannonSettings.Builder, Boolean, CannonSettings.Builder> settingSetter;
 
-		ToggleSetting(Predicate<CannonSettings> settingGetter, BiFunction<CannonSettings, Boolean, CannonSettings> settingSetter) {
+		ToggleSetting(Predicate<CannonSettings> settingGetter, BiFunction<CannonSettings.Builder, Boolean, CannonSettings.Builder> settingSetter) {
 			this.settingGetter = settingGetter;
 			this.settingSetter = settingSetter;
 		}

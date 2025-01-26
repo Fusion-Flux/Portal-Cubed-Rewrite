@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,7 +10,6 @@ import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructPlacementContext;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.extension.CustomHoldPoseItem;
-import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
@@ -24,11 +21,9 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -43,7 +38,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.UseCooldown;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -52,8 +46,6 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	public static final ResourceLocation REACH_BOOST = PortalCubed.id("construction_cannon_reach_boost");
-	public static final Component MATERIAL_TOOLTIP = translate("material").withStyle(ChatFormatting.GRAY);
-	public static final Component CONSTRUCT_TOOLTIP = translate("construct_set").withStyle(ChatFormatting.GRAY);
 
 	public ConstructionCannonItem(Properties settings) {
 		super(settings);
@@ -116,24 +108,6 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-		CannonSettings settings = getCannonSettings(stack);
-		if (settings == null)
-			return;
-
-		if (settings.material().isPresent()) {
-			tooltip.add(MATERIAL_TOOLTIP);
-			Component name = TagTranslation.translate(settings.material().get());
-			tooltip.add(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
-		}
-		if (settings.construct().isPresent()) {
-			tooltip.add(CONSTRUCT_TOOLTIP);
-			Component name = ConstructSet.getName(settings.construct().get());
-			tooltip.add(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
-		}
-	}
-
-	@Override
 	@Environment(EnvType.CLIENT)
 	public ArmPose getHoldPose(ItemStack stack) {
 		return ArmPose.CROSSBOW_HOLD;
@@ -176,7 +150,6 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 		);
 	}
 
-	@SuppressWarnings("deprecation")
 	protected boolean consumeMaterials(Player player, TagKey<Item> tag, int count) {
 		// creative players always have enough.
 		if (player.isCreative())
