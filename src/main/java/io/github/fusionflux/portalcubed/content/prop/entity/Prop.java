@@ -35,6 +35,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
@@ -297,9 +298,13 @@ public class Prop extends HoldableEntity {
 				Predicate<Entity> selector = EntitySelector.NO_CREATIVE_OR_SPECTATOR
 						.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE)
 						.and(this::notHeldBy);
-				world.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector).forEach(
-						entity -> entity.hurtServer(world, PortalCubedDamageSources.landingDamage(world, this, entity), damage)
-				);
+
+				Player holder = this.getHolder();
+				for (Entity entity : world.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector)) {
+					entity.hurtServer(world, PortalCubedDamageSources.landingDamage(world, this, entity), damage);
+					if (entity instanceof NeutralMob neutralMob && holder != null)
+						neutralMob.setTarget(holder);
+				}
 			}
 		}
 		super.checkFallDamage(y, onGround, state, pos);
