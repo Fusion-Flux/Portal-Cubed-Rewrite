@@ -52,7 +52,7 @@ public class ConstructsTab {
 				ResourceLocation id = ConstructManager.INSTANCE.getId(set);
 				ConstructButtonWidget button = new ConstructButtonWidget(() -> {
 					buttons.visitWidgets(widget -> ((ConstructButtonWidget) widget).deselect());
-					settings.update(s -> s.withConstruct(id));
+					settings.update(b -> b.setConstruct(id));
 				}, set, id, material, BUTTON_TEXTURES, SLOT_SIZE);
 
 				Optional<ResourceLocation> selected = settings.get().construct();
@@ -61,7 +61,8 @@ public class ConstructsTab {
 
 				buttons.addChild(button, i / COLUMNS, i % COLUMNS);
 			}
-			if (++i >= SIZE) break;
+			++i;
+			if (i >= SIZE) break;
 		}
 		layout.addChild(X_OFF, Y_OFF, buttons);
 	}

@@ -19,7 +19,7 @@ public class CannonSettingsHolder {
 		this.settings = settings;
 	}
 
-	public void update(UnaryOperator<CannonSettings> function) {
-		this.set(function.apply(this.get()));
+	public void update(UnaryOperator<CannonSettings.Builder> function) {
+		this.set(function.apply(CannonSettings.builder(this.get())).build());
 	}
 }
