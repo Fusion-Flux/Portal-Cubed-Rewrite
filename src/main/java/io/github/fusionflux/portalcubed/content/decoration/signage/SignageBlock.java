@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage;
 
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,7 +10,11 @@ import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
@@ -46,6 +52,11 @@ public abstract class SignageBlock extends FaceAttachedHorizontalDirectionalBloc
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
 		FluidState fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
 		return Optionull.map(super.getStateForPlacement(ctx), state -> state.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER));
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, Item.TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
+		HammerableBlock.appendTooltip(tooltip);
 	}
 
 	@Override
