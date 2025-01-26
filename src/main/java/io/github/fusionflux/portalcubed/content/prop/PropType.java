@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import org.apache.commons.lang3.stream.IntStreams;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
@@ -17,7 +18,9 @@ import io.github.fusionflux.portalcubed.content.prop.entity.Taco;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityType.EntityFactory;
@@ -109,6 +112,13 @@ public enum PropType {
 				prop.setVariant(randomVariant);
 			} else {
 				prop.setVariant(variant != null ? variant : 0);
+			}
+
+			if (stack != null) {
+				Holder<SoundEvent> track = stack.get(PortalCubedDataComponents.RADIO_TRACK);
+				if (prop instanceof Radio radio && track != null) {
+					radio.playTrack(track);
+				}
 			}
 		};
 
