@@ -1,0 +1,33 @@
+{
+  "parent": "portalcubed:achievements/cubes",
+  "criteria": {
+    "wash": {
+      "trigger": "portalcubed:entity_on_button",
+      "conditions": {
+        "button": {
+          "blocks": "portalcubed:cube_button"
+        },
+        "entity": {
+          "type": "#portalcubed:cube_shaped_entity"
+        }
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.cube_shaped.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:slime_block"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.cube_shaped.title"
+    },
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  }
+}
