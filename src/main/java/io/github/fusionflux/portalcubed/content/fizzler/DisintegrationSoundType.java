@@ -1,9 +1,7 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
 import java.util.List;
-import java.util.function.Supplier;
 
-import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -29,7 +27,7 @@ public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, List<Re
 			RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("entities").forGetter(DisintegrationSoundType::entities),
 			ExtraCodecs.compactListCodec(ResourceLocation.CODEC).fieldOf("sounds").forGetter(DisintegrationSoundType::sounds)
 	).apply(instance, DisintegrationSoundType::new));
-	public static final Supplier<ResourceKey<DisintegrationSoundType>> GENERIC_KEY = Suppliers.memoize(() -> ResourceKey.create(PortalCubedRegistries.DISINTEGRATION_SOUND_TYPE, PortalCubed.id("generic")));
+	public static final ResourceKey<DisintegrationSoundType> GENERIC_KEY = ResourceKey.create(PortalCubedRegistries.DISINTEGRATION_SOUND_TYPE, PortalCubed.id("generic"));
 
 	public static DisintegrationSoundType lookup(Entity entity) {
 		HolderLookup<DisintegrationSoundType> registryLookup = entity.registryAccess().lookupOrThrow(PortalCubedRegistries.DISINTEGRATION_SOUND_TYPE);
@@ -38,7 +36,7 @@ public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, List<Re
 				.map(Holder::value)
 				.filter(type -> entity.getType().is(type.entities))
 				.findFirst()
-				.orElse(registryLookup.getOrThrow(GENERIC_KEY.get()).value());
+				.orElse(registryLookup.getOrThrow(GENERIC_KEY).value());
 	}
 
 	@Environment(EnvType.CLIENT)
