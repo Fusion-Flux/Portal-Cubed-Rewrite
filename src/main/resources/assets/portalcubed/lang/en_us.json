@@ -6,22 +6,38 @@
 
   "key.categories.portalcubed": "Portal Cubed",
   "key.portalcubed.grab": "Grab",
+  "key.portalcubed.clear_portals": "Clear Portals",
+
+
+  "stat.portalcubed.times_disintegrated": "Times Disintegrated",
 
 
   "gamerule.category.portalcubed": "Portal Cubed",
+
   "gamerule.propSnatching": "Prop Snatching",
-  "gamerule.propSnatching.description": "Allows props being held by a player to be grabbed by other players without the holder dropping it first.",
+  "gamerule.propSnatching.description": "Controls whether or not props being held by a player are able to be grabbed by other players without being dropped first.",
+
   "gamerule.toxicGooSourceConversion": "Toxic Goo converts to source",
   "gamerule.toxicGooSourceConversion.description": "When flowing toxic goo is surrounded on two sides by toxic goo sources it converts into a source.",
   "gamerule.toxicGooDamage": "Toxic Goo Damage",
-  "gamerule.toxicGooDamage.description": "The amount of damage (per second) toxic goo does to entities inside it.",
+  "gamerule.toxicGooDamage.description": "Damage (per second) toxic goo deals to entities touching it.",
+
+  "gamerule.portalPositionSnapping": "Portal Position Snapping",
+  "gamerule.portalPositionSnapping.description": "Controls the position alignment of portals to blocks, in fractions of a full block (1/n).  Setting to 0 disables position snapping entirely.",
+  "gamerule.portalRotationSnapping": "Portal Rotation Snapping",
+  "gamerule.portalRotationSnapping.description": "Controls the rotation alignment of portals placed on floors and ceilings, in degrees.  Setting to 90 aligns portals with blocks, and setting to 0 disables rotation snapping entirely.",
+  "gamerule.portalsVanishOnDeath": "Player Portals Vanish on Death",
+  "gamerule.portalsVanishOnDeath.description": "Whether player-placed portals vanish when that player dies.",
+  "gamerule.restrictValidPortalSurfaces": "Restrict Valid Portal Surfaces",
+  "gamerule.restrictValidPortalSurfaces.description": "Changes the list of valid portal surface blocks from a blacklist (#portalcubed:cant_place_portal_on) to a whitelist (#portalcubed:unrestricted_portal_surfaces). Intended for use in custom maps.",
+  "gamerule.disableManualPortalClearing": "Disable Manual Portal Clearing",
+  "gamerule.disableManualPortalClearing.description": "Disables the ability for players to clear their portals with a keybind. Intended for use in custom maps.",
+  "gamerule.disablePortalValidation": "Disable Portal Validation",
+  "gamerule.disablePortalValidation.description": "Disables placement checks when shooting portals, allowing them to be placed on any surface, including overhangs. May cause unexpected behavior - Issues caused by invalid portals will not be fixed.",
 
   "gamerule.allowCrouchFlyGlitch": "Allow Crouch Fly Glitch",
   "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
-  "gamerule.disablePortalValidation": "Disable Portal Validation",
-  "gamerule.disablePortalValidation.description": "Disables placement checks when shooting portals, allowing them to be placed on any surface, including overhangs. May cause unexpected behavior - Issues caused by invalid portals will not be fixed.",
-  "gamerule.portalAlignment": "Portal Alignment",
-  "gamerule.portalAlignment.description": "Changes portal placement snapping, with the value being fraction of a block snapped to. For example, 16 is every pixel, 1 is full blocks, and 0 is off.",
+
 
   "container.portalcubed.large_signage": "Large Signage",
   "container.portalcubed.aged_large_signage": "Aged Large Signage",
@@ -100,7 +116,37 @@
   "container.portalcubed.construction_cannon.tab.settings.replace_mode": "Replace mode",
   "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
 
+  "container.portalcubed.portal_gun_pedestal": "Portal Gun Pedestal",
+  "container.portalcubed.portal_gun_pedestal.current_rotation": "Current rotation",
+  "container.portalcubed.portal_gun_pedestal.clockwise": "Clockwise Rotation",
+  "container.portalcubed.portal_gun_pedestal.counterclockwise": "Counterclockwise Rotation",
+  "container.portalcubed.portal_gun_pedestal.ignore_rotation": "Ignore this direction when rotating",
+  "container.portalcubed.portal_gun_pedestal.pause_rotation": "Pause briefly when rotating to this direction",
+  "container.portalcubed.portal_gun_pedestal.primary_fire_rotation": "Pause briefly and fire a primary portal when rotating to this direction",
+  "container.portalcubed.portal_gun_pedestal.secondary_fire_rotation": "Pause briefly and fire a secondary portal when rotating to this direction",
+
+  "parsing.portalcubed.enum.Polarity.expected": "Expected polarity",
+  "parsing.portalcubed.enum.Polarity.invalid": "Invalid polarity '%s'",
+  "parsing.portalcubed.enum.Direction.expected": "Expected direction",
+  "parsing.portalcubed.enum.Direction.invalid": "Invalid direction '%s'",
+  "parsing.portalcubed.enum.PortalShape.expected": "Expected portal type",
+  "parsing.portalcubed.enum.PortalShape.invalid": "Invalid portal type '%s'",
+  "parsing.portalcubed.color.expected": "Expected hex color",
+  "parsing.portalcubed.color.invalid": "Invalid hex color",
+  "parsing.portalcubed.flag.no_rendering.expected": "Expected flag 'no_rendering'",
+  "parsing.portalcubed.flag.no_rendering.invalid": "Invalid flag '%s' is not 'no_rendering'",
+  "parsing.portalcubed.flag.no_validation.expected": "Expected flag 'no_validation'",
+  "parsing.portalcubed.flag.no_validation.invalid": "Invalid flag '%s' is not 'no_validation'",
+
+  "argument.portalcubed.portal_key.targeted_portal": "Targeted Portal",
+  "argument.portalcubed.portal_key.targeted_entity": "Targeted Entity",
+  "argument.portalcubed.portal_key.existing_key": "Existing Portal Pair",
+  "argument.portalcubed.portal_key.online_player": "Online Player",
+
   "commands.portalcubed.create_construct.success": "Successfully exported construct consisting of %1$s blocks and %2$s block entities",
+  "commands.portalcubed.create_construct.failure": "Failed to create construct: %s",
+  "commands.portalcubed.create_construct.failure.no_blocks": "Construct must contain at least one non-air block",
+  "commands.portalcubed.create_construct.failure.too_large": "Construct is too large! Must be no larger than 48 blocks tall, wide, or deep",
 
   "commands.portalcubed.fizzle.portal_clearing.success": "Successfully cleared the portals of %s",
   "commands.portalcubed.fizzle.portal_clearing.success.multiple": "Successfully cleared the portals of %s entities",
@@ -118,8 +164,68 @@
   "commands.portalcubed.fizzle.paint_clearing.failure": "Could not clear the paint of %s",
   "commands.portalcubed.fizzle.paint_clearing.failure.multiple": "Could not clear the paint of %s entities",
 
+  "commands.portalcubed.portal.create.success": "Portal created",
+  "commands.portalcubed.portal.create.failure": "Failed to create portal: %s",
+  "commands.portalcubed.portal.create.failure.already_exists": "Portal with pair ID %1$s and %2$s polarity already exists",
+  "commands.portalcubed.portal.create.failure.id_all": "Nice try",
+  "commands.portalcubed.portal.create.failure.id_too_long": "Pair ID must not exceed 32 characters",
+  "commands.portalcubed.portal.create.failure.invalid_rendering": "Portal type %s does not support rendering",
+  "commands.portalcubed.portal.create.failure.shot_from.miss": "Portal shot must not travel for more than 16 blocks",
 
-  "item.portalcubed.construction_cannon.material": "Material: ",
+  "commands.portalcubed.portal.remove.success": "Portal removed",
+  "commands.portalcubed.portal.remove.success.multiple": "Portals removed",
+  "commands.portalcubed.portal.remove.success.all": "All portals removed",
+  "commands.portalcubed.portal.remove.failure": "Failed to remove portal: %s",
+  "commands.portalcubed.portal.remove.failure.multiple": "Failed to remove portals: %s",
+  "commands.portalcubed.portal.remove.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.remove.failure.nonexistent.multiple": "Portals with pair ID %s do not exist",
+  "commands.portalcubed.portal.remove.failure.no_portals": "No portals were found",
+
+  "commands.portalcubed.portal.modify.success": "Portal modified",
+  "commands.portalcubed.portal.modify.failure": "Failed to modify portal: %s",
+  "commands.portalcubed.portal.modify.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.modify.failure.invalid_rendering": "Portal type %s does not support rendering",
+  "commands.portalcubed.portal.modify.failure.unchanged": "Nothing changed. This portal's %1$s is already %2$s",
+  "commands.portalcubed.portal.modify.type": "type",
+  "commands.portalcubed.portal.modify.color": "color",
+  "commands.portalcubed.portal.modify.rendering": "rendering",
+  "commands.portalcubed.portal.modify.rendering.enabled": "enabled",
+  "commands.portalcubed.portal.modify.rendering.disabled": "disabled",
+  "commands.portalcubed.portal.modify.location": "location",
+  "commands.portalcubed.portal.modify.rotation": "rotation",
+  "commands.portalcubed.portal.modify.validate": "validation",
+  "commands.portalcubed.portal.modify.validate.true": "set to true",
+  "commands.portalcubed.portal.modify.validate.false": "set to false",
+
+  "commands.portalcubed.client.portal_recursions.query": "Number of portal recursions is currently set to %s",
+  "commands.portalcubed.client.portal_recursions.success": "Set number of portal recursions to %s",
+  "commands.portalcubed.client.portal_recursions.failure": "Could not set number of portal recursions to %1$s: %2$s",
+  "commands.portalcubed.client.portal_recursions.failure.out_of_range": "Must be between 1 and 16",
+  "commands.portalcubed.client.portal_recursions.failure.unchanged": "Nothing changed. The number of Portal Recursions is already set to that amount",
+
+  "commands.portalcubed.client.portal_rendering.query": "Portal rendering is currently %s",
+  "commands.portalcubed.client.portal_rendering.toggle": "Portal rendering is now %s",
+  "commands.portalcubed.client.portal_rendering.enabled": "enabled",
+  "commands.portalcubed.client.portal_rendering.disabled": "disabled",
+  "commands.portalcubed.client.portal_rendering.failure": "Could not set Portal Rendering to %1$s: %2$s",
+  "commands.portalcubed.client.portal_rendering.failure.unchanged": "Nothing changed. Portal Rendering is already %s",
+
+
+  "commands.portalcubed.client.portal_camera_smoothing_time.query": "Portal camera smoothing time is currently set to %s milliseconds",
+  "commands.portalcubed.client.portal_camera_smoothing_time.success": "Set portal camera smoothing time to %s milliseconds",
+  "commands.portalcubed.client.portal_camera_smoothing_time.failure": "Could not set portal camera smoothing time to %1$s: %2$s",
+  "commands.portalcubed.client.portal_camera_smoothing_time.failure.out_of_range": "Must be between 0 and 2000",
+  "commands.portalcubed.client.portal_camera_smoothing_time.failure.unchanged": "Nothing changed. Camera smoothing time is already set to that amount",
+
+  "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
+  "tag.item.portalcubed.dirty_crafting_materials": "Dirty Panel Crafting Materials",
+  "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
+  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
+  "tag.item.portalcubed.lemon_logs": "Lemon Logs",
+  "tag.item.portalcubed.immune_to_toxic_goo": "Immune to Toxic Goo",
+  "tag.item.portalcubed.repairs_magnesium_armor": "Repairs Magnesium Armor",
+
+  "item.portalcubed.construction_cannon.material": "Material:",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
   "tag.item.portalcubed.aged_smooth_gray_panel_materials": "Aged Smooth Gray Panels",
   "tag.item.portalcubed.aged_white_panel_materials": "Aged White Panels",
@@ -139,10 +245,6 @@
   "tag.item.portalcubed.office_concrete_materials": "Office Concretes",
   "tag.item.portalcubed.gray_chamber_exterior_materials": "Gray Chamber Exteriors",
   "tag.item.portalcubed.yellow_chamber_exterior_materials": "Yellow Chamber Exteriors",
-  "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
-  "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
-  "tag.item.portalcubed.absorb_fall_damage": "Absorbs Fall Damage",
-  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
   "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
 
   "item.portalcubed.construction_cannon.feedback.obstructed": "Placement location obstructed",
@@ -150,7 +252,7 @@
   "item.portalcubed.construction_cannon.feedback.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
   "item.portalcubed.construction_cannon.feedback.no_perms": "You do not have permission to build here",
 
-  "item.portalcubed.construction_cannon.construct_set": "Construct: ",
+  "item.portalcubed.construction_cannon.construct_set": "Construct:",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_panel": "Aged Padded Gray Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_half_panel": "Aged Padded Gray Half Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_2x1_panel": "Aged Padded Gray 2x1 Panel",
@@ -238,28 +340,14 @@
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
 
-  "container.portalcubed.portal_gun_pedestal": "Portal Gun Pedestal",
-  "container.portalcubed.portal_gun_pedestal.current_rotation": "Current rotation",
-  "container.portalcubed.portal_gun_pedestal.clockwise": "Clockwise Rotation",
-  "container.portalcubed.portal_gun_pedestal.counterclockwise": "Counterclockwise Rotation",
-  "container.portalcubed.portal_gun_pedestal.ignore_rotation": "Ignore this direction when rotating",
-  "container.portalcubed.portal_gun_pedestal.pause_rotation": "Pause briefly when rotating to this direction",
-  "container.portalcubed.portal_gun_pedestal.primary_fire_rotation": "Pause briefly and fire a primary portal when rotating to this direction",
-  "container.portalcubed.portal_gun_pedestal.secondary_fire_rotation": "Pause briefly and fire a secondary portal when rotating to this direction",
 
-
-  "attribute.name.generic.fall_damage_absorption": "Fall Damage Absorption",
+  "attribute.name.fall_damage_absorption": "Fall Damage Absorption",
 
 
   "subtitles.portalcubed.surprise": "Party Horn Blows",
 
   "subtitles.portalcubed.construction_cannon_obstructed": "Construction cannon beeps",
   "subtitles.portalcubed.construction_cannon_missing_materials": "Construction cannon clicks",
-
-  "subtitles.portalcubed.portal_gun_pedestal_charging": "Portal gun pedestal charges",
-  "subtitles.portalcubed.portal_gun_pedestal_turning": "Portal gun pedestal rotates",
-  "subtitles.portalcubed.portal_gun_pedestal_locking": "Portal gun pedestal locks",
-  "subtitles.portalcubed.portal_gun_pedestal_unlocking": "Portal gun pedestal unlocks",
 
   "subtitles.portalcubed.portal_gun_secondary_fire": "Portal gun shoots secondary portal",
   "subtitles.portalcubed.portal_gun_primary_fire": "Portal gun shoots primary portal",
@@ -278,6 +366,16 @@
   "subtitles.portalcubed.pedestal_button_release": "Switch deactivates",
   "subtitles.portalcubed.floor_button_press": "Button activates",
   "subtitles.portalcubed.floor_button_release": "Button deactivates",
+
+  "subtitles.portalcubed.portal_gun_pedestal_charging": "Portal gun pedestal charges",
+  "subtitles.portalcubed.portal_gun_pedestal_turning": "Portal gun pedestal rotates",
+  "subtitles.portalcubed.portal_gun_pedestal_locking": "Portal gun pedestal locks",
+  "subtitles.portalcubed.portal_gun_pedestal_unlocking": "Portal gun pedestal unlocks",
+
+  "subtitles.portalcubed.chamber_door_unlock": "Chamber door unlocks",
+  "subtitles.portalcubed.chamber_door_lock": "Chamber door locks",
+  "subtitles.portalcubed.chamber_door_open": "Chamber door opens",
+  "subtitles.portalcubed.chamber_door_close": "Chamber door closes",
 
   "subtitles.portalcubed.old_ap_timer": "Timer ticks",
   "subtitles.portalcubed.timer_ding": "Timer dings",
@@ -300,18 +398,35 @@
 
   "advancement.portalcubed.portal_gun.title": "Thinking with Portals",
   "advancement.portalcubed.portal_gun.description": "Obtain a Portal Gun",
-  "advancement.portalcubed.construction_cannon.title": "Trust me, I'm an Engineer",
+  "advancement.portalcubed.dyed_portal_gun.title": "Pretty Painted Portal Producer",
+  "advancement.portalcubed.dyed_portal_gun.description": "Dye the shell of a Portal Gun",
+  "advancement.portalcubed.wash_portal_gun.title": "Do Not Submerge The Operational End of the Device",
+  "advancement.portalcubed.wash_portal_gun.description": "Submerge the operational end of the device",
+  "advancement.portalcubed.portal_gun_fox.title": "You Shouldn't be Eating That",
+  "advancement.portalcubed.portal_gun_fox.description": "Give a Portal Gun to a Fox",
+  "advancement.portalcubed.construction_cannon.title": "Trust Me, I'm an Engineer",
   "advancement.portalcubed.construction_cannon.description": "Use a Construction Cannon",
 
   "advancement.portalcubed.lemon.title": "Get Mad!",
   "advancement.portalcubed.lemon.description": "Obtain a Lemon",
-  "advancement.portalcubed.lemonade.title": "Burn life's house down!",
+  "advancement.portalcubed.lemonade.title": "Burn Life's House Down!",
   "advancement.portalcubed.lemonade.description": "Create and use a combustible lemon",
 
+  "advancement.portalcubed.hammer.title": "Give it a Good Whack",
+  "advancement.portalcubed.hammer.description": "Get a Hammer to start configuring test elements with",
+  "advancement.portalcubed.stalemate_associate.title": "Certified Stalemate Associate",
+  "advancement.portalcubed.stalemate_associate.description": "Configure a Pedestal Button",
   "advancement.portalcubed.hammer_time.title": "Stop - Hammer Time!",
-  "advancement.portalcubed.hammer_time.description": "Use a Hammer to configure a test element",
+  "advancement.portalcubed.hammer_time.description": "Change the timer of a test element",
+  "advancement.portalcubed.sign_here.title": "Sign Here",
+  "advancement.portalcubed.sign_here.description": "Place a Signage block",
+
   "advancement.portalcubed.crossover_episode.title": "Crossover Episode",
   "advancement.portalcubed.crossover_episode.description": "Obtain a Crowbar",
+
+  "advancement.portalcubed.cube_shaped.title": "If Not Cube, Why Cube Shaped?",
+  "advancement.portalcubed.cube_shaped.description": "Put a Cube-Shaped entity on a Cube Button",
+
 
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",
@@ -319,7 +434,7 @@
   "advancement.portalcubed.cubes.description": "Obtain at least one of every cube type",
   "advancement.portalcubed.hoopy.title": "The Next Big Thing",
   "advancement.portalcubed.hoopy.description": "Hold Hoopy the Hoop",
-  "advancement.portalcubed.rattmann.title": "Garbage Collector",
+  "advancement.portalcubed.rattmann.title": "I am Rattmann",
   "advancement.portalcubed.rattmann.description": "Obtain every prop that can be found in a Rattmann den",
 
   "advancement.portalcubed.boots.title": "Good Work, Boots",
@@ -331,8 +446,6 @@
 
   "advancement.portalcubed.autoportal.title": "That Portal Was Framed",
   "advancement.portalcubed.autoportal.description": "Place an Autoportal",
-  "advancement.portalcubed.rainbow_autoportals.title": "Pretty Painted Portal Producers",
-  "advancement.portalcubed.rainbow_autoportals.description": "Use Red, Orange, Yellow, Green, Blue, and Purple dyes on Autoportals. Any shade of each color works.",
 
   "advancement.portalcubed.fizzler.title": "Fizzle Me This",
   "advancement.portalcubed.fizzler.description": "Walk through a Material Emancipation Grill",
@@ -378,6 +491,45 @@
   "item.portalcubed.crowbar": "Crowbar",
   "item.portalcubed.construction_cannon": "Construction Cannon",
 
+  "block.portalcubed.hammerable.desc1": "Interact with Hammer:",
+  "block.portalcubed.hammerable.desc2": "Configures Test Element",
+
+  "item.portalcubed.aperture_banner_pattern": "Aperture Banner Pattern",
+  "block.portalcubed.banner.aperture.white": "White Aperture",
+  "block.portalcubed.banner.aperture.light_gray": "Light Gray Aperture",
+  "block.portalcubed.banner.aperture.gray": "Gray Aperture",
+  "block.portalcubed.banner.aperture.black": "Black Aperture",
+  "block.portalcubed.banner.aperture.brown": "Brown Aperture",
+  "block.portalcubed.banner.aperture.red": "Red Aperture",
+  "block.portalcubed.banner.aperture.orange": "Orange Aperture",
+  "block.portalcubed.banner.aperture.yellow": "Yellow Aperture",
+  "block.portalcubed.banner.aperture.lime": "Lime Aperture",
+  "block.portalcubed.banner.aperture.green": "Green Aperture",
+  "block.portalcubed.banner.aperture.blue": "Blue Aperture",
+  "block.portalcubed.banner.aperture.cyan": "Cyan Aperture",
+  "block.portalcubed.banner.aperture.light_blue": "Light Blue Aperture",
+  "block.portalcubed.banner.aperture.purple": "Purple Aperture",
+  "block.portalcubed.banner.aperture.magenta": "Magenta Aperture",
+  "block.portalcubed.banner.aperture.pink": "Pink Aperture",
+
+  "block.portalcubed.banner.oval.white": "White Oval",
+  "block.portalcubed.banner.oval.light_gray": "Light Gray Oval",
+  "block.portalcubed.banner.oval.gray": "Gray Oval",
+  "block.portalcubed.banner.oval.black": "Black Oval",
+  "block.portalcubed.banner.oval.brown": "Brown Oval",
+  "block.portalcubed.banner.oval.red": "Red Oval",
+  "block.portalcubed.banner.oval.orange": "Orange Oval",
+  "block.portalcubed.banner.oval.yellow": "Yellow Oval",
+  "block.portalcubed.banner.oval.lime": "Lime Oval",
+  "block.portalcubed.banner.oval.green": "Green Oval",
+  "block.portalcubed.banner.oval.blue": "Blue Oval",
+  "block.portalcubed.banner.oval.cyan": "Cyan Oval",
+  "block.portalcubed.banner.oval.light_blue": "Light Blue Oval",
+  "block.portalcubed.banner.oval.purple": "Purple Oval",
+  "block.portalcubed.banner.oval.magenta": "Magenta Oval",
+  "block.portalcubed.banner.oval.pink": "Pink Oval",
+
+
   "item.portalcubed.storage_cube": "Weighted Storage Cube",
   "item.portalcubed.storage_cube.2": "Dirty Weighted Storage Cube",
   "item.portalcubed.portal_1_storage_cube": "Portal 1 Weighted Storage Cube",
@@ -388,7 +540,7 @@
   "item.portalcubed.redirection_cube": "Redirection Cube",
   "item.portalcubed.redirection_cube.2": "Dirty Redirection Cube",
   "item.portalcubed.schrodinger_cube": "Schrödinger Cube",
-  "item.portalcubed.schrodinger_cube.2": "Schrödinger Cube",
+  "item.portalcubed.schrodinger_cube.2": "Dirty Schrödinger Cube",
   "item.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
   "item.portalcubed.radio": "Radio",
@@ -468,17 +620,23 @@
   "item.portalcubed.bendy_portal_gun": "Bendy's Portal Gun",
   "item.portalcubed.lego_portal_gun": "Portal Gun (LEGO Dimensions)",
   "item.portalcubed.damaged_portal_gun": "Damaged Portal Gun (Portal Revolution)",
-  "item.portalcubed.revolution_portal_gun": "Painted Portal Gun (Portal Revolution)",
+  "item.portalcubed.painted_portal_gun": "Painted Portal Gun (Portal Revolution)",
   "item.portalcubed.missing_texture_portal_gun": "item.portalcubed.portal_gun",
   "item.portalcubed.pistol_portal_gun": "Gun That Makes Holes (Not Bullet Holes)",
   "item.portalcubed.splash_o_matic": "Splash-o-Matic",
   "item.portalcubed.tiny_potatos_portal_gun": "Tiny PotatOS Portal Gun",
   "item.portalcubed.salmon_gun": "Salmon Gun",
   "item.portalcubed.wand": "Wand",
+  "item.portalcubed.black_hole_crossbow": "Crossbow",
+  "item.portalcubed.mr_thingy": "Mr. Thingy",
   "item.portalcubed.smithers_portal_gun": "Mr. Smithers' Portal Gun",
   "item.portalcubed.peashooter": "Peashooter",
   "item.portalcubed.paintbrush": "Paintbrush",
   "item.portalcubed.polaroid": "Polaroid",
+  "item.portalcubed.pipis_cannon": "Pipis Cannon",
+  "item.portalcubed.portal_gun_rick": "Rick's Portal Gun",
+
+  "item.portalcubed.fizzleinator": "The Fizzleinator™",
 
   "item.portalcubed.long_fall_boots": "Long Fall Boots",
   "item.portalcubed.advanced_knee_replacements": "Advanced Knee Replacements",
@@ -797,6 +955,7 @@
   "block.portalcubed.2x2_crossbar_top_right": "2x2 Crossbar Top Right",
 
   "block.portalcubed.gray_chamber_exterior": "Gray Chamber Exterior",
+  "block.portalcubed.gray_chamber_exterior_facade": "Gray Chamber Exterior Facade",
   "block.portalcubed.gray_2x2_chamber_exterior_a_bottom_left": "Gray 2x2 Chamber Exterior A Bottom Left",
   "block.portalcubed.gray_2x2_chamber_exterior_a_top_left": "Gray 2x2 Chamber Exterior A Top Left",
   "block.portalcubed.gray_2x2_chamber_exterior_a_bottom_right": "Gray 2x2 Chamber Exterior A Bottom Right",
@@ -807,6 +966,7 @@
   "block.portalcubed.gray_2x2_chamber_exterior_b_top_right": "Gray 2x2 Chamber Exterior B Top Right",
 
   "block.portalcubed.yellow_chamber_exterior": "Yellow Chamber Exterior",
+  "block.portalcubed.yellow_chamber_exterior_facade": "Yellow Chamber Exterior Facade",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_bottom_left": "Yellow 2x2 Chamber Exterior A Bottom Left",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_top_left": "Yellow 2x2 Chamber Exterior A Top Left",
   "block.portalcubed.yellow_2x2_chamber_exterior_a_bottom_right": "Yellow 2x2 Chamber Exterior A Bottom Right",
@@ -838,13 +998,29 @@
   "block.portalcubed.stripped_lemon_wood": "Stripped Lemon Wood",
   "item.portalcubed.lemon_boat": "Lemon Boat",
   "item.portalcubed.lemon_chest_boat": "Lemon Boat with Chest",
+  "entity.portalcubed.lemon_boat": "Lemon Boat",
+  "entity.portalcubed.lemon_chest_boat": "Lemon Boat with Chest",
   "item.portalcubed.lemon": "Lemon",
   "item.portalcubed.lemonade": "Lemonade",
 
   "block.portalcubed.small_signage": "Small Signage",
   "block.portalcubed.aged_small_signage": "Aged Small Signage",
+  "block.portalcubed.small_signage.images": "Images:",
+
   "block.portalcubed.large_signage": "Large Signage",
   "block.portalcubed.aged_large_signage": "Aged Large Signage",
+  "block.portalcubed.large_signage.image": "Image:",
+
+  "block.portalcubed.white_portal_1_chamber_door": "White Portal 1 Chamber Door",
+  "block.portalcubed.metal_portal_1_chamber_door": "Metal Portal 1 Chamber Door",
+
+  "block.portalcubed.white_chamber_door": "White Chamber Door",
+  "block.portalcubed.gray_chamber_door": "Gray Chamber Door",
+
+  "block.portalcubed.white_octopus_chamber_door": "White Octopus Chamber Door",
+  "block.portalcubed.gray_octopus_chamber_door": "Gray Octopus Chamber Door",
+
+  "block.portalcubed.old_ap_chamber_door": "Old Aperture Chamber Door",
 
   "block.portalcubed.portal_gun_pedestal": "Portal Gun Pedestal",
 
@@ -893,6 +1069,8 @@
   "death.attack.landing_damage": "%1$s was hit on the head by a falling %2$s",
   "death.attack.landing_damage.player":  "%1$s was hit on the head by a falling %2$s trying to escape %3$s",
   "death.attack.landing_damage.item":  "%1$s was hit on the head by a falling %2$s trying to escape %3$s wielding %4$s",
+  "death.attack.submerged_the_operational_end_of_the_device": "%1$s submerged the operational end of the device",
+  "death.attack.submerged_the_operational_end_of_the_device.player":  "%1$s submerged the operational end of the device trying to escape %2$s",
   "death.attack.lemonade": "%s combusted",
   "death.attack.lemonade.player":  "%1$s combusted due to %2$s's lemonade",
 
@@ -922,4 +1100,4 @@
 
   "entity.portalcubed.lemonade": "Lemonade"
 
-  }
+}
