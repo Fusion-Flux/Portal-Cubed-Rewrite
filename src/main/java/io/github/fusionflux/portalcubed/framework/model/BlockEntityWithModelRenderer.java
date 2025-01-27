@@ -21,9 +21,9 @@ public abstract class BlockEntityWithModelRenderer<T extends BlockEntity, M exte
 		matrices.translate(.5f, .5f, .5f);
 		matrices.pushPose();
 		matrices.scale(-1f, -1f, 1f);
-		this.model.setup(entity, tickDelta);
+		this.model.setupAnim(entity, tickDelta);
 		RenderType renderType = this.model.renderType(this.getTextureLocation(entity));
-		this.model.renderToBuffer(matrices, vertexConsumers.getBuffer(renderType), LightTexture.FULL_BRIGHT, overlay, 1f, 1f, 1f, 1f);
+		this.model.renderToBuffer(matrices, vertexConsumers.getBuffer(renderType), LightTexture.FULL_BRIGHT, overlay, -1);
 		matrices.popPose();
 	}
 

@@ -26,11 +26,13 @@ import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
+import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalArmBlock;
+import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalBlock;
 import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.block.CollisionlessFacadeBlock;
-import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.FacadeBlock;
+import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
@@ -113,6 +115,16 @@ public class PortalCubedBlocks {
 	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("old_ap_pedestal_button", PedestalButtonBlock::oldAp, Blocks.STONE)
 			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
 			.renderType(RenderTypes.CUTOUT)
+			.build();
+	// ----- portal gun pedestal -----
+	public static final PortalGunPedestalBlock PORTAL_GUN_PEDESTAL = REGISTRAR.blocks.createFrom("portal_gun_pedestal", PortalGunPedestalBlock::new, Blocks.STONE)
+			.properties(p -> p.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_WHITE))
+			.renderType(RenderTypes.CUTOUT)
+			.build();
+	public static final PortalGunPedestalArmBlock PORTAL_GUN_PEDESTAL_ARM = REGISTRAR.blocks.createFrom("portal_gun_pedestal_arm", PortalGunPedestalArmBlock::new, Blocks.STONE)
+			.properties(p -> p.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_WHITE))
+			.renderType(RenderTypes.CUTOUT)
+			.item(BlockItemProvider::noItem)
 			.build();
 	// ----- chamber doors -----
 	public static final Map<ChamberDoorType, Map<ChamberDoorMaterial, ChamberDoorBlock>> CHAMBER_DOORS = Util.make(

@@ -1,38 +1,23 @@
 package io.github.fusionflux.portalcubed.framework.model;
 
-import net.minecraft.client.model.HierarchicalModel;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.Level;
+import java.util.function.Function;
+
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public abstract class BlockEntityModel<T extends BlockEntity> extends HierarchicalModel<BlockEntityModel.EmptyEntity> {
-	public abstract void setup(T entity, float tickDelta);
-
-	@Override
-	public final void setupAnim(@SuppressWarnings("ClassEscapesDefinedScope") EmptyEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-
+public abstract class BlockEntityModel<T extends BlockEntity> extends Model {
+	protected BlockEntityModel(ModelPart root) {
+		this(root, RenderType::entityCutoutNoCull);
 	}
 
-	protected static final class EmptyEntity extends Entity {
-		private EmptyEntity(EntityType<?> variant, Level world) {
-			super(variant, world);
-		}
+	protected BlockEntityModel(ModelPart root, Function<ResourceLocation, RenderType> function) {
+		super(root, function);
+	}
 
-		@Override
-		protected void defineSynchedData() {
-
-		}
-
-		@Override
-		protected void readAdditionalSaveData(CompoundTag nbt) {
-
-		}
-
-		@Override
-		protected void addAdditionalSaveData(CompoundTag nbt) {
-
-		}
+	public void setupAnim(T entity, float tickDelta) {
+		this.resetPose();
 	}
 }

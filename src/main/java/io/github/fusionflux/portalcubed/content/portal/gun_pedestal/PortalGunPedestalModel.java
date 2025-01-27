@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal.gun_pedestal;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.model.BlockEntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -16,10 +14,8 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 public class PortalGunPedestalModel extends BlockEntityModel<PortalGunPedestalBlockEntity> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(PortalCubed.id("portal_gun_pedestal"), "main");
 
-	private final ModelPart root;
-
 	public PortalGunPedestalModel(ModelPart root) {
-		this.root = root;
+		super(root);
 	}
 
 	/**
@@ -82,14 +78,8 @@ public class PortalGunPedestalModel extends BlockEntityModel<PortalGunPedestalBl
 	}
 
 	@Override
-	@NotNull
-	public ModelPart root() {
-		return this.root;
-	}
-
-	@Override
-	public void setup(PortalGunPedestalBlockEntity entity, float tickDelta) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
+	public void setupAnim(PortalGunPedestalBlockEntity entity, float tickDelta) {
+		super.setupAnim(entity, tickDelta);
 
 		float animationProgress = entity.tickCount + tickDelta;
 		this.animate(entity.retractAnimationState, PortalGunPedestalAnimations.retract, animationProgress);
