@@ -11,7 +11,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.framework.util.ShaderPatcher;
-import net.minecraft.Util;
 import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.client.renderer.ShaderProgramConfig;
@@ -32,8 +31,8 @@ public class ShaderManagerMixin {
 			Operation<Void> original,
 			@Local(argsOnly = true) ShaderProgramConfig config
 	) {
-		if (ShaderPatcher.shouldPatch(config.vertex() + ".vsh") || ShaderPatcher.shouldPatch(config.fragment() + ".fsh"))
-			original.call(instance, Util.make(new ArrayList<>(uniforms), list -> list.add(ShaderPatcher.CLIPPING_PLANE_UNIFORM_CONFIG)), samplers);
+		uniforms = new ArrayList<>(uniforms);
+		ShaderPatcher.injectUniforms(config, uniforms::add);
 		original.call(instance, uniforms, samplers);
 	}
 }

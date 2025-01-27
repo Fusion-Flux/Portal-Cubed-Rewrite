@@ -3,12 +3,10 @@ package io.github.fusionflux.portalcubed.framework.util;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.system.MemoryStack;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.caffeinemc.mods.sodium.api.vertex.buffer.VertexBufferWriter;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 
 public class DelegatingVertexConsumer implements VertexConsumer, VertexBufferWriter {
 	protected VertexConsumer delegate;
@@ -53,16 +51,6 @@ public class DelegatingVertexConsumer implements VertexConsumer, VertexBufferWri
 	public VertexConsumer setNormal(float normalX, float normalY, float normalZ) {
 		this.delegate.setNormal(normalX, normalY, normalZ);
 		return this;
-	}
-
-	@Override
-	public void putBulkData(PoseStack.Pose pose, BakedQuad quad, float red, float green, float blue, float alpha, int packedLight, int packedOverlay) {
-		this.delegate.putBulkData(pose, quad, red, green, blue, alpha, packedLight, packedOverlay);
-	}
-
-	@Override
-	public void putBulkData(PoseStack.Pose pose, BakedQuad quad, float[] brightness, float red, float green, float blue, float alpha, int[] lightmap, int packedOverlay, boolean readAlpha) {
-		this.delegate.putBulkData(pose, quad, brightness, red, green, blue, alpha, lightmap, packedOverlay, readAlpha);
 	}
 
 	@Override

@@ -1,18 +1,33 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 
+import org.joml.Vector4f;
+
+import com.google.common.collect.ImmutableSet;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
+import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
+import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
+import io.github.fusionflux.portalcubed.mixin.client.LevelRendererAccessor;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +35,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
 public class DisintegrationRenderer {
+	public static final Vector4f DISINTEGRATION_COLOR_MODIFIER = new Vector4f(1f);
+	public static final float DARKEN = 0.15f;
+	public static final float TRANSLUCENCY_START_PROGRESS = (DisintegrationExt.DISINTEGRATE_TICKS - DisintegrationExt.TRANSLUCENCY_START_TICKS) / (float) DisintegrationExt.DISINTEGRATE_TICKS;
+	public static final Set<String> DONT_DARKEN_RENDER_TYPES = ImmutableSet.of("eyes", "entity_translucent_emissive", "beacon_beam", PortalCubed.id("emissive").toString());
+
 	public static final ResourceLocation FLASH_TEXTURE = PortalCubed.id("textures/misc/fizzle_flash.png");
 	public static final float FLASH_SIZE = 3f/4f;
 	public static final float FLASH_SPEED = 0.7f;
@@ -33,14 +53,15 @@ public class DisintegrationRenderer {
 		matrices.pushPose();
 		matrices.translate(0, entity.getBoundingBox().getYsize() / 2, 0);
 		matrices.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
+		matrices.mulPose(Axis.YP.rotationDegrees(180));
 		matrices.scale(FLASH_SIZE, FLASH_SIZE, FLASH_SIZE);
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.beaconBeam(FLASH_TEXTURE, true));
-		Matrix4f matrix = matrices.last().pose();
+		PoseStack.Pose pose = matrices.last();
 		int color = getFlashColor(ticks);
-		flashVertex(vertices, matrix, 1f, 1f, color, 1, 1);
-		flashVertex(vertices, matrix, 1f, -1f, color, 1, 0);
-		flashVertex(vertices, matrix, -1f, -1f, color, 0, 0);
-		flashVertex(vertices, matrix, -1f, 1f, color, 0, 1);
+		flashVertex(vertices, pose, 1f, 1f, color, 1, 1);
+		flashVertex(vertices, pose, 1f, -1f, color, 1, 0);
+		flashVertex(vertices, pose, -1f, -1f, color, 0, 0);
+		flashVertex(vertices, pose, -1f, 1f, color, 0, 1);
 		matrices.popPose();
 	}
 
@@ -50,26 +71,66 @@ public class DisintegrationRenderer {
 		return ColorABGR.withAlpha(0xFFFFFF, alpha);
 	}
 
-	private static void flashVertex(VertexConsumer vertexConsumer, Matrix4f matrix, float x, float y, int color, int textureU, int textureV) {
-		vertexConsumer.addVertex(matrix, x, y, 0)
+	private static void flashVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, float x, float y, int color, int textureU, int textureV) {
+		vertexConsumer.addVertex(pose, x, y, 0)
 				.setColor(color)
 				.setUv(textureU, textureV)
 				.setOverlay(OverlayTexture.NO_OVERLAY)
 				.setLight(LightTexture.FULL_BRIGHT)
-				.setNormal(0, 1, 0);
+				.setNormal(pose, 0, 1, 0);
 	}
 
-	// this allocates a lot, but it's probably not a problem unless there's like 1000+ disintegrating entities
-	public static MultiBufferSource wrapVertexConsumers(Entity entity, float tickDelta, MultiBufferSource vertexConsumers) {
-		return new MultiBufferSource() {
-			private final float ticks = entity.pc$disintegrateTicks() + tickDelta;
+	public static void wrapRender(float ticks, Consumer<MultiBufferSource> renderer) {
+		RenderBuffersExt renderBuffers = (RenderBuffersExt) ((LevelRendererAccessor) Minecraft.getInstance().levelRenderer).getRenderBuffers();
+		BufferSource bufferSource = renderBuffers.pc$disintegratingBufferSource();
+		BufferSource emissiveBufferSource = renderBuffers.pc$disintegratingEmissiveBufferSource();
+		renderer.accept(renderType -> (DONT_DARKEN_RENDER_TYPES.contains(renderType.name) ? emissiveBufferSource : bufferSource).getBuffer(renderType));
 
-			@NotNull
-			@Override
-			public VertexConsumer getBuffer(RenderType renderType) {
-				// this won't work with non-translucent render types unless we use some sort of mapping, but there doesn't seem to be a good way to make a conversion map for entity render types
-				return new DisintegrationVertexConsumer(vertexConsumers.getBuffer(renderType), renderType, ticks);
+		float progress = 1 - Math.min(ticks / DisintegrationExt.DISINTEGRATE_TICKS, 1);
+		float alpha = 1 - Math.min((Math.max(0, progress - TRANSLUCENCY_START_PROGRESS) / (1 - TRANSLUCENCY_START_PROGRESS)) * 3, 1);
+		float darken = Mth.lerp(Math.min(progress * (1 + TRANSLUCENCY_START_PROGRESS), 1), 1f, DARKEN);
+
+		DISINTEGRATION_COLOR_MODIFIER.set(darken, darken, darken, alpha);
+		bufferSource.flush();
+
+		DISINTEGRATION_COLOR_MODIFIER.set(1f, 1f, 1f, alpha);
+		emissiveBufferSource.flush();
+
+		DISINTEGRATION_COLOR_MODIFIER.set(1f);
+	}
+
+	public record BufferSource(Reference2ReferenceMap<RenderType, ByteBufferBuilder> buffers, Reference2ReferenceMap<RenderType, BufferBuilder> builders) implements MultiBufferSource {
+		public BufferSource(Iterable<RenderType> renderTypes) {
+			this(new Reference2ReferenceOpenHashMap<>(), new Reference2ReferenceOpenHashMap<>());
+			this.buffers.defaultReturnValue(new ByteBufferBuilder(RenderType.SMALL_BUFFER_SIZE));
+			renderTypes.forEach(renderType -> this.buffers.put(renderType, new ByteBufferBuilder(renderType.bufferSize())));
+		}
+
+		@Override
+		public VertexConsumer getBuffer(RenderType renderType) {
+			return this.builders.computeIfAbsent(
+					renderType,
+					$ -> new BufferBuilder(this.buffers.get(renderType), renderType.mode(), renderType.format())
+			);
+		}
+
+		public void flush() {
+			for (Map.Entry<RenderType, BufferBuilder> entry : this.builders.reference2ReferenceEntrySet()) {
+				BufferBuilder builder = entry.getValue();
+				MeshData meshData = builder.build();
+				if (meshData != null) {
+					RenderType renderType = entry.getKey();
+					if (renderType.sortOnUpload())
+						meshData.sortQuads(this.buffers.get(renderType), RenderSystem.getProjectionType().vertexSorting());
+
+					renderType.setupRenderState();
+					RenderStateShard.TRANSLUCENT_TRANSPARENCY.setupRenderState();
+					BufferUploader.drawWithShader(meshData);
+					renderType.clearRenderState();
+					RenderStateShard.TRANSLUCENT_TRANSPARENCY.clearRenderState();
+				}
 			}
-		};
+			this.builders.clear();
+		}
 	}
 }

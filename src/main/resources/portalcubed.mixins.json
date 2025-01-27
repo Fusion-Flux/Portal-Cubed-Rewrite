@@ -87,6 +87,7 @@
     "client.ParticleAccessor",
     "client.ParticleEngineMixin",
     "client.PlayerRendererMixin",
+    "client.RenderBuffersMixin",
     "client.RenderRegionMixin",
     "client.RenderSectionManagerAccessor",
     "client.RenderSystemAccessor",
