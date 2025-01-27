@@ -1,0 +1,109 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": "minecraft:fox",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/wand/fox/wand",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
+        "when": "minecraft:allay",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/wand/allay/wand",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
+        "when": [
+          "minecraft:villager",
+          "minecraft:witch",
+          "minecraft:wandering_trader"
+        ],
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/wand/villager/wand",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "portalcubed:portal_gun/wand/humanoid/wand",
+      "tints": [
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "active"
+        },
+        {
+          "type": "minecraft:dye",
+          "default": -1
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "primary"
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "secondary"
+        }
+      ]
+    }
+  }
+}

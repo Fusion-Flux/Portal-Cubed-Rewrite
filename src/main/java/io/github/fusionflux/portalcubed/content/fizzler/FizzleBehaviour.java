@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
+import java.util.Locale;
+
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import net.minecraft.world.entity.Entity;
-
-import java.util.Locale;
 
 public enum FizzleBehaviour {
 	PORTAL_CLEARING {
@@ -15,7 +15,8 @@ public enum FizzleBehaviour {
 	DISINTEGRATION {
 		@Override
 		public boolean fizzle(Entity entity) {
-			if (entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION)) return false;
+			if (entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION))
+				return false;
 			return entity.pc$disintegrate();
 		}
 	},

@@ -3,15 +3,14 @@ package io.github.fusionflux.portalcubed.content.cannon.screen.widget;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.util.ItemListTooltipComponent;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -49,7 +48,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 	public MaterialSlotWidget(TagKey<Item> tag, int x, int y, Runnable onSelect) {
 		super(x, y, SIZE, SIZE, TagTranslation.translate(tag), TEXTURES, onSelect);
 
-		List<ItemStack> items = BuiltInRegistries.ITEM.getTag(tag)
+		List<ItemStack> items = BuiltInRegistries.ITEM.get(tag)
 				.map(ListBacked::stream)
 				.orElseGet(Stream::of)
 				.map(Holder::value)

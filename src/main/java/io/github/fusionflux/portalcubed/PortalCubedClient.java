@@ -1,41 +1,38 @@
 package io.github.fusionflux.portalcubed;
 
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
-import org.quiltmc.qsl.entity.event.api.client.ClientEntityTickCallback;
-import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
-
 import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
-import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
-import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.boots.LongFallBootsModel;
+import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
 import io.github.fusionflux.portalcubed.content.boots.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
-import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
-import io.github.fusionflux.portalcubed.content.portal.PortalRenderer;
-import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalModel;
-import io.github.fusionflux.portalcubed.content.prop.PropModelCache;
-import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
+import io.github.fusionflux.portalcubed.content.lemon.Armed;
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunTintSource;
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.prop.renderer.PropVariantProperty;
+import io.github.fusionflux.portalcubed.framework.entity.EntityDebugRendering;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.color.item.ItemTintSources;
+import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperties;
+import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperties;
 
 public class PortalCubedClient implements ClientModInitializer {
 	@Override
-	public void onInitializeClient(ModContainer mod) {
+	public void onInitializeClient() {
 		PortalRenderer.init();
+		EntityDebugRendering.init();
+		DebugRendering.init();
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
 
@@ -45,54 +42,16 @@ public class PortalCubedClient implements ClientModInitializer {
 				new SimpleFluidRenderHandler(PortalCubed.id("block/toxic_goo_still"), PortalCubed.id("block/toxic_goo_flow"))
 		);
 
-		ItemProperties.register(PortalCubedItems.LEMONADE, PortalCubed.id("armed"), (stack, level, entity, i) -> LemonadeItem.isArmed(stack) ? 1 : 0);
+		ConditionalItemModelProperties.ID_MAPPER.put(PortalCubed.id("lemonade/armed"), Armed.MAP_CODEC);
+		RangeSelectItemModelProperties.ID_MAPPER.put(PortalCubed.id("prop_variant"), PropVariantProperty.MAP_CODEC);
+		ItemTintSources.ID_MAPPER.put(PortalCubed.id("portal_gun"), PortalGunTintSource.CODEC);
 
-		LongFallBootsModel.init();
-		EntityModelLayerRegistry.registerModelLayer(PortalGunPedestalModel.LAYER_LOCATION, PortalGunPedestalModel::createBodyLayer);
-		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT.location(), false);
-		PropModelCache.register();
+		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT);
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
+		PortalCubedReloadListeners.registerAssets();
 
 		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);
 
-		ClientTickEvents.END.register(ConstructionCannonAnimator::tick);
-
-		ClientEntityTickCallback.EVENT.register((entity, isPassengerTick) -> {
-			if (entity instanceof Player player) {
-				boolean holdingPortalGun = player.getMainHandItem().is(PortalCubedItems.PORTAL_GUN);
-
-				var soundManager = Minecraft.getInstance().getSoundManager();
-				int grabSoundTimer = player.pc$grabSoundTimer();
-				var holdLoopSound = (FollowingSoundInstance) player.pc$holdLoopSound();
-				var grabSound = (FollowingSoundInstance) player.pc$grabSound();
-
-				if (grabSound != null) {
-					grabSoundTimer--;
-					player.pc$grabSoundTimer(grabSoundTimer);
-
-					if (!holdingPortalGun) {
-						grabSound.forceStop();
-						grabSound = null;
-						player.pc$grabSound(grabSound);
-					} else if (grabSoundTimer <= 0) {
-						grabSound = null;
-						player.pc$grabSound(grabSound);
-
-						holdLoopSound = PortalCubedSounds.createPortalGunHoldLoop(player);
-						soundManager.play(holdLoopSound);
-						player.pc$holdLoopSound(holdLoopSound);
-					}
-				}
-
-				if (holdLoopSound != null && !holdingPortalGun) {
-					holdLoopSound.forceStop();
-					player.pc$holdLoopSound(null);
-				} else if (holdingPortalGun && (holdLoopSound == null && grabSound == null) && player.getHeldEntity() != null) {
-					holdLoopSound = PortalCubedSounds.createPortalGunHoldLoop(player);
-					soundManager.play(holdLoopSound);
-					player.pc$holdLoopSound(holdLoopSound);
-				}
-			}
-		});
+		ClientTickEvents.END_CLIENT_TICK.register(ConstructionCannonAnimator::tick);
 	}
 }

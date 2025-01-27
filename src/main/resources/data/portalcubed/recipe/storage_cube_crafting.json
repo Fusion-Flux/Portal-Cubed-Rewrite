@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "ZYZ",
+        "YXY",
+        "ZYZ"
+    ],
+    "key": {
+        "Z": "portalcubed:magnesium_ingot",
+        "X": "minecraft:redstone_lamp",
+        "Y": "minecraft:light_blue_dye"
+    },
+    "result": {
+        "id": "portalcubed:storage_cube",
+        "count": 1
+    },
+  "group": "storage_cubes"
+}

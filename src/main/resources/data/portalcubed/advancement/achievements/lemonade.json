@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "portalcubed:lemonade"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.lemonade.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.lemonade.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "portalcubed:achievements/lemon",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:using_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "portalcubed:lemonade"
+          ]
+        }
+      }
+    }
+  }
+}

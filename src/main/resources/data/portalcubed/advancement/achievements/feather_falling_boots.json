@@ -1,0 +1,50 @@
+{
+  "display": {
+    "icon": {
+      "id": "portalcubed:long_fall_boots",
+      "components": {
+        "minecraft:enchantments": {
+          "levels": {
+            "minecraft:feather_falling": 4
+          }
+        }
+      }
+    },
+    "title": {
+      "translate": "advancement.portalcubed.feather_falling_boots.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.feather_falling_boots.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "portalcubed:achievements/boots",
+  "criteria": {
+    "feather_falling": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:long_fall_boots",
+              "portalcubed:advanced_knee_replacements"
+            ],
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "minecraft:feather_falling",
+                  "levels": {
+                    "min": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

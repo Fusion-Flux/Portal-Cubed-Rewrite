@@ -48,14 +48,12 @@ public class ConnectiveDirectionalBlock extends DirectionalBlock {
 		return this.defaultBlockState().setValue(FACING, facing);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState rotate(BlockState state, Rotation rotation) {
 		Direction newFacing = rotation.rotate(state.getValue(FACING));
 		return state.setValue(FACING, newFacing);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState mirror(BlockState state, Mirror mirror) {
 		Direction newFacing = mirror.mirror(state.getValue(FACING));

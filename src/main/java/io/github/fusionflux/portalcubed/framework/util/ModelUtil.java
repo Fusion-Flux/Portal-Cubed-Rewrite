@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.util;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +13,6 @@ import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
-import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -49,17 +49,17 @@ public class ModelUtil {
 	}
 
 	public static void emitVanillaQuads(
-			BakedModel model,
 			boolean item,
-			RenderContext context,
-			BiConsumer<BakedQuad, MutableQuadView> transformer,
+			QuadEmitter emitter,
+			BakedModel model,
 			@Nullable BlockState state,
-			Supplier<RandomSource> randomSupplier
+			Supplier<RandomSource> randomSupplier,
+			Predicate<@Nullable Direction> cullTest,
+			BiConsumer<BakedQuad, MutableQuadView> transformer
 	) {
-		QuadEmitter emitter = context.getEmitter();
 		RenderMaterial material = (model.useAmbientOcclusion() || item) ? RenderMaterials.STANDARD : RenderMaterials.NO_AO;
 		for (Direction face : FACES) {
-			if (!item && context.isFaceCulled(face))
+			if (cullTest.test(face))
 				continue;
 			List<BakedQuad> quads = model.getQuads(state, face, randomSupplier.get());
 			for (BakedQuad quad : quads) {

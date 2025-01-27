@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
+import java.util.Optional;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -10,11 +14,6 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class TransparentSlabBlock extends SlabBlock {
 	public TransparentSlabBlock(Properties properties) {
@@ -36,7 +35,6 @@ public class TransparentSlabBlock extends SlabBlock {
 		return slabType == SlabType.BOTTOM ? Optional.of(Direction.DOWN) : slabType == SlabType.TOP ? Optional.of(Direction.UP) : Optional.empty();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {
 		if (stateFrom.is(this)) {
@@ -49,21 +47,18 @@ public class TransparentSlabBlock extends SlabBlock {
 		return super.skipRendering(state, stateFrom, direction);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	@NotNull
 	public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public float getShadeBrightness(BlockState state, BlockGetter world, BlockPos pos) {
 		return 1.0F;
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
+	protected boolean propagatesSkylightDown(BlockState state) {
 		return true;
 	}
 }

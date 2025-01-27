@@ -1,0 +1,84 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": "minecraft:fox",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/peashooter/fox/peashooter",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -4658378
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
+        "when": [
+          "minecraft:villager",
+          "minecraft:witch",
+          "minecraft:wandering_trader"
+        ],
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/peashooter/villager/peashooter",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -4658378
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "portalcubed:portal_gun/peashooter/humanoid/peashooter",
+      "tints": [
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "active"
+        },
+        {
+          "type": "minecraft:dye",
+          "default": -4658378
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "primary"
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "secondary"
+        }
+      ]
+    }
+  }
+}

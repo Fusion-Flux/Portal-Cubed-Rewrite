@@ -1,23 +1,28 @@
 package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private final Registrar registrar;
@@ -25,9 +30,13 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	private final BlockFactory<T> factory;
 
 	// mutable properties
-	private QuiltBlockSettings settings;
+	private BlockBehaviour.Properties properties;
 	@Nullable
 	private RenderTypes renderType;
+	@Nullable
+	private Flammability flammability;
+	@Nullable
+	private Block unstripped;
 	@Nullable
 	private BlockItemProvider<T> itemProvider = BlockBuilderImpl::defaultBlock;
 	private BlockItemFactory<T> itemFactory = BlockItem::new;
@@ -40,21 +49,21 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 
 	@Override
 	public BlockBuilder<T> copyFrom(Block block) {
-		this.settings = QuiltBlockSettings.copyOf(block);
-		this.renderType = registrar.blocks.renderTypes.get(block);
+		this.properties = BlockBehaviour.Properties.ofFullCopy(block);
+		this.renderType = this.registrar.blocks.renderTypes.get(block);
 		return this;
 	}
 
 	@Override
-	public BlockBuilder<T> settings(QuiltBlockSettings settings) {
-		this.settings = QuiltBlockSettings.copyOf(settings);
+	public BlockBuilder<T> properties(Supplier<BlockBehaviour.Properties> properties) {
+		this.properties = properties.get();
 		return this;
 	}
 
 	@Override
-	public BlockBuilder<T> settings(Consumer<QuiltBlockSettings> consumer) {
-		checkSettings();
-		consumer.accept(this.settings);
+	public BlockBuilder<T> properties(Consumer<BlockBehaviour.Properties> consumer) {
+		this.checkProperties();
+		consumer.accept(this.properties);
 		return this;
 	}
 
@@ -65,41 +74,63 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	}
 
 	@Override
+	public BlockBuilder<T> flammability(int burn, int spread) {
+		this.flammability = new Flammability(burn, spread);
+		return this;
+	}
+
+	@Override
+	public BlockBuilder<T> strippedOf(Block original) {
+		this.unstripped = original;
+		return this;
+	}
+
+	@Override
 	public BlockBuilder<T> item(BlockItemProvider<T> provider) {
 		this.itemProvider = provider;
 		return this;
 	}
 
 	@Override
-	public <I extends Item> BlockBuilder<T> item(BlockItemFactory<T> factory) {
+	public BlockBuilder<T> item(BlockItemFactory<T> factory) {
 		this.itemFactory = factory;
 		return this;
 	}
 
 	@Override
 	public T build() {
-		checkSettings();
-		T block = this.factory.create(this.settings);
-		ResourceLocation id = registrar.id(this.name);
+		this.checkProperties();
+		ResourceLocation id = this.registrar.id(this.name);
+		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
+		this.properties.setId(key);
+		T block = this.factory.create(this.properties);
+
 		Registry.register(BuiltInRegistries.BLOCK, id, block);
 
-		Item item = null;
+		if (this.flammability != null) {
+			FlammableBlockRegistry.getDefaultInstance().add(block, this.flammability.burn, this.flammability.spread);
+		}
+
+		if (this.unstripped != null) {
+			StrippableBlockRegistry.register(this.unstripped, block);
+		}
+
 		if (this.itemProvider != null) {
-			ItemBuilder<Item> itemBuilder = registrar.items.create(
-					this.name, settings -> this.itemFactory.create(block, settings)
+			ItemBuilder<Item> itemBuilder = this.registrar.items.create(
+					this.name, settings -> this.itemFactory.create(block, settings.useBlockDescriptionPrefix())
 			);
 			ItemBuilder<Item> modifiedBuilder = this.itemProvider.create(this.name, block, itemBuilder);
 			if (modifiedBuilder != null) {
-				item = modifiedBuilder.build(); // registers the item
+				modifiedBuilder.build(); // registers the item
 			}
 		}
 
-		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
-			buildClient(block);
+		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+			this.buildClient(block);
 		}
 
 		if (this.renderType != null) {
-			registrar.blocks.renderTypes.put(block, renderType);
+			this.registrar.blocks.renderTypes.put(block, this.renderType);
 		}
 
 		return block;
@@ -107,20 +138,23 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 
 	// internal utils
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	private void buildClient(Block block) {
 		if (this.renderType != null) {
-			BlockRenderLayerMap.put(this.renderType.vanilla(), block);
+			BlockRenderLayerMap.INSTANCE.putBlock(block, this.renderType.vanilla());
 		}
 	}
 
-	private void checkSettings() {
-		if (this.settings == null) {
-			this.settings = QuiltBlockSettings.create();
+	private void checkProperties() {
+		if (this.properties == null) {
+			this.properties = BlockBehaviour.Properties.of();
 		}
 	}
 
 	private static ItemBuilder<Item> defaultBlock(String name, Block block, ItemBuilder<Item> builder) {
 		return builder;
+	}
+
+	private record Flammability(int burn, int spread) {
 	}
 }

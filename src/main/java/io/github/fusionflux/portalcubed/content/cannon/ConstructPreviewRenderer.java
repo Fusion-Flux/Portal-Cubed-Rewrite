@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.content.cannon;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14C;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -20,7 +19,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -36,7 +34,7 @@ public class ConstructPreviewRenderer {
 
 	private static void renderPreview(WorldRenderContext context) {
 		if (modelPool == null) return;
-		if (!(context.consumers() instanceof final MultiBufferSource.BufferSource bufferSource))
+		if (!(context.consumers() instanceof MultiBufferSource.BufferSource bufferSource))
 			return;
 
 		Minecraft minecraft = Minecraft.getInstance();
@@ -69,6 +67,7 @@ public class ConstructPreviewRenderer {
 		BlockPos pos = ConstructionCannonItem.getPlacementPos(placeContext, replaceMode);
 
 		matrices.pushPose();
+		matrices.mulPose(context.positionMatrix());
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 		matrices.translate(pos.getX() + construct.offset.getX(), pos.getY() + construct.offset.getY(), pos.getZ() + construct.offset.getZ());
 
@@ -86,7 +85,6 @@ public class ConstructPreviewRenderer {
 		RenderSystem.disableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
-		model.bufferBlockEntities(matrices, bufferSource);
 		bufferSource.endBatch();
 
 		matrices.popPose();
@@ -120,9 +118,5 @@ public class ConstructPreviewRenderer {
 
 	public static void init() {
 		WorldRenderEvents.AFTER_TRANSLUCENT.register(ConstructPreviewRenderer::renderPreview);
-		ResourceLoaderEvents.END_DATA_PACK_RELOAD.register(ctx -> {
-			if (ctx.server() instanceof IntegratedServer)
-				reload();
-		});
 	}
 }

@@ -1,16 +1,15 @@
 package io.github.fusionflux.portalcubed.framework.item;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.world.item.DispensibleContainerItem;
 import net.minecraft.world.item.ItemStack;
-
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
-
-import org.jetbrains.annotations.NotNull;
 
 public class BucketDispenseBehaviour extends DefaultDispenseItemBehavior {
 	// Copied from vanilla with different formatting because it's stuck in the static initializer of DispenseItemBehaviour

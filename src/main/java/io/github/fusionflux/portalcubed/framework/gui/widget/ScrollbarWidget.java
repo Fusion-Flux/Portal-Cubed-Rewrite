@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.gui.widget;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +32,7 @@ public class ScrollbarWidget extends AbstractWidget {
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		int yOffset = Mth.floor(scrollPos * SCROLLER_BOUND);
-		graphics.blitSprite(this.isActive() ? this.sprite : this.disabledSprite, this.getX(), this.getY() + yOffset, SCROLLER_WIDTH, SCROLLER_HEIGHT);
+		graphics.blitSprite(RenderType::guiTextured, this.isActive() ? this.sprite : this.disabledSprite, this.getX(), this.getY() + yOffset, SCROLLER_WIDTH, SCROLLER_HEIGHT);
 	}
 
 	@Override

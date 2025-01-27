@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +40,7 @@ public class GooCauldronBlock extends AbstractCauldronBlock {
 
 	@NotNull
 	@Override
-	public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
+	protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
 		return Items.CAULDRON.getDefaultInstance();
 	}
 
@@ -53,14 +54,12 @@ public class GooCauldronBlock extends AbstractCauldronBlock {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		if (this.isEntityInsideContent(state, pos, entity))
-			GooFluid.hurt(world, entity);
+		if (world instanceof ServerLevel serverWorld && this.isEntityInsideContent(state, pos, entity))
+			GooFluid.hurt(serverWorld, entity);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
 		return 3;

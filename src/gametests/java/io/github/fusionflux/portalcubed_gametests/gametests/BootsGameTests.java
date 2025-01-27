@@ -1,21 +1,17 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-
-import net.minecraft.world.entity.EquipmentSlot;
-
-import net.minecraft.world.entity.Mob;
-
-import org.quiltmc.qsl.testing.api.game.QuiltGameTest;
-
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
+import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
 
-public class BootsGameTests implements QuiltGameTest {
+public class BootsGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":boots/";
 
 	private static final int TICKS_FOR_FALL = 50;
@@ -23,8 +19,8 @@ public class BootsGameTests implements QuiltGameTest {
 	//Test entities falling with/without the boots
 	@GameTest(template = GROUP + "boots_test")
 	public void bootsTest(GameTestHelper helper) {
-		Mob entityWithBoots = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 48, 2));
-		Mob entityWithNoBoots = helper.spawnWithNoFreeWill(EntityType.STRAY, new BlockPos(3, 48, 2));  //you're part of the control group, by the way
+		Mob entityWithBoots = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 47, 2));
+		Mob entityWithNoBoots = helper.spawnWithNoFreeWill(EntityType.STRAY, new BlockPos(3, 47, 2));  //you're part of the control group, by the way
 
 		//Delay by 50 ticks to give them a chance to hit the ground; it takes ~40 for this to happen
 		helper.runAfterDelay(TICKS_FOR_FALL, () -> helper.succeedIf(() -> {
@@ -36,8 +32,8 @@ public class BootsGameTests implements QuiltGameTest {
 	//Test entities falling with the boots onto dripstone
 	@GameTest(template = GROUP + "boots_bypass_test")
 	public void bootsBypassTest(GameTestHelper helper) {
-		Mob dripstone = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 48, 2));
-		Mob noDripstone = spawnWithBoots(helper, EntityType.STRAY, new BlockPos(3, 48, 2));  //you're part of the control group, by the way
+		Mob dripstone = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 47, 2));
+		Mob noDripstone = spawnWithBoots(helper, EntityType.STRAY, new BlockPos(3, 47, 2));  //you're part of the control group, by the way
 
 		//Delay by 50 ticks to give them a chance to hit the ground; it takes ~40 for this to happen
 		helper.runAfterDelay(TICKS_FOR_FALL, () -> helper.succeedIf(() -> {

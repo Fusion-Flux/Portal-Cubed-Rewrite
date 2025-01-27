@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "portalcubed:aperture_banner_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_lemon": {
+      "conditions": {
+        "items": [
+          {
+            "items": "portalcubed:lemon"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lemon"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "portalcubed:aperture_banner_pattern"
+    ]
+  }
+}

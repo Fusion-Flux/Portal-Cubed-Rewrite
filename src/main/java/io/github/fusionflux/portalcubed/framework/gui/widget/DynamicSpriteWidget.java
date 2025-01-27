@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +27,7 @@ public class DynamicSpriteWidget<T> extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		graphics.blitSprite(spriteGetter.apply(valueGetter.get()), getX(), getY(), getWidth(), getHeight());
+		graphics.blitSprite(RenderType::guiTextured, spriteGetter.apply(valueGetter.get()), getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override

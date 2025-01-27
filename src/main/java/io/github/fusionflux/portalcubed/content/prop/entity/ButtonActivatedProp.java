@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -61,8 +62,8 @@ public class ButtonActivatedProp extends Prop {
 	}
 
 	@Override
-	protected void dropLoot(DamageSource source) {
+	protected void dropLoot(ServerLevel level, DamageSource source) {
 		setActivated(false);
-		super.dropLoot(source);
+		super.dropLoot(level, source);
 	}
 }

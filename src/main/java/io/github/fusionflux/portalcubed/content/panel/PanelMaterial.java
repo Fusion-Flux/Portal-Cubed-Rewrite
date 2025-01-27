@@ -1,10 +1,10 @@
 package io.github.fusionflux.portalcubed.content.panel;
 
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.MapColor;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.CHECKERED;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.JOINER;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.NO_1x2;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.NO_2x2;
+import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.NO_HALF;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import static io.github.fusionflux.portalcubed.content.panel.PanelMaterial.Flags.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 
 public enum PanelMaterial {
 	PORTAL_1_WHITE(PanelMaterial::p1WhiteSettings, CHECKERED, NO_2x2),
@@ -40,10 +43,11 @@ public enum PanelMaterial {
 	public final String name;
 	public final List<PanelPart> parts;
 
-	private final QuiltBlockSettings settings;
+	private final Supplier<BlockBehaviour.Properties> properties;
 
-	PanelMaterial(Supplier<QuiltBlockSettings> settingsCreator, Flags... flags) {
+	PanelMaterial(Supplier<BlockBehaviour.Properties> properties, Flags... flags) {
 		this.name = this.name().toLowerCase(Locale.ROOT);
+		this.properties = properties;
 
 		Set<Flags> set = Set.of(flags);
 		this.parts = Arrays.stream(PanelPart.values())
@@ -57,55 +61,53 @@ public enum PanelMaterial {
 					default -> true;
 				})
 				.toList();
-
-		this.settings = settingsCreator.get();
 	}
 
-	public QuiltBlockSettings getSettings() {
-		return QuiltBlockSettings.copyOf(this.settings);
+	public BlockBehaviour.Properties makeProperties() {
+		return this.properties.get();
 	}
 
-	public static QuiltBlockSettings p1WhiteSettings() {
-		return QuiltBlockSettings.copyOf(Blocks.WHITE_CONCRETE).mapColor(MapColor.COLOR_LIGHT_GRAY);
+	public static BlockBehaviour.Properties p1WhiteSettings() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_CONCRETE).mapColor(MapColor.COLOR_LIGHT_GRAY);
 	}
 
-	public static QuiltBlockSettings p1DirtyWhiteSettings() {
+	public static BlockBehaviour.Properties p1DirtyWhiteSettings() {
 		return p1WhiteSettings().mapColor(MapColor.TERRACOTTA_WHITE);
 	}
 
-	public static QuiltBlockSettings p1MetalSettings() {
-		return QuiltBlockSettings.copyOf(Blocks.COPPER_BLOCK).mapColor(MapColor.TERRACOTTA_BROWN);
+	public static BlockBehaviour.Properties p1MetalSettings() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(MapColor.TERRACOTTA_BROWN);
 	}
 
-	public static QuiltBlockSettings p1DirtyMetalSettings() {
+	public static BlockBehaviour.Properties p1DirtyMetalSettings() {
 		return p1MetalSettings().mapColor(MapColor.TERRACOTTA_GREEN);
 	}
 
-	public static QuiltBlockSettings whiteSettings() {
-		return QuiltBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.WOOL).sounds(SoundType.CHERRY_WOOD);
+	public static BlockBehaviour.Properties whiteSettings() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.WOOL).sound(SoundType.CHERRY_WOOD);
 	}
 
-	public static QuiltBlockSettings agedWhiteSettings() {
+	public static BlockBehaviour.Properties agedWhiteSettings() {
 		return whiteSettings().mapColor(MapColor.GRASS);
 	}
 
-	public static QuiltBlockSettings paddedGraySettings() {
-		return QuiltBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.DEEPSLATE);
+	public static BlockBehaviour.Properties paddedGraySettings() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.DEEPSLATE);
 	}
 
-	public static QuiltBlockSettings smoothGraySettings() {
-		return QuiltBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.TERRACOTTA_CYAN);
+	public static BlockBehaviour.Properties smoothGraySettings() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.TERRACOTTA_CYAN);
 	}
 
-	public static QuiltBlockSettings oldApWhiteSettings() {
-		return QuiltBlockSettings.copyOf(Blocks.OAK_PLANKS).mapColor(MapColor.SAND);
+	public static BlockBehaviour.Properties oldApWhiteSettings() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).mapColor(MapColor.SAND);
 	}
 
-	public static QuiltBlockSettings oldApGreenSettings() {
-		return QuiltBlockSettings.copyOf(Blocks.COPPER_BLOCK).mapColor(MapColor.TERRACOTTA_LIGHT_GREEN).sounds(SoundType.NETHERITE_BLOCK);
+	public static BlockBehaviour.Properties oldApGreenSettings() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(MapColor.TERRACOTTA_LIGHT_GREEN).sound(SoundType.NETHERITE_BLOCK);
 	}
 
-	public static QuiltBlockSettings oldApBlueSettings() {
+	public static BlockBehaviour.Properties oldApBlueSettings() {
 		return oldApGreenSettings().mapColor(MapColor.COLOR_CYAN);
 	}
 

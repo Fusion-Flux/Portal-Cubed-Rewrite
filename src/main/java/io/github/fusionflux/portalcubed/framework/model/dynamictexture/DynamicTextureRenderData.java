@@ -1,10 +1,10 @@
 package io.github.fusionflux.portalcubed.framework.model.dynamictexture;
 
+import java.util.Map;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.Map;
 
 public record DynamicTextureRenderData(Map<String, ResourceLocation> map) {
 	public static class Builder {

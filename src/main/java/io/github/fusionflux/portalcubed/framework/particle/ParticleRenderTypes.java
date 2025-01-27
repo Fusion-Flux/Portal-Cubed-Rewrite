@@ -1,15 +1,17 @@
 package io.github.fusionflux.portalcubed.framework.particle;
 
-import net.minecraft.client.particle.ParticleRenderType;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
 import java.util.function.Supplier;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.particle.ParticleRenderType;
+
 public enum ParticleRenderTypes {
+	OPAQUE(() -> () -> ParticleRenderType.PARTICLE_SHEET_OPAQUE),
 	TRANSLUCENT(() -> () -> ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT),
-	MULTIPLY(() -> () -> MultiplyParticleRenderType.INSTANCE),
-	LIT(() -> () -> ParticleRenderType.PARTICLE_SHEET_LIT);
+	MULTIPLY(() -> () -> PortalCubedParticleRenderTypes.MULTIPLY),
+	CUSTOM(() -> () -> ParticleRenderType.CUSTOM),
+	NO_RENDER(() -> () -> ParticleRenderType.NO_RENDER);
 
 	private final Supplier<Supplier<ParticleRenderType>> supplier;
 
@@ -17,7 +19,7 @@ public enum ParticleRenderTypes {
 		this.supplier = supplier;
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	public ParticleRenderType vanilla() {
 		return supplier.get().get();
 	}

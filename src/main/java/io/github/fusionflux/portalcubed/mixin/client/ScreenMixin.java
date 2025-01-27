@@ -1,12 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
-import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
-import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
-import net.minecraft.client.gui.components.events.ContainerEventHandler;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.gui.screens.Screen;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,8 +11,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
+import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
+import net.minecraft.client.gui.components.events.ContainerEventHandler;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.screens.Screen;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin implements ContainerEventHandler, ScreenExt {

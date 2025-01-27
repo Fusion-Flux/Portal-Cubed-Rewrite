@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XX",
+        "XX"
+    ],
+    "key": {
+        "X": "portalcubed:dirty_portal_1_white_panel"
+    },
+    "result": {
+        "id": "portalcubed:dirty_portal_1_white_half_panel",
+        "count": 4
+    },
+  "group": "dirty_portal_1_white_half_panel"
+}

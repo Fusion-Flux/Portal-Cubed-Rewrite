@@ -116,6 +116,78 @@
     ],
     "subtitle": "subtitles.portalcubed.pedestal_button_release"
   },
+  "portal_1_chamber_door_open": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/portal_1_chamber_door",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_open"
+  },
+  "portal_1_chamber_door_close": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/portal_1_chamber_door",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_close"
+  },
+  "chamber_door_open": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/chamber_door_open",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_open"
+  },
+  "chamber_door_unlock": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/chamber_door_unlock",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_unlock"
+  },
+  "chamber_door_lock": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/chamber_door_lock",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_lock"
+  },
+  "chamber_door_close": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/chamber_door_close",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_close"
+  },
+  "old_ap_chamber_door_open": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/old_ap_chamber_door_open",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_open"
+  },
+  "old_ap_chamber_door_close": {
+    "sounds": [
+      {
+        "name": "portalcubed:door/old_ap_chamber_door_close",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.chamber_door_close"
+  },
   "radio": {
     "sounds": [
       {

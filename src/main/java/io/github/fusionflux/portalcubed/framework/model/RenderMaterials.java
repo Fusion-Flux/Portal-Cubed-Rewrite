@@ -1,30 +1,31 @@
 package io.github.fusionflux.portalcubed.framework.model;
 
+import java.util.Locale;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.JsonParseException;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
-import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import net.fabricmc.fabric.api.renderer.v1.material.MaterialFinder;
-
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.util.TriState;
-
 import net.minecraft.Optionull;
-
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.Util;
-
-import java.util.Locale;
 
 public class RenderMaterials {
 	@Nullable
 	private static final MaterialFinder finder = Util.make(() -> {
-		Renderer renderer = RendererAccess.INSTANCE.getRenderer();
-		return renderer == null ? null : renderer.materialFinder();
+		Renderer renderer;
+		try {
+			renderer = Renderer.get();
+		} catch (UnsupportedOperationException e) {
+			return null;
+		}
+		return renderer.materialFinder();
 	});
 
 	public static final boolean ARE_SUPPORTED = checkSupport();

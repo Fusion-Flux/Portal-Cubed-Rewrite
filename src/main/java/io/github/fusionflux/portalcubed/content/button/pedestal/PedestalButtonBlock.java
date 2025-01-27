@@ -1,7 +1,9 @@
 package io.github.fusionflux.portalcubed.content.button.pedestal;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
+import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.extension.BigShapeBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper.DefaultRotationValues;
@@ -19,19 +21,25 @@ import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonCon
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -52,10 +60,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, HammerableBlock, BigShapeBlock {
-	// TODO: When data driven blocks drop this should probably be a more advanced codec
 	public static final MapCodec<PedestalButtonBlock> CODEC = simpleCodec(PedestalButtonBlock::new);
 
-	public static final EnumProperty<Direction> FACE = EnumProperty.create("face", Direction.class);
+	public static final EnumProperty<Direction> FACE = PortalCubedStateProperties.FACE;
 	public static final EnumProperty<Offset> OFFSET = EnumProperty.create("offset", Offset.class);
 	public static final BooleanProperty BASE = BooleanProperty.create("base");
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
@@ -142,7 +149,6 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 			.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
 		if (!moved && !state.is(newState.getBlock())) {
@@ -153,25 +159,21 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) ? 15 : 0;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) && state.getValue(FACE) == direction ? 15 : 0;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 		if (state.getValue(ACTIVE)) {
 			world.setBlock(pos, state.setValue(ACTIVE, false), Block.UPDATE_ALL);
@@ -181,23 +183,19 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	@NotNull
-	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
 		if (state.getValue(WATERLOGGED))
-			world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+			scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+		return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	@NotNull
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return this.shapes.get(state);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	@NotNull
 	public FluidState getFluidState(BlockState state) {
@@ -206,22 +204,34 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 
 	@Override
 	@NotNull
-	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
 		if (player instanceof ServerPlayer serverPlayer)
 			PortalCubedPackets.sendToClient(serverPlayer, new OpenPedestalButtonConfigPacket(pos));
-		return InteractionResult.sidedSuccess(world.isClientSide);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	@NotNull
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public void appendHoverText(ItemStack stack, Item.TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
+		HammerableBlock.appendTooltip(tooltip);
+	}
+
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (state.getValue(ACTIVE)) {
 			return InteractionResult.CONSUME;
 		} else {
 			this.press(player, state, world, pos);
 		}
-		return InteractionResult.sidedSuccess(world.isClientSide);
+		return InteractionResult.SUCCESS;
+	}
+
+	@Override
+	protected void onExplosionHit(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer) {
+		if (explosion.canTriggerBlocks() && !state.getValue(ACTIVE)) {
+			this.press(null, state, level, pos);
+		}
+
+		super.onExplosionHit(state, level, pos, explosion, dropConsumer);
 	}
 
 	private void press(@Nullable Player player, BlockState state, Level world, BlockPos pos) {

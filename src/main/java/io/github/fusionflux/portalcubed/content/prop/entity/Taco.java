@@ -14,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,11 +31,20 @@ public class Taco extends Prop {
 	private static final double MIN_PUSH_POWER = 3;
 	private static final double PUSH_RADIUS = 7;
 	private static final AABB PUSH_AABB = AABB.ofSize(Vec3.ZERO, PUSH_RADIUS + 1, PUSH_RADIUS + 1, PUSH_RADIUS + 1);
+	public static final float BB_LENGTH = 0.19375f;
 
 	private int explodeTicks;
 
 	public Taco(PropType type, EntityType<?> entityType, Level level) {
 		super(type, entityType, level);
+	}
+
+	@Override
+	protected AABB makeBoundingBox(Vec3 position) {
+		float width =  this.getBbWidth() / 2f;
+		float height = this.getBbHeight();
+		float length = BB_LENGTH / 2f;
+		return new AABB(position.x - width, position.y, position.z - length, position.x + width, position.y + height, position.z + length);
 	}
 
 	@Override
@@ -109,10 +119,10 @@ public class Taco extends Prop {
 				if (!itemInHand.isDamageableItem()) {
 					itemInHand.shrink(1);
 				} else {
-					itemInHand.hurtAndBreak(1, player, $ -> player.broadcastBreakEvent(hand));
+					itemInHand.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
 				}
 			}
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.SUCCESS;
 		}
 		return super.interact(player, hand);
 	}

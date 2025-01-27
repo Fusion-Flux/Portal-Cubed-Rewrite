@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "portalcubed:item/white_octopus_chamber_door",
+    "layer1": "portalcubed:item/octopus_chamber_door_emissive"
+  }
+}

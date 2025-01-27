@@ -1,0 +1,30 @@
+{
+  "parent": "portalcubed:achievements/root",
+  "criteria": {
+    "dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:hammer"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.hammer.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "portalcubed:hammer"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.hammer.title"
+    }
+  }
+}

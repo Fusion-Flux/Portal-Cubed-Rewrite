@@ -1,42 +1,36 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
+import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
-import net.minecraft.network.FriendlyByteBuf;
+import io.netty.buffer.ByteBuf;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-
 import net.minecraft.world.InteractionHand;
-
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import org.quiltmc.qsl.networking.api.PacketSender;
-
 public record ConfigureCannonPacket(InteractionHand hand, CannonSettings settings) implements ServerboundPacket {
-	public ConfigureCannonPacket(FriendlyByteBuf buf) {
-		this(buf.readEnum(InteractionHand.class), buf.readJsonWithCodec(CannonSettings.CODEC));
-	}
+	public static final StreamCodec<ByteBuf, ConfigureCannonPacket> CODEC = StreamCodec.composite(
+			PortalCubedStreamCodecs.HAND, ConfigureCannonPacket::hand,
+			CannonSettings.STREAM_CODEC, ConfigureCannonPacket::settings,
+			ConfigureCannonPacket::new
+	);
 
 	@Override
-	public void handle(ServerPlayer player, PacketSender<CustomPacketPayload> responder) {
-		ItemStack stack = player.getItemInHand(this.hand);
-		if (stack.is(PortalCubedItems.CONSTRUCTION_CANNON)) {
-			ConstructionCannonItem.setCannonSettings(stack, this.settings);
-		}
-	}
-
-	@Override
-	public void write(FriendlyByteBuf buf) {
-		buf.writeEnum(this.hand);
-		buf.writeJsonWithCodec(CannonSettings.CODEC, this.settings);
-	}
-
-	@Override
-	public ResourceLocation getId() {
+	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.CONFIGURE_CANNON;
+	}
+
+	@Override
+	public void handle(ServerPlayNetworking.Context ctx) {
+		Player player = ctx.player();
+		ItemStack stack = player.getItemInHand(this.hand);
+		if (stack.is(PortalCubedItems.CONSTRUCTION_CANNON))
+			ConstructionCannonItem.setCannonSettings(stack, this.settings);
 	}
 }

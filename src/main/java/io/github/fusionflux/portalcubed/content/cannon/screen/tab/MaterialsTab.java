@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.widget.MaterialSlo
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -36,8 +37,8 @@ public class MaterialsTab {
 		for (TagKey<Item> tag : materials) {
 			if (i >= 0) {
 				MaterialSlotWidget slot = new MaterialSlotWidget(tag, () -> {
-					slots.visitWidgets(widget -> ((MaterialSlotWidget) widget).deselect());
-					settings.update(s -> s.withMaterial(tag));
+					slots.visitWidgets(widget -> ((TexturedStickyButton) widget).deselect());
+					settings.update(b -> b.setMaterial(tag));
 				});
 
 				Optional<TagKey<Item>> material = settings.get().material();
@@ -47,15 +48,16 @@ public class MaterialsTab {
 
 				slots.addChild(slot, i / COLUMNS, i % COLUMNS);
 			}
-			if (++i >= SIZE) break;
+			++i;
+			if (i >= SIZE) break;
 		}
 		layout.addChild(X_OFF, Y_OFF, slots);
 	}
 
 	private static List<TagKey<Item>> getMaterials() {
 		// cursed idea: get a weight for a tag by averaging the raw int IDs of its contents
-		ArrayList<TagKey<Item>> materials = new ArrayList<>(ConstructManager.INSTANCE.getMaterials());
-		materials.sort(Comparator.comparingInt(key -> BuiltInRegistries.ITEM.getTag(key).map(tag -> {
+		List<TagKey<Item>> materials = new ArrayList<>(ConstructManager.INSTANCE.getMaterials());
+		materials.sort(Comparator.comparingInt(key -> BuiltInRegistries.ITEM.get(key).map(tag -> {
 			if (tag.size() == 0)
 				return 0;
 

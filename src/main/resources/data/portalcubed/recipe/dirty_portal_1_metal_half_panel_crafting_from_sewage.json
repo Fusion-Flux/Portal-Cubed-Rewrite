@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "ingredients": [
+        "portalcubed:portal_1_metal_half_panel",
+        "#portalcubed:dirty_crafting_materials"
+    ],
+    "result": {
+        "id": "portalcubed:dirty_portal_1_metal_half_panel",
+        "count": 1
+    },
+  "group": "dirty_portal_1_metal_half_panel"
+}

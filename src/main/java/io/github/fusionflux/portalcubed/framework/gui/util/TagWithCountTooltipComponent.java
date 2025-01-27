@@ -1,14 +1,14 @@
 package io.github.fusionflux.portalcubed.framework.gui.util;
 
 import java.util.List;
-import java.util.stream.Stream;
+
+import com.google.common.collect.Streams;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet.ListBacked;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -24,9 +24,7 @@ public class TagWithCountTooltipComponent implements ClientTooltipComponent {
 	private final List<ItemStack> items;
 
 	public TagWithCountTooltipComponent(TagKey<Item> tag, int count) {
-		List<ItemStack> items = BuiltInRegistries.ITEM.getTag(tag)
-				.map(ListBacked::stream)
-				.orElseGet(Stream::of)
+		List<ItemStack> items = Streams.stream(BuiltInRegistries.ITEM.getTagOrEmpty(tag))
 				.map(Holder::value)
 				.map(item -> new ItemStack(item, count))
 				.toList();
@@ -34,7 +32,7 @@ public class TagWithCountTooltipComponent implements ClientTooltipComponent {
 	}
 
 	@Override
-	public int getHeight() {
+	public int getHeight(Font textRenderer) {
 		return ITEM_SIZE;
 	}
 
@@ -44,7 +42,7 @@ public class TagWithCountTooltipComponent implements ClientTooltipComponent {
 	}
 
 	@Override
-	public void renderImage(Font textRenderer, int x, int y, GuiGraphics graphics) {
+	public void renderImage(Font textRenderer, int x, int y, int width, int height, GuiGraphics graphics) {
 		ItemStack item = this.getItem();
 		graphics.renderItem(item, x, y);
 		// always render count, even if 1

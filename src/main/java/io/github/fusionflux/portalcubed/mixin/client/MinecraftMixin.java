@@ -3,14 +3,14 @@ package io.github.fusionflux.portalcubed.mixin.client;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
@@ -23,6 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
@@ -46,7 +47,14 @@ public class MinecraftMixin {
 	@Nullable
 	public HitResult hitResult;
 
-	@Inject(method = "method_1572", at = @At("TAIL"))
+	@Inject(
+			method = "tick",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/gui/screens/Screen;tick()V",
+					shift = At.Shift.AFTER
+			)
+	)
 	private void handleScreenTickables(CallbackInfo ci) {
 		// this is done because injecting into screen#tick is unreliable, most don't call super.
 		if (this.screen instanceof ScreenExt ext) {
@@ -62,17 +70,16 @@ public class MinecraftMixin {
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/phys/HitResult;getType()Lnet/minecraft/world/phys/HitResult$Type;"
 			),
-			locals = LocalCapture.CAPTURE_FAILHARD,
 			cancellable = true
 	)
-	private void onAttack(CallbackInfoReturnable<Boolean> cir, ItemStack stack) {
+	private void onAttack(CallbackInfoReturnable<Boolean> cir, @Local ItemStack stack) {
 		if (stack.getItem() instanceof DirectClickItem direct) {
 			TriState result = direct.onAttack(level, player, stack, hitResult);
 			if (result != TriState.DEFAULT) {
 				if (result == TriState.TRUE) {
 					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND, hitResult));
 				}
-				cir.setReturnValue(result.toBoolean());
+				cir.setReturnValue(result.toBoolean(false));
 			}
 		}
 	}
@@ -83,10 +90,9 @@ public class MinecraftMixin {
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/phys/HitResult;getType()Lnet/minecraft/world/phys/HitResult$Type;"
 			),
-			locals = LocalCapture.CAPTURE_FAILHARD,
 			cancellable = true
 	)
-	private void onUse(CallbackInfo ci, InteractionHand[] hands, int var2, int var3, InteractionHand hand, ItemStack stack) {
+	private void onUse(CallbackInfo ci, @Local InteractionHand hand, @Local ItemStack stack) {
 		if (stack.getItem() instanceof DirectClickItem direct) {
 			TriState result = direct.onUse(level, player, stack, hitResult, hand);
 			if (result != TriState.DEFAULT) {

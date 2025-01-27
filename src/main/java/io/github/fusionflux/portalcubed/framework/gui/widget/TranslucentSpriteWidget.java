@@ -9,6 +9,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +28,7 @@ public class TranslucentSpriteWidget extends AbstractWidget {
 		RenderSystem.enableBlend();
 		// z400 is where the advancement screen renders it's translucent textures
 		graphics.pose().translate(0, 0, 400);
-		graphics.blitSprite(this.sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		graphics.blitSprite(RenderType::guiTextured, this.sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		RenderSystem.disableBlend();
 	}
 

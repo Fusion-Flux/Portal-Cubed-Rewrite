@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.entity;
 
+import io.github.fusionflux.portalcubed.mixin.AbstractBoatAccessor;
+import io.github.fusionflux.portalcubed.mixin.LivingEntityAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -13,7 +15,7 @@ public abstract class LerpableEntity extends Entity {
 	private double lerpYRot;
 	private double lerpXRot;
 
-	public LerpableEntity(EntityType<?> variant, Level world) {
+	protected LerpableEntity(EntityType<?> variant, Level world) {
 		super(variant, world);
 	}
 
@@ -26,7 +28,6 @@ public abstract class LerpableEntity extends Entity {
 	private void tickLerp() {
 		if (this.isControlledByLocalInstance()) {
 			this.lerpSteps = 0;
-			this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
 		}
 
 		if (this.lerpSteps > 0) {
@@ -36,13 +37,13 @@ public abstract class LerpableEntity extends Entity {
 	}
 
 	@Override
-	public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {
+	public void lerpTo(double x, double y, double z, float yaw, float pitch, int steps) {
 		this.lerpX = x;
 		this.lerpY = y;
 		this.lerpZ = z;
 		this.lerpYRot = yaw;
 		this.lerpXRot = pitch;
-		this.lerpSteps = interpolationSteps * 3; // I don't know why 3x, it makes it smoother
+		this.lerpSteps = steps;
 	}
 
 	@Override
@@ -68,5 +69,32 @@ public abstract class LerpableEntity extends Entity {
 	@Override
 	public float lerpTargetYRot() {
 		return this.lerpSteps > 0 ? (float)this.lerpYRot : this.getYRot();
+	}
+
+	public static int getLerpSteps(Entity entity) {
+		if (entity instanceof LivingEntityAccessor living) {
+			return living.getLerpSteps();
+		} else if (entity instanceof LerpableEntity lerpable) {
+			return lerpable.lerpSteps;
+		} else if (entity instanceof AbstractBoatAccessor boat) {
+			return boat.getLerpSteps();
+//		} else if (entity instanceof AbstractMinecartAccessor minecart) {
+//			return minecart.getLerpSteps();
+		} else {
+			return 0;
+		}
+	}
+
+	public static void setLerpSteps(Entity entity, int steps) {
+		if (entity instanceof LivingEntityAccessor living) {
+			living.setLerpSteps(steps);
+		} else if (entity instanceof LerpableEntity lerpable) {
+			lerpable.lerpSteps = steps;
+		} else if (entity instanceof AbstractBoatAccessor boat) {
+			boat.setLerpSteps(steps);
+		}
+//		} else if (entity instanceof AbstractMinecartAccessor minecart) {
+//			minecart.setLerpSteps(steps);
+//		}
 	}
 }

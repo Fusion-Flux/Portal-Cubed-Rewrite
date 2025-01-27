@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 2,
-  "ingredient": {
-    "item": "portalcubed:blue_office_concrete"
-  },
-  "result": "portalcubed:blue_office_concrete_slab"
-}

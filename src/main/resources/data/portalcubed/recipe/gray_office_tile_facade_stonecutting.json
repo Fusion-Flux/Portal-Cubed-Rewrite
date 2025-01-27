@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:gray_office_tiles",
+  "result": {
+    "count": 6,
+    "id": "portalcubed:gray_office_tile_facade"
+  }
+}

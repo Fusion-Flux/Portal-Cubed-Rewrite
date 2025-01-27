@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "portalcubed:portal_1_metal_grate",
+  "result": {
+    "count": 6,
+    "id": "portalcubed:portal_1_metal_grate_facade"
+  }
+}

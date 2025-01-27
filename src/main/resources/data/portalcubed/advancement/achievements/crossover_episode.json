@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "id": "portalcubed:crowbar"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.crossover_episode.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.crossover_episode.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "parent": "portalcubed:achievements/hammer",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:crowbar"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

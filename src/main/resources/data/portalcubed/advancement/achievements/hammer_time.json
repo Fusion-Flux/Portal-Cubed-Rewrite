@@ -1,0 +1,28 @@
+{
+  "parent": "portalcubed:achievements/stalemate_associate",
+  "criteria": {
+    "button": {
+      "trigger": "portalcubed:configure_test_element",
+      "conditions": {
+        "test_element_settings": "portalcubed:pedestal_button/timer"
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.hammer_time.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:clock"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.hammer_time.title"
+    },
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 25
+  }
+}

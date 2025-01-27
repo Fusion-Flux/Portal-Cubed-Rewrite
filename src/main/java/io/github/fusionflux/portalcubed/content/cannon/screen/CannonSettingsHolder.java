@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen;
 
-import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
-
 import java.util.function.UnaryOperator;
+
+import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 
 public class CannonSettingsHolder {
 	private CannonSettings settings;
@@ -19,7 +19,7 @@ public class CannonSettingsHolder {
 		this.settings = settings;
 	}
 
-	public void update(UnaryOperator<CannonSettings> function) {
-		this.set(function.apply(this.get()));
+	public void update(UnaryOperator<CannonSettings.Builder> function) {
+		this.set(function.apply(CannonSettings.builder(this.get())).build());
 	}
 }

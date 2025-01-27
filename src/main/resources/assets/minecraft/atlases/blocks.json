@@ -19,6 +19,11 @@
             "prefix": "signage/"
         },
         {
+            "type": "directory",
+            "source": "prop",
+            "prefix": "prop/"
+        },
+        {
           "type": "single",
           "resource": "portalcubed:entity/portal_gun_pedestal/portal_gun_pedestal"
         },

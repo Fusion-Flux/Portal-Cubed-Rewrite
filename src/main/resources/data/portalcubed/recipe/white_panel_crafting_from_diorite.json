@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YX",
+        "XY"
+    ],
+    "key": {
+        "X": "minecraft:calcite",
+        "Y": "minecraft:diorite"
+    },
+    "result": {
+        "id": "portalcubed:white_panel",
+        "count": 4
+    },
+  "group": "white_panel"
+}

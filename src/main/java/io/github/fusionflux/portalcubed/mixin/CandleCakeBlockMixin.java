@@ -2,14 +2,13 @@ package io.github.fusionflux.portalcubed.mixin;
 
 import java.util.Map;
 
-import io.github.fusionflux.portalcubed.framework.block.cake.CustomCandleCakeBlock;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 
+import io.github.fusionflux.portalcubed.framework.block.cake.CustomCandleCakeBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -28,7 +27,7 @@ public class CandleCakeBlockMixin {
 	}
 
 	@ModifyArg(
-			method = "use",
+			method = "useWithoutItem",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/level/block/CakeBlock;eat(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/InteractionResult;"
@@ -36,7 +35,7 @@ public class CandleCakeBlockMixin {
 	)
 	private BlockState changeCake(BlockState state) {
 		if ((Object) this instanceof CustomCandleCakeBlock self) {
-			return self.getCake().defaultBlockState();
+			return self.cake.defaultBlockState();
 		}
 		return state;
 	}

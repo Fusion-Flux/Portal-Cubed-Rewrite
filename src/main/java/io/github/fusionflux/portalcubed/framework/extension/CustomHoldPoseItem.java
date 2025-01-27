@@ -1,11 +1,11 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.world.item.ItemStack;
 
-@ClientOnly
 public interface CustomHoldPoseItem {
+	@Environment(EnvType.CLIENT)
 	ArmPose getHoldPose(ItemStack stack);
 }

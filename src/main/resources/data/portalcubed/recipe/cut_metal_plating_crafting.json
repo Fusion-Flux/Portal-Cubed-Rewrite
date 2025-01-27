@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XX",
+        "XX"
+    ],
+    "key": {
+        "X": "portalcubed:metal_plating"
+    },
+    "result": {
+        "id": "portalcubed:cut_metal_plating",
+        "count": 4
+    },
+  "group": "cut_metal_plating"
+}

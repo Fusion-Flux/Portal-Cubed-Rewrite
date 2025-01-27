@@ -16,7 +16,7 @@ public record ConstructPlacementContext(
 		Direction placerFacing = clickedFace.getOpposite();
 		if (player != null) {
 			Vec3 lookVec = player.getLookAngle();
-			placerFacing = Direction.getNearest(lookVec.x, lookVec.y, lookVec.z);
+			placerFacing = Direction.getApproximateNearest(lookVec.x, lookVec.y, lookVec.z);
 		}
 
 		return new ConstructPlacementContext(

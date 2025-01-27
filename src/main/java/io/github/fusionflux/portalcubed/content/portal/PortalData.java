@@ -1,29 +1,42 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import org.joml.Quaternionf;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.network.FriendlyByteBuf;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.phys.Vec3;
 
-public record PortalData(int color, PortalShape shape) {
+/**
+ * Serializable data for a portal.
+ */
+public record PortalData(Vec3 origin, Quaternionf rotation, PortalSettings settings) {
 	public static final Codec<PortalData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			Codec.INT.fieldOf("color").forGetter(PortalData::color),
-			PortalShape.CODEC.fieldOf("shape").forGetter(PortalData::shape)
+			Vec3.CODEC.fieldOf("origin").forGetter(PortalData::origin),
+			ExtraCodecs.QUATERNIONF.fieldOf("rotation").forGetter(PortalData::rotation),
+			PortalSettings.CODEC.fieldOf("settings").forGetter(PortalData::settings)
 	).apply(instance, PortalData::new));
 
-	public static final PortalData DEFAULT_PRIMARY = new PortalData(PortalType.PRIMARY.defaultColor, PortalShape.SQUARE);
-	public static final PortalData DEFAULT_SECONDARY = new PortalData(PortalType.SECONDARY.defaultColor, PortalShape.SQUARE);
-	// for entity synced data, default needs to be a value that will never be set otherwise
-	public static final PortalData INVALID = new PortalData(-1, PortalShape.SQUARE);
+	public static final StreamCodec<ByteBuf, PortalData> STREAM_CODEC = StreamCodec.composite(
+			Vec3.STREAM_CODEC, PortalData::origin,
+			ByteBufCodecs.QUATERNIONF, PortalData::rotation,
+			PortalSettings.STREAM_CODEC, PortalData::settings,
+			PortalData::new
+	);
 
-	public static void toNetwork(FriendlyByteBuf buf, PortalData data) {
-		buf.writeVarInt(data.color);
-		buf.writeEnum(data.shape);
+	public PortalData withOrigin(Vec3 origin) {
+		return new PortalData(origin, this.rotation, this.settings);
 	}
 
-	public static PortalData fromNetwork(FriendlyByteBuf buf) {
-		int color = buf.readVarInt();
-		PortalShape shape = buf.readEnum(PortalShape.class);
-		return new PortalData(color, shape);
+	public PortalData withRotation(Quaternionf rotation) {
+		return new PortalData(this.origin, rotation, this.settings);
+	}
+
+	public PortalData withSettings(PortalSettings settings) {
+		return new PortalData(this.origin, this.rotation, settings);
 	}
 }

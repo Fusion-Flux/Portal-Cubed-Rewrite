@@ -1,0 +1,54 @@
+{
+  "display": {
+    "icon": {
+      "id": "portalcubed:construction_cannon"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.construction_cannon.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.construction_cannon.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "portalcubed:achievements/portal_gun",
+  "criteria": {
+    "mainhand": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "player": {
+          "equipment": {
+            "mainhand": {
+              "items": [
+                "portalcubed:construction_cannon"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "offhand": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "player": {
+          "equipment": {
+            "offhand": {
+              "items": [
+                "portalcubed:construction_cannon"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mainhand",
+      "offhand"
+    ]
+  ]
+}

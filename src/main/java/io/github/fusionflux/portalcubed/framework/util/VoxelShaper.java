@@ -1,6 +1,12 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
 
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.function.Function;
+
+import org.apache.commons.lang3.mutable.MutableObject;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.Direction.AxisDirection;
@@ -9,11 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.apache.commons.lang3.mutable.MutableObject;
-
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.function.Function;
 
 // Taken from Create, licensed under MIT: https://github.com/Creators-of-Create/Create/blob/mc1.18/dev/src/main/java/com/simibubi/create/foundation/utility/VoxelShaper.java
 public class VoxelShaper {

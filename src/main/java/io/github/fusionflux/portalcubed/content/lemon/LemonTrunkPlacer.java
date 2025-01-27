@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -28,11 +28,11 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 public class LemonTrunkPlacer extends TrunkPlacer {
-	public static final Codec<LemonTrunkPlacer> CODEC = RecordCodecBuilder.create(
+	public static final MapCodec<LemonTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
 			instance ->
 					// 32 is the max base height from trunk placer, 4 is the number of horizontal directions, 16 is chunk size
 					instance.group(
-						IntProvider.codec(1, 32, UniformInt.CODEC).fieldOf("center_height").forGetter(placer -> placer.centerHeight),
+						IntProvider.validateCodec(1, 32, UniformInt.CODEC.codec()).fieldOf("center_height").forGetter(placer -> placer.centerHeight),
 						IntProvider.codec(1, 4).fieldOf("branch_count").forGetter(placer -> placer.branchCount),
 						IntProvider.codec(1, 16).fieldOf("branch_distance").forGetter(placer -> placer.branchDistance)
 					)

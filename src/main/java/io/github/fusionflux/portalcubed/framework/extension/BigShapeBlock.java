@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,7 +15,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public interface BigShapeBlock {
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	static void pick(double reach, float tickDelta) {
 		Minecraft client = Minecraft.getInstance();
 		if (!(client.cameraEntity instanceof Player player && player.isLocalPlayer()))
@@ -37,13 +37,13 @@ public interface BigShapeBlock {
 					if (hit == null || hit.getType() == HitResult.Type.MISS) continue;
 					if (currentHit != null && Vec3.atCenterOf(cur).distanceToSqr(start) >= Vec3.atCenterOf(currentHit.getBlockPos()).distanceTo(start))
 						continue;
-					currentHit = new BlockHitResult(Vec3.atCenterOf(cur), hit.getDirection(), cur.immutable(), hit.isInside());
+					currentHit = new BlockHitResult(hit.getLocation(), hit.getDirection(), cur.immutable(), hit.isInside());
 				}
 			}
 			return currentHit;
 		}, $ -> {
 			Vec3 dir = start.subtract(end);
-			return BlockHitResult.miss(end, Direction.getNearest(dir.x, dir.y, dir.z), BlockPos.containing(end));
+			return BlockHitResult.miss(end, Direction.getApproximateNearest(dir.x, dir.y, dir.z), BlockPos.containing(end));
 		});
 
 		if (result.getType() != HitResult.Type.MISS) client.hitResult = result;

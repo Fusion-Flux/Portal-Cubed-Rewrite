@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 2,
-  "ingredient": {
-    "item": "portalcubed:metal_plating"
-  },
-  "result": "portalcubed:cut_metal_plating"
-}

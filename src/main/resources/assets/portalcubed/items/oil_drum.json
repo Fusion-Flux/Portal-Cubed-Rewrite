@@ -1,0 +1,36 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "portalcubed:prop_variant",
+    "entries": [
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/oil_drum_blue"
+        }
+      },
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/oil_drum_blue"
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/oil_drum_white"
+        }
+      },
+      {
+        "threshold": 3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/oil_drum_brown"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:white_panel"
+    },
+    "result": {
+        "id": "portalcubed:white_panel_slab",
+        "count": 6
+    }
+}

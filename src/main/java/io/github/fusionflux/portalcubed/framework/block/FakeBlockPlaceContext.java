@@ -21,7 +21,7 @@ public class FakeBlockPlaceContext extends BlockPlaceContext {
 		this(
 			ctx.getLevel(), ctx.getPlayer(), ctx.getHand(), ctx.getItemInHand(),
 			new BlockHitResult(
-				Vec3.atCenterOf(pos).add(Vec3.atLowerCornerOf(ctx.getClickedFace().getNormal()).scale(.5)),
+				Vec3.atCenterOf(pos).add(ctx.getClickedFace().getUnitVec3().scale(.5)),
 				ctx.getClickedFace(),
 				pos,
 				false

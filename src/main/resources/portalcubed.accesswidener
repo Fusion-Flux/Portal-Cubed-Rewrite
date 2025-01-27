@@ -1,3 +1,8 @@
 accessWidener v2 named
 
 accessible field net/minecraft/client/renderer/RenderStateShard name Ljava/lang/String;
+accessible class net/minecraft/client/renderer/FogRenderer$FogData
+accessible class net/minecraft/client/renderer/block/model/TextureSlots$Reference
+
+mutable field com/mojang/blaze3d/systems/RenderSystem modelViewStack Lorg/joml/Matrix4fStack;
+mutable field net/minecraft/client/renderer/LevelRenderer renderBuffers Lnet/minecraft/client/renderer/RenderBuffers;

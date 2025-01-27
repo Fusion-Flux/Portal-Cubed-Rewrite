@@ -1,66 +1,96 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
+import io.github.fusionflux.portalcubed.content.decoration.signage.component.SelectedLargeSignage;
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureRenderData;
-import io.github.fusionflux.portalcubed.framework.signage.Signage;
-import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
-import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LargeSignageBlockEntity extends SignageBlockEntity {
+	public static final ResourceKey<Signage> LARGE_BLANK = ResourceKey.create(PortalCubedRegistries.LARGE_SIGNAGE, PortalCubed.id("blank"));
+
 	@Nullable
-	private Signage.Holder holder;
+	private Holder<Signage> holder;
 
 	public LargeSignageBlockEntity(BlockPos pos, BlockState state) {
 		super(PortalCubedBlockEntityTypes.LARGE_SIGNAGE, pos, state, PortalCubedBlocks.AGED_LARGE_SIGNAGE);
-		this.holder = SignageManager.INSTANCE.getBlank(Signage.Size.LARGE);
 	}
 
-	public Signage.Holder holder() {
+	public Holder<Signage> holder() {
+		if (this.holder == null && this.level != null) {
+			return this.level.registryAccess()
+					.get(LARGE_BLANK)
+					.orElse(null);
+		}
 		return this.holder;
 	}
 
-	public void update(Signage.Holder holder) {
-		if (holder != null && !holder.equals(this.holder)) {
+	public void update(Holder<Signage> holder) {
+		if (holder != null && holder != this.holder()) {
 			this.holder = holder;
 			if (this.level != null) {
-				if (!this.level.isClientSide) {
-					this.sync();
-					this.level.blockEntityChanged(this.worldPosition);
-				} else {
+				if (this.level.isClientSide) {
 					this.updateModel();
+				} else {
+					this.setChangedAndSync();
 				}
 			}
 		}
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		Signage.Holder signage = SignageManager.INSTANCE.get(ResourceLocation.tryParse(nbt.getString(SIGNAGE_KEY)));
-		if (signage != null)
-			this.update(signage);
+	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		Optional.ofNullable(ResourceLocation.tryParse(tag.getString(SIGNAGE_KEY)))
+				.map(id -> ResourceKey.create(PortalCubedRegistries.LARGE_SIGNAGE, id))
+				.flatMap(registries::get)
+				.ifPresent(this::update);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag nbt) {
-		if (this.holder != null)
-			nbt.putString(SIGNAGE_KEY, this.holder.id().toString());
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		this.holder().unwrapKey().ifPresent(key -> tag.putString(SIGNAGE_KEY, key.location().toString()));
+	}
+
+	@Override
+	protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
+		SelectedLargeSignage component = componentInput.get(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE);
+		if (component != null)
+			this.update(component.signage());
+	}
+
+	@Override
+	protected void collectImplicitComponents(DataComponentMap.Builder components) {
+		components.set(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE, new SelectedLargeSignage(this.holder()));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void removeComponentsFromTag(CompoundTag tag) {
+		tag.remove(SIGNAGE_KEY);
 	}
 
 	@Override
 	@Nullable
 	public Object getRenderData() {
 		DynamicTextureRenderData.Builder builder = new DynamicTextureRenderData.Builder();
-		Signage signage = Optionull.map(this.holder, Signage.Holder::value);
-		if (signage != null)
-			builder.put("#signage", signage.selectTexture(this.aged));
+		builder.put("#signage", this.holder().value().selectTexture(this.aged));
 		return builder.build();
 	}
 }

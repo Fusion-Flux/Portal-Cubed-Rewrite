@@ -1,17 +1,16 @@
 package io.github.fusionflux.portalcubed.framework.registration.particle;
 
+import java.util.function.Supplier;
+
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-
-import java.util.function.Supplier;
 
 public class ParticleBuilderImpl<O extends ParticleOptions, T extends ParticleType<O>> implements ParticleBuilder<O, T> {
 	private final Registrar registrar;
@@ -28,14 +27,14 @@ public class ParticleBuilderImpl<O extends ParticleOptions, T extends ParticleTy
 
 	@Override
 	public T build() {
-		T type = provider.provide();
-		if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
-			buildClient(type);
+		T type = this.provider.provide();
+		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+			this.buildClient(type);
 		}
-		return Registry.register(BuiltInRegistries.PARTICLE_TYPE, registrar.id(name), type);
+		return Registry.register(BuiltInRegistries.PARTICLE_TYPE, this.registrar.id(this.name), type);
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	private void buildClient(T type) {
 		ParticleFactoryRegistry.getInstance().register(type, this.clientFactorySupplier.get().get());
 	}

@@ -1,11 +1,11 @@
 package io.github.fusionflux.portalcubed.framework.gui.layout;
 
-import net.minecraft.client.gui.layouts.Layout;
-import net.minecraft.client.gui.layouts.LayoutElement;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import net.minecraft.client.gui.layouts.Layout;
+import net.minecraft.client.gui.layouts.LayoutElement;
 
 public class PanelLayout implements Layout {
 	private final List<Element> elements = new ArrayList<>();

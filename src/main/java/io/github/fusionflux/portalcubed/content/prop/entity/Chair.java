@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
 import io.github.fusionflux.portalcubed.content.prop.PropType;
-
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -20,7 +19,7 @@ public class Chair extends Prop {
 			if (!level.isClientSide) {
 				player.startRiding(this);
 			}
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.SUCCESS;
 		}
 		return super.interact(player, hand);
 	}

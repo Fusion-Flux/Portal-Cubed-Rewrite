@@ -1,34 +1,32 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.InteractionResult;
+
+import net.minecraft.world.item.component.UseCooldown;
+
+import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
-
-public class PortalGunItem extends Item implements DirectClickItem, DyeableLeatherItem {
-	public static final int DEFAULT_SHELL_COLOR = 0xFFFFFFFF;
-	public static final String DATA_KEY = "portal_gun_data";
-
+public class PortalGunItem extends Item implements DirectClickItem {
 	public PortalGunItem(Properties settings) {
 		super(settings);
 	}
@@ -40,54 +38,65 @@ public class PortalGunItem extends Item implements DirectClickItem, DyeableLeath
 
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hit) {
-		this.shoot(level, player, stack, InteractionHand.MAIN_HAND, PortalType.PRIMARY);
-		return TriState.TRUE;
-	}
+		if (player.getCooldowns().isOnCooldown(stack))
+			return TriState.FALSE;
 
-	@Override
-	public TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hit, InteractionHand hand) {
-		this.shoot(level, player, stack, hand, PortalType.SECONDARY);
-		return TriState.TRUE;
-	}
+		if (!this.shoot(level, player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY))
+			return TriState.DEFAULT;
 
-	public void shoot(Level level, Player player, ItemStack stack, InteractionHand hand, PortalType type) {
-		if (level instanceof ServerLevel serverLevel) {
-			PortalGunData gunData = getData(stack);
-			PortalData portalData = gunData.portalDataOf(type);
-			Vec3 lookAngle = player.getLookAngle().normalize();
-			Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
-			Direction horizontalFacing = Direction.getNearest(lookAngle.x, 0, lookAngle.z);
-
-			PortalProjectile projectile = PortalProjectile.create(serverLevel, portalData, horizontalFacing);
-			projectile.setDeltaMovement(velocity);
-			projectile.moveTo(player.getEyePosition());
-			level.addFreshEntity(projectile);
-			level.playSound(null, player.blockPosition(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS);
-
-			PortalGunData modifiedData = gunData.withActive(type);
-			ItemStack newStack = setData(stack, modifiedData);
-			player.setItemInHand(hand, newStack);
-		} else { // client-side
-			player.swing(hand);
+		if (!level.isClientSide) {
+			UseCooldown cooldown = stack.get(DataComponents.USE_COOLDOWN);
+			if (cooldown != null) {
+				cooldown.apply(stack, player);
+			}
 		}
+
+		return TriState.TRUE;
 	}
 
 	@Override
-	public int getColor(ItemStack stack) {
-		int color = DyeableLeatherItem.super.getColor(stack);
-		return color == DyeableLeatherItem.DEFAULT_LEATHER_COLOR ? DEFAULT_SHELL_COLOR : color;
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+		InteractionResult result = super.use(level, player, hand);
+		if (result.consumesAction())
+			return result;
+
+		ItemStack stack = player.getItemInHand(hand);
+		return this.shoot(level, player, stack, hand, Polarity.SECONDARY) ? InteractionResult.SUCCESS : InteractionResult.PASS;
 	}
 
-	public static PortalGunData getData(ItemStack stack) {
-		CompoundTag tag = stack.getTagElement(DATA_KEY);
-		return PortalGunData.CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(PortalGunData.DEFAULT);
+	public boolean shoot(Level level, Player player, ItemStack stack, InteractionHand hand, Polarity polarity) {
+		PortalGunSettings gunSettings = getGunSettings(stack);
+		if (gunSettings == null)
+			return false;
+
+		if (!(level instanceof ServerLevel))
+			return true;
+
+		PortalSettings portalSettings = gunSettings.portalSettingsOf(polarity);
+		Vec3 lookAngle = player.getLookAngle();
+		Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
+		float yRot = player.getYRot() + 180;
+		String pair = gunSettings.pair().orElse(player.getGameProfile().getName());
+
+		PortalProjectile projectile = new PortalProjectile(level, portalSettings, yRot, pair, polarity);
+		projectile.setDeltaMovement(velocity);
+		projectile.moveTo(player.getEyePosition());
+		level.addFreshEntity(projectile);
+		level.playSound(null, player.blockPosition(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS);
+
+		PortalGunSettings modifiedData = gunSettings.withActive(polarity);
+		ItemStack newStack = setGunSettings(stack, modifiedData);
+		player.setItemInHand(hand, newStack);
+		return true;
 	}
 
-	public static ItemStack setData(ItemStack stack, PortalGunData data) {
-		return PortalGunData.CODEC.encodeStart(NbtOps.INSTANCE, data).result().map(tag -> {
-			ItemStack copy = stack.copy();
-			copy.getOrCreateTag().put(DATA_KEY, tag);
-			return copy;
-		}).orElse(stack);
+	@Nullable
+	public static PortalGunSettings getGunSettings(ItemStack stack) {
+		return stack.get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
+	}
+
+	public static ItemStack setGunSettings(ItemStack stack, PortalGunSettings data) {
+		stack.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, data);
+		return stack;
 	}
 }

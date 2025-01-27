@@ -1,15 +1,13 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import org.joml.Math;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
-
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-
-import org.joml.Math;
 
 public class ConstructionCannonAnimator {
 	private static final float RECOIL_POWER = 25f;

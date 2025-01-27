@@ -1,26 +1,23 @@
 package io.github.fusionflux.portalcubed.framework.registration.item;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
+import net.minecraft.world.item.Item.Properties;
 
 public interface ItemBuilder<T extends Item> {
 	/**
-	 * Set the settings of this item.
+	 * Set the properties of this item.
 	 */
-	ItemBuilder<T> settings(QuiltItemSettings settings);
+	ItemBuilder<T> properties(Item.Properties properties);
 
 	/**
-	 * Modify the settings of this item.
-	 * This cannot be used on the same instance as {@link #settings(QuiltItemSettings)}.
+	 * Modify the properties of this item.
+	 * This cannot be used on the same instance as {@link #properties(Properties)}.
 	 */
-	ItemBuilder<T> settings(Consumer<QuiltItemSettings> consumer);
+	ItemBuilder<T> properties(Consumer<Item.Properties> consumer);
 
 	/**
 	 * Add this item to the given item group.
@@ -28,9 +25,9 @@ public interface ItemBuilder<T extends Item> {
 	ItemBuilder<T> group(ResourceKey<CreativeModeTab> key);
 
 	/**
-	 * Register a color provider for this item.
+	 * Set the compost chance of this item when used on a composter.
 	 */
-	ItemBuilder<T> colored(Supplier<Supplier<ItemColor>> colorProvider);
+	ItemBuilder<T> compostChance(double chance);
 
 	/**
 	 * Build this builder into an item.

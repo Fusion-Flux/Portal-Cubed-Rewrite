@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "portalcubed:toxic_goo_bucket"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.goo.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.goo.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "portalcubed:achievements/root",
+  "criteria": {
+    "take_goo_damage": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "portalcubed:is_toxic_goo",
+                "expected": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:sweet_berries"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.portal_gun_fox.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.portal_gun_fox.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "portalcubed:achievements/portal_gun",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:thrown_item_picked_up_by_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:fox"
+        },
+        "item": {
+          "items": [
+            "portalcubed:portal_gun"
+          ]
+        }
+      }
+    }
+  }
+}

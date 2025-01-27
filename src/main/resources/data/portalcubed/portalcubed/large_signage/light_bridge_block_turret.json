@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_light_bridge_block_turret",
+  "aged_texture": "portalcubed:signage/aged_large_signage_light_bridge_block_turret",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.light_bridge_block_turret"
+  }
+}

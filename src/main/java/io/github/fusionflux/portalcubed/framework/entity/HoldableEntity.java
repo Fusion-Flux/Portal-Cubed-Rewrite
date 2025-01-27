@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.framework.entity;
 import java.util.OptionalInt;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.networking.api.EntityTrackingEvents;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -11,6 +10,7 @@ import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -31,18 +31,17 @@ import net.minecraft.world.phys.Vec3;
 // - For existing holds, additional HoldStatusPackets are sent in AFTER_START_TRACKING.
 public abstract class HoldableEntity extends LerpableEntity {
 	public static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
-	public static final double MAX_DIST_SQR = 3 * 3;
 
 	@Nullable
 	private Player holder;
 
-	public HoldableEntity(EntityType<?> variant, Level world) {
+	protected HoldableEntity(EntityType<?> variant, Level world) {
 		super(variant, world);
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(HOLDER, OptionalInt.empty());
+	protected void defineSynchedData(Builder builder) {
+		builder.define(HOLDER, OptionalInt.empty());
 	}
 
 	@Override
@@ -62,6 +61,12 @@ public abstract class HoldableEntity extends LerpableEntity {
 	}
 
 	@Override
+	public boolean isControlledByLocalInstance() {
+		Player holder = this.getHolder();
+		return super.isControlledByLocalInstance() || (holder != null && holder.isLocalPlayer());
+	}
+
+	@Override
 	public void tick() {
 		super.tick();
 		Player holder = this.getHolder();
@@ -75,6 +80,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 		Vec3 toPoint = this.position().vectorTo(holdPoint);
 		this.setDeltaMovement(toPoint);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
+		this.applyEffectsFromBlocks();
 		if (toPoint.y == 0)
 			this.resetFallDistance();
 
@@ -99,7 +105,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 	@Override
 	public boolean pc$disintegrate() {
 		if (!this.level().isClientSide)
-			drop();
+			this.drop();
 		return super.pc$disintegrate();
 	}
 
@@ -109,7 +115,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 	@Nullable
 	public Player getHolder() {
-		return holder;
+		return this.holder;
 	}
 
 	public boolean isHeld() {
@@ -126,7 +132,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 	public boolean canHold(Player player) {
 		return (!this.pc$disintegrating() && !this.isPassenger() && !this.hasPassenger(player)) // Self checks
-				&& (!player.isSpectator() && this.position().distanceToSqr(player.getEyePosition()) < MAX_DIST_SQR); // Holder checks
+				&& (!player.isSpectator() && player.canInteractWithEntity(this, 0)); // Holder checks
 	}
 
 	public void grab(ServerPlayer player) {
@@ -163,14 +169,10 @@ public abstract class HoldableEntity extends LerpableEntity {
 		}
 	}
 
-	public static void registerEventListeners() {
-		EntityTrackingEvents.AFTER_START_TRACKING.register((tracked, player) -> {
-			if (tracked instanceof ServerPlayer otherPlayer) {
-				HoldableEntity held = otherPlayer.getHeldEntity();
-				if (held != null) {
-					PortalCubedPackets.sendToClient(player, new HoldStatusPacket(otherPlayer, held));
-				}
-			}
-		});
+	@Override
+	public void startSeenByPlayer(ServerPlayer player) {
+		if (this.holder instanceof ServerPlayer holder) {
+			PortalCubedPackets.sendToClient(player, new HoldStatusPacket(holder, this));
+		}
 	}
 }

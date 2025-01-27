@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " X ",
+        "ZYA",
+        " X "
+    ],
+    "key": {
+        "X": "minecraft:wheat",
+        "Y": "portalcubed:magnesium_block",
+        "A": "minecraft:kelp",
+        "Z": "minecraft:milk_bucket"
+    },
+    "result": {
+        "id": "portalcubed:the_taco",
+        "count": 1
+    }
+}

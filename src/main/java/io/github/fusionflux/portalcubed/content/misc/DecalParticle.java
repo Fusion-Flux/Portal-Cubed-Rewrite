@@ -1,5 +1,10 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
+
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.caffeinemc.mods.sodium.api.math.MatrixHelper;
@@ -13,7 +18,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -21,13 +25,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
-import org.lwjgl.system.MemoryStack;
 
 public class DecalParticle extends TextureSheetParticle {
 	public static final float ONE_PIXEL = 1/16f;
@@ -60,7 +58,7 @@ public class DecalParticle extends TextureSheetParticle {
 		this.quadSize = .5f;
 
 		this.basePos = basePos;
-		this.direction = Direction.getNearest(dx, dy, dz);
+		this.direction = Direction.getApproximateNearest(dx, dy, dz);
 		this.matrix = new Matrix4f()
 				.rotate(this.direction.getRotation())
 				.translate(-ONE_PIXEL, 0, -ONE_PIXEL)
@@ -95,7 +93,7 @@ public class DecalParticle extends TextureSheetParticle {
 		if (this.lastBaseState != null && this.lastBaseState != currentBaseState) {
 			VoxelShape baseShape = currentBaseState.getCollisionShape(this.level, this.basePos);
 			Vec3 rayStart = new Vec3(this.x, this.y, this.z);
-			Vec3 rayEnd = rayStart.subtract(Vec3.atLowerCornerOf(this.direction.getNormal()).scale(ONE_PIXEL));
+			Vec3 rayEnd = rayStart.subtract(this.direction.getUnitVec3().scale(ONE_PIXEL));
 			BlockHitResult hit = baseShape.clip(rayStart, rayEnd, this.basePos);
 			if (Optionull.mapOrDefault(hit, BlockHitResult::isInside, true))
 				this.remove();

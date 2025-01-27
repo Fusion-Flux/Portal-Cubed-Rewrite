@@ -1,0 +1,125 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"texture_size": [32, 32],
+	"textures": {
+		"2": "#cube",
+		"particle": "#cube"
+	},
+	"elements": [
+		{
+			"from": [2.99, -0.01, 2.99],
+			"to": [13.01, 10.01, 13.01],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [5.008, 5.008, 9.992, 9.992], "texture": "#2"},
+				"east": {"uv": [0, 5.008, 4.984, 9.992], "texture": "#2"},
+				"south": {"uv": [0, 5.008, 4.984, 9.992], "texture": "#2"},
+				"west": {"uv": [0, 5.008, 4.984, 9.992], "texture": "#2"},
+				"up": {"uv": [0, 4.984, 4.984, 0], "texture": "#2"},
+				"down": {"uv": [5, 4.984, 9.984, 0], "texture": "#2"}
+			}
+		},
+		{
+			"name": "cube inverted",
+			"from": [13.01, 10.01, 13.01],
+			"to": [2.99, -0.01, 2.99],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 9.992, 4.984, 5.008], "texture": "#2"},
+				"east": {"uv": [0, 9.992, 4.984, 5.008], "texture": "#2"},
+				"south": {"uv": [5.008, 9.992, 9.992, 5.008], "texture": "#2"},
+				"west": {"uv": [0, 9.992, 4.984, 5.008], "texture": "#2"},
+				"up": {"uv": [9.984, 4.984, 5, 0], "texture": "#2"},
+				"down": {"uv": [4.984, 4.984, 0, 0], "texture": "#2"}
+			}
+		},
+		{
+			"from": [2.7, -0.3, 2.7],
+			"to": [13.3, 10.3, 13.3],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [10.016, 0.016, 14.984, 4.984], "texture": "#2"},
+				"east": {"uv": [10.016, 0.016, 14.984, 4.984], "texture": "#2"},
+				"south": {"uv": [10.016, 0.016, 14.984, 4.984], "texture": "#2"},
+				"west": {"uv": [10.016, 0.016, 14.984, 4.984], "texture": "#2"},
+				"up": {"uv": [10.016, 0.016, 14.984, 4.984], "texture": "#2"},
+				"down": {"uv": [10.016, 0.016, 14.984, 4.984], "texture": "#2"}
+			}
+		},
+		{
+			"name": "cube inverted",
+			"from": [13.3, 10.3, 13.3],
+			"to": [2.7, -0.3, 2.7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [10.016, 4.984, 14.984, 0.016], "texture": "#2"},
+				"east": {"uv": [10.016, 4.984, 14.984, 0.016], "texture": "#2"},
+				"south": {"uv": [10.016, 4.984, 14.984, 0.016], "texture": "#2"},
+				"west": {"uv": [10.016, 4.984, 14.984, 0.016], "texture": "#2"},
+				"up": {"uv": [14.984, 0.016, 10.016, 4.984], "texture": "#2"},
+				"down": {"uv": [14.984, 0.016, 10.016, 4.984], "texture": "#2"}
+			}
+		},
+		{
+			"name": "transparent",
+			"from": [4.5, 1.5, 4.5],
+			"to": [11.5, 8.5, 11.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.5, 0.5, 8.5]},
+			"faces": {
+				"north": {"uv": [4.008, 10.508, 7.484, 13.984], "texture": "#2"},
+				"east": {"uv": [0.508, 10.508, 3.984, 13.984], "texture": "#2"},
+				"south": {"uv": [0.508, 10.508, 3.984, 13.984], "texture": "#2"},
+				"west": {"uv": [0.508, 10.508, 3.984, 13.984], "texture": "#2"},
+				"up": {"uv": [0.508, 10.508, 3.984, 13.984], "texture": "#2"},
+				"down": {"uv": [0.508, 10.508, 3.984, 13.984], "texture": "#2"}
+			}
+		}
+	],
+	"overrides": [
+		{"model": "portalcubed:item/redirection_cube_lit", "predicate": {"custom_model_data": 1}},
+		{"model": "portalcubed:item/dirty_redirection_cube", "predicate": {"custom_model_data": 2}},
+		{"model": "portalcubed:item/dirty_redirection_cube_lit", "predicate": {"custom_model_data": 3}}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 1.25],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 1.25],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"translation": [0.5, 4.25, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 45, 0],
+			"translation": [0.5, 4.25, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3.225, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, 1.75, 0],
+			"scale": [0.73633, 0.73633, 0.73633]
+		},
+		"head": {
+			"translation": [0, 3.75, 0],
+			"scale": [1.57617, 1.57617, 1.57617]
+		},
+		"fixed": {
+			"translation": [0, 2.75, 0],
+			"scale": [0.94922, 0.94922, 0.94922]
+		}
+	},
+	"portalcubed:render_types": {
+		"translucent": ["transparent"]
+	}
+}

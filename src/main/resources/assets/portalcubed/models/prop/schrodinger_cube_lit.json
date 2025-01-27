@@ -1,0 +1,7 @@
+{
+  "parent": "portalcubed:prop/template_laser_cube_lit",
+  "textures": {
+    "cube": "portalcubed:prop/schrodinger_cube",
+    "center_lit": "portalcubed:prop/schrodinger_cube_center_lit"
+  }
+}

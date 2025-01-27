@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
@@ -10,8 +12,6 @@ import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
-
-import org.jetbrains.annotations.Nullable;
 
 public class ConstructPreviewWidget extends ConstructWidget implements TickableWidget {
 	public static final Component MESSAGE = ConstructionCannonScreen.translate("construct_preview");

@@ -3,28 +3,32 @@ package io.github.fusionflux.portalcubed.content;
 import java.util.EnumMap;
 import java.util.Map;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
-import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
 
 public class PortalCubedSounds {
+	public static final SoundEvent CHAMBER_DOOR_OPEN = register("chamber_door_open");
+	public static final SoundEvent CHAMBER_DOOR_UNLOCK = register("chamber_door_unlock");
+	public static final SoundEvent CHAMBER_DOOR_CLOSE = register("chamber_door_close");
+	public static final SoundEvent CHAMBER_DOOR_LOCK = register("chamber_door_lock");
 	public static final SoundEvent PEDESTAL_BUTTON_PRESS = register("pedestal_button_press");
 	public static final SoundEvent PEDESTAL_BUTTON_RELEASE = register("pedestal_button_release");
 	public static final SoundEvent FLOOR_BUTTON_PRESS = register("floor_button_press");
 	public static final SoundEvent FLOOR_BUTTON_RELEASE = register("floor_button_release");
+	public static final SoundEvent OLD_AP_CHAMBER_DOOR_OPEN = register("old_ap_chamber_door_open");
+	public static final SoundEvent OLD_AP_CHAMBER_DOOR_CLOSE = register("old_ap_chamber_door_close");
 	public static final SoundEvent OLD_AP_PEDESTAL_BUTTON_PRESS = register("old_ap_pedestal_button_press");
 	public static final SoundEvent OLD_AP_PEDESTAL_BUTTON_RELEASE = register("old_ap_pedestal_button_release");
 	public static final SoundEvent OLD_AP_FLOOR_BUTTON_PRESS = register("old_ap_floor_button_press");
 	public static final SoundEvent OLD_AP_FLOOR_BUTTON_RELEASE = register("old_ap_floor_button_release");
+	public static final SoundEvent PORTAL_1_CHAMBER_DOOR_OPEN = register("portal_1_chamber_door_open");
+	public static final SoundEvent PORTAL_1_CHAMBER_DOOR_CLOSE = register("portal_1_chamber_door_close");
 	public static final SoundEvent PORTAL_1_FLOOR_BUTTON_PRESS = register("portal_1_floor_button_press");
 	public static final SoundEvent PORTAL_1_FLOOR_BUTTON_RELEASE = register("portal_1_floor_button_release");
 
@@ -66,13 +70,6 @@ public class PortalCubedSounds {
 
 	public static SoundEvent timerDing(RandomSource random) {
 		return random.nextInt(10) >= random.nextInt(100) ? SURPRISE : TIMER_DING;
-	}
-
-	@ClientOnly
-	public static FollowingSoundInstance createPortalGunHoldLoop(Player player) {
-		FollowingSoundInstance sound = new FollowingSoundInstance(PORTAL_GUN_HOLD_LOOP, player.getSoundSource(), player);
-		sound.setLooping(true);
-		return sound;
 	}
 
 	public static void init() {

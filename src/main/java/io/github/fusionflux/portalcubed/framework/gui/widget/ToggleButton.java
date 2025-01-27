@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 
@@ -37,7 +38,7 @@ public class ToggleButton extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		graphics.blitSprite(sprites.get(valueGetter.getAsBoolean(), isHovered()), getX(), getY(), getWidth(), getHeight());
+		graphics.blitSprite(RenderType::guiTextured, sprites.get(valueGetter.getAsBoolean(), isHovered()), getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override

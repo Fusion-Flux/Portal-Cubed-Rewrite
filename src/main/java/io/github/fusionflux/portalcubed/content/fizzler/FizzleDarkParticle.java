@@ -1,12 +1,9 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
-import io.github.fusionflux.portalcubed.mixin.client.ParticleAccessor;
-
-import net.minecraft.util.Mth;
-
 import org.jetbrains.annotations.NotNull;
 
+import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
+import io.github.fusionflux.portalcubed.mixin.client.ParticleAccessor;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -14,6 +11,7 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
 
 public class FizzleDarkParticle extends FadingParticle {
 	public static final int LIFETIME = 40;
@@ -29,7 +27,7 @@ public class FizzleDarkParticle extends FadingParticle {
 		super(world, x, y, z);
 		this.gravity = GRAVITY;
 		this.xd = (Math.random() * 2d - 1d) * HORIZONTAL_SPEED;
-		this.yd = (Math.random() * 2d - 1d) * HORIZONTAL_SPEED;
+		this.zd = (Math.random() * 2d - 1d) * HORIZONTAL_SPEED;
 		this.quadSize = SIZE;
 		this.fadeStartLife = FADE_START_LIFE;
 		this.fadeAlpha = false;

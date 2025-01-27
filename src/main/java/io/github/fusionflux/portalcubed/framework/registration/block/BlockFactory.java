@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
+@FunctionalInterface
 public interface BlockFactory<T extends Block> {
-	T create(QuiltBlockSettings settings);
+	T create(BlockBehaviour.Properties properties);
 }

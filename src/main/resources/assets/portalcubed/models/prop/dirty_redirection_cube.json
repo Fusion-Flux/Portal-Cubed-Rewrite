@@ -1,0 +1,6 @@
+{
+  "parent": "portalcubed:prop/template_laser_cube",
+  "textures": {
+    "cube": "portalcubed:prop/dirty_redirection_cube"
+  }
+}

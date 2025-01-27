@@ -11,16 +11,20 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlock;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.mixin.UseOnContextAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.Optionull;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
@@ -131,10 +135,10 @@ public class SmallSignageBlock extends SignageBlock {
 
 	@Override
 	@NotNull
-	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
 		if (player instanceof ServerPlayer serverPlayer)
-			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Small(hitResult));
-		return InteractionResult.sidedSuccess(world.isClientSide);
+			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Small(hit));
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
@@ -149,6 +153,9 @@ public class SmallSignageBlock extends SignageBlock {
 		BOTTOM_RIGHT(1, 0);
 
 		public static final Quadrant[] VALUES = values();
+		public static final Codec<Quadrant> CODEC = StringRepresentable.fromEnum(() -> VALUES);
+		public static final StreamCodec<ByteBuf, Quadrant> STREAM_CODEC = PortalCubedStreamCodecs.ofEnum(Quadrant.class);
+
 		public static final float SIZE = 8 / 16f;
 
 		public final String name;

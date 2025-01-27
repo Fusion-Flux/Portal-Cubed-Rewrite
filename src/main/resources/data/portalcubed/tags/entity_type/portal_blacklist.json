@@ -1,0 +1,19 @@
+{
+  "values": [
+    "portalcubed:portal_projectile",
+
+    "minecraft:block_display",
+    "minecraft:end_crystal",
+    "minecraft:evoker_fangs",
+    "minecraft:item_frame",
+    "minecraft:glow_item_frame",
+    "minecraft:interaction",
+    "minecraft:item_display",
+    "minecraft:leash_knot",
+    "minecraft:lightning_bolt",
+    "minecraft:marker",
+    "minecraft:painting",
+    "minecraft:text_display",
+    "minecraft:ender_dragon"
+  ]
+}

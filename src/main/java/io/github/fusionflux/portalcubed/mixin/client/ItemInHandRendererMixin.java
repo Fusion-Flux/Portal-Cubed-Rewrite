@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -9,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;

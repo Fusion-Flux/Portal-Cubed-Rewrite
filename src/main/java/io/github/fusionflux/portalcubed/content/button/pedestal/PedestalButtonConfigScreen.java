@@ -28,6 +28,7 @@ import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -188,8 +189,8 @@ public class PedestalButtonConfigScreen extends Screen {
 
 	@Override
 	public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.renderBackground(graphics, mouseX, mouseY, delta);
-		graphics.blit(this.style.background, this.leftPos, this.topPos, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+		this.renderTransparentBackground(graphics);
+		graphics.blit(RenderType::guiTextured, this.style.background, this.leftPos, this.topPos, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 256, 256);
 	}
 
 	private void konami(Offset offset) {

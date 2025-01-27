@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X  ",
+        "XX ",
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:padded_gray_panel"
+    },
+    "result": {
+        "id": "portalcubed:padded_gray_panel_stairs",
+        "count": 4
+    }
+}

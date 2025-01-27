@@ -1,0 +1,164 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:range_dispatch",
+          "property": "portalcubed:prop_variant",
+          "entries": [
+            {
+              "threshold": 0,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/storage_cube"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_blue_portal"
+                  }
+                ]
+              }
+            },
+            {
+              "threshold": 1,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/storage_cube_lit"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_blue_portal"
+                  }
+                ]
+              }
+            },
+            {
+              "threshold": 2,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/dirty_storage_cube"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_blue_portal"
+                  }
+                ]
+              }
+            },
+            {
+              "threshold": 3,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/dirty_storage_cube_lit"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_blue_portal"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "when": [
+          "10-09",
+          "10-10",
+          "10-11",
+          "4-18",
+          "4-19",
+          "4-20"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:range_dispatch",
+          "property": "portalcubed:prop_variant",
+          "entries": [
+            {
+              "threshold": 0,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/christmas_storage_cube"
+              }
+            },
+            {
+              "threshold": 1,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/christmas_storage_cube_lit"
+              }
+            },
+            {
+              "threshold": 2,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/christmas_storage_cube"
+              }
+            },
+            {
+              "threshold": 3,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/christmas_storage_cube_lit"
+              }
+            }
+          ]
+        },
+        "when": [
+          "12-24",
+          "12-25",
+          "12-26"
+        ]
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:range_dispatch",
+      "property": "portalcubed:prop_variant",
+      "entries": [
+        {
+          "threshold": 0,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/storage_cube"
+          }
+        },
+        {
+          "threshold": 1,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/storage_cube_lit"
+          }
+        },
+        {
+          "threshold": 2,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/dirty_storage_cube"
+          }
+        },
+        {
+          "threshold": 3,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/dirty_storage_cube_lit"
+          }
+        }
+      ]
+    },
+    "pattern": "MM-dd",
+    "property": "minecraft:local_time"
+  }
+}

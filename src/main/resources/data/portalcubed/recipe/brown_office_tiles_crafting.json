@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YX",
+        "XY"
+    ],
+    "key": {
+        "X": "minecraft:brown_concrete",
+        "Y": "minecraft:brown_terracotta"
+    },
+    "result": {
+        "id": "portalcubed:brown_office_tiles",
+        "count": 8
+    }
+}

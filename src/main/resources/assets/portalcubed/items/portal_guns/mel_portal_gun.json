@@ -1,0 +1,55 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": "minecraft:fox",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/mel/fox/mel_portal_gun",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -2439850
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "portalcubed:portal_gun/mel/humanoid/mel_portal_gun",
+      "tints": [
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "active"
+        },
+        {
+          "type": "minecraft:dye",
+          "default": -2439850
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "primary"
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "secondary"
+        }
+      ]
+    }
+  }
+}

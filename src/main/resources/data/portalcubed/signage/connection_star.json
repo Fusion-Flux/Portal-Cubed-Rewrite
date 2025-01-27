@@ -1,8 +1,0 @@
-{
-  "clean_texture": "portalcubed:signage/small_signage_connection_star",
-  "aged_texture": "portalcubed:signage/aged_small_signage_connection_star",
-  "name": {
-    "translate": "signage.portalcubed.small_signage.connection_star"
-  },
-  "size": "small"
-}

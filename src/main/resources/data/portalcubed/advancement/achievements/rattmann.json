@@ -1,0 +1,175 @@
+{
+  "display": {
+    "icon": {
+      "id": "portalcubed:beans"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.rattmann.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.rattmann.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "portalcubed:achievements/hoopy",
+  "criteria": {
+    "hoopy": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:hoopy"
+            ]
+          }
+        ]
+      }
+    },
+    "radio": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:radio"
+            ]
+          }
+        ]
+      }
+    },
+    "beans": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:beans"
+            ]
+          }
+        ]
+      }
+    },
+    "jug": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:jug"
+            ]
+          }
+        ]
+      }
+    },
+    "clipboard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:clipboard"
+            ]
+          }
+        ]
+      }
+    },
+    "chair": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:chair"
+            ]
+          }
+        ]
+      }
+    },
+    "oil_drum": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:oil_drum"
+            ]
+          }
+        ]
+      }
+    },
+    "computer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:computer"
+            ]
+          }
+        ]
+      }
+    },
+    "cooking_pot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:cooking_pot"
+            ]
+          }
+        ]
+      }
+    },
+    "mug": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "portalcubed:mug"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "beans"
+    ],
+    [
+      "computer"
+    ],
+    [
+      "chair"
+    ],
+    [
+      "hoopy"
+    ],
+    [
+      "cooking_pot"
+    ],
+    [
+      "oil_drum"
+    ],
+    [
+      "mug"
+    ],
+    [
+      "jug"
+    ],
+    [
+      "radio"
+    ],
+    [
+      "clipboard"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  }
+}

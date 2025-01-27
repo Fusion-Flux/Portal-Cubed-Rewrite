@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": "portalcubed:old_ap_green_panel"
+    },
+    "result": {
+        "id": "portalcubed:old_ap_green_panel_slab",
+        "count": 6
+    }
+}

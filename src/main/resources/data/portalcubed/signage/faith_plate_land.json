@@ -1,8 +1,0 @@
-{
-  "clean_texture": "portalcubed:signage/large_signage_faith_plate_land",
-  "aged_texture": "portalcubed:signage/aged_large_signage_faith_plate_land",
-  "name": {
-    "translate": "signage.portalcubed.large_signage.faith_plate_land"
-  },
-  "size": "large"
-}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 6,
-  "ingredient": {
-    "item": "portalcubed:old_ap_green_panel"
-  },
-  "result": "portalcubed:old_ap_green_panel_facade"
-}

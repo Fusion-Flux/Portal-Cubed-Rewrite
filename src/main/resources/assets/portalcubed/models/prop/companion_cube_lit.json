@@ -1,0 +1,7 @@
+{
+  "parent": "portalcubed:prop/template_companion_cube_lit",
+  "textures": {
+    "cube": "portalcubed:prop/companion_cube",
+    "ring": "portalcubed:prop/companion_cube_ring"
+  }
+}

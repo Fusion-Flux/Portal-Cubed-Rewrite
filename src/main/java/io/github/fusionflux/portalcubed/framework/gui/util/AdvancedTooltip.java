@@ -40,7 +40,7 @@ public class AdvancedTooltip {
 	public void render(GuiGraphics graphics, int mouseX, int mouseY) {
 		GuiGraphicsAccessor access = (GuiGraphicsAccessor) graphics;
 		Font font = Minecraft.getInstance().font;
-		access.callRenderTooltipInternal(font, this.get(), mouseX, mouseY, DefaultTooltipPositioner.INSTANCE);
+		access.callRenderTooltipInternal(font, this.get(), mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
 	}
 
 	public interface Factory {

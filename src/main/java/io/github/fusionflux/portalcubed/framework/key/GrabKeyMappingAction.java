@@ -26,7 +26,7 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 			HitResult hit = ProjectileUtil.getHitResultOnViewVector(
 					player,
 					EntitySelector.NO_SPECTATORS.and(Entity::isPickable),
-					3
+					player.entityInteractionRange()
 			);
 
 			if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof HoldableEntity holdable) {

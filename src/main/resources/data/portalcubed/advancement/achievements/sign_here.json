@@ -1,0 +1,72 @@
+{
+  "display": {
+    "icon": {
+      "id": "portalcubed:large_signage"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.sign_here.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.sign_here.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "portalcubed:achievements/hammer",
+  "criteria": {
+    "large_signage": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "portalcubed:large_signage"
+          }
+        ]
+      }
+    },
+    "small_signage": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "portalcubed:small_signage"
+          }
+        ]
+      }
+    },
+    "aged_large_signage": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "portalcubed:aged_large_signage"
+          }
+        ]
+      }
+    },
+    "aged_small_signage": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "portalcubed:aged_small_signage"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "large_signage",
+      "small_signage",
+      "aged_large_signage",
+      "aged_small_signage"
+    ]
+  ]
+}

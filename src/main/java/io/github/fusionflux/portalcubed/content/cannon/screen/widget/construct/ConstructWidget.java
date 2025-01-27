@@ -9,7 +9,7 @@ import com.mojang.math.Axis;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructModelPool;
-import io.github.fusionflux.portalcubed.framework.util.RenderingUtil;
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
@@ -64,7 +64,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 		float maxWidth = (float) Math.sqrt(2 * (sizeOnLargestAxis * sizeOnLargestAxis));
 		matrices.scale(1 / maxWidth, 1 / maxWidth, 1);
 
-		matrices.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
+		matrices.mulPose(new Matrix4f().scaling(1, -1, 1));
 		// tilt construct downwards, like items
 		matrices.mulPose(Axis.XP.rotationDegrees(30));
 		// apply custom transformations
@@ -76,8 +76,7 @@ public abstract class ConstructWidget extends AbstractWidget {
 
 		if (ConstructPreviewRenderer.getModelPool() != null) {
 			ConstructModelPool.ModelInfo model = ConstructPreviewRenderer.getModelPool().getOrBuildModel(preview);
-			RenderingUtil.drawGuiManaged(() -> model.draw(matrices, () -> {}));
-			model.bufferBlockEntities(matrices, graphics.bufferSource());
+			RenderingUtils.drawGuiManaged(() -> model.draw(matrices, () -> {}));
 			graphics.flush();
 		}
 

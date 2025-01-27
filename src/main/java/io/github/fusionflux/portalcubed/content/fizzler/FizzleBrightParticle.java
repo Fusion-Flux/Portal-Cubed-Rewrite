@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -8,11 +10,8 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
-
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-
-import org.jetbrains.annotations.NotNull;
 
 public class FizzleBrightParticle extends FadingParticle {
 	public static final int LIFETIME = 20;

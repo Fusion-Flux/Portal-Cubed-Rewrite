@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "X",
+        "X"
+    ],
+    "key": {
+        "X": "#portalcubed:padded_gray_panel_materials"
+    },
+    "result": {
+        "id": "portalcubed:padded_gray_2x1_panel",
+        "count": 2
+    }
+}

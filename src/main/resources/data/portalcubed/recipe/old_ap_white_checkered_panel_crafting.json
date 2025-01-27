@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "XX",
+        "XX"
+    ],
+    "key": {
+        "X": "portalcubed:old_ap_white_panel"
+    },
+    "result": {
+        "id": "portalcubed:old_ap_white_checkered_panel",
+        "count": 4
+    }
+}

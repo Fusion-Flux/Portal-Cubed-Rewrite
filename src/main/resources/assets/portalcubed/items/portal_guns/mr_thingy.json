@@ -1,0 +1,73 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": "minecraft:fox",
+        "model": {
+          "type": "minecraft:composite",
+          "models": [
+            {
+              "type": "minecraft:model",
+              "model": "portalcubed:portal_gun/mr_thingy/fox/mr_thingy_model_part",
+              "tints": [
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "active"
+                },
+                {
+                  "type": "minecraft:dye",
+                  "default": -1338011
+                },
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "primary"
+                },
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "secondary"
+                }
+              ]
+            },
+            {
+              "type": "minecraft:model",
+              "model": "portalcubed:portal_gun/mr_thingy/fox/carrot_on_a_stick_model_part"
+            }
+          ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:composite",
+      "models": [
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/mr_thingy/humanoid/mr_thingy_model_part",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "active"
+            },
+            {
+              "type": "minecraft:dye",
+              "default": -1338011
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "primary"
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "secondary"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/mr_thingy/humanoid/carrot_on_a_stick_model_part"
+        }
+      ]
+    }
+  }
+}

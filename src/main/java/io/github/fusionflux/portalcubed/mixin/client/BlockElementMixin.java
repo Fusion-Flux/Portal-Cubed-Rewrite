@@ -1,11 +1,11 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 import io.github.fusionflux.portalcubed.framework.extension.BlockElementExt;
+import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import net.minecraft.client.renderer.block.model.BlockElement;
 
 @Mixin(BlockElement.class)

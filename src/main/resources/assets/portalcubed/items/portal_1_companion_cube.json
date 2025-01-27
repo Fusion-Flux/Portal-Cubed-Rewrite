@@ -1,0 +1,88 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:range_dispatch",
+          "property": "portalcubed:prop_variant",
+          "entries": [
+            {
+              "threshold": 0,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/portal_1_companion_cube"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_heart"
+                  }
+                ]
+              }
+            },
+            {
+              "threshold": 1,
+              "model": {
+                "type": "minecraft:composite",
+                "models": [
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/charred_portal_1_companion_cube"
+                  },
+                  {
+                    "type": "minecraft:model",
+                    "model": "portalcubed:prop/party_hat_heart"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "when": [
+          "10-09",
+          "10-10",
+          "10-11",
+          "4-18",
+          "4-19",
+          "4-20"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:prop/christmas_portal_1_companion_cube"
+        },
+        "when": [
+          "12-24",
+          "12-25",
+          "12-26"
+        ]
+      }
+    ],
+    "pattern": "MM-dd",
+    "property": "minecraft:local_time",
+    "fallback": {
+      "type": "minecraft:range_dispatch",
+      "property": "portalcubed:prop_variant",
+      "entries": [
+        {
+          "threshold": 0,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/portal_1_companion_cube"
+          }
+        },
+        {
+          "threshold": 1,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/charred_portal_1_companion_cube"
+          }
+        }
+      ]
+    }
+  }
+}

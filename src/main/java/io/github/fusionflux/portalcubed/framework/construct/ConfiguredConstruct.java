@@ -1,5 +1,11 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -18,13 +24,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A construct that has been configured with a rotation and offset, ready for placement.
@@ -63,7 +62,7 @@ public class ConfiguredConstruct {
 			info.maybeNbt().ifPresent(nbt -> {
 				BlockEntity be = level.getBlockEntity(blockPos);
 				if (be != null) {
-					be.load(nbt);
+					be.loadWithComponents(nbt, level.registryAccess());
 				}
 			});
 

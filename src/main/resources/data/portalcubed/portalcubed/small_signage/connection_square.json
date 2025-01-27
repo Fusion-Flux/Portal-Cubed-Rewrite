@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/small_signage_connection_square",
+  "aged_texture": "portalcubed:signage/aged_small_signage_connection_square",
+  "name": {
+    "translate": "signage.portalcubed.small_signage.connection_square"
+  }
+}

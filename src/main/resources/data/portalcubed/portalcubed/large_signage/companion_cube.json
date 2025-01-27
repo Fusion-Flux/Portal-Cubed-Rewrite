@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_companion_cube",
+  "aged_texture": "portalcubed:signage/aged_large_signage_companion_cube",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.companion_cube"
+  }
+}

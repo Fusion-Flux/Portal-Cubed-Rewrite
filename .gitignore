@@ -11,7 +11,13 @@ run/
 *.launch
 
 # IntelliJ Idea
-.idea/
+.idea/*
+!.idea/inspectionProfiles
+# for some reason, entrypoints are stored here, not in the inspection profile
+# https://youtrack.jetbrains.com/issue/IDEA-84055
+!.idea/misc.xml
+.idea/inspectionProfiles/*
+!.idea/inspectionProfiles/Portal_Cubed.xml
 *.iml
 *.ipr
 *.iws

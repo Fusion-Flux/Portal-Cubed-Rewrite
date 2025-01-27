@@ -15,18 +15,20 @@ import net.minecraft.world.level.Level;
 
 @Mixin(Level.class)
 public class LevelMixin implements LevelExt {
-	@Shadow @Final private RegistryAccess registryAccess;
+	@Shadow
+	@Final
+	private RegistryAccess registryAccess;
 
 	@Unique
 	private PortalCubedDamageSources damageSources;
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(CallbackInfo ci) {
-		this.damageSources = new PortalCubedDamageSources(registryAccess);
+		this.damageSources = new PortalCubedDamageSources(this.registryAccess);
 	}
 
 	@Override
 	public PortalCubedDamageSources pc$damageSources() {
-		return damageSources;
+		return this.damageSources;
 	}
 }

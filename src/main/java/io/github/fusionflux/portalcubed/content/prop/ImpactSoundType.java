@@ -1,13 +1,13 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
+import java.util.Locale;
+import java.util.Optional;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-
-import java.util.Locale;
-import java.util.Optional;
 
 public enum ImpactSoundType {
 	GENERIC,

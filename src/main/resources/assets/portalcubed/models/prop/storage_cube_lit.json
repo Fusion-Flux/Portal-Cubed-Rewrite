@@ -1,0 +1,7 @@
+{
+  "parent": "portalcubed:prop/template_storage_cube_lit",
+  "textures": {
+    "cube": "portalcubed:prop/storage_cube",
+    "ring": "portalcubed:prop/storage_cube_ring"
+  }
+}

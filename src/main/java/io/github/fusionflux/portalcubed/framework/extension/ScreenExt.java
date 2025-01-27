@@ -1,14 +1,15 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
-import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
-
-import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
 import java.util.List;
 
-@ClientOnly
+import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
+@Environment(EnvType.CLIENT)
 public interface ScreenExt {
 	@Nullable List<TickableWidget> pc$tickables();
 	@Nullable List<ScrollbarWidget> pc$scrollBars();

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "redstone",
+    "pattern": [
+        "Y",
+        "X",
+        "X"
+    ],
+    "key": {
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "#minecraft:wooden_buttons"
+    },
+    "result": {
+        "id": "portalcubed:pedestal_button",
+        "count": 1
+    }
+}

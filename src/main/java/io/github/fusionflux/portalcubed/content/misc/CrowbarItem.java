@@ -1,8 +1,10 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
+
+import net.minecraft.world.level.gameevent.GameEvent.Context;
+
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.base.api.util.TriState;
-import org.quiltmc.qsl.networking.api.PlayerLookup;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
@@ -11,10 +13,12 @@ import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,19 +39,27 @@ public class CrowbarItem extends Item implements DirectClickItem {
 	public void onSwing(Player player, @Nullable HitResult hit, boolean didSwingAnim) {
 		player.playSound(PortalCubedSounds.CROWBAR_SWING);
 		Level world = player.level();
-		if (!didSwingAnim) player.swing(InteractionHand.MAIN_HAND, !world.isClientSide);
+		if (!didSwingAnim) {
+			player.swing(InteractionHand.MAIN_HAND, !world.isClientSide);
+		}
 
 		if (player instanceof ServerPlayer serverPlayer) {
-			if (!(hit instanceof BlockHitResult blockHit)) return;
+			player.awardStat(Stats.ITEM_USED.get(this));
+
+			if (!(hit instanceof BlockHitResult blockHit))
+				return;
+
 			BlockState state = world.getBlockState(blockHit.getBlockPos());
+			Vec3 pos = hit.getLocation();
+			world.gameEvent(PortalCubedGameEvents.CROWBAR_HIT, pos, new Context(player, state));
+
 			if (!state.is(PortalCubedBlockTags.CROWBAR_MAKES_HOLES))
 				return;
+
 			BulletHoleMaterial.forState(state).ifPresent(material -> {
-				Vec3 location = hit.getLocation();
-				world.playSound(null, location.x, location.y, location.z, material.impactSound, player.getSoundSource());
-				player.awardStat(Stats.ITEM_USED.get(this));
+				world.playSound(null, pos.x, pos.y, pos.z, material.impactSound, player.getSoundSource());
 				Direction dir = blockHit.getDirection();
-				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, location.x, location.y, location.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
+				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, pos.x, pos.y, pos.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
 				for (ServerPlayer tracking : PlayerLookup.tracking(serverPlayer.serverLevel(), blockHit.getBlockPos())) {
 					PortalCubedPackets.sendToClient(tracking, packet);
 				}
@@ -64,20 +76,15 @@ public class CrowbarItem extends Item implements DirectClickItem {
 	}
 
 	@Override
-	public TriState onUse(Level level, Player player, ItemStack stack, @Nullable HitResult hitResult, InteractionHand hand) {
-		return TriState.DEFAULT;
-	}
-
-	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		stack.hurtAndBreak(1, attacker, e -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
 		return true;
 	}
 
 	@Override
 	public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
 		if (state.getDestroySpeed(world, pos) != 0) {
-			stack.hurtAndBreak(2, miner, e -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+			stack.hurtAndBreak(2, miner, EquipmentSlot.MAINHAND);
 		}
 		return true;
 	}

@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class CustomCandleCakeBlock extends CandleCakeBlock {
-	private final Block cake;
+	public final Block cake;
 
 	public CustomCandleCakeBlock(Block cake, Block candle, Properties settings) {
 		super(candle, settings);
@@ -19,11 +19,7 @@ public class CustomCandleCakeBlock extends CandleCakeBlock {
 
 	@Override
 	@NotNull
-	public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
+	protected ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData) {
 		return new ItemStack(this.cake);
-	}
-
-	public Block getCake() {
-		return cake;
 	}
 }

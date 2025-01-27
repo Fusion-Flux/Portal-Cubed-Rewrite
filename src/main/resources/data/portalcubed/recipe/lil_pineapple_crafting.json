@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "portalcubed:companion_cube",
+    "minecraft:pumpkin"
+  ],
+  "result": {
+    "id": "portalcubed:lil_pineapple",
+    "count": 1
+  }
+}

@@ -1,8 +1,5 @@
 package io.github.fusionflux.portalcubed.content.boots;
 
-import org.quiltmc.qsl.rendering.entity.api.client.ArmorRenderingRegistry;
-
-import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -11,9 +8,9 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 
-public class LongFallBootsModel extends HumanoidArmorModel<LivingEntity> {
+public class LongFallBootsModel extends HumanoidArmorModel<HumanoidRenderState> {
 	private static final float DEFORMATION = 1.0f; // Vanilla value for boots not stored in a constant anywhere.
 	private static final float LEG_DEFORMATION = DEFORMATION - 0.1f; // 0.1 is the vanilla offset also not stored in a constant anywhere.
 	private static final float INNER_LEG_DEFORMATION = LEG_DEFORMATION - 0.05f;
@@ -48,9 +45,5 @@ public class LongFallBootsModel extends HumanoidArmorModel<LivingEntity> {
 				PartPose.offset(1.9f, 12f, 0f)
 		);
 		return meshDefinition;
-	}
-
-	public static void init() {
-		ArmorRenderingRegistry.registerModelProvider((model, entity, stack, slot) -> INSTANCE, PortalCubedItems.LONG_FALL_BOOTS);
 	}
 }

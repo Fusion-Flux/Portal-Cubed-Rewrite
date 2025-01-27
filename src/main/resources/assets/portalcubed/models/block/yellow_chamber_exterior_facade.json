@@ -1,0 +1,6 @@
+{
+  "parent": "portalcubed:block/template_facade",
+  "textures": {
+    "facade": "portalcubed:block/yellow_chamber_exterior"
+  }
+}

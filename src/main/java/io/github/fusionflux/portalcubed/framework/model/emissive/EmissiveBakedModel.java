@@ -9,7 +9,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 
 public class EmissiveBakedModel extends TransformingBakedModel {
-	public EmissiveBakedModel(BakedModel wrapped, Collection<EmissiveTexturePredicate> predicates) {
+	public EmissiveBakedModel(BakedModel delegate, Collection<EmissiveTexturePredicate> predicates) {
 		super(quad -> {
 			ResourceLocation texture = ModelUtil.getSpriteFinder()
 					.find(quad)
@@ -22,6 +22,6 @@ public class EmissiveBakedModel extends TransformingBakedModel {
 			}
 			return true;
 		});
-		this.wrapped = wrapped;
+		this.delegate = delegate;
 	}
 }

@@ -1,31 +1,37 @@
 package io.github.fusionflux.portalcubed.content.button;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import io.github.fusionflux.portalcubed.content.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
+import io.github.fusionflux.portalcubed.mixin.PufferfishAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.animal.Pufferfish;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -37,14 +43,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FloorButtonBlock extends AbstractMultiBlock {
-	// TODO: When data driven blocks drop this should probably be a more advanced codec
 	public static final MapCodec<FloorButtonBlock> CODEC = simpleCodec(FloorButtonBlock::new);
 
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 	public static final int PRESSED_TIME = 5;
 	public static final double DISINTEGRATION_EJECTION_FORCE = 0.05;
-	public static boolean easterEgg = true;
 
 	private static final VoxelShaper[][] SHAPES = new VoxelShaper[][]{
 		new VoxelShaper[]{
@@ -120,22 +124,22 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	@Override
-	protected MapCodec<? extends DirectionalBlock> codec() {
+	protected MapCodec<? extends Block> codec() {
 		return CODEC;
 	}
 
-	public AABB getButtonBounds(Direction direction) {
-		return buttonBounds.computeIfAbsent(direction, $ -> {
+	public AABB getButtonBounds(Direction face) {
+		return buttonBounds.computeIfAbsent(face, $ -> {
 			AABB baseButtonBounds = buttonBounds.get(Direction.SOUTH);
 
 			Vec3 min = new Vec3(baseButtonBounds.minX, baseButtonBounds.minY, baseButtonBounds.minZ);
 			Vec3 max = new Vec3(baseButtonBounds.maxX, baseButtonBounds.maxY, baseButtonBounds.maxZ);
-			if (direction.getAxisDirection() == Direction.AxisDirection.NEGATIVE) {
+			if (face.getAxisDirection() == Direction.AxisDirection.NEGATIVE) {
 				min = VoxelShaper.rotate(min.subtract(1, 0, .5), 180, Direction.Axis.Y).add(1, 0, .5);
 				max = VoxelShaper.rotate(max.subtract(1, 0, .5), 180, Direction.Axis.Y).add(1, 0, .5);
 			}
 
-			return switch (direction.getAxis()) {
+			return switch (face.getAxis()) {
 				case X -> new AABB(min.z, min.y, min.x, max.z, max.y, max.x);
 				case Y -> new AABB(min.x, min.z, min.y, max.x, max.z, max.y);
 				case Z -> new AABB(min.x, min.y, min.z, max.x, max.y, max.z);
@@ -165,7 +169,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 
 	protected void updateNeighbours(BlockState state, Level world, BlockPos pos) {
 		world.updateNeighborsAt(pos, this);
-		world.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
+		world.updateNeighborsAt(pos.relative(state.getValue(FACE).getOpposite()), this);
 	}
 
 	@Override
@@ -179,78 +183,85 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		builder.add(ACTIVE);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		int y = getY(state);
 		int x = getX(state);
-		Direction facing = state.getValue(FACING);
-		VoxelShaper shape = switch (facing) {
+		Direction face = state.getValue(FACE);
+		VoxelShaper shape = switch (face) {
 			case NORTH, EAST ->       shapes[y == 1 ? 0 : 1][x == 1 ? 0 : 1];
 			case DOWN, WEST, SOUTH -> shapes[y == 1 ? 0 : 1][x];
 			default ->                shapes[y][x];
 		};
-		return shape.get(facing);
+		return shape.get(face);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+	protected VoxelShape getOcclusionShape(BlockState state) {
 		return Shapes.empty();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.getValue(ACTIVE) ? 15 : 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
-		return state.getValue(ACTIVE) && state.getValue(FACING) == direction ? 15 : 0;
+		return state.getValue(ACTIVE) && state.getValue(FACE) == direction ? 15 : 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-		if (!level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACING)).move(pos), entityPredicate).isEmpty()) {
+		if (!level.getEntitiesOfClass(Entity.class, getButtonBounds(state.getValue(FACE)).move(pos), entityPredicate).isEmpty()) {
 			level.scheduleTick(pos, this, PRESSED_TIME);
 		} else if (state.getValue(ACTIVE)) {
 			toggle(state, level, pos, null, true);
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-		if (!level.isClientSide) {
+		if (level instanceof ServerLevel serverLevel) {
 			boolean entityInsideBounds = isEntityPressing(state, pos, entity);
 			if (entityInsideBounds)
-				entityPressing(state, level, getOriginPos(pos, state), entity);
+				entityPressing(state, serverLevel, getOriginPos(pos, state), entity);
 		}
 	}
 
 	public boolean isEntityPressing(BlockState state, BlockPos pos, Entity entity) {
-		return entityPredicate.test(entity) && getButtonBounds(state.getValue(FACING)).move(getOriginPos(pos, state)).intersects(entity.getBoundingBox());
+		return entityPredicate.test(entity) && getButtonBounds(state.getValue(FACE)).move(getOriginPos(pos, state)).intersects(entity.getBoundingBox());
 	}
 
-	protected void entityPressing(BlockState state, Level level, BlockPos pos, Entity entity) {
+	protected void entityPressing(BlockState state, ServerLevel level, BlockPos pos, Entity entity) {
 		if (!state.getValue(ACTIVE))
 			toggle(state, level, pos, entity, false);
-		if (entity instanceof ButtonActivatedProp buttonActivated)
-			buttonActivated.setActivated(true);
-	}
 
-	@Override
-	public String getDescriptionId() {
-		boolean hasEasterEgg = this == PortalCubedBlocks.FLOOR_BUTTON_BLOCK || this == PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK;
-		return (easterEgg && hasEasterEgg) ? "block.portalcubed.floor_button.easter_egg" : super.getDescriptionId();
+		// trigger advancements
+		AABB area = new AABB(pos).inflate(16);
+		List<ServerPlayer> players = level.getEntitiesOfClass(ServerPlayer.class, area);
+		for (ServerPlayer player : players) {
+			PortalCubedCriteriaTriggers.ENTITY_ON_BUTTON.trigger(player, pos, entity);
+		}
+
+		// special effects
+		if (entity instanceof ButtonActivatedProp buttonActivated) {
+			buttonActivated.setActivated(true);
+		} if (entity instanceof Armadillo armadillo && armadillo.canStayRolledUp()) {
+			armadillo.getBrain().setMemoryWithExpiry(MemoryModuleType.DANGER_DETECTED_RECENTLY, true, 80);
+			armadillo.rollUp();
+		} else if (entity instanceof Pufferfish pufferfish) {
+			if (pufferfish.getPuffState() != Pufferfish.STATE_FULL) {
+				pufferfish.makeSound(SoundEvents.PUFFER_FISH_BLOW_UP);
+			}
+
+			pufferfish.setPuffState(Pufferfish.STATE_FULL);
+			((PufferfishAccessor) pufferfish).setDeflateTimer(0);
+		}
 	}
 }

@@ -1,17 +1,18 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.screen;
 
-import java.util.Collection;
-
 import org.apache.commons.lang3.function.TriConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlockEntity;
-import io.github.fusionflux.portalcubed.framework.signage.Signage;
-import io.github.fusionflux.portalcubed.framework.signage.SignageManager;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
 import net.minecraft.client.gui.layouts.LayoutElement;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 public class LargeSignageConfigScreen extends SignageConfigScreen {
@@ -38,17 +39,17 @@ public class LargeSignageConfigScreen extends SignageConfigScreen {
 	}
 
 	@Override
-	protected Collection<Signage.Holder> signage() {
-		return SignageManager.INSTANCE.allOfSize(Signage.Size.LARGE);
+	protected ResourceKey<Registry<Signage>> registryKey() {
+		return PortalCubedRegistries.LARGE_SIGNAGE;
 	}
 
 	@Override
-	protected Signage.Holder selectedSignage() {
+	protected Holder<Signage> selectedSignage() {
 		return this.largeSignage.holder();
 	}
 
 	@Override
-	protected void updateSignage(Signage.Holder holder) {
+	protected void updateSignage(Holder<Signage> holder) {
 		PortalCubedPackets.sendToServer(new ConfigureSignageConfigPacket.Large(this.largeSignage.getBlockPos(), holder));
 	}
 }

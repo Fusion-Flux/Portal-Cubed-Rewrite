@@ -1,8 +1,0 @@
-{
-  "clean_texture": "portalcubed:signage/large_signage_incinerator",
-  "aged_texture": "portalcubed:signage/aged_large_signage_incinerator",
-  "name": {
-    "translate": "signage.portalcubed.large_signage.incinerator"
-  },
-  "size": "large"
-}

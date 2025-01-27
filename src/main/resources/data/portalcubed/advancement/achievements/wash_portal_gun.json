@@ -1,0 +1,25 @@
+{
+  "parent": "portalcubed:achievements/dyed_portal_gun",
+  "criteria": {
+    "wash": {
+      "trigger": "portalcubed:submerged_the_operational_end_of_the_device"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.wash_portal_gun.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:cauldron"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.wash_portal_gun.title"
+    },
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  }
+}

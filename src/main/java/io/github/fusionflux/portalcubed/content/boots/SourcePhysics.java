@@ -1,32 +1,38 @@
 package io.github.fusionflux.portalcubed.content.boots;
 
-import org.joml.Vector3f;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
+
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.core.Vec3i;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+
+import org.joml.Matrix4fStack;
+import org.joml.Vector3f;
 
 /*
 Source-like physics:
@@ -59,7 +65,7 @@ public class SourcePhysics {
 		return !player.isInLiquid();
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	public static void applyInput(LocalPlayer player) {
 		if (!appliesTo(player) || player.onGround())
 			return;
@@ -72,7 +78,7 @@ public class SourcePhysics {
 		if (dot < 0.1)
 			return;
 
-		Vec3 projection = projection(vel, accel);
+		Vec3 projection = TransformUtils.project(vel, accel);
 		if (projection.length() > SPEED_LIMIT) {
 			// too fast, discard
 			// don't use 0, will stop sprinting
@@ -81,54 +87,42 @@ public class SourcePhysics {
 		}
 	}
 
-	public static Vec3 projection(Vec3 a, Vec3 b) {
-		double length = a.dot(b) / (b.length() * b.length());
-		return b.scale(length);
-	}
-
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	public static Vec3 getAcceleration(LocalPlayer player) {
 		Vec3 inputVec = new Vec3(player.input.leftImpulse, 0, player.input.forwardImpulse);
 		return EntityAccessor.callGetInputVector(inputVec, 0.02f, player.getYRot());
 	}
 
-	public static class DebugRenderer implements HudRenderCallback {
-		public static final int SCALE = 500;
+	public enum DebugRenderer implements HudRenderCallback {
+		INSTANCE;
+
+		public static final int SCALE = 250;
 		public static final Vec3i VEL_COLOR = new Vec3i(0, 125, 0);
 		public static final Vec3i ACCEL_COLOR = new Vec3i(125, 0, 125);
 		public static final Vec3i PROJECTION_COLOR = new Vec3i(255,128,0);
 		public static final Vec3i LIMIT_COLOR = new Vec3i(255, 0, 0);
 
-		public static final DebugRenderer INSTANCE = new DebugRenderer();
-
-		/** {@link Gui#renderCrosshair(GuiGraphics)} */
+		/** {@link Gui#renderCrosshair(GuiGraphics, DeltaTracker)} */
 		@SuppressWarnings("JavadocReference")
 		@Override
-		public void onHudRender(GuiGraphics graphics, float tickDelta) {
+		public void onHudRender(GuiGraphics graphics, DeltaTracker tickCounter) {
 			Minecraft mc = Minecraft.getInstance();
 			LocalPlayer player = mc.player;
-			if (player == null)
-				return;
-
-			if (!mc.gui.getDebugOverlay().showDebugScreen())
+			if (player == null || !mc.gui.getDebugOverlay().showDebugScreen())
 				return;
 
 			Camera camera = mc.gameRenderer.getMainCamera();
-			int width = mc.getWindow().getGuiScaledWidth();
-			int height = mc.getWindow().getGuiScaledHeight();
 
 			RenderSystem.enableBlend();
-			PoseStack poseStack = RenderSystem.getModelViewStack();
-			poseStack.pushPose();
-			poseStack.mulPoseMatrix(graphics.pose().last().pose());
-			poseStack.translate(width / 2f, height / 2f, 0);
-			poseStack.mulPose(Axis.XN.rotationDegrees(camera.getXRot()));
-			poseStack.mulPose(Axis.YP.rotationDegrees(camera.getYRot()));
-			poseStack.scale(-1, -1, -1);
-			RenderSystem.applyModelViewMatrix();
+			Matrix4fStack matrices = RenderSystem.getModelViewStack();
+			matrices.pushMatrix();
+			matrices.mul(graphics.pose().last().pose());
+			matrices.translate(graphics.guiWidth() / 2f, graphics.guiHeight() / 2f, 0);
+			matrices.rotateX(-camera.getXRot() * Mth.DEG_TO_RAD);
+			matrices.rotateY(camera.getYRot() * Mth.DEG_TO_RAD);
+			matrices.scale(-1, -1, -1);
 			doRender(player);
-			poseStack.popPose();
-			RenderSystem.applyModelViewMatrix();
+			matrices.popMatrix();
 			RenderSystem.disableBlend();
 		}
 
@@ -137,7 +131,7 @@ public class SourcePhysics {
 			RenderSystem.assertOnRenderThread();
 			GlStateManager._depthMask(false);
 			GlStateManager._disableCull();
-			RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
+			RenderSystem.setShader(CoreShaders.RENDERTYPE_LINES);
 
 			Vec3 vel = player.getDeltaMovement();
 			renderVec(vel.scale(SCALE), VEL_COLOR);
@@ -148,7 +142,7 @@ public class SourcePhysics {
 
 			Vec3 accel = getAcceleration(player);
 			if (accel.length() > 0) {
-				Vec3 projection = projection(vel, accel).scale(SCALE);
+				Vec3 projection = TransformUtils.project(vel, accel).scale(SCALE);
 				renderVec(projection, PROJECTION_COLOR);
 				renderVec(accel.scale(SCALE), ACCEL_COLOR);
 			}
@@ -162,23 +156,22 @@ public class SourcePhysics {
 			renderLine(Vec3.ZERO, vec, color);
 		}
 
-		private static void renderLine(Vec3 from, Vec3 to, Vec3i color) {
-			Vec3 between = from.vectorTo(to);
-			Vector3f norm = between.normalize().toVector3f();
+		private static void renderLine(Vec3 fromVec, Vec3 toVec, Vec3i color) {
+			Vector3f from = fromVec.toVector3f();
+			Vector3f to = toVec.toVector3f();
+			Vector3f between = fromVec.vectorTo(toVec).toVector3f();
+			Vector3f norm = between.normalize();
 			Tesselator tesselator = RenderSystem.renderThreadTesselator();
-			BufferBuilder buffer = tesselator.getBuilder();
+			BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
 			// thicker outline
 			RenderSystem.lineWidth(4);
-			buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-			buffer.vertex(from.x, from.y, from.z).color(0, 0, 0, 255).normal(norm.x, norm.y, norm.z).endVertex();
-			buffer.vertex(to.x, to.y, to.z).color(0, 0, 0, 255).normal(norm.x, norm.y, norm.z).endVertex();
-			tesselator.end();
+			buffer.addVertex(from.x, from.y, from.z).setColor(0, 0, 0, 255).setNormal(norm.x, norm.y, norm.z);
+			buffer.addVertex(to.x, to.y, to.z).setColor(0, 0, 0, 255).setNormal(norm.x, norm.y, norm.z);
 			// main line
 			RenderSystem.lineWidth(2);
-			buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-			buffer.vertex(from.x, from.y, from.z).color(color.getX(), color.getY(), color.getZ(), 255).normal(norm.x, norm.y, norm.z).endVertex();
-			buffer.vertex(to.x, to.y, to.z).color(color.getX(), color.getY(), color.getZ(), 255).normal(norm.x, norm.y, norm.z).endVertex();
-			tesselator.end();
+			buffer.addVertex(from.x, from.y, from.z).setColor(color.getX(), color.getY(), color.getZ(), 255).setNormal(norm.x, norm.y, norm.z);
+			buffer.addVertex(to.x, to.y, to.z).setColor(color.getX(), color.getY(), color.getZ(), 255).setNormal(norm.x, norm.y, norm.z);
+			BufferUploader.drawWithShader(buffer.buildOrThrow());
 		}
 	}
 }

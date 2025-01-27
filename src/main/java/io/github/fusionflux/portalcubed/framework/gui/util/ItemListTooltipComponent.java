@@ -18,7 +18,7 @@ public class ItemListTooltipComponent implements ClientTooltipComponent {
 	}
 
 	@Override
-	public int getHeight() {
+	public int getHeight(Font textRenderer) {
 		int rows = (int) Math.ceil(this.items.size() / (float) MAX_ITEMS_WIDE);
 		return rows * ITEM_SIZE;
 	}
@@ -30,7 +30,7 @@ public class ItemListTooltipComponent implements ClientTooltipComponent {
 	}
 
 	@Override
-	public void renderImage(Font textRenderer, int x, int y, GuiGraphics graphics) {
+	public void renderImage(Font textRenderer, int x, int y, int width, int height, GuiGraphics graphics) {
 		for (int i = 0; i < this.items.size(); i++) {
 			ItemStack stack = this.items.get(i);
 			int row = i / MAX_ITEMS_WIDE;

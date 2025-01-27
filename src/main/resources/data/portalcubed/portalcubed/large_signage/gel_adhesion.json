@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_adhesion_gel",
+  "aged_texture": "portalcubed:signage/aged_large_signage_adhesion_gel",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.adhesion_gel"
+  }
+}

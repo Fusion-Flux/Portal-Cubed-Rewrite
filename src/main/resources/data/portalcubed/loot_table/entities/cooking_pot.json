@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "portalcubed:cooking_pot",
+          "functions": [
+            {
+              "function": "portalcubed:copy_prop_variant",
+              "source": "this",
+              "conditions": [
+                {
+                  "condition": "minecraft:inverted",
+                  "term": {
+                    "condition": "minecraft:entity_properties",
+                    "entity": "this",
+                    "predicate": {
+                      "nbt": "{variant_from_item:0}"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:copy_name",
+              "source": "this"
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

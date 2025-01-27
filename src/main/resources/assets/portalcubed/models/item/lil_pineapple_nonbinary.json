@@ -1,6 +1,0 @@
-{
-  "parent": "portalcubed:item/template_lil_pineapple",
-  "textures": {
-    "pineapple": "portalcubed:item/lil_prideapple_nonbinary"
-  }
-}

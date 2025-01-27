@@ -3,6 +3,11 @@ package io.github.fusionflux.portalcubed.framework.extension;
 import com.mojang.math.Transformation;
 
 public interface VariantExt {
-	Transformation pc$transformation();
-	void pc$transformation(Transformation transformation);
+	default Transformation pc$transformation() {
+		throw new AbstractMethodError();
+	}
+
+	default void pc$transformation(Transformation transformation) {
+		throw new AbstractMethodError();
+	}
 }

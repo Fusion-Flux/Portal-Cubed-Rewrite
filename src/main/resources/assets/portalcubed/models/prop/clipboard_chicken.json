@@ -1,0 +1,73 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "portalcubed:prop/clipboard",
+		"particle": "portalcubed:prop/clipboard"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 3.5],
+			"to": [11, 1, 12.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.73483, 9.76517]},
+			"faces": {
+				"north": {"uv": [4.5, 4.5, 7.5, 5], "texture": "#0"},
+				"east": {"uv": [0, 4.5, 4.5, 5], "texture": "#0"},
+				"south": {"uv": [12, 4.5, 15, 5], "texture": "#0"},
+				"west": {"uv": [7.5, 4.5, 12, 5], "texture": "#0"},
+				"up": {"uv": [3, 14.5, 0, 10], "texture": "#0"},
+				"down": {"uv": [10.5, 0, 7.5, 4.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.5, 1.64905, 10.34727],
+			"to": [9.5, 2.64905, 11.34727],
+			"rotation": {"angle": 45, "axis": "x", "origin": [8, 0.73483, 9.76517]},
+			"faces": {
+				"north": {"uv": [0.5, 0.5, 2, 1], "texture": "#0"},
+				"east": {"uv": [0, 0.5, 0.5, 1], "texture": "#0"},
+				"west": {"uv": [2, 0.5, 2.5, 1], "texture": "#0"},
+				"up": {"uv": [2, 0.5, 0.5, 0], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-82.32, -2.98, -173.09],
+			"translation": [0.25, 2.75, 8.25]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-82.32, -2.98, -173.09],
+			"translation": [0.25, 2.75, 8.25]
+		},
+		"firstperson_righthand": {
+			"rotation": [-95, -5, 177],
+			"translation": [-2.25, 5.5, 8.25],
+			"scale": [0.71, 0.71, 0.71]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-95, -5, 177],
+			"translation": [-2.25, 5.5, 8.25],
+			"scale": [0.71, 0.71, 0.71]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, 8, 0],
+			"scale": [1.32227, 1.31445, 1.32227]
+		},
+		"head": {
+			"rotation": [-89, 0, 0],
+			"translation": [0, 0, -21.5],
+			"scale": [1.83398, 1.83398, 1.83398]
+		},
+		"fixed": {
+			"rotation": [-89, 0, 0],
+			"translation": [0, 0, -13.75],
+			"scale": [1.83398, 1.83398, 1.83398]
+		}
+	}
+}

@@ -10,6 +10,6 @@ public class HammerItem extends Item {
 	}
 
 	public static boolean usingHammer(Player player) {
-		return player.getMainHandItem().is(PortalCubedItemTags.WRENCHES);
+		return player.getMainHandItem().is(PortalCubedItemTags.WRENCH);
 	}
 }

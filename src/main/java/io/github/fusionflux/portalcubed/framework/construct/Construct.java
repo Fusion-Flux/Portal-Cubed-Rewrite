@@ -1,14 +1,23 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
-import com.mojang.serialization.Codec;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
+
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import io.github.fusionflux.portalcubed.framework.util.EvenMoreCodecs;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.ExtraCodecs;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
@@ -17,25 +26,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 /**
  * Similar to a {@link StructureTemplate}, stores a map of relative block positions to block states.
  * Always contains at least one block.
  */
-public class Construct {
-	public static final Codec<Construct> CODEC = ExtraCodecs.validate(
-			Codec.unboundedMap(
-					EvenMoreCodecs.BLOCKPOS_STRING,
-					BlockInfo.CODEC
-			).xmap(Construct::new, construct -> construct.blocks),
-			Construct::validate
-	);
+public final class Construct {
+	public static final Codec<Construct> CODEC = Codec.unboundedMap(
+			PortalCubedCodecs.BLOCKPOS_STRING,
+			BlockInfo.CODEC
+	).xmap(Construct::new, construct -> construct.blocks).validate(Construct::validate);
+
+	public static final StreamCodec<ByteBuf, Construct> STREAM_CODEC = PortalCubedStreamCodecs.map(
+			BlockPos.STREAM_CODEC, BlockInfo.STREAM_CODEC
+	).map(Construct::new, construct -> construct.blocks);
 
 	private final Map<BlockPos, BlockInfo> blocks;
 	private final Map<Rotation, Map<BlockPos, BlockInfo>> rotatedBlockCache;
@@ -110,11 +113,11 @@ public class Construct {
 
 	public record BlockInfo(BlockState state, Optional<CompoundTag> maybeNbt) {
 		private static final Codec<BlockInfo> fullCodec = RecordCodecBuilder.create(instance -> instance.group(
-				EvenMoreCodecs.BLOCKSTATE.fieldOf("state").forGetter(BlockInfo::state),
+				PortalCubedCodecs.BLOCKSTATE.fieldOf("state").forGetter(BlockInfo::state),
 				CompoundTag.CODEC.optionalFieldOf("nbt").forGetter(BlockInfo::maybeNbt)
 		).apply(instance, BlockInfo::new));
 
-		private static final Codec<BlockInfo> byState = EvenMoreCodecs.BLOCKSTATE.flatComapMap(
+		private static final Codec<BlockInfo> byState = PortalCubedCodecs.BLOCKSTATE.flatComapMap(
 				BlockInfo::new, info -> {
 					if (info.maybeNbt.isPresent()) {
 						return DataResult.error(() -> "NBT is present");
@@ -123,8 +126,14 @@ public class Construct {
 				}
 		);
 
-		public static final Codec<BlockInfo> CODEC = EvenMoreCodecs.multiFormat(
+		public static final Codec<BlockInfo> CODEC = PortalCubedCodecs.multiFormat(
 				byState, fullCodec, info -> info.maybeNbt.isPresent()
+		);
+
+		public static final StreamCodec<ByteBuf, BlockInfo> STREAM_CODEC = StreamCodec.composite(
+				PortalCubedStreamCodecs.BLOCK_STATE, BlockInfo::state,
+				ByteBufCodecs.OPTIONAL_COMPOUND_TAG, BlockInfo::maybeNbt,
+				BlockInfo::new
 		);
 
 		public static final BlockInfo EMPTY = new BlockInfo(Blocks.AIR.defaultBlockState());

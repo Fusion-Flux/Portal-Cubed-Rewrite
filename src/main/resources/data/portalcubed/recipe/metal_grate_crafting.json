@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YXY",
+        "X X",
+        "YXY"
+    ],
+    "key": {
+        "X": "minecraft:iron_bars",
+        "Y": "portalcubed:magnesium_block"
+    },
+    "result": {
+        "id": "portalcubed:metal_grate",
+        "count": 8
+    }
+}

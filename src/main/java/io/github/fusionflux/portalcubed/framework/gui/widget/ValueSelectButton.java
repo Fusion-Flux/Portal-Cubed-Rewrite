@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
@@ -49,7 +50,7 @@ public class ValueSelectButton<T extends StringRepresentable> extends AbstractWi
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		graphics.blitSprite(sprites.get(isActive(), isHovered()), getX(), getY(), getWidth(), getHeight());
+		graphics.blitSprite(RenderType::guiTextured, sprites.get(isActive(), isHovered()), getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override

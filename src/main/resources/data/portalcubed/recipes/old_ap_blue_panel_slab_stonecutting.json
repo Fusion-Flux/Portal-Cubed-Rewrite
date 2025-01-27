@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 2,
-  "ingredient": {
-    "item": "portalcubed:old_ap_blue_panel"
-  },
-  "result": "portalcubed:old_ap_blue_panel_slab"
-}

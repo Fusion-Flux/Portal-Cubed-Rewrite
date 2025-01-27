@@ -6,27 +6,32 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedAttributes;
 import io.github.fusionflux.portalcubed.content.boots.LongFallBoots;
 import io.github.fusionflux.portalcubed.content.boots.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedDamageTypeTags;
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,7 +39,7 @@ import net.minecraft.world.phys.Vec3;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
-	public LivingEntityMixin(EntityType<?> variant, Level world) {
+	protected LivingEntityMixin(EntityType<?> variant, Level world) {
 		super(variant, world);
 	}
 
@@ -56,6 +61,12 @@ public abstract class LivingEntityMixin extends Entity {
 	@Shadow
 	public abstract void releaseUsingItem();
 
+	@Shadow
+	public abstract double getAttributeValue(Holder<Attribute> attribute);
+
+	@Shadow
+	public abstract void remove(RemovalReason reason);
+
 	@Unique
 	private boolean lemonadeArmingFinished;
 
@@ -68,27 +79,38 @@ public abstract class LivingEntityMixin extends Entity {
 		return false;
 	}
 
-	@Inject(
+	@Inject(method = "dismountVehicle", at = @At("TAIL"))
+	private void onDismount(CallbackInfo ci) {
+		// calls teleportTo, which sets non-local to true
+		this.pc$setNextTeleportNonLocal(false);
+	}
+
+	@ModifyReturnValue(method = "createLivingAttributes", at = @At("RETURN"))
+	private static AttributeSupplier.Builder addFallDamageAbsorptionAttribute(AttributeSupplier.Builder builder) {
+		return builder.add(PortalCubedAttributes.FALL_DAMAGE_ABSORPTION);
+	}
+
+	@WrapOperation(
 			method = "causeFallDamage",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/LivingEntity;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V",
-					shift = At.Shift.BEFORE
-			),
-			cancellable = true
+					target = "Lnet/minecraft/world/entity/LivingEntity;calculateFallDamage(FF)I"
+			)
 	)
-	private void absorbFallDamageIntoBoots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, @Local int fallDamage) {
+	private int absorbFallDamageIntoBoots(LivingEntity instance, float fallDistance, float damageMultiplier, Operation<Integer> original, @Local(argsOnly = true) DamageSource source) {
+		int fallDamage = original.call(instance, fallDistance, damageMultiplier);
+
+		double absorption = this.getAttributeValue(PortalCubedAttributes.FALL_DAMAGE_ABSORPTION);
 		ItemStack boots = this.getItemBySlot(EquipmentSlot.FEET);
-		if (boots.is(PortalCubedItemTags.ABSORB_FALL_DAMAGE) && !damageSource.is(PortalCubedDamageTypeTags.BYPASSES_FALL_DAMAGE_ABSORPTION)) {
-			// use fall damage here to include jump boost, safe fall distance, and the damage multiplier.
-			int bootDamage = LongFallBoots.calculateFallDamage(boots, fallDamage);
-			((ItemStackExt) (Object) boots).pc$hurtAndBreakNoUnbreaking(
-					bootDamage, (LivingEntity) (Object) this, e -> e.broadcastBreakEvent(EquipmentSlot.FEET)
-			);
+		if (!source.is(PortalCubedDamageTypeTags.BYPASSES_FALL_DAMAGE_ABSORPTION) && absorption > 0 && !boots.isEmpty()) {
+			int bootDamage = LongFallBoots.calculateDamage(this.registryAccess(), boots, absorption, fallDamage);
+			((ItemStackExt) (Object) boots).pc$hurtEquipmentNoUnbreaking(bootDamage, instance, EquipmentSlot.FEET);
 
 			if (!boots.isEmpty())
-				cir.setReturnValue(false);
+				return Mth.floor(fallDamage * (1 - absorption));
 		}
+
+		return fallDamage;
 	}
 
 	@Inject(method = {"releaseUsingItem", "completeUsingItem"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;stopUsingItem()V"))
@@ -99,7 +121,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Inject(method = "stopUsingItem", at = @At("HEAD"))
 	private void finishLemonadeArmingOnStop(CallbackInfo ci) {
 		Level level = this.level();
-		if (!level.isClientSide && !lemonadeArmingFinished) {
+		if (!level.isClientSide && !this.lemonadeArmingFinished) {
 			ItemStack useItem = this.getUseItem();
 			if (useItem.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(useItem)) {
 				// setting to true here isn't useless in some rare cases (skeletons for example) setItemInHand might cause another invoke of this method
@@ -132,7 +154,7 @@ public abstract class LivingEntityMixin extends Entity {
 	}
 
 	@WrapOperation(
-			method = "travel",
+			method = "travelInAir",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/entity/LivingEntity;handleRelativeFrictionAndCalculateMovement(Lnet/minecraft/world/phys/Vec3;F)Lnet/minecraft/world/phys/Vec3;"
@@ -152,7 +174,10 @@ public abstract class LivingEntityMixin extends Entity {
 			if (!wasGrounded && isGrounded) {
 				// when landing, re-calculate friction.
 				// Otherwise, air friction is used for an extra tick, building infinite speed.
-				friction.set(blockFriction * 0.91f);
+				BlockPos movementEffectingPos = this.getBlockPosBelowThatAffectsMyMovement();
+				float newBlockFriction = this.level().getBlockState(movementEffectingPos).getBlock().getFriction();
+				float newFriction = newBlockFriction * 0.91f;
+				friction.set(newFriction);
 			}
 			return newVel;
 		}

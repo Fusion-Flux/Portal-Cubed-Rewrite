@@ -1,13 +1,17 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
-import net.minecraft.world.entity.MobSpawnType;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
+import net.minecraft.core.BlockPos;
+
+import net.minecraft.world.entity.EntitySpawnReason;
+
+import net.minecraft.world.level.gameevent.GameEvent;
 
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 
@@ -20,13 +24,22 @@ public class PropDispenseBehavior extends DefaultDispenseItemBehavior {
 
 	@Override
 	@NotNull
-	protected ItemStack execute(BlockSource pointer, ItemStack stack) {
+	protected ItemStack execute(BlockSource source, ItemStack stack) {
 		if (!stack.is(this.item))
 			return stack;
 
-		ServerLevel level = pointer.level();
-		Direction direction = pointer.state().getValue(DispenserBlock.FACING);
-		this.item.use(level, pointer.pos().relative(direction), MobSpawnType.DISPENSER, direction != Direction.UP, false, stack, null);
+		// based on DispenseItemBehavior for SpawnEggItems
+		Direction direction = source.state().getValue(DispenserBlock.FACING);
+		BlockPos pos = source.pos().relative(direction);
+		Integer variant = PropItem.getVariant(stack);
+
+		Prop prop = this.item.type.spawn(source.level(), pos, stack, null, EntitySpawnReason.DISPENSER, variant, direction != Direction.UP, false);
+
+		stack.shrink(1); // intentionally not in the if statement
+		if (prop != null) {
+			prop.gameEvent(GameEvent.ENTITY_PLACE, null);
+		}
+
 		return stack;
 	}
 }

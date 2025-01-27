@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YX",
+        "XY"
+    ],
+    "key": {
+        "X": "minecraft:copper_block",
+        "Y": "minecraft:deepslate"
+    },
+    "result": {
+        "id": "portalcubed:portal_1_metal_panel",
+        "count": 4
+    },
+  "group": "portal_1_metal_panel"
+}

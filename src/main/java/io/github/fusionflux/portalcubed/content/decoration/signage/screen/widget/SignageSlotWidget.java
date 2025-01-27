@@ -1,10 +1,11 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.screen.widget;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
-import io.github.fusionflux.portalcubed.framework.signage.Signage;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class SignageSlotWidget extends TexturedStickyButton {
@@ -23,27 +24,25 @@ public class SignageSlotWidget extends TexturedStickyButton {
 	);
 
 	private final ResourceLocation signageTexture;
-	private final Signage.Size size;
+	private final boolean small;
 	private final AdvancedTooltip tooltip;
 
-	public SignageSlotWidget(Signage signage, boolean aged, Runnable onSelect) {
-		this(signage, aged, 0, 0, onSelect);
+	public SignageSlotWidget(Signage signage, boolean small, boolean aged, Runnable onSelect) {
+		this(signage, small, aged, 0, 0, onSelect);
 	}
 
-	public SignageSlotWidget(Signage signage, boolean aged, int x, int y, Runnable onSelect) {
+	public SignageSlotWidget(Signage signage, boolean small, boolean aged, int x, int y, Runnable onSelect) {
 		super(x, y, SIZE, SIZE, signage.name(), DISABLED_TEXTURES, TEXTURES, onSelect);
-		this.signageTexture = signage.selectTexture(aged)
-				.withPrefix("textures/")
-				.withSuffix(".png");
-		this.size = signage.size();
+		this.signageTexture = signage.selectTexture(aged);
+		this.small = small;
 		this.tooltip = new AdvancedTooltip(builder -> builder.add(signage.name()));
 	}
 
 	@Override
 	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		super.renderWidget(graphics, mouseX, mouseY, delta);
-		int scale = this.size == Signage.Size.SMALL ? 2 : 1;
-		graphics.blit(this.signageTexture, this.getX() + OFFSET, this.getY() + OFFSET, 0, 0, 16, 16, 16 * scale, 16 * scale);
+		int scale = this.small ? 2 : 1;
+		graphics.blitSprite(RenderType::guiTextured, this.signageTexture, 16 * scale, 16 * scale, 0, 0, this.getX() + OFFSET, this.getY() + OFFSET, 16, 16);
 		if (this.isHovered())
 			this.tooltip.render(graphics, mouseX, mouseY);
 	}

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "YX",
+        "XY"
+    ],
+    "key": {
+        "X": "minecraft:white_concrete",
+        "Y": "minecraft:diorite"
+    },
+    "result": {
+        "id": "portalcubed:portal_1_white_panel",
+        "count": 4
+    },
+  "group": "portal_1_white_panel"
+}
