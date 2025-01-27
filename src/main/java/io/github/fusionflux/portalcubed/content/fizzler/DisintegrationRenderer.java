@@ -21,8 +21,9 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.mixin.client.LevelRendererAccessor;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
@@ -99,9 +100,9 @@ public class DisintegrationRenderer {
 		DISINTEGRATION_COLOR_MODIFIER.set(1f);
 	}
 
-	public record BufferSource(Reference2ReferenceMap<RenderType, ByteBufferBuilder> buffers, Reference2ReferenceMap<RenderType, BufferBuilder> builders) implements MultiBufferSource {
+	public record BufferSource(Object2ReferenceMap<RenderType, ByteBufferBuilder> buffers, Object2ReferenceMap<RenderType, BufferBuilder> builders) implements MultiBufferSource {
 		public BufferSource(Iterable<RenderType> renderTypes) {
-			this(new Reference2ReferenceOpenHashMap<>(), new Reference2ReferenceOpenHashMap<>());
+			this(new Object2ReferenceOpenHashMap<>(), new Object2ReferenceLinkedOpenHashMap<>());
 			this.buffers.defaultReturnValue(new ByteBufferBuilder(RenderType.SMALL_BUFFER_SIZE));
 			renderTypes.forEach(renderType -> this.buffers.put(renderType, new ByteBufferBuilder(renderType.bufferSize())));
 		}
@@ -115,7 +116,7 @@ public class DisintegrationRenderer {
 		}
 
 		public void flush() {
-			for (Map.Entry<RenderType, BufferBuilder> entry : this.builders.reference2ReferenceEntrySet()) {
+			for (Map.Entry<RenderType, BufferBuilder> entry : this.builders.object2ReferenceEntrySet()) {
 				BufferBuilder builder = entry.getValue();
 				MeshData meshData = builder.build();
 				if (meshData != null) {
