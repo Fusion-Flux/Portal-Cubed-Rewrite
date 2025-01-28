@@ -32,11 +32,7 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 	public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Signage>> SMALL_STREAM_CODEC = ByteBufCodecs.holderRegistry(PortalCubedRegistries.SMALL_SIGNAGE);
 
 	public ResourceLocation selectTexture(boolean aged) {
-		if (this.cleanTexture.isPresent() && !aged)
-			return this.cleanTexture.get();
-		if (this.agedTexture.isPresent() && aged)
-			return this.agedTexture.get();
-		return this.cleanTexture.orElse(this.agedTexture.orElseThrow());
+		return aged ? this.agedTexture.orElseThrow() : this.cleanTexture.orElseThrow();
 	}
 
 	private static DataResult<Signage> validate(Signage signage) {

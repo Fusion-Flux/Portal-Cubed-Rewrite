@@ -8,7 +8,6 @@ import java.util.Objects;
 import org.apache.commons.lang3.function.TriConsumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.content.decoration.signage.screen.widget.SignageSlotWidget;
@@ -85,10 +84,13 @@ public abstract class SignageConfigScreen extends Screen {
 		root.addChild(8, 6 + this.yOffset(), new TitleWidget(this.title, this.font));
 
 		GridLayout slots = root.addChild(15, 16 + this.yOffset(), new GridLayout());
+		boolean small = this instanceof SmallSignageConfigScreen;
+		boolean aged = this.signageBlock.aged;
 		List<Holder.Reference<Signage>> signage = this.registryLookup
 				.listElementIds()
 				.sorted(Comparator.comparing(ResourceKey::location))
 				.map(this.registryLookup::getOrThrow)
+				.filter(holder -> aged ? holder.value().agedTexture().isPresent() : holder.value().cleanTexture().isPresent())
 				.toList();
 
 		int rowCount = Mth.positiveCeilDiv(signage.size(), SLOT_COLUMNS) - SLOT_ROWS;
@@ -102,7 +104,7 @@ public abstract class SignageConfigScreen extends Screen {
 
 		for (Holder.Reference<Signage> holder : signage) {
 			if (i >= 0) {
-				SignageSlotWidget slot = new SignageSlotWidget(holder.value(), holder.key().isFor(PortalCubedRegistries.SMALL_SIGNAGE), this.signageBlock.aged, () -> {
+				SignageSlotWidget slot = new SignageSlotWidget(holder.value(), small, aged, () -> {
 					slots.visitWidgets(widget -> ((TexturedStickyButton) widget).deselect());
 					this.updateSignage(holder);
 				});
