@@ -108,7 +108,9 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 	public Object getRenderData() {
 		DynamicTextureRenderData.Builder builder = new DynamicTextureRenderData.Builder();
 		for (SmallSignageBlock.Quadrant quadrant : SmallSignageBlock.Quadrant.VALUES) {
-			builder.put("#signage_" + quadrant.name, this.getQuadrant(quadrant).value().selectTexture(this.aged));
+			this.getQuadrant(quadrant).value()
+					.selectTexture(this.aged)
+					.ifPresent(texture -> builder.put("#signage_" + quadrant.name, texture));
 		}
 		return builder.build();
 	}

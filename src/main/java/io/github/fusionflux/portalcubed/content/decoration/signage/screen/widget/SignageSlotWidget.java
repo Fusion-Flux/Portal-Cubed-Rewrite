@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 
 public class SignageSlotWidget extends TexturedStickyButton {
@@ -33,7 +34,7 @@ public class SignageSlotWidget extends TexturedStickyButton {
 
 	public SignageSlotWidget(Signage signage, boolean small, boolean aged, int x, int y, Runnable onSelect) {
 		super(x, y, SIZE, SIZE, signage.name(), DISABLED_TEXTURES, TEXTURES, onSelect);
-		this.signageTexture = signage.selectTexture(aged);
+		this.signageTexture = signage.selectTexture(aged).orElse(MissingTextureAtlasSprite.getLocation());
 		this.small = small;
 		this.tooltip = new AdvancedTooltip(builder -> builder.add(signage.name()));
 	}

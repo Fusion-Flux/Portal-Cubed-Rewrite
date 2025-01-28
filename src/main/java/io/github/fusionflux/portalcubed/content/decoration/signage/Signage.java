@@ -31,8 +31,8 @@ public record Signage(Optional<ResourceLocation> cleanTexture, Optional<Resource
 	public static final Codec<Holder<Signage>> SMALL_CODEC = RegistryFixedCodec.create(PortalCubedRegistries.SMALL_SIGNAGE);
 	public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Signage>> SMALL_STREAM_CODEC = ByteBufCodecs.holderRegistry(PortalCubedRegistries.SMALL_SIGNAGE);
 
-	public ResourceLocation selectTexture(boolean aged) {
-		return aged ? this.agedTexture.orElseThrow() : this.cleanTexture.orElseThrow();
+	public Optional<ResourceLocation> selectTexture(boolean aged) {
+		return aged ? this.agedTexture : this.cleanTexture;
 	}
 
 	private static DataResult<Signage> validate(Signage signage) {
