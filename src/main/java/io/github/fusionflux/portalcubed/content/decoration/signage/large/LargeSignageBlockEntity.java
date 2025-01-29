@@ -1,14 +1,12 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
-import java.util.Optional;
-
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
-import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlockEntity;
 import io.github.fusionflux.portalcubed.content.decoration.signage.component.SelectedLargeSignage;
@@ -18,79 +16,81 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LargeSignageBlockEntity extends SignageBlockEntity {
-	public static final ResourceKey<Signage> LARGE_BLANK = ResourceKey.create(PortalCubedRegistries.LARGE_SIGNAGE, PortalCubed.id("blank"));
+	private static final Logger logger = LoggerFactory.getLogger(LargeSignageBlockEntity.class);
+
+	private static final String TAG_KEY = "image";
 
 	@Nullable
-	private Holder<Signage> holder;
+	private Holder<Signage> image;
 
 	public LargeSignageBlockEntity(BlockPos pos, BlockState state) {
 		super(PortalCubedBlockEntityTypes.LARGE_SIGNAGE, pos, state, PortalCubedBlocks.AGED_LARGE_SIGNAGE);
 	}
 
-	public Holder<Signage> holder() {
-		if (this.holder == null && this.level != null) {
+	public Holder<Signage> getImage() {
+		if (this.image == null && this.level != null) {
 			return this.level.registryAccess()
-					.get(LARGE_BLANK)
+					.get(Signage.LARGE_BLANK)
 					.orElse(null);
 		}
-		return this.holder;
+		return this.image;
 	}
 
-	public void update(Holder<Signage> holder) {
-		if (holder != null && holder != this.holder()) {
-			this.holder = holder;
-			if (this.level != null) {
-				if (this.level.isClientSide) {
-					this.updateModel();
-				} else {
-					this.setChangedAndSync();
-				}
-			}
+	public void setImage(Holder<Signage> image) {
+		if (image != null && image != this.getImage()) {
+			this.image = image;
+			this.updateImage();
 		}
-	}
-
-	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		Optional.ofNullable(ResourceLocation.tryParse(tag.getString(SIGNAGE_KEY)))
-				.map(id -> ResourceKey.create(PortalCubedRegistries.LARGE_SIGNAGE, id))
-				.flatMap(registries::get)
-				.ifPresent(this::update);
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		this.holder().unwrapKey().ifPresent(key -> tag.putString(SIGNAGE_KEY, key.location().toString()));
+		RegistryOps<Tag> registryOps = registries.createSerializationContext(NbtOps.INSTANCE);
+		tag.put(TAG_KEY, Signage.LARGE_CODEC.encodeStart(registryOps, this.getImage()).getOrThrow());
+	}
+
+	@Override
+	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		RegistryOps<Tag> registryOps = registries.createSerializationContext(NbtOps.INSTANCE);
+		Signage.LARGE_CODEC
+				.parse(registryOps, tag.get(TAG_KEY))
+				.resultOrPartial(error -> logger.error("Failed to parse image: '{}'", error))
+				.ifPresent(image -> {
+					this.image = image;
+					this.updateImage();
+				});
 	}
 
 	@Override
 	protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
 		SelectedLargeSignage component = componentInput.get(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE);
 		if (component != null)
-			this.update(component.signage());
+			this.image = component.image();
 	}
 
 	@Override
 	protected void collectImplicitComponents(DataComponentMap.Builder components) {
-		components.set(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE, new SelectedLargeSignage(this.holder()));
+		components.set(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE, new SelectedLargeSignage(this.getImage()));
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void removeComponentsFromTag(CompoundTag tag) {
-		tag.remove(SIGNAGE_KEY);
+		tag.remove(TAG_KEY);
 	}
 
 	@Override
 	@Nullable
 	public Object getRenderData() {
 		DynamicTextureRenderData.Builder builder = new DynamicTextureRenderData.Builder();
-		this.holder().value()
+		this.getImage().value()
 				.selectTexture(this.aged)
 				.ifPresent(texture -> builder.put("#signage", texture));
 		return builder.build();

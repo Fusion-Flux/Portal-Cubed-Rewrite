@@ -27,9 +27,9 @@ public record SelectedSmallSignage(SmallSignageBlockEntity.Quadrants quadrants) 
 	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
 		tooltipAdder.accept(TOOLTIP_TITLE);
 		for (Map.Entry<SmallSignageBlock.Quadrant, Holder<Signage>> entry : this.quadrants.map().entrySet()) {
-			Holder<Signage> signage = entry.getValue();
-			Component signageName = signage.value().name();
-			tooltipAdder.accept(CommonComponents.space().append(signageName).withStyle(ChatFormatting.BLUE));
+			Holder<Signage> image = entry.getValue();
+			Component imageName = image.value().name();
+			tooltipAdder.accept(CommonComponents.space().append(imageName).withStyle(ChatFormatting.BLUE));
 		}
 	}
 }
