@@ -15,15 +15,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipProvider;
 
-public record SelectedLargeSignage(Holder<Signage> signage) implements TooltipProvider {
-	public static final Codec<SelectedLargeSignage> CODEC = Signage.LARGE_CODEC.xmap(SelectedLargeSignage::new, SelectedLargeSignage::signage);
-	public static final StreamCodec<RegistryFriendlyByteBuf, SelectedLargeSignage> STREAM_CODEC = Signage.LARGE_STREAM_CODEC.map(SelectedLargeSignage::new, SelectedLargeSignage::signage);
+public record SelectedLargeSignage(Holder<Signage> image) implements TooltipProvider {
+	public static final Codec<SelectedLargeSignage> CODEC = Signage.LARGE_CODEC.xmap(SelectedLargeSignage::new, SelectedLargeSignage::image);
+	public static final StreamCodec<RegistryFriendlyByteBuf, SelectedLargeSignage> STREAM_CODEC = Signage.LARGE_STREAM_CODEC.map(SelectedLargeSignage::new, SelectedLargeSignage::image);
 	public static final Component TOOLTIP_TITLE = Component.translatable("block.portalcubed.large_signage.image").withStyle(ChatFormatting.GRAY);
 
 	@Override
 	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
-		Component signageName = this.signage.value().name();
+		Component imageName = this.image.value().name();
 		tooltipAdder.accept(TOOLTIP_TITLE);
-		tooltipAdder.accept(CommonComponents.space().append(signageName).withStyle(ChatFormatting.BLUE));
+		tooltipAdder.accept(CommonComponents.space().append(imageName).withStyle(ChatFormatting.BLUE));
 	}
 }

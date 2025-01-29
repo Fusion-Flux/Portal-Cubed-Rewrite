@@ -46,10 +46,10 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 		}
 	}
 
-	record Large(BlockPos signagePos, Holder<Signage> signage) implements ConfigureSignageConfigPacket {
+	record Large(BlockPos signagePos, Holder<Signage> image) implements ConfigureSignageConfigPacket {
 		public static final StreamCodec<RegistryFriendlyByteBuf, Large> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Large::signagePos,
-				Signage.LARGE_STREAM_CODEC, Large::signage,
+				Signage.LARGE_STREAM_CODEC, Large::image,
 				Large::new
 		);
 
@@ -61,7 +61,7 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 		@Override
 		public void configure(ServerPlayer player, @Nullable BlockEntity blockEntity) {
 			if (blockEntity instanceof LargeSignageBlockEntity signageBlock) {
-				signageBlock.update(this.signage);
+				signageBlock.setImage(this.image);
 				PortalCubedCriteriaTriggers.CONFIGURE_TEST_ELEMENT.trigger(
 						player,
 						Set.of(PortalCubedTestElementSettings.LARGE_SIGNAGE_IMAGE)
@@ -70,12 +70,12 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 		}
 	}
 
-	record Small(BlockPos signagePos, SmallSignageBlock.Quadrant quadrant, TriState enabled, @Nullable Holder<Signage> signage) implements ConfigureSignageConfigPacket {
+	record Small(BlockPos signagePos, SmallSignageBlock.Quadrant quadrant, TriState enabled, @Nullable Holder<Signage> image) implements ConfigureSignageConfigPacket {
 		public static final StreamCodec<RegistryFriendlyByteBuf, Small> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Small::signagePos,
 				SmallSignageBlock.Quadrant.STREAM_CODEC, Small::quadrant,
 				PortalCubedStreamCodecs.ofEnum(TriState.class), Small::enabled,
-				PortalCubedStreamCodecs.nullable(Signage.SMALL_STREAM_CODEC), Small::signage,
+				PortalCubedStreamCodecs.nullable(Signage.SMALL_STREAM_CODEC), Small::image,
 				Small::new
 		);
 
@@ -95,8 +95,8 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 					changedSettings.add(PortalCubedTestElementSettings.SMALL_SIGNAGE_QUADRANT_TOGGLE);
 				}
 
-				if (this.signage != null) {
-					signageBlock.updateQuadrant(this.quadrant, this.signage);
+				if (this.image != null) {
+					signageBlock.setQuadrantImage(this.quadrant, this.image);
 					changedSettings.add(PortalCubedTestElementSettings.SMALL_SIGNAGE_IMAGE);
 				}
 

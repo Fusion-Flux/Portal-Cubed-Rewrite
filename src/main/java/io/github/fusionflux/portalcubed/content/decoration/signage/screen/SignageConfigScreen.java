@@ -60,9 +60,9 @@ public abstract class SignageConfigScreen extends Screen {
 
 	protected abstract ResourceKey<Registry<Signage>> registryKey();
 
-	protected abstract Holder<Signage> selectedSignage();
+	protected abstract Holder<Signage> selectedImage();
 
-	protected abstract void updateSignage(Holder<Signage> holder);
+	protected abstract void configure(Holder<Signage> image);
 
 	protected int yOffset() {
 		return 0;
@@ -90,7 +90,7 @@ public abstract class SignageConfigScreen extends Screen {
 				.listElementIds()
 				.sorted(Comparator.comparing(ResourceKey::location))
 				.map(this.registryLookup::getOrThrow)
-				.filter(holder -> aged ? holder.value().agedTexture().isPresent() : holder.value().cleanTexture().isPresent())
+				.filter(image -> aged ? image.value().agedTexture().isPresent() : image.value().cleanTexture().isPresent())
 				.toList();
 
 		int rowCount = Mth.positiveCeilDiv(signage.size(), SLOT_COLUMNS) - SLOT_ROWS;
@@ -102,14 +102,14 @@ public abstract class SignageConfigScreen extends Screen {
 			this.scrollBar.scrollRate = 1f / rowCount;
 		}
 
-		for (Holder.Reference<Signage> holder : signage) {
+		for (Holder.Reference<Signage> image : signage) {
 			if (i >= 0) {
-				SignageSlotWidget slot = new SignageSlotWidget(holder.value(), small, aged, () -> {
+				SignageSlotWidget slot = new SignageSlotWidget(image.value(), small, aged, () -> {
 					slots.visitWidgets(widget -> ((TexturedStickyButton) widget).deselect());
-					this.updateSignage(holder);
+					this.configure(image);
 				});
 				slot.active = this.slotsEnabled;
-				if (this.selectedSignage() == holder)
+				if (this.selectedImage() == image)
 					slot.select();
 				slots.addChild(slot, i / SLOT_COLUMNS, i % SLOT_COLUMNS);
 			}

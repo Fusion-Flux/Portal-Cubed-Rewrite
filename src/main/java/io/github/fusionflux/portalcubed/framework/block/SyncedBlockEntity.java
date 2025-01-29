@@ -19,12 +19,12 @@ public abstract class SyncedBlockEntity extends BlockEntity {
 		super(type, pos, blockState);
 	}
 
-	protected void setChangedAndSync() {
+	protected final void setChangedAndSync() {
 		this.setChanged();
 		this.sync();
 	}
 
-	protected void sync() {
+	protected final void sync() {
 		Level level = this.getLevel();
 		if (level != null) {
 			BlockState state = this.getBlockState();

@@ -44,12 +44,12 @@ public class LargeSignageConfigScreen extends SignageConfigScreen {
 	}
 
 	@Override
-	protected Holder<Signage> selectedSignage() {
-		return this.largeSignage.holder();
+	protected Holder<Signage> selectedImage() {
+		return this.largeSignage.getImage();
 	}
 
 	@Override
-	protected void updateSignage(Holder<Signage> holder) {
-		PortalCubedPackets.sendToServer(new ConfigureSignageConfigPacket.Large(this.largeSignage.getBlockPos(), holder));
+	protected void configure(Holder<Signage> image) {
+		PortalCubedPackets.sendToServer(new ConfigureSignageConfigPacket.Large(this.largeSignage.getBlockPos(), image));
 	}
 }

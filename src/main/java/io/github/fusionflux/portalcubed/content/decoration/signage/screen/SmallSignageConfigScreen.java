@@ -91,7 +91,7 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 			));
 		}));
 		quadrantToggle.addChild(
-				new TitleWidget(TOGGLE_TITLE, font),
+				new TitleWidget(TOGGLE_TITLE, this.font),
 				settings -> settings
 						.alignVertically(0.8f)
 						.paddingLeft(2)
@@ -105,17 +105,17 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 	}
 
 	@Override
-	protected Holder<Signage> selectedSignage() {
-		return this.smallSignage.getQuadrant(this.tab.quadrant());
+	protected Holder<Signage> selectedImage() {
+		return this.smallSignage.getQuadrantImage(this.tab.quadrant());
 	}
 
 	@Override
-	protected void updateSignage(Holder<Signage> holder) {
+	protected void configure(Holder<Signage> image) {
 		PortalCubedPackets.sendToServer(new ConfigureSignageConfigPacket.Small(
 				this.smallSignage.getBlockPos(),
 				this.tab.quadrant(),
 				TriState.DEFAULT,
-				holder
+				image
 		));
 	}
 
