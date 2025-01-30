@@ -47,8 +47,8 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 		matrices.mulPose(Axis.YP.rotationDegrees(180 - renderState.yRot));
 		matrices.translate(0, Y_OFFSET, 0);
 		matrices.scale(2, 2, 2);
-		PropModelCache.ModelTransformPair[] layers = PropModelCache.INSTANCE.get(renderState);
-		for (PropModelCache.ModelTransformPair layer : layers) {
+		PropModelCache.ModelAndTransform[] layers = PropModelCache.INSTANCE.get(renderState);
+		for (PropModelCache.ModelAndTransform layer : layers) {
 			EMITTER.prepare(bufferSource::getBuffer, layer.model());
 			matrices.pushPose();
 			layer.applyTransform(matrices);

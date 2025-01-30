@@ -33,10 +33,10 @@ public enum PropModelCache implements SimpleSynchronousReloadListener {
 	public static final Collection<ResourceLocation> DEPENDENCIES = List.of(ResourceReloadListenerKeys.MODELS);
 
 	private final ItemStackRenderState scratchRenderState = new ItemStackRenderState();
-	private final EnumMap<PropType, ModelTransformPair[][]> cache = new EnumMap<>(PropType.class);
+	private final EnumMap<PropType, ModelAndTransform[][]> cache = new EnumMap<>(PropType.class);
 
-	public ModelTransformPair[] get(PropRenderState renderState) {
-		ModelTransformPair[][] variants = this.cache.get(renderState.type);
+	public ModelAndTransform[] get(PropRenderState renderState) {
+		ModelAndTransform[][] variants = this.cache.get(renderState.type);
 		return variants[Math.min(renderState.variant, variants.length)];
 	}
 
@@ -58,21 +58,21 @@ public enum PropModelCache implements SimpleSynchronousReloadListener {
 		for (PropType type : PropType.values()) {
 			Item item = type.item();
 			ItemStack stack = item.getDefaultInstance();
-			ModelTransformPair[][] variants = this.cache.compute(
+			ModelAndTransform[][] variants = this.cache.compute(
 					type,
-					($, v) -> v == null ? new ModelTransformPair[type.variants.length][] : Util.make(v, arr -> Arrays.fill(arr, null))
+					($, v) -> v == null ? new ModelAndTransform[type.variants.length][] : Util.make(v, arr -> Arrays.fill(arr, null))
 			);
 			for (int variant : type.variants) {
 				stack.set(PortalCubedDataComponents.PROP_VARIANT, variant);
 				modelResolver.updateForTopItem(this.scratchRenderState, stack, ItemDisplayContext.GROUND, false, null, null, 42);
 
 				ItemStackRenderState.LayerRenderState[] layers = ((ItemStackRenderStateAccessor) this.scratchRenderState).getLayers();
-				ModelTransformPair[] modelTransformPairs = new ModelTransformPair[((ItemStackRenderStateAccessor) this.scratchRenderState).getActiveLayerCount()];
+				ModelAndTransform[] modelTransformPairs = new ModelAndTransform[((ItemStackRenderStateAccessor) this.scratchRenderState).getActiveLayerCount()];
 				for (int i = 0; i < modelTransformPairs.length; i++) {
 					ItemStackRenderState.LayerRenderState layer = layers[i];
 					BakedModel model = ((LayerRenderStateAccessor) layer).getModel();
 					ItemTransform transform = ((LayerRenderStateAccessor) layer).callTransform();
-					modelTransformPairs[i] = new ModelTransformPair(model == null ? missingModel : model, transform);
+					modelTransformPairs[i] = new ModelAndTransform(model == null ? missingModel : model, transform);
 				}
 
 				variants[variant] = modelTransformPairs;
@@ -80,7 +80,7 @@ public enum PropModelCache implements SimpleSynchronousReloadListener {
 		}
 	}
 
-	public record ModelTransformPair(BakedModel model, ItemTransform transform) {
+	public record ModelAndTransform(BakedModel model, ItemTransform transform) {
 		public void applyTransform(PoseStack matrices) {
 			this.transform.apply(false, matrices);
 			matrices.translate(-.5, -.5, -.5);

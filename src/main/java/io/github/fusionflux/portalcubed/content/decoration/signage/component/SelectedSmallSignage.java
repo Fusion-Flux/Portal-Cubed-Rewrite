@@ -25,6 +25,7 @@ public record SelectedSmallSignage(SmallSignageBlockEntity.Quadrants quadrants) 
 
 	@Override
 	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
+		tooltipAdder.accept(CommonComponents.EMPTY);
 		tooltipAdder.accept(TOOLTIP_TITLE);
 		for (Map.Entry<SmallSignageBlock.Quadrant, Holder<Signage>> entry : this.quadrants.map().entrySet()) {
 			Holder<Signage> image = entry.getValue();

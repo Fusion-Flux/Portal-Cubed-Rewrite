@@ -22,6 +22,7 @@ public record SelectedLargeSignage(Holder<Signage> image) implements TooltipProv
 
 	@Override
 	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
+		tooltipAdder.accept(CommonComponents.EMPTY);
 		Component imageName = this.image.value().name();
 		tooltipAdder.accept(TOOLTIP_TITLE);
 		tooltipAdder.accept(CommonComponents.space().append(imageName).withStyle(ChatFormatting.BLUE));
