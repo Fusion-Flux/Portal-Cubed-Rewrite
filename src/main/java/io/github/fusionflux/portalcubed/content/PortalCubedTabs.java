@@ -35,12 +35,13 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.OLD_AP_FLOOR_BUTTON_BLOCK);
+			output.accept(PortalCubedBlocks.PEDESTAL_BUTTON);
+			output.accept(PortalCubedBlocks.OLD_AP_PEDESTAL_BUTTON);
+			output.accept(PortalCubedBlocks.PORTAL_GUN_PEDESTAL);
 			output.accept(PortalCubedBlocks.SMALL_SIGNAGE);
 			output.accept(PortalCubedBlocks.LARGE_SIGNAGE);
 			output.accept(PortalCubedBlocks.AGED_SMALL_SIGNAGE);
 			output.accept(PortalCubedBlocks.AGED_LARGE_SIGNAGE);
-			output.accept(PortalCubedBlocks.PEDESTAL_BUTTON);
-			output.accept(PortalCubedBlocks.OLD_AP_PEDESTAL_BUTTON);
 			for (ChamberDoorType type : ChamberDoorType.values()) {
 				PortalCubedBlocks.CHAMBER_DOORS.get(type)
 						.values()

@@ -499,6 +499,42 @@
     ],
     "subtitle": "subtitles.portalcubed.construction_cannon_missing_materials"
   },
+  "portal_gun_pedestal_charging": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun_pedestal/portal_gun_pedestal_charging",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_pedestal_charging"
+  },
+  "portal_gun_pedestal_turning": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun_pedestal/portal_gun_pedestal_turning",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_pedestal_turning"
+  },
+  "portal_gun_pedestal_locking": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun_pedestal/portal_gun_pedestal_locking",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_pedestal_locking"
+  },
+  "portal_gun_pedestal_unlocking": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun_pedestal/portal_gun_pedestal_unlocking",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun_pedestal_unlocking"
+  },
   "old_ap_timer": {
     "sounds": [
       {

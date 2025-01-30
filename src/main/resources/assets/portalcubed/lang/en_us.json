@@ -116,6 +116,15 @@
   "container.portalcubed.construction_cannon.tab.settings.replace_mode": "Replace mode",
   "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
 
+  "container.portalcubed.portal_gun_pedestal": "Portal Gun Pedestal",
+  "container.portalcubed.portal_gun_pedestal.current_rotation": "Current rotation",
+  "container.portalcubed.portal_gun_pedestal.clockwise": "Clockwise Rotation",
+  "container.portalcubed.portal_gun_pedestal.counterclockwise": "Counterclockwise Rotation",
+  "container.portalcubed.portal_gun_pedestal.ignore_rotation": "Ignore this direction when rotating",
+  "container.portalcubed.portal_gun_pedestal.pause_rotation": "Pause briefly when rotating to this direction",
+  "container.portalcubed.portal_gun_pedestal.primary_fire_rotation": "Pause briefly and fire a primary portal when rotating to this direction",
+  "container.portalcubed.portal_gun_pedestal.secondary_fire_rotation": "Pause briefly and fire a secondary portal when rotating to this direction",
+
   "parsing.portalcubed.enum.Polarity.expected": "Expected polarity",
   "parsing.portalcubed.enum.Polarity.invalid": "Invalid polarity '%s'",
   "parsing.portalcubed.enum.Direction.expected": "Expected direction",
@@ -357,6 +366,11 @@
   "subtitles.portalcubed.pedestal_button_release": "Switch deactivates",
   "subtitles.portalcubed.floor_button_press": "Button activates",
   "subtitles.portalcubed.floor_button_release": "Button deactivates",
+
+  "subtitles.portalcubed.portal_gun_pedestal_charging": "Portal gun pedestal charges",
+  "subtitles.portalcubed.portal_gun_pedestal_turning": "Portal gun pedestal rotates",
+  "subtitles.portalcubed.portal_gun_pedestal_locking": "Portal gun pedestal locks",
+  "subtitles.portalcubed.portal_gun_pedestal_unlocking": "Portal gun pedestal unlocks",
 
   "subtitles.portalcubed.chamber_door_unlock": "Chamber door unlocks",
   "subtitles.portalcubed.chamber_door_lock": "Chamber door locks",
@@ -1008,6 +1022,8 @@
 
   "block.portalcubed.old_ap_chamber_door": "Old Aperture Chamber Door",
 
+  "block.portalcubed.portal_gun_pedestal": "Portal Gun Pedestal",
+
   "block.portalcubed.pedestal_button": "Pedestal Button",
   "block.portalcubed.old_ap_pedestal_button": "Old Aperture Pedestal Button",
 
@@ -1084,4 +1100,4 @@
 
   "entity.portalcubed.lemonade": "Lemonade"
 
-  }
+}

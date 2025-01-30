@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.lemon.Armed;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunTintSource;
+import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalModel;
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropVariantProperty;
 import io.github.fusionflux.portalcubed.framework.entity.EntityDebugRendering;
@@ -22,6 +23,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperties;
@@ -46,6 +48,7 @@ public class PortalCubedClient implements ClientModInitializer {
 		RangeSelectItemModelProperties.ID_MAPPER.put(PortalCubed.id("prop_variant"), PropVariantProperty.MAP_CODEC);
 		ItemTintSources.ID_MAPPER.put(PortalCubed.id("portal_gun"), PortalGunTintSource.CODEC);
 
+		EntityModelLayerRegistry.registerModelLayer(PortalGunPedestalModel.LAYER_LOCATION, PortalGunPedestalModel::createBodyLayer);
 		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT);
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
 		PortalCubedReloadListeners.registerAssets();

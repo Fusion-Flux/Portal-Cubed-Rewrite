@@ -25,6 +25,10 @@
         },
         {
           "type": "single",
+          "resource": "portalcubed:entity/portal_gun_pedestal/portal_gun_pedestal"
+        },
+        {
+          "type": "single",
           "resource": "minecraft:entity/fish/salmon"
         }
     ]

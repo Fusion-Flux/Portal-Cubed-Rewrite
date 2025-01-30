@@ -87,6 +87,7 @@
     "portalcubed:old_ap_floor_button",
     "portalcubed:cube_button",
     "portalcubed:pedestal_button",
-    "portalcubed:old_ap_pedestal_button"
+    "portalcubed:old_ap_pedestal_button",
+    "portalcubed:portal_gun_pedestal"
   ]
 }

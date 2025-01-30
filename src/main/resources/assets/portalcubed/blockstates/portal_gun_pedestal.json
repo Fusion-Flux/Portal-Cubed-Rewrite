@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "extended=false": {
+      "model": "portalcubed:block/portal_gun_pedestal_base"
+    },
+    "extended=true": {
+      "model": "portalcubed:block/portal_gun_pedestal_base"
+    }
+  }
+}

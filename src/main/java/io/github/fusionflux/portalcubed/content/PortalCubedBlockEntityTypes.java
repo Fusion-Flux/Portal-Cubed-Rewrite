@@ -5,6 +5,8 @@ import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
 import io.github.fusionflux.portalcubed.content.decoration.signage.large.LargeSignageBlockEntity;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlockEntity;
+import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalBlockEntity;
+import io.github.fusionflux.portalcubed.content.portal.gun_pedestal.PortalGunPedestalRenderer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class PortalCubedBlockEntityTypes {
@@ -25,6 +27,11 @@ public class PortalCubedBlockEntityTypes {
 		SmallSignageBlockEntity::new,
 		PortalCubedBlocks.SMALL_SIGNAGE, PortalCubedBlocks.AGED_SMALL_SIGNAGE
 	);
+
+	public static final BlockEntityType<PortalGunPedestalBlockEntity> PORTAL_GUN_PEDESTAL = REGISTRAR.blockEntities.create("portal_gun_pedestal", PortalGunPedestalBlockEntity::new)
+			.validBlocks(PortalCubedBlocks.PORTAL_GUN_PEDESTAL)
+			.renderer(() -> () -> PortalGunPedestalRenderer::new)
+			.build();
 
 	public static void init() {
 	}
