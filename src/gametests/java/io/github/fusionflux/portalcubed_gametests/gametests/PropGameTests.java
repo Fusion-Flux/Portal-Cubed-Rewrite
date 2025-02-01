@@ -29,7 +29,7 @@ public class PropGameTests implements FabricGameTest {
 	//Delay entity-on-button tests by 20 ticks to give the entities time to fall onto the buttons before checking states
 	private static final int TICKS_FOR_BUTTON_LAND = 20;
 
-	//Test for prop interaction on buttons.  Cubes should press, non-cubes should not.
+	//Tests prop interaction on buttons.  Cubes should press, non-cubes should not.
 	@GameTest(template = GROUP + "floor_button_cube")
 	public void floorButtonCube(GameTestHelper helper) {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 2, 0));
@@ -41,7 +41,7 @@ public class PropGameTests implements FabricGameTest {
 		}));
 	}
 
-	//Test for prop interaction on cube buttons.  Cubes should press, non-cubes should not.
+	//Tests prop interaction on cube buttons.  Cubes should press, non-cubes should not.
 	@GameTest(template = GROUP + "cube_button")
 	public void cubeButton(GameTestHelper helper) {
 		spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 2, 0));
@@ -53,7 +53,7 @@ public class PropGameTests implements FabricGameTest {
 				}));
 	}
 
-	//Test for cubes falling out of wall cube buttons.
+	//Tests cubes falling out of wall cube buttons.
 	@GameTest(template = GROUP + "wall_cube_button")
 	public void wallCubeButton(GameTestHelper helper) {
 		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(3, 1, 0));
@@ -66,7 +66,7 @@ public class PropGameTests implements FabricGameTest {
 				}));
 	}
 
-	//Test for fizzled cubes being pushed away from buttons.
+	//Tests fizzled cubes being pushed away from buttons.
 	@GameTest(template = GROUP + "fizzle_prop_on_button")
 	public void fizzlePropOnButton(GameTestHelper helper) {
 		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 2, 0));
@@ -83,7 +83,7 @@ public class PropGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test for entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
+	//Tests entity interaction on buttons.  Anything that presses a stone pressure plate should press buttons.
 	@GameTest(template = GROUP + "floor_button_entity")
 	public void floorButtonEntity(GameTestHelper helper) {
 		helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 0));
@@ -95,7 +95,7 @@ public class PropGameTests implements FabricGameTest {
 		}));
 	}
 
-	//Test for props being fizzled by goo.  Also checks a prop in the goo immunity tag
+	//Tests props being fizzled by goo.  Also checks a prop in the goo immunity tag
 	@GameTest(template = GROUP + "fizzle_goo")
 	public void fizzleGoo(GameTestHelper helper) {
 		Prop storageCube = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 3, 1));
@@ -106,7 +106,7 @@ public class PropGameTests implements FabricGameTest {
 		});
 	}
 
-	//Tests for companion cubes becoming charred when in contact with fire or lava
+	//Tests portal 1 companion cubes becoming charred when in contact with fire or lava
 	@GameTest(template = GROUP + "burn_companion_cube")
 	public void burnCompanionCube(GameTestHelper helper) {
 		Prop lavaCompanionCube = spawnProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(1, 3, 1));
@@ -119,7 +119,7 @@ public class PropGameTests implements FabricGameTest {
 		});
 	}
 
-	//Tests for dirty/charred props being washed when dropped into water
+	//Tests dirty/charred props being washed when dropped into water
 	//Note - add redirection cubes to this once they get added.
 	@GameTest(template = GROUP + "prop_washing")
 	public void propWashing(GameTestHelper helper) {
@@ -135,7 +135,7 @@ public class PropGameTests implements FabricGameTest {
 		});
 	}
 
-	//Tests for dirty/charred props being washed when the weather is rain
+	//Tests dirty/charred props being washed when the weather is rain
 	//Note - add redirection cubes to this once they get added
 	@GameTest(template = GROUP + "prop_washing_in_rain", batch = Batches.RAINY, skyAccess = true)
 	public void propWashingInRain(GameTestHelper helper) {
@@ -176,7 +176,7 @@ public class PropGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test for removing props with/without a hammer
+	//Tests removing props with/without a hammer
 	@GameTest(template = GROUP + "prop_removal")
 	public void propRemoval(GameTestHelper helper) {
 		Prop hammeredCube = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 1, 1));
@@ -194,14 +194,14 @@ public class PropGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test props being spawned from dispensers
+	//Tests props being spawned from dispensers
 	@GameTest(template = GROUP + "prop_dispenser")
 	public void propDispenser(GameTestHelper helper) {
 		helper.pullLever(1, 1, 0);
 		helper.succeedWhenEntityPresent(PortalCubedEntities.PROPS.get(PropType.STORAGE_CUBE), 1, 2, 1);
 	}
 
-	//Test portal 1 props dealing damage when landing on entities
+	//Tests portal 1 props dealing damage when landing on entities
 	@GameTest(template = GROUP + "falling_prop")
 	public void fallingProp(GameTestHelper helper) {
 		Mob gerald = helper.spawnWithNoFreeWill(EntityType.PIG, new BlockPos(1, 1, 1));
@@ -212,7 +212,7 @@ public class PropGameTests implements FabricGameTest {
 		}));
 	}
 
-	//Test prop barriers
+	//Tests prop barriers
 	@GameTest(template = GROUP + "prop_barrier")
 	public void propBarrier(GameTestHelper helper) {
 		helper.pullLever(0, 1, 2);

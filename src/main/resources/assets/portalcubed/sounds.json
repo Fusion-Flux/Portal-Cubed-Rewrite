@@ -1,50 +1,41 @@
 {
-  "floor_button_press": {
+  "floor_button.portal_2.press": {
     "sounds": [
       {
         "name": "portalcubed:button/floor/floor_button_press",
         "volume": 0.4
       }
     ],
-    "subtitle": "subtitles.portalcubed.floor_button_press"
+    "subtitle": "subtitles.portalcubed.floor_button.press"
   },
-  "floor_button_release": {
+  "floor_button.portal_2.release": {
     "sounds": [
       {
         "name": "portalcubed:button/floor/floor_button_release",
         "volume": 0.4
       }
     ],
-    "subtitle": "subtitles.portalcubed.floor_button_release"
+    "subtitle": "subtitles.portalcubed.floor_button.release"
   },
-  "pedestal_button_press": {
+  "pedestal_button.portal_2.press": {
     "sounds": [
       {
         "name": "portalcubed:button/pedestal/pedestal_button_press",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.pedestal_button_press"
+    "subtitle": "subtitles.portalcubed.pedestal_button.press"
   },
-  "pedestal_button_release": {
+  "pedestal_button.portal_2.release": {
     "sounds": [
       {
         "name": "portalcubed:button/pedestal/pedestal_button_release",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.pedestal_button_release"
+    "subtitle": "subtitles.portalcubed.pedestal_button.release"
   },
-  "surprise": {
-    "sounds": [
-      {
-        "name": "portalcubed:sad_party_horn",
-        "volume": 0.8
-      }
-    ],
-    "subtitle": "subtitles.portalcubed.surprise"
-  },
-  "portal_1_floor_button_press": {
+  "floor_button.portal_1.press": {
     "sounds": [
       {
         "name": "portalcubed:button/portal_1_floor/portal_1_floor_button_press",
@@ -52,9 +43,9 @@
         "pitch": 0.9
       }
     ],
-    "subtitle": "subtitles.portalcubed.floor_button_press"
+    "subtitle": "subtitles.portalcubed.floor_button.press"
   },
-  "portal_1_floor_button_release": {
+  "floor_button.portal_1.release": {
     "sounds": [
       {
         "name": "portalcubed:button/portal_1_floor/portal_1_floor_button_release",
@@ -62,9 +53,9 @@
         "pitch": 0.8
       }
     ],
-    "subtitle": "subtitles.portalcubed.floor_button_release"
+    "subtitle": "subtitles.portalcubed.floor_button.release"
   },
-  "old_ap_floor_button_press": {
+  "floor_button.old_ap.press": {
     "sounds": [
       {
         "name": "portalcubed:button/old_ap_floor/old_ap_floor_button_press_1",
@@ -79,9 +70,9 @@
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.floor_button_press"
+    "subtitle": "subtitles.portalcubed.floor_button.press"
   },
-  "old_ap_floor_button_release": {
+  "floor_button.old_ap.release": {
     "sounds": [
       {
         "name": "portalcubed:button/old_ap_floor/old_ap_floor_button_release_1",
@@ -96,99 +87,99 @@
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.floor_button_release"
+    "subtitle": "subtitles.portalcubed.floor_button.release"
   },
-  "old_ap_pedestal_button_press": {
+  "pedestal_button.old_ap.press": {
     "sounds": [
       {
         "name": "portalcubed:button/old_ap_pedestal/old_ap_pedestal_button_press",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.pedestal_button_press"
+    "subtitle": "subtitles.portalcubed.pedestal_button.press"
   },
-  "old_ap_pedestal_button_release": {
+  "pedestal_button.old_ap.release": {
     "sounds": [
       {
         "name": "portalcubed:button/old_ap_pedestal/old_ap_pedestal_button_release",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.pedestal_button_release"
+    "subtitle": "subtitles.portalcubed.pedestal_button.release"
   },
-  "portal_1_chamber_door_open": {
+  "chamber_door.portal_1.open": {
     "sounds": [
       {
         "name": "portalcubed:door/portal_1_chamber_door",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.chamber_door_open"
+    "subtitle": "subtitles.portalcubed.chamber_door.open"
   },
-  "portal_1_chamber_door_close": {
+  "chamber_door.portal_1.close": {
     "sounds": [
       {
         "name": "portalcubed:door/portal_1_chamber_door",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.chamber_door_close"
+    "subtitle": "subtitles.portalcubed.chamber_door.close"
   },
-  "chamber_door_open": {
+  "chamber_door.portal_2.open": {
     "sounds": [
       {
         "name": "portalcubed:door/chamber_door_open",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.chamber_door_open"
+    "subtitle": "subtitles.portalcubed.chamber_door.open"
   },
-  "chamber_door_unlock": {
+  "chamber_door.portal_2.unlock": {
     "sounds": [
       {
         "name": "portalcubed:door/chamber_door_unlock",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.chamber_door_unlock"
+    "subtitle": "subtitles.portalcubed.chamber_door.unlock"
   },
-  "chamber_door_lock": {
+  "chamber_door.portal_2.lock": {
     "sounds": [
       {
         "name": "portalcubed:door/chamber_door_lock",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.chamber_door_lock"
+    "subtitle": "subtitles.portalcubed.chamber_door.lock"
   },
-  "chamber_door_close": {
+  "chamber_door.portal_2.close": {
     "sounds": [
       {
         "name": "portalcubed:door/chamber_door_close",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.chamber_door_close"
+    "subtitle": "subtitles.portalcubed.chamber_door.close"
   },
-  "old_ap_chamber_door_open": {
+  "chamber_door.old_ap.open": {
     "sounds": [
       {
         "name": "portalcubed:door/old_ap_chamber_door_open",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.chamber_door_open"
+    "subtitle": "subtitles.portalcubed.chamber_door.open"
   },
-  "old_ap_chamber_door_close": {
+  "chamber_door.old_ap.close": {
     "sounds": [
       {
         "name": "portalcubed:door/old_ap_chamber_door_close",
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.chamber_door_close"
+    "subtitle": "subtitles.portalcubed.chamber_door.close"
   },
-  "radio": {
+  "prop.radio.ambient": {
     "sounds": [
       {
         "name": "portalcubed:props/radio",
@@ -197,7 +188,7 @@
       }
     ]
   },
-  "radio_disintegration": {
+  "prop.radio.disintegration": {
     "sounds": [
       {
         "name": "portalcubed:props/radio_fizzle_1",
@@ -212,9 +203,9 @@
         "volume": 0.3
       }
     ],
-    "subtitle": "subtitles.portalcubed.radio_fizzle"
+    "subtitle": "subtitles.portalcubed.prop.radio.disintegration"
   },
-  "companion_cube_ambiance": {
+  "prop.companion_cube.ambient": {
     "sounds": [
       {
         "name": "portalcubed:props/companion_cube_ambiance",
@@ -224,25 +215,25 @@
       }
     ]
   },
-  "generic_disintegration": {
+  "prop.generic.disintegration": {
     "sounds": [
       {
         "name": "portalcubed:props/generic_fizzle",
         "volume": 0.25
       }
     ],
-    "subtitle": "subtitles.portalcubed.generic_fizzle"
+    "subtitle": "subtitles.portalcubed.prop.generic.disintegration"
   },
-  "turret_disintegration": {
+  "prop.turret.disintegration": {
     "sounds": [
       {
         "name": "portalcubed:props/turret_fizzle",
         "volume": 0.25
       }
     ],
-    "subtitle": "subtitles.portalcubed.turret_fizzle"
+    "subtitle": "subtitles.portalcubed.prop.turret.disintegration"
   },
-  "generic_impact": {
+  "prop.generic.impact": {
     "sounds": [
       {
         "name": "portalcubed:props/generic_prop_impact_1",
@@ -265,9 +256,9 @@
         "volume": 0.7
       }
     ],
-    "subtitle": "subtitles.portalcubed.generic_prop_impact"
+    "subtitle": "subtitles.portalcubed.prop.generic.impact"
   },
-  "metal_impact": {
+  "prop.metal.impact": {
     "sounds": [
       {
         "name": "portalcubed:props/metal_prop_impact_1",
@@ -290,9 +281,9 @@
         "volume": 0.7
       }
     ],
-    "subtitle": "subtitles.portalcubed.metal_prop_impact"
+    "subtitle": "subtitles.portalcubed.prop.metal.impact"
   },
-  "cube_impact": {
+  "prop.cube.impact": {
     "sounds": [
       {
         "name": "portalcubed:props/cube_impact_1",
@@ -315,9 +306,9 @@
         "volume": 0.7
       }
     ],
-    "subtitle": "subtitles.portalcubed.cube_impact"
+    "subtitle": "subtitles.portalcubed.prop.cube.impact"
   },
-  "old_ap_cube_impact": {
+  "prop.old_ap_cube.impact": {
     "sounds": [
       {
         "name": "portalcubed:props/old_ap_cube_impact_1",
@@ -340,9 +331,9 @@
         "volume": 0.7
       }
     ],
-    "subtitle": "subtitles.portalcubed.old_ap_cube_impact"
+    "subtitle": "subtitles.portalcubed.prop.old_ap_cube.impact"
   },
-  "portal_1_cube_impact": {
+  "prop.portal_1_cube.impact": {
     "sounds": [
       {
         "name": "portalcubed:props/portal_1_cube_impact_1",
@@ -365,18 +356,18 @@
         "volume": 0.4
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_1_cube_impact"
+    "subtitle": "subtitles.portalcubed.prop.portal_1_cube.impact"
   },
-  "error_impact": {
+  "prop.error.impact": {
     "sounds": [
       {
         "name": "portalcubed:props/error_impact",
         "volume": 0.4
       }
     ],
-    "subtitle": "subtitles.portalcubed.error_impact"
+    "subtitle": "subtitles.portalcubed.prop.error.impact"
   },
-  "concrete_surface_impact": {
+  "surface_impact.concrete": {
     "sounds": [
       {
         "name": "portalcubed:surface_impact/concrete_impact_1",
@@ -395,9 +386,9 @@
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.concrete_surface_impact"
+    "subtitle": "subtitles.portalcubed.surface_impact.concrete"
   },
-  "glass_surface_impact": {
+  "surface_impact.glass": {
     "sounds": [
       {
         "name": "portalcubed:surface_impact/glass_impact_1",
@@ -416,9 +407,9 @@
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.glass_surface_impact"
+    "subtitle": "subtitles.portalcubed.surface_impact.glass"
   },
-  "metal_surface_impact": {
+  "surface_impact.metal": {
     "sounds": [
       {
         "name": "portalcubed:surface_impact/metal_impact_1",
@@ -437,67 +428,67 @@
         "volume": 0.5
       }
     ],
-    "subtitle": "subtitles.portalcubed.metal_surface_impact"
+    "subtitle": "subtitles.portalcubed.surface_impact.metal"
   },
-  "crowbar_swing": {
+  "crowbar.swing": {
     "sounds": [
       "portalcubed:crowbar_swing"
     ],
-    "subtitle": "subtitles.portalcubed.crowbar_swing"
+    "subtitle": "subtitles.portalcubed.crowbar.swing"
   },
-  "portal_gun_grab": {
+  "portal_gun.grab": {
     "sounds": [
       {
         "name": "portalcubed:portal_gun/portal_gun_grab",
         "volume": 0.6
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun_grab"
+    "subtitle": "subtitles.portalcubed.portal_gun.grab"
   },
-  "portal_gun_hold_loop": {
+  "portal_gun.hold_loop": {
     "sounds": [
       {
         "name": "portalcubed:portal_gun/portal_gun_hold_loop",
         "volume": 0.6
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun_hold_loop"
+    "subtitle": "subtitles.portalcubed.portal_gun.hold_loop"
   },
-  "portal_gun_drop": {
+  "portal_gun.drop": {
     "sounds": [
       {
         "name": "portalcubed:portal_gun/portal_gun_drop",
         "volume": 0.6
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun_drop"
+    "subtitle": "subtitles.portalcubed.portal_gun.drop"
   },
-  "portal_gun_cannot_grab": {
+  "portal_gun.cannot_grab": {
     "sounds": [
       {
         "name": "portalcubed:portal_gun/portal_gun_cannot_grab",
         "volume": 0.75
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun_cannot_grab"
+    "subtitle": "subtitles.portalcubed.portal_gun.cannot_grab"
   },
-  "construction_cannon_obstructed": {
+  "construction_cannon.obstructed": {
     "sounds": [
       {
         "name": "portalcubed:construction_cannon/obstructed",
         "volume": 0.7
       }
     ],
-    "subtitle": "subtitles.portalcubed.construction_cannon_obstructed"
+    "subtitle": "subtitles.portalcubed.construction_cannon.obstructed"
   },
-  "construction_cannon_missing_materials": {
+  "construction_cannon.missing_materials": {
     "sounds": [
       {
         "name": "portalcubed:construction_cannon/missing_materials",
         "volume": 1
       }
     ],
-    "subtitle": "subtitles.portalcubed.construction_cannon_missing_materials"
+    "subtitle": "subtitles.portalcubed.construction_cannon.missing_materials"
   },
   "old_ap_timer": {
     "sounds": [
@@ -517,7 +508,16 @@
     ],
     "subtitle": "subtitles.portalcubed.timer_ding"
   },
-  "sewage_step": {
+  "surprise": {
+    "sounds": [
+      {
+        "name": "portalcubed:sad_party_horn",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.surprise"
+  },
+  "block.sewage.step": {
     "sounds": [
       {
         "name": "portalcubed:block/sewage/step1",

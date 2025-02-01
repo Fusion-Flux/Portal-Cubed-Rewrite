@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 public class PortalGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":portals/";
 
-	//Test entities being dropped into portals and maintaining momentum
+	//Tests entities being dropped into portals and maintaining momentum
 	@GameTest(template = GROUP + "drop_entity_into_portal")
 	public void dropEntityIntoPortal(GameTestHelper helper) {
 
@@ -39,7 +39,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test entities being dropped into portals at varying heights and landing at the correct distances
+	//Tests entities being dropped into portals at varying heights and landing at the correct distances
 	@GameTest(template = GROUP + "fling_distance_relative_to_height")
 	public void flingDistanceRelativeToHeight(GameTestHelper helper) {
 
@@ -82,7 +82,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test infinite falling to make sure the entity doesn't leave the portal if left falling forever
+	//Tests infinite falling to make sure the entity doesn't leave the portal if left falling forever
 	@GameTest(template = GROUP + "infinite_fall")
 	public void infiniteFall(GameTestHelper helper) {
 
@@ -96,7 +96,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test weird portal surface shapes to make sure the entity traveling through doesn't behave weirdly. Split into vertical and horizontal tests
+	//Tests weird portal surface shapes to make sure the entity traveling through doesn't behave weirdly. Split into vertical and horizontal tests
 	@GameTest(template = GROUP + "odd_portal_surfaces_vertical")
 	public void oddPortalSurfacesVertical(GameTestHelper helper) {
 
@@ -161,7 +161,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test portals against solid surfaces to make sure the entity traveling through doesn't clip when it shouldn't.  Currently only tests full blocks, could be expanded in the future
+	//Tests portals against solid surfaces to make sure the entity traveling through doesn't clip when it shouldn't.  Currently only tests full blocks, could be expanded in the future
 	@GameTest(template = GROUP + "portal_against_solid_blocks")
 	public void portalAgainstSolidBlocks(GameTestHelper helper) {
 
@@ -184,7 +184,7 @@ public class PortalGameTests implements FabricGameTest {
 
 	}
 
-	//Test portals being shot through solid and nonsolid blocks such as grates
+	//Tests portals being shot through solid and nonsolid blocks such as grates
 	@GameTest(template = GROUP + "portal_shots_through_nonsolid_blocks")
 	public void portalShotsThroughNonsolidBlocks(GameTestHelper helper) {
 
@@ -201,7 +201,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test the gamerule for more restrictive portal surfaces.  Ran separately as its own batch; toggles the gamerule on before running, then off when finishing
+	//Tests the gamerule for more restrictive portal surfaces.  Ran separately as its own batch; toggles the gamerule on before running, then off when finishing
 	@GameTest(template = GROUP + "restrictive_portal_surfaces", batch = Batches.RESTRICTED_PORTAL_SURFACES)
 	public void restrictivePortalSurfaces(GameTestHelper helper) {
 
@@ -217,14 +217,14 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test portals against thin surfaces, such as on both sides of a trapdoor
+	//Tests portals against thin surfaces, such as on both sides of a trapdoor
 	@GameTest(template = GROUP + "thin_portal_surfaces")
 	public void thinPortalSurfaces(GameTestHelper helper) {
 
 		//todo
 	}
 
-	//Test the "create" portion of the portal command
+	//Tests the "create" portion of the portal command
 	@GameTest(template = GROUP + "portal_command_create")
 	public void portalCommandCreate(GameTestHelper helper) {
 
@@ -242,7 +242,7 @@ public class PortalGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test the "remove" portion of the portal command
+	//Tests the "remove" portion of the portal command
 	@GameTest(template = GROUP + "portal_command_remove")
 	public void portalCommandRemove(GameTestHelper helper) {
 
@@ -250,7 +250,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test portals becoming obstructed by solid blocks that they cannot exist within
+	//Tests portals becoming obstructed by solid blocks
 	@GameTest(template = GROUP + "portal_become_obstructed")
 	public void portalBecomeObstructed(GameTestHelper helper) {
 
@@ -287,7 +287,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test portals being placed on blocks that should or shouldn't support them
+	//Tests portals being placed on/in blocks that should or shouldn't support them
 	@GameTest(template = GROUP + "valid_portal_surfaces")
 	public void validPortalSurfaces(GameTestHelper helper) {
 
@@ -311,7 +311,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test portal collision carving to make sure it only works in the intended direction
+	//Tests portal collision carving to make sure it only works in the intended direction
 	@GameTest(template = GROUP + "collision_carving")
 	public void collisionCarving(GameTestHelper helper) {
 
@@ -339,7 +339,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test collision carving to make sure that portals on corners/edges don't allow entities through unless they're directly in front of the portal
+	//Tests collision carving to make sure that portals on corners/edges don't allow entities through in cases where they shouldn't
 	@GameTest(template = GROUP + "edge_collision")
 	public void edgeCollision(GameTestHelper helper) {
 
@@ -360,7 +360,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Test portals breaking certain blocks by opening over their attachment points
+	//Tests portals breaking certain blocks by opening over their attachment points
 	@GameTest(template = GROUP + "portal_open_popoff")
 	public void portalOpenPopoff(GameTestHelper helper) {
 

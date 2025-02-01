@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 public class LemonGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":lemons/";
 
-	//Test lemon saplings growing
+	//Tests lemon saplings growing
 	@GameTest(template = GROUP + "lemon_sapling_grow")
 	public void lemonSaplingGrow(GameTestHelper helper) {
 		//Should probably clean this up later; currently sets a redstone block to push an observer clock into place to dispense bonemeal
@@ -19,11 +19,11 @@ public class LemonGameTests implements FabricGameTest {
 		helper.succeedWhenBlockPresent(PortalCubedBlocks.LEMON_LOG, 4, 1, 4);
 	}
 
-	//Test lemonades being fired out of dispensers
+	//Tests lemonades being fired out of dispensers
 	@GameTest(template = GROUP + "lemonade_dispenser")
 	public void lemonadeDispenser(GameTestHelper helper) {
 		helper.pullLever(1, 1, 0);
 		helper.succeedWhen(() ->
-			helper.assertEntitiesPresent(PortalCubedEntities.LEMONADE, 1));
+				helper.assertEntityPresent(PortalCubedEntities.LEMONADE));
 	}
 }

@@ -16,7 +16,7 @@ public class BootsGameTests implements FabricGameTest {
 
 	private static final int TICKS_FOR_FALL = 50;
 
-	//Test entities falling with/without the boots
+	//Tests entities falling with/without the boots
 	@GameTest(template = GROUP + "boots_test")
 	public void bootsTest(GameTestHelper helper) {
 		Mob entityWithBoots = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 47, 2));
@@ -29,7 +29,7 @@ public class BootsGameTests implements FabricGameTest {
 		}));
 	}
 
-	//Test entities falling with the boots onto dripstone
+	//Tests entities falling with the boots onto dripstone
 	@GameTest(template = GROUP + "boots_bypass_test")
 	public void bootsBypassTest(GameTestHelper helper) {
 		Mob dripstone = spawnWithBoots(helper, EntityType.HUSK, new BlockPos(1, 47, 2));
