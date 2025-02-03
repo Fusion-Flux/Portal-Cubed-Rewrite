@@ -8,7 +8,7 @@ import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
-import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.EntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;

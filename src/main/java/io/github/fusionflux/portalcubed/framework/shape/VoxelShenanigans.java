@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.framework.shape;
 
 import org.jetbrains.annotations.Unmodifiable;
 
-import io.github.fusionflux.portalcubed.mixin.CubeVoxelShapeAccessor;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.CubeVoxelShapeAccessor;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;

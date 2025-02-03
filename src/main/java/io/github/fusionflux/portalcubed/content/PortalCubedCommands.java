@@ -26,7 +26,7 @@ import io.github.fusionflux.portalcubed.content.command.PortalCommand;
 import io.github.fusionflux.portalcubed.framework.command.CollectionSmuggler;
 import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
 import io.github.fusionflux.portalcubed.framework.extension.RequiredArgumentBuilderExt;
-import io.github.fusionflux.portalcubed.mixin.CommandContextAccessor;
+import io.github.fusionflux.portalcubed.mixin.commands.CommandContextAccessor;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.commands.CommandSourceStack;
@@ -61,6 +61,7 @@ public class PortalCubedCommands {
 		return Optional.ofNullable(getOptional(ctx, name, getter, null));
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <S, T> T getOptional(CommandContext<S> ctx, String name, BiFunction<CommandContext<S>, String, T> getter, T fallback) {
 		Map<String, ParsedArgument<S, ?>> args = ((CommandContextAccessor<S>) ctx).getArguments();
 		if (args.containsKey(name)) {
@@ -74,6 +75,7 @@ public class PortalCubedCommands {
 		return TriState.of(getOptional(ctx, name, BoolArgumentType::getBool, null));
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <S> boolean hasArgument(CommandContext<S> ctx, String name) {
 		Map<String, ParsedArgument<S, ?>> args = ((CommandContextAccessor<S>) ctx).getArguments();
 		return args.containsKey(name);

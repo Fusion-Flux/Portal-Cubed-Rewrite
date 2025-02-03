@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.entity;
 
-import io.github.fusionflux.portalcubed.mixin.AbstractBoatAccessor;
-import io.github.fusionflux.portalcubed.mixin.LivingEntityAccessor;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.AbstractBoatAccessor;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.LivingEntityAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;

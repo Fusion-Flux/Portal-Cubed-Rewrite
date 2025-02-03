@@ -19,8 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [ "io.github.fusionflux.portalcubed.PortalCubed" ],
-    "client": [ "io.github.fusionflux.portalcubed.PortalCubedClient" ],
-    "fabric-datagen": [ "io.github.fusionflux.portalcubed.PortalCubedDataGen" ]
+    "client": [ "io.github.fusionflux.portalcubed.PortalCubedClient" ]
   },
   "mixins": [ "portalcubed.mixins.json" ],
   "accessWidener": "portalcubed.accesswidener",
@@ -37,7 +36,7 @@
       "net/minecraft/class_1937": [ "io/github/fusionflux/portalcubed/framework/extension/LevelExt" ],
       "net/minecraft/class_3218": [ "io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt" ],
       "net/minecraft/class_638": [ "io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt" ],
-      "net/minecraft/class_1297": [ "io/github/fusionflux/portalcubed/framework/extension/EntityExt", "io/github/fusionflux/portalcubed/framework/extension/DisintegrationExt" ],
+      "net/minecraft/class_1297": [ "io/github/fusionflux/portalcubed/framework/extension/PortalTeleportationExt", "io/github/fusionflux/portalcubed/framework/extension/DisintegrationExt" ],
       "net/minecraft/class_2777": [ "io/github/fusionflux/portalcubed/framework/extension/ClientboundTeleportEntityPacketExt" ],
       "net/minecraft/class_813": [ "io/github/fusionflux/portalcubed/framework/extension/VariantExt" ],
       "net/minecraft/class_742": [ "io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt" ],

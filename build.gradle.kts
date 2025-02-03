@@ -93,14 +93,6 @@ loom {
     accessWidenerPath = file("src/main/resources/portalcubed.accesswidener")
 
     runs {
-        register("datagen") {
-            client()
-            name("Minecraft Data")
-            property("fabric-api.datagen")
-            property("fabric-api.datagen.output-dir", file("src/generated/resources").absolutePath)
-            property("fabric-api.datagen.modid", "portalcubed")
-        }
-
         register("gametest") {
             server()
             source(gametests)

@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgu
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
-import io.github.fusionflux.portalcubed.mixin.ArgumentTypeInfosAccessor;
+import io.github.fusionflux.portalcubed.mixin.commands.ArgumentTypeInfosAccessor;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.core.Registry;

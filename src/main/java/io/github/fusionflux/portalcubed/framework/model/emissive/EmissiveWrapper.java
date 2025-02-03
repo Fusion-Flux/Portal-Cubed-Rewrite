@@ -13,7 +13,7 @@ public record EmissiveWrapper(EmissiveData data) implements AfterBake {
 	@Nullable
 	public BakedModel modifyModelAfterBake(BakedModel model, Context context) {
 		if (RenderMaterials.ARE_SUPPORTED) {
-			Collection<EmissiveTexturePredicate> predicates = data.predicatesForModel(context.id());
+			Collection<EmissiveTexturePredicate> predicates = this.data.predicatesForModel(context.id());
 			if (!predicates.isEmpty())
 				return new EmissiveBakedModel(model, predicates);
 		}

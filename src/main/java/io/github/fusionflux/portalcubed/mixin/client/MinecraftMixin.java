@@ -16,7 +16,7 @@ import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
-import io.github.fusionflux.portalcubed.mixin.LivingEntityAccessor;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.LivingEntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
 import net.minecraft.client.Minecraft;

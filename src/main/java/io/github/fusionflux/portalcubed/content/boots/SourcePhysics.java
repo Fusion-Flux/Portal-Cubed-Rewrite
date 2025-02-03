@@ -1,19 +1,20 @@
 package io.github.fusionflux.portalcubed.content.boots;
 
+import org.joml.Matrix4fStack;
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
-import io.github.fusionflux.portalcubed.mixin.EntityAccessor;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.EntityAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -30,9 +31,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-
-import org.joml.Matrix4fStack;
-import org.joml.Vector3f;
 
 /*
 Source-like physics:

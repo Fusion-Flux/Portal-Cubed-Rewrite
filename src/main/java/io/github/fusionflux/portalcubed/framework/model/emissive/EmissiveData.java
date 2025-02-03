@@ -13,6 +13,6 @@ public record EmissiveData(Multimap<ResourceLocation, EmissiveTexturePredicate> 
 			.xmap(EmissiveData::new, EmissiveData::map);
 
 	public Collection<EmissiveTexturePredicate> predicatesForModel(ResourceLocation id) {
-		return map.get(id);
+		return this.map.get(id);
 	}
 }

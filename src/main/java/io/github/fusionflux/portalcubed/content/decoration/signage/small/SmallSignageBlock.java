@@ -16,7 +16,7 @@ import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlock;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
-import io.github.fusionflux.portalcubed.mixin.UseOnContextAccessor;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.UseOnContextAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
 import io.netty.buffer.ByteBuf;
