@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.RedstoneLampBlock;
 public class FizzlingGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":fizzling/";
 
-	//Test container items dropping their contents when fizzled
+	//Tests container items dropping their contents when fizzled
 	@GameTest(template = GROUP + "fizzle_container")
 	public void fizzleContainer(GameTestHelper helper) {
 		helper.pullLever(2, 4, 4);
@@ -28,7 +28,8 @@ public class FizzlingGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test armor being dropped when equipped entities are fizzled
+	//Tests armor being dropped when equipped entities are fizzled
+	//Note - Currently, this only works for armor stands.  Once this changes (1.21.5?), expand this test to cover other cases.
 	@GameTest(template = GROUP + "fizzle_armor_drop")
 	public void fizzleArmorDrop(GameTestHelper helper) {
 		helper.pullLever(2, 4, 4);
@@ -36,7 +37,7 @@ public class FizzlingGameTests implements FabricGameTest {
 		helper.succeedWhen(() -> helper.assertBlockProperty(new BlockPos(2, 1, 1), RedstoneLampBlock.LIT, true));
 	}
 
-	//Test leads dropping when a leashed entity is fizzled
+	//Tests leads dropping when a leashed entity is fizzled
 	@GameTest(template = GROUP + "fizzle_lead_drop")
 	public void fizzleLeadDrop(GameTestHelper helper) {
 
@@ -46,7 +47,7 @@ public class FizzlingGameTests implements FabricGameTest {
 		helper.succeedWhen(() -> helper.assertBlockProperty(new BlockPos(2, 1, 0), RedstoneLampBlock.LIT, true));
 	}
 
-	//Test on-death potion effects activating when an entity is fizzled
+	//Tests on-death potion effects activating when an entity is fizzled
 	@GameTest(template = GROUP + "fizzle_death_effects")
 	public void fizzleDeathEffects(GameTestHelper helper) {
 
@@ -58,7 +59,7 @@ public class FizzlingGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test hoppers and entities being unable to pick up fizzling items
+	//Tests hoppers and entities being unable to pick up fizzling items
 	//Note - potentially add a similar test for picking up shot arrows and thrown tridents that are being fizzled, if there's a way to do that in a gametest
 	@GameTest(template = GROUP + "fizzling_item_pickup", timeoutTicks = 200)
 	public void fizzlingItemPickup(GameTestHelper helper) {
@@ -76,7 +77,7 @@ public class FizzlingGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test fizzling items emitting a vibration properly
+	//Tests entities emitting a vibration when fizzled
 	@GameTest(template = GROUP + "fizzle_vibration")
 	public void fizzleVibration(GameTestHelper helper) {
 		Entity armorStand = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(3, 1, 3));

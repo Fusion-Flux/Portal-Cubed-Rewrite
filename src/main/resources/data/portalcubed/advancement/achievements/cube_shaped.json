@@ -1,7 +1,7 @@
 {
   "parent": "portalcubed:achievements/cubes",
   "criteria": {
-    "wash": {
+    "cube_shaped": {
       "trigger": "portalcubed:entity_on_button",
       "conditions": {
         "button": {

@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.RedstoneLampBlock;
 public class GooGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":goo/";
 
-	//Test goo bucket dispenser behavior
+	//Tests goo bucket dispenser behavior
 	@GameTest(template = GROUP + "goo_dispense")
 	public void gooDispense(GameTestHelper helper) {
 		helper.pullLever(3, 2, 2);
@@ -23,7 +23,7 @@ public class GooGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test the goo immunity item tag
+	//Tests the goo immunity item tag
 	@GameTest(template = GROUP + "goo_destroy_item")
 	public void gooDestroyItem(GameTestHelper helper) {
 		helper.pullLever(3, 3, 3);
@@ -35,7 +35,7 @@ public class GooGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test the goo immunity entity type tag
+	//Tests the goo immunity entity type tag
 	@GameTest(template = GROUP + "goo_destroy_entity")
 	public void gooDestroyEntity(GameTestHelper helper) {
 		helper.pullLever(3, 3, 3);
@@ -47,7 +47,7 @@ public class GooGameTests implements FabricGameTest {
 		});
 	}
 
-	//Test container items dropping their contents when destroyed by goo
+	//Tests container items dropping their contents when destroyed by goo
 	@GameTest(template = GROUP + "goo_destroy_container")
 	public void gooDestroyContainer(GameTestHelper helper) {
 		helper.pullLever(2, 5, 4);
