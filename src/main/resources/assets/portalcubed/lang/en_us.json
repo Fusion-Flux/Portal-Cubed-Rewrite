@@ -122,6 +122,8 @@
   "parsing.portalcubed.enum.Direction.invalid": "Invalid direction '%s'",
   "parsing.portalcubed.enum.PortalShape.expected": "Expected portal type",
   "parsing.portalcubed.enum.PortalShape.invalid": "Invalid portal type '%s'",
+  "parsing.portalcubed.enum.FizzleBehaviour.expected": "Expected Fizzle Behavior",
+  "parsing.portalcubed.enum.FizzleBehaviour.invalid": "Invalid Fizzle Behavior '%s'",
   "parsing.portalcubed.color.expected": "Expected hex color",
   "parsing.portalcubed.color.invalid": "Invalid hex color",
   "parsing.portalcubed.flag.no_rendering.expected": "Expected flag 'no_rendering'",
