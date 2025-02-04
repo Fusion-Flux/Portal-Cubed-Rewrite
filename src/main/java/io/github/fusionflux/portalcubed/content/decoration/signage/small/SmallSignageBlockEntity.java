@@ -97,11 +97,11 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 	@Override
 	@Nullable
 	public Object getRenderData() {
-		DynamicTextureRenderData.Builder builder = new DynamicTextureRenderData.Builder();
+		DynamicTextureRenderData.Builder builder = DynamicTextureRenderData.builder();
 		for (SmallSignageBlock.Quadrant quadrant : SmallSignageBlock.Quadrant.VALUES) {
 			this.getQuadrantImage(quadrant).value()
 					.selectTexture(this.aged)
-					.ifPresent(texture -> builder.put("#signage_" + quadrant.name, texture));
+					.ifPresent(texture -> builder.set("#signage_" + quadrant.name, texture));
 		}
 		return builder.build();
 	}

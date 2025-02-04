@@ -39,6 +39,8 @@
       "net/minecraft/class_1297": [ "io/github/fusionflux/portalcubed/framework/extension/PortalTeleportationExt", "io/github/fusionflux/portalcubed/framework/extension/DisintegrationExt" ],
       "net/minecraft/class_2777": [ "io/github/fusionflux/portalcubed/framework/extension/ClientboundTeleportEntityPacketExt" ],
       "net/minecraft/class_813": [ "io/github/fusionflux/portalcubed/framework/extension/VariantExt" ],
+      "net/minecraft/class_777": [ "io/github/fusionflux/portalcubed/framework/extension/BakedQuadExt" ],
+      "net/minecraft/class_785": [ "io/github/fusionflux/portalcubed/framework/extension/BlockElementExt" ],
       "net/minecraft/class_742": [ "io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt" ],
       "net/minecraft/class_1792\u0024class_1793": [ "io/github/fusionflux/portalcubed/framework/extension/ItemPropertiesExt" ],
       "net/minecraft/class_4970\u0024class_2251": [ "io/github/fusionflux/portalcubed/framework/extension/BlockBehaviourPropertiesExt" ],

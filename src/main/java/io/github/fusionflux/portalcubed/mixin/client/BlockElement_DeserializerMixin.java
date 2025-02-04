@@ -11,7 +11,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
-import io.github.fusionflux.portalcubed.framework.extension.BlockElementExt;
 import net.minecraft.client.renderer.block.model.BlockElement;
 
 @Mixin(targets = "net.minecraft.client.renderer.block.model.BlockElement$Deserializer")
@@ -24,10 +23,8 @@ public class BlockElement_DeserializerMixin {
 								 JsonElement json, Type type, JsonDeserializationContext context) {
 		JsonObject obj = json.getAsJsonObject();
 		JsonElement nameElement = obj.get("name");
-		if (nameElement instanceof JsonPrimitive primitive && primitive.isString()) {
-			String name = primitive.getAsString();
-			((BlockElementExt) element).pc$setName(name);
-		}
+		if (nameElement instanceof JsonPrimitive primitive && primitive.isString())
+			element.pc$setName(primitive.getAsString());
 		return element;
 	}
 }

@@ -7,10 +7,17 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 
 public record DynamicTextureRenderData(Map<String, ResourceLocation> map) {
+	public static DynamicTextureRenderData.Builder builder() {
+		return new DynamicTextureRenderData.Builder();
+	}
+
 	public static class Builder {
 		private final Object2ObjectOpenHashMap<String, ResourceLocation> map = new Object2ObjectOpenHashMap<>();
 
-		public DynamicTextureRenderData.Builder put(String reference, ResourceLocation texture) {
+		Builder() {
+		}
+
+		public DynamicTextureRenderData.Builder set(String reference, ResourceLocation texture) {
 			this.map.put(reference, texture);
 			return this;
 		}

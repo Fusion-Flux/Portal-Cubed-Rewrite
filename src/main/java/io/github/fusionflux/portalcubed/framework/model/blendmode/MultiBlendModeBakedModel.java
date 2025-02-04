@@ -1,15 +1,14 @@
 package io.github.fusionflux.portalcubed.framework.model.blendmode;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.fusionflux.portalcubed.framework.extension.BakedQuadExt;
 import io.github.fusionflux.portalcubed.framework.model.RenderMaterials;
-import io.github.fusionflux.portalcubed.framework.util.ModelUtil;
-import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
-import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
+import io.github.fusionflux.portalcubed.framework.util.DelegatingQuadEmitter;
+import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
@@ -21,18 +20,10 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MultiBlendModeBakedModel extends DelegateBakedModel {
+	private static final Blender BLENDER = new Blender();
+
 	public MultiBlendModeBakedModel(BakedModel parent) {
 		super(parent);
-	}
-
-	private void transformQuad(BakedQuad vanilla, MutableQuadView toTransform) {
-		BlendMode blendMode = ((BakedQuadExt) vanilla).pc$blendMode();
-		if (blendMode != null)
-			toTransform.material(RenderMaterials.finder()
-					.copyFrom(toTransform.material())
-					.blendMode(blendMode)
-					.find()
-			);
 	}
 
 	@Override
@@ -42,11 +33,41 @@ public class MultiBlendModeBakedModel extends DelegateBakedModel {
 
 	@Override
 	public void emitBlockQuads(QuadEmitter emitter, BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, Predicate<@Nullable Direction> cullTest) {
-		ModelUtil.emitVanillaQuads(false, emitter, this.parent, state, randomSupplier, cullTest, this::transformQuad);
+		BLENDER.prepare(emitter);
+		super.emitBlockQuads(BLENDER, blockView, state, pos, randomSupplier, cullTest);
+		BLENDER.cleanup();
 	}
 
 	@Override
 	public void emitItemQuads(QuadEmitter emitter, Supplier<RandomSource> randomSupplier) {
-		ModelUtil.emitVanillaQuads(true, emitter, this.parent, null, randomSupplier, $ -> false, this::transformQuad);
+		BLENDER.prepare(emitter);
+		super.emitItemQuads(BLENDER, randomSupplier);
+		BLENDER.cleanup();
+	}
+
+	private static final class Blender extends DelegatingQuadEmitter {
+		private void prepare(QuadEmitter delegate) {
+			this.delegate = delegate;
+		}
+
+		private void cleanup() {
+			this.delegate = null;
+		}
+
+		@Override
+		public QuadEmitter fromVanilla(BakedQuad quad, RenderMaterial material, @Nullable Direction cullFace) {
+			super.fromVanilla(
+					quad,
+					Optional.ofNullable(quad.pc$blendMode())
+							.map(blendMode -> RenderMaterials.finder()
+									.copyFrom(material)
+									.blendMode(blendMode)
+									.find()
+							)
+							.orElse(material),
+					cullFace
+			);
+			return this;
+		}
 	}
 }

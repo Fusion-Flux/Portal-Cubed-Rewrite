@@ -89,10 +89,10 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 	@Override
 	@Nullable
 	public Object getRenderData() {
-		DynamicTextureRenderData.Builder builder = new DynamicTextureRenderData.Builder();
+		DynamicTextureRenderData.Builder builder = DynamicTextureRenderData.builder();
 		this.getImage().value()
 				.selectTexture(this.aged)
-				.ifPresent(texture -> builder.put("#signage", texture));
+				.ifPresent(texture -> builder.set("#signage", texture));
 		return builder.build();
 	}
 }

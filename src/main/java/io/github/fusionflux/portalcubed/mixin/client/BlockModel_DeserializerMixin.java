@@ -14,7 +14,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
-import io.github.fusionflux.portalcubed.framework.extension.BlockElementExt;
 import io.github.fusionflux.portalcubed.framework.model.RenderMaterials;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import net.minecraft.client.renderer.block.model.BlockElement;
@@ -50,10 +49,9 @@ public class BlockModel_DeserializerMixin {
 			// apply read materials to elements
 			List<BlockElement> elements = ((BlockModelAccessor) original).callGetElements();
 			for (BlockElement element : elements) {
-				BlockElementExt ext = (BlockElementExt) element;
-				String name = ext.pc$name();
+				String name = element.pc$name();
 				if (name != null && elementModes.containsKey(name))
-					ext.pc$setBlendMode(elementModes.get(name));
+					element.pc$setBlendMode(elementModes.get(name));
 			}
 		}
 

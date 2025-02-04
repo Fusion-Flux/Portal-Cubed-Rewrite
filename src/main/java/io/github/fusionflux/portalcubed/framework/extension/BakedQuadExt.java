@@ -6,12 +6,20 @@ import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 
 public interface BakedQuadExt {
 	@Nullable
-	BlendMode pc$blendMode();
+	default BlendMode pc$blendMode() {
+		throw new AbstractMethodError();
+	}
 
-	void pc$setBlendMode(BlendMode mode);
+	default void pc$setBlendMode(BlendMode mode) {
+		throw new AbstractMethodError();
+	}
 
 	@Nullable
-	String pc$textureReference();
+	default String pc$textureReference() {
+		throw new AbstractMethodError();
+	}
 
-	void pc$setTextureReference(String textureReference);
+	default void pc$setTextureReference(String textureReference) {
+		throw new AbstractMethodError();
+	}
 }

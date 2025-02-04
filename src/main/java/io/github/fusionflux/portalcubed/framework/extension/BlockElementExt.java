@@ -6,13 +6,21 @@ import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 
 public interface BlockElementExt {
 	@Nullable
-	String pc$name();
+	default String pc$name() {
+		throw new AbstractMethodError();
+	}
 
-	void pc$setName(String name);
+	default void pc$setName(String name) {
+		throw new AbstractMethodError();
+	}
 
 
 	@Nullable
-	BlendMode pc$blendMode();
+	default BlendMode pc$blendMode() {
+		throw new AbstractMethodError();
+	}
 
-	void pc$setBlendMode(BlendMode mode);
+	default void pc$setBlendMode(BlendMode mode) {
+		throw new AbstractMethodError();
+	}
 }
