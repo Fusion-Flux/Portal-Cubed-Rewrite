@@ -3,12 +3,12 @@ package io.github.fusionflux.portalcubed.framework.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.VarInt;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -64,23 +64,16 @@ public interface PortalCubedStreamCodecs {
 
 	static <B extends ByteBuf, V> StreamCodec<B, @Nullable V> nullable(StreamCodec<B, V> base) {
 		return new StreamCodec<>() {
-			@Override
 			@SuppressWarnings("NullableProblems")
-			public @Nullable V decode(@NotNull B buffer) {
-				if (buffer.readBoolean())
-					return base.decode(buffer);
-				else
-					return null;
+			@Override
+			@Nullable
+			public V decode(B buf) {
+				return FriendlyByteBuf.readNullable(buf, base);
 			}
 
 			@Override
-			public void encode(@NotNull B buffer, @Nullable V value) {
-				if (value != null) {
-					buffer.writeBoolean(true);
-					base.encode(buffer, value);
-				} else {
-					buffer.writeBoolean(false);
-				}
+			public void encode(B buf, @Nullable V value) {
+				FriendlyByteBuf.writeNullable(buf, value, base);
 			}
 		};
 	}
