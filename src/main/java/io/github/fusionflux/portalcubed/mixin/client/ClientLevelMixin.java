@@ -19,9 +19,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.extension.ClientLevelExt;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 
@@ -59,10 +57,5 @@ public abstract class ClientLevelMixin implements ClientLevelExt {
 	@Override
 	public ClientPortalManager portalManager() {
 		return this.portalManager;
-	}
-
-	// Overrides pc$playSoundInstance from LevelExt
-	public void pc$playSoundInstance(Object soundInstance) {
-		Minecraft.getInstance().getSoundManager().play((SoundInstance) soundInstance);
 	}
 }

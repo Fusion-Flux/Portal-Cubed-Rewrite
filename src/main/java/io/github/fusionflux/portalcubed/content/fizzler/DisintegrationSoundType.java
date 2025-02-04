@@ -10,6 +10,8 @@ import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
@@ -45,8 +47,9 @@ public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, List<Re
 			return;
 
 		DisintegrationSoundType type = lookup(entity);
+		SoundManager soundManager = Minecraft.getInstance().getSoundManager();
 		for (ResourceLocation sound : type.sounds) {
-			entity.level().pc$playSoundInstance(new FollowingSoundInstance(SoundEvent.createVariableRangeEvent(sound), entity.getSoundSource(), entity, false));
+			soundManager.play(new FollowingSoundInstance(SoundEvent.createVariableRangeEvent(sound), entity.getSoundSource(), entity, false));
 		}
 	}
 }

@@ -9,7 +9,7 @@ public interface LevelExt {
 		throw new AbstractMethodError();
 	}
 
-	PortalCubedDamageSources pc$damageSources();
-
-	default void pc$playSoundInstance(Object soundInstance) {}
+	default PortalCubedDamageSources pc$damageSources() {
+		throw new AbstractMethodError();
+	}
 }

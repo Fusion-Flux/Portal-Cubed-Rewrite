@@ -1,19 +1,14 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
-import java.util.Arrays;
-
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 
 public class ModelUtil {
-	private static final Direction[] FACES = Arrays.copyOf(Direction.values(), 7);
-
 	@SuppressWarnings("deprecation")
 	public static TextureAtlasSprite getSprite(ResourceLocation texture) {
 		return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(texture);

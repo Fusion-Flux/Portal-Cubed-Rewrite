@@ -8,7 +8,6 @@ import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -61,8 +60,10 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 		ResourceLocation id = ResourceLocation.tryParse(track);
 		if (id != null) {
 			BuiltInRegistries.SOUND_EVENT.get(id).ifPresent(holder -> {
-				this.soundInstance = new PropSoundInstance(holder.value(), this);
-				Minecraft.getInstance().getSoundManager().play((SoundInstance) this.soundInstance);
+				PropSoundInstance soundInstance = new PropSoundInstance(holder.value(), this);
+				soundInstance.setLooping(true);
+				Minecraft.getInstance().getSoundManager().play(soundInstance);
+				this.soundInstance = soundInstance;
 			});
 		}
 	}

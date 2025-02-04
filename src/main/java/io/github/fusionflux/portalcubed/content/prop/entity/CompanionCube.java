@@ -18,6 +18,8 @@ public class CompanionCube extends ButtonActivatedProp implements AmbientSoundEm
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void playAmbientSound() {
-		Minecraft.getInstance().getSoundManager().play(new PropSoundInstance(PortalCubedSounds.COMPANION_CUBE_AMBIANCE, this));
+		PropSoundInstance soundInstance = new PropSoundInstance(PortalCubedSounds.COMPANION_CUBE_AMBIANCE, this);
+		soundInstance.setLooping(true);
+		Minecraft.getInstance().getSoundManager().play(soundInstance);
 	}
 }
