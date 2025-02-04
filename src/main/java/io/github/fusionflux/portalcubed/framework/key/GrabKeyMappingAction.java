@@ -35,7 +35,7 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 				player.playSound(PortalCubedSounds.PORTAL_GUN_CANNOT_GRAB);
 			}
 		} else { // currently holding, drop
-			PortalCubedPackets.sendToServer(new DropPacket());
+			PortalCubedPackets.sendToServer(DropPacket.INSTANCE);
 		}
 	}
 }

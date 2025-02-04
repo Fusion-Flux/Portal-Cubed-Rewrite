@@ -8,8 +8,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record DropPacket() implements ServerboundPacket {
-	public static final StreamCodec<ByteBuf, DropPacket> CODEC = StreamCodec.unit(new DropPacket());
+public enum DropPacket implements ServerboundPacket {
+	INSTANCE;
+
+	public static final StreamCodec<ByteBuf, DropPacket> CODEC = StreamCodec.unit(INSTANCE);
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
