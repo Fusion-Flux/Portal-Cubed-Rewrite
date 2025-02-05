@@ -24,12 +24,11 @@ public final class PortalGunCrosshairRenderer {
 	private static void renderIndicator(GuiGraphics graphics, PortalGunCrosshairType.Indicator indicator, boolean placed, boolean lastPlaced, int color) {
 		if (placed) {
 			blit(graphics, indicator.placed());
+			if (lastPlaced && indicator.lastPlaced().isPresent())
+				blit(graphics, indicator.lastPlaced().get());
 		} else {
 			blit(graphics, indicator.empty());
 		}
-
-		if (lastPlaced && indicator.lastPlaced().isPresent())
-			blit(graphics, indicator.lastPlaced().get());
 
 		RenderSystem.setShaderColor(ARGB.redFloat(color), ARGB.greenFloat(color), ARGB.blueFloat(color), 1f);
 		graphics.flush();
