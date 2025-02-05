@@ -3,11 +3,11 @@
     "translate": "portal_gun_crosshair.portalcubed.none"
   },
   "primary": {
-      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/none/none_left",
-      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/none/none_left_placed"
+      "empty": "portalcubed:portal_gun_crosshair/none/none_left",
+      "placed": "portalcubed:portal_gun_crosshair/none/none_left_placed"
   },
   "secondary": {
-      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/none/none_right",
-      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/none/none_right_placed"
+      "empty": "portalcubed:portal_gun_crosshair/none/none_right",
+      "placed": "portalcubed:portal_gun_crosshair/none/none_right_placed"
   }
 }

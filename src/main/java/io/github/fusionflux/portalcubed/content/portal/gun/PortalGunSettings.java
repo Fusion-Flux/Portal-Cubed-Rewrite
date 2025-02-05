@@ -7,16 +7,24 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshair;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings> secondary, Polarity active, Optional<String> pair) {
+public record PortalGunSettings(
+		PortalSettings primary,
+		Optional<PortalSettings> secondary,
+		Polarity active,
+		Optional<String> pair,
+		PortalGunCrosshair crosshair
+) {
 	public static final Codec<PortalGunSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			PortalSettings.CODEC.fieldOf("primary").forGetter(PortalGunSettings::primary),
 			PortalSettings.CODEC.optionalFieldOf("secondary").forGetter(PortalGunSettings::secondary),
 			Polarity.CODEC.fieldOf("active").forGetter(PortalGunSettings::active),
-			Codec.STRING.optionalFieldOf("pair").forGetter(PortalGunSettings::pair)
+			Codec.STRING.optionalFieldOf("pair").forGetter(PortalGunSettings::pair),
+			PortalGunCrosshair.CODEC.fieldOf("crosshair").forGetter(PortalGunSettings::crosshair)
 	).apply(instance, PortalGunSettings::new));
 
 	public static final StreamCodec<ByteBuf, PortalGunSettings> STREAM_CODEC = StreamCodec.composite(
@@ -24,6 +32,7 @@ public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings>
 			ByteBufCodecs.optional(PortalSettings.STREAM_CODEC), PortalGunSettings::secondary,
 			Polarity.STREAM_CODEC, PortalGunSettings::active,
 			ByteBufCodecs.optional(ByteBufCodecs.STRING_UTF8), PortalGunSettings::pair,
+			PortalGunCrosshair.STREAM_CODEC, PortalGunSettings::crosshair,
 			PortalGunSettings::new
 	);
 
@@ -31,7 +40,8 @@ public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings>
 			PortalSettings.DEFAULT_PRIMARY,
 			Optional.of(PortalSettings.DEFAULT_SECONDARY),
 			Polarity.PRIMARY,
-			Optional.empty()
+			Optional.empty(),
+			PortalGunCrosshair.DEFAULT
 	);
 
 	public PortalSettings effectiveSecondary() {
@@ -47,6 +57,6 @@ public record PortalGunSettings(PortalSettings primary, Optional<PortalSettings>
 	}
 
 	public PortalGunSettings withActive(Polarity polarity) {
-		return new PortalGunSettings(primary, secondary, polarity, pair);
+		return new PortalGunSettings(primary, secondary, polarity, pair, crosshair);
 	}
 }

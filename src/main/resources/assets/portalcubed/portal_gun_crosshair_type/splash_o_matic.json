@@ -3,15 +3,15 @@
     "translate": "portal_gun_crosshair.portalcubed.splash_o_matic"
   },
   "remove_vanilla_crosshair": true,
-  "base": "portalcubed:gui/sprites/portal_gun_crosshair/splash_o_matic/splash_o_matic_base",
+  "base": "portalcubed:portal_gun_crosshair/splash_o_matic/splash_o_matic_base",
   "primary": {
-      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/splash_o_matic/splash_o_matic_left",
-      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/splash_o_matic/splash_o_matic_left_placed",
-      "last_placed": "portalcubed:gui/sprites/portal_gun_crosshair/splash_o_matic/splash_o_matic_left_last_placed"
+      "empty": "portalcubed:portal_gun_crosshair/splash_o_matic/splash_o_matic_left",
+      "placed": "portalcubed:portal_gun_crosshair/splash_o_matic/splash_o_matic_left_placed",
+      "last_placed": "portalcubed:portal_gun_crosshair/splash_o_matic/splash_o_matic_left_last_placed"
   },
   "secondary": {
-      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/splash_o_matic/splash_o_matic_right",
-      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/splash_o_matic/splash_o_matic_right_placed",
-      "last_placed": "portalcubed:gui/sprites/portal_gun_crosshair/splash_o_matic/splash_o_matic_right_last_placed"
+      "empty": "portalcubed:portal_gun_crosshair/splash_o_matic/splash_o_matic_right",
+      "placed": "portalcubed:portal_gun_crosshair/splash_o_matic/splash_o_matic_right_placed",
+      "last_placed": "portalcubed:portal_gun_crosshair/splash_o_matic/splash_o_matic_right_last_placed"
   }
 }
