@@ -45,6 +45,23 @@
   "container.portalcubed.aged_small_signage": "Aged Small Signage",
   "container.portalcubed.small_signage.quadrant_toggle": "Enable this quadrant",
 
+  "container.portalcubed.construction_cannon": "Construction Cannon",
+  "container.portalcubed.construction_cannon.tab.materials": "Materials",
+  "container.portalcubed.construction_cannon.tab.constructs": "Constructs",
+  "container.portalcubed.construction_cannon.tab.settings": "Settings",
+  "container.portalcubed.construction_cannon.tab.settings.preview": "Placement preview",
+  "container.portalcubed.construction_cannon.tab.settings.preview.description": "Shows a translucent preview of how the selected construct will be placed",
+  "container.portalcubed.construction_cannon.tab.settings.preview_opacity": "Placement Preview Opacity",
+  "container.portalcubed.construction_cannon.tab.settings.preview_opacity.description": "%s%%",
+  "container.portalcubed.construction_cannon.tab.settings.replace_mode": "Replace mode",
+  "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
+  "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
+
+  "container.portalcubed.pedestal_button": "Pedestal Button",
+  "container.portalcubed.pedestal_button.press_length": "Press Length",
+  "container.portalcubed.pedestal_button.offset": "Position Offset",
+  "container.portalcubed.pedestal_button.base": "Include Base",
+
 
   "signage.portalcubed.large_signage.adhesion_gel": "Adhesion Gel",
   "signage.portalcubed.large_signage.cake": "Cake",
@@ -105,16 +122,14 @@
   "signage.portalcubed.small_signage.coop_exit_right": "Co-op Exit Right",
 
 
-  "container.portalcubed.construction_cannon": "Construction Cannon",
-  "container.portalcubed.construction_cannon.tab.materials": "Materials",
-  "container.portalcubed.construction_cannon.tab.constructs": "Constructs",
-  "container.portalcubed.construction_cannon.tab.settings": "Settings",
-  "container.portalcubed.construction_cannon.tab.settings.preview": "Placement preview",
-  "container.portalcubed.construction_cannon.tab.settings.preview.description": "Shows a translucent preview of how the selected construct will be placed",
-  "container.portalcubed.construction_cannon.tab.settings.preview_opacity": "Placement Preview Opacity",
-  "container.portalcubed.construction_cannon.tab.settings.preview_opacity.description": "%s%%",
-  "container.portalcubed.construction_cannon.tab.settings.replace_mode": "Replace mode",
-  "container.portalcubed.construction_cannon.tab.settings.replace_mode.description": "Replaces certain blocks that are already there when placing the construct.  Most blocks cannot be replaced.",
+  "portal_gun_crosshair.portalcubed.round": "Round Crosshair",
+  "portal_gun_crosshair.portalcubed.rectangle": "Rectangle Crosshair",
+  "portal_gun_crosshair.portalcubed.legacy_round": "Round Crosshair (Legacy)",
+  "portal_gun_crosshair.portalcubed.legacy_rectangle": "Rectangle Crosshair (Legacy)",
+  "portal_gun_crosshair.portalcubed.beta": "Beta Crosshair",
+  "portal_gun_crosshair.portalcubed.none": "Empty Crosshair",
+  "portal_gun_crosshair.portalcubed.splash_o_matic": "Splash-o-Matic Crosshair",
+
 
   "parsing.portalcubed.enum.Polarity.expected": "Expected polarity",
   "parsing.portalcubed.enum.Polarity.invalid": "Invalid polarity '%s'",
@@ -203,22 +218,13 @@
   "commands.portalcubed.client.portal_rendering.failure": "Could not set Portal Rendering to %1$s: %2$s",
   "commands.portalcubed.client.portal_rendering.failure.unchanged": "Nothing changed. Portal Rendering is already %s",
 
-
   "commands.portalcubed.client.portal_camera_smoothing_time.query": "Portal camera smoothing time is currently set to %s milliseconds",
   "commands.portalcubed.client.portal_camera_smoothing_time.success": "Set portal camera smoothing time to %s milliseconds",
   "commands.portalcubed.client.portal_camera_smoothing_time.failure": "Could not set portal camera smoothing time to %1$s: %2$s",
   "commands.portalcubed.client.portal_camera_smoothing_time.failure.out_of_range": "Must be between 0 and 2000",
   "commands.portalcubed.client.portal_camera_smoothing_time.failure.unchanged": "Nothing changed. Camera smoothing time is already set to that amount",
 
-  "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
-  "tag.item.portalcubed.dirty_crafting_materials": "Dirty Panel Crafting Materials",
-  "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
-  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
-  "tag.item.portalcubed.lemon_logs": "Lemon Logs",
-  "tag.item.portalcubed.immune_to_toxic_goo": "Immune to Toxic Goo",
-  "tag.item.portalcubed.repairs_magnesium_armor": "Repairs Magnesium Armor",
 
-  "item.portalcubed.construction_cannon.material": "Material:",
   "tag.item.portalcubed.aged_padded_gray_panel_materials": "Aged Padded Gray Panels",
   "tag.item.portalcubed.aged_smooth_gray_panel_materials": "Aged Smooth Gray Panels",
   "tag.item.portalcubed.aged_white_panel_materials": "Aged White Panels",
@@ -238,14 +244,15 @@
   "tag.item.portalcubed.office_concrete_materials": "Office Concretes",
   "tag.item.portalcubed.gray_chamber_exterior_materials": "Gray Chamber Exteriors",
   "tag.item.portalcubed.yellow_chamber_exterior_materials": "Yellow Chamber Exteriors",
-  "container.portalcubed.construction_cannon.tag.empty": "This tag does not have any contents.",
+  "tag.item.portalcubed.aged_crafting_materials": "Aged Panel Crafting Materials",
+  "tag.item.portalcubed.dirty_crafting_materials": "Dirty Panel Crafting Materials",
+  "tag.item.portalcubed.magnesium_fire_base_blocks": "Magnesium Fire Bases",
+  "tag.item.portalcubed.apply_source_physics": "Applies Source Physics",
+  "tag.item.portalcubed.lemon_logs": "Lemon Logs",
+  "tag.item.portalcubed.immune_to_toxic_goo": "Immune to Toxic Goo",
+  "tag.item.portalcubed.repairs_magnesium_armor": "Repairs Magnesium Armor",
 
-  "item.portalcubed.construction_cannon.feedback.obstructed": "Placement location obstructed",
-  "item.portalcubed.construction_cannon.feedback.missing_materials": "Not enough materials",
-  "item.portalcubed.construction_cannon.feedback.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
-  "item.portalcubed.construction_cannon.feedback.no_perms": "You do not have permission to build here",
 
-  "item.portalcubed.construction_cannon.construct_set": "Construct:",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_panel": "Aged Padded Gray Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_half_panel": "Aged Padded Gray Half Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_2x1_panel": "Aged Padded Gray 2x1 Panel",
@@ -326,12 +333,6 @@
 
   "pillar_construct_set.chooser.placer_facing.tooltip": "Oriented based on facing direction",
   "pillar_construct_set.chooser.clicked_face.tooltip": "Oriented based on clicked block face",
-
-
-  "container.portalcubed.pedestal_button": "Pedestal Button",
-  "container.portalcubed.pedestal_button.press_length": "Press Length",
-  "container.portalcubed.pedestal_button.offset": "Position Offset",
-  "container.portalcubed.pedestal_button.base": "Include Base",
 
 
   "attribute.name.fall_damage_absorption": "Fall Damage Absorption",
@@ -415,7 +416,6 @@
   "advancement.portalcubed.cube_shaped.title": "If Not Cube, Why Cube Shaped?",
   "advancement.portalcubed.cube_shaped.description": "Put a Cube-Shaped entity on a Cube Button",
 
-
   "advancement.portalcubed.radio.title": "Tunes to Test to",
   "advancement.portalcubed.radio.description": "Obtain a Radio",
   "advancement.portalcubed.cubes.title": "Cubes to Keep You Company",
@@ -477,7 +477,14 @@
 
   "item.portalcubed.hammer": "Hammer",
   "item.portalcubed.crowbar": "Crowbar",
+
   "item.portalcubed.construction_cannon": "Construction Cannon",
+  "item.portalcubed.construction_cannon.material": "Material:",
+  "item.portalcubed.construction_cannon.construct_set": "Construct:",
+  "item.portalcubed.construction_cannon.feedback.obstructed": "Placement location obstructed",
+  "item.portalcubed.construction_cannon.feedback.missing_materials": "Not enough materials",
+  "item.portalcubed.construction_cannon.feedback.missing_materials.easter_egg": "NOT ENOUGH MINERALS",
+  "item.portalcubed.construction_cannon.feedback.no_perms": "You do not have permission to build here",
 
   "block.portalcubed.hammerable.desc1": "Interact with Hammer:",
   "block.portalcubed.hammerable.desc2": "Configures Test Element",
@@ -516,7 +523,6 @@
   "block.portalcubed.banner.oval.purple": "Purple Oval",
   "block.portalcubed.banner.oval.magenta": "Magenta Oval",
   "block.portalcubed.banner.oval.pink": "Pink Oval",
-
 
   "item.portalcubed.storage_cube": "Weighted Storage Cube",
   "item.portalcubed.storage_cube.2": "Dirty Weighted Storage Cube",
@@ -1044,6 +1050,7 @@
   "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",
   "block.portalcubed.toxic_goo_cauldron": "Toxic Goo Cauldron",
 
+
   "death.attack.toxic_goo": "%s dissolved in toxic goo",
   "death.attack.toxic_goo.player": "%1$s couldn't get 6 extra seconds of cooperation from %2$s",
   "death.attack.disintegration": "%s was disintegrated",
@@ -1059,6 +1066,7 @@
   "death.attack.submerged_the_operational_end_of_the_device.player":  "%1$s submerged the operational end of the device trying to escape %2$s",
   "death.attack.lemonade": "%s combusted",
   "death.attack.lemonade.player":  "%1$s combusted due to %2$s's lemonade",
+
 
   "entity.portalcubed.beans": "Bean Can",
   "entity.portalcubed.chair": "Office Chair",
