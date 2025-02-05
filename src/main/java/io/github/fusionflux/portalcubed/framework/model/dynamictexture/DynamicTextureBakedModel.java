@@ -24,7 +24,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class DynamicTextureBakedModel extends DelegateBakedModel {
-	private static final TextureReplacer TEXTURE_REPLACER = new TextureReplacer();
+	private static final ThreadLocal<TextureReplacer> TEXTURE_REPLACER = ThreadLocal.withInitial(TextureReplacer::new);
 
 	public DynamicTextureBakedModel(BakedModel parent) {
 		super(parent);
@@ -38,9 +38,10 @@ public class DynamicTextureBakedModel extends DelegateBakedModel {
 	@Override
 	public void emitBlockQuads(QuadEmitter emitter, BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, Predicate<@Nullable Direction> cullTest) {
 		if (blockView.getBlockEntityRenderData(pos) instanceof DynamicTextureRenderData(Map<String, ResourceLocation> map)) {
-			TEXTURE_REPLACER.prepare(map::get, emitter);
-			super.emitBlockQuads(TEXTURE_REPLACER, blockView, state, pos, randomSupplier, cullTest);
-			TEXTURE_REPLACER.cleanup();
+			TextureReplacer textureReplacer = TEXTURE_REPLACER.get();
+			textureReplacer.prepare(map::get, emitter);
+			super.emitBlockQuads(textureReplacer, blockView, state, pos, randomSupplier, cullTest);
+			textureReplacer.cleanup();
 		} else {
 			super.emitBlockQuads(emitter, blockView, state, pos, randomSupplier, cullTest);
 		}

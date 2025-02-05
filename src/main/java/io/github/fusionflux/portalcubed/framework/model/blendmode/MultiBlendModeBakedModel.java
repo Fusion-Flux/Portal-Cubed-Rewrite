@@ -20,7 +20,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MultiBlendModeBakedModel extends DelegateBakedModel {
-	private static final Blender BLENDER = new Blender();
+	private static final ThreadLocal<Blender> BLENDER = ThreadLocal.withInitial(Blender::new);
 
 	public MultiBlendModeBakedModel(BakedModel parent) {
 		super(parent);
@@ -33,16 +33,18 @@ public class MultiBlendModeBakedModel extends DelegateBakedModel {
 
 	@Override
 	public void emitBlockQuads(QuadEmitter emitter, BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, Predicate<@Nullable Direction> cullTest) {
-		BLENDER.prepare(emitter);
-		super.emitBlockQuads(BLENDER, blockView, state, pos, randomSupplier, cullTest);
-		BLENDER.cleanup();
+		Blender blender = BLENDER.get();
+		blender.prepare(emitter);
+		super.emitBlockQuads(blender, blockView, state, pos, randomSupplier, cullTest);
+		blender.cleanup();
 	}
 
 	@Override
 	public void emitItemQuads(QuadEmitter emitter, Supplier<RandomSource> randomSupplier) {
-		BLENDER.prepare(emitter);
-		super.emitItemQuads(BLENDER, randomSupplier);
-		BLENDER.cleanup();
+		Blender blender = BLENDER.get();
+		blender.prepare(emitter);
+		super.emitItemQuads(blender, randomSupplier);
+		blender.cleanup();
 	}
 
 	private static final class Blender extends DelegatingQuadEmitter {
