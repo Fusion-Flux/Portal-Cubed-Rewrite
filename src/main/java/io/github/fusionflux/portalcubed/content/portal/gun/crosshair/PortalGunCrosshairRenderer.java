@@ -22,14 +22,16 @@ public final class PortalGunCrosshairRenderer {
 	}
 
 	private static void renderIndicator(GuiGraphics graphics, PortalGunCrosshairType.Indicator indicator, boolean placed, boolean lastPlaced, int color) {
-		RenderSystem.setShaderColor(ARGB.redFloat(color), ARGB.greenFloat(color), ARGB.blueFloat(color), 1f);
 		if (placed) {
 			blit(graphics, indicator.placed());
 		} else {
-			if (lastPlaced && indicator.lastPlaced().isPresent())
-				blit(graphics, indicator.lastPlaced().get());
 			blit(graphics, indicator.empty());
 		}
+
+		if (lastPlaced && indicator.lastPlaced().isPresent())
+			blit(graphics, indicator.lastPlaced().get());
+
+		RenderSystem.setShaderColor(ARGB.redFloat(color), ARGB.greenFloat(color), ARGB.blueFloat(color), 1f);
 		graphics.flush();
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}
@@ -49,9 +51,9 @@ public final class PortalGunCrosshairRenderer {
 
 		String pairKey = settings.pair().orElse(player.getGameProfile().getName());
 		PortalPair pair = player.level().portalManager().getOrEmpty(pairKey);
-		Polarity activePolarity = settings.active();
-		renderIndicator(graphics, type.primary(), pair.primary().isPresent(), activePolarity == Polarity.SECONDARY, settings.portalSettingsOf(Polarity.PRIMARY).color());
-		renderIndicator(graphics, type.secondary(), pair.secondary().isPresent(), activePolarity == Polarity.PRIMARY, settings.portalSettingsOf(Polarity.SECONDARY).color());
+		Polarity shotPolarity = settings.shot().orElse(null);
+		renderIndicator(graphics, type.primary(), pair.primary().isPresent(), shotPolarity == Polarity.PRIMARY, settings.portalSettingsOf(Polarity.PRIMARY).color());
+		renderIndicator(graphics, type.secondary(), pair.secondary().isPresent(), shotPolarity == Polarity.SECONDARY, settings.portalSettingsOf(Polarity.SECONDARY).color());
 
 		return type.removeVanillaCrosshair();
 	}

@@ -51,9 +51,7 @@ public record CannonSettings(
 	public static final Component MATERIAL_TOOLTIP = ConstructionCannonItem.translate("material").withStyle(ChatFormatting.GRAY);
 	public static final Component CONSTRUCT_TOOLTIP = ConstructionCannonItem.translate("construct_set").withStyle(ChatFormatting.GRAY);
 
-	public static final CannonSettings DEFAULT = new CannonSettings(
-			Optional.empty(), Optional.empty(), true, .55f, false
-	);
+	public static final CannonSettings DEFAULT = builder().build();
 
 	@Nullable
 	public Configured validate() {
@@ -68,7 +66,7 @@ public record CannonSettings(
 	}
 
 	public static CannonSettings.Builder builder() {
-		return builder(DEFAULT);
+		return new CannonSettings.Builder();
 	}
 
 	@Override
@@ -89,12 +87,15 @@ public record CannonSettings(
 	public record Configured(TagKey<Item> material, ConstructSet construct) {
 	}
 
-	public static class Builder {
-		private Optional<TagKey<Item>> material;
-		private Optional<ResourceLocation> construct;
-		private boolean preview;
-		private float previewOpacity;
-		private boolean replaceMode;
+	public static final class Builder {
+		private Optional<TagKey<Item>> material = Optional.empty();
+		private Optional<ResourceLocation> construct = Optional.empty();
+		private boolean preview = true;
+		private float previewOpacity = .55f;
+		private boolean replaceMode = false;
+
+		Builder() {
+		}
 
 		Builder(CannonSettings settings) {
 			this.material = settings.material;
