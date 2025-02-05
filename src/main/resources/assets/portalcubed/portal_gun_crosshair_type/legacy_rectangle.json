@@ -1,0 +1,15 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.legacy_rectangle"
+  },
+  "primary": {
+      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_rectangle/legacy_rectangle_left",
+      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_rectangle/legacy_rectangle_left_placed",
+      "last_placed": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_rectangle/legacy_rectangle_left_last_placed"
+  },
+  "secondary": {
+      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_rectangle/legacy_rectangle_right",
+      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_rectangle/legacy_rectangle_right_placed",
+      "last_placed": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_rectangle/legacy_rectangle_right_last_placed"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.legacy_round"
+  },
+  "primary": {
+      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_round/legacy_round_left",
+      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_round/legacy_round_left_placed",
+      "last_placed": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_round/legacy_round_left_last_placed"
+  },
+  "secondary": {
+      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_round/legacy_round_right",
+      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_round/legacy_round_right_placed",
+      "last_placed": "portalcubed:gui/sprites/portal_gun_crosshair/legacy_round/legacy_round_right_last_placed"
+  }
+}

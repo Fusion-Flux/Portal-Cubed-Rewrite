@@ -1,0 +1,13 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.beta"
+  },
+  "primary": {
+      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/beta/beta_left",
+      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/beta/beta_left_placed"
+  },
+  "secondary": {
+      "empty": "portalcubed:gui/sprites/portal_gun_crosshair/beta/beta_right",
+      "placed": "portalcubed:gui/sprites/portal_gun_crosshair/beta/beta_right_placed"
+  }
+}
