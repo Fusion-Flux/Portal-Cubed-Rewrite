@@ -16,7 +16,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -75,26 +74,29 @@ public class PortalProjectile extends UnsavedEntity {
 	}
 
 	@Override
+	public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
+		// position is handled entirely on the client
+	}
+
+	@Override
 	public void tick() {
-		if (this.getDeltaMovement().lengthSqr() == 0) {
-			super.tick();
+		Vec3 vel = this.getDeltaMovement();
+		if (vel.lengthSqr() == 0)
 			return;
-		}
 
 		Vec3 start = this.position();
-		super.tick();
-		this.move(MoverType.SELF, this.getDeltaMovement());
-		Vec3 end = this.position();
+		Vec3 end = start.add(vel);
+		this.setOldPos();
+		this.setPos(end);
 
-		Level level = this.level();
-		BlockHitResult hit = level.clip(new ClipContext(
-				start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this
-		));
-		if (hit.getType() == HitResult.Type.BLOCK) {
-			this.setDeltaMovement(0, 0, 0);
-			if (level instanceof ServerLevel serverLevel) {
-				this.discard();
+		if (this.level() instanceof ServerLevel serverLevel) {
+			BlockHitResult hit = serverLevel.clip(new ClipContext(
+					start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this
+			));
+
+			if (hit.getType() == HitResult.Type.BLOCK) {
 				this.spawnPortal(serverLevel, hit);
+				this.discard();
 			}
 		}
 	}

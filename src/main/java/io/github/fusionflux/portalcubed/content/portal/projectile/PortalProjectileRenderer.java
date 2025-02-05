@@ -9,10 +9,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.ResourceLocation;
 
-public class PortalProjectileRenderer extends EntityRenderer<PortalProjectile, EntityRenderState> {
+public class PortalProjectileRenderer extends EntityRenderer<PortalProjectile, PortalProjectileRenderState> {
 	public static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/block/magenta_glazed_terracotta.png");
 
 	public PortalProjectileRenderer(EntityRendererProvider.Context ctx) {
@@ -20,20 +19,25 @@ public class PortalProjectileRenderer extends EntityRenderer<PortalProjectile, E
 	}
 
 	@Override
-	public void render(EntityRenderState renderState, PoseStack matrices, MultiBufferSource bufferSource, int light) {
+	public void render(PortalProjectileRenderState renderState, PoseStack matrices, MultiBufferSource bufferSource, int light) {
 		super.render(renderState, matrices, bufferSource, light);
 		VertexConsumer vertices = bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
 
 		matrices.pushPose();
-		matrices.mulPose(entityRenderDispatcher.cameraOrientation());
+		matrices.mulPose(this.entityRenderDispatcher.cameraOrientation());
 		matrices.mulPose(Axis.YP.rotationDegrees(180));
-		matrices.mulPose(Axis.XP.rotationDegrees(90));
-		RenderingUtils.renderQuad(matrices, vertices, light, 0xFFFFFFFF);
+		RenderingUtils.renderQuad(matrices, vertices, light, renderState.color);
 		matrices.popPose();
 	}
 
 	@Override
-	public EntityRenderState createRenderState() {
-		return new EntityRenderState();
+	public PortalProjectileRenderState createRenderState() {
+		return new PortalProjectileRenderState();
+	}
+
+	@Override
+	public void extractRenderState(PortalProjectile projectile, PortalProjectileRenderState reusedState, float tickDelta) {
+		super.extractRenderState(projectile, reusedState, tickDelta);
+		reusedState.color = projectile.getColor();
 	}
 }
