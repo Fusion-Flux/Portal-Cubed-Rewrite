@@ -112,7 +112,7 @@ public class GrabSoundManager {
 
 	private void drop() {
 		this.stop();
-		this.player.playSound(PortalCubedSounds.PORTAL_GUN_DROP, 1, 1);
+		this.player.playSound(PortalCubedSounds.PORTAL_GUN_RELEASE, 1, 1);
 	}
 
 	private FollowingSoundInstance startPlaying(SoundEvent sound, boolean loop) {

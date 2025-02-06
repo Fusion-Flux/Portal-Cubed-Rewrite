@@ -1,0 +1,19 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.salmon_gun"
+  },
+  "item": "portalcubed:items/portal_guns/salmon_gun",
+  "weight": 26,
+  "sounds": {
+    "primary_shoot": "minecraft:entity.salmon.flop",
+    "secondary_shoot": "minecraft:entity.salmon.flop",
+    "fizzle": "minecraft:entity.salmon.flop",
+    "hold_loop": "minecraft:entity.salmon.flop",
+    "release": "minecraft:entity.salmon.flop",
+    "cannot_grab": "minecraft:entity.salmon.flop",
+    "grab": {
+      "sound": "minecraft:entity.salmon.flop",
+      "length": 10
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.bendy_portal_gun"
+  },
+  "item": "portalcubed:items/portal_guns/bendy_portal_gun",
+  "weight": 23,
+  "sounds": {
+    "primary_shoot": "portalcubed:portal_gun.default.primary_shoot",
+    "secondary_shoot": "portalcubed:portal_gun.default.secondary_shoot",
+    "fizzle": "portalcubed:portal_gun.default.fizzle",
+    "release": "portalcubed:portal_gun.default.release",
+    "cannot_grab": "portalcubed:portal_gun.default.cannot_grab",
+    "hold_loop": "portalcubed:portal_gun.default.hold_loop",
+    "grab": {
+      "sound": "portalcubed:portal_gun.default.grab",
+      "length": 28
+    }
+  }
+}

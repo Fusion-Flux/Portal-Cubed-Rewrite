@@ -379,7 +379,7 @@ public class PortalCubedTabs {
 
 	private static void addPortalGunVariant(CreativeModeTab.Output output, String lang, String itemmodel) {
 		ItemStack stack = new ItemStack(PortalCubedItems.PORTAL_GUN);
-		stack.set(DataComponents.ITEM_NAME, Component.translatable("item.portalcubed." + lang).withStyle(style -> style.withItalic(false)));
+		stack.set(DataComponents.ITEM_NAME, Component.translatable("portal_gun_skin.portalcubed." + lang).withStyle(style -> style.withItalic(false)));
 		stack.set(DataComponents.ITEM_MODEL, PortalCubed.id(itemmodel)); //replace this with a component for portal gun variant file once added
 		//add stuff for setting default primary/secondary portals and crosshair here
 		output.accept(stack);

@@ -38,10 +38,13 @@ public class PortalCubedSounds {
 	public static final SoundEvent RADIO_SONG = register("prop.radio.ambient");
 	public static final SoundEvent COMPANION_CUBE_AMBIANCE = register("prop.companion_cube.ambient");
 
-	public static final SoundEvent PORTAL_GUN_CANNOT_GRAB = register("portal_gun.cannot_grab");
-	public static final SoundEvent PORTAL_GUN_GRAB = register("portal_gun.grab");
-	public static final SoundEvent PORTAL_GUN_HOLD_LOOP = register("portal_gun.hold_loop");
-	public static final SoundEvent PORTAL_GUN_DROP = register("portal_gun.drop");
+	public static final SoundEvent PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.default.primary_shoot");
+	public static final SoundEvent PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.default.secondary_shoot");
+	public static final SoundEvent PORTAL_GUN_FIZZLE = register("portal_gun.default.fizzle");
+	public static final SoundEvent PORTAL_GUN_CANNOT_GRAB = register("portal_gun.default.cannot_grab");
+	public static final SoundEvent PORTAL_GUN_GRAB = register("portal_gun.default.grab");
+	public static final SoundEvent PORTAL_GUN_HOLD_LOOP = register("portal_gun.default.hold_loop");
+	public static final SoundEvent PORTAL_GUN_RELEASE = register("portal_gun.default.release");
 
 	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon.obstructed");
 	public static final SoundEvent CONSTRUCTION_CANNON_MISSING_MATERIALS = register("construction_cannon.missing_materials");

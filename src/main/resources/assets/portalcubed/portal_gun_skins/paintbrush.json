@@ -1,0 +1,12 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.paintbrush"
+  },
+  "item": "portalcubed:items/portal_guns/paintbrush",
+  "weight": 31,
+  "sounds": {
+    "primary_shoot": "minecraft:item.brush.brushing.gravel",
+    "secondary_shoot": "minecraft:item.brush.brushing.sand",
+    "fizzle": "minecraft:item.brush.brushing.generic"
+  }
+}

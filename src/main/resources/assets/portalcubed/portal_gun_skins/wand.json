@@ -1,0 +1,12 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.wand"
+  },
+  "item": "portalcubed:items/portal_guns/wand",
+  "weight": 27,
+  "sounds": {
+    "primary_shoot": "minecraft:entity.evoker.cast_spell",
+    "secondary_shoot": "minecraft:entity.evoker.cast_spell",
+    "fizzle": "minecraft:entity.evoker.prepare_attack"
+  }
+}

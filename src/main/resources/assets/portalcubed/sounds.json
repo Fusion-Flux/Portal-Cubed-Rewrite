@@ -436,42 +436,89 @@
     ],
     "subtitle": "subtitles.portalcubed.crowbar.swing"
   },
-  "portal_gun.grab": {
+
+
+  "portal_gun.default.grab": {
     "sounds": [
       {
-        "name": "portalcubed:portal_gun/portal_gun_grab",
+        "name": "portalcubed:portal_gun/default/grab",
         "volume": 0.6
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun.grab"
+    "subtitle": "subtitles.portalcubed.portal_gun.default.grab"
   },
-  "portal_gun.hold_loop": {
+  "portal_gun.default.hold_loop": {
     "sounds": [
       {
-        "name": "portalcubed:portal_gun/portal_gun_hold_loop",
+        "name": "portalcubed:portal_gun/default/hold_loop",
         "volume": 0.6
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun.hold_loop"
+    "subtitle": "subtitles.portalcubed.portal_gun.default.hold_loop"
   },
-  "portal_gun.drop": {
+  "portal_gun.default.release": {
     "sounds": [
       {
-        "name": "portalcubed:portal_gun/portal_gun_drop",
+        "name": "portalcubed:portal_gun/default/release",
         "volume": 0.6
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun.drop"
+    "subtitle": "subtitles.portalcubed.portal_gun.default.release"
   },
-  "portal_gun.cannot_grab": {
+  "portal_gun.default.cannot_grab": {
     "sounds": [
       {
-        "name": "portalcubed:portal_gun/portal_gun_cannot_grab",
+        "name": "portalcubed:portal_gun/default/cannot_grab",
         "volume": 0.75
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun.cannot_grab"
+    "subtitle": "subtitles.portalcubed.portal_gun.default.cannot_grab"
   },
+  "portal_gun.default.fizzle": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/default/fizzle",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+  "portal_gun.default.primary_shoot": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/default/primary_shoot_1",
+        "volume": 0.45
+      },
+      {
+        "name": "portalcubed:portal_gun/default/primary_shoot_2",
+        "volume": 0.45
+      },
+      {
+        "name": "portalcubed:portal_gun/default/primary_shoot_3",
+        "volume": 0.45
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
+  },
+  "portal_gun.default.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/default/secondary_shoot_1",
+        "volume": 0.45
+      },
+      {
+        "name": "portalcubed:portal_gun/default/secondary_shoot_2",
+        "volume": 0.45
+      },
+      {
+        "name": "portalcubed:portal_gun/default/secondary_shoot_3",
+        "volume": 0.45
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
+  },
+
+
   "construction_cannon.obstructed": {
     "sounds": [
       {

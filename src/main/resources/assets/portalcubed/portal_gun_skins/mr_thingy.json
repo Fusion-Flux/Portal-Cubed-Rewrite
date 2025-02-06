@@ -1,0 +1,12 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.mr_thingy"
+  },
+  "item": "portalcubed:items/portal_guns/mr_thingy",
+  "weight": 28,
+  "sounds": {
+    "primary_shoot": "minecraft:entity.fishing_bobber.throw",
+    "secondary_shoot": "minecraft:entity.fishing_bobber.throw",
+    "fizzle": "minecraft:entity.fishing_bobber.retrieve"
+  }
+}

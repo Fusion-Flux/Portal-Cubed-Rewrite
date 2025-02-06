@@ -1,0 +1,12 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.polaroid"
+  },
+  "item": "portalcubed:items/portal_guns/polaroid",
+  "weight": 32,
+  "sounds": {
+    "primary_shoot": "minecraft:ui.button.click",
+    "secondary_shoot": "minecraft:ui.button.click",
+    "fizzle": "minecraft:ui.cartography_table.take_result"
+  }
+}

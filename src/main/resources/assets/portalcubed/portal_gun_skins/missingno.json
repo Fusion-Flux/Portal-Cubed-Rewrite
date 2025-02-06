@@ -1,0 +1,19 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.missing_texture_portal_gun"
+  },
+  "item": "portalcubed:items/portal_guns/missing_texture_portal_gun",
+  "weight": 21,
+  "sounds": {
+    "primary_shoot": "portalcubed:prop.error.impact",
+    "secondary_shoot": "portalcubed:prop.error.impact",
+    "fizzle": "portalcubed:prop.error.impact",
+    "hold_loop": "portalcubed:prop.error.impact",
+    "release": "portalcubed:prop.error.impact",
+    "cannot_grab": "portalcubed:prop.error.impact",
+    "grab": {
+      "sound": "portalcubed:prop.error.impact",
+      "length": 80
+    }
+  }
+}

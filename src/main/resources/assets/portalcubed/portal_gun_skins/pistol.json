@@ -1,0 +1,12 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.pistol"
+  },
+  "item": "portalcubed:items/portal_guns/pistol",
+  "weight": 24,
+  "sounds": {
+    "primary_shoot": "minecraft:entity.firework_rocket.blast",
+    "secondary_shoot": "minecraft:entity.firework_rocket.blast_far",
+    "fizzle": "minecraft:item.crossbow.loading_end"
+  }
+}

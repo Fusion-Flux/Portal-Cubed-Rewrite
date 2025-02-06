@@ -1,0 +1,11 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.pipis_cannon"
+  },
+  "item": "portalcubed:items/portal_guns/pipis_cannon",
+  "weight": 33,
+  "sounds": {
+    "primary_shoot": "minecraft:entity.arrow.shoot",
+    "secondary_shoot": "minecraft:entity.arrow.shoot"
+  }
+}
