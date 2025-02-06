@@ -13,7 +13,7 @@
     "cannot_grab": "portalcubed:prop.error.impact",
     "grab": {
       "sound": "portalcubed:prop.error.impact",
-      "length": 80
+      "length": 40
     }
   }
 }

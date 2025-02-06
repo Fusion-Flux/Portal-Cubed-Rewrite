@@ -1,0 +1,15 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.missingno"
+  },
+  "primary": {
+      "empty": "minecraft:missingno",
+      "placed": "minecraft:missingno",
+      "last_placed": "minecraft:missingno"
+  },
+  "secondary": {
+      "empty": "minecraft:missingno",
+      "placed": "minecraft:missingno",
+      "last_placed": "minecraft:missingno"
+  }
+}
