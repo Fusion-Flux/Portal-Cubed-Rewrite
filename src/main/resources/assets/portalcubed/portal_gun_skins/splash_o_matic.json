@@ -2,7 +2,7 @@
   "name": {
     "translate": "portal_gun_skin.portalcubed.splash_o_matic"
   },
-  "item": "portalcubed:items/portal_guns/splash_o_matic",
+  "item_model": "portalcubed:portal_guns/splash_o_matic",
   "weight": 25,
   "sounds": {
     "primary_shoot": "minecraft:block.mud.step",

@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.key;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.DropPacket;
@@ -31,8 +29,8 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 
 			if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof HoldableEntity holdable) {
 				PortalCubedPackets.sendToServer(new GrabPacket(holdable));
-			} else if (player.isHolding(PortalCubedItems.PORTAL_GUN)) { // failed, play fail sound if holding portal gun
-				player.playSound(PortalCubedSounds.PORTAL_GUN_CANNOT_GRAB);
+			} else {
+				player.grabSoundManager().onFailedGrab();
 			}
 		} else { // currently holding, drop
 			PortalCubedPackets.sendToServer(DropPacket.INSTANCE);

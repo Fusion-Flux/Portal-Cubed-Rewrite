@@ -110,7 +110,8 @@
     "client.TextureSlots_ResolverMixin",
     "client.Variant_DeserializerMixin",
     "client.VariantMixin",
-    "portals.client.GuiMixin"
+    "portals.client.GuiMixin",
+    "portals.client.ItemModelResolverMixin"
   ],
   "injectors": {
     "defaultRequire": 1

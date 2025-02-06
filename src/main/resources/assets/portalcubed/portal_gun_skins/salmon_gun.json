@@ -2,7 +2,7 @@
   "name": {
     "translate": "portal_gun_skin.portalcubed.salmon_gun"
   },
-  "item": "portalcubed:items/portal_guns/salmon_gun",
+  "item_model": "portalcubed:portal_guns/salmon_gun",
   "weight": 26,
   "sounds": {
     "primary_shoot": "minecraft:entity.salmon.flop",

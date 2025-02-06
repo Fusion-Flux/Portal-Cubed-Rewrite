@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import java.util.List;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -18,18 +16,16 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
-public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, List<ResourceLocation> sounds) {
+public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, HolderSet<SoundEvent> sounds) {
 	public static final Codec<DisintegrationSoundType> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("entities").forGetter(DisintegrationSoundType::entities),
-			ExtraCodecs.compactListCodec(ResourceLocation.CODEC).fieldOf("sounds").forGetter(DisintegrationSoundType::sounds)
+			RegistryCodecs.homogeneousList(Registries.SOUND_EVENT).fieldOf("sounds").forGetter(DisintegrationSoundType::sounds)
 	).apply(instance, DisintegrationSoundType::new));
-	public static final ResourceKey<DisintegrationSoundType> GENERIC_KEY = ResourceKey.create(PortalCubedRegistries.DISINTEGRATION_SOUND_TYPE, PortalCubed.id("generic"));
+	public static final ResourceKey<DisintegrationSoundType> GENERIC = ResourceKey.create(PortalCubedRegistries.DISINTEGRATION_SOUND_TYPE, PortalCubed.id("generic"));
 
 	public static DisintegrationSoundType lookup(Entity entity) {
 		HolderLookup<DisintegrationSoundType> registryLookup = entity.registryAccess().lookupOrThrow(PortalCubedRegistries.DISINTEGRATION_SOUND_TYPE);
@@ -37,8 +33,8 @@ public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, List<Re
 				.listElements()
 				.map(Holder::value)
 				.filter(type -> entity.getType().is(type.entities))
-				.findFirst()
-				.orElse(registryLookup.getOrThrow(GENERIC_KEY).value());
+				.findAny()
+				.orElse(registryLookup.getOrThrow(GENERIC).value());
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -48,8 +44,8 @@ public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, List<Re
 
 		DisintegrationSoundType type = lookup(entity);
 		SoundManager soundManager = Minecraft.getInstance().getSoundManager();
-		for (ResourceLocation sound : type.sounds) {
-			soundManager.play(new FollowingSoundInstance(SoundEvent.createVariableRangeEvent(sound), entity.getSoundSource(), entity, false));
+		for (Holder<SoundEvent> sound : type.sounds) {
+			soundManager.play(new FollowingSoundInstance(sound.value(), entity.getSoundSource(), entity, false));
 		}
 	}
 }

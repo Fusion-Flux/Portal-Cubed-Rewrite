@@ -61,6 +61,8 @@ public class PortalCubedSounds {
 		}
 	});
 	public static final SoundEvent FIDDLE_STICKS = register("prop.error.impact");
+	public static final SoundEvent GENERIC_DISINTEGRATION = register("prop.generic.disintegration");
+	public static final SoundEvent RADIO_DISINTEGRATION = register("prop.radio.disintegration");
 
 	public static final SoundEvent SURPRISE = register("surprise");
 

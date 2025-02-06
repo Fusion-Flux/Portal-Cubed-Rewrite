@@ -2,7 +2,7 @@
   "name": {
     "translate": "portal_gun_skin.portalcubed.painted_portal_gun"
   },
-  "item": "portalcubed:items/portal_guns/painted_portal_gun",
+  "item_model": "portalcubed:portal_guns/painted_portal_gun",
   "weight": 18,
   "sounds": {
     "primary_shoot": "portalcubed:portal_gun.default.primary_shoot",

@@ -2,7 +2,7 @@
   "name": {
     "translate": "portal_gun_skin.portalcubed.2006_beta_portal_gun"
   },
-  "item": "portalcubed:items/portal_guns/2006_beta_portal_gun",
+  "item_model": "portalcubed:portal_guns/2006_beta_portal_gun",
   "weight": 16,
   "sounds": {
     "primary_shoot": "portalcubed:portal_gun.default.primary_shoot",

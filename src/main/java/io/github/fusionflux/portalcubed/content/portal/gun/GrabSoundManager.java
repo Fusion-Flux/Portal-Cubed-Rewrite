@@ -1,11 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-
 import org.jetbrains.annotations.Nullable;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import net.fabricmc.api.EnvType;
@@ -16,33 +14,37 @@ import net.minecraft.world.entity.player.Player;
 
 public class GrabSoundManager {
 	// magic number of ticks between the starts of the grab and hold sounds
-	public static final int MAGIC_HOLD_DELAY = 28;
-
 	private final Player player;
 
 	@Environment(EnvType.CLIENT)
-	private FollowingSoundInstance grabSound;
+	private FollowingSoundInstance grabSoundPlaying;
 	@Environment(EnvType.CLIENT)
-	private FollowingSoundInstance holdSound;
+	private FollowingSoundInstance holdSoundPlaying;
 
 	private int grabTimer;
-	private ItemVariant lastHeldItem;
+	private PortalGunSettings portalGun;
 
 	public GrabSoundManager(Player player) {
 		this.player = player;
-		this.lastHeldItem = this.findHeldItem();
+		this.portalGun = this.findHeld();
 	}
 
-	public void onHeldItemChange(ItemVariant newItem) {
-		if (isPortalGun(this.lastHeldItem) && !isPortalGun(newItem) && this.isActive()) {
+	public void onHeldItemChange(@Nullable PortalGunSettings newPortalGun) {
+		PortalGunSettings oldPortalGun = this.portalGun;
+		this.portalGun = newPortalGun;
+
+		if (oldPortalGun != null && newPortalGun == null && this.isActive()) {
 			// unequipped portal gun
 			this.drop();
-		} else if (!isPortalGun(this.lastHeldItem) && isPortalGun(newItem) && this.playerIsHolding()) {
+		} else if (oldPortalGun == null && newPortalGun != null && this.playerIsHolding()) {
 			// equipped portal gun
 			this.startGrab();
 		}
+	}
 
-		this.lastHeldItem = newItem;
+	public void onFailedGrab() {
+		this.sounds().cannotGrab()
+				.ifPresent(sound -> this.player.playSound(sound.value(), 1, 1));
 	}
 
 	public void onHeldEntityChange(@Nullable HoldableEntity held) {
@@ -63,22 +65,23 @@ public class GrabSoundManager {
 			}
 		}
 
-		ItemVariant held = this.findHeldItem();
-		if (!this.lastHeldItem.equals(held)) {
+		PortalGunSettings held = this.findHeld();
+		if (this.portalGun == null || !this.portalGun.equals(held)) {
 			this.onHeldItemChange(held);
 		}
 	}
 
+	@Nullable
+	private PortalGunSettings findHeld() {
+		return this.player.getMainHandItem().get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
+	}
+
 	private boolean isActive() {
-		return this.grabSound != null || this.holdSound != null;
+		return this.grabSoundPlaying != null || this.holdSoundPlaying != null;
 	}
 
 	private boolean playerIsHolding() {
 		return this.player.getHeldEntity() != null;
-	}
-
-	private ItemVariant findHeldItem() {
-		return ItemVariant.of(this.player.getMainHandItem());
 	}
 
 	private void stop() {
@@ -87,32 +90,45 @@ public class GrabSoundManager {
 	}
 
 	private void startGrab() {
-		this.grabSound = this.startPlaying(PortalCubedSounds.PORTAL_GUN_GRAB, false);
-		this.grabTimer = MAGIC_HOLD_DELAY;
+		this.sounds().grab().ifPresent(grab -> {
+			this.grabSoundPlaying = this.startPlaying(grab.sound().value(), false);
+			this.grabTimer = grab.lengthInTicks();
+		});
 	}
 
 	private void stopGrab() {
-		if (this.grabSound != null) {
-			this.grabSound.forceStop();
-			this.grabSound = null;
+		if (this.grabSoundPlaying != null) {
+			this.grabSoundPlaying.forceStop();
+			this.grabSoundPlaying = null;
 			this.grabTimer = 0;
 		}
 	}
 
 	private void startHold() {
-		this.holdSound = this.startPlaying(PortalCubedSounds.PORTAL_GUN_HOLD_LOOP, true);
+		this.sounds().holdLoop()
+				.ifPresent(sound -> this.holdSoundPlaying = this.startPlaying(sound.value(), true));
 	}
 
 	private void stopHold() {
-		if (this.holdSound != null) {
-			this.holdSound.forceStop();
-			this.holdSound = null;
+		if (this.holdSoundPlaying != null) {
+			this.holdSoundPlaying.forceStop();
+			this.holdSoundPlaying = null;
 		}
 	}
 
 	private void drop() {
 		this.stop();
-		this.player.playSound(PortalCubedSounds.PORTAL_GUN_RELEASE, 1, 1);
+		this.sounds().release()
+				.ifPresent(sound -> this.player.playSound(sound.value(), 1, 1));
+	}
+
+	private PortalGunSkin.Sounds sounds() {
+		if (this.portalGun != null) {
+			PortalGunSkin skin = this.portalGun.skin();
+			if (skin != null)
+				return skin.sounds();
+		}
+		return PortalGunSkin.Sounds.EMPTY;
 	}
 
 	private FollowingSoundInstance startPlaying(SoundEvent sound, boolean loop) {
@@ -120,9 +136,5 @@ public class GrabSoundManager {
 		instance.setLooping(loop);
 		Minecraft.getInstance().getSoundManager().play(instance);
 		return instance;
-	}
-
-	private static boolean isPortalGun(ItemVariant item) {
-		return item.isOf(PortalCubedItems.PORTAL_GUN);
 	}
 }
