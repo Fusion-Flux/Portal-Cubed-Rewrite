@@ -23,7 +23,7 @@ public class ItemModelResolverMixin {
 					target = "Lnet/minecraft/world/item/ItemStack;get(Lnet/minecraft/core/component/DataComponentType;)Ljava/lang/Object;"
 			)
 	)
-	private Object h(ItemStack stack, DataComponentType<ResourceLocation> dataComponentType, Operation<Object> original) {
+	private Object overrideModelWithPortalGunSkin(ItemStack stack, DataComponentType<ResourceLocation> dataComponentType, Operation<Object> original) {
 		PortalGunSettings portalGun = PortalGunItem.getGunSettings(stack);
 		if (portalGun != null) {
 			PortalGunSkin skin = portalGun.skin();
