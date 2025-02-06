@@ -16,6 +16,7 @@ import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPack
 import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.ShootPortalGunPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
@@ -49,6 +50,7 @@ public class PortalCubedPackets {
 			SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket.CODEC),
 			RELOAD_CONSTRUCT_PREVIEW = clientbound("reload_construct_preview", ReloadConstructPreview.CODEC),
 			SHOOT_CANNON = clientbound("shoot_cannon", ShootCannonPacket.CODEC),
+			SHOOT_PORTAL_GUN = clientbound("shoot_portal_gun", ShootPortalGunPacket.CODEC),
 			SHOOT_CANNON_OTHER = clientbound("shoot_cannon_other", OtherPlayerShootCannonPacket.CODEC),
 			OPEN_CANNON_CONFIG = clientbound("open_cannon_config", OpenCannonConfigPacket.CODEC),
 			HOLD_STATUS = clientbound("hold_status", HoldStatusPacket.CODEC),

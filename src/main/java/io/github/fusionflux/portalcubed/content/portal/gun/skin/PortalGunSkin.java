@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
@@ -51,6 +52,10 @@ public record PortalGunSkin(Component name, ResourceLocation itemModel, Sounds s
 				Optional.empty(),
 				Optional.empty()
 		);
+
+		public Optional<Holder<SoundEvent>> shootOf(Polarity polarity) {
+			return polarity == Polarity.PRIMARY ? this.primaryShoot : this.secondaryShoot;
+		}
 
 		public record Grab(Holder<SoundEvent> sound, int lengthInTicks) {
 			public static final Codec<Grab> CODEC = RecordCodecBuilder.create(instance -> instance.group(

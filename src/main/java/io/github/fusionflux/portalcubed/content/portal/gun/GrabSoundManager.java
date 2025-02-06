@@ -44,7 +44,7 @@ public class GrabSoundManager {
 
 	public void onFailedGrab() {
 		this.sounds().cannotGrab()
-				.ifPresent(sound -> this.player.playSound(sound.value(), 1, 1));
+				.ifPresent(sound -> this.player.playSound(sound.value()));
 	}
 
 	public void onHeldEntityChange(@Nullable HoldableEntity held) {
@@ -119,7 +119,7 @@ public class GrabSoundManager {
 	private void drop() {
 		this.stop();
 		this.sounds().release()
-				.ifPresent(sound -> this.player.playSound(sound.value(), 1, 1));
+				.ifPresent(sound -> this.player.playSound(sound.value()));
 	}
 
 	private PortalGunSkin.Sounds sounds() {
