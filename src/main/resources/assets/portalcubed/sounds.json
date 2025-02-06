@@ -487,15 +487,15 @@
     "sounds": [
       {
         "name": "portalcubed:portal_gun/default/primary_shoot_1",
-        "volume": 0.45
+        "volume": 0.20
       },
       {
         "name": "portalcubed:portal_gun/default/primary_shoot_2",
-        "volume": 0.45
+        "volume": 0.20
       },
       {
         "name": "portalcubed:portal_gun/default/primary_shoot_3",
-        "volume": 0.45
+        "volume": 0.20
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
@@ -504,15 +504,15 @@
     "sounds": [
       {
         "name": "portalcubed:portal_gun/default/secondary_shoot_1",
-        "volume": 0.45
+        "volume": 0.20
       },
       {
         "name": "portalcubed:portal_gun/default/secondary_shoot_2",
-        "volume": 0.45
+        "volume": 0.20
       },
       {
         "name": "portalcubed:portal_gun/default/secondary_shoot_3",
-        "volume": 0.45
+        "volume": 0.20
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
