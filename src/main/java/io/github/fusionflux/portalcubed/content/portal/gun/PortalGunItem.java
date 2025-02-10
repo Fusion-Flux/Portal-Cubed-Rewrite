@@ -44,7 +44,7 @@ public class PortalGunItem extends Item implements DirectClickItem {
 			return TriState.FALSE;
 
 		if (!this.shoot(level, player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY))
-			return TriState.DEFAULT;
+			return TriState.FALSE;
 
 		if (!level.isClientSide) {
 			UseCooldown cooldown = stack.get(DataComponents.USE_COOLDOWN);
@@ -63,7 +63,7 @@ public class PortalGunItem extends Item implements DirectClickItem {
 			return result;
 
 		ItemStack stack = player.getItemInHand(hand);
-		return this.shoot(level, player, stack, hand, Polarity.SECONDARY) ? InteractionResult.CONSUME : InteractionResult.PASS;
+		return this.shoot(level, player, stack, hand, Polarity.SECONDARY) ? InteractionResult.CONSUME : InteractionResult.FAIL;
 	}
 
 	@Override
@@ -79,6 +79,8 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		if (!(player instanceof ServerPlayer serverPlayer)) {
 			this.doClientShootEffects(player, stack, polarity);
 			return true;
+		} else {
+			PortalCubedPackets.sendToClients(PlayerLookup.tracking(serverPlayer), new ShootPortalGunPacket(player, polarity));
 		}
 
 		PortalSettings portalSettings = gunSettings.portalSettingsOf(polarity);
@@ -91,7 +93,6 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		projectile.setDeltaMovement(velocity);
 		projectile.moveTo(player.getEyePosition());
 		level.addFreshEntity(projectile);
-		PortalCubedPackets.sendToClients(PlayerLookup.tracking(serverPlayer), new ShootPortalGunPacket(player, polarity));
 
 		player.setItemInHand(hand, setGunSettings(stack, gunSettings.shoot(polarity)));
 		return true;

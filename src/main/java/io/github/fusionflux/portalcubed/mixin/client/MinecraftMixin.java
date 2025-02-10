@@ -8,9 +8,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
@@ -36,7 +36,6 @@ public class MinecraftMixin {
 	public ClientLevel level;
 
 	@Shadow
-	@Nullable
 	public LocalPlayer player;
 
 	@Shadow
@@ -64,44 +63,43 @@ public class MinecraftMixin {
 		}
 	}
 
-	@Inject(
-			method = "startAttack",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/world/phys/HitResult;getType()Lnet/minecraft/world/phys/HitResult$Type;"
-			),
-			cancellable = true
-	)
-	private void onAttack(CallbackInfoReturnable<Boolean> cir, @Local ItemStack stack) {
+	@WrapMethod(method = "startAttack")
+	private boolean directAttack(Operation<Boolean> original) {
+		ItemStack stack = this.player.getMainHandItem();
 		if (stack.getItem() instanceof DirectClickItem direct) {
-			TriState result = direct.onAttack(level, player, stack, hitResult);
+			TriState result = direct.onAttack(this.level, this.player, stack, this.hitResult);
 			if (result != TriState.DEFAULT) {
-				if (result == TriState.TRUE) {
-					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND, hitResult));
-				}
-				cir.setReturnValue(result.toBoolean(false));
+				if (result == TriState.TRUE)
+					PortalCubedPackets.sendToServer(new DirectClickItemPacket(true, InteractionHand.MAIN_HAND, this.hitResult));
+				return result.toBoolean(false);
 			}
 		}
+
+		return original.call();
 	}
 
-	@Inject(
-			method = "startUseItem",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/world/phys/HitResult;getType()Lnet/minecraft/world/phys/HitResult$Type;"
-			),
-			cancellable = true
-	)
-	private void onUse(CallbackInfo ci, @Local InteractionHand hand, @Local ItemStack stack) {
-		if (stack.getItem() instanceof DirectClickItem direct) {
-			TriState result = direct.onUse(level, player, stack, hitResult, hand);
-			if (result != TriState.DEFAULT) {
-				if (result == TriState.TRUE) {
-					PortalCubedPackets.sendToServer(new DirectClickItemPacket(false, hand, hitResult));
+	@WrapMethod(method = "startUseItem")
+	private void directUse(Operation<Void> original) {
+		boolean cancel = false;
+
+		for (InteractionHand hand : InteractionHand.values()) {
+			ItemStack stack = this.player.getItemInHand(hand);
+			if (!stack.isEmpty()) {
+				if (stack.getItem() instanceof DirectClickItem direct) {
+					TriState result = direct.onUse(this.level, this.player, stack, this.hitResult, hand);
+					if (result != TriState.DEFAULT) {
+						if (result == TriState.TRUE)
+							PortalCubedPackets.sendToServer(new DirectClickItemPacket(false, hand, this.hitResult));
+						cancel = true;
+					}
 				}
-				ci.cancel();
+
+				break;
 			}
 		}
+
+		if (!cancel)
+			original.call();
 	}
 
 	@Inject(method = "continueAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V"))

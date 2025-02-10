@@ -1,15 +1,17 @@
 package io.github.fusionflux.portalcubed.content.portal.gun.crosshair;
 
+import java.util.Optional;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.Optional;
 
 public record PortalGunCrosshairType(
 		Component name,
@@ -26,6 +28,10 @@ public record PortalGunCrosshairType(
 			Indicator.CODEC.fieldOf("secondary").forGetter(PortalGunCrosshairType::secondary)
 	).apply(instance, PortalGunCrosshairType::new));
 	public static final ResourceKey<Registry<PortalGunCrosshairType>> REGISTRY_KEY = ResourceKey.createRegistryKey(PortalCubed.id("portal_gun_crosshair_type"));
+
+	public Indicator indicatorOf(Polarity polarity) {
+		return polarity == Polarity.PRIMARY ? this.primary : this.secondary;
+	}
 
 	public record Indicator(ResourceLocation empty, ResourceLocation placed, Optional<ResourceLocation> lastPlaced) {
 		public static final Codec<Indicator> CODEC = RecordCodecBuilder.create(instance -> instance.group(

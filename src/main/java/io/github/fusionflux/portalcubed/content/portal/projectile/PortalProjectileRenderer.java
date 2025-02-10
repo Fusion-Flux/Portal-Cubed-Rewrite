@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.projectile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
@@ -21,12 +20,12 @@ public class PortalProjectileRenderer extends EntityRenderer<PortalProjectile, P
 	@Override
 	public void render(PortalProjectileRenderState renderState, PoseStack matrices, MultiBufferSource bufferSource, int light) {
 		super.render(renderState, matrices, bufferSource, light);
-		VertexConsumer vertices = bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
-
 		matrices.pushPose();
+		matrices.translate(0, renderState.boundingBoxHeight / 2, 0);
 		matrices.mulPose(this.entityRenderDispatcher.cameraOrientation());
 		matrices.mulPose(Axis.YP.rotationDegrees(180));
-		RenderingUtils.renderQuad(matrices, vertices, light, renderState.color);
+		matrices.translate(-.5, -.5, 0);
+		RenderingUtils.renderQuad(matrices, bufferSource.getBuffer(RenderType.beaconBeam(TEXTURE, true)), light, renderState.color);
 		matrices.popPose();
 	}
 

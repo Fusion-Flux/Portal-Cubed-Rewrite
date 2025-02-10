@@ -42,7 +42,7 @@ public class RenderingUtils {
 				.setUv(textureU, textureV)
 				.setOverlay(OverlayTexture.NO_OVERLAY)
 				.setLight(light)
-				.setNormal(pose, 0, 1, 0);
+				.setNormal(0, 1, 0);
 	}
 
 	public static void renderShape(PoseStack matrices, MultiBufferSource vertexConsumers, VoxelShape shape, Color color) {

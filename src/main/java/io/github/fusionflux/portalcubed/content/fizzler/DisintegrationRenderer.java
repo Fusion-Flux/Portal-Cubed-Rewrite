@@ -20,6 +20,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
+import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import io.github.fusionflux.portalcubed.mixin.client.LevelRendererAccessor;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceMap;
@@ -30,7 +31,6 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -42,7 +42,7 @@ public class DisintegrationRenderer {
 	public static final Set<String> DONT_DARKEN_RENDER_TYPES = ImmutableSet.of("eyes", "entity_translucent_emissive", "beacon_beam", PortalCubed.id("emissive").toString());
 
 	public static final ResourceLocation FLASH_TEXTURE = PortalCubed.id("textures/misc/fizzle_flash.png");
-	public static final float FLASH_SIZE = 3f/4f;
+	public static final float FLASH_SIZE = 24f/16f;
 	public static final float FLASH_SPEED = 0.7f;
 	public static final float MIN_FLASH_ALPHA = 0.4f;
 
@@ -56,13 +56,8 @@ public class DisintegrationRenderer {
 		matrices.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
 		matrices.mulPose(Axis.YP.rotationDegrees(180));
 		matrices.scale(FLASH_SIZE, FLASH_SIZE, FLASH_SIZE);
-		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.beaconBeam(FLASH_TEXTURE, true));
-		PoseStack.Pose pose = matrices.last();
-		int color = getFlashColor(ticks);
-		flashVertex(vertices, pose, 1f, 1f, color, 1, 1);
-		flashVertex(vertices, pose, 1f, -1f, color, 1, 0);
-		flashVertex(vertices, pose, -1f, -1f, color, 0, 0);
-		flashVertex(vertices, pose, -1f, 1f, color, 0, 1);
+		matrices.translate(-.5, -.5, 0);
+		RenderingUtils.renderQuad(matrices, vertexConsumers.getBuffer(RenderType.beaconBeam(FLASH_TEXTURE, true)), LightTexture.FULL_BRIGHT, getFlashColor(ticks));
 		matrices.popPose();
 	}
 
@@ -70,15 +65,6 @@ public class DisintegrationRenderer {
 		float value = ticks * FLASH_SPEED;
 		float alpha = Mth.clamp(Mth.sin(value * 3) + Mth.cos(value * 2), MIN_FLASH_ALPHA, 1f);
 		return ColorABGR.withAlpha(0xFFFFFF, alpha);
-	}
-
-	private static void flashVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, float x, float y, int color, int textureU, int textureV) {
-		vertexConsumer.addVertex(pose, x, y, 0)
-				.setColor(color)
-				.setUv(textureU, textureV)
-				.setOverlay(OverlayTexture.NO_OVERLAY)
-				.setLight(LightTexture.FULL_BRIGHT)
-				.setNormal(pose, 0, 1, 0);
 	}
 
 	public static void wrapRender(float ticks, Consumer<MultiBufferSource> renderer) {

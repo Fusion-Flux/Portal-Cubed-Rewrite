@@ -111,7 +111,9 @@
     "client.Variant_DeserializerMixin",
     "client.VariantMixin",
     "portals.client.GuiMixin",
-    "portals.client.ItemModelResolverMixin"
+    "portals.client.ItemInHandRendererMixin",
+    "portals.client.ItemModelResolverMixin",
+    "portals.client.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

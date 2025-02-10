@@ -51,8 +51,9 @@ public final class PortalGunCrosshairRenderer {
 		String pairKey = settings.pair().orElse(player.getGameProfile().getName());
 		PortalPair pair = player.level().portalManager().getOrEmpty(pairKey);
 		Polarity shotPolarity = settings.shot().orElse(null);
-		renderIndicator(graphics, type.primary(), pair.primary().isPresent(), shotPolarity == Polarity.PRIMARY, settings.portalSettingsOf(Polarity.PRIMARY).color());
-		renderIndicator(graphics, type.secondary(), pair.secondary().isPresent(), shotPolarity == Polarity.SECONDARY, settings.portalSettingsOf(Polarity.SECONDARY).color());
+		for (Polarity polarity : Polarity.values()) {
+			renderIndicator(graphics, type.indicatorOf(polarity), pair.get(polarity).isPresent(), shotPolarity == polarity, settings.portalSettingsOf(polarity).color());
+		}
 
 		return type.removeVanillaCrosshair();
 	}
