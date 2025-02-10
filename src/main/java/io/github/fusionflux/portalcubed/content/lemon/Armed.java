@@ -10,8 +10,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public record Armed() implements ConditionalItemModelProperty {
-	public static final MapCodec<Armed> MAP_CODEC = MapCodec.unit(new Armed());
+public enum Armed implements ConditionalItemModelProperty {
+	INSTANCE;
+
+	public static final MapCodec<Armed> MAP_CODEC = MapCodec.unit(INSTANCE);
 
 	@Override
 	public boolean get(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed, ItemDisplayContext ctx) {
