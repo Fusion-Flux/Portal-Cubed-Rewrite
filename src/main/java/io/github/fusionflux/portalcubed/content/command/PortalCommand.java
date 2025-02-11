@@ -27,9 +27,10 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
+import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedSuggestionProviders;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
@@ -55,6 +56,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
@@ -85,8 +87,8 @@ public class PortalCommand {
 	public static final String REMOVE_NONEXISTENT_MULTI = REMOVE_NONEXISTENT + ".multiple";
 	public static final Component NO_PORTALS = lang(REMOVE_FAIL + ".no_portals");
 
-	public static final SimpleCommandExceptionType MISSED = new SimpleCommandExceptionType(
-			lang("create.failure.shot_from.miss")
+	public static final DynamicCommandExceptionType MISSED = new DynamicCommandExceptionType(
+			range -> lang("create.failure.shot_from.miss", range)
 	);
 
 	public static LiteralArgumentBuilder<CommandSourceStack> build() {
@@ -341,7 +343,10 @@ public class PortalCommand {
 				}
 
 				Vec3 normal = Vec3.directionFromRotation(pitch, yaw).normalize();
-				Vec3 end = start.add(normal.scale(16));
+
+				ServerLevel level = ctx.getSource().getLevel();
+				int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
+				Vec3 end = start.add(normal.scale(range));
 
 				ClipContext clip = new ClipContext(
 						start, end,
@@ -349,7 +354,7 @@ public class PortalCommand {
 						CollisionContext.empty()
 				);
 
-				BlockHitResult hit = ctx.getSource().getLevel().clip(clip);
+				BlockHitResult hit = level.clip(clip);
 				if (hit.getType() == HitResult.Type.BLOCK) {
 					Vec3 pos = hit.getLocation();
 					Direction facing = hit.getDirection();
@@ -357,7 +362,7 @@ public class PortalCommand {
 					return new Placement(pos, rotation);
 				}
 
-				throw MISSED.create();
+				throw MISSED.create(range);
 			}
 		},
 		PLACE_AT {

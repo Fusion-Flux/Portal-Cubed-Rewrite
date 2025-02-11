@@ -28,6 +28,8 @@
   "gamerule.portalRotationSnapping.description": "Controls the rotation alignment of portals placed on floors and ceilings, in degrees.  Setting to 90 aligns portals with blocks, and setting to 0 disables rotation snapping entirely.",
   "gamerule.portalsVanishOnDeath": "Player Portals Vanish on Death",
   "gamerule.portalsVanishOnDeath.description": "Whether player-placed portals vanish when that player dies.",
+  "gamerule.portalShotRangeLimit": "Portal Shot Range Limit",
+  "gamerule.portalShotRangeLimit.description": "The range limit of a portal shot, in blocks.",
   "gamerule.restrictValidPortalSurfaces": "Restrict Valid Portal Surfaces",
   "gamerule.restrictValidPortalSurfaces.description": "Changes the list of valid portal surface blocks from a blacklist (#portalcubed:cant_place_portal_on) to a whitelist (#portalcubed:unrestricted_portal_surfaces). Intended for use in custom maps.",
   "gamerule.disableManualPortalClearing": "Disable Manual Portal Clearing",
@@ -215,7 +217,7 @@
   "commands.portalcubed.portal.create.failure.id_all": "Nice try",
   "commands.portalcubed.portal.create.failure.id_too_long": "Pair ID must not exceed 32 characters",
   "commands.portalcubed.portal.create.failure.invalid_rendering": "Portal type %s does not support rendering",
-  "commands.portalcubed.portal.create.failure.shot_from.miss": "Portal shot must not travel for more than 16 blocks",
+  "commands.portalcubed.portal.create.failure.shot_from.miss": "Portal shot must not travel for more than %s blocks",
 
   "commands.portalcubed.portal.remove.success": "Portal removed",
   "commands.portalcubed.portal.remove.success.multiple": "Portals removed",
@@ -1091,8 +1093,6 @@
   "entity.portalcubed.redirection_cube": "Redirection Cube",
   "entity.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "entity.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
-
-  "entity.portalcubed.portal_projectile": "Portal Projectile",
 
   "entity.portalcubed.lemonade": "Lemonade"
 
