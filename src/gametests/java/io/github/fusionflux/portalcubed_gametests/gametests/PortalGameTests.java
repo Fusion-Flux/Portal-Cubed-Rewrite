@@ -1,6 +1,10 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import java.util.stream.IntStream;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed_gametests.Batches;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import io.github.fusionflux.portalcubed_gametests.PortalHelper;
@@ -9,6 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedstoneLampBlock;
@@ -216,14 +221,6 @@ public class PortalGameTests implements FabricGameTest {
 		}));
 	}
 
-
-	//Tests portals against thin surfaces, such as on both sides of a trapdoor
-	@GameTest(template = GROUP + "thin_portal_surfaces")
-	public void thinPortalSurfaces(GameTestHelper helper) {
-
-		//todo
-	}
-
 	//Tests the "create" portion of the portal command
 	@GameTest(template = GROUP + "portal_command_create")
 	public void portalCommandCreate(GameTestHelper helper) {
@@ -417,4 +414,39 @@ public class PortalGameTests implements FabricGameTest {
 		});
 	}
 
+	@GameTest(template = GROUP + "portal_stack")
+	public void stack(GameTestHelper helper) {
+		RandomSource random = helper.getLevel().random.fork();
+		PortalHelper[] pairs = IntStream.range(0, 7).mapToObj(i -> {
+			random.setSeed(i);
+			int colorBase = random.nextInt();
+			int primary = (colorBase + 10_000) | 0xFF000000;
+			int secondary = (colorBase - 10_000) | 0xFF000000;
+			return new PortalHelper(helper, "portal_stack_pair_" + i, primary, secondary);
+		}).toArray(PortalHelper[]::new);
+
+		pairs[0].primary().placeOn(5, 2, 1, Direction.WEST);
+		pairs[0].secondary().placeOn(5, 2, 1, Direction.EAST);
+		pairs[1].primary().placeOn(6, 2, 1, Direction.WEST);
+		pairs[1].secondary().placeOn(6, 2, 1, Direction.EAST);
+		pairs[2].primary().placeOn(7, 2, 1, Direction.WEST);
+		pairs[2].secondary().placeOn(9, 2, 1, Direction.EAST);
+		pairs[3].primary().placeOn(10, 2, 1, Direction.WEST);
+		pairs[3].secondary().placeOn(10, 2, 1, Direction.EAST);
+		pairs[4].primary().placeOn(11, 2, 1, Direction.WEST);
+		pairs[4].secondary().placeOn(13, 2, 1, Direction.EAST);
+		pairs[5].primary().placeOn(14, 2, 1, Direction.WEST);
+		pairs[5].secondary().placeOn(14, 2, 1, Direction.EAST);
+		pairs[6].primary().placeOn(15, 2, 1, Direction.WEST);
+		pairs[6].secondary().placeOn(15, 2, 1, Direction.EAST);
+
+		helper.setBlock(1, 1, 1, Blocks.REDSTONE_BLOCK);
+		EntityType<Prop> cube = PortalCubedEntities.PROPS.get(PropType.STORAGE_CUBE);
+		helper.succeedWhen(() -> {
+			if (helper.getTick() < 20 * 4)
+				helper.fail("Waiting");
+
+			helper.assertEntityPresent(cube, 16, 2, 1);
+		});
+	}
 }

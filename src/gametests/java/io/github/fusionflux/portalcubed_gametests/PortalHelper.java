@@ -14,7 +14,11 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManag
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper primary, SinglePortalHelper secondary) {
 	public PortalHelper(GameTestHelper helper, String key) {
@@ -47,6 +51,14 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 					.shoot(Optional.empty(), this.polarity, this.settings);
 		}
 
+		public void placeOn(int x, int y, int z, Direction normal) {
+			this.placeOn(new BlockPos(x, y, z), normal);
+		}
+
+		public void placeOn(int x, int y, int z, Direction normal, float yRot) {
+			this.placeOn(new BlockPos(x, y, z), normal, yRot);
+		}
+
 		public void placeOn(BlockPos surface, Direction normal) {
 			this.placeOn(surface, normal, 0);
 		}
@@ -57,9 +69,19 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			Vector3f baseOffset = new Vector3f(0, 0.5f, 0);
 			Vector3f offset = rotation.transform(baseOffset);
 
-			Vec3 pos = Vec3.atCenterOf(this.helper.absolutePos(surface))
-					.add(normal.getStepX() / 2f, normal.getStepY() / 2f, normal.getStepZ() / 2f)
+			BlockPos blockPos = this.helper.absolutePos(surface);
+			Vec3 pos = Vec3.atCenterOf(blockPos)
+					.add(normal.getUnitVec3().scale(0.5))
 					.add(offset.x, offset.y, offset.z);
+
+			Vec3 intoWall = normal.getUnitVec3().scale(-1);
+
+			BlockState state = this.helper.getLevel().getBlockState(blockPos);
+			VoxelShape shape = state.getCollisionShape(this.helper.getLevel(), blockPos);
+			BlockHitResult hit = shape.clip(pos, pos.add(intoWall), blockPos);
+			if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
+				pos = hit.getLocation();
+			}
 
 			ServerPortalManager manager = this.helper.getLevel().portalManager();
 			manager.createPortal(this.key, this.polarity, new PortalData(pos, rotation, this.settings));
