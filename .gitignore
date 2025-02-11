@@ -34,4 +34,8 @@ workspace/
 
 # macOS
 *.DS_Store
+
+# Other
 /resources_template/
+# I've added .ini to this list at least 3 times now, how does it keep escaping
+*.ini

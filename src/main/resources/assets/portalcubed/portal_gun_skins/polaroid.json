@@ -5,8 +5,8 @@
   "item_model": "portalcubed:portal_guns/polaroid",
   "weight": 32,
   "sounds": {
-    "primary_shoot": "minecraft:ui.button.click",
-    "secondary_shoot": "minecraft:ui.button.click",
+    "primary_shoot": "minecraft:item.lodestone_compass.lock",
+    "secondary_shoot": "minecraft:item.lodestone_compass.lock",
     "fizzle": "minecraft:ui.cartography_table.take_result"
   }
 }
