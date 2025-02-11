@@ -9,14 +9,9 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public record CustomTrailParticleOption(ParticleType<CustomTrailParticleOption> type, Vec3 target, int color, int duration) implements ParticleOptions {
-	public CustomTrailParticleOption(ParticleType<CustomTrailParticleOption> type, Vec3 from, Vec3 to, int color) {
-		this(type, to, color, Mth.ceil(from.distanceTo(to) / 2));
-	}
-
 	public static MapCodec<CustomTrailParticleOption> codec(ParticleType<CustomTrailParticleOption> type) {
 		return RecordCodecBuilder.mapCodec(instance -> instance.group(
 				Vec3.CODEC.fieldOf("target").forGetter(CustomTrailParticleOption::target),

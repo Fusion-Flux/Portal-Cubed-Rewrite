@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.particle;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
+
+import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.ARGB;
@@ -7,15 +10,19 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class CustomTrailParticle extends TextureSheetParticle {
-	private final Vec3 target;
+	protected CustomTrailParticle(ClientLevel level, double x, double y, double z, Vec3 target, int color, int duration) {
+		super(level, x, y, z);
 
-	protected CustomTrailParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Vec3 target, int color) {
-		super(level, x, y, z, xSpeed, ySpeed, zSpeed);
+		Vec3 vel = target.subtract(x, y, z).scale(1d / duration);
+		this.xd = vel.x;
+		this.yd = vel.y;
+		this.zd = vel.z;
+		this.lifetime = duration;
+
 		this.quadSize = .5f;
 		this.rCol = ARGB.redFloat(color);
 		this.gCol = ARGB.greenFloat(color);
 		this.bCol = ARGB.blueFloat(color);
-		this.target = target;
 	}
 
 	@Override
@@ -26,11 +33,16 @@ public abstract class CustomTrailParticle extends TextureSheetParticle {
 		if (this.age >= this.lifetime) {
 			this.remove();
 		} else {
-			double step = 1d / (this.lifetime - this.age);
-			this.x = Mth.lerp(step, this.x, this.target.x());
-			this.y = Mth.lerp(step, this.y, this.target.y());
-			this.z = Mth.lerp(step, this.z, this.target.z());
+			this.x += this.xd;
+			this.y += this.yd;
+			this.z += this.zd;
 		}
 		this.age++;
+	}
+
+	@Override
+	public void render(VertexConsumer buffer, Camera camera, float tickDelta) {
+		this.alpha = Math.min(Mth.lerp(tickDelta, 0, this.age), 1);
+		super.render(buffer, camera, tickDelta);
 	}
 }

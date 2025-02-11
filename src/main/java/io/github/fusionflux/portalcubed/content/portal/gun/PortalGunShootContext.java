@@ -41,7 +41,7 @@ public record PortalGunShootContext(
 		Vec3 hitPos = hit.getLocation();
 
 		this.level.sendParticles(
-				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, this.from, hitPos, settings.color()),
+				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, hitPos, settings.color(), 3),
 				this.from.x, this.from.y, this.from.z, 1, 0, 0, 0, 0
 		);
 
