@@ -6,9 +6,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.Direction;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -38,5 +40,17 @@ public record PortalData(Vec3 origin, Quaternionf rotation, PortalSettings setti
 
 	public PortalData withSettings(PortalSettings settings) {
 		return new PortalData(this.origin, this.rotation, settings);
+	}
+
+	public static Quaternionf normalToRotation(Direction normal, float yRot) {
+		Quaternionf rotation = normal.getRotation();
+		rotation.rotateX(Mth.DEG_TO_RAD * 270);
+		rotation.rotateY(Mth.DEG_TO_RAD * 180);
+		rotation.rotateZ(Mth.DEG_TO_RAD * switch (normal) {
+			case UP -> yRot;
+			case DOWN -> -yRot;
+			default -> 0;
+		});
+		return rotation;
 	}
 }

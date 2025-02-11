@@ -4,9 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
-import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
-import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootPortalGunPacket;
@@ -26,7 +24,6 @@ import net.minecraft.world.item.component.UseCooldown;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 
 public class PortalGunItem extends Item implements DirectClickItem {
 	public PortalGunItem(Properties settings) {
@@ -43,8 +40,7 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		if (player.getCooldowns().isOnCooldown(stack))
 			return TriState.FALSE;
 
-		if (!this.shoot(level, player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY))
-			return TriState.FALSE;
+		this.playerShoot(player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY);
 
 		if (!level.isClientSide) {
 			UseCooldown cooldown = stack.get(DataComponents.USE_COOLDOWN);
@@ -59,11 +55,12 @@ public class PortalGunItem extends Item implements DirectClickItem {
 	@Override
 	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		InteractionResult result = super.use(level, player, hand);
-		if (result.consumesAction())
+		if (result.consumesAction()) {
 			return result;
-
-		ItemStack stack = player.getItemInHand(hand);
-		return this.shoot(level, player, stack, hand, Polarity.SECONDARY) ? InteractionResult.CONSUME : InteractionResult.FAIL;
+		} else {
+			this.playerShoot(player, player.getItemInHand(hand), hand, Polarity.SECONDARY);
+			return InteractionResult.CONSUME;
+		}
 	}
 
 	@Override
@@ -71,31 +68,13 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		return getGunSettings(oldStack) == getGunSettings(newStack);
 	}
 
-	public boolean shoot(Level level, Player player, ItemStack stack, InteractionHand hand, Polarity polarity) {
-		PortalGunSettings gunSettings = getGunSettings(stack);
-		if (gunSettings == null)
-			return false;
-
+	public void playerShoot(Player player, ItemStack stack, InteractionHand hand, Polarity polarity) {
 		if (!(player instanceof ServerPlayer serverPlayer)) {
 			this.doClientShootEffects(player, stack, polarity);
-			return true;
 		} else {
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(serverPlayer), new ShootPortalGunPacket(player, polarity));
+			player.setItemInHand(hand, shoot(new PortalGunShootContext(serverPlayer), stack, polarity));
 		}
-
-		PortalSettings portalSettings = gunSettings.portalSettingsOf(polarity);
-		Vec3 lookAngle = player.getLookAngle();
-		Vec3 velocity = lookAngle.scale(PortalProjectile.SPEED);
-		float yRot = player.getYRot() + 180;
-		String pair = gunSettings.pair().orElse(player.getGameProfile().getName());
-
-		PortalProjectile projectile = new PortalProjectile(level, portalSettings, yRot, pair, polarity);
-		projectile.setDeltaMovement(velocity);
-		projectile.moveTo(player.getEyePosition());
-		level.addFreshEntity(projectile);
-
-		player.setItemInHand(hand, setGunSettings(stack, gunSettings.shoot(polarity)));
-		return true;
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -109,6 +88,12 @@ public class PortalGunItem extends Item implements DirectClickItem {
 			skin.sounds().shootOf(polarity)
 					.ifPresent(sound -> player.playSound(sound.value()));
 		}
+	}
+
+	public static ItemStack shoot(PortalGunShootContext context, ItemStack stack, Polarity polarity) {
+		PortalGunSettings gunSettings = stack.getOrDefault(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT);
+		context.shoot(gunSettings.pair(), polarity, gunSettings.portalSettingsOf(polarity));
+		return setGunSettings(stack, gunSettings.shoot(polarity));
 	}
 
 	@Nullable

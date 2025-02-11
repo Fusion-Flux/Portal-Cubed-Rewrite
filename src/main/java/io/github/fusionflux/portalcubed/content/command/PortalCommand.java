@@ -38,7 +38,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalShape;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
-import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
@@ -264,7 +263,7 @@ public class PortalCommand {
 		if (hasArgument(ctx, "facing")) {
 			Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
 			float rot = getOptional(ctx, "rotation", FloatArgumentType::getFloat, 0f);
-			return PortalProjectile.getPortalRotation(facing, 0)
+			return PortalData.normalToRotation(facing, 0)
 					.rotateZ(Mth.DEG_TO_RAD * rot);
 		} else if (hasArgument(ctx, "rotation")) {
 			Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
@@ -296,7 +295,7 @@ public class PortalCommand {
 				Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
 				float rot = getOptional(ctx, "rotation", FloatArgumentType::getFloat, 0f);
 
-				Quaternionf rotation = PortalProjectile.getPortalRotation(facing, 0);
+				Quaternionf rotation = PortalData.normalToRotation(facing, 0);
 				rotation.rotateZ(Mth.DEG_TO_RAD * rot);
 				// shift the portal so the bottom half is centered on the surface
 				Vector3f baseOffset = new Vector3f(0, 0.5f, 0);
@@ -354,7 +353,7 @@ public class PortalCommand {
 				if (hit.getType() == HitResult.Type.BLOCK) {
 					Vec3 pos = hit.getLocation();
 					Direction facing = hit.getDirection();
-					Quaternionf rotation = PortalProjectile.getPortalRotation(facing, yaw + 180);
+					Quaternionf rotation = PortalData.normalToRotation(facing, yaw + 180);
 					return new Placement(pos, rotation);
 				}
 

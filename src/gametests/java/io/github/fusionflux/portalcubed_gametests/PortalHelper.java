@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed_gametests;
 
+import java.util.Optional;
+
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -7,12 +9,11 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalShape;
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
-import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 
 public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper primary, SinglePortalHelper secondary) {
@@ -42,12 +43,8 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 		}
 
 		public void shootFrom(Vec3 from, Direction facing, float yRot) {
-			ServerLevel level = this.helper.getLevel();
-			PortalProjectile projectile = new PortalProjectile(level, this.settings, yRot, this.key, this.polarity);
-			projectile.moveTo(this.helper.absoluteVec(from));
-			Vec3 vel = facing.getUnitVec3().scale(PortalProjectile.SPEED);
-			projectile.setDeltaMovement(vel);
-			level.addFreshEntity(projectile);
+			new PortalGunShootContext(this.key, this.helper.getLevel(), this.helper.absoluteVec(from), facing.getUnitVec3(), yRot)
+					.shoot(Optional.empty(), this.polarity, this.settings);
 		}
 
 		public void placeOn(BlockPos surface, Direction normal) {
@@ -55,7 +52,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 		}
 
 		public void placeOn(BlockPos surface, Direction normal, float yRot) {
-			Quaternionf rotation = PortalProjectile.getPortalRotation(normal, yRot);
+			Quaternionf rotation = PortalData.normalToRotation(normal, yRot);
 			// shift the portal so the bottom half is centered on the surface
 			Vector3f baseOffset = new Vector3f(0, 0.5f, 0);
 			Vector3f offset = rotation.transform(baseOffset);

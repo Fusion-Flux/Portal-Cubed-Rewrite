@@ -26,6 +26,10 @@ public class PortalCubedGameRules {
 		"toxicGooDamage", CATEGORY, GameRuleFactory.createIntRule(10, 0, 1024)
 	);
 
+	public static final GameRules.Key<GameRules.IntegerValue> PORTAL_SHOT_RANGE_LIMIT = GameRuleRegistry.register(
+			"portalShotRangeLimit", CATEGORY, GameRuleFactory.createIntRule(512, 1, 512)
+	);
+
 	public static void init() {
 	}
 }

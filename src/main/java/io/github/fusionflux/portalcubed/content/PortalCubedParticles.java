@@ -6,6 +6,9 @@ import io.github.fusionflux.portalcubed.content.fizzler.FizzleBrightAlternatePar
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBrightParticle;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleDarkParticle;
 import io.github.fusionflux.portalcubed.content.misc.DecalParticle;
+import io.github.fusionflux.portalcubed.content.portal.PortalProjectileParticle;
+import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 
 public class PortalCubedParticles {
@@ -16,6 +19,13 @@ public class PortalCubedParticles {
 	public static final SimpleParticleType FIZZLE_BRIGHT = REGISTRAR.particles.simple("fizzle_bright", () -> () -> FizzleBrightParticle.Provider::new);
 	public static final SimpleParticleType FIZZLE_BRIGHT_ALTERNATE = REGISTRAR.particles.simple("fizzle_bright_alternate", () -> () -> FizzleBrightAlternateParticle.Provider::new);
 	public static final SimpleParticleType FIZZLE_DARK = REGISTRAR.particles.simple("fizzle_dark", () -> () -> FizzleDarkParticle.Provider::new);
+
+	public static final ParticleType<CustomTrailParticleOption> PORTAL_PROJECTILE = REGISTRAR.particles.customOptions(
+			"portal_projectile",
+			CustomTrailParticleOption::codec,
+			CustomTrailParticleOption::streamCodec,
+			() -> () -> PortalProjectileParticle.Provider::new
+	);
 
 	public static void init() {
 	}

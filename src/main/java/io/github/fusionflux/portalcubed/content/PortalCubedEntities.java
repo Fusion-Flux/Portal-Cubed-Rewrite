@@ -7,8 +7,6 @@ import java.util.Map;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.lemon.Lemonade;
-import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectile;
-import io.github.fusionflux.portalcubed.content.portal.projectile.PortalProjectileRenderer;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropRenderer;
@@ -16,16 +14,8 @@ import net.minecraft.Util;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EntityType.Builder;
 
 public class PortalCubedEntities {
-	public static final EntityType<PortalProjectile> PORTAL_PROJECTILE = REGISTRAR.entities.create("portal_projectile", PortalProjectile::create)
-			.configure(Builder::noSave)
-			.configure(Builder::noSummon)
-			.size(0.5f, 0.5f)
-			.renderer(() -> () -> PortalProjectileRenderer::new)
-			.build();
-
 	public static final EntityType<Lemonade> LEMONADE = REGISTRAR.entities.create("lemonade", Lemonade::create)
 			.configure(b -> b.clientTrackingRange(4))
 			.size(0.375f, 0.375f)
