@@ -24,11 +24,7 @@ public final class PortalGunSkinManager extends SimpleJsonResourceReloadListener
 
 	private PortalGunSkinManager() {
 		// sneak in registry access for sound events
-		super(
-				RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY),
-				PortalGunSkin.CODEC,
-				ResourceKey.createRegistryKey(ResourceLocation.withDefaultNamespace("portal_gun_skins"))
-		);
+		super(RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY), PortalGunSkin.CODEC, PortalGunSkin.REGISTRY_KEY);
 	}
 
 	@Override

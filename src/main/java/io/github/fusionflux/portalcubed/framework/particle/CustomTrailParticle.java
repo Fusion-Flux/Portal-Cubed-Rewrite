@@ -6,7 +6,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class CustomTrailParticle extends TextureSheetParticle {
@@ -42,7 +41,8 @@ public abstract class CustomTrailParticle extends TextureSheetParticle {
 
 	@Override
 	public void render(VertexConsumer buffer, Camera camera, float tickDelta) {
-		this.alpha = Math.min(Mth.lerp(tickDelta, 0, this.age), 1);
-		super.render(buffer, camera, tickDelta);
+		this.alpha = Math.min(this.age - tickDelta, 1);
+		if (this.alpha > 0)
+			super.render(buffer, camera, tickDelta);
 	}
 }

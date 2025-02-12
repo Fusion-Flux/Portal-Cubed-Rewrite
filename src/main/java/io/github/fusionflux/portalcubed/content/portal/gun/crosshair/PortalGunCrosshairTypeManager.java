@@ -16,7 +16,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 
 public final class PortalGunCrosshairTypeManager extends SimpleJsonResourceReloadListener<PortalGunCrosshairType> implements IdentifiableResourceReloadListener {
 	public static final ResourceLocation ID = PortalCubed.id("portal_gun_crosshair_types");
-	public static final FileToIdConverter CONVERTER = FileToIdConverter.json("portal_gun_crosshair_types");
+	public static final FileToIdConverter CONVERTER = FileToIdConverter.registry(PortalGunCrosshairType.REGISTRY_KEY);
 
 	public static final PortalGunCrosshairTypeManager INSTANCE = new PortalGunCrosshairTypeManager();
 
