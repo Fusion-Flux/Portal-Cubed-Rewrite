@@ -24,6 +24,9 @@ public record PortalGunShootContext(
 		Vec3 lookAngle,
 		float yRot
 ) {
+	// Magic number to avoid ray-cast clipping into blocks due to the end point being extremely far
+	private static final double MAGIC_OFFSET = 0.25;
+
 	public PortalGunShootContext(ServerPlayer player) {
 		// TODO: this probably should use something other than the player's name
 		this(player.getGameProfile().getName(), player.serverLevel(), player.getEyePosition(), player.getLookAngle(), Mth.wrapDegrees(player.getYRot() + 180));
@@ -32,8 +35,8 @@ public record PortalGunShootContext(
 	public void shoot(Optional<String> pair, Polarity polarity, PortalSettings settings) {
 		int range = this.level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
 		BlockHitResult hit = this.level.clip(new ClipContext(
-				this.from,
-				this.from.add(this.lookAngle.scale(range)),
+				this.from.subtract(this.lookAngle.scale(MAGIC_OFFSET)),
+				this.from.add(this.lookAngle.scale(range + MAGIC_OFFSET)),
 				ClipContext.Block.COLLIDER,
 				ClipContext.Fluid.NONE,
 				CollisionContext.empty()
