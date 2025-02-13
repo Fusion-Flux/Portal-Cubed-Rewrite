@@ -23,6 +23,10 @@ public record RequestEntitySyncPacket(int entityId) implements ServerboundPacket
 
 	private static final Logger logger = LoggerFactory.getLogger(RequestEntitySyncPacket.class);
 
+	public RequestEntitySyncPacket(Entity entity) {
+		this(entity.getId());
+	}
+
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
 		return PortalCubedPackets.REQUEST_ENTITY_SYNC;

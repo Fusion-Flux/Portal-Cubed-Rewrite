@@ -71,6 +71,10 @@ public class RenderingUtils {
 		matrices.popPose();
 	}
 
+	public static void renderPlane(PoseStack matrices, MultiBufferSource vertexConsumers, Plane plane, float size, Color color) {
+		renderQuad(matrices, vertexConsumers, Quad.create(plane, size), color);
+	}
+
 	public static void renderBoxAround(PoseStack matrices, MultiBufferSource vertexConsumers, Vec3 pos, double radius, Color color) {
 		AABB box = AABB.ofSize(pos, radius, radius, radius);
 		renderBox(matrices, vertexConsumers, box, color);

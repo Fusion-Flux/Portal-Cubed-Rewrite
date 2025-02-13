@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.datafixers.util.Pair;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.content.portal.PortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -88,8 +88,8 @@ public class ClientPacketListenerMixin {
 			)
 	)
 	private void reinterpretMovePos(Args args, @Local Entity entity) {
-		Pair<PortalInstance, PortalInstance> portals = getFirstAndLastPortals(entity);
-		if (portals == null)
+		PortalTransform transform = getPortalTransform(entity);
+		if (transform == null)
 			return;
 
 		Vec3 center = PortalTeleportHandler.centerOf(entity);
@@ -98,12 +98,18 @@ public class ClientPacketListenerMixin {
 		Vec3 newPos = new Vec3(args.get(0), args.get(1), args.get(2));
 		Vec3 newCenter = newPos.add(posToCenter);
 
-		Vec3 newTeleportedPos = PortalTeleportHandler.teleportAbsoluteVecBetween(
-				newCenter, portals.getSecond(), portals.getFirst()
-		).subtract(posToCenter);
+		Vec3 transformedCenter = transform.applyAbsolute(newCenter);
+		Vec3 newTeleportedPos = transformedCenter.subtract(posToCenter);
 		args.set(0, newTeleportedPos.x);
 		args.set(1, newTeleportedPos.y);
 		args.set(2, newTeleportedPos.z);
+
+		DebugRendering.addPos(10, newCenter, Color.RED);
+		DebugRendering.addPos(10, transformedCenter, Color.GREEN);
+
+		Vec3 outOrigin = transform.applyAbsolute(transform.inOrigin);
+		DebugRendering.addPos(10, outOrigin, Color.PURPLE);
+		DebugRendering.addPos(10, transform.inOrigin, Color.CYAN);
 	}
 
 	@ModifyArgs(
@@ -114,12 +120,12 @@ public class ClientPacketListenerMixin {
 			)
 	)
 	private void reinterpretVelocity(Args args, @Local Entity entity) {
-		Pair<PortalInstance, PortalInstance> portals = getFirstAndLastPortals(entity);
-		if (portals == null)
+		PortalTransform transform = getPortalTransform(entity);
+		if (transform == null)
 			return;
 
 		Vec3 vel = new Vec3(args.get(0), args.get(1), args.get(2));
-		Vec3 newVel = PortalTeleportHandler.teleportRelativeVecBetween(vel, portals.getSecond(), portals.getFirst());
+		Vec3 newVel = transform.applyRelative(vel);
 		args.set(0, newVel.x);
 		args.set(1, newVel.y);
 		args.set(2, newVel.z);
@@ -138,12 +144,8 @@ public class ClientPacketListenerMixin {
 
 	@Unique
 	@Nullable
-	private static Pair<PortalInstance, PortalInstance> getFirstAndLastPortals(Entity entity) {
+	private static PortalTransform getPortalTransform(Entity entity) {
 		TeleportProgressTracker tracker = entity.getTeleportProgressTracker();
-		if (tracker != null) {
-			PortalManager manager = entity.level().portalManager();
-			return tracker.getCurrentInfo().getFirstAndLast(manager);
-		}
-		return null;
+		return tracker.isTracking() ? tracker.currentTeleport().transform : null;
 	}
 }

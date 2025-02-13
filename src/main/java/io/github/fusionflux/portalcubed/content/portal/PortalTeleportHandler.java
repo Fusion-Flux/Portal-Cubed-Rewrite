@@ -1,13 +1,16 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.List;
+
 import org.joml.Quaternionf;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
+import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.EntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
@@ -15,7 +18,6 @@ import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacke
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,7 +38,7 @@ public class PortalTeleportHandler {
 	 * Responsible for finding and teleporting through portals.
 	 */
 	public static boolean handle(Entity entity, double x, double y, double z) {
-		if (isTeleportBlocked(entity) || entity instanceof ServerPlayer)
+		if (cannotTeleport(entity))
 			return false;
 
 		Vec3 oldPos = entity.position();
@@ -118,13 +120,13 @@ public class PortalTeleportHandler {
 			return true;
 		}
 
-		if (entity.level().isClientSide) {
-			// update tracker if present
-			updateProgressTracker(entity, result);
-		} else {
+		if (!entity.level().isClientSide) {
 			// sync to clients
-			PortalTeleportInfo info = buildTeleportInfo(result);
-			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), info);
+			PortalTransform transform = new PortalTransform(result.in(), result.out());
+			System.out.println("server-side transform:");
+			transform.print();
+			TrackedTeleport teleport = new TrackedTeleport(result.in().plane, transform, EntityState.capture(entity));
+			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), List.of(teleport));
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);
 		}
 
@@ -172,23 +174,6 @@ public class PortalTeleportHandler {
 		return newVel;
 	}
 
-	private static void updateProgressTracker(Entity entity, PortalHitResult result) {
-		TeleportProgressTracker tracker = entity.getTeleportProgressTracker();
-		if (tracker == null)
-			return;
-
-		while (result != null) {
-			tracker.notify(result.pairKey(), result.pair().polarityOf(result.in()));
-			if (tracker.isComplete()) {
-				System.out.println("tracking done");
-				entity.setTeleportProgressTracker(null);
-				break;
-			}
-
-			result = result.nextOrNull();
-		}
-	}
-
 	private static PortalTeleportInfo buildTeleportInfo(PortalHitResult result) {
 		return new PortalTeleportInfo(
 				result.pairKey(),
@@ -197,10 +182,20 @@ public class PortalTeleportHandler {
 		);
 	}
 
-	public static boolean isTeleportBlocked(Entity entity) {
-		return entity.isPassenger()
-				|| !entity.getPassengers().isEmpty()
-				|| entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST);
+	public static boolean cannotTeleport(Entity entity) {
+		if (ignoresPortalModifiedCollision(entity))
+			return true;
+
+		// player teleportation is handled client-side
+		if (entity instanceof Player player)
+			return !player.isLocalPlayer();
+
+		// all other entities teleport server-side
+		return entity.level().isClientSide;
+	}
+
+	public static boolean ignoresPortalModifiedCollision(Entity entity) {
+		return entity.isPassenger() || entity.isVehicle() || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST);
 	}
 
 	// teleportation utilities
@@ -215,21 +210,11 @@ public class PortalTeleportHandler {
 	}
 
 	public static Vec3 teleportAbsoluteVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {
-		return TransformUtils.apply(
-				vec,
-				in::relativize,
-				in.rotation()::transformInverse,
-				out.rotation180::transform,
-				out::derelativize
-		);
+		return new PortalTransform(in, out).applyAbsolute(vec);
 	}
 
 	public static Vec3 teleportRelativeVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {
-		return TransformUtils.apply(
-				vec,
-				in.rotation()::transformInverse,
-				out.rotation180::transform
-		);
+		return new PortalTransform(in, out).applyRelative(vec);
 	}
 
 	public static Rotations teleportRotations(float xRot, float yRot, float zRot, PortalInstance in, PortalInstance out) {

@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -13,10 +12,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
-import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -35,7 +32,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@Unique
 	private int portalCollisionRecursionDepth;
 	@Unique
-	private TeleportProgressTracker teleportProgressTracker;
+	private TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
 	@Unique
 	private boolean isNextTeleportNonLocal;
 
@@ -88,19 +85,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		return this.teleportProgressTracker;
 	}
 
-	@Override
-	public void setTeleportProgressTracker(@Nullable TeleportProgressTracker tracker) {
-		this.teleportProgressTracker = tracker;
-	}
-
-	@Inject(method = "tick", at = @At("HEAD"))
+	@Inject(method = "tick", at = @At("TAIL"))
 	private void tickTeleportTracker(CallbackInfo ci) {
-		TeleportProgressTracker tracker = this.getTeleportProgressTracker();
-		if (tracker != null && tracker.hasTimedOut(this.tickCount)) {
-			this.setTeleportProgressTracker(null);
-			// timeout. something has gone wrong, request a refresh from server
-			PortalCubedPackets.sendToServer(new RequestEntitySyncPacket(this.getId()));
-		}
+		this.getTeleportProgressTracker().tick();
 	}
 
 	@WrapOperation(

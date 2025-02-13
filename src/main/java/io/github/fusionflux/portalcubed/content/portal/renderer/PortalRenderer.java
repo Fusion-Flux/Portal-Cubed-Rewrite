@@ -76,7 +76,7 @@ public class PortalRenderer {
 	}
 
 	public static boolean shouldRenderView(PortalInstance portal, Camera camera) {
-		return recursion < maxRecursions && portal.plane.test(camera);
+		return recursion < maxRecursions && portal.plane.isInFront(camera);
 	}
 
 	private static void render(WorldRenderContext context) {

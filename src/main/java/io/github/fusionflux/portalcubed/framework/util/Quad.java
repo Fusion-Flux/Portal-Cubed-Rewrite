@@ -6,6 +6,7 @@ import org.joml.Vector3d;
 
 import com.google.common.collect.Iterables;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -89,6 +90,12 @@ public record Quad(Tri a, Tri b) {
 		Tri b = new Tri(topRight, bottomRight, bottomLeft);
 
 		return new Quad(a, b);
+	}
+
+	public static Quad create(Plane plane, double size) {
+		Quaternionf rotation = new Quaternionf();
+		rotation.rotateTo(PortalInstance.DEFAULT_PLANE_NORMAL, plane.normal());
+		return create(rotation, new Vec3(plane.origin()), size, size);
 	}
 
 	private static Vec3 transform(Quaternionf rotation, Vec3 vec) {

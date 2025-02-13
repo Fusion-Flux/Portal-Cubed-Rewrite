@@ -1,8 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import org.jetbrains.annotations.Nullable;
-
-import io.github.fusionflux.portalcubed.content.portal.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 
 public interface PortalTeleportationExt {
 	default int pc$getPortalCollisionRecursionDepth() {
@@ -23,12 +21,7 @@ public interface PortalTeleportationExt {
 
 	// no prefix needed, unique descriptors
 
-	@Nullable
 	default TeleportProgressTracker getTeleportProgressTracker() {
-		throw new AbstractMethodError();
-	}
-
-	default void setTeleportProgressTracker(@Nullable TeleportProgressTracker tracker) {
 		throw new AbstractMethodError();
 	}
 }

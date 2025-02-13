@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import com.mojang.serialization.Codec;
 
@@ -32,6 +33,8 @@ public final class PortalInstance {
 	public static final double HEIGHT = 2;
 	public static final double WIDTH = 1;
 
+	public static final Vector3fc DEFAULT_PLANE_NORMAL = new Vector3f(0, 0, -1);
+
     public final PortalData data;
 
 	public final Vec3 normal;
@@ -54,7 +57,7 @@ public final class PortalInstance {
 		this.rotation180 = new Quaternionf(this.rotation());
 		this.rotation180.rotateY(Mth.DEG_TO_RAD * 180);
 
-		this.plane = new Plane(this.rotation().transform(0, 0, 1, new Vector3f()), this.data.origin().toVector3f());
+		this.plane = new Plane(this.rotation().transform(DEFAULT_PLANE_NORMAL, new Vector3f()), this.data.origin().toVector3f());
 
 		this.quad = Quad.create(this.rotation(), data.origin(), WIDTH, HEIGHT);
 		this.renderBounds = this.quad.containingBox();

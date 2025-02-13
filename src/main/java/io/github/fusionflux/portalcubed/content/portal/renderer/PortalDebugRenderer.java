@@ -43,6 +43,8 @@ public class PortalDebugRenderer {
 		RenderingUtils.renderQuad(matrices, vertexConsumers, portal.quad, Color.GREEN);
 		RenderingUtils.renderVec(matrices, vertexConsumers, portal.quad.normal(), portal.data.origin(), Color.RED);
 		RenderingUtils.renderVec(matrices, vertexConsumers, portal.quad.up(), portal.data.origin(), Color.BLUE);
+		// plane
+		RenderingUtils.renderPlane(matrices, vertexConsumers, portal.plane, 2.5f, Color.ORANGE);
 		// collision bounds
 //		RenderingUtils.renderBox(matrices, vertexConsumers, portal.entityCollisionBounds, Color.RED);
 		RenderingUtils.renderBox(matrices, vertexConsumers, portal.blockModificationArea, Color.PURPLE);
