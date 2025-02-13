@@ -41,8 +41,7 @@ public abstract class CustomTrailParticle extends TextureSheetParticle {
 
 	@Override
 	public void render(VertexConsumer buffer, Camera camera, float tickDelta) {
-		this.alpha = Math.min(this.age - tickDelta, 1);
-		if (this.alpha > 0)
-			super.render(buffer, camera, tickDelta);
+		this.setAlpha(this.age + tickDelta);
+		super.render(buffer, camera, tickDelta);
 	}
 }
