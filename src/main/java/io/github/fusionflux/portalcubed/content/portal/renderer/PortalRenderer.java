@@ -273,19 +273,26 @@ public class PortalRenderer {
 
 	private static void renderPortal(VisiblePortal visiblePortal, PoseStack matrices, VertexConsumer vertices) {
 		matrices.pushPose();
-		PoseStack.Pose pose = transformToPortal(visiblePortal, matrices);
+		transformToPortal(visiblePortal, matrices);
 
 		PortalData portal = visiblePortal.portal.data;
 		PortalType.Textures textures = portal.type().value().textures();
 		List<PortalType.Textures.Layer> layers = visiblePortal.open ? textures.open() : textures.closed();
 		for (PortalType.Textures.Layer layer : layers) {
+			matrices.pushPose();
+			matrices.translate(0, layer.offset(), 0);
+			PoseStack.Pose pose = matrices.last();
+
 			TextureAtlasSprite sprite = PortalTextureManager.INSTANCE.getSprite(layer.texture());
 			int color = layer.tint() ? ARGB.opaque(portal.color()) : -1;
+
 			// start bottom left, go CCW
 			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 1, 0, color, sprite.getU0(), sprite.getV1());
 			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 0, 0, color, sprite.getU1(), sprite.getV1());
 			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 0, 2, color, sprite.getU1(), sprite.getV0());
 			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 1, 2, color, sprite.getU0(), sprite.getV0());
+
+			matrices.popPose();
 		}
 
 		matrices.popPose();

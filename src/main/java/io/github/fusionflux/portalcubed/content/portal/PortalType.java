@@ -1,7 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
@@ -16,10 +21,6 @@ import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 public record PortalType(
 		Component name,
@@ -58,15 +59,16 @@ public record PortalType(
 				TEXTURE_CODEC.optionalFieldOf("tracer", Collections.emptyList()).forGetter(Textures::tracer)
 		).apply(instance, Textures::new));
 
-		public record Layer(ResourceLocation texture, boolean tint) {
+		public record Layer(ResourceLocation texture, boolean tint, float offset) {
 			public static final Codec<Layer> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 					ResourceLocation.CODEC.fieldOf("texture").forGetter(Layer::texture),
-					Codec.BOOL.fieldOf("tint").forGetter(Layer::tint)
+					Codec.BOOL.fieldOf("tint").forGetter(Layer::tint),
+					Codec.FLOAT.optionalFieldOf("offset", 0f).forGetter(Layer::offset)
 			).apply(instance, Layer::new));
 			public static final Codec<Layer> COMPACT_CODEC = Codec.withAlternative(ResourceLocation.CODEC.xmap(Layer::new, Layer::texture), Layer.CODEC);
 
 			public Layer(ResourceLocation texture) {
-				this(texture, true);
+				this(texture, true, 0);
 			}
 		}
 	}
