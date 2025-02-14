@@ -1,0 +1,35 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.player_shaped_hole"
+  },
+  "default_primary_color": 0,
+  "default_secondary_color": 0,
+  "weight": 95,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.deepslate.break",
+      "close": "minecraft:block.deepslate.place",
+      "travel": "minecraft:block.deepslate.step"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+      "texture": "portalcubed:portals/player_shaped_hole/player_shaped_hole_overlay",
+      "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/player_shaped_hole/player_shaped_hole",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/player_shaped_hole/player_shaped_hole_overlay",
+        "tint": false
+      }
+    ],
+    "tracer": "portalcubed:portals/player_shaped_hole/player_shaped_hole_tracer"
+  },
+  "stencil": "portalcubed:portals/player_shaped_hole/player_shaped_hole_stencil"
+}

@@ -8,6 +8,7 @@
   "sounds": {
     "shared": {
       "open": "minecraft:block.netherrack.place",
+      "cant_open": "minecraft:block.netherrack.break",
       "close": "minecraft:block.netherrack.break",
       "travel": "minecraft:block.netherrack.step"
     }

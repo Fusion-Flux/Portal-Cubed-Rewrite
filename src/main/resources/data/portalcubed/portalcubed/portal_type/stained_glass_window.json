@@ -1,0 +1,37 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.stained_glass_window"
+  },
+  "default_primary_color": 6724056,
+  "default_secondary_color": 14188339,
+  "weight": 171,
+  "group": "windows",
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.generic.place",
+      "cant_open": "minecraft:block.glass.break",
+      "close": "minecraft:block.glass.break",
+      "travel": "minecraft:block.generic.step"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/stained_glass_window/stained_glass_window_portal",
+        "tint": true
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/stained_glass_window/stained_glass_window_portal_closed",
+        "tint": false
+      },
+      {
+        "texture": "portalcubed:portals/stained_glass_window/stained_glass_window_portal",
+        "tint": true
+      }
+    ],
+    "tracer": "portalcubed:portals/stained_glass_window/stained_glass_window_portal_tracer"
+  },
+  "stencil": "portalcubed:portals/stained_glass_window/stained_glass_window_portal_stencil"
+}

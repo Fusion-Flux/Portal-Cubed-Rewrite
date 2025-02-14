@@ -1,0 +1,40 @@
+{
+  "name": {
+    "translate": "block.minecraft.birch_door"
+  },
+  "default_primary_color": 13878407,
+  "default_secondary_color": 15789803,
+  "weight": 123,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.wooden_door.open",
+      "close": "minecraft:block.wooden_door.close",
+      "travel": "minecraft:block.wood.step"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/door_birch/birch_door_open",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/door_birch/birch_door",
+        "tint": false
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portals/door_birch/birch_door_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/door_birch/birch_door_tracer_overlay",
+        "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/door_birch/birch_door_stencil"
+}

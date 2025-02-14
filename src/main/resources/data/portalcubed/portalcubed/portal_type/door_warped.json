@@ -1,0 +1,40 @@
+{
+  "name": {
+    "translate": "block.minecraft.warped_door"
+  },
+  "default_primary_color": 4041126,
+  "default_secondary_color": 442131,
+  "weight": 129,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.nether_wood_door.open",
+      "close": "minecraft:block.nether_wood_door.close",
+      "travel": "minecraft:block.nether_wood.step"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/door_warped/warped_door_open",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/door_warped/warped_door",
+        "tint": false
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portals/door_warped/warped_door_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/door_warped/warped_door_tracer_overlay",
+        "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/door_warped/warped_door_stencil"
+}

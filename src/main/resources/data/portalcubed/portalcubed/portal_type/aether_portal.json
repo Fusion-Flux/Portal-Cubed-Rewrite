@@ -1,0 +1,47 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.aether_portal"
+  },
+  "default_primary_color": 4159204,
+  "default_secondary_color": 4159204,
+  "weight": 71,
+  "group": "dimension_portals",
+  "locked": true,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:item.flintandsteel.use",
+      "cant_open": "minecraft:entity.item.break",
+      "close": "minecraft:block.glass.break",
+      "travel": "minecraft:block.portal.travel"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/aether_portal/aether_portal_frame",
+        "tint": false
+      },
+      {
+        "texture": "portalcubed:portals/aether_portal/aether_portal_open",
+        "tint": true
+      }
+    ],
+    "closed": [
+      {
+        "texture":"portalcubed:portals/aether_portal/aether_portal_frame",
+        "tint": false
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portals/aether_portal/aether_portal_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/aether_portal/aether_portal_tracer_overlay",
+        "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/aether_portal/aether_portal_stencil"
+}

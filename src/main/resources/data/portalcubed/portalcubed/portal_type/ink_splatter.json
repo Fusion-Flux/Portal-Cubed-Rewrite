@@ -1,0 +1,29 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.ink_splatter"
+  },
+  "default_primary_color": 3804365,
+  "default_secondary_color": 13680136,
+  "weight": 230,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.slime_block.place",
+      "close": "minecraft:block.slime_block.break",
+      "travel": "minecraft:block.slime_block.step"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portals/ink_splatter/ink_splatter",
+    "closed": "portalcubed:portals/ink_splatter/ink_splatter",
+    "tracer": [
+      {
+        "texture": "portalcubed:portals/ink_splatter/ink_splatter_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/ink_splatter/ink_splatter_tracer_overlay",
+        "tint": false
+      }
+    ]
+  }
+}

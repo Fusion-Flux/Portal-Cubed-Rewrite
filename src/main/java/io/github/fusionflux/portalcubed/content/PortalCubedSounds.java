@@ -54,6 +54,8 @@ public class PortalCubedSounds {
 	public static final SoundEvent DEFAULT_PORTAL_TRAVEL = register("portal_type.default.travel");
 	public static final SoundEvent DEFAULT_PORTAL_AMBIENT = register("portal_type.default.ambient");
 
+	public static final SoundEvent PORTAL_COMBAT = register("portal_type.portal_combat");
+
 	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon.obstructed");
 	public static final SoundEvent CONSTRUCTION_CANNON_MISSING_MATERIALS = register("construction_cannon.missing_materials");
 

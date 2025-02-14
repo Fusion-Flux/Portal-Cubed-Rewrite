@@ -1,0 +1,47 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.geometry_dash_portal"
+  },
+  "default_primary_color": 8056063,
+  "default_secondary_color": 16768081,
+  "weight": 260,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.generic.place",
+      "close": "minecraft:block.generic.break",
+      "travel": "minecraft:entity.player.teleport"
+    }
+  },
+  "textures": {
+    "closed": [
+      {
+      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal_overlay",
+      "tint": false
+      }
+    ],
+    "open": [
+      {
+      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal_overlay",
+      "tint": false
+      }
+    ],
+    "tracer": [
+      {
+      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal_tracer",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal_tracer_overlay",
+      "tint": false
+      }
+    ]
+  }
+}

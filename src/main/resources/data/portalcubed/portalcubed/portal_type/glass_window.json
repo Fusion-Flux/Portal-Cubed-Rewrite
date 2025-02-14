@@ -1,0 +1,42 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.glass_window"
+  },
+  "default_primary_color": 13691625,
+  "default_secondary_color": 8105655,
+  "weight": 170,
+  "group": "windows",
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.generic.place",
+      "cant_open": "minecraft:block.glass.break",
+      "close": "minecraft:block.glass.break",
+      "travel": "minecraft:block.generic.step"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/glass_window/glass_window_portal",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/glass_window/glass_window_portal_closed",
+        "tint": false
+      },
+      {
+        "texture": "portalcubed:portals/glass_window/glass_window_portal",
+        "tint": false
+      }
+    ],
+    "tracer": [
+      {
+      "texture": "portalcubed:portals/glass_window/glass_window_portal_tracer",
+      "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/glass_window/glass_window_portal_stencil"
+}

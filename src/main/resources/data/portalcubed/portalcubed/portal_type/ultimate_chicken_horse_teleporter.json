@@ -1,0 +1,38 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.ultimate_chicken_horse_teleporter"
+  },
+  "default_primary_color": 10711807,
+  "default_secondary_color": 7602136,
+  "weight": 310,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.netherite_block.place",
+      "close": "minecraft:block.netherite_block.break",
+      "travel": "minecraft:entity.player.teleport"
+    }
+  },
+  "textures": {
+    "closed": [
+      {
+      "texture": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_closed",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_overlay",
+      "tint": false
+      }
+    ],
+    "open": [
+      {
+      "texture": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_open",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_overlay",
+      "tint": false
+      }
+    ],
+    "tracer": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_tracer"
+  }
+}

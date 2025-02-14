@@ -1,0 +1,21 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.keyhole"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": 13748584,
+  "weight": 100,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.vault.insert_item",
+      "close": "minecraft:block.vault.insert_item_fail",
+      "travel": "minecraft:block.vault.open_shutter"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portals/keyhole/keyhole_open",
+    "closed": "portalcubed:portals/keyhole/keyhole",
+    "tracer": "portalcubed:portals/keyhole/keyhole_tracer"
+  },
+  "stencil": "portalcubed:portals/keyhole/keyhole_stencil"
+}

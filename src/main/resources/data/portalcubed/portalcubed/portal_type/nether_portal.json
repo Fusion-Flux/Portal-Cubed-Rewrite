@@ -1,0 +1,47 @@
+{
+  "name": {
+    "translate": "block.minecraft.nether_portal"
+  },
+  "default_primary_color": 7608274,
+  "default_secondary_color": 7608274,
+  "weight": 70,
+  "group": "dimension_portals",
+  "locked": true,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:item.flintandsteel.use",
+      "cant_open": "minecraft:entity.item.break",
+      "close": "minecraft:block.glass.break",
+      "travel": "minecraft:block.portal.travel"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/nether_portal/nether_portal_frame",
+        "tint": false
+      },
+      {
+        "texture": "portalcubed:portals/nether_portal/nether_portal_open",
+        "tint": true
+      }
+    ],
+    "closed": [
+      {
+        "texture":"portalcubed:portals/nether_portal/nether_portal_frame",
+        "tint": false
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portals/nether_portal/nether_portal_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/nether_portal/nether_portal_tracer_overlay",
+        "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/nether_portal/nether_portal_stencil"
+}

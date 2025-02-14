@@ -1,0 +1,31 @@
+{
+  "name": {
+    "translate": "painting.minecraft.prairie_ride.title"
+  },
+  "default_primary_color": 11753238,
+  "default_secondary_color": 8930122,
+  "weight": 202,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:entity.painting.place",
+      "cant_open": "minecraft:entity.painting.break",
+      "close": "minecraft:entity.painting.break",
+      "travel": "minecraft:item.book.page_turn"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "minecraft:painting/prairie_ride",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "minecraft:painting/prairie_ride",
+        "tint": false
+      }
+    ],
+    "tracer": "portalcubed:portals/prairie_ride/prairie_ride_tracer"
+  }
+}

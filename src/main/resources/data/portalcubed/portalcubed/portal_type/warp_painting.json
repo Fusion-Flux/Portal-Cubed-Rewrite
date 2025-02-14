@@ -1,0 +1,31 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.warp_painting"
+  },
+  "default_primary_color": 15738149,
+  "default_secondary_color": 6870067,
+  "weight": 210,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:entity.painting.place",
+      "cant_open": "minecraft:entity.painting.break",
+      "close": "minecraft:entity.painting.break",
+      "travel": "minecraft:item.book.page_turn"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/warp_painting/warp_painting",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/warp_painting/warp_painting",
+        "tint": false
+      }
+    ],
+    "tracer": "portalcubed:portals/warp_painting/warp_painting_tracer"
+  }
+}

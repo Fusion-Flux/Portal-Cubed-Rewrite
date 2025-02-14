@@ -600,7 +600,14 @@
     ],
     "subtitle": "subtitles.portalcubed.portal.default.travel"
   },
-
+  "portal_type.portal_combat": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/portal_combat/portal_combat",
+        "volume": 0.75
+      }
+    ]
+  },
 
   "construction_cannon.obstructed": {
     "sounds": [

@@ -1,0 +1,35 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.bad_apple"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": -1,
+  "weight": 280,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.note_block.basedrum",
+      "close": "minecraft:block.note_block.basedrum",
+      "travel": "minecraft:block.note_block.basedrum"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/bad_apple/bad_apple",
+        "tint": true
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/bad_apple/bad_apple_background",
+        "tint": false
+      },
+      {
+        "texture": "portalcubed:portals/bad_apple/bad_apple",
+        "tint": true
+      }
+    ],
+    "tracer": "portalcubed:portals/bad_apple/bad_apple_tracer"
+  },
+  "stencil": "portalcubed:portals/bad_apple/bad_apple_background"
+}

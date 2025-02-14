@@ -1,0 +1,39 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.paper_portal"
+  },
+  "default_primary_color": 16187137,
+  "default_secondary_color": 16711823,
+  "weight": 190,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:entity.villager.work_cartographer",
+      "close": "minecraft:item.book.page_turn",
+      "travel": "minecraft:item.book.put"
+    }
+  },
+  "textures": {
+    "closed": [
+      {
+      "texture": "portalcubed:portals/paper_portal/paper_portal",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/paper_portal/paper_portal_closed_overlay",
+      "tint": false
+      }
+    ],
+    "open": [
+      {
+      "texture": "portalcubed:portals/paper_portal/paper_portal",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/paper_portal/paper_portal_open_overlay",
+      "tint": false
+      }
+    ],
+    "tracer": "portalcubed:portals/paper_portal/paper_portal_tracer"
+    },
+  "stencil": "portalcubed:portals/paper_portal/paper_portal_stencil"
+}

@@ -1,0 +1,20 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.graffiti_portal"
+  },
+  "default_primary_color": 10494720,
+  "default_secondary_color": 7667377,
+  "weight": 220,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:item.bottle.empty",
+      "close": "minecraft:block.pointed_dripstone.drip_water_into_cauldron",
+      "travel": "minecraft:block.honey_block.slide"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portals/graffiti_portal/graffiti_portal",
+    "closed": "portalcubed:portals/graffiti_portal/graffiti_portal",
+    "tracer": "portalcubed:portals/graffiti_portal/graffiti_portal_tracer"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.pipis"
+  },
+  "default_primary_color": 49151,
+  "default_secondary_color": 16776960,
+  "weight": 400,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.sniffer_egg.plop",
+      "cant_open": "minecraft:block.sniffer_egg.crack",
+      "close": "minecraft:entity.turtle.lay_egg",
+      "travel": "minecraft:block.sniffer_egg.plop"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portals/pipis/pipis_open",
+    "closed": "portalcubed:portals/pipis/pipis",
+    "tracer": [
+      {
+      "texture": "portalcubed:portals/pipis/pipis_tracer",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/pipis/pipis_tracer_overlay",
+      "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/pipis/pipis_stencil"
+}

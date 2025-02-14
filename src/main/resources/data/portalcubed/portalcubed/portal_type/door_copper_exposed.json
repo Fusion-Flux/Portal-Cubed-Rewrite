@@ -1,0 +1,40 @@
+{
+  "name": {
+    "translate": "block.minecraft.exposed_copper_door"
+  },
+  "default_primary_color": 13536643,
+  "default_secondary_color": 7955540,
+  "weight": 132,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.copper_door.open",
+      "close": "minecraft:block.copper_door.close",
+      "travel": "minecraft:block.copper.step"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/door_copper_exposed/exposed_copper_door_open",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/door_copper_exposed/exposed_copper_door",
+        "tint": false
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portals/door_copper_exposed/exposed_copper_door_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/door_copper_exposed/exposed_copper_door_tracer_overlay",
+        "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/door_copper_exposed/exposed_copper_door_stencil"
+}

@@ -1,0 +1,35 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.polaroid"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": 59391,
+  "weight": 180,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:ui.loom.select_pattern",
+      "close": "minecraft:item.book.page_turn",
+      "travel": "minecraft:ui.toast.in"
+    }
+  },
+  "textures": {
+    "open": [
+       {
+        "texture": "portalcubed:portals/polaroid/polaroid_overlay",
+        "tint": false
+       }
+    ],
+    "closed": [
+       {
+        "texture": "portalcubed:portals/polaroid/polaroid_closed",
+        "tint": true
+       },
+       {
+        "texture": "portalcubed:portals/polaroid/polaroid_overlay",
+        "tint": false
+       }
+    ],
+    "tracer": "portalcubed:portals/polaroid/polaroid_tracer"
+  },
+  "stencil": "portalcubed:portals/polaroid/polaroid_stencil"
+}

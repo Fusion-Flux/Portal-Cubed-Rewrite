@@ -1,0 +1,20 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.the_barrier"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": 11401724,
+  "weight": 110,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.generic.place",
+      "close": "minecraft:block.generic.break",
+      "travel": "minecraft:block.generic.step"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portals/the_barrier/the_barrier",
+    "closed": "portalcubed:portals/the_barrier/the_barrier",
+    "tracer": "portalcubed:portals/the_barrier/the_barrier_tracer"
+  }
+}

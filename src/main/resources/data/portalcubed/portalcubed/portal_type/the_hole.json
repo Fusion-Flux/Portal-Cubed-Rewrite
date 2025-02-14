@@ -1,0 +1,21 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.the_hole"
+  },
+  "default_primary_color": 29154,
+  "default_secondary_color": 14380292,
+  "weight": 90,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.generic.place",
+      "close": "minecraft:block.generic.break",
+      "travel": "minecraft:block.generic.step"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portals/the_hole/hole_portal_open",
+    "closed": "portalcubed:portals/the_hole/hole_portal_closed",
+    "tracer": "portalcubed:portals/the_hole/hole_portal_tracer"
+  },
+  "stencil": "portalcubed:portals/the_hole/hole_portal_stencil"
+}

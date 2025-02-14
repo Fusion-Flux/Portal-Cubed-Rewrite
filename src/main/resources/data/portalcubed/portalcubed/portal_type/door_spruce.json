@@ -1,0 +1,40 @@
+{
+  "name": {
+    "translate": "block.minecraft.spruce_door"
+  },
+  "default_primary_color": 7953207,
+  "default_secondary_color": 5059351,
+  "weight": 122,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.wooden_door.open",
+      "close": "minecraft:block.wooden_door.close",
+      "travel": "minecraft:block.wood.step"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/door_spruce/spruce_door_open",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/door_spruce/spruce_door",
+        "tint": false
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portals/door_spruce/spruce_door_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/door_spruce/spruce_door_tracer_overlay",
+        "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/door_spruce/spruce_door_stencil"
+}

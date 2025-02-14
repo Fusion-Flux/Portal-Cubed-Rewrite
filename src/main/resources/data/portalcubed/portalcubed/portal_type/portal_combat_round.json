@@ -1,0 +1,28 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.portal_combat_round"
+  },
+  "default_primary_color": 8375800,
+  "default_secondary_color": 16250994,
+  "weight": 241,
+  "sounds": {
+    "shared": {
+      "open": "portalcubed:portal_type.portal_combat",
+      "close": "portalcubed:portal_type.portal_combat"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/portal_combat_round/portal_combat_round_closed",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/portal_combat_round/portal_combat_round_open",
+        "tint": false
+      }
+    ],
+    "closed": "portalcubed:portals/portal_combat_round/portal_combat_round_closed",
+    "tracer": "portalcubed:portals/portal_combat_round/portal_combat_round_tracer"
+  }
+}

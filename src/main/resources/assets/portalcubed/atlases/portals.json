@@ -4,6 +4,18 @@
       "type": "directory",
       "source": "portals",
       "prefix": "portals/"
+    },
+    {
+      "type": "single",
+      "resource": "minecraft:painting/graham"
+    },
+    {
+      "type": "single",
+      "resource": "minecraft:painting/wanderer"
+    },
+    {
+      "type": "single",
+      "resource": "minecraft:painting/prairie_ride"
     }
   ]
 }

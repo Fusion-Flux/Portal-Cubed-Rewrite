@@ -1,0 +1,31 @@
+{
+  "name": {
+    "translate": "painting.minecraft.wanderer.title"
+  },
+  "default_primary_color": 3223845,
+  "default_secondary_color": 8930122,
+  "weight": 201,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:entity.painting.place",
+      "cant_open": "minecraft:entity.painting.break",
+      "close": "minecraft:entity.painting.break",
+      "travel": "minecraft:item.book.page_turn"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "minecraft:painting/wanderer",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "minecraft:painting/wanderer",
+        "tint": false
+      }
+    ],
+    "tracer": "portalcubed:portals/wanderer/wanderer_tracer"
+  }
+}
