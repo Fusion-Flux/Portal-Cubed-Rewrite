@@ -23,7 +23,8 @@
       },
       {
         "texture": "portalcubed:portals/nether_portal/nether_portal_open",
-        "tint": true
+        "tint": true,
+        "offset": 0.01
       }
     ],
     "closed": [

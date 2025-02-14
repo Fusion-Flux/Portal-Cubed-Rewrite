@@ -18,7 +18,8 @@
     "open": [
       {
         "texture": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal",
-        "tint": false
+        "tint": false,
+        "offset": 0.01
       }
     ],
     "closed": [
@@ -28,7 +29,8 @@
       },
       {
         "texture": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal",
-        "tint": false
+        "tint": false,
+        "offset": 0.01
       }
     ],
     "tracer": [

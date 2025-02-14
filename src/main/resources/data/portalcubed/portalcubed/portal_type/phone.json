@@ -29,7 +29,8 @@
       },
       {
         "texture": "portalcubed:portals/phone/phone_overlay",
-        "tint": false
+        "tint": false,
+        "offset": 0.01
       }
     ],
     "open": [
@@ -39,7 +40,8 @@
       },
       {
         "texture": "portalcubed:portals/phone/phone_open_overlay",
-        "tint": false
+        "tint": false,
+        "offset": 0.01
       }
     ],
     "tracer": "portalcubed:portals/phone/phone_tracer"

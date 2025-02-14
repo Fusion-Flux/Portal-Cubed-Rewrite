@@ -16,7 +16,8 @@
     "open": [
       {
         "texture": "portalcubed:portals/bad_apple/bad_apple",
-        "tint": true
+        "tint": true,
+        "offset": 0.01
       }
     ],
     "closed": [
@@ -26,7 +27,8 @@
       },
       {
         "texture": "portalcubed:portals/bad_apple/bad_apple",
-        "tint": true
+        "tint": true,
+        "offset": 0.01
       }
     ],
     "tracer": "portalcubed:portals/bad_apple/bad_apple_tracer"

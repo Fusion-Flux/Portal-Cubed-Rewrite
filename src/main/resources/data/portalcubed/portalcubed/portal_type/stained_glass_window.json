@@ -18,7 +18,8 @@
     "open": [
       {
         "texture": "portalcubed:portals/stained_glass_window/stained_glass_window_portal",
-        "tint": true
+        "tint": true,
+        "offset": 0.01
       }
     ],
     "closed": [
@@ -28,7 +29,8 @@
       },
       {
         "texture": "portalcubed:portals/stained_glass_window/stained_glass_window_portal",
-        "tint": true
+        "tint": true,
+        "offset": 0.01
       }
     ],
     "tracer": "portalcubed:portals/stained_glass_window/stained_glass_window_portal_tracer"
