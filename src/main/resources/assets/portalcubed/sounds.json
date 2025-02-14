@@ -518,6 +518,89 @@
     "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
   },
 
+  "portal_type.default.ambient": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/default/ambient",
+        "volume": 0.1
+      }
+    ]
+  },
+  "portal_type.default.open.primary": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/default/open_primary",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.open.primary"
+  },
+  "portal_type.default.open.secondary": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/default/open_secondary",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.open.secondary"
+  },
+  "portal_type.default.cant_open": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/default/cant_open_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:portals/default/cant_open_2",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:portals/default/cant_open_3",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:portals/default/cant_open_4",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.cant_open"
+  },
+  "portal_type.default.close.primary": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/default/close_primary",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.close.primary"
+  },
+  "portal_type.default.close.secondary": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/default/close_secondary",
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.close.secondary"
+  },
+  "portal_type.default.travel": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/default/travel_1",
+        "volume": 0.05
+      },
+      {
+        "name": "portalcubed:portals/default/travel_2",
+        "volume": 0.05
+      },
+      {
+        "name": "portalcubed:portals/default/travel_3",
+        "volume": 0.05
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.travel"
+  },
+
 
   "construction_cannon.obstructed": {
     "sounds": [

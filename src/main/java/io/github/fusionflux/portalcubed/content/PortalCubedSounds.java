@@ -38,13 +38,21 @@ public class PortalCubedSounds {
 	public static final SoundEvent RADIO_SONG = register("prop.radio.ambient");
 	public static final SoundEvent COMPANION_CUBE_AMBIANCE = register("prop.companion_cube.ambient");
 
-	public static final SoundEvent PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.default.primary_shoot");
-	public static final SoundEvent PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.default.secondary_shoot");
-	public static final SoundEvent PORTAL_GUN_FIZZLE = register("portal_gun.default.fizzle");
-	public static final SoundEvent PORTAL_GUN_CANNOT_GRAB = register("portal_gun.default.cannot_grab");
-	public static final SoundEvent PORTAL_GUN_GRAB = register("portal_gun.default.grab");
-	public static final SoundEvent PORTAL_GUN_HOLD_LOOP = register("portal_gun.default.hold_loop");
-	public static final SoundEvent PORTAL_GUN_RELEASE = register("portal_gun.default.release");
+	public static final SoundEvent DEFAULT_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.default.primary_shoot");
+	public static final SoundEvent DEFAULT_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.default.secondary_shoot");
+	public static final SoundEvent DEFAULT_PORTAL_GUN_FIZZLE = register("portal_gun.default.fizzle");
+	public static final SoundEvent DEFAULT_PORTAL_GUN_CANNOT_GRAB = register("portal_gun.default.cannot_grab");
+	public static final SoundEvent DEFAULT_PORTAL_GUN_GRAB = register("portal_gun.default.grab");
+	public static final SoundEvent DEFAULT_PORTAL_GUN_HOLD_LOOP = register("portal_gun.default.hold_loop");
+	public static final SoundEvent DEFAULT_PORTAL_GUN_RELEASE = register("portal_gun.default.release");
+
+	public static final SoundEvent DEFAULT_PORTAL_OPEN_PRIMARY = register("portal_type.default.open.primary");
+	public static final SoundEvent DEFAULT_PORTAL_OPEN_SECONDARY = register("portal_type.default.open.secondary");
+	public static final SoundEvent DEFAULT_PORTAL_CLOSE_PRIMARY = register("portal_type.default.close.primary");
+	public static final SoundEvent DEFAULT_PORTAL_CLOSE_SECONDARY = register("portal_type.default.close.secondary");
+	public static final SoundEvent DEFAULT_PORTAL_CANT_OPEN = register("portal_type.default.cant_open");
+	public static final SoundEvent DEFAULT_PORTAL_TRAVEL = register("portal_type.default.travel");
+	public static final SoundEvent DEFAULT_PORTAL_AMBIENT = register("portal_type.default.ambient");
 
 	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon.obstructed");
 	public static final SoundEvent CONSTRUCTION_CANNON_MISSING_MATERIALS = register("construction_cannon.missing_materials");

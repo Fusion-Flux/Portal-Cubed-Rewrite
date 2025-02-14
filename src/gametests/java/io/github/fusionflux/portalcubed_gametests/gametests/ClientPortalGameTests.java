@@ -17,6 +17,7 @@ import net.minecraft.world.phys.AABB;
 public class ClientPortalGameTests {
 	private static final String GROUP = PortalCubedGameTests.ID + ":portals/client/";
 
+	//Tests the teleported entity being pushed in the time between the client and server teleportation
 	@GameTest(template = GROUP + "bump")
 	public void bump(GameTestHelper helper) {
 		PortalHelper portals = new PortalHelper(helper, "client_cube_bump");
@@ -38,6 +39,7 @@ public class ClientPortalGameTests {
 		});
 	}
 
+	//Tests a portal being blocked in the time between the client and server teleporting the entity passing through
 	@GameTest(template = GROUP + "denied")
 	public void denied(GameTestHelper helper) {
 		PortalHelper portals = new PortalHelper(helper, "get_denied_idiot");

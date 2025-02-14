@@ -169,6 +169,9 @@
   "portal_gun_skin.portalcubed.pipis_cannon": "Pipis Cannon",
   "portal_gun_skin.portalcubed.portal_gun_rick": "Rick's Portal Gun",
 
+  "portal_type.portalcubed.round": "Round Portal",
+  "portal_type.portalcubed.rectangle": "Rectangle Portal",
+  "portal_type.portalcubed.narbacular": "Narbacular Portal",
 
   "parsing.portalcubed.enum.Polarity.expected": "Expected polarity",
   "parsing.portalcubed.enum.Polarity.invalid": "Invalid polarity '%s'",
@@ -389,6 +392,13 @@
   "subtitles.portalcubed.portal_gun.default.hold_loop": "Portal gun holds object",
   "subtitles.portalcubed.portal_gun.default.release": "Portal gun releases object",
   "subtitles.portalcubed.portal_gun.default.cannot_grab": "Portal gun fails to pick up object",
+
+  "subtitles.portalcubed.portal.default.open.primary": "Primary portal opens",
+  "subtitles.portalcubed.portal.default.open.secondary": "Secondary portal opens",
+  "subtitles.portalcubed.portal.default.close.primary": "Primary portal closes",
+  "subtitles.portalcubed.portal.default.close.secondary": "Secondary portal closes",
+  "subtitles.portalcubed.portal.default.cant_open": "Portal fails to open",
+  "subtitles.portalcubed.portal.default.travel": "Something travels through portal",
 
   "subtitles.portalcubed.prop.generic.disintegration": "Something disintegrates",
   "subtitles.portalcubed.prop.radio.disintegration": "Radio disintegrates",

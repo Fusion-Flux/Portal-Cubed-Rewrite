@@ -1,0 +1,48 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.narbacular"
+  },
+  "default_primary_color": "2422527",
+  "default_secondary_color": "16770583",
+  "weight": 60,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.netherrack.place",
+      "close": "minecraft:block.netherrack.break",
+      "travel": "minecraft:block.netherrack.step"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portals/narbacular/narbacular_portal",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/narbacular/narbacular_portal_overlay",
+        "tint": false
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portals/narbacular/narbacular_portal",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/narbacular/narbacular_portal_overlay",
+        "tint": false
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portals/narbacular/narbacular_portal_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portals/narbacular/narbacular_portal_tracer_overlay",
+        "tint": false
+      }
+    ]
+  },
+  "stencil": "portalcubed:portals/narbacular/narbacular_portal_stencil"
+}

@@ -414,6 +414,7 @@ public class PortalGameTests implements FabricGameTest {
 		});
 	}
 
+	//Tests a series of portals close together on thin surfaces
 	@GameTest(template = GROUP + "portal_stack")
 	public void stack(GameTestHelper helper) {
 		RandomSource random = helper.getLevel().random.fork();
