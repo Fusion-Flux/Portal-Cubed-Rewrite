@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
@@ -45,6 +46,17 @@ public class MinecraftMixin {
 	@Shadow
 	@Nullable
 	public HitResult hitResult;
+
+	@Inject(
+			method = "<init>",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/server/packs/resources/ReloadableResourceManager;createReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/server/packs/resources/ReloadInstance;"
+			)
+	)
+	private void registerAssetReloadListeners(CallbackInfo ci) {
+		PortalCubedReloadListeners.registerAssets();
+	}
 
 	@Inject(
 			method = "tick",

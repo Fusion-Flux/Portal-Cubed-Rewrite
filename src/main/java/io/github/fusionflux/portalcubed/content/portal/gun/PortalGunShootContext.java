@@ -52,7 +52,7 @@ public record PortalGunShootContext(
 			this.level.portalManager().createPortal(
 					pair.orElse(this.key),
 					polarity,
-					new PortalData(hitPos, PortalData.normalToRotation(hit.getDirection(), this.yRot), settings)
+					PortalData.createWithSettings(this.level.registryAccess(), hitPos, PortalData.normalToRotation(hit.getDirection(), this.yRot), settings)
 			);
 		}
 	}

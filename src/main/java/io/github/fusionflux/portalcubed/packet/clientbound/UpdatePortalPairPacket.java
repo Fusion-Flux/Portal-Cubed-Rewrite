@@ -7,16 +7,16 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManag
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 public record UpdatePortalPairPacket(String key, @Nullable PortalPair pair) implements ClientboundPacket {
-	public static final StreamCodec<ByteBuf, UpdatePortalPairPacket> CODEC = StreamCodec.composite(
+	public static final StreamCodec<RegistryFriendlyByteBuf, UpdatePortalPairPacket> CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8, UpdatePortalPairPacket::key,
 			PortalCubedStreamCodecs.nullable(PortalPair.STREAM_CODEC), UpdatePortalPairPacket::pair,
 			UpdatePortalPairPacket::new

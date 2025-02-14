@@ -9,7 +9,6 @@ import io.github.fusionflux.portalcubed.framework.command.argument.FizzleBehavio
 import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
-import io.github.fusionflux.portalcubed.framework.command.argument.PortalShapeArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
 import io.github.fusionflux.portalcubed.mixin.commands.ArgumentTypeInfosAccessor;
@@ -23,7 +22,6 @@ public class PortalCubedArgumentTypes {
 		register("color", ColorArgumentType.class, SingletonArgumentInfo.contextFree(ColorArgumentType::color));
 		register("direction", DirectionArgumentType.class, SingletonArgumentInfo.contextFree(DirectionArgumentType::direction));
 		register("polarity", PolarityArgumentType.class, SingletonArgumentInfo.contextFree(PolarityArgumentType::polarity));
-		register("shape", PortalShapeArgumentType.class, SingletonArgumentInfo.contextFree(PortalShapeArgumentType::shape));
 		register("quaternion", QuaternionArgumentType.class, SingletonArgumentInfo.contextFree(QuaternionArgumentType::quaternion));
 		register("tri_state", TriStateArgumentType.class, SingletonArgumentInfo.contextFree(TriStateArgumentType::triState));
 		register("portal_key", PortalKeyArgumentType.class, SingletonArgumentInfo.contextFree(PortalKeyArgumentType::portalKey));

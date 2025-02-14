@@ -6,16 +6,15 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.mojang.brigadier.Message;
 import com.mojang.brigadier.arguments.ArgumentType;
-import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.context.ParsedArgument;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
@@ -28,7 +27,6 @@ import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentT
 import io.github.fusionflux.portalcubed.framework.extension.RequiredArgumentBuilderExt;
 import io.github.fusionflux.portalcubed.mixin.commands.CommandContextAccessor;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -39,7 +37,7 @@ public class PortalCubedCommands {
 				literal(PortalCubed.ID)
 						.then(CreateConstructCommand.build())
 						.then(FizzleCommand.build())
-						.then(PortalCommand.build())
+						.then(PortalCommand.build(ctx))
 		));
 	}
 
@@ -57,22 +55,18 @@ public class PortalCubedCommands {
 		return optionalArg(name, FlagArgumentType.flag(name));
 	}
 
-	public static <S, T> Optional<T> getOptional(CommandContext<S> ctx, String name, BiFunction<CommandContext<S>, String, T> getter) {
+	public static <S, T> Optional<T> getOptional(CommandContext<S> ctx, String name, ArgumentGetter<S, T> getter) throws CommandSyntaxException {
 		return Optional.ofNullable(getOptional(ctx, name, getter, null));
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <S, T> T getOptional(CommandContext<S> ctx, String name, BiFunction<CommandContext<S>, String, T> getter, T fallback) {
+	public static <S, T> T getOptional(CommandContext<S> ctx, String name, ArgumentGetter<S, T> getter, T fallback) throws CommandSyntaxException {
 		Map<String, ParsedArgument<S, ?>> args = ((CommandContextAccessor<S>) ctx).getArguments();
 		if (args.containsKey(name)) {
-			return getter.apply(ctx, name);
+			return getter.get(ctx, name);
 		} else {
 			return fallback;
 		}
-	}
-
-	public static <S> TriState getOptionalBool(CommandContext<S> ctx, String name) {
-		return TriState.of(getOptional(ctx, name, BoolArgumentType::getBool, null));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -87,5 +81,10 @@ public class PortalCubedCommands {
 
 	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message message) {
 		return SharedSuggestionProvider.suggest(iterable, builder, Function.identity(), $ -> message);
+	}
+
+	@FunctionalInterface
+	public interface ArgumentGetter<S, T> {
+		T get(CommandContext<S> ctx, String name) throws CommandSyntaxException;
 	}
 }

@@ -6,58 +6,24 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ExtraCodecs;
 
-public record PortalSettings(int color, PortalShape shape, boolean render, boolean validate) {
+public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate, int color, boolean render) {
 	public static final Codec<PortalSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			Codec.INT.fieldOf("color").forGetter(PortalSettings::colorNoAlpha),
-			PortalShape.CODEC.fieldOf("shape").forGetter(PortalSettings::shape),
-			Codec.BOOL.fieldOf("render").forGetter(PortalSettings::render),
-			Codec.BOOL.fieldOf("validate").forGetter(PortalSettings::validate)
+			PortalType.KEY_CODEC.fieldOf("type").forGetter(PortalSettings::typeId),
+			Codec.BOOL.fieldOf("validate").forGetter(PortalSettings::validate),
+			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("color").forGetter(PortalSettings::color),
+			Codec.BOOL.fieldOf("render").forGetter(PortalSettings::render)
 	).apply(instance, PortalSettings::new));
-
 	public static final StreamCodec<ByteBuf, PortalSettings> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.INT, PortalSettings::colorNoAlpha,
-			PortalShape.STREAM_CODEC, PortalSettings::shape,
-			ByteBufCodecs.BOOL, PortalSettings::render,
+			PortalType.KEY_STREAM_CODEC, PortalSettings::typeId,
 			ByteBufCodecs.BOOL, PortalSettings::validate,
+			ByteBufCodecs.INT, PortalSettings::color,
+			ByteBufCodecs.BOOL, PortalSettings::render,
 			PortalSettings::new
 	);
 
-	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(Polarity.PRIMARY.defaultColor, PortalShape.SQUARE);
-	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(Polarity.SECONDARY.defaultColor, PortalShape.SQUARE);
-
-	public PortalSettings(int color, PortalShape shape, boolean render, boolean validate) {
-		this.color = fixAlpha(color);
-		this.shape = shape;
-		this.render = render;
-		this.validate = validate;
-	}
-
-	public PortalSettings(int color, PortalShape shape) {
-		this(color, shape, true, true);
-	}
-
-	public PortalSettings withColor(int color) {
-		return new PortalSettings(color, this.shape, this.render, this.validate);
-	}
-
-	public PortalSettings withShape(PortalShape shape) {
-		return new PortalSettings(this.color, shape, this.render, this.validate);
-	}
-
-	public PortalSettings withRender(boolean render) {
-		return new PortalSettings(this.color, this.shape, render, this.validate);
-	}
-
-	public PortalSettings withValidate(boolean validate) {
-		return new PortalSettings(this.color, this.shape, this.render, validate);
-	}
-
-	public int colorNoAlpha() {
-		return this.color & 0x00FFFFFF;
-	}
-
-	public static int fixAlpha(int color) {
-		return color | 0xFF000000; // require alpha 255
-	}
+	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(PortalType.RECTANGLE, true, Polarity.PRIMARY.defaultColor, true);
+	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(PortalType.RECTANGLE, true, Polarity.SECONDARY.defaultColor, true);
 }

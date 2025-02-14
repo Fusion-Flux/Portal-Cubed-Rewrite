@@ -83,6 +83,12 @@ public interface PortalCubedCodecs {
 	);
 
 	/**
+	 * Adds textures/ and .png to decoded resource location.
+	 * This is not meant to be encoded.
+	 */
+	Codec<ResourceLocation> TEXTURE_PATH = ResourceLocation.CODEC.xmap(id -> id.withPath(path -> "textures/" + path + ".png"), Function.identity());
+
+	/**
 	 * Create a codec from two others, able to handle two different formats.
 	 * The predicate determines when the alternative format should be encoded instead of the standard one.
 	 */

@@ -35,8 +35,7 @@ public class RenderingUtils {
 		quadVertex(vertices, pose, light, 0, 0, color, 0, 0);
 		quadVertex(vertices, pose, light, 0, 1, color, 0, 1);
 	}
-
-	private static void quadVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, int light, float x, int y, int color, int textureU, int textureV) {
+	public static void quadVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, int light, float x, int y, int color, float textureU, float textureV) {
 		vertexConsumer.addVertex(pose, x, y, 0)
 				.setColor(color)
 				.setUv(textureU, textureV)

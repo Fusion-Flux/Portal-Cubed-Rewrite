@@ -12,7 +12,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.framework.util.DualIterator;
-import io.netty.buffer.ByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
@@ -25,7 +25,7 @@ public record PortalPair(Optional<PortalInstance> primary, Optional<PortalInstan
 			PortalInstance.CODEC.optionalFieldOf("secondary").forGetter(PortalPair::secondary)
 	).apply(instance, PortalPair::new));
 
-	public static final StreamCodec<ByteBuf, PortalPair> STREAM_CODEC = StreamCodec.composite(
+	public static final StreamCodec<RegistryFriendlyByteBuf, PortalPair> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.optional(PortalInstance.STREAM_CODEC), PortalPair::primary,
 			ByteBufCodecs.optional(PortalInstance.STREAM_CODEC), PortalPair::secondary,
 			PortalPair::new

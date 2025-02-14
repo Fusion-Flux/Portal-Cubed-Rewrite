@@ -5,7 +5,6 @@ import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
-import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
 import io.github.fusionflux.portalcubed.content.boots.SourcePhysics;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
@@ -48,7 +47,6 @@ public class PortalCubedClient implements ClientModInitializer {
 
 		TerraformBoatClientHelper.registerModelLayers(PortalCubedEntities.LEMON_BOAT);
 		PreparableModelLoadingPlugin.register(EmissiveLoader.INSTANCE, PortalCubedModelLoadingPlugin.INSTANCE);
-		PortalCubedReloadListeners.registerAssets();
 
 		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);
 

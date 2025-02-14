@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
-import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -41,7 +41,8 @@ public record Plane(Vector3f normal, Vector3f origin) {
 		return this.isInFront(camera.getPosition());
 	}
 
-	public void getClipping(Matrix4f view, Vec3 camPos, Vector4f dest) {
+	@Environment(EnvType.CLIENT)
+	public void getClipping(Matrix4fc view, Vec3 camPos, Vector4f dest) {
 		Vector3f camRelativeOrigin = scratchPos.set(
 				this.origin.x - camPos.x,
 				this.origin.y - camPos.y,

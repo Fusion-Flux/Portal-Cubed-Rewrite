@@ -8,12 +8,13 @@ import org.joml.Vector3f;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.PortalShape;
+import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -30,12 +31,12 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 				helper, key,
 				new SinglePortalHelper(
 						helper, key,
-						new PortalSettings(primaryColor, PortalShape.SQUARE, false, true),
+						new PortalSettings(PortalType.RECTANGLE, false, primaryColor, false),
 						Polarity.PRIMARY
 				),
 				new SinglePortalHelper(
 						helper, key,
-						new PortalSettings(secondaryColor, PortalShape.SQUARE, false, true),
+						new PortalSettings(PortalType.RECTANGLE, false, secondaryColor, false),
 						Polarity.SECONDARY
 				)
 		);
@@ -76,15 +77,16 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 
 			Vec3 intoWall = normal.getUnitVec3().scale(-1);
 
-			BlockState state = this.helper.getLevel().getBlockState(blockPos);
+			ServerLevel level = this.helper.getLevel();
+			BlockState state = level.getBlockState(blockPos);
 			VoxelShape shape = state.getCollisionShape(this.helper.getLevel(), blockPos);
 			BlockHitResult hit = shape.clip(pos, pos.add(intoWall), blockPos);
 			if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
 				pos = hit.getLocation();
 			}
 
-			ServerPortalManager manager = this.helper.getLevel().portalManager();
-			manager.createPortal(this.key, this.polarity, new PortalData(pos, rotation, this.settings));
+			ServerPortalManager manager = level.portalManager();
+			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level.registryAccess(), pos, rotation, this.settings));
 		}
 	}
 }
