@@ -40,7 +40,7 @@ public record PortalType(
 	public static final StreamCodec<ByteBuf, ResourceKey<PortalType>> KEY_STREAM_CODEC = ResourceKey.streamCodec(PortalCubedRegistries.PORTAL_TYPE);
 	public static final StreamCodec<RegistryFriendlyByteBuf, Holder<PortalType>> STREAM_CODEC = ByteBufCodecs.holderRegistry(PortalCubedRegistries.PORTAL_TYPE);
 
-	public static final ResourceKey<PortalType> RECTANGLE = ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id("rectangle"));
+	public static final ResourceKey<PortalType> ROUND = ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id("round"));
 
 	public int defaultColorOf(Polarity polarity) {
 		return polarity == Polarity.PRIMARY ? this.defaultPrimaryColor : this.defaultSecondaryColor;

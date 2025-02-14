@@ -24,6 +24,6 @@ public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate, i
 			PortalSettings::new
 	);
 
-	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(PortalType.RECTANGLE, true, Polarity.PRIMARY.defaultColor, true);
-	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(PortalType.RECTANGLE, true, Polarity.SECONDARY.defaultColor, true);
+	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(PortalType.ROUND, true, Polarity.PRIMARY.defaultColor, true);
+	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(PortalType.ROUND, true, Polarity.SECONDARY.defaultColor, true);
 }

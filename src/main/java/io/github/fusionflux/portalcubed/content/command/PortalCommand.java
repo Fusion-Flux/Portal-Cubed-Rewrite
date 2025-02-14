@@ -154,7 +154,7 @@ public class PortalCommand {
 		Placement placement = strategy.getPlacement(ctx);
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
 		Polarity polarity = PolarityArgumentType.getPolarity(ctx, "polarity");
-		Holder<PortalType> type = getOptional(ctx, "type", PortalCommand::getType, source.registryAccess().get(PortalType.RECTANGLE).orElseThrow());
+		Holder<PortalType> type = getOptional(ctx, "type", PortalCommand::getType, source.registryAccess().get(PortalType.ROUND).orElseThrow());
 		int color = getOptional(ctx, "color", ColorArgumentType::getColor, type.value().defaultColorOf(polarity));
 		boolean noRender = getFlag(ctx, "no_rendering");
 		boolean noValidate = getFlag(ctx, "no_validation");
