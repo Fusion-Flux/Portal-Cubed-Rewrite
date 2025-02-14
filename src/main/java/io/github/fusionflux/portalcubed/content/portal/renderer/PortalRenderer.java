@@ -13,12 +13,14 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.ARBDepthClamp;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
@@ -67,6 +69,7 @@ public class PortalRenderer {
 	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
 	public static final RecursionAttachedResource<Vector4f> CLIPPING_PLANES = RecursionAttachedResource.create(Vector4f::new);
 
+	private static VertexBuffer stencilQuadBuffer;
 	private static int maxRecursions = 5;
 	private static int recursion = 0;
 
@@ -81,10 +84,6 @@ public class PortalRenderer {
 	public static void setMaxRecursions(int maxRecursions) {
 		PortalRenderer.maxRecursions = maxRecursions;
 		RecursionAttachedResource.cleanup();
-	}
-
-	public static boolean shouldRenderView(PortalInstance portal, Camera camera) {
-		return recursion < maxRecursions && portal.plane.isInFront(camera);
 	}
 
 	private static void render(WorldRenderContext context) {
@@ -111,7 +110,7 @@ public class PortalRenderer {
 					PortalType type = portal.data.type().value();
 					boolean render = portal.data.render();
 					boolean hasStencil = type.stencil().isPresent();
-					visiblePortals.add(new VisiblePortal(pair, portal, linked, render && hasStencil && linked != null));
+					visiblePortals.add(new VisiblePortal(pair, portal, linked, linked != null && (!hasStencil || (render && recursion < maxRecursions))));
 				}
 			}
 		}
@@ -156,22 +155,30 @@ public class PortalRenderer {
 		return matrices.last();
 	}
 
-	private static void renderPortalStencil(ResourceLocation texture, PoseStack.Pose pose) {
+	private static void renderPortalStencil(ResourceLocation texture, Matrix4f matrix) {
+		// Build buffer
+		if (stencilQuadBuffer == null) {
+			try (ByteBufferBuilder byteBufferBuilder = new ByteBufferBuilder(DefaultVertexFormat.POSITION_TEX.getVertexSize() * 4)) {
+				BufferBuilder builder = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+				builder.addVertex(1, 0, 0).setUv(0, 1);
+				builder.addVertex(0, 0, 0).setUv(1, 1);
+				builder.addVertex(0, 0, 2).setUv(1, 0);
+				builder.addVertex(1, 0, 2).setUv(0, 0);
+				stencilQuadBuffer = new VertexBuffer(BufferUsage.STATIC_WRITE);
+				stencilQuadBuffer.bind();
+				stencilQuadBuffer.upload(builder.buildOrThrow());
+				VertexBuffer.unbind();
+			}
+		}
+
 		// Setup state
-		BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		RenderSystem.setShader(CoreShaders.POSITION_TEX);
 		RenderSystem.setShaderTexture(0, texture);
 		GL11.glEnable(ARBDepthClamp.GL_DEPTH_CLAMP);
 		RenderSystem.colorMask(false, false, false, false);
 
-		// Build quad
-		builder.addVertex(pose, 1, 0, 0).setUv(0, 1);
-		builder.addVertex(pose, 0, 0, 0).setUv(1, 1);
-		builder.addVertex(pose, 0, 0, 2).setUv(1, 0);
-		builder.addVertex(pose, 1, 0, 2).setUv(0, 0);
-
-		// Draw quad
-		BufferUploader.drawWithShader(builder.buildOrThrow());
+		stencilQuadBuffer.bind();
+		stencilQuadBuffer.drawWithShader(matrix, RenderSystem.getProjectionMatrix(), RenderSystem.setShader(CoreShaders.POSITION_TEX));
+		VertexBuffer.unbind();
 
 		// Cleanup state
 		GL11.glDisable(ARBDepthClamp.GL_DEPTH_CLAMP);
@@ -182,26 +189,29 @@ public class PortalRenderer {
 		if (!visiblePortal.open)
 			return;
 
+		PortalInstance portal = visiblePortal.portal;
+		ResourceLocation stencilTexture = portal.data.type().value().stencil().orElse(null);
+		if (stencilTexture == null)
+			return;
+
 		PortalInstance linked = visiblePortal.linked;
 		if (linked == null)
 			return;
 
-		PortalInstance portal = visiblePortal.portal;
 		Camera camera = context.camera();
-		if (!shouldRenderView(portal, camera))
+		if (!portal.plane.isInFront(camera))
 			return;
 
 		matrices.pushPose();
-		PoseStack.Pose pose = transformToPortal(visiblePortal, matrices);
+		Matrix4f matrix = transformToPortal(visiblePortal, matrices).pose();
+		RenderSystem.getModelViewMatrix().mul(matrix, matrix);
 
 		// Draw stencil
-		//noinspection OptionalGetWithoutIsPresent
-		ResourceLocation stencilTexture = portal.data.type().value().stencil().get();
 		RenderSystem.depthMask(false);
 		RenderSystem.enableDepthTest();
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderingUtils.setupStencilForWriting(recursion, true);
-		renderPortalStencil(stencilTexture, pose);
+		renderPortalStencil(stencilTexture, matrix);
 		RenderSystem.depthMask(true);
 
 		// Backup old state
@@ -251,7 +261,7 @@ public class PortalRenderer {
 		RenderingUtils.setupStencilForWriting(recursion + 1, false);
 		RenderSystem.depthFunc(GL11.GL_ALWAYS);
 		RenderSystem.colorMask(false, false, false, false);
-		renderPortalStencil(stencilTexture, pose);
+		renderPortalStencil(stencilTexture, matrix);
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderSystem.colorMask(true, true, true, true);
 

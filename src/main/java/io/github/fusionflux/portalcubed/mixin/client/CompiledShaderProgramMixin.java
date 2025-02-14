@@ -38,15 +38,7 @@ public abstract class CompiledShaderProgramMixin {
 		this.disintegrationColorModifier = this.getUniform(ShaderPatcher.DISINTEGRATION_COLOR_MODIFIER_UNIFORM.name());
 	}
 
-	@Inject(
-			method = "apply",
-			at = @At(
-					value = "INVOKE",
-					target = "Lcom/mojang/blaze3d/platform/GlStateManager;_activeTexture(I)V",
-					shift = At.Shift.AFTER,
-					remap = false
-			)
-	)
+	@Inject(method = "setDefaultUniforms", at = @At("TAIL"))
 	private void updateClippingPlaneUniform(CallbackInfo ci) {
 		if (this.clippingPlane != null && PortalRenderer.isRenderingView())
 			this.clippingPlane.set(PortalRenderer.CLIPPING_PLANES.get());

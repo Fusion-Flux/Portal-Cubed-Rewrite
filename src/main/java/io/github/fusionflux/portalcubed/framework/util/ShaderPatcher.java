@@ -59,8 +59,10 @@ public class ShaderPatcher {
 			}
 
 			if (type == ShaderType.VANILLA_CLIPPING_PLANE || type == ShaderType.SODIUM_CLIPPING_PLANE) {
-				if (line.contains("gl_Position =") && foundMain)
+				if (line.contains("gl_Position =") && foundMain) {
+					//noinspection OptionalGetWithoutIsPresent
 					builder.append(CLIPPING_INJECTION.replace(PROJECTION_MATRIX_PLACEHOLDER, type.projectionMatrixName.get()));
+				}
 			}
 		}
 		return builder.toString();
