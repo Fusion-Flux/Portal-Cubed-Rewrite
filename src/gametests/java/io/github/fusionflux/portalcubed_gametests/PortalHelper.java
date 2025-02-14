@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed_gametests;
 import java.util.Optional;
 
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
+import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
@@ -67,8 +67,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 		public void placeOn(BlockPos surface, Direction normal, float yRot) {
 			Quaternionf rotation = PortalData.normalToRotation(normal, yRot);
 			// shift the portal so the bottom half is centered on the surface
-			Vector3f baseOffset = new Vector3f(0, 0, 0.5f);
-			Vector3f offset = rotation.transform(baseOffset);
+			Vector3d offset = rotation.transformUnit(0, 0, normal.getAxis() == Direction.Axis.Y ? -0.5f : 0.5f, new Vector3d());
 
 			BlockPos blockPos = this.helper.absolutePos(surface);
 			Vec3 pos = Vec3.atCenterOf(blockPos)
