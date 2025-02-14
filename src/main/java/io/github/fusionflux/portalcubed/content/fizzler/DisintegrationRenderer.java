@@ -55,8 +55,9 @@ public class DisintegrationRenderer {
 		matrices.translate(0, entity.getBoundingBox().getYsize() / 2, 0);
 		matrices.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
 		matrices.mulPose(Axis.YP.rotationDegrees(180));
+		matrices.mulPose(Axis.XP.rotationDegrees(270));
 		matrices.scale(FLASH_SIZE, FLASH_SIZE, FLASH_SIZE);
-		matrices.translate(-.5, -.5, 0);
+		matrices.translate(-.5, 0, -.5);
 		RenderingUtils.renderQuad(matrices, vertexConsumers.getBuffer(RenderType.beaconBeam(FLASH_TEXTURE, true)), LightTexture.FULL_BRIGHT, getFlashColor(ticks));
 		matrices.popPose();
 	}

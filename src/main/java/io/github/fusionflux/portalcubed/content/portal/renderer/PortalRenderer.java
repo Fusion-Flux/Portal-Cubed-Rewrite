@@ -176,9 +176,13 @@ public class PortalRenderer {
 		GL11.glEnable(ARBDepthClamp.GL_DEPTH_CLAMP);
 		RenderSystem.colorMask(false, false, false, false);
 
+		Matrix4fStack matrices = RenderSystem.getModelViewStack();
+		matrices.pushMatrix();
+		matrices.mul(matrix);
 		stencilQuadBuffer.bind();
-		stencilQuadBuffer.drawWithShader(matrix, RenderSystem.getProjectionMatrix(), RenderSystem.setShader(CoreShaders.POSITION_TEX));
+		stencilQuadBuffer.drawWithShader(matrices, RenderSystem.getProjectionMatrix(), RenderSystem.setShader(CoreShaders.POSITION_TEX));
 		VertexBuffer.unbind();
+		matrices.popMatrix();
 
 		// Cleanup state
 		GL11.glDisable(ARBDepthClamp.GL_DEPTH_CLAMP);
@@ -204,7 +208,6 @@ public class PortalRenderer {
 
 		matrices.pushPose();
 		Matrix4f matrix = transformToPortal(visiblePortal, matrices).pose();
-		RenderSystem.getModelViewMatrix().mul(matrix, matrix);
 
 		// Draw stencil
 		RenderSystem.depthMask(false);
