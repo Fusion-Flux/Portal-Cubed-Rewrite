@@ -43,59 +43,72 @@ public record Quad(Tri a, Tri b) {
 		return new AABB(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 
+	public Vec3 topLeft() {
+		return this.a.c();
+	}
+
+	public Vec3 topRight() {
+		return this.a.b();
+	}
+
+	public Vec3 bottomLeft() {
+		return this.a.a();
+	}
+
+	public Vec3 bottomRight() {
+		return this.b.b();
+	}
+
 	public Vec3 normal() {
 		// assume not degenerate
 		return this.a.normal();
 	}
 
 	public Vec3 up() {
-		Vec3 bottomRight = this.b.b();
-		Vec3 topRight = this.a.b();
-		return bottomRight.vectorTo(topRight).normalize();
+		return this.bottomRight().vectorTo(this.topRight()).normalize();
+	}
+
+	public Vec3 right() {
+		return this.topLeft().vectorTo(this.topRight()).normalize();
 	}
 
 	public Vec3 center() {
-		Vec3 topLeft = this.a.a();
-		Vec3 bottomRight = this.b.b();
-		return topLeft.lerp(bottomRight, 0.5);
+		return this.topLeft().lerp(this.bottomRight(), 0.5);
 	}
 
 	public double width() {
-		Vec3 topLeft = this.a.a();
-		Vec3 topRight = this.a.b();
-		return topLeft.distanceTo(topRight);
+		return this.topLeft().distanceTo(this.topRight());
 	}
 
 	public double height() {
-		Vec3 topLeft = this.a.a();
-		Vec3 bottomLeft = this.a.c();
-		return topLeft.distanceTo(bottomLeft);
+		return this.topLeft().distanceTo(this.bottomLeft());
 	}
 
 	public static Quad create(Quaternionf rotation, Vec3 center, double width, double height) {
 		double w = width / 2;
 		double h = height / 2;
 		// relative offsets
-		Vec3 topRight = transform(rotation, new Vec3(w, h, 0));
-		Vec3 topLeft = transform(rotation, new Vec3(-w, h, 0));
-		Vec3 bottomRight = transform(rotation, new Vec3(w, -h, 0));
-		Vec3 bottomLeft = transform(rotation, new Vec3(-w, -h, 0));
+		Vec3 topRight = transform(rotation, new Vec3(-w, 0, h));
+		Vec3 topLeft = transform(rotation, new Vec3(w, 0, h));
+		Vec3 bottomRight = transform(rotation, new Vec3(-w, 0, -h));
+		Vec3 bottomLeft = transform(rotation, new Vec3(w, 0, -h));
 		// de-relativize
 		topRight = center.add(topRight);
 		topLeft = center.add(topLeft);
 		bottomRight = center.add(bottomRight);
 		bottomLeft = center.add(bottomLeft);
 
-		Tri a = new Tri(topLeft, topRight, bottomLeft);
-		Tri b = new Tri(topRight, bottomRight, bottomLeft);
+		// CCW winding order
+		Tri a = new Tri(bottomLeft, topRight, topLeft);
+		Tri b = new Tri(bottomLeft, bottomRight, topRight);
 
 		return new Quad(a, b);
 	}
 
 	public static Quad create(Plane plane, double size) {
 		Quaternionf rotation = new Quaternionf();
-		rotation.rotateTo(PortalInstance.DEFAULT_PLANE_NORMAL, plane.normal());
-		return create(rotation, new Vec3(plane.origin()), size, size);
+		rotation.rotateTo(PortalInstance.BASE_NORMAL.toVector3f(), plane.normal().toVector3f());
+		return create(rotation, plane.origin(), size, size);
 	}
 
 	private static Vec3 transform(Quaternionf rotation, Vec3 vec) {

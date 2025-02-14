@@ -56,7 +56,7 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 					continue;
 
 				// only clip when aiming into the front of the portal
-				if (portal.normal.dot(normal) < 0)
+				if (portal.normal.dot(normal) >= 0)
 					continue;
 
 				double distSqr = hit.distanceToSqr(from);

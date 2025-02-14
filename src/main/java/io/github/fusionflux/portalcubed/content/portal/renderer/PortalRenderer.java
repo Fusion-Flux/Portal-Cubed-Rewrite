@@ -21,7 +21,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
@@ -149,11 +148,10 @@ public class PortalRenderer {
 		matrices.translate(portal.data.origin());
 		// apply rotations
 		matrices.mulPose(portal.rotation()); // rotate towards facing direction
-		matrices.mulPose(Axis.ZP.rotationDegrees(180));
 		// slight offset so origin is center of portal
-		matrices.translate(-0.5f, -1, 0);
+		matrices.translate(-0.5f, 0, -1);
 		// small offset away from the wall to not z-fight
-		matrices.translate(0, 0, -OFFSET_FROM_WALL);
+		matrices.translate(0, OFFSET_FROM_WALL, 0);
 
 		return matrices.last();
 	}
@@ -167,10 +165,10 @@ public class PortalRenderer {
 		RenderSystem.colorMask(false, false, false, false);
 
 		// Build quad
-		builder.addVertex(pose, 1, 2, 0).setUv(1, 1);
-		builder.addVertex(pose, 1, 0, 0).setUv(1, 0);
-		builder.addVertex(pose, 0, 0, 0).setUv(0, 0);
-		builder.addVertex(pose, 0, 2, 0).setUv(0, 1);
+		builder.addVertex(pose, 1, 0, 0).setUv(0, 1);
+		builder.addVertex(pose, 0, 0, 0).setUv(1, 1);
+		builder.addVertex(pose, 0, 0, 2).setUv(1, 0);
+		builder.addVertex(pose, 1, 0, 2).setUv(0, 0);
 
 		// Draw quad
 		BufferUploader.drawWithShader(builder.buildOrThrow());
@@ -270,10 +268,11 @@ public class PortalRenderer {
 		for (PortalType.Textures.Layer layer : layers) {
 			TextureAtlasSprite sprite = PortalTextureManager.INSTANCE.getSprite(layer.texture());
 			int color = layer.tint() ? ARGB.opaque(portal.color()) : -1;
-			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 1, 2, color, sprite.getU1(), sprite.getV1());
-			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 1, 0, color, sprite.getU1(), sprite.getV0());
-			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 0, 0, color, sprite.getU0(), sprite.getV0());
-			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 0, 2, color, sprite.getU0(), sprite.getV1());
+			// start bottom left, go CCW
+			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 1, 0, color, sprite.getU0(), sprite.getV1());
+			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 0, 0, color, sprite.getU1(), sprite.getV1());
+			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 0, 2, color, sprite.getU1(), sprite.getV0());
+			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 1, 2, color, sprite.getU0(), sprite.getV0());
 		}
 
 		matrices.popPose();

@@ -10,7 +10,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -29,7 +28,7 @@ public record PortalGunShootContext(
 
 	public PortalGunShootContext(ServerPlayer player) {
 		// TODO: this probably should use something other than the player's name
-		this(player.getGameProfile().getName(), player.serverLevel(), player.getEyePosition(), player.getLookAngle(), Mth.wrapDegrees(player.getYRot() + 180));
+		this(player.getGameProfile().getName(), player.serverLevel(), player.getEyePosition(), player.getLookAngle(), player.getYRot());
 	}
 
 	public void shoot(Optional<String> pair, Polarity polarity, PortalSettings settings) {

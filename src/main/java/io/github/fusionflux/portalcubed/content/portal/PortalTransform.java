@@ -64,6 +64,6 @@ public final class PortalTransform {
 	}
 
 	public static Quaternionf rotate180(Quaternionf rotation) {
-		return rotation.rotateY(Mth.DEG_TO_RAD * 180, new Quaternionf());
+		return rotation.rotateZ(Mth.DEG_TO_RAD * 180, new Quaternionf());
 	}
 }

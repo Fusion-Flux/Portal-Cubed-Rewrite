@@ -35,8 +35,9 @@ public class RenderingUtils {
 		quadVertex(vertices, pose, light, 0, 0, color, 0, 0);
 		quadVertex(vertices, pose, light, 0, 1, color, 0, 1);
 	}
-	public static void quadVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, int light, float x, int y, int color, float textureU, float textureV) {
-		vertexConsumer.addVertex(pose, x, y, 0)
+
+	public static void quadVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, int light, float x, int z, int color, float textureU, float textureV) {
+		vertexConsumer.addVertex(pose, x, 0, z)
 				.setColor(color)
 				.setUv(textureU, textureV)
 				.setOverlay(OverlayTexture.NO_OVERLAY)
@@ -56,6 +57,11 @@ public class RenderingUtils {
 		renderLine(matrices, vertexConsumers, pos, to, color);
 	}
 
+	public static void renderPos(PoseStack matrices, MultiBufferSource buffers, Vec3 pos, float size, Color color) {
+		AABB box = AABB.ofSize(pos, size, size, size);
+		renderBox(matrices, buffers, box, color);
+	}
+
 	public static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, AABB box, Color color) {
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
 		ShapeRenderer.renderLineBox(matrices, vertices, box, color.r(), color.g(), color.b(), color.a());
@@ -71,12 +77,13 @@ public class RenderingUtils {
 	}
 
 	public static void renderPlane(PoseStack matrices, MultiBufferSource vertexConsumers, Plane plane, float size, Color color) {
-		renderQuad(matrices, vertexConsumers, Quad.create(plane, size), color);
-	}
-
-	public static void renderBoxAround(PoseStack matrices, MultiBufferSource vertexConsumers, Vec3 pos, double radius, Color color) {
-		AABB box = AABB.ofSize(pos, radius, radius, radius);
-		renderBox(matrices, vertexConsumers, box, color);
+		Quad quad = Quad.create(plane, size);
+		renderQuad(matrices, vertexConsumers, quad, color);
+		Vec3 normal = plane.normal();
+		renderVec(matrices, vertexConsumers, normal, quad.topLeft(), color);
+		renderVec(matrices, vertexConsumers, normal, quad.topRight(), color);
+		renderVec(matrices, vertexConsumers, normal, quad.bottomLeft(), color);
+		renderVec(matrices, vertexConsumers, normal, quad.bottomRight(), color);
 	}
 
 	public static void renderQuad(PoseStack matrices, MultiBufferSource vertexConsumers, Quad quad, Color color) {

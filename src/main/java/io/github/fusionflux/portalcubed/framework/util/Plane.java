@@ -8,28 +8,20 @@ import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
-public record Plane(Vector3f normal, Vector3f origin) {
+public record Plane(Vec3 normal, Vec3 origin) {
 	public static final StreamCodec<ByteBuf, Plane> CODEC = StreamCodec.composite(
-			ByteBufCodecs.VECTOR3F, Plane::normal,
-			ByteBufCodecs.VECTOR3F, Plane::origin,
+			Vec3.STREAM_CODEC, Plane::normal,
+			Vec3.STREAM_CODEC, Plane::origin,
 			Plane::new
 	);
 
-	private static final Vector3f scratchPos = new Vector3f();
-	private static final Vector3f scratchNormal = new Vector3f();
-
 	public boolean isInFront(Vec3 pos) {
-		Vector3f relativeCamPos = scratchPos.set(
-				pos.x - this.origin.x,
-				pos.y - this.origin.y,
-				pos.z - this.origin.z
-		);
-		return relativeCamPos.dot(this.normal) > 0;
+		Vec3 relative = pos.subtract(this.origin);
+		return relative.dot(this.normal) > 0;
 	}
 
 	public boolean isBehind(Vec3 pos) {
@@ -43,15 +35,11 @@ public record Plane(Vector3f normal, Vector3f origin) {
 
 	@Environment(EnvType.CLIENT)
 	public void getClipping(Matrix4fc view, Vec3 camPos, Vector4f dest) {
-		Vector3f camRelativeOrigin = scratchPos.set(
-				this.origin.x - camPos.x,
-				this.origin.y - camPos.y,
-				this.origin.z - camPos.z
-		);
+		Vec3 camRelativeOrigin = this.origin.subtract(camPos);
 		int facing = Mth.sign(this.normal.dot(camRelativeOrigin));
 
-		Vector3f normal = view.transformDirection(this.normal, scratchNormal).mul(facing);
-		float distance = -view.transformPosition(camRelativeOrigin).dot(normal);
+		Vector3f normal = view.transformDirection(this.normal.toVector3f()).mul(facing);
+		float distance = -view.transformPosition(camRelativeOrigin.toVector3f()).dot(normal);
 		dest.set(normal, distance);
 	}
 }

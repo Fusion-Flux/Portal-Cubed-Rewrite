@@ -83,13 +83,17 @@ public record PortalData(
 
 	public static Quaternionf normalToRotation(Direction normal, float yRot) {
 		Quaternionf rotation = normal.getRotation();
-		rotation.rotateX(Mth.DEG_TO_RAD * 270);
-		rotation.rotateY(Mth.DEG_TO_RAD * 180);
-		rotation.rotateZ(Mth.DEG_TO_RAD * switch (normal) {
-			case UP -> yRot;
-			case DOWN -> -yRot;
-			default -> 0;
-		});
+		// vanilla treats rotations like they're on the outside of a box, not the inside.
+		// the easiest way to handle this is to just 180 the yRot on horizontal axes.
+
+		if (normal == Direction.UP) {
+			rotation.rotateY(Mth.DEG_TO_RAD * -yRot);
+		} else if (normal == Direction.DOWN) {
+			rotation.rotateY(Mth.DEG_TO_RAD * yRot);
+		} else {
+			rotation.rotateY(Mth.DEG_TO_RAD * 180);
+		}
+
 		return rotation;
 	}
 }

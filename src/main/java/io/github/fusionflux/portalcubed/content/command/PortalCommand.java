@@ -272,14 +272,19 @@ public class PortalCommand {
 		if (hasArgument(ctx, "facing")) {
 			Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
 			float rot = getOptional(ctx, "rotation", FloatArgumentType::getFloat, 0f);
-			return PortalData.normalToRotation(facing, 0)
-					.rotateZ(Mth.DEG_TO_RAD * rot);
+			return PortalData.normalToRotation(facing, rot);
 		} else if (hasArgument(ctx, "rotation")) {
 			Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
 			Vec2 rotations = coords.getRotation(ctx.getSource());
+			// x is pitch, y is yaw
 			return new Quaternionf()
-					.rotateX(Mth.DEG_TO_RAD * rotations.x)
-					.rotateY(Mth.DEG_TO_RAD * rotations.y);
+					// a plain quaternion is UP, rotate to face south
+					// spin it around first though, so it's not upside down
+					.rotateY(Mth.DEG_TO_RAD * 180)
+					.rotateX(Mth.DEG_TO_RAD * -90)
+					// apply actual rotation
+					.rotateZ(Mth.DEG_TO_RAD * rotations.y)
+					.rotateX(Mth.DEG_TO_RAD * -rotations.x);
 		} else {
 			return QuaternionArgumentType.getQuaternion(ctx, "quaternion");
 		}

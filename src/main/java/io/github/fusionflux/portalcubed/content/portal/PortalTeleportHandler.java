@@ -26,7 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 public class PortalTeleportHandler {
-	public static final double MIN_OUTPUT_VELOCITY = 0.5;
+	public static final double MIN_OUTPUT_VELOCITY = 0.25;
 	public static final double DISTANCE_TO_STEP_BACK = new Vec3(
 			1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION,
 			1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION,

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -37,6 +39,13 @@ public interface PortalCubedStreamCodecs {
 			(miss, location, direction, blockPos, isInside) ->
 					miss ? BlockHitResult.miss(location, direction, blockPos) :
 							new BlockHitResult(location, direction, blockPos, isInside)
+	);
+
+	StreamCodec<ByteBuf, Vector3fc> VEC3FC = StreamCodec.composite(
+			ByteBufCodecs.FLOAT, Vector3fc::x,
+			ByteBufCodecs.FLOAT, Vector3fc::y,
+			ByteBufCodecs.FLOAT, Vector3fc::z,
+			Vector3f::new
 	);
 
 	// from EntityDataSerializers
