@@ -111,6 +111,9 @@ loom {
 
         configureEach {
             property("mixin.debug.export", "true")
+            vmArg("-XX:+AllowEnhancedClassRedefinition")
+            vmArg("-XX:+IgnoreUnrecognizedVMOptions")
+
             property("fabric.game_test.command", "true")
             property("fabric-tag-conventions-v2.missingTagTranslationWarning", "SILENCED")
             property("fabric-tag-conventions-v1.legacyTagWarning", "VERBOSE")

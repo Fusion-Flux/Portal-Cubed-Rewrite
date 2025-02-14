@@ -158,14 +158,12 @@ public class PortalRenderer {
 		return matrices.last();
 	}
 
-	private static void renderPortalStencil(PortalInstance portal, ResourceLocation texture, PoseStack.Pose pose, Camera camera) {
+	private static void renderPortalStencil(ResourceLocation texture, PoseStack.Pose pose) {
 		// Setup state
 		BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 		RenderSystem.setShader(CoreShaders.POSITION_TEX);
 		RenderSystem.setShaderTexture(0, texture);
-		boolean clampDepth = portal.renderBounds.contains(camera.getPosition());
-		if (clampDepth)
-			GL11.glEnable(ARBDepthClamp.GL_DEPTH_CLAMP);
+		GL11.glEnable(ARBDepthClamp.GL_DEPTH_CLAMP);
 		RenderSystem.colorMask(false, false, false, false);
 
 		// Build quad
@@ -178,8 +176,7 @@ public class PortalRenderer {
 		BufferUploader.drawWithShader(builder.buildOrThrow());
 
 		// Cleanup state
-		if (clampDepth)
-			GL11.glDisable(ARBDepthClamp.GL_DEPTH_CLAMP);
+		GL11.glDisable(ARBDepthClamp.GL_DEPTH_CLAMP);
 		RenderSystem.colorMask(true, true, true, true);
 	}
 
@@ -206,7 +203,7 @@ public class PortalRenderer {
 		RenderSystem.enableDepthTest();
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderingUtils.setupStencilForWriting(recursion, true);
-		renderPortalStencil(portal, stencilTexture, pose, camera);
+		renderPortalStencil(stencilTexture, pose);
 		RenderSystem.depthMask(true);
 
 		// Backup old state
@@ -256,7 +253,7 @@ public class PortalRenderer {
 		RenderingUtils.setupStencilForWriting(recursion + 1, false);
 		RenderSystem.depthFunc(GL11.GL_ALWAYS);
 		RenderSystem.colorMask(false, false, false, false);
-		renderPortalStencil(portal, stencilTexture, pose, camera);
+		renderPortalStencil(stencilTexture, pose);
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderSystem.colorMask(true, true, true, true);
 
