@@ -4,7 +4,9 @@ import java.util.Objects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.framework.util.Plane;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
@@ -43,6 +45,12 @@ public class EntityDebugRendering {
 				if (serverEntity != null) {
 					render(serverEntity, matrices, vertices, Color.GREEN, Color.CYAN);
 					RenderingUtils.renderVec(matrices, vertices, serverEntity.getViewVector(1), serverEntity.getEyePosition(1), Color.RED);
+				}
+
+				TeleportProgressTracker tracker = entity.getTeleportProgressTracker();
+				if (tracker.isTracking()) {
+					Plane threshold = tracker.currentTeleport().threshold;
+					RenderingUtils.renderPlane(matrices, vertices, threshold, 3f, Color.CYAN);
 				}
 			}
 		}

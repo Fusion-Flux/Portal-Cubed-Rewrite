@@ -35,8 +35,6 @@ public record PortalTeleportPacket(int entityId, List<TrackedTeleport> teleports
 		Entity entity = player.clientLevel.getEntity(this.entityId);
 		if (entity != null) {
 			entity.getTeleportProgressTracker().addTeleports(this.teleports);
-			System.out.println("client-side transform:");
-			this.teleports.getFirst().transform.print();
 		} else {
 			PortalCubed.LOGGER.warn("Received portal teleport for unknown entity: {}", this.entityId);
 		}

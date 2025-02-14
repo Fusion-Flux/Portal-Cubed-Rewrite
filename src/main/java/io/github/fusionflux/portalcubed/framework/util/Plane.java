@@ -20,8 +20,8 @@ public record Plane(Vec3 normal, Vec3 origin) {
 	);
 
 	public boolean isInFront(Vec3 pos) {
-		Vec3 relative = pos.subtract(this.origin);
-		return relative.dot(this.normal) > 0;
+		Vec3 to = this.origin.vectorTo(pos);
+		return to.dot(this.normal) > 0;
 	}
 
 	public boolean isBehind(Vec3 pos) {

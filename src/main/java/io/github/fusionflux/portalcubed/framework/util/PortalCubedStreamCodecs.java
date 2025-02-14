@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
@@ -46,6 +48,14 @@ public interface PortalCubedStreamCodecs {
 			ByteBufCodecs.FLOAT, Vector3fc::y,
 			ByteBufCodecs.FLOAT, Vector3fc::z,
 			Vector3f::new
+	);
+
+	StreamCodec<ByteBuf, Quaternionfc> QUATERNIONFC = StreamCodec.composite(
+			ByteBufCodecs.FLOAT, Quaternionfc::x,
+			ByteBufCodecs.FLOAT, Quaternionfc::y,
+			ByteBufCodecs.FLOAT, Quaternionfc::z,
+			ByteBufCodecs.FLOAT, Quaternionfc::w,
+			Quaternionf::new
 	);
 
 	// from EntityDataSerializers

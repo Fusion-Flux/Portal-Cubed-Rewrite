@@ -16,6 +16,7 @@ public record EntityState(Vec3 pos, float pitch, float yaw) {
 
 	public void apply(Entity entity) {
 		entity.moveTo(this.pos, this.yaw, this.pitch);
+		entity.cancelLerp();
 	}
 
 	public static EntityState capture(Entity entity) {

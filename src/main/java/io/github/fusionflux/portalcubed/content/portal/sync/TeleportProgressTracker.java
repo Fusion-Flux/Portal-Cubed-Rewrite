@@ -16,7 +16,7 @@ public class TeleportProgressTracker {
 	 * Needs to be greater than the lerp steps for entities, which is 3 for everything as of 1.21.4.
 	 * Also needs some spare time, since the entity is usually slightly farther behind.
 	 */
-	public static final int TIMEOUT_TICKS = 5;
+	public static final int TIMEOUT_TICKS = 6;
 
 	private final Entity entity;
 	private final Deque<TrackedTeleport> teleports;
@@ -47,9 +47,11 @@ public class TeleportProgressTracker {
 		Iterator<TrackedTeleport> itr = this.teleports.iterator();
 		while (itr.hasNext()) {
 			TrackedTeleport teleport = itr.next();
+			Vec3 to = teleport.threshold.origin().vectorTo(center);
+			double dot = to.dot(teleport.threshold.normal());
 			if (teleport.isDone(center)) {
-				System.out.println("teleport done");
 				itr.remove();
+				System.out.println("teleport done; " + this.teleports);
 				teleport.endState.apply(this.entity);
 //				System.out.println("teleported to " + teleport.endState.pos());
 			} else {
@@ -71,7 +73,7 @@ public class TeleportProgressTracker {
 	}
 
 	private void abort() {
-//		System.out.println("aborted tracking");
+		System.out.println("aborted tracking");
 		this.teleports.clear();
 		RequestEntitySyncPacket packet = new RequestEntitySyncPacket(this.entity);
 //		PortalCubedPackets.sendToServer(packet);

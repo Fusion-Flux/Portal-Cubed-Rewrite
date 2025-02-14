@@ -122,9 +122,7 @@ public class PortalTeleportHandler {
 
 		if (!entity.level().isClientSide) {
 			// sync to clients
-			PortalTransform transform = new PortalTransform(result.in(), result.out());
-			System.out.println("server-side transform:");
-			transform.print();
+			PortalTransform transform = new PortalTransform(result.out(), result.in());
 			TrackedTeleport teleport = new TrackedTeleport(result.in().plane, transform, EntityState.capture(entity));
 			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), List.of(teleport));
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);

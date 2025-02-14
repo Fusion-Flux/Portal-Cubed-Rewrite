@@ -37,6 +37,11 @@ public abstract class LerpableEntity extends Entity {
 	}
 
 	@Override
+	public void cancelLerp() {
+		this.lerpSteps = 0;
+	}
+
+	@Override
 	public void lerpTo(double x, double y, double z, float yaw, float pitch, int steps) {
 		this.lerpX = x;
 		this.lerpY = y;
