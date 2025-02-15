@@ -18,6 +18,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
+import io.github.fusionflux.portalcubed.framework.entity.EntityTickWrapper;
 import io.github.fusionflux.portalcubed.framework.extension.ClientLevelExt;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
@@ -47,11 +48,7 @@ public abstract class ClientLevelMixin implements ClientLevelExt {
 
 	@WrapOperation(method = "tickNonPassenger", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))
 	private void disintegrationTick(Entity instance, Operation<Void> original) {
-		if (!instance.pc$disintegrating()) {
-			original.call(instance);
-		} else {
-			instance.pc$disintegrateTick();
-		}
+		EntityTickWrapper.handle(instance, original);
 	}
 
 	@Override

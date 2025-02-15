@@ -4,9 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -18,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -44,9 +43,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			)
 	)
 	private void moveThroughPortals(Entity self, double x, double y, double z, Operation<Void> original) {
-		if (!PortalTeleportHandler.handle(self, x, y, z)) {
-			original.call(self, x, y, z);
-		}
+		Vec3 oldPos = self.position();
+		original.call(self, x, y, z);
+		PortalTeleportHandler.handle(self, oldPos);
 	}
 
 	@Redirect(
@@ -83,11 +82,6 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@Override
 	public TeleportProgressTracker getTeleportProgressTracker() {
 		return this.teleportProgressTracker;
-	}
-
-	@Inject(method = "tick", at = @At("TAIL"))
-	private void tickTeleportTracker(CallbackInfo ci) {
-		this.getTeleportProgressTracker().tick();
 	}
 
 	@WrapOperation(

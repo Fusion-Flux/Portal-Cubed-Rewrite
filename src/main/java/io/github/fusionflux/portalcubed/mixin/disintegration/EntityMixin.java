@@ -22,6 +22,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrateEffect;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.framework.entity.EntityTickWrapper;
 import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
@@ -209,11 +210,7 @@ public abstract class EntityMixin implements DisintegrationExt {
 
 	@WrapOperation(method = "rideTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))
 	private void disintegrationTick(Entity instance, Operation<Void> original) {
-		if (!this.pc$disintegrating()) {
-			original.call(this);
-		} else {
-			this.pc$disintegrateTick();
-		}
+		EntityTickWrapper.handle(instance, original);
 	}
 
 	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))

@@ -5,7 +5,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -26,8 +31,7 @@ public class TeleportProgressTracker {
 		this.teleports = new LinkedList<>();
 	}
 
-	// called by the entity at the end of every tick
-	public void tick() {
+	public void afterTick() {
 		if (this.teleports.isEmpty())
 			return;
 
@@ -49,11 +53,11 @@ public class TeleportProgressTracker {
 			TrackedTeleport teleport = itr.next();
 			Vec3 to = teleport.threshold.origin().vectorTo(center);
 			double dot = to.dot(teleport.threshold.normal());
+			DebugRendering.addPos(10, center, Color.YELLOW);
 			if (teleport.isDone(center)) {
 				itr.remove();
-				System.out.println("teleport done; " + this.teleports);
-				teleport.endState.apply(this.entity);
-//				System.out.println("teleported to " + teleport.endState.pos());
+				System.out.println("teleport done; left: " + this.teleports.size());
+				teleport.transform.apply(this.entity);
 			} else {
 				break;
 			}
@@ -64,18 +68,15 @@ public class TeleportProgressTracker {
 		this.teleports.addAll(teleports);
 	}
 
-	public boolean isTracking() {
-		return !this.teleports.isEmpty();
-	}
-
+	@Nullable
 	public TrackedTeleport currentTeleport() {
-		return this.teleports.getFirst();
+		return this.teleports.peekFirst();
 	}
 
 	private void abort() {
 		System.out.println("aborted tracking");
 		this.teleports.clear();
 		RequestEntitySyncPacket packet = new RequestEntitySyncPacket(this.entity);
-//		PortalCubedPackets.sendToServer(packet);
+		PortalCubedPackets.sendToServer(packet);
 	}
 }

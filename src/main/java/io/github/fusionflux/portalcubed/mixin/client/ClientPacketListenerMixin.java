@@ -16,6 +16,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.util.Color;
@@ -32,13 +33,7 @@ public class ClientPacketListenerMixin {
 			ambientSoundEmitter.playAmbientSound();
 	}
 
-	// various packets need to be reinterpreted when teleporting through a portal
-	// ClientboundTeleportEntityPacket (when local)
-	// ClientboundMoveEntityPacket.Pos
-	// ClientboundMoveEntityPacket.Rot
-	// ClientboundMoveEntityPacket.PosRot
-	// ClientboundSetEntityMotionPacket
-	// ClientboundRotateHeadPacket
+	// various packets need to be reinterpreted when a teleport is currently being tracked
 
 	@Inject(
 			method = "handleEntityPositionSync",
@@ -134,6 +129,8 @@ public class ClientPacketListenerMixin {
 	@Nullable
 	private static PortalTransform getPortalTransform(Entity entity) {
 		TeleportProgressTracker tracker = entity.getTeleportProgressTracker();
-		return tracker.isTracking() ? tracker.currentTeleport().transform : null;
+		// inverse is used since server positions (post-teleport) need to be teleported backwards to where the client should see them
+		TrackedTeleport teleport = tracker.currentTeleport();
+		return teleport != null ? teleport.transform.inverse : null;
 	}
 }

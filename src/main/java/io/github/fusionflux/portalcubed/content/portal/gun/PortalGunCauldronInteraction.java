@@ -27,6 +27,5 @@ public record PortalGunCauldronInteraction(CauldronInteraction doFirst) implemen
 		}
 
 		return InteractionResult.SUCCESS;
-
 	}
 }

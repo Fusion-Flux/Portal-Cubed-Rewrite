@@ -4,8 +4,6 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.core.Direction;
-import net.minecraft.core.Rotations;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -91,20 +89,5 @@ public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
 
 	public Vec3 teleportRelativeVec(Vec3 vec) {
 		return PortalTeleportHandler.teleportRelativeVecBetween(vec, in, out);
-	}
-
-	public Rotations teleportRotations(Rotations rotations) {
-		return this.teleportRotations(rotations.getX(), rotations.getY(), rotations.getZ());
-	}
-
-	public Rotations teleportRotations(float xRot, float yRot, float zRot) {
-		return PortalTeleportHandler.teleportRotations(xRot, yRot, zRot, this.in, this.out);
-	}
-
-	/**
-	 * Returns wrapped degrees
-	 */
-	public float teleportRotation(float degrees, Direction.Axis axis) {
-		return PortalTeleportHandler.teleportRotation(degrees, axis, this.in, this.out);
 	}
 }

@@ -56,6 +56,7 @@
     "utils.accessors.CubeVoxelShapeAccessor",
     "utils.accessors.EntityAccessor",
     "utils.accessors.LivingEntityAccessor",
+    "utils.accessors.OldMinecartBehaviorAccessor",
     "utils.accessors.PufferfishAccessor",
     "utils.accessors.UseOnContextAccessor"
   ],

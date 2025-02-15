@@ -2,8 +2,10 @@ package io.github.fusionflux.portalcubed.framework.entity;
 
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.AbstractBoatAccessor;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.LivingEntityAccessor;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.OldMinecartBehaviorAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.Level;
 
 // mostly copied from Boat
@@ -77,29 +79,34 @@ public abstract class LerpableEntity extends Entity {
 	}
 
 	public static int getLerpSteps(Entity entity) {
-		if (entity instanceof LivingEntityAccessor living) {
-			return living.getLerpSteps();
-		} else if (entity instanceof LerpableEntity lerpable) {
-			return lerpable.lerpSteps;
-		} else if (entity instanceof AbstractBoatAccessor boat) {
-			return boat.getLerpSteps();
-//		} else if (entity instanceof AbstractMinecartAccessor minecart) {
-//			return minecart.getLerpSteps();
-		} else {
-			return 0;
-		}
+		return switch (entity) {
+			case LivingEntityAccessor living -> living.getLerpSteps();
+			case LerpableEntity lerpable -> lerpable.lerpSteps;
+			case AbstractBoatAccessor boat -> boat.getLerpSteps();
+			case AbstractMinecart minecart -> {
+				if (minecart.getBehavior() instanceof OldMinecartBehaviorAccessor oldBehavior) {
+					yield oldBehavior.getLerpSteps();
+				} else {
+					throw new RuntimeException("New minecart behavior is weird");
+				}
+			}
+			default -> 1;
+		};
 	}
 
 	public static void setLerpSteps(Entity entity, int steps) {
-		if (entity instanceof LivingEntityAccessor living) {
-			living.setLerpSteps(steps);
-		} else if (entity instanceof LerpableEntity lerpable) {
-			lerpable.lerpSteps = steps;
-		} else if (entity instanceof AbstractBoatAccessor boat) {
-			boat.setLerpSteps(steps);
+		switch (entity) {
+			case LivingEntityAccessor living -> living.setLerpSteps(steps);
+			case LerpableEntity lerpable -> lerpable.lerpSteps = steps;
+			case AbstractBoatAccessor boat -> boat.setLerpSteps(steps);
+			case AbstractMinecart minecart -> {
+				if (minecart.getBehavior() instanceof OldMinecartBehaviorAccessor oldBehavior) {
+					oldBehavior.setLerpSteps(steps);
+				} else {
+					throw new RuntimeException("New minecart behavior is weird");
+				}
+			}
+			default -> {}
 		}
-//		} else if (entity instanceof AbstractMinecartAccessor minecart) {
-//			minecart.setLerpSteps(steps);
-//		}
 	}
 }
