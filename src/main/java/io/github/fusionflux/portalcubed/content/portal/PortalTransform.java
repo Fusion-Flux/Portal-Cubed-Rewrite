@@ -66,10 +66,15 @@ public final class PortalTransform {
 	}
 
 	public Rotations apply(Rotations rotations) {
-		return this.apply(rotations.getX(), rotations.getY());
+		return this.apply(rotations.getX(), rotations.getY(), rotations.getZ());
 	}
 
 	public Rotations apply(float xRot, float yRot) {
+		return this.apply(xRot, yRot, 0);
+	}
+
+	public Rotations apply(float xRot, float yRot, float zRot) {
+		// TODO: add zRot
 		Quaternionf rot = new Quaternionf()
 				.rotationYXZ((180 - yRot) * Mth.DEG_TO_RAD, -xRot * Mth.DEG_TO_RAD, 0)
 				.premul(this.inRot.invert(new Quaternionf()))

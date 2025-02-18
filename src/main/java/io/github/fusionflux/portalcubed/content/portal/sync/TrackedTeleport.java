@@ -1,8 +1,11 @@
 package io.github.fusionflux.portalcubed.content.portal.sync;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import io.github.fusionflux.portalcubed.content.portal.PortalTransform;
 import io.github.fusionflux.portalcubed.framework.util.Plane;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.phys.Vec3;
 
@@ -10,20 +13,27 @@ public final class TrackedTeleport {
 	public static final StreamCodec<ByteBuf, TrackedTeleport> CODEC = StreamCodec.composite(
 			Plane.CODEC, teleport -> teleport.threshold,
 			PortalTransform.CODEC, teleport -> teleport.transform,
-			EntityState.CODEC, teleport -> teleport.endState,
+			ByteBufCodecs.VAR_INT, teleport -> teleport.id,
 			TrackedTeleport::new
 	);
 
+	private static final AtomicInteger idGenerator = new AtomicInteger();
+
 	public final Plane threshold;
 	public final PortalTransform transform;
-	public final EntityState endState;
+
+	private final int id;
 
 	private int ticksLeft = TeleportProgressTracker.TIMEOUT_TICKS;
 
-	public TrackedTeleport(Plane threshold, PortalTransform transform, EntityState endState) {
+	public TrackedTeleport(Plane threshold, PortalTransform transform) {
+		this(threshold, transform, idGenerator.getAndIncrement());
+	}
+
+	private TrackedTeleport(Plane threshold, PortalTransform transform, int id) {
 		this.threshold = threshold;
 		this.transform = transform;
-		this.endState = endState;
+		this.id = id;
 	}
 
 	public void tick() {
@@ -36,5 +46,10 @@ public final class TrackedTeleport {
 
 	public boolean hasTimedOut() {
 		return this.ticksLeft <= 0;
+	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(this.id) + '(' + this.ticksLeft + ')';
 	}
 }

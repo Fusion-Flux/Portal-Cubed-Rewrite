@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
-import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
@@ -68,8 +68,7 @@ public class PortalTeleportHandler {
 
 		if (!entity.level().isClientSide) {
 			// sync to clients
-			TrackedTeleport teleport = new TrackedTeleport(result.in().plane, transform, EntityState.capture(entity));
-			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), List.of(teleport));
+			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), buildTeleports(result));
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);
 		}
 	}
@@ -110,6 +109,18 @@ public class PortalTeleportHandler {
 				result.pair().polarityOf(result.in()),
 				result.hasNext() ? buildTeleportInfo(result.next()) : null
 		);
+	}
+
+	private static List<TrackedTeleport> buildTeleports(PortalHitResult result) {
+		List<TrackedTeleport> teleports = new ArrayList<>();
+
+		while (result != null) {
+			PortalTransform transform = new PortalTransform(result.in(), result.out());
+			teleports.add(new TrackedTeleport(result.in().plane, transform));
+			result = result.nextOrNull();
+		}
+
+		return teleports;
 	}
 
 	public static boolean cannotTeleport(Entity entity) {
