@@ -77,6 +77,12 @@ public class PortalTeleportHandler {
 		return entity.getBoundingBox().getCenter();
 	}
 
+	public static Vec3 oldCenterOf(Entity entity) {
+		Vec3 centerNow = centerOf(entity);
+		Vec3 posToCenter = entity.position().vectorTo(centerNow);
+		return entity.oldPosition().add(posToCenter);
+	}
+
 	private static boolean theHorrors(PortalHitResult result) {
 		if (result.getLast() == PortalHitResult.OVERFLOW_MARKER) {
 			// skip to last 10, toString can overflow

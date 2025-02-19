@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import org.jetbrains.annotations.Nullable;
+import org.joml.Intersectiond;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -31,6 +33,20 @@ public record Plane(Vec3 normal, Vec3 origin) {
 	@Environment(EnvType.CLIENT)
 	public boolean isInFront(Camera camera) {
 		return this.isInFront(camera.getPosition());
+	}
+
+	@Nullable
+	public Vec3 clip(Vec3 from, Vec3 to) {
+		Vec3 direction = from.vectorTo(to).normalize();
+		double distance = Intersectiond.intersectRayPlane(
+				from.x, from.y, from.z,
+				direction.x, direction.y, direction.z,
+				this.origin.x, this.origin.y, this.origin.z,
+				this.normal.x, this.normal.y, this.normal.z,
+				1e-5
+		);
+
+		return distance == -1 ? null : from.add(direction.scale(distance));
 	}
 
 	@Environment(EnvType.CLIENT)

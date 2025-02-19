@@ -4,12 +4,15 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
 import net.minecraft.core.BlockPos;
@@ -23,15 +26,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements PortalTeleportationExt {
 	@Shadow
-	public int tickCount;
+	public abstract int getId();
 
 	@Shadow
-	public abstract int getId();
+	public abstract float getEyeHeight();
+
+	@Unique
+	private final TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
 
 	@Unique
 	private int portalCollisionRecursionDepth;
-	@Unique
-	private TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
 	@Unique
 	private boolean isNextTeleportNonLocal;
 
@@ -97,5 +101,13 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	private void onTeleport(Entity instance, Operation<Void> original) {
 		original.call(instance);
 		this.pc$setNextTeleportNonLocal(true);
+	}
+
+	@Inject(method = "getLightProbePosition", at = @At("HEAD"), cancellable = true)
+	private void probeCorrectLightWhileTeleporting(float partialTicks, CallbackInfoReturnable<Vec3> cir) {
+		EntityState override = this.teleportProgressTracker.getEntityStateOverride(partialTicks);
+		if (override != null) {
+			cir.setReturnValue(override.pos().add(0, this.getEyeHeight(), 0));
+		}
 	}
 }

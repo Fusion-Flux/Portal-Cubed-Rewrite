@@ -111,9 +111,11 @@
     "client.TextureSlots_ResolverMixin",
     "client.Variant_DeserializerMixin",
     "client.VariantMixin",
+    "portals.client.EntityRendererMixin",
     "portals.client.GuiMixin",
     "portals.client.ItemInHandRendererMixin",
     "portals.client.ItemModelResolverMixin",
+    "portals.client.LevelRendererMixin",
     "portals.client.MinecraftMixin"
   ],
   "injectors": {
