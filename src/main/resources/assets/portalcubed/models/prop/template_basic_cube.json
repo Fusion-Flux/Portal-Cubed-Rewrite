@@ -3,8 +3,7 @@
 	"texture_size": [32, 16],
 	"textures": {
 		"particle": "#cube",
-		"cube": "#cube",
-		"ring": "#ring"
+		"cube": "#cube"
 	},
 	"elements": [
 		{
@@ -21,21 +20,8 @@
 			}
 		},
 		{
-			"from": [3, 0.75, 3],
-			"to": [13, 10.75, 13],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
-			"faces": {
-				"north": {"uv": [5, 0, 10, 10], "texture": "#ring"},
-				"east": {"uv": [5, 0, 10, 10], "texture": "#ring"},
-				"south": {"uv": [5, 0, 10, 10], "texture": "#ring"},
-				"west": {"uv": [5, 0, 10, 10], "texture": "#ring"},
-				"up": {"uv": [5, 0, 10, 10], "texture": "#ring"},
-				"down": {"uv": [5, 0, 10, 10], "texture": "#ring"}
-			}
-		},
-		{
-			"from": [2.5, 0.25, 2.5],
-			"to": [13.5, 11.25, 13.5],
+			"from": [2.49, 0.24, 2.49],
+			"to": [13.51, 11.26, 13.51],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 5, 10], "texture": "#cube"},
@@ -48,8 +34,8 @@
 		},
 		{
 			"name": "cube inverted",
-			"from": [13.5, 11.25, 13.5],
-			"to": [2.5, 0.25, 2.5],
+			"from": [13.51, 11.26, 13.51],
+			"to": [2.49, 0.24, 2.49],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
 			"faces": {
 				"north": {"uv": [0, 10, 5, 0], "texture": "#cube"},
@@ -58,33 +44,6 @@
 				"west": {"uv": [0, 10, 5, 0], "texture": "#cube"},
 				"up": {"uv": [5, 0, 0, 10], "texture": "#cube"},
 				"down": {"uv": [5, 0, 0, 10], "texture": "#cube"}
-			}
-		},
-		{
-			"from": [6.07322, 3.57322, 2.95],
-			"to": [10.07322, 7.57322, 13.05],
-			"rotation": {"angle": -45, "axis": "z", "origin": [8.25, 5.75, 8.05]},
-			"faces": {
-				"north": {"uv": [10.5, 0, 12.5, 4], "texture": "#cube"},
-				"south": {"uv": [10.5, 0, 12.5, 4], "rotation": 270, "texture": "#cube"}
-			}
-		},
-		{
-			"from": [2.95, 3.75, 6],
-			"to": [13.05, 7.75, 10],
-			"rotation": {"angle": 45, "axis": "x", "origin": [8, 5.75, 8]},
-			"faces": {
-				"east": {"uv": [10.5, 0, 12.5, 4], "texture": "#cube"},
-				"west": {"uv": [10.5, 0, 12.5, 4], "rotation": 270, "texture": "#cube"}
-			}
-		},
-		{
-			"from": [6, 0.7, 6],
-			"to": [10, 10.8, 10],
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 5.75, 8]},
-			"faces": {
-				"up": {"uv": [10.5, 0, 12.5, 4], "rotation": 270, "texture": "#cube"},
-				"down": {"uv": [10.5, 0, 12.5, 4], "rotation": 180, "texture": "#cube"}
 			}
 		}
 	],
