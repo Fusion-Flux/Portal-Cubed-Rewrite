@@ -4,7 +4,10 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
@@ -12,7 +15,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -25,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class RenderingUtils {
 	private static final Matrix4f MATRIX = new Matrix4f();
 	private static final Matrix4f IDENTITY_MATRIX = new Matrix4f();
-	private static VertexBuffer FULLSCREEN_QUAD = null;
+	private static VertexBuffer fullscreenQuadBuffer = null;
 
 	// mostly yoinked from DragonFireballRenderer
 	public static void renderQuad(PoseStack matrices, VertexConsumer vertices, int light, int color) {
@@ -136,21 +138,26 @@ public class RenderingUtils {
 	}
 
 	public static void renderFullScreenQuad(float red, float green, float blue) {
-		if (FULLSCREEN_QUAD == null) {
-			FULLSCREEN_QUAD = VertexBuffer.uploadStatic(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR, builder -> {
-				builder.addVertex(-1, -1, 0).setColor(0xFFFFFFFF);
-				builder.addVertex(1, -1, 0).setColor(0xFFFFFFFF);
-				builder.addVertex(1, 1, 0).setColor(0xFFFFFFFF);
-				builder.addVertex(-1, 1, 0).setColor(0xFFFFFFFF);
-			});
+		if (fullscreenQuadBuffer == null) {
+			try (ByteBufferBuilder byteBufferBuilder = new ByteBufferBuilder(DefaultVertexFormat.POSITION_COLOR.getVertexSize() * 4)) {
+				BufferBuilder builder = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+				builder.addVertex(-1, -1, 0).setColor(-1);
+				builder.addVertex(1, -1, 0).setColor(-1);
+				builder.addVertex(1, 1, 0).setColor(-1);
+				builder.addVertex(-1, 1, 0).setColor(-1);
+				fullscreenQuadBuffer = new VertexBuffer(BufferUsage.STATIC_WRITE);
+				fullscreenQuadBuffer.bind();
+				fullscreenQuadBuffer.upload(builder.buildOrThrow());
+				VertexBuffer.unbind();
+			}
 		}
 
-		FULLSCREEN_QUAD.bind();
 		RenderSystem.setShaderColor(red, green, blue, 1f);
-		GL11.glDisable(GL11.GL_CLIP_PLANE0);
-		FULLSCREEN_QUAD.drawWithShader(IDENTITY_MATRIX, IDENTITY_MATRIX, Minecraft.getInstance().getShaderManager().getProgram(CoreShaders.POSITION_COLOR));
-		GL11.glEnable(GL11.GL_CLIP_PLANE0);
+
+		fullscreenQuadBuffer.bind();
+		fullscreenQuadBuffer.drawWithShader(IDENTITY_MATRIX, IDENTITY_MATRIX, RenderSystem.setShader(CoreShaders.POSITION_COLOR));
 		VertexBuffer.unbind();
+
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}
 }

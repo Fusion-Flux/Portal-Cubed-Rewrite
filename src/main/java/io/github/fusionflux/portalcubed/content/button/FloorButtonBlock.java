@@ -42,7 +42,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class FloorButtonBlock extends AbstractMultiBlock {
+public class
+FloorButtonBlock extends AbstractMultiBlock {
 	public static final MapCodec<FloorButtonBlock> CODEC = simpleCodec(FloorButtonBlock::new);
 
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);

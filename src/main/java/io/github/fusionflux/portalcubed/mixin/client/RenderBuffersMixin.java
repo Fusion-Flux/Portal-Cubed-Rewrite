@@ -14,11 +14,14 @@ import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationRenderer;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
+import io.github.fusionflux.portalcubed.framework.render.SimpleBufferSource;
 import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.client.renderer.RenderType;
 
 @Mixin(RenderBuffers.class)
 public class RenderBuffersMixin implements RenderBuffersExt {
+	@Unique
+	private SimpleBufferSource crossPortalBufferSource;
 	@Unique
 	private DisintegrationRenderer.BufferSource disintegratingBufferSource;
 	@Unique
@@ -27,8 +30,14 @@ public class RenderBuffersMixin implements RenderBuffersExt {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(CallbackInfo ci, @Local(ordinal = 0) SequencedMap<RenderType, ByteBufferBuilder> buffers) {
 		Set<RenderType> renderTypes = buffers.keySet();
+		this.crossPortalBufferSource = new SimpleBufferSource(renderTypes);
 		this.disintegratingBufferSource = new DisintegrationRenderer.BufferSource(renderTypes);
 		this.disintegratingEmissiveBufferSource = new DisintegrationRenderer.BufferSource(renderTypes);
+	}
+
+	@Override
+	public SimpleBufferSource pc$crossPortalBufferSource() {
+		return this.crossPortalBufferSource;
 	}
 
 	@Override

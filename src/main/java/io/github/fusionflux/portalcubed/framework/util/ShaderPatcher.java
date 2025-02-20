@@ -8,6 +8,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import org.joml.Vector4f;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.ShaderProgramConfig;
@@ -20,6 +22,7 @@ public class ShaderPatcher {
 	public static final ShaderProgramConfig.Uniform DISINTEGRATION_COLOR_MODIFIER_UNIFORM = new ShaderProgramConfig.Uniform(
 			PortalCubed.ID + "_DisintegrationColorModifier", "float", 4, List.of(1f, 1f, 1f, 1f)
 	);
+	public static final Vector4f CLIPPING_PLANE = new Vector4f(0, 0, 0, 1);
 
 	private static final String PROJECTION_MATRIX_PLACEHOLDER = "{projectionMatrix}";
 	private static final String CLIPPING_INJECTION = String.format("    gl_ClipDistance[0] = dot(%s.xyz, (inverse(%s) * gl_Position).xyz) + %1$1s.w;\n", CLIPPING_PLANE_UNIFORM_NAME, PROJECTION_MATRIX_PLACEHOLDER);
