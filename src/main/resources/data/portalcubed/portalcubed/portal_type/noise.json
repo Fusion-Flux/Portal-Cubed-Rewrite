@@ -1,10 +1,9 @@
 {
   "name": {
-    "translate": "portal_type.portalcubed.phone"
+    "translate": "portal_type.portalcubed.noise"
   },
-  "default_primary_color": -1,
-  "default_secondary_color": 12105912,
-  "weight": 270,
+  "default_primary_color": 29154,
+  "default_secondary_color": 14380292,
   "sounds": {
     "primary": {
       "open": "portalcubed:portal_type.default.open.primary",
@@ -22,39 +21,21 @@
     }
   },
   "textures": {
-    "closed": [
-      {
-        "texture": "portalcubed:portals/phone/phone",
-        "tint": true
-      },
-      {
-        "texture": "portalcubed:portals/phone/phone",
-        "tint": true,
-        "offset": 0.01
-      },
-      {
-        "texture": "portalcubed:portals/phone/phone_overlay",
-        "tint": false,
-        "offset": 0.01
-      }
-    ],
     "open": [
       {
-        "texture": "portalcubed:portals/phone/phone",
-        "tint": true
-      },
-      {
-        "texture": "portalcubed:portals/phone/phone",
+        "texture": "portalcubed:portals/noise/noise_open",
         "tint": true,
-        "offset": 0.01
-      },
-      {
-        "texture": "portalcubed:portals/phone/phone_open_overlay",
-        "tint": false,
         "offset": 0.01
       }
     ],
-    "tracer": "portalcubed:portals/phone/phone_tracer"
+    "closed": [
+      {
+        "texture": "portalcubed:portals/noise/noise",
+        "tint": true,
+        "offset": 0.01
+      }
+    ],
+    "tracer": "portalcubed:portals/noise/noise_tracer"
   },
-  "stencil": "portalcubed:portals/phone/phone_stencil"
+  "stencil": "portalcubed:portals/noise/noise_stencil"
 }
