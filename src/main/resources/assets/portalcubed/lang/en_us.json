@@ -134,6 +134,7 @@
 
 
   "portal_gun_skin.portalcubed.portal_gun": "Portal Gun",
+  "portal_gun_skin.portalcubed.portal_1_portal_gun": "Portal Gun (Portal 1 Sounds)",
   "portal_gun_skin.portalcubed.potatos_portal_gun": "PotatOS Portal Gun",
   "portal_gun_skin.portalcubed.portal_gun_atlas": "Atlas' Portal Gun",
   "portal_gun_skin.portalcubed.portal_gun_p_body": "P-Body's Portal Gun",
@@ -170,8 +171,10 @@
   "portal_gun_skin.portalcubed.portal_gun_rick": "Rick's Portal Gun",
 
   "portal_type.portalcubed.round": "Round Portal",
+  "portal_type.portalcubed.portal_1_round": "Round Portal (Portal 1 Sounds)",
   "portal_type.portalcubed.legacy_round": "Round Portal (Legacy)",
   "portal_type.portalcubed.rectangle": "Rectangle Portal",
+  "portal_type.portalcubed.portal_1_rectangle": "Rectangle Portal (Portal 1 Sounds)",
   "portal_type.portalcubed.legacy_rectangle": "Rectangle Portal (Legacy)",
   "portal_type.portalcubed.logo_portal": "Logo Portal",
   "portal_type.portalcubed.dx8": "DirectX 8 Portal",
@@ -442,8 +445,10 @@
   "subtitles.portalcubed.portal_gun.default.release": "Portal gun releases object",
   "subtitles.portalcubed.portal_gun.default.cannot_grab": "Portal gun fails to pick up object",
 
+  "subtitles.portalcubed.portal.default.open": "Portal opens",
   "subtitles.portalcubed.portal.default.open.primary": "Primary portal opens",
   "subtitles.portalcubed.portal.default.open.secondary": "Secondary portal opens",
+  "subtitles.portalcubed.portal.default.close": "Portal closes",
   "subtitles.portalcubed.portal.default.close.primary": "Primary portal closes",
   "subtitles.portalcubed.portal.default.close.secondary": "Secondary portal closes",
   "subtitles.portalcubed.portal.default.cant_open": "Portal fails to open",

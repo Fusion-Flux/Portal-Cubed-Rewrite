@@ -518,6 +518,61 @@
     "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
   },
 
+  "portal_gun.portal_1.grab": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_1/grab",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.grab"
+  },
+  "portal_gun.portal_1.hold_loop": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_1/hold_loop",
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.hold_loop"
+  },
+  "portal_gun.portal_1.cannot_grab": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_1/cannot_grab",
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.cannot_grab"
+  },
+  "portal_gun.portal_1.fizzle": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_1/fizzle",
+        "volume": 0.75
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+  "portal_gun.portal_1.primary_shoot": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_1/primary_shoot",
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
+  },
+  "portal_gun.portal_1.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "portalcubed:portal_gun/portal_1/secondary_shoot",
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
+  },
+
   "portal_type.default.ambient": {
     "sounds": [
       {
@@ -608,6 +663,60 @@
       }
     ]
   },
+
+  "portal_type.portal_1.ambient": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/portal_1/ambient",
+        "volume": 0.2
+      }
+    ]
+  },
+  "portal_type.portal_1.open": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/portal_1/open_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:portals/portal_1/open_2",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.open"
+  },
+  "portal_type.portal_1.cant_open": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/portal_1/cant_open",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.cant_open"
+  },
+  "portal_type.portal_1.close": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/portal_1/close_1",
+        "volume": 0.5
+      },
+      {
+        "name": "portalcubed:portals/portal_1/close_2",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.close"
+  },
+  "portal_type.portal_1.travel": {
+    "sounds": [
+      {
+        "name": "portalcubed:portals/portal_1/travel",
+        "volume": 0.2
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.travel"
+  },
+
 
   "construction_cannon.obstructed": {
     "sounds": [
