@@ -2,20 +2,20 @@
 val minecraftVersion = "1.21.4"
 val minecraftDep = "=1.21.4"
 // https://parchmentmc.org/docs/getting-started
-val parchmentVersion = "2025.01.05"
+val parchmentVersion = "2025.02.16"
 // https://fabricmc.net/develop
-val loaderVersion = "0.16.9"
-val fapiVersion = "0.114.2+1.21.4"
+val loaderVersion = "0.16.10"
+val fapiVersion = "0.117.0+1.21.4"
 // https://modrinth.com/mod/sodium/versions?l=fabric
-val sodiumVersion = "0.6.6"
+val sodiumVersion = "0.6.9"
 // https://github.com/TerraformersMC/Terraform/releases
 val woodApiVersion = "13.0.0-alpha.2"
 // https://github.com/LlamaLad7/MixinExtras/releases
-val mixinExtrasVersion = "0.5.0-beta.4"
+val mixinExtrasVersion = "0.5.0-beta.5"
 
 // dev env mods
 // https://modrinth.com/mod/modmenu/versions
-val modmenuVersion = "13.0.0"
+val modmenuVersion = "13.0.2"
 
 // buildscript
 plugins {

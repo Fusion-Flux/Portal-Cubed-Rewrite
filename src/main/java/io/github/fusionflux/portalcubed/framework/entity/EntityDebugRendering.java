@@ -20,7 +20,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
-public class EntityDebugRendering {
+public class
+EntityDebugRendering {
 	public static void init() {
 		WorldRenderEvents.AFTER_ENTITIES.register(EntityDebugRendering::render);
 	}

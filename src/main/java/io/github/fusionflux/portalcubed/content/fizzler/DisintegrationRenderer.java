@@ -90,7 +90,7 @@ public class DisintegrationRenderer {
 	public record BufferSource(Object2ReferenceMap<RenderType, ByteBufferBuilder> buffers, Object2ReferenceMap<RenderType, BufferBuilder> builders) implements MultiBufferSource {
 		public BufferSource(Iterable<RenderType> renderTypes) {
 			this(new Object2ReferenceOpenHashMap<>(), new Object2ReferenceLinkedOpenHashMap<>());
-			this.buffers.defaultReturnValue(new ByteBufferBuilder(RenderType.SMALL_BUFFER_SIZE));
+			this.buffers.defaultReturnValue(new ByteBufferBuilder(RenderType.TRANSIENT_BUFFER_SIZE));
 			renderTypes.forEach(renderType -> this.buffers.put(renderType, new ByteBufferBuilder(renderType.bufferSize())));
 		}
 

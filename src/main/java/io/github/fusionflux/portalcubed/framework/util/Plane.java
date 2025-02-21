@@ -6,12 +6,12 @@ import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public record Plane(Vec3 normal, Vec3 origin) {
@@ -52,10 +52,14 @@ public record Plane(Vec3 normal, Vec3 origin) {
 	@Environment(EnvType.CLIENT)
 	public void getClipping(Matrix4fc view, Vec3 camPos, Vector4f dest) {
 		Vec3 camRelativeOrigin = this.origin.subtract(camPos);
-		int facing = Mth.sign(this.normal.dot(camRelativeOrigin));
-
-		Vector3f normal = view.transformDirection(this.normal.toVector3f()).mul(facing);
-		float distance = -view.transformPosition(camRelativeOrigin.toVector3f()).dot(normal);
+		Vector3f normal = view.transformDirection(this.normal.toVector3f());
+		float distance = -view.transformPosition(
+				camRelativeOrigin.toVector3f().sub(
+						(float) (this.normal.x * PortalRenderer.OFFSET_FROM_WALL),
+						(float) (this.normal.y * PortalRenderer.OFFSET_FROM_WALL),
+						(float) (this.normal.z * PortalRenderer.OFFSET_FROM_WALL)
+				)
+		).dot(normal);
 		dest.set(normal, distance);
 	}
 }

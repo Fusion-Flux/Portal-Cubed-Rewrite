@@ -22,6 +22,11 @@
         "tint": false
       },
       {
+        "texture": "portalcubed:portals/nether_portal/nether_portal_frame",
+        "tint": false,
+        "offset": 0.01
+      },
+      {
         "texture": "portalcubed:portals/nether_portal/nether_portal_open",
         "tint": true,
         "offset": 0.01
@@ -31,6 +36,11 @@
       {
         "texture":"portalcubed:portals/nether_portal/nether_portal_frame",
         "tint": false
+      },
+      {
+        "texture": "portalcubed:portals/nether_portal/nether_portal_frame",
+        "tint": false,
+        "offset": 0.01
       }
     ],
     "tracer": [

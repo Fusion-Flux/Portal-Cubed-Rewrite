@@ -2,62 +2,62 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 16],
 	"textures": {
-		"1": "#cube",
-		"2": "#ring",
+		"cube": "#cube",
+		"ring": "#ring",
 		"particle": "#cube"
 	},
 	"elements": [
 		{
-			"from": [3, 0, 3],
-			"to": [13, 10, 13],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [3, 0.75, 3],
+			"to": [13, 10.75, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
 			"faces": {
-				"north": {"uv": [5, 0, 10, 10], "texture": "#1"},
-				"east": {"uv": [5, 0, 10, 10], "texture": "#1"},
-				"south": {"uv": [5, 0, 10, 10], "texture": "#1"},
-				"west": {"uv": [5, 0, 10, 10], "texture": "#1"},
-				"up": {"uv": [5, 0, 10, 10], "texture": "#1"},
-				"down": {"uv": [5, 0, 10, 10], "texture": "#1"}
+				"north": {"uv": [5, 0, 10, 10], "texture": "cube"},
+				"east": {"uv": [5, 0, 10, 10], "texture": "cube"},
+				"south": {"uv": [5, 0, 10, 10], "texture": "cube"},
+				"west": {"uv": [5, 0, 10, 10], "texture": "cube"},
+				"up": {"uv": [5, 0, 10, 10], "texture": "cube"},
+				"down": {"uv": [5, 0, 10, 10], "texture": "cube"}
 			}
 		},
 		{
-			"from": [3, 0, 3],
-			"to": [13, 10, 13],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [3, 0.75, 3],
+			"to": [13, 10.75, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 5, 10], "texture": "#2"},
-				"east": {"uv": [0, 0, 5, 10], "texture": "#2"},
-				"south": {"uv": [0, 0, 5, 10], "texture": "#2"},
-				"west": {"uv": [0, 0, 5, 10], "texture": "#2"},
-				"up": {"uv": [0, 0, 5, 10], "texture": "#2"},
-				"down": {"uv": [0, 0, 5, 10], "texture": "#2"}
+				"north": {"uv": [0, 0, 5, 10], "texture": "ring"},
+				"east": {"uv": [0, 0, 5, 10], "texture": "ring"},
+				"south": {"uv": [0, 0, 5, 10], "texture": "ring"},
+				"west": {"uv": [0, 0, 5, 10], "texture": "ring"},
+				"up": {"uv": [0, 0, 5, 10], "texture": "ring"},
+				"down": {"uv": [0, 0, 5, 10], "texture": "ring"}
 			}
 		},
 		{
-			"from": [2.5, -0.5, 2.5],
-			"to": [13.5, 10.5, 13.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [2.5, 0.25, 2.5],
+			"to": [13.5, 11.25, 13.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 5, 10], "texture": "#1"},
-				"east": {"uv": [0, 0, 5, 10], "texture": "#1"},
-				"south": {"uv": [0, 0, 5, 10], "texture": "#1"},
-				"west": {"uv": [0, 0, 5, 10], "texture": "#1"},
-				"up": {"uv": [0, 0, 5, 10], "texture": "#1"},
-				"down": {"uv": [0, 0, 5, 10], "texture": "#1"}
+				"north": {"uv": [0, 0, 5, 10], "texture": "cube"},
+				"east": {"uv": [0, 0, 5, 10], "texture": "cube"},
+				"south": {"uv": [0, 0, 5, 10], "texture": "cube"},
+				"west": {"uv": [0, 0, 5, 10], "texture": "cube"},
+				"up": {"uv": [0, 0, 5, 10], "texture": "cube"},
+				"down": {"uv": [0, 0, 5, 10], "texture": "cube"}
 			}
 		},
 		{
 			"name": "cube inverted",
-			"from": [13.5, 10.5, 13.5],
-			"to": [2.5, -0.5, 2.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [13.5, 11.25, 13.5],
+			"to": [2.5, 0.25, 2.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
 			"faces": {
-				"north": {"uv": [0, 10, 5, 0], "texture": "#1"},
-				"east": {"uv": [0, 10, 5, 0], "texture": "#1"},
-				"south": {"uv": [0, 10, 5, 0], "texture": "#1"},
-				"west": {"uv": [0, 10, 5, 0], "texture": "#1"},
-				"up": {"uv": [5, 0, 0, 10], "texture": "#1"},
-				"down": {"uv": [5, 0, 0, 10], "texture": "#1"}
+				"north": {"uv": [0, 10, 5, 0], "texture": "cube"},
+				"east": {"uv": [0, 10, 5, 0], "texture": "cube"},
+				"south": {"uv": [0, 10, 5, 0], "texture": "cube"},
+				"west": {"uv": [0, 10, 5, 0], "texture": "cube"},
+				"up": {"uv": [5, 0, 0, 10], "texture": "cube"},
+				"down": {"uv": [5, 0, 0, 10], "texture": "cube"}
 			}
 		}
 	],
@@ -83,7 +83,7 @@
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
-			"translation": [0, 3.225, 0],
+			"translation": [0, 3.025, 0],
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {

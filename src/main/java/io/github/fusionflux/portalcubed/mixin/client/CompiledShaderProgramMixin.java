@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.shaders.Uniform;
 
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationRenderer;
-import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
 import io.github.fusionflux.portalcubed.framework.util.ShaderPatcher;
 import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.ShaderProgramConfig;
@@ -40,8 +39,8 @@ public abstract class CompiledShaderProgramMixin {
 
 	@Inject(method = "setDefaultUniforms", at = @At("TAIL"))
 	private void updateClippingPlaneUniform(CallbackInfo ci) {
-		if (this.clippingPlane != null && PortalRenderer.isRenderingView())
-			this.clippingPlane.set(PortalRenderer.CLIPPING_PLANES.get());
+		if (this.clippingPlane != null)
+			this.clippingPlane.set(ShaderPatcher.CLIPPING_PLANE);
 		if (this.disintegrationColorModifier != null)
 			this.disintegrationColorModifier.set(DisintegrationRenderer.DISINTEGRATION_COLOR_MODIFIER);
 	}

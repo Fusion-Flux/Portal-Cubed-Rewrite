@@ -1,0 +1,43 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.unpleasant_gradient"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": -1,
+  "sounds": {
+    "primary": {
+      "open": "portalcubed:portal_type.default.open.primary",
+      "cant_open": "portalcubed:portal_type.default.cant_open",
+      "close": "portalcubed:portal_type.default.close.primary",
+      "travel": "portalcubed:portal_type.default.travel",
+      "ambient": "portalcubed:portal_type.default.ambient"
+    },
+    "secondary": {
+      "open": "portalcubed:portal_type.default.open.secondary",
+      "cant_open": "portalcubed:portal_type.default.cant_open",
+      "close": "portalcubed:portal_type.default.close.secondary",
+      "travel": "portalcubed:portal_type.default.travel",
+      "ambient": "portalcubed:portal_type.default.ambient"
+    }
+  },
+  "textures": {
+    "open": [
+       {
+         "texture": "portalcubed:portals/unpleasant_gradient/unpleasant_gradient_portal",
+         "tint": false
+       }
+    ],
+    "closed": [
+       {
+         "texture": "portalcubed:portals/unpleasant_gradient/unpleasant_gradient_portal",
+         "tint": false
+       }
+    ],
+    "tracer": [
+       {
+         "texture": "portalcubed:portals/unpleasant_gradient/unpleasant_gradient_portal_tracer",
+         "tint": false
+       }
+    ]
+  }
+}

@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
-import org.joml.Vector3f;
+import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
@@ -53,10 +53,10 @@ public final class PortalTransform {
 	}
 
 	public Vec3 applyRelative(Vec3 pos) {
-		Vector3f vec3f = pos.toVector3f();
-		this.inRot.transformInverse(vec3f);
-		this.outRot180.transform(vec3f);
-		return new Vec3(vec3f);
+		Vector3d joml = new Vector3d(pos.x, pos.y, pos.z);
+		this.inRot.transformInverse(joml);
+		this.outRot180.transform(joml);
+		return new Vec3(joml.x, joml.y, joml.z);
 	}
 
 	public Vec3 applyAbsolute(Vec3 pos) {
