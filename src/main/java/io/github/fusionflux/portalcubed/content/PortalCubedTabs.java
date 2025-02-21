@@ -259,6 +259,7 @@ public class PortalCubedTabs {
 			addPortalGunSkin(output, "portal_gun_p_body", "p_body");
 			addPortalGunSkin(output, "portal_gun_reloaded", "reloaded");
 			addPortalGunSkin(output, "tiny_potatos_portal_gun", "tiny_potatos");
+			addPortalGunSkin(output, "portal_1_portal_gun", "portal_1");
 
 			addPortalGunSkin(output, "legacy_portal_gun", "legacy");
 			addPortalGunSkin(output, "legacy_portal_gun_atlas", "legacy_atlas");

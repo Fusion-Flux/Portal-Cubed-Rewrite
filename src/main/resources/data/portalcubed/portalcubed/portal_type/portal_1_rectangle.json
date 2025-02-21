@@ -1,0 +1,22 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.portal_1_rectangle"
+  },
+  "default_primary_color": 29154,
+  "default_secondary_color": 14380292,
+  "sounds": {
+    "shared": {
+      "open": "portalcubed:portal_type.portal_1.open",
+      "cant_open": "portalcubed:portal_type.portal_1.cant_open",
+      "close": "portalcubed:portal_type.portal_1.close",
+      "travel": "portalcubed:portal_type.portal_1.travel",
+      "ambient": "portalcubed:portal_type.portal_1.ambient"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portals/rectangle/rectangle_portal_open",
+    "closed": "portalcubed:portals/rectangle/rectangle_portal_closed",
+    "tracer": "portalcubed:portals/rectangle/rectangle_portal_tracer"
+  },
+  "stencil": "portalcubed:portals/rectangle/rectangle_portal_stencil"
+}

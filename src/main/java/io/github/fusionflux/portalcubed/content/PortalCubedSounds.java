@@ -54,6 +54,19 @@ public class PortalCubedSounds {
 	public static final SoundEvent DEFAULT_PORTAL_TRAVEL = register("portal_type.default.travel");
 	public static final SoundEvent DEFAULT_PORTAL_AMBIENT = register("portal_type.default.ambient");
 
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.portal_1.primary_shoot");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.portal_1.secondary_shoot");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_FIZZLE = register("portal_gun.portal_1.fizzle");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_CANNOT_GRAB = register("portal_gun.portal_1.cannot_grab");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_GRAB = register("portal_gun.portal_1.grab");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_HOLD_LOOP = register("portal_gun.portal_1.hold_loop");
+
+	public static final SoundEvent PORTAL_1_PORTAL_OPEN = register("portal_type.portal_1.open");
+	public static final SoundEvent PORTAL_1_PORTAL_CLOSE = register("portal_type.portal_1.close");
+	public static final SoundEvent PORTAL_1_PORTAL_CANT_OPEN = register("portal_type.portal_1.cant_open");
+	public static final SoundEvent PORTAL_1_PORTAL_TRAVEL = register("portal_type.portal_1.travel");
+	public static final SoundEvent PORTAL_1_PORTAL_AMBIENT = register("portal_type.portal_1.ambient");
+
 	public static final SoundEvent PORTAL_COMBAT = register("portal_type.portal_combat");
 
 	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon.obstructed");
