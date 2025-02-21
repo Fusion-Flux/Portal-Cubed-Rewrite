@@ -13,17 +13,29 @@ public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate, i
 	public static final Codec<PortalSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			PortalType.KEY_CODEC.fieldOf("type").forGetter(PortalSettings::typeId),
 			Codec.BOOL.fieldOf("validate").forGetter(PortalSettings::validate),
-			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("color").forGetter(PortalSettings::color),
+			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("color").forGetter(PortalSettings::colorNoAlpha),
 			Codec.BOOL.fieldOf("render").forGetter(PortalSettings::render)
 	).apply(instance, PortalSettings::new));
+
 	public static final StreamCodec<ByteBuf, PortalSettings> STREAM_CODEC = StreamCodec.composite(
 			PortalType.KEY_STREAM_CODEC, PortalSettings::typeId,
 			ByteBufCodecs.BOOL, PortalSettings::validate,
-			ByteBufCodecs.INT, PortalSettings::color,
+			ByteBufCodecs.INT, PortalSettings::colorNoAlpha,
 			ByteBufCodecs.BOOL, PortalSettings::render,
 			PortalSettings::new
 	);
 
 	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(PortalType.ROUND, true, Polarity.PRIMARY.defaultColor, true);
 	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(PortalType.ROUND, true, Polarity.SECONDARY.defaultColor, true);
+
+	public PortalSettings(ResourceKey<PortalType> typeId, boolean validate, int color, boolean render) {
+		this.typeId = typeId;
+		this.validate = validate;
+		this.color = color | 0xFF000000;
+		this.render = render;
+	}
+
+	public int colorNoAlpha() {
+		return this.color & 0x00FFFFFF;
+	}
 }

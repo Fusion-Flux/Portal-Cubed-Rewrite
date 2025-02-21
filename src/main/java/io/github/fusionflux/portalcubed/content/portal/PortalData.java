@@ -11,7 +11,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -76,7 +75,7 @@ public record PortalData(
 				settings.validate(),
 				origin,
 				rotation,
-				ARGB.opaque(settings.color()),
+				settings.color(),
 				settings.render()
 		);
 	}
