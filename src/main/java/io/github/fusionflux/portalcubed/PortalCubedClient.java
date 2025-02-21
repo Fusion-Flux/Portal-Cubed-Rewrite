@@ -27,6 +27,9 @@ import net.minecraft.client.renderer.item.properties.conditional.ConditionalItem
 import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperties;
 
 public class PortalCubedClient implements ClientModInitializer {
+	@SuppressWarnings("StaticNonFinalField")
+	public static boolean portalDebugEnabled = false;
+
 	@Override
 	public void onInitializeClient() {
 		PortalRenderer.init();

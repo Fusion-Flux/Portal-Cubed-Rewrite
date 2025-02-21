@@ -115,6 +115,7 @@
     "portals.client.GuiMixin",
     "portals.client.ItemInHandRendererMixin",
     "portals.client.ItemModelResolverMixin",
+    "portals.client.KeyboardHandlerMixin",
     "portals.client.LevelRendererMixin",
     "portals.client.MinecraftMixin"
   ],

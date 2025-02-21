@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import io.github.fusionflux.portalcubed.PortalCubedClient;
 import io.github.fusionflux.portalcubed.framework.render.debug.entry.DebugPos;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -40,7 +41,7 @@ public class DebugRendering {
 	}
 
 	private static void render(WorldRenderContext ctx) {
-		if (entries.isEmpty())
+		if (!PortalCubedClient.portalDebugEnabled || entries.isEmpty())
 			return;
 
 		PoseStack matrices = ctx.matrixStack();

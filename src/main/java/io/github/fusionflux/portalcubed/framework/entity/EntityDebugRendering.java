@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import io.github.fusionflux.portalcubed.PortalCubedClient;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.framework.util.Color;
@@ -20,15 +21,17 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
-public class
-EntityDebugRendering {
+public class EntityDebugRendering {
 	public static void init() {
 		WorldRenderEvents.AFTER_ENTITIES.register(EntityDebugRendering::render);
 	}
 
 	private static void render(WorldRenderContext ctx) {
+		if (!PortalCubedClient.portalDebugEnabled)
+			return;
+
 		Minecraft mc = Minecraft.getInstance();
-		if (!mc.getEntityRenderDispatcher().shouldRenderHitBoxes() || mc.showOnlyReducedInfo())
+		if (mc.showOnlyReducedInfo()) // matches vanilla hitboxes
 			return;
 
 		PoseStack matrices = ctx.matrixStack();
