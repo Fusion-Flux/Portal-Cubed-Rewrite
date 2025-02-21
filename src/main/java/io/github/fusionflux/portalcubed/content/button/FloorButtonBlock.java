@@ -239,14 +239,15 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	protected void entityPressing(BlockState state, ServerLevel level, BlockPos pos, Entity entity) {
-		if (!state.getValue(ACTIVE))
-			toggle(state, level, pos, entity, false);
+		if (!state.getValue(ACTIVE)) {
+			this.toggle(state, level, pos, entity, false);
 
-		// trigger advancements
-		AABB area = new AABB(pos).inflate(16);
-		List<ServerPlayer> players = level.getEntitiesOfClass(ServerPlayer.class, area);
-		for (ServerPlayer player : players) {
-			PortalCubedCriteriaTriggers.ENTITY_ON_BUTTON.trigger(player, pos, entity);
+			// trigger advancements
+			AABB area = new AABB(pos).inflate(16);
+			List<ServerPlayer> players = level.getEntitiesOfClass(ServerPlayer.class, area);
+			for (ServerPlayer player : players) {
+				PortalCubedCriteriaTriggers.ENTITY_ON_BUTTON.trigger(player, pos, entity);
+			}
 		}
 
 		// special effects

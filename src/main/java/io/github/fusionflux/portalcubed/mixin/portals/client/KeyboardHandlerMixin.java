@@ -53,7 +53,6 @@ public abstract class KeyboardHandlerMixin {
 		}
 	}
 
-
 	@Unique
 	private static Component makePortalCubedMessage(String key) {
 		// this is so unnecessary but let me have my fun
