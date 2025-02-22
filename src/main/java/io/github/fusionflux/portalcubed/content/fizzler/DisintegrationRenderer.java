@@ -1,30 +1,21 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
 import org.joml.Vector4f;
 
 import com.google.common.collect.ImmutableSet;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.ByteBufferBuilder;
-import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
+import io.github.fusionflux.portalcubed.framework.render.SimpleBufferSource;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import io.github.fusionflux.portalcubed.mixin.client.LevelRendererAccessor;
-import it.unimi.dsi.fastutil.objects.Object2ReferenceLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ReferenceMap;
-import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
@@ -87,38 +78,11 @@ public class DisintegrationRenderer {
 		DISINTEGRATION_COLOR_MODIFIER.set(1f);
 	}
 
-	public record BufferSource(Object2ReferenceMap<RenderType, ByteBufferBuilder> buffers, Object2ReferenceMap<RenderType, BufferBuilder> builders) implements MultiBufferSource {
-		public BufferSource(Iterable<RenderType> renderTypes) {
-			this(new Object2ReferenceOpenHashMap<>(), new Object2ReferenceLinkedOpenHashMap<>());
-			this.buffers.defaultReturnValue(new ByteBufferBuilder(RenderType.TRANSIENT_BUFFER_SIZE));
-			renderTypes.forEach(renderType -> this.buffers.put(renderType, new ByteBufferBuilder(renderType.bufferSize())));
-		}
-
+	public static final class BufferSource extends SimpleBufferSource {
 		@Override
-		public VertexConsumer getBuffer(RenderType renderType) {
-			return this.builders.computeIfAbsent(
-					renderType,
-					$ -> new BufferBuilder(this.buffers.get(renderType), renderType.mode(), renderType.format())
-			);
-		}
-
-		public void flush() {
-			for (Map.Entry<RenderType, BufferBuilder> entry : this.builders.object2ReferenceEntrySet()) {
-				BufferBuilder builder = entry.getValue();
-				MeshData meshData = builder.build();
-				if (meshData != null) {
-					RenderType renderType = entry.getKey();
-					if (renderType.sortOnUpload())
-						meshData.sortQuads(this.buffers.get(renderType), RenderSystem.getProjectionType().vertexSorting());
-
-					renderType.setupRenderState();
-					RenderStateShard.TRANSLUCENT_TRANSPARENCY.setupRenderState();
-					BufferUploader.drawWithShader(meshData);
-					renderType.clearRenderState();
-					RenderStateShard.TRANSLUCENT_TRANSPARENCY.clearRenderState();
-				}
-			}
-			this.builders.clear();
+		protected void setupRenderState(RenderType type) {
+			super.setupRenderState(type);
+			RenderStateShard.TRANSLUCENT_TRANSPARENCY.setupRenderState();
 		}
 	}
 }

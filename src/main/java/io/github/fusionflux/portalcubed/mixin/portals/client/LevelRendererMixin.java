@@ -118,8 +118,10 @@ public class LevelRendererMixin {
 		CrossPortalEntityRenderer.CrossPortalEntity crossPortalEntity = this.crossPortalEntityRenderer.getCrossPortalEntity(entity);
 		if (crossPortalEntity != null) {
 			SimpleBufferSource crossPortalBufferSource = ((RenderBuffersExt) this.renderBuffers).pc$crossPortalBufferSource();
-			original.call(instance, entity, xOffset, yOffset, zOffset, partialTick, poseStack, crossPortalBufferSource, packedLight);
-			this.crossPortalEntityRenderer.withClippingPlane(new Vec3(camX, camY, camZ), crossPortalEntity.inPortal(), crossPortalBufferSource::flush);
+			this.crossPortalEntityRenderer.withClippingPlane(new Vec3(camX, camY, camZ), crossPortalEntity.inPortal(), () -> {
+				original.call(instance, entity, xOffset, yOffset, zOffset, partialTick, poseStack, crossPortalBufferSource, packedLight);
+				crossPortalBufferSource.flush();
+			});
 		} else {
 			original.call(instance, entity, xOffset, yOffset, zOffset, partialTick, poseStack, bufferSource, packedLight);
 		}

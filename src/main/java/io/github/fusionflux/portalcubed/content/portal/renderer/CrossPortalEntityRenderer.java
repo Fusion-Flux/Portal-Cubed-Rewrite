@@ -81,8 +81,7 @@ public class CrossPortalEntityRenderer {
 
 				PortalHitResult hit = portalLookup.clip(start, end);
 				if (hit != null) {
-					if (PortalRenderer.isPortalVisible(frustum, hit.in()) || PortalRenderer.isPortalVisible(frustum, hit.out()))
-						this.entities.add(new CrossPortalEntity(entity, tickDelta, position, hit.in(), hit.out()));
+					this.entities.add(new CrossPortalEntity(entity, tickDelta, position, hit.in(), hit.out()));
 					break;
 				}
 			}
@@ -123,9 +122,11 @@ public class CrossPortalEntityRenderer {
 			matrices.mulPose(inPortal.rotation().conjugate(new Quaternionf()).premul(outPortal.rotation180));
 			matrices.translate(-transformedViewPos.x, -transformedViewPos.y, -transformedViewPos.z);
 
-			this.entityRenderDispatcher
-					.render(entity, transformedViewPos.x, transformedViewPos.y, transformedViewPos.z, tickDelta, matrices, bufferSource, this.entityRenderDispatcher.getPackedLightCoords(entity, tickDelta));
-			this.withClippingPlane(camPos, outPortal, bufferSource::flush);
+			this.withClippingPlane(camPos, outPortal, () -> {
+				this.entityRenderDispatcher
+						.render(entity, transformedViewPos.x, transformedViewPos.y, transformedViewPos.z, tickDelta, matrices, bufferSource, this.entityRenderDispatcher.getPackedLightCoords(entity, tickDelta));
+				bufferSource.flush();
+			});
 
 			matrices.popPose();
 		}
