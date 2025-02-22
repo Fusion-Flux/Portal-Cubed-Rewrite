@@ -20,22 +20,25 @@ import net.minecraft.world.phys.Vec3;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin {
+	/**
+	 * If you look at this code wrong, culling during teleportation will break.
+	 */
 	@WrapMethod(method = "getBoundingBoxForCulling")
-	private AABB getBoundingBoxForCulling(Entity entity, Operation<AABB> original) {
+	private AABB interpolateCullingBoundingBox(Entity entity, Operation<AABB> original) {
 		if (entity.level() instanceof ClientLevel level) {
 			TickRateManager tickRateManager = level.tickRateManager();
 			float tickDelta = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(!tickRateManager.isEntityFrozen(entity));
 			EntityState override = entity.getTeleportProgressTracker().getEntityStateOverride(tickDelta);
-			Vec3 position = override != null ? override.pos() : new Vec3(
-					Mth.lerp(tickDelta, entity.xOld, entity.getX()),
-					Mth.lerp(tickDelta, entity.yOld, entity.getY()),
-					Mth.lerp(tickDelta, entity.zOld, entity.getZ())
+			Vec3 position = entity.position();
+			Vec3 interpolatedPosition = override != null ? override.pos() : new Vec3(
+					Mth.lerp(tickDelta, entity.xOld, position.x),
+					Mth.lerp(tickDelta, entity.yOld, position.y),
+					Mth.lerp(tickDelta, entity.zOld, position.z)
 			);
 
-			Vec3 oldPosition = entity.position();
 			return entity.getBoundingBox()
-					.move(-oldPosition.x, -oldPosition.y, -oldPosition.z)
-					.move(position);
+					.move(-position.x, -position.y, -position.z)
+					.move(interpolatedPosition);
 		}
 
 		return original.call(entity);
