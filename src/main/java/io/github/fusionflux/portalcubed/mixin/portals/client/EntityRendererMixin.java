@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.util.Mth;
 import net.minecraft.world.TickRateManager;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
@@ -25,12 +26,16 @@ public class EntityRendererMixin {
 			TickRateManager tickRateManager = level.tickRateManager();
 			float tickDelta = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(!tickRateManager.isEntityFrozen(entity));
 			EntityState override = entity.getTeleportProgressTracker().getEntityStateOverride(tickDelta);
-			if (override != null) {
-				Vec3 position = entity.position();
-				return entity.getBoundingBox()
-						.move(-position.x, -position.y, -position.z)
-						.move(override.pos());
-			}
+			Vec3 position = override != null ? override.pos() : new Vec3(
+					Mth.lerp(tickDelta, entity.xOld, entity.getX()),
+					Mth.lerp(tickDelta, entity.yOld, entity.getY()),
+					Mth.lerp(tickDelta, entity.zOld, entity.getZ())
+			);
+
+			Vec3 oldPosition = entity.position();
+			return entity.getBoundingBox()
+					.move(-oldPosition.x, -oldPosition.y, -oldPosition.z)
+					.move(position);
 		}
 
 		return original.call(entity);
