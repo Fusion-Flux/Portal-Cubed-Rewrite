@@ -16,16 +16,21 @@ import net.caffeinemc.mods.sodium.client.render.chunk.shader.ShaderBindingContex
 @Mixin(value = DefaultShaderInterface.class, remap = false)
 public class DefaultShaderInterfaceMixin {
 	@Unique
-	private GlUniformFloat4v uniformClippingPlane;
+	private GlUniformFloat4v[] clippingPlaneUniforms;
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void bindClippingPlaneUniform(ShaderBindingContext context, ChunkShaderOptions options, CallbackInfo ci) {
-		this.uniformClippingPlane = context.bindUniform(ShaderPatcher.CLIPPING_PLANE_UNIFORM_NAME, GlUniformFloat4v::new);
+		this.clippingPlaneUniforms = new GlUniformFloat4v[ShaderPatcher.CLIPPING_PLANE_UNIFORMS.length];
+		for (int i = 0; i < this.clippingPlaneUniforms.length; i++) {
+			this.clippingPlaneUniforms[i] = context.bindUniform(ShaderPatcher.CLIPPING_PLANE_UNIFORMS[i].name(), GlUniformFloat4v::new);
+		}
 	}
 
 	@Inject(method = "setupState", at = @At("TAIL"))
 	private void updateClippingPlaneUniform(CallbackInfo ci) {
-		Vector4f clippingPlane = ShaderPatcher.CLIPPING_PLANE;
-		this.uniformClippingPlane.set(clippingPlane.x, clippingPlane.y, clippingPlane.z, clippingPlane.w);
+		for (int i = 0; i < this.clippingPlaneUniforms.length; i++) {
+			Vector4f vec = ShaderPatcher.CLIPPING_PLANES[i];
+			this.clippingPlaneUniforms[i].set(vec.x, vec.y, vec.z, vec.w);
+		}
 	}
 }

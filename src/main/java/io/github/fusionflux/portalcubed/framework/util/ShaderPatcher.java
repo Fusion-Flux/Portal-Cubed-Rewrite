@@ -11,24 +11,30 @@ import java.util.regex.Pattern;
 import org.joml.Vector4f;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import net.minecraft.Util;
 import net.minecraft.client.renderer.ShaderProgramConfig;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 
 public class ShaderPatcher {
-	public static final String CLIPPING_PLANE_UNIFORM_NAME = PortalCubed.ID + "_ClippingPlane";
-	public static final ShaderProgramConfig.Uniform CLIPPING_PLANE_UNIFORM = new ShaderProgramConfig.Uniform(CLIPPING_PLANE_UNIFORM_NAME, "float", 4, List.of(0f, 0f, 0f, 1f));
+	public static final Vector4f[] CLIPPING_PLANES = {new Vector4f(), new Vector4f()};
+	public static final ShaderProgramConfig.Uniform[] CLIPPING_PLANE_UNIFORMS = Util.make(new ShaderProgramConfig.Uniform[CLIPPING_PLANES.length], uniforms -> {
+		for (int i = 0; i < uniforms.length; i++) {
+			//noinspection StringConcatenationMissingWhitespace
+			uniforms[i] = new ShaderProgramConfig.Uniform(PortalCubed.ID + "_ClippingPlane" + i, "float", 4, List.of(0f, 0f, 0f, 1f));
+		}
+	});
+
+	private static final String VIEWSPACE_VERTEX_VARIABLE = "portalcubed_viewspace_vertex_pos";
+	private static final String VIEWSPACE_VERTEX_INJECTION = String.format("    vec3 %s = (inverse(%%s) * gl_Position).xyz;\n", VIEWSPACE_VERTEX_VARIABLE);
+	private static final String CLIPPING_INJECTION = String.format("    gl_ClipDistance[%%s] = dot(%%s.xyz, %s) + %%2$2s.w;\n", VIEWSPACE_VERTEX_VARIABLE);
+
 	public static final ShaderProgramConfig.Uniform DISINTEGRATION_COLOR_MODIFIER_UNIFORM = new ShaderProgramConfig.Uniform(
 			PortalCubed.ID + "_DisintegrationColorModifier", "float", 4, List.of(1f, 1f, 1f, 1f)
 	);
-	public static final Vector4f CLIPPING_PLANE = new Vector4f(0, 0, 0, 1);
-
-	private static final String PROJECTION_MATRIX_PLACEHOLDER = "{projectionMatrix}";
-	private static final String CLIPPING_INJECTION = String.format("    gl_ClipDistance[0] = dot(%s.xyz, (inverse(%s) * gl_Position).xyz) + %1$1s.w;\n", CLIPPING_PLANE_UNIFORM_NAME, PROJECTION_MATRIX_PLACEHOLDER);
 	private static final String DISINTEGRATION_COLOR_MODIFIER_INJECTION = String.format("    color *= %s;\n", DISINTEGRATION_COLOR_MODIFIER_UNIFORM.name());
 
-	private static final Object2ObjectOpenHashMap<CacheKey, String> CACHE = new Object2ObjectOpenHashMap<>();
+	private static final int MAX_CACHE_SIZE = 50;
+	private static final Object2ObjectLinkedOpenHashMap<CacheKey, Optional<String>> CACHE = new Object2ObjectLinkedOpenHashMap<>(MAX_CACHE_SIZE, 0.75f);
 
 	public static void injectUniforms(ShaderProgramConfig config, Consumer<ShaderProgramConfig.Uniform> adder) {
 		Set<ShaderType> matchedTypes = EnumSet.noneOf(ShaderType.class);
@@ -38,9 +44,13 @@ public class ShaderPatcher {
 	}
 
 	public static Optional<String> tryPatch(String src, String name) {
-		return ShaderType
-				.matches(name)
-				.map(type -> CACHE.computeIfAbsent(new CacheKey(name, src), $ -> patch(type, src)));
+		if (CACHE.size() == MAX_CACHE_SIZE)
+			CACHE.removeFirst();
+		return CACHE.computeIfAbsent(
+				new CacheKey(name, src),
+				$ -> ShaderType.matches(name)
+						.map(type -> patch(type, src))
+		);
 	}
 
 	private static String patch(ShaderType type, String src) {
@@ -64,10 +74,14 @@ public class ShaderPatcher {
 			if (type == ShaderType.VANILLA_CLIPPING_PLANE || type == ShaderType.SODIUM_CLIPPING_PLANE) {
 				if (line.contains("gl_Position =") && foundMain) {
 					//noinspection OptionalGetWithoutIsPresent
-					builder.append(CLIPPING_INJECTION.replace(PROJECTION_MATRIX_PLACEHOLDER, type.projectionMatrixName.get()));
+					builder.append(String.format(VIEWSPACE_VERTEX_INJECTION, type.projectionMatrixName.get()));
+					for (int i = 0; i < ShaderPatcher.CLIPPING_PLANE_UNIFORMS.length; i++) {
+						builder.append(String.format(CLIPPING_INJECTION, i, ShaderPatcher.CLIPPING_PLANE_UNIFORMS[i].name()));
+					}
 				}
 			}
 		}
+		System.out.println(builder.toString());
 		return builder.toString();
 	}
 
@@ -75,12 +89,12 @@ public class ShaderPatcher {
 		SODIUM_CLIPPING_PLANE(
 				Pattern.compile("sodium:blocks/block_layer_opaque\\.vsh"),
 				"u_ProjectionMatrix",
-				CLIPPING_PLANE_UNIFORM
+				CLIPPING_PLANE_UNIFORMS
 		),
 		VANILLA_CLIPPING_PLANE(
 				Pattern.compile("^(minecraft:core/(?!gui|lightmap|blit_screen).*)\\.vsh"),
 				"ProjMat",
-				CLIPPING_PLANE_UNIFORM
+				CLIPPING_PLANE_UNIFORMS
 		),
 		DISINTEGRATION_COLOR_MODIFIER(
 				Pattern.compile("^(minecraft:core/(?!position|gui|lightmap|blit_screen|rendertype_(leash|end_portal|lightning|clouds|water_mask)).*)\\.fsh"),
@@ -114,21 +128,6 @@ public class ShaderPatcher {
 		}
 	}
 
-	private record CacheKey(String name, String src) {}
-
-	public enum ReloadListener implements SimpleSynchronousReloadListener {
-		INSTANCE;
-
-		public static final ResourceLocation ID = PortalCubed.id("shader_patcher");
-
-		@Override
-		public ResourceLocation getFabricId() {
-			return ID;
-		}
-
-		@Override
-		public void onResourceManagerReload(ResourceManager manager) {
-			CACHE.clear();
-		}
+	private record CacheKey(String name, String src) {
 	}
 }

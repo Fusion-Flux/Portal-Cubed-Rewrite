@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -24,8 +25,7 @@ public abstract class CompiledShaderProgramMixin {
 	public abstract Uniform getUniform(String name);
 
 	@Unique
-	@Nullable
-	private Uniform clippingPlane;
+	private List<Uniform> clippingPlanes;
 
 	@Unique
 	@Nullable
@@ -33,14 +33,22 @@ public abstract class CompiledShaderProgramMixin {
 
 	@Inject(method = "setupUniforms", at = @At("TAIL"))
 	private void addClippingPlaneUniform(List<ShaderProgramConfig.Uniform> uniforms, List<ShaderProgramConfig.Sampler> samplers, CallbackInfo ci) {
-		this.clippingPlane = this.getUniform(ShaderPatcher.CLIPPING_PLANE_UNIFORM_NAME);
+		this.clippingPlanes = new ArrayList<>();
+		for (ShaderProgramConfig.Uniform uniformConfig : ShaderPatcher.CLIPPING_PLANE_UNIFORMS) {
+			Uniform uniform = this.getUniform(uniformConfig.name());
+			if (uniform != null)
+				this.clippingPlanes.add(uniform);
+		}
+
 		this.disintegrationColorModifier = this.getUniform(ShaderPatcher.DISINTEGRATION_COLOR_MODIFIER_UNIFORM.name());
 	}
 
 	@Inject(method = "setDefaultUniforms", at = @At("TAIL"))
 	private void updateClippingPlaneUniform(CallbackInfo ci) {
-		if (this.clippingPlane != null)
-			this.clippingPlane.set(ShaderPatcher.CLIPPING_PLANE);
+		for (int i = 0; i < this.clippingPlanes.size(); i++) {
+			this.clippingPlanes.get(i).set(ShaderPatcher.CLIPPING_PLANES[i]);
+		}
+
 		if (this.disintegrationColorModifier != null)
 			this.disintegrationColorModifier.set(DisintegrationRenderer.DISINTEGRATION_COLOR_MODIFIER);
 	}

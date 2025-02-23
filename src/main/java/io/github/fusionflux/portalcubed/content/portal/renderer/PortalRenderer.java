@@ -250,7 +250,7 @@ public class PortalRenderer {
 		camRot.transform(-1, 0, 0, camera.getLeftVector());
 		Matrix4f viewMatrix = new Matrix4f().rotation(camRot.conjugate(new Quaternionf())) ;
 
-		linked.plane.getClipping(viewMatrix, camPos, ShaderPatcher.CLIPPING_PLANE);
+		linked.plane.getClipping(viewMatrix, camPos, ShaderPatcher.CLIPPING_PLANES[0]);
 
 		GameRenderer gameRenderer = context.gameRenderer();
 		((LevelRendererAccessor) worldRenderer).callPrepareCullFrustum(linked.data.origin(), viewMatrix, gameRenderer.getProjectionMatrix(Minecraft.getInstance().options.fov().get()));
@@ -351,7 +351,7 @@ public class PortalRenderer {
 					new Vector3f(camera.getLookVector()),
 					new Vector3f(camera.getUpVector()),
 					new Vector3f(camera.getLeftVector()),
-					new Vector4f(ShaderPatcher.CLIPPING_PLANE),
+					new Vector4f(ShaderPatcher.CLIPPING_PLANES[0]),
 					RenderSystemAccessor.getShaderLightDirections().clone(),
 					RenderSystem.getShaderFog(),
 					((LevelRendererAccessor) worldRenderer).getRenderBuffers(),
@@ -370,7 +370,7 @@ public class PortalRenderer {
 			camera.getLookVector().set(this.cameraLookVector);
 			camera.getUpVector().set(this.cameraUpVector);
 			camera.getLeftVector().set(this.cameraLeftVector);
-			ShaderPatcher.CLIPPING_PLANE.set(this.clippingPlane);
+			ShaderPatcher.CLIPPING_PLANES[0].set(this.clippingPlane);
 			RenderSystem.setShaderLights(this.shaderLightDirections[0], this.shaderLightDirections[1]);
 			RenderSystem.setShaderFog(this.fog);
 			((LevelRendererAccessor) worldRenderer).setRenderBuffers(this.renderBuffers);

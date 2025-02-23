@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
-import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -89,15 +88,12 @@ public class CrossPortalEntityRenderer {
 	}
 
 	public void withClippingPlane(Vec3 camPos, PortalInstance portal, Runnable runnable) {
-		Vector4f oldClippingPlane = new Vector4f(ShaderPatcher.CLIPPING_PLANE);
-		portal.plane.getClipping(RenderSystem.getModelViewStack(), camPos, ShaderPatcher.CLIPPING_PLANE);
-		GL11.glEnable(GL11.GL_CLIP_PLANE0);
+		portal.plane.getClipping(RenderSystem.getModelViewStack(), camPos, ShaderPatcher.CLIPPING_PLANES[1]);
+		GL11.glEnable(GL11.GL_CLIP_PLANE1);
 
 		runnable.run();
 
-		ShaderPatcher.CLIPPING_PLANE.set(oldClippingPlane);
-		if (!PortalRenderer.isRenderingView())
-			GL11.glDisable(GL11.GL_CLIP_PLANE0);
+		GL11.glDisable(GL11.GL_CLIP_PLANE1);
 	}
 
 	public void render(PoseStack matrices, Camera camera) {
