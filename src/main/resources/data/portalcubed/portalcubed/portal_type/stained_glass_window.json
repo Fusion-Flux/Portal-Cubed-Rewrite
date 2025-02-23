@@ -4,8 +4,6 @@
   },
   "default_primary_color": 6724056,
   "default_secondary_color": 14188339,
-  "weight": 171,
-  "group": "windows",
   "sounds": {
     "shared": {
       "open": "minecraft:block.generic.place",

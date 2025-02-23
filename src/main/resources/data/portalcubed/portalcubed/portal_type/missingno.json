@@ -4,7 +4,6 @@
   },
   "default_primary_color": 16253176,
   "default_secondary_color": 16253176,
-  "weight": 80,
   "sounds": {
     "primary": {
       "open": "portalcubed:prop.error.impact",

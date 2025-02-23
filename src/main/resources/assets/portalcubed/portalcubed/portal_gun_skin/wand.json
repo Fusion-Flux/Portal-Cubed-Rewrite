@@ -3,7 +3,6 @@
     "translate": "portal_gun_skin.portalcubed.wand"
   },
   "item_model": "portalcubed:portal_guns/wand",
-  "weight": 27,
   "sounds": {
     "primary_shoot": "minecraft:entity.evoker.cast_spell",
     "secondary_shoot": "minecraft:entity.evoker.cast_spell",

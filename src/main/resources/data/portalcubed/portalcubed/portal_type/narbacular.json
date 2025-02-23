@@ -4,7 +4,6 @@
   },
   "default_primary_color": 2422527,
   "default_secondary_color": 16770583,
-  "weight": 60,
   "sounds": {
     "shared": {
       "open": "minecraft:block.netherrack.place",

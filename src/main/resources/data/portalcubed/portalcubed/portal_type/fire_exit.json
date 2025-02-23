@@ -4,21 +4,19 @@
   },
   "default_primary_color": 13391182,
   "default_secondary_color": 14575443,
-  "weight": 165,
   "sounds": {
-    "primary": {
-      "open": "portalcubed:portal_type.default.open.primary",
+    "shared": {
       "cant_open": "portalcubed:portal_type.default.cant_open",
-      "close": "portalcubed:portal_type.default.close.primary",
       "travel": "portalcubed:portal_type.default.travel",
       "ambient": "portalcubed:portal_type.default.ambient"
     },
+    "primary": {
+      "open": "portalcubed:portal_type.default.open.primary",
+      "close": "portalcubed:portal_type.default.close.primary"
+    },
     "secondary": {
       "open": "portalcubed:portal_type.default.open.secondary",
-      "cant_open": "portalcubed:portal_type.default.cant_open",
-      "close": "portalcubed:portal_type.default.close.secondary",
-      "travel": "portalcubed:portal_type.default.travel",
-      "ambient": "portalcubed:portal_type.default.ambient"
+      "close": "portalcubed:portal_type.default.close.secondary"
     }
   },
   "textures": {

@@ -4,7 +4,6 @@
   },
   "default_primary_color": -1,
   "default_secondary_color": 15252968,
-  "weight": 160,
   "sounds": {
     "shared": {
       "open": "minecraft:block.wooden_door.open",

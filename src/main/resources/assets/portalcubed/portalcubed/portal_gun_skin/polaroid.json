@@ -3,7 +3,6 @@
     "translate": "portal_gun_skin.portalcubed.polaroid"
   },
   "item_model": "portalcubed:portal_guns/polaroid",
-  "weight": 32,
   "sounds": {
     "primary_shoot": "minecraft:item.lodestone_compass.lock",
     "secondary_shoot": "minecraft:item.lodestone_compass.lock",

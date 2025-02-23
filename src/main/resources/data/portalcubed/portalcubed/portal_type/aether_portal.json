@@ -4,8 +4,6 @@
   },
   "default_primary_color": 4159204,
   "default_secondary_color": 4159204,
-  "weight": 71,
-  "group": "dimension_portals",
   "locked": true,
   "sounds": {
     "shared": {

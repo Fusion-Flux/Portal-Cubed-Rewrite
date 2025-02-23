@@ -3,7 +3,6 @@
     "translate": "portal_gun_skin.portalcubed.potatos_portal_gun"
   },
   "item_model": "portalcubed:portal_guns/potatos_portal_gun",
-  "weight": 1,
   "sounds": {
     "primary_shoot": "portalcubed:portal_gun.default.primary_shoot",
     "secondary_shoot": "portalcubed:portal_gun.default.secondary_shoot",

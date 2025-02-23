@@ -4,7 +4,6 @@
   },
   "default_primary_color": -1,
   "default_secondary_color": -1,
-  "weight": 280,
   "sounds": {
     "shared": {
       "open": "minecraft:block.note_block.basedrum",

@@ -3,7 +3,6 @@
     "translate": "portal_gun_skin.portalcubed.portal_gun_atlas"
   },
   "item_model": "portalcubed:portal_guns/portal_gun_atlas",
-  "weight": 2,
   "sounds": {
     "primary_shoot": "portalcubed:portal_gun.default.primary_shoot",
     "secondary_shoot": "portalcubed:portal_gun.default.secondary_shoot",

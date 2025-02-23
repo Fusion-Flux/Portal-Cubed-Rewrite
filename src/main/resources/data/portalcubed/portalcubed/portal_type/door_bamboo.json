@@ -4,7 +4,6 @@
   },
   "default_primary_color": 14929002,
   "default_secondary_color": 10006853,
-  "weight": 129,
   "sounds": {
     "shared": {
       "open": "minecraft:block.bamboo_wood_door.open",

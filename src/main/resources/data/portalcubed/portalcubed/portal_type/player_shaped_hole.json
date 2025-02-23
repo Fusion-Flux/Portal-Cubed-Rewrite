@@ -4,7 +4,6 @@
   },
   "default_primary_color": 0,
   "default_secondary_color": 0,
-  "weight": 95,
   "sounds": {
     "shared": {
       "open": "minecraft:block.deepslate.break",
