@@ -19,6 +19,14 @@
     "#portalcubed:office_concretes",
     "#portalcubed:gray_chamber_exteriors",
     "#portalcubed:yellow_chamber_exteriors",
+    "portalcubed:old_ap_metal_grate",
+    "portalcubed:portal_1_metal_grate",
+    "portalcubed:metal_grate",
+    "portalcubed:mesh_grate",
+    "portalcubed:old_ap_metal_grate_slab",
+    "portalcubed:portal_1_metal_grate_slab",
+    "portalcubed:metal_grate_slab",
+    "portalcubed:mesh_grate_slab",
 
     "portalcubed:large_blue_office_tiles",
     "portalcubed:large_blue_office_tile_slab",
@@ -89,6 +97,10 @@
     "portalcubed:old_ap_green_panel_facade",
     "portalcubed:old_ap_blue_panel_facade",
     "portalcubed:gray_chamber_exterior_facade",
-    "portalcubed:yellow_chamber_exterior_facade"
+    "portalcubed:yellow_chamber_exterior_facade",
+    "portalcubed:old_ap_metal_grate_facade",
+    "portalcubed:portal_1_metal_grate_facade",
+    "portalcubed:metal_grate_facade",
+    "portalcubed:mesh_grate_facade"
   ]
 }
