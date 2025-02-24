@@ -2,12 +2,12 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:signage/aged_small_signage_blank",
-		"particle": "portalcubed:signage/aged_large_signage_blank",
-		"signage_bottom_left": "#portalcubed:dynamic"
+		"signage_bottom_left": "#portalcubed:dynamic",
+		"particle": "portalcubed:signage/aged_large_signage_blank"
 	},
 	"elements": [
 		{
-			"from": [0, 0, 8],
+			"from": [0, -0.1, 8],
 			"to": [8, 0.05, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 8]},
 			"faces": {

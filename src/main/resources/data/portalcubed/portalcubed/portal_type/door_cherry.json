@@ -4,7 +4,6 @@
   },
   "default_primary_color": 14654628,
   "default_secondary_color": 5518659,
-  "weight": 130,
   "sounds": {
     "shared": {
       "open": "minecraft:block.cherry_wood_door.open",

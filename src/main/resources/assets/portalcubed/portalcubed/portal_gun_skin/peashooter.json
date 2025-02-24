@@ -3,7 +3,6 @@
     "translate": "portal_gun_skin.portalcubed.peashooter"
   },
   "item_model": "portalcubed:portal_guns/peashooter",
-  "weight": 30,
   "sounds": {
     "primary_shoot": "minecraft:entity.arrow.shoot",
     "secondary_shoot": "minecraft:entity.arrow.shoot",

@@ -4,7 +4,6 @@
   },
   "default_primary_color": 16250994,
   "default_secondary_color": 8375800,
-  "weight": 240,
   "sounds": {
     "shared": {
       "open": "portalcubed:portal_type.portal_combat",

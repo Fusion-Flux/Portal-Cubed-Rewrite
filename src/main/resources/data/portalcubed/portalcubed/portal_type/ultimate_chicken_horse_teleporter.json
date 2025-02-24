@@ -4,7 +4,6 @@
   },
   "default_primary_color": 10711807,
   "default_secondary_color": 7602136,
-  "weight": 310,
   "sounds": {
     "shared": {
       "open": "minecraft:block.netherite_block.place",

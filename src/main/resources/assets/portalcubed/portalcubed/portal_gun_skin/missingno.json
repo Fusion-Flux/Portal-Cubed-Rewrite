@@ -3,7 +3,6 @@
     "translate": "portal_gun_skin.portalcubed.missing_texture_portal_gun"
   },
   "item_model": "portalcubed:portal_guns/missing_texture_portal_gun",
-  "weight": 21,
   "sounds": {
     "primary_shoot": "portalcubed:prop.error.impact",
     "secondary_shoot": "portalcubed:prop.error.impact",

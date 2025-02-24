@@ -15,7 +15,7 @@
   	    },
  	     {
  	       "type": "minecraft:dye",
- 	       "default": -1
+ 	       "default": 4282926128
  	     },
  	     {
  	       "type": "portalcubed:portal_gun",
@@ -39,7 +39,7 @@
         },
         {
           "type": "minecraft:dye",
-          "default": -1
+          "default": 4282926128
         },
         {
           "type": "portalcubed:portal_gun",

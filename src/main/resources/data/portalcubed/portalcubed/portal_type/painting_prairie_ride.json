@@ -4,7 +4,6 @@
   },
   "default_primary_color": 11753238,
   "default_secondary_color": 8930122,
-  "weight": 202,
   "sounds": {
     "shared": {
       "open": "minecraft:entity.painting.place",

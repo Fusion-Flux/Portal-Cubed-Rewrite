@@ -4,7 +4,6 @@
   },
   "default_primary_color": 1524369,
   "default_secondary_color": 9353676,
-  "weight": 105,
   "sounds": {
     "shared": {
       "open": "minecraft:item.brush.brushing.generic",

@@ -1,0 +1,26 @@
+{
+  "values" : [
+    "portalcubed:blank",
+    "portalcubed:exit",
+    "portalcubed:direction_arrow_up",
+    "portalcubed:direction_arrow_down",
+    "portalcubed:direction_arrow_left",
+    "portalcubed:direction_arrow_right",
+    "portalcubed:dot_1",
+    "portalcubed:dot_2",
+    "portalcubed:dot_3",
+    "portalcubed:dot_4",
+    "portalcubed:dot_5",
+    "portalcubed:connection_square",
+    "portalcubed:connection_cross",
+    "portalcubed:connection_dot",
+    "portalcubed:connection_moon",
+    "portalcubed:connection_slash",
+    "portalcubed:connection_triangle",
+    "portalcubed:connection_tilde",
+    "portalcubed:connection_star",
+    "portalcubed:connection_circle",
+    "portalcubed:connection_wavy_lines",
+    "portalcubed:creeper"
+  ]
+}

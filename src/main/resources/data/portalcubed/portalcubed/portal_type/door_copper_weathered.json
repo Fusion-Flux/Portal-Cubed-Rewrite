@@ -4,7 +4,6 @@
   },
   "default_primary_color": 6728055,
   "default_secondary_color": 4813156,
-  "weight": 133,
   "sounds": {
     "shared": {
       "open": "minecraft:block.copper_door.open",

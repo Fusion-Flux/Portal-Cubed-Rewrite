@@ -4,7 +4,6 @@
   },
   "default_primary_color": 16187137,
   "default_secondary_color": 16711823,
-  "weight": 190,
   "sounds": {
     "shared": {
       "open": "minecraft:entity.villager.work_cartographer",

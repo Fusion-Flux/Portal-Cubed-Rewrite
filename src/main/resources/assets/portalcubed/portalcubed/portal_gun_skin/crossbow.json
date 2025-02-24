@@ -3,7 +3,6 @@
     "translate": "portal_gun_skin.portalcubed.black_hole_crossbow"
   },
   "item_model": "portalcubed:portal_guns/black_hole_crossbow",
-  "weight": 27,
   "sounds": {
     "primary_shoot": "minecraft:item.crossbow.shoot",
     "secondary_shoot": "minecraft:item.crossbow.shoot",

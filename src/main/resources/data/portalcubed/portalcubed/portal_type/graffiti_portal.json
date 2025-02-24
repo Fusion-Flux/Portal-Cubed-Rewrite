@@ -4,7 +4,6 @@
   },
   "default_primary_color": 10494720,
   "default_secondary_color": 7667377,
-  "weight": 220,
   "sounds": {
     "shared": {
       "open": "minecraft:item.bottle.empty",
