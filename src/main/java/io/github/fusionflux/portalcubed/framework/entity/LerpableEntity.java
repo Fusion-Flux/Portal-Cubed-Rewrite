@@ -22,6 +22,13 @@ public abstract class LerpableEntity extends Entity {
 	}
 
 	@Override
+	public void baseTick() {
+		super.baseTick();
+		this.yRotO = this.getYRot();
+		this.xRotO = this.getXRot();
+	}
+
+	@Override
 	public void tick() {
 		super.tick();
 		this.tickLerp();
@@ -29,10 +36,8 @@ public abstract class LerpableEntity extends Entity {
 
 	private void tickLerp() {
 		if (this.isControlledByLocalInstance()) {
-			this.lerpSteps = 0;
-		}
-
-		if (this.lerpSteps > 0) {
+			this.cancelLerp();
+		} else if (this.lerpSteps > 0) {
 			this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
 			this.lerpSteps--;
 		}

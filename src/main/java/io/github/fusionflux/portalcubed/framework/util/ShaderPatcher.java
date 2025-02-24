@@ -81,7 +81,6 @@ public class ShaderPatcher {
 				}
 			}
 		}
-		System.out.println(builder.toString());
 		return builder.toString();
 	}
 
