@@ -505,7 +505,8 @@ public class PortalCommand {
 
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) throws CommandSyntaxException {
-				int color = getOptional(ctx, "color", ColorArgumentType::getColor, polarity.defaultColor);
+				PortalType type = portal.type().value();
+				int color = getOptional(ctx, "color", ColorArgumentType::getColor, type.defaultColorOf(polarity));
 				return portal.color() == ARGB.opaque(color)
 						? this.fail(ctx, "#" + Integer.toHexString(color))
 						: portal.withColor(color);
