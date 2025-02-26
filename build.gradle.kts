@@ -19,7 +19,7 @@ val modmenuVersion = "13.0.2"
 
 // buildscript
 plugins {
-    id("fabric-loom") version "1.9.+"
+    id("fabric-loom") version "1.10.+"
     id("maven-publish")
 }
 
@@ -65,7 +65,7 @@ dependencies {
 }
 
 tasks.withType(ProcessResources::class) {
-    val properties: Map<String, Any> = mapOf(
+    inputs.properties(
         "version" to version,
         "loader_version" to loaderVersion,
         "fapi_version" to fapiVersion,
@@ -74,10 +74,8 @@ tasks.withType(ProcessResources::class) {
         "sodium_version" to "$sodiumVersion+$minecraftVersion"
     )
 
-    inputs.properties(properties)
-
     filesMatching("fabric.mod.json") {
-        expand(properties)
+        expand(inputs.properties)
     }
 }
 
@@ -104,19 +102,14 @@ loom {
 
         named("client").configure {
             source(gametests)
+            ideConfigGenerated(false)
             // required for gametests to tick.
             // note that setting this on a server will have unforeseen consequences
             property("quilt.game_test", "true")
         }
 
-        configureEach {
-            property("mixin.debug.export", "true")
-            vmArg("-XX:+AllowEnhancedClassRedefinition")
-            vmArg("-XX:+IgnoreUnrecognizedVMOptions")
-
-            property("fabric.game_test.command", "true")
-            property("fabric-tag-conventions-v2.missingTagTranslationWarning", "SILENCED")
-            property("fabric-tag-conventions-v1.legacyTagWarning", "VERBOSE")
+        named("server").configure {
+            ideConfigGenerated(false)
         }
     }
 }

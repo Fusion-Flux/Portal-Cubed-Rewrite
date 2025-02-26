@@ -1,0 +1,7 @@
+-Dmixin.debug.export=true
+-XX:+AllowEnhancedClassRedefinition
+-XX:+IgnoreUnrecognizedVMOptions
+-Dfabric.game_test
+-Dfabric.game_test.command
+-Dfabric-tag-conventions-v2.missingTagTranslationWarning=SILENCED
+-Dfabric-tag-conventions-v1.legacyTagWarning=VERBOSE
