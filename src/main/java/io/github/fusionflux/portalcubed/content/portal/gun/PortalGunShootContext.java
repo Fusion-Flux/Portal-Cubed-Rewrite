@@ -24,7 +24,7 @@ public record PortalGunShootContext(
 		float yRot
 ) {
 	// Magic number to avoid ray-cast clipping into blocks due to the end point being extremely far
-	private static final double MAGIC_OFFSET = 0.25;
+	private static final double MAGIC_OFFSET = 0.35;
 
 	public PortalGunShootContext(ServerPlayer player) {
 		// TODO: this probably should use something other than the player's name
