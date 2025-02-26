@@ -103,9 +103,6 @@ loom {
         named("client").configure {
             source(gametests)
             configName = "Client"
-            // required for gametests to tick.
-            // note that setting this on a server will have unforeseen consequences
-            property("quilt.game_test", "true")
         }
 
         named("server").configure {
