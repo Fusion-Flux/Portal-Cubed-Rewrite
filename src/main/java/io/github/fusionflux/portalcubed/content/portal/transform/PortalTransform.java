@@ -26,13 +26,18 @@ public interface PortalTransform {
 	void apply(Entity entity);
 
 	static PortalTransform of(PortalHitResult result) {
+		PortalTransform first = new SinglePortalTransform(result.in(), result.out());
+		if (!result.hasNext())
+			return first;
+
 		List<PortalTransform> transforms = new ArrayList<>();
-		transforms.add(new SinglePortalTransform(result.in(), result.out()));
+		transforms.add(first);
 		while (result.hasNext()) {
 			PortalHitResult next = result.next();
 			transforms.add(new SinglePortalTransform(next.in(), next.out()));
 			result = next;
 		}
-		return transforms.size() == 1 ? transforms.getFirst() : new MultiPortalTransform(transforms);
+
+		return new MultiPortalTransform(transforms);
 	}
 }
