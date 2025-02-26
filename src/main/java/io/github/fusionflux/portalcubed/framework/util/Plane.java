@@ -53,13 +53,7 @@ public record Plane(Vec3 normal, Vec3 origin) {
 	public void getClipping(Matrix4fc view, Vec3 camPos, Vector4f dest) {
 		Vec3 camRelativeOrigin = this.origin.subtract(camPos);
 		Vector3f normal = view.transformDirection(this.normal.toVector3f());
-		float distance = -view.transformPosition(
-				camRelativeOrigin.toVector3f().sub(
-						(float) (this.normal.x * PortalRenderer.OFFSET_FROM_WALL),
-						(float) (this.normal.y * PortalRenderer.OFFSET_FROM_WALL),
-						(float) (this.normal.z * PortalRenderer.OFFSET_FROM_WALL)
-				)
-		).dot(normal);
-		dest.set(normal, distance);
+		float distance = -view.transformPosition(camRelativeOrigin.toVector3f()).dot(normal);
+		dest.set(normal, distance + (float) PortalRenderer.OFFSET_FROM_WALL);
 	}
 }
