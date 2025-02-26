@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.renderer;
 
-import org.joml.Vector3f;
+import java.util.Objects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -14,6 +14,8 @@ import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -62,29 +64,30 @@ public class PortalDebugRenderer {
 		// cross-portal collision
 //		renderCollision(ctx, portal, linked);
 		// render player's raycast through
-		Vec3 pos = camera.getPosition();
-		Vector3f lookVector = camera.getLookVector().normalize(3, new Vector3f());
-		Vec3 end = pos.add(lookVector.x, lookVector.y, lookVector.z);
+		LocalPlayer player = Objects.requireNonNull(Minecraft.getInstance().player);
+		Vec3 pos = player.getEyePosition();
+		Vec3 lookVector = player.getViewVector(1).scale(6);
+		Vec3 end = pos.add(lookVector);
 		PortalHitResult hit = ctx.world().portalManager().activePortals().clip(pos, end);
 		if (hit != null) {
-			// start -> hitIn
-			RenderingUtils.renderLine(matrices, buffers, hit.start(), hit.inHit(), Color.ORANGE);
-			// box at hitIn
-			AABB hitInBox = AABB.ofSize(hit.inHit(), 0.1, 0.1, 0.1);
-			RenderingUtils.renderBox(matrices, buffers, hitInBox, Color.ORANGE);
-			// box at hitOut
-			AABB hitOutBox = AABB.ofSize(hit.outHit(), 0.1, 0.1, 0.1);
-			RenderingUtils.renderBox(matrices, buffers, hitOutBox, Color.BLUE);
-
-			if (hit.isEnd()) {
-				// hitOut -> end
-				RenderingUtils.renderLine(matrices, buffers, hit.outHit(), hit.end(), Color.BLUE);
-				// box at end
-				AABB endBox = AABB.ofSize(hit.end(), 0.1, 0.1, 0.1);
-				RenderingUtils.renderBox(matrices, buffers, endBox, Color.BLUE);
-			}
+			renderHit(matrices, buffers, hit);
 		}
 		matrices.popPose();
+	}
+
+	private static void renderHit(PoseStack matrices, MultiBufferSource vertices, PortalHitResult hit) {
+		// in
+		RenderingUtils.renderLine(matrices, vertices, hit.start(), hit.inHit(), Color.ORANGE);
+		RenderingUtils.renderPos(matrices, vertices, hit.inHit(), 0.1f, Color.ORANGE);
+		// intermediates, outs to next ins
+		while (hit.hasNext()) {
+			PortalHitResult next = hit.next();
+			RenderingUtils.renderLine(matrices, vertices, hit.outHit(), next.inHit(), Color.CYAN);
+			hit = next;
+		}
+		// hit is last, render out
+		RenderingUtils.renderLine(matrices, vertices, hit.outHit(), hit.end(), Color.BLUE);
+		RenderingUtils.renderPos(matrices, vertices, hit.end(), 0.1f, Color.BLUE);
 	}
 
 	private static void renderTransform(PortalInstance in, PortalInstance out, PoseStack matrices, MultiBufferSource buffers) {
