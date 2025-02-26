@@ -1,10 +1,12 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.transform;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
@@ -15,13 +17,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-public final class PortalTransform {
-	public static final StreamCodec<ByteBuf, PortalTransform> CODEC = StreamCodec.composite(
+public final class SinglePortalTransform implements PortalTransform {
+	public static final StreamCodec<ByteBuf, SinglePortalTransform> CODEC = StreamCodec.composite(
 			Vec3.STREAM_CODEC, transform -> transform.inOrigin,
 			PortalCubedStreamCodecs.QUATERNIONFC, transform -> transform.inRot,
 			Vec3.STREAM_CODEC, transform -> transform.outOrigin,
 			PortalCubedStreamCodecs.QUATERNIONFC, transform -> transform.outRot,
-			PortalTransform::new
+			SinglePortalTransform::new
 	);
 
 	public final Vec3 inOrigin;
@@ -34,24 +36,25 @@ public final class PortalTransform {
 
 	public final PortalTransform inverse;
 
-	public PortalTransform(PortalInstance in, PortalInstance out) {
+	public SinglePortalTransform(PortalInstance in, PortalInstance out) {
 		this(in.data.origin(), in.data.rotation(), out.data.origin(), out.data.rotation());
 	}
 
-	public PortalTransform(Vec3 inOrigin, Quaternionfc inRot, Vec3 outOrigin, Quaternionfc outRot) {
+	public SinglePortalTransform(Vec3 inOrigin, Quaternionfc inRot, Vec3 outOrigin, Quaternionfc outRot) {
 		this(inOrigin, inRot, outOrigin, outRot, null);
 	}
 
-	private PortalTransform(Vec3 inOrigin, Quaternionfc inRot, Vec3 outOrigin, Quaternionfc outRot, @Nullable PortalTransform inverse) {
+	private SinglePortalTransform(Vec3 inOrigin, Quaternionfc inRot, Vec3 outOrigin, Quaternionfc outRot, @Nullable PortalTransform inverse) {
 		this.inOrigin = inOrigin;
 		this.inRot = new Quaternionf(inRot);
 		this.inRot180 = rotate180(inRot);
 		this.outOrigin = outOrigin;
 		this.outRot = new Quaternionf(outRot);
 		this.outRot180 = rotate180(outRot);
-		this.inverse = inverse != null ? inverse : new PortalTransform(outOrigin, outRot, inOrigin, inRot, this);
+		this.inverse = inverse != null ? inverse : new SinglePortalTransform(outOrigin, outRot, inOrigin, inRot, this);
 	}
 
+	@Override
 	public Vec3 applyRelative(Vec3 pos) {
 		Vector3d joml = new Vector3d(pos.x, pos.y, pos.z);
 		this.inRot.transformInverse(joml);
@@ -59,24 +62,18 @@ public final class PortalTransform {
 		return new Vec3(joml.x, joml.y, joml.z);
 	}
 
+	@Override
 	public Vec3 applyAbsolute(Vec3 pos) {
 		Vec3 relative = pos.subtract(this.inOrigin);
 		Vec3 transformed = this.applyRelative(relative);
 		return transformed.add(this.outOrigin);
 	}
 
+	@Override
 	public Rotations apply(Rotations rotations) {
-		return this.apply(rotations.getX(), rotations.getY(), rotations.getZ());
-	}
-
-	public Rotations apply(float xRot, float yRot) {
-		return this.apply(xRot, yRot, 0);
-	}
-
-	public Rotations apply(float xRot, float yRot, float zRot) {
-		// TODO: add zRot
+		// TODO: handle Z
 		Quaternionf rot = new Quaternionf()
-				.rotationYXZ((180 - yRot) * Mth.DEG_TO_RAD, -xRot * Mth.DEG_TO_RAD, 0)
+				.rotationYXZ((180 - rotations.getY()) * Mth.DEG_TO_RAD, -rotations.getX() * Mth.DEG_TO_RAD, 0)
 				.premul(this.inRot.invert(new Quaternionf()))
 				.premul(this.outRot180)
 				.conjugate();
@@ -85,6 +82,7 @@ public final class PortalTransform {
 		return new Rotations(pitch * Mth.RAD_TO_DEG, yaw * Mth.RAD_TO_DEG, 0);
 	}
 
+	@Override
 	public void apply(Entity entity) {
 		Vec3 pos = entity.position();
 		Vec3 center = PortalTeleportHandler.centerOf(entity);

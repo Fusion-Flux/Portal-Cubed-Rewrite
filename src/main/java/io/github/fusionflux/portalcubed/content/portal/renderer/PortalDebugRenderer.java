@@ -9,7 +9,8 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
@@ -91,7 +92,7 @@ public class PortalDebugRenderer {
 	}
 
 	private static void renderTransform(PortalInstance in, PortalInstance out, PoseStack matrices, MultiBufferSource buffers) {
-		PortalTransform transform = new PortalTransform(in, out);
+		PortalTransform transform = new SinglePortalTransform(in, out);
 		for (TransformSample sample : getSamplePositions(in)) {
 			RenderingUtils.renderPos(matrices, buffers, sample.pos, 0.1f, sample.color);
 			Vec3 transformed = transform.applyAbsolute(sample.pos);

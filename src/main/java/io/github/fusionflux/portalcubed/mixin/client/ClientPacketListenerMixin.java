@@ -15,9 +15,9 @@ import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.sync.ReverseTeleportChain;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
+import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.util.Color;
@@ -48,15 +48,15 @@ public class ClientPacketListenerMixin {
 	private void reinterpretSync(ClientboundEntityPositionSyncPacket packet, CallbackInfo ci,
 								 @Local Entity entity, @Local LocalRef<Vec3> pos,
 								 @Local(ordinal = 0) LocalFloatRef xRot, @Local(ordinal = 1) LocalFloatRef yRot) {
-		ReverseTeleportChain chain = getChain(entity);
-		if (chain == null)
+		PortalTransform transform = getTransform(entity);
+		if (transform == null)
 			return;
 
 		Vec3 center = PortalTeleportHandler.centerOf(entity);
 		Vec3 posToCenter = entity.position().vectorTo(center);
 
 		Vec3 newCenter = pos.get().add(posToCenter);
-		Vec3 teleportedCenter = chain.applyAbsolute(newCenter);
+		Vec3 teleportedCenter = transform.applyAbsolute(newCenter);
 
 		Vec3 newPos = teleportedCenter.subtract(posToCenter);
 
@@ -65,7 +65,7 @@ public class ClientPacketListenerMixin {
 
 		pos.set(newPos);
 
-		Rotations rotations = chain.apply(xRot.get(), yRot.get());
+		Rotations rotations = transform.apply(xRot.get(), yRot.get());
 		xRot.set(rotations.getWrappedX());
 		yRot.set(rotations.getWrappedY());
 	}
@@ -79,8 +79,8 @@ public class ClientPacketListenerMixin {
 			)
 	)
 	private void reinterpretMovePos(Args args, @Local Entity entity) {
-		ReverseTeleportChain chain = getChain(entity);
-		if (chain == null)
+		PortalTransform transform = getTransform(entity);
+		if (transform == null)
 			return;
 
 		Vec3 center = PortalTeleportHandler.centerOf(entity);
@@ -89,7 +89,7 @@ public class ClientPacketListenerMixin {
 		Vec3 newPos = new Vec3(args.get(0), args.get(1), args.get(2));
 		Vec3 newCenter = newPos.add(posToCenter);
 
-		Vec3 transformedCenter = chain.applyAbsolute(newCenter);
+		Vec3 transformedCenter = transform.applyAbsolute(newCenter);
 		Vec3 newTeleportedPos = transformedCenter.subtract(posToCenter);
 		args.set(0, newTeleportedPos.x);
 		args.set(1, newTeleportedPos.y);
@@ -107,12 +107,12 @@ public class ClientPacketListenerMixin {
 			)
 	)
 	private void reinterpretVelocity(Args args, @Local Entity entity) {
-		ReverseTeleportChain chain = getChain(entity);
-		if (chain == null)
+		PortalTransform transform = getTransform(entity);
+		if (transform == null)
 			return;
 
 		Vec3 vel = new Vec3(args.get(0), args.get(1), args.get(2));
-		Vec3 newVel = chain.applyRelative(vel);
+		Vec3 newVel = transform.applyRelative(vel);
 		args.set(0, newVel.x);
 		args.set(1, newVel.y);
 		args.set(2, newVel.z);
@@ -131,9 +131,9 @@ public class ClientPacketListenerMixin {
 
 	@Unique
 	@Nullable
-	private static ReverseTeleportChain getChain(Entity entity) {
+	private static PortalTransform getTransform(Entity entity) {
 		TeleportProgressTracker tracker = entity.getTeleportProgressTracker();
 		TrackedTeleport teleport = tracker.currentTeleport();
-		return teleport != null ? tracker.chain() : null;
+		return teleport != null ? tracker.reverseTransform() : null;
 	}
 }

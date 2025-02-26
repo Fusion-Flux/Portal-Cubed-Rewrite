@@ -8,6 +8,8 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.transform.MultiPortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
 import net.minecraft.world.entity.Entity;
@@ -24,13 +26,15 @@ public class TeleportProgressTracker {
 
 	private final Entity entity;
 	private final LinkedList<TrackedTeleport> teleports;
-	private final ReverseTeleportChain chain;
+	private final List<PortalTransform> reverseTransforms;
+	private final MultiPortalTransform reverseTransform;
 	private final List<TeleportStep> stepsThisTick;
 
 	public TeleportProgressTracker(Entity entity) {
 		this.entity = entity;
 		this.teleports = new LinkedList<>();
-		this.chain = new ReverseTeleportChain(this.teleports);
+		this.reverseTransforms = new ArrayList<>();
+		this.reverseTransform = new MultiPortalTransform(this.reverseTransforms);
 		this.stepsThisTick = new ArrayList<>();
 	}
 
@@ -59,6 +63,7 @@ public class TeleportProgressTracker {
 			Vec3 center = PortalTeleportHandler.centerOf(this.entity);
 			if (teleport.isDone(center)) {
 				itr.remove();
+				this.reverseTransforms.removeLast();
 
 				Vec3 oldCenter = PortalTeleportHandler.oldCenterOf(this.entity);
 				Vec3 clip = teleport.threshold.clip(oldCenter, center);
@@ -88,7 +93,10 @@ public class TeleportProgressTracker {
 	}
 
 	public void addTeleports(List<TrackedTeleport> teleports) {
-		this.teleports.addAll(teleports);
+		for (TrackedTeleport teleport : teleports) {
+			this.teleports.add(teleport);
+			this.reverseTransforms.addFirst(teleport.transform.inverse);
+		}
 		System.out.println("added " + teleports.size() + " teleports; new: " + this.teleports);
 	}
 
@@ -97,8 +105,11 @@ public class TeleportProgressTracker {
 		return this.teleports.peekFirst();
 	}
 
-	public ReverseTeleportChain chain() {
-		return this.chain;
+	/**
+	 * Transform encompassing transforms of all teleports, inverted, in reverse order.
+	 */
+	public PortalTransform reverseTransform() {
+		return this.reverseTransform;
 	}
 
 	@Nullable
@@ -114,6 +125,7 @@ public class TeleportProgressTracker {
 	private void abort() {
 		System.out.println("aborted tracking");
 		this.teleports.clear();
+		this.reverseTransforms.clear();
 		RequestEntitySyncPacket packet = new RequestEntitySyncPacket(this.entity);
 		PortalCubedPackets.sendToServer(packet);
 	}

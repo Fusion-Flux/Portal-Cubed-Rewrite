@@ -5,6 +5,7 @@ import org.joml.Quaternionf;
 
 import com.mojang.serialization.Codec;
 
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.Plane;
@@ -51,7 +52,7 @@ public final class PortalInstance {
         this.data = data;
 
 		this.normal = TransformUtils.apply(BASE_NORMAL, this.rotation()::transform);
-		this.rotation180 = PortalTransform.rotate180(this.rotation());
+		this.rotation180 = SinglePortalTransform.rotate180(this.rotation());
 
 		this.plane = new Plane(this.normal, this.data.origin());
 

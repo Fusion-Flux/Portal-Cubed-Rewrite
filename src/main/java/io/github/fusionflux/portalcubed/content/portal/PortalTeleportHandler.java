@@ -5,6 +5,8 @@ import java.util.List;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
+import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
@@ -48,7 +50,7 @@ public class PortalTeleportHandler {
 		if (theHorrors(result))
 			return;
 
-		PortalTransform transform = new PortalTransform(result.in(), result.getLast().out());
+		PortalTransform transform = PortalTransform.of(result);
 		transform.apply(entity);
 
 		// tp command does this
@@ -121,7 +123,7 @@ public class PortalTeleportHandler {
 		List<TrackedTeleport> teleports = new ArrayList<>();
 
 		while (result != null) {
-			PortalTransform transform = new PortalTransform(result.in(), result.out());
+			SinglePortalTransform transform = new SinglePortalTransform(result.in(), result.out());
 			teleports.add(new TrackedTeleport(result.in().plane, transform));
 			result = result.nextOrNull();
 		}
@@ -157,10 +159,10 @@ public class PortalTeleportHandler {
 	}
 
 	public static Vec3 teleportAbsoluteVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {
-		return new PortalTransform(in, out).applyAbsolute(vec);
+		return new SinglePortalTransform(in, out).applyAbsolute(vec);
 	}
 
 	public static Vec3 teleportRelativeVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {
-		return new PortalTransform(in, out).applyRelative(vec);
+		return new SinglePortalTransform(in, out).applyRelative(vec);
 	}
 }

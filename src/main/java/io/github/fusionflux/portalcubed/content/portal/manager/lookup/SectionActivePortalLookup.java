@@ -11,8 +11,9 @@ import org.jetbrains.annotations.Nullable;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
+import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongConsumer;
@@ -77,8 +78,9 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		// only paired portals should be stored
 		Objects.requireNonNull(linked);
 
-		Vec3 teleportedHit = PortalTeleportHandler.teleportAbsoluteVecBetween(closest.hit, closest.portal, linked);
-		Vec3 teleportedEnd = PortalTeleportHandler.teleportAbsoluteVecBetween(to, closest.portal, linked);
+		PortalTransform transform = new SinglePortalTransform(closest.portal, linked);
+		Vec3 teleportedHit = transform.applyAbsolute(closest.hit);
+		Vec3 teleportedEnd = transform.applyAbsolute(to);
 
 		PortalHitResult next;
 		try {
