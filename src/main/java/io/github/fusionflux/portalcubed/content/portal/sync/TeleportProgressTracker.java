@@ -130,7 +130,7 @@ public class TeleportProgressTracker {
 			float partialTotalWeight = (float) (this.currentStepsTotalWeight * partialTick);
 			float accumulatedWeight = 0;
 
-			int i = 0;
+			int i = this.currentSteps.size() - 1;
 			for (int j = 0; j < this.currentSteps.size(); j++) {
 				float weight = this.currentSteps.get(j).weight();
 				accumulatedWeight += weight;
