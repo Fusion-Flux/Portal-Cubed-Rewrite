@@ -9,13 +9,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 public record EntityState(Vec3 pos, Rotations rotations) {
-	public EntityState lerp(EntityState to, float partialTicks) {
+	public EntityState lerp(EntityState to, double delta) {
 		return new EntityState(
-				this.pos.lerp(to.pos, partialTicks),
+				this.pos.lerp(to.pos, delta),
 				new Rotations(
-						Mth.rotLerp(partialTicks, this.rotations.getX(), to.rotations.getX()),
-						Mth.rotLerp(partialTicks, this.rotations.getY(), to.rotations.getY()),
-						Mth.rotLerp(partialTicks, this.rotations.getZ(), to.rotations.getZ())
+						(float) Mth.rotLerp(delta, this.rotations.getX(), to.rotations.getX()),
+						(float) Mth.rotLerp(delta, this.rotations.getY(), to.rotations.getY()),
+						(float) Mth.rotLerp(delta, this.rotations.getZ(), to.rotations.getZ())
 				)
 		);
 	}

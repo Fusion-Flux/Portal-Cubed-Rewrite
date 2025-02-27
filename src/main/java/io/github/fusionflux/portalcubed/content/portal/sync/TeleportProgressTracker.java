@@ -28,18 +28,25 @@ public class TeleportProgressTracker {
 	private final LinkedList<TrackedTeleport> teleports;
 	private final List<PortalTransform> reverseTransforms;
 	private final MultiPortalTransform reverseTransform;
-	private final List<TeleportStep> stepsThisTick;
+
+	@Nullable
+	private EntityState cachedEntityState;
+	private float cachedPartialTick;
+	private final List<TeleportStep> currentSteps;
+	private double currentStepsTotalWeight;
 
 	public TeleportProgressTracker(Entity entity) {
 		this.entity = entity;
 		this.teleports = new LinkedList<>();
 		this.reverseTransforms = new ArrayList<>();
 		this.reverseTransform = new MultiPortalTransform(this.reverseTransforms);
-		this.stepsThisTick = new ArrayList<>();
+		this.currentSteps = new LinkedList<>();
 	}
 
 	public void afterTick() {
-		this.stepsThisTick.clear();
+		this.cachedEntityState = null;
+		this.currentSteps.clear();
+		this.currentStepsTotalWeight = 0;
 
 		if (this.teleports.isEmpty())
 			return;
@@ -77,13 +84,15 @@ public class TeleportProgressTracker {
 
 				EntityState state = EntityState.capture(this.entity);
 				EntityState old = EntityState.captureOld(this.entity);
-				this.stepsThisTick.add(new TeleportStep(progressPreTp, old, state));
+				this.currentSteps.add(new TeleportStep(progressPreTp, old, state));
+				this.currentStepsTotalWeight += progressPreTp;
 
 				teleport.transform.apply(this.entity);
 
 				EntityState afterTp = EntityState.capture(this.entity);
 				EntityState oldAfterTp = EntityState.captureOld(this.entity);
-				this.stepsThisTick.add(new TeleportStep(1, oldAfterTp, afterTp));
+				this.currentSteps.add(new TeleportStep(1, oldAfterTp, afterTp));
+				this.currentStepsTotalWeight += 1;
 
 				System.out.println("teleport done; left: " + this.teleports);
 			} else {
@@ -113,13 +122,28 @@ public class TeleportProgressTracker {
 	}
 
 	@Nullable
-	public EntityState getEntityStateOverride(float partialTicks) {
-		for (TeleportStep step : this.stepsThisTick) {
-			if (partialTicks < step.untilPartialTicks()) {
-				return step.lerp(partialTicks);
+	public EntityState getEntityStateOverride(float partialTick) {
+		if (this.currentSteps.isEmpty())
+			return null;
+
+		if (this.cachedEntityState == null || partialTick != this.cachedPartialTick) {
+			float partialTotalWeight = (float) (this.currentStepsTotalWeight * partialTick);
+			float accumulatedWeight = 0;
+
+			int i = this.currentSteps.size() - 1;
+			for (int j = 0; j < this.currentSteps.size(); j++) {
+				float weight = this.currentSteps.get(j).weight();
+				accumulatedWeight += weight;
+				if (accumulatedWeight > partialTotalWeight) {
+					i = j;
+					break;
+				}
 			}
+
+			this.cachedPartialTick = partialTick;
+			this.cachedEntityState = this.currentSteps.get(i).getState(partialTick);
 		}
-		return null;
+		return this.cachedEntityState;
 	}
 
 	private void abort() {
