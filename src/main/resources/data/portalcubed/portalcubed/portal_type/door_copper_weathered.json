@@ -14,26 +14,26 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/door_copper_weathered/weathered_copper_door_open",
+        "texture": "portalcubed:portals/doors/copper_weathered/weathered_copper_door_open",
         "tint": false
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/door_copper_weathered/weathered_copper_door",
+        "texture": "portalcubed:portals/doors/copper_weathered/weathered_copper_door",
         "tint": false
       }
     ],
     "tracer": [
       {
-        "texture": "portalcubed:portals/door_copper_weathered/weathered_copper_door_tracer",
+        "texture": "portalcubed:portals/doors/copper_weathered/weathered_copper_door_tracer",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/door_copper_weathered/weathered_copper_door_tracer_overlay",
+        "texture": "portalcubed:portals/doors/copper_weathered/weathered_copper_door_tracer_overlay",
         "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/door_copper_weathered/weathered_copper_door_stencil"
+  "stencil": "portalcubed:portals/doors/door_stencil"
 }

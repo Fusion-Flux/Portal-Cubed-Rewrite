@@ -1,0 +1,13 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.invisible"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": -1,
+  "sounds": {},
+  "textures": {
+    "open": "portalcubed:portals/invisible/empty",
+    "closed": "portalcubed:portals/invisible/empty",
+    "tracer": "portalcubed:portals/invisible/empty"
+  }
+}
