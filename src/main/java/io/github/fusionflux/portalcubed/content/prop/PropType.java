@@ -53,7 +53,7 @@ public enum PropType {
 			.compostChance(1)
 			.properties(p -> p.rarity(Rarity.EPIC))
 	),
-	ERROR                  (1f, 1f);  //add epic rarity to this later too, I just couldn't figure it out lol - Carter
+	ERROR                  (1, false, 1f, 1f, Prop::new, false, builder -> builder.properties(p -> p.rarity(Rarity.EPIC)));
 
 	public final String name;
 	public final int[] variants;
