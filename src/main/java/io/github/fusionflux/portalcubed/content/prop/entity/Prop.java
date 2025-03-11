@@ -9,6 +9,7 @@ import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedFluidTags;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import net.minecraft.core.BlockPos;
@@ -44,6 +45,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -152,7 +154,8 @@ public class Prop extends HoldableEntity {
 		if (!dirty)
 			return;
 
-		if (this.getType().is(PortalCubedEntityTags.CAN_BE_WASHED) && this.isInWaterOrRain())
+		FluidState fluidState = this.level().getFluidState(this.blockPosition());
+		if (!fluidState.is(PortalCubedFluidTags.DOES_NOT_CLEAN_PROPS) && this.getType().is(PortalCubedEntityTags.CAN_BE_WASHED) && this.isInWaterOrRain())
 			this.setDirty(false);
 	}
 
