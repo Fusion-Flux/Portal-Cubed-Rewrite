@@ -12,6 +12,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import io.github.fusionflux.portalcubed.PortalCubedClient;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.EntityAccessor;
@@ -106,7 +107,7 @@ public class SourcePhysics {
 		public void onHudRender(GuiGraphics graphics, DeltaTracker tickCounter) {
 			Minecraft mc = Minecraft.getInstance();
 			LocalPlayer player = mc.player;
-			if (player == null || !mc.gui.getDebugOverlay().showDebugScreen())
+			if (player == null || !PortalCubedClient.portalDebugEnabled)
 				return;
 
 			Camera camera = mc.gameRenderer.getMainCamera();
