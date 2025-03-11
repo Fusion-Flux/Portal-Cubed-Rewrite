@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
 
 public class EntityDebugRendering {
 	public static void init() {
@@ -64,7 +63,7 @@ public class EntityDebugRendering {
 
 	private static void render(Entity entity, PoseStack matrices, MultiBufferSource vertices, Color bounds, Color vel) {
 		RenderingUtils.renderBox(matrices, vertices, entity.getBoundingBox(), bounds);
-		RenderingUtils.renderVec(matrices, vertices, entity.getDeltaMovement(), Vec3.ZERO, vel);
+		RenderingUtils.renderVec(matrices, vertices, entity.getDeltaMovement(), entity.position(), vel);
 	}
 
 	private static boolean shouldRender(Entity entity, Minecraft mc) {
