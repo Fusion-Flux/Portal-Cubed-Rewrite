@@ -8,14 +8,14 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedFluidTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.ai.behavior.TryFindWater;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 
-@Mixin(TryFindWater.class)
-public class TryFindWaterMixin {
+@Mixin(PanicGoal.class)
+public class PanicGoalMixin {
 	@WrapOperation(
-			method = "method_47179",
+			method = "method_39764",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"

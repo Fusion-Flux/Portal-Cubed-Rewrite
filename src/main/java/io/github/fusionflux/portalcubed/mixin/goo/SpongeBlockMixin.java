@@ -12,7 +12,13 @@ import net.minecraft.world.level.material.FluidState;
 
 @Mixin(SpongeBlock.class)
 public class SpongeBlockMixin {
-	@ModifyExpressionValue(method = "method_49829", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"))
+	@ModifyExpressionValue(
+			method = "method_49829",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"
+			)
+	)
 	private static boolean toxicGooIsNotWater(boolean original, @Local FluidState fluidState) {
 		return original && !(fluidState.getType() instanceof GooFluid);
 	}

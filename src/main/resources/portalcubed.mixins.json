@@ -27,6 +27,7 @@
     "disintegration.ServerLevelMixin",
     "goo.AnimalPanicMixin",
     "goo.BottleItemMixin",
+    "goo.PanicGoalMixin",
     "goo.SpongeBlockMixin",
     "goo.TryFindWaterGoalMixin",
     "goo.TryFindWaterMixin",
