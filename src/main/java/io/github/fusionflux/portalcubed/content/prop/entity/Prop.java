@@ -27,6 +27,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -50,6 +51,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class Prop extends HoldableEntity {
@@ -150,13 +152,26 @@ public class Prop extends HoldableEntity {
 	}
 
 	protected void tickState() {
-		boolean dirty = this.isDirty().orElse(false);
-		if (!dirty)
-			return;
+		Level level = this.level();
 
-		FluidState fluidState = this.level().getFluidState(this.blockPosition());
-		if (!fluidState.is(PortalCubedFluidTags.DOES_NOT_CLEAN_PROPS) && this.getType().is(PortalCubedEntityTags.CAN_BE_WASHED) && this.isInWaterOrRain())
-			this.setDirty(false);
+		if (this.getType().is(PortalCubedEntityTags.CAN_BE_WASHED)) {
+			boolean dirty = this.isDirty().orElse(false);
+			if (dirty) {
+				AABB checkBox = this.getBoundingBox().deflate(CHECK_BOX_EPSILON);
+				for (BlockPos pos : BlockPos.betweenClosed(checkBox)) {
+					boolean wet = level.isRainingAt(pos);
+
+					FluidState fluidState = level.getFluidState(pos);
+					if (fluidState.is(FluidTags.WATER) && !fluidState.is(PortalCubedFluidTags.DOES_NOT_CLEAN_PROPS))
+						wet |= (pos.getY() + fluidState.getHeight(level, pos)) >= checkBox.minY;
+
+					if (wet) {
+						this.setDirty(false);
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	@Override

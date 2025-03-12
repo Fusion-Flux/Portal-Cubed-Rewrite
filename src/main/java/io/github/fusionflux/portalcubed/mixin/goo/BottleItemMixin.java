@@ -14,7 +14,13 @@ import net.minecraft.world.level.material.FluidState;
 
 @Mixin(BottleItem.class)
 public class BottleItemMixin {
-	@WrapOperation(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"))
+	@WrapOperation(
+			method = "use",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"
+			)
+	)
 	private boolean toxicGooIsNotWater(FluidState instance, TagKey<Fluid> tag, Operation<Boolean> original) {
 		return original.call(instance, tag) && !(instance.getType() instanceof GooFluid);
 	}
