@@ -1671,6 +1671,7 @@
     "active=false,base=true,face=east,facing=north,offset=down": {
       "model": "portalcubed:block/pedestal_button_base_center",
       "portalcubed:rot_z": 90,
+      "portalcubed:shift_y": -3.5,
       "x": 90
     },
     "active=false,base=true,face=east,facing=north,offset=down_left": {
