@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
@@ -31,6 +33,12 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@Shadow
 	public abstract float getEyeHeight();
 
+	@Shadow
+	public abstract Vec3 getDeltaMovement();
+
+	@Shadow
+	protected abstract Vec3 collide(Vec3 vec);
+
 	@Unique
 	private final TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
 
@@ -40,13 +48,53 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	private boolean isNextTeleportNonLocal;
 
 	@WrapOperation(
-			method = {"move", "lerpPositionAndRotationStep"},
+			method = "move",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V",
+					ordinal = 0
+			)
+	)
+	private void moveThroughPortalsNoPhysics(Entity self, double x, double y, double z, Operation<Void> original,
+											 @Local(argsOnly = true) LocalRef<Vec3> movement) {
+		Vec3 oldPos = self.position();
+		original.call(self, x, y, z);
+		if (PortalTeleportHandler.handle(self, oldPos)) {
+			// need to update the values that were used to move to this new pos
+			Vec3 newVel = this.getDeltaMovement();
+			movement.set(newVel);
+		}
+	}
+
+	@WrapOperation(
+			method = "move",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V",
+					ordinal = 1
+			)
+	)
+	private void moveThroughPortalsNormally(Entity self, double x, double y, double z, Operation<Void> original,
+											@Local(argsOnly = true) LocalRef<Vec3> movement,
+											@Local(ordinal = 1) LocalRef<Vec3> collide) {
+		Vec3 oldPos = self.position();
+		original.call(self, x, y, z);
+		if (PortalTeleportHandler.handle(self, oldPos)) {
+			// need to update the values that were used to move to this new pos
+			Vec3 newVel = this.getDeltaMovement();
+			movement.set(newVel);
+			collide.set(this.collide(newVel));
+		}
+	}
+
+	@WrapOperation(
+			method = "lerpPositionAndRotationStep",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V"
 			)
 	)
-	private void moveThroughPortals(Entity self, double x, double y, double z, Operation<Void> original) {
+	private void lerpThroughPortals(Entity self, double x, double y, double z, Operation<Void> original) {
 		Vec3 oldPos = self.position();
 		original.call(self, x, y, z);
 		PortalTeleportHandler.handle(self, oldPos);

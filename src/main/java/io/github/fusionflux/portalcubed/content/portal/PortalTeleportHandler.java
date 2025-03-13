@@ -32,23 +32,22 @@ public class PortalTeleportHandler {
 	 * Called by mixins after an entity moves relatively.
 	 * Responsible for finding and teleporting through portals.
 	 */
-	public static void handle(Entity entity, Vec3 oldPos) {
+	public static boolean handle(Entity entity, Vec3 oldPos) {
 		if (cannotTeleport(entity))
-			return;
+			return false;
 
 		Vec3 newPos = entity.position();
 		Vec3 newCenter = centerOf(entity);
 		Vec3 posToCenter = newPos.vectorTo(newCenter);
-		Vec3 centerToPos = newCenter.vectorTo(newPos);
 		Vec3 oldCenter = oldPos.add(posToCenter);
 
 		PortalManager manager = entity.level().portalManager();
 		PortalHitResult result = manager.activePortals().clip(oldCenter, newCenter);
 		if (result == null)
-			return;
+			return false;
 
 		if (theHorrors(result))
-			return;
+			return false;
 
 		PortalTransform transform = PortalTransform.of(result);
 		transform.apply(entity);
@@ -65,7 +64,7 @@ public class PortalTeleportHandler {
 			PortalTeleportInfo info = buildTeleportInfo(result);
 			ClientTeleportedPacket packet = new ClientTeleportedPacket(info, entity.position(), entity.getXRot(), entity.getYRot());
 			PortalCubedPackets.sendToServer(packet);
-			return;
+			return true;
 		}
 
 		if (!entity.level().isClientSide) {
@@ -73,6 +72,8 @@ public class PortalTeleportHandler {
 			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), buildTeleports(result));
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);
 		}
+
+		return true;
 	}
 
 	public static Vec3 centerOf(Entity entity) {
