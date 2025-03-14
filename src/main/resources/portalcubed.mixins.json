@@ -48,6 +48,7 @@
     "portals.ServerEntityMixin",
     "portals.ServerLevelMixin",
     "portals.StructureUtilsMixin",
+    "props.ThrowPotionMixin",
     "utils.BlockBehaviour$PropertiesMixin",
     "utils.BlockGetterMixin",
     "utils.ClipContextMixin",
