@@ -85,7 +85,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			}
 
 			ServerPortalManager manager = level.portalManager();
-			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level.registryAccess(), pos, rotation, this.settings));
+			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level, pos, rotation, this.settings));
 		}
 	}
 }

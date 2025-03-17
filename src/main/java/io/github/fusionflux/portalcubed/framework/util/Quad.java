@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.util;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 
 import com.google.common.collect.Iterables;
@@ -84,7 +85,7 @@ public record Quad(Tri a, Tri b) {
 		return this.topLeft().distanceTo(this.bottomLeft());
 	}
 
-	public static Quad create(Quaternionf rotation, Vec3 center, double width, double height) {
+	public static Quad create(Quaternionfc rotation, Vec3 center, double width, double height) {
 		double w = width / 2;
 		double h = height / 2;
 		// relative offsets
@@ -111,7 +112,7 @@ public record Quad(Tri a, Tri b) {
 		return create(rotation, plane.origin(), size, size);
 	}
 
-	private static Vec3 transform(Quaternionf rotation, Vec3 vec) {
+	private static Vec3 transform(Quaternionfc rotation, Vec3 vec) {
 		Vector3d joml = new Vector3d(vec.x, vec.y, vec.z);
 		rotation.transform(joml);
 		return new Vec3(joml.x, joml.y, joml.z);

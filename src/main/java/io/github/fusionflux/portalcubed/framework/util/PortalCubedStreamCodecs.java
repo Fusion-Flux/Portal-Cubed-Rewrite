@@ -6,8 +6,6 @@ import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
-import org.joml.Vector3f;
-import org.joml.Vector3fc;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -43,20 +41,20 @@ public interface PortalCubedStreamCodecs {
 							new BlockHitResult(location, direction, blockPos, isInside)
 	);
 
-	StreamCodec<ByteBuf, Vector3fc> VEC3FC = StreamCodec.composite(
-			ByteBufCodecs.FLOAT, Vector3fc::x,
-			ByteBufCodecs.FLOAT, Vector3fc::y,
-			ByteBufCodecs.FLOAT, Vector3fc::z,
-			Vector3f::new
-	);
+	StreamCodec<ByteBuf, Quaternionfc> QUATERNIONFC = new StreamCodec<>() {
+		@Override
+		public Quaternionfc decode(ByteBuf buf) {
+			return new Quaternionf(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat());
+		}
 
-	StreamCodec<ByteBuf, Quaternionfc> QUATERNIONFC = StreamCodec.composite(
-			ByteBufCodecs.FLOAT, Quaternionfc::x,
-			ByteBufCodecs.FLOAT, Quaternionfc::y,
-			ByteBufCodecs.FLOAT, Quaternionfc::z,
-			ByteBufCodecs.FLOAT, Quaternionfc::w,
-			Quaternionf::new
-	);
+		@Override
+		public void encode(ByteBuf buf, Quaternionfc quat) {
+			buf.writeFloat(quat.x());
+			buf.writeFloat(quat.y());
+			buf.writeFloat(quat.z());
+			buf.writeFloat(quat.w());
+		}
+	};
 
 	// from EntityDataSerializers
 	StreamCodec<ByteBuf, BlockState> BLOCK_STATE = ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY);

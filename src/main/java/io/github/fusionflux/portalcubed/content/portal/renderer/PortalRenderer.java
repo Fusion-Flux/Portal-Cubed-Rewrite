@@ -18,6 +18,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
@@ -29,7 +30,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
-import io.github.fusionflux.portalcubed.content.portal.RecursionAttachedResource;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
@@ -51,6 +51,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.FogParameters;
 import net.minecraft.client.renderer.GameRenderer;
@@ -109,7 +110,8 @@ public class PortalRenderer {
 	}
 
 	private static void render(WorldRenderContext context) {
-		ClientPortalManager manager = context.world().portalManager();
+		ClientLevel level = context.world();
+		ClientPortalManager manager = level.portalManager();
 		Collection<PortalPair> pairs = manager.getAllPairs();
 		if (pairs.isEmpty())
 			return;
@@ -121,9 +123,8 @@ public class PortalRenderer {
 			for (PortalInstance portal : pair) {
 				if (isPortalVisible(frustum, portal)) {
 					PortalInstance linked = pair.other(portal);
-					PortalType type = portal.data.type().value();
 					boolean render = portal.data.render();
-					boolean hasStencil = type.stencil().isPresent();
+					boolean hasStencil = portal.type().stencil().isPresent();
 					visiblePortals.add(new VisiblePortal(pair, portal, linked, linked != null && (!hasStencil || (render && recursion < maxRecursions))));
 				}
 			}
@@ -136,9 +137,11 @@ public class PortalRenderer {
 		Vec3 camPos = context.camera().getPosition();
 		matrices.translate(-camPos.x, -camPos.y, -camPos.z);
 
+		float tickDelta = context.tickCounter().getGameTimeDeltaPartialTick(false);
+
 		// Render portal views
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
-		visiblePortals.forEach(visiblePortal -> renderPortalView(visiblePortal, matrices, context));
+		visiblePortals.forEach(visiblePortal -> renderPortalView(visiblePortal, tickDelta, matrices, context));
 		if (!isRenderingView()) {
 			GL11.glDisable(GL11.GL_STENCIL_TEST);
 			RenderingUtils.defaultStencil();
@@ -151,17 +154,21 @@ public class PortalRenderer {
 		// Render portals
 		RenderType renderType = PortalCubedRenderTypes.emissive(PortalTextureManager.ATLAS_LOCATION);
 		BufferBuilder vertices = Tesselator.getInstance().begin(renderType.mode(), renderType.format());
-		visiblePortals.forEach(visiblePortal -> renderPortal(visiblePortal, matrices, vertices));
+		visiblePortals.forEach(visiblePortal -> renderPortal(visiblePortal, matrices, level, tickDelta, vertices));
 		renderType.draw(vertices.buildOrThrow());
 	}
 
-	private static PoseStack.Pose transformToPortal(VisiblePortal visiblePortal, PoseStack matrices) {
+	private static PoseStack.Pose transformToPortal(VisiblePortal visiblePortal, ClientLevel level, float tickDelta, PoseStack matrices) {
 		PortalInstance portal = visiblePortal.portal;
 
 		// translate to portal pos
 		matrices.translate(portal.data.origin());
 		// apply rotations
 		matrices.mulPose(portal.rotation()); // rotate towards facing direction
+		// animate placement
+		PortalType.PlaceAnimation placeAnimation = portal.type().placeAnimation();
+		float animationProgress = placeAnimation.getProgress(level, portal, tickDelta);
+		placeAnimation.type().applyPose(animationProgress, matrices);
 		// slight offset so origin is center of portal
 		matrices.translate(-0.5f, 0, -1);
 		// small offset away from the wall to not z-fight
@@ -175,14 +182,18 @@ public class PortalRenderer {
 		if (stencilQuadBuffer == null) {
 			try (ByteBufferBuilder byteBufferBuilder = new ByteBufferBuilder(DefaultVertexFormat.POSITION_TEX.getVertexSize() * 4)) {
 				BufferBuilder builder = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
 				builder.addVertex(1, 0, 0).setUv(0, 1);
 				builder.addVertex(0, 0, 0).setUv(1, 1);
 				builder.addVertex(0, 0, 2).setUv(1, 0);
 				builder.addVertex(1, 0, 2).setUv(0, 0);
-				stencilQuadBuffer = new VertexBuffer(BufferUsage.STATIC_WRITE);
-				stencilQuadBuffer.bind();
-				stencilQuadBuffer.upload(builder.buildOrThrow());
-				VertexBuffer.unbind();
+
+				try (MeshData mesh = builder.buildOrThrow()) {
+					stencilQuadBuffer = new VertexBuffer(BufferUsage.STATIC_WRITE);
+					stencilQuadBuffer.bind();
+					stencilQuadBuffer.upload(mesh);
+					VertexBuffer.unbind();
+				}
 			}
 		}
 
@@ -204,12 +215,14 @@ public class PortalRenderer {
 		RenderSystem.colorMask(true, true, true, true);
 	}
 
-	private static void renderPortalView(VisiblePortal visiblePortal, PoseStack matrices, WorldRenderContext context) {
+	private static void renderPortalView(VisiblePortal visiblePortal, float tickDelta, PoseStack matrices, WorldRenderContext context) {
 		if (!visiblePortal.open)
 			return;
 
 		PortalInstance portal = visiblePortal.portal;
-		ResourceLocation stencilTexture = portal.data.type().value().stencil().orElse(null);
+		ResourceLocation stencilTexture = portal.type().stencil()
+				.map(id -> id.withPath(path -> "textures/" + path + ".png"))
+				.orElse(null);
 		if (stencilTexture == null)
 			return;
 
@@ -222,7 +235,7 @@ public class PortalRenderer {
 			return;
 
 		matrices.pushPose();
-		Matrix4f matrix = transformToPortal(visiblePortal, matrices).pose();
+		Matrix4f matrix = transformToPortal(visiblePortal, context.world(), tickDelta, matrices).pose();
 
 		// Draw stencil
 		RenderSystem.depthMask(false);
@@ -287,9 +300,9 @@ public class PortalRenderer {
 		matrices.popPose();
 	}
 
-	private static void renderPortal(VisiblePortal visiblePortal, PoseStack matrices, VertexConsumer vertices) {
+	private static void renderPortal(VisiblePortal visiblePortal, PoseStack matrices, ClientLevel level, float tickDelta, VertexConsumer vertices) {
 		matrices.pushPose();
-		transformToPortal(visiblePortal, matrices);
+		transformToPortal(visiblePortal, level, tickDelta, matrices);
 
 		PortalData portal = visiblePortal.portal.data;
 		PortalType.Textures textures = portal.type().value().textures();

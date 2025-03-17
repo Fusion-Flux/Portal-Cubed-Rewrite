@@ -64,6 +64,10 @@ public final class PortalInstance {
 		this.blockModificationShapes = VoxelShenanigans.approximateObb(this.blockModificationArea);
     }
 
+	public PortalType type() {
+		return this.data.type().value();
+	}
+
 	public Quaternionf rotation() {
 		return this.data.rotation();
 	}

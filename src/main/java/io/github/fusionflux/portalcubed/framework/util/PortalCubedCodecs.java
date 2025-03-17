@@ -7,6 +7,10 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.datafixers.util.Either;
@@ -16,7 +20,9 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import it.unimi.dsi.fastutil.floats.FloatArrayList;
 import net.minecraft.ResourceLocationException;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -82,11 +88,17 @@ public interface PortalCubedCodecs {
 			BlockState.CODEC, defaultBlockState, state -> state.getBlock().defaultBlockState() == state
 	);
 
-	/**
-	 * Adds textures/ and .png to decoded resource location.
-	 * This is not meant to be encoded.
-	 */
-	Codec<ResourceLocation> TEXTURE_PATH = ResourceLocation.CODEC.xmap(id -> id.withPath(path -> "textures/" + path + ".png"), Function.identity());
+	@SuppressWarnings("SequencedCollectionMethodCanBeUsed")
+	Codec<Quaternionfc> QUATERNIONFC = Codec.withAlternative(
+			Codec.FLOAT
+					.listOf()
+					.comapFlatMap(
+							list -> Util.fixedSize(list, 4)
+									.map(listx -> new Quaternionf(listx.get(0), listx.get(1), listx.get(2), listx.get(3))),
+							quat -> FloatArrayList.of(quat.x(), quat.y(), quat.z(), quat.w())
+					),
+			ExtraCodecs.AXISANGLE4F.xmap(Quaternionf::new, AxisAngle4f::new)
+	);
 
 	/**
 	 * Create a codec from two others, able to handle two different formats.

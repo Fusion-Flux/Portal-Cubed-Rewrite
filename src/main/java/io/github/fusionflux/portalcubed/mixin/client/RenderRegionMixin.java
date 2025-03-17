@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
-import io.github.fusionflux.portalcubed.content.portal.RecursionAttachedResource;
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.renderer.RecursionAttachedResource;
 import net.caffeinemc.mods.sodium.client.render.chunk.lists.ChunkRenderList;
 import net.caffeinemc.mods.sodium.client.render.chunk.region.RenderRegion;
 

@@ -165,13 +165,14 @@ public class PortalCommand {
 			return fail(ctx, CREATE_FAILURE, ID_TOO_LONG);
 		}
 
-		ServerPortalManager manager = source.getLevel().portalManager();
+		ServerLevel level = source.getLevel();
+		ServerPortalManager manager = level.portalManager();
 		PortalPair pair = manager.getPair(key);
 		if (pair != null && pair.get(polarity).isPresent()) {
 			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
 		}
 
-		PortalData data = new PortalData(type, !noValidate, placement.pos, placement.rotation, ARGB.opaque(color), !noRender);
+		PortalData data = new PortalData(level.getGameTime(), type, !noValidate, placement.pos, placement.rotation, ARGB.opaque(color), !noRender);
 		manager.createPortal(key, polarity, data);
 		source.sendSuccess(() -> lang("create.success"), true);
 		return Command.SINGLE_SUCCESS;

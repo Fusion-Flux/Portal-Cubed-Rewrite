@@ -1,12 +1,11 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.renderer;
+
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
-
-import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public record RecursionAttachedResource<T>(Supplier<T> factory, ObjectArrayList<T> recursions) {
 	private static final List<WeakReference<RecursionAttachedResource<?>>> ALL = new LinkedList<>();
