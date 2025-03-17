@@ -19,7 +19,7 @@
   "stencil": "portalcubed:portals/keyhole/keyhole_stencil",
   "place_animation": {
     "type": "expand_all_center",
-    "easing": "ease_out_back",
+    "easing": "out_back",
     "duration": 90
   }
 }

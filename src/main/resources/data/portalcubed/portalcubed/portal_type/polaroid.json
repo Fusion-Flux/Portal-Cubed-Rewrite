@@ -33,7 +33,7 @@
   "stencil": "portalcubed:portals/polaroid/polaroid_stencil",
   "place_animation": {
     "type": "expand_vertical_top",
-    "easing": "ease_out_sine",
+    "easing": "out_sine",
     "duration": 10
   }
 }
