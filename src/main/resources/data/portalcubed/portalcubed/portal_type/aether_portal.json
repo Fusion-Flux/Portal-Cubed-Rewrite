@@ -52,5 +52,10 @@
       }
     ]
   },
-  "stencil": "portalcubed:portals/aether_portal/aether_portal_stencil"
+  "stencil": "portalcubed:portals/aether_portal/aether_portal_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

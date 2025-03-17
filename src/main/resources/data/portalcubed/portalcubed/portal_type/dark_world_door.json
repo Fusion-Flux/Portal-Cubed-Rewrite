@@ -30,5 +30,10 @@
     ],
     "tracer": "portalcubed:portals/dark_world_door/dark_world_door_tracer"
   },
-  "stencil": "portalcubed:portals/dark_world_door/dark_world_door_stencil"
+  "stencil": "portalcubed:portals/dark_world_door/dark_world_door_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

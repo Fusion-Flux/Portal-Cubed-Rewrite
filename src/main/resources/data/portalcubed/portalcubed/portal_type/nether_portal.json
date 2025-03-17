@@ -53,5 +53,10 @@
       }
     ]
   },
-  "stencil": "portalcubed:portals/nether_portal/nether_portal_stencil"
+  "stencil": "portalcubed:portals/nether_portal/nether_portal_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

@@ -26,5 +26,10 @@
     ],
     "tracer": "portalcubed:portals/tunnel/tunnel_tracer"
   },
-  "stencil": "portalcubed:portals/tunnel/tunnel_stencil"
+  "stencil": "portalcubed:portals/tunnel/tunnel_stencil",
+  "place_animation": {
+    "type": "expand_vertical_top",
+    "easing": "ease_in_out_expo",
+    "duration": 1
+  }
 }

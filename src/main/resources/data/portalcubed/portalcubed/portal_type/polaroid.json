@@ -30,5 +30,10 @@
     ],
     "tracer": "portalcubed:portals/polaroid/polaroid_tracer"
   },
-  "stencil": "portalcubed:portals/polaroid/polaroid_stencil"
+  "stencil": "portalcubed:portals/polaroid/polaroid_stencil",
+  "place_animation": {
+    "type": "expand_vertical_top",
+    "easing": "ease_out_sine",
+    "duration": 10
+  }
 }

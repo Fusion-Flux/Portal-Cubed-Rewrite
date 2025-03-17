@@ -23,5 +23,10 @@
     ],
     "closed": "portalcubed:portals/portal_combat_rectangle/portal_combat_rectangle",
     "tracer": "portalcubed:portals/portal_combat_rectangle/portal_combat_rectangle_tracer"
+  },
+  "place_animation": {
+    "type": "expand_vertical_center",
+    "easing": "linear",
+    "duration": 15
   }
 }

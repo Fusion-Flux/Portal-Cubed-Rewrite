@@ -34,5 +34,10 @@
     ],
     "tracer": "portalcubed:portals/paper_portal/paper_portal_tracer"
     },
-  "stencil": "portalcubed:portals/paper_portal/paper_portal_stencil"
+  "stencil": "portalcubed:portals/paper_portal/paper_portal_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

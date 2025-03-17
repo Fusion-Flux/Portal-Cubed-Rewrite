@@ -54,5 +54,10 @@
     ],
     "tracer": "portalcubed:portals/phone/phone_tracer"
   },
-  "stencil": "portalcubed:portals/phone/phone_stencil"
+  "stencil": "portalcubed:portals/phone/phone_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

@@ -16,5 +16,10 @@
     "closed": "portalcubed:portals/the_hole/hole_portal_closed",
     "tracer": "portalcubed:portals/the_hole/hole_portal_tracer"
   },
-  "stencil": "portalcubed:portals/the_hole/hole_portal_stencil"
+  "stencil": "portalcubed:portals/the_hole/hole_portal_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

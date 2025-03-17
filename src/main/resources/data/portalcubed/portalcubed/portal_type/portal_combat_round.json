@@ -23,5 +23,10 @@
     ],
     "closed": "portalcubed:portals/portal_combat_round/portal_combat_round_closed",
     "tracer": "portalcubed:portals/portal_combat_round/portal_combat_round_tracer"
+  },
+  "place_animation": {
+    "type": "expand_vertical_center",
+    "easing": "linear",
+    "duration": 15
   }
 }

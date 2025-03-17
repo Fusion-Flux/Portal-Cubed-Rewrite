@@ -54,9 +54,9 @@ public enum PortalPlaceAnimationType implements StringRepresentable {
 		@Override
 		@Environment(EnvType.CLIENT)
 		public void applyPose(float progress, PoseStack matrices) {
-			matrices.translate(1, 0, 0);
+			matrices.translate(0.5, 0, 0);
 			matrices.scale(progress, 1, 1);
-			matrices.translate(-1, 0, 0);
+			matrices.translate(-0.5, 0, 0);
 		}
 	},
 	EXPAND_HORIZONTAL_CENTER {
@@ -70,9 +70,9 @@ public enum PortalPlaceAnimationType implements StringRepresentable {
 		@Override
 		@Environment(EnvType.CLIENT)
 		public void applyPose(float progress, PoseStack matrices) {
-			matrices.translate(-1, 0, 0);
+			matrices.translate(-0.5, 0, 0);
 			matrices.scale(progress, 1, 1);
-			matrices.translate(1, 0, 0);
+			matrices.translate(0.5, 0, 0);
 		}
 	};
 

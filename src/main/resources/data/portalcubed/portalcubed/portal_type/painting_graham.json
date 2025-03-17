@@ -26,5 +26,10 @@
       }
     ],
     "tracer": "portalcubed:portals/graham/graham_tracer"
+  },
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
   }
 }

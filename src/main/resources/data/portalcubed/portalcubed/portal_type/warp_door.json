@@ -21,5 +21,10 @@
       }
     ]
   },
-  "stencil": "portalcubed:portals/warp_door/warp_door_stencil"
+  "stencil": "portalcubed:portals/warp_door/warp_door_stencil",
+  "place_animation": {
+    "type": "expand_horizontal_center",
+    "easing": "linear",
+    "duration": 5
+  }
 }

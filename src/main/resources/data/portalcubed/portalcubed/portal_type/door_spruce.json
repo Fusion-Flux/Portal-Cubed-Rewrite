@@ -35,5 +35,10 @@
       }
     ]
   },
-  "stencil": "portalcubed:portals/doors/door_stencil"
+  "stencil": "portalcubed:portals/doors/door_stencil",
+  "place_animation": {
+    "type": "expand_horizontal_left",
+    "easing": "linear",
+    "duration": 4
+  }
 }

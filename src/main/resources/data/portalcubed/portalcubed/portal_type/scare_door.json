@@ -30,5 +30,10 @@
     ],
     "tracer": "portalcubed:portals/scare_door/scare_door_tracer"
   },
-  "stencil": "portalcubed:portals/scare_door/scare_door_stencil"
+  "stencil": "portalcubed:portals/scare_door/scare_door_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

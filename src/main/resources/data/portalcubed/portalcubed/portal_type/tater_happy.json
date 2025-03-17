@@ -24,5 +24,10 @@
     "closed": "portalcubed:portals/tater_happy/tater_happy_closed",
     "tracer": "portalcubed:portals/tater_happy/tater_happy_tracer"
   },
-  "stencil": "portalcubed:portals/tater_happy/tater_happy_stencil"
+  "stencil": "portalcubed:portals/tater_happy/tater_happy_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

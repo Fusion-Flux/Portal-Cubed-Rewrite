@@ -15,5 +15,10 @@
     "open": "portalcubed:portals/graffiti_portal/graffiti_portal",
     "closed": "portalcubed:portals/graffiti_portal/graffiti_portal",
     "tracer": "portalcubed:portals/graffiti_portal/graffiti_portal_tracer"
+  },
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
   }
 }

@@ -26,5 +26,10 @@
       }
     ],
     "tracer": "portalcubed:portals/warp_painting/warp_painting_tracer"
+  },
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
   }
 }

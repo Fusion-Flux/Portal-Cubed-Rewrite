@@ -81,7 +81,7 @@ public record PortalType(
 			EasingFunction easing,
 			int duration
 	) {
-		public static final int DEFAULT_DURATION = 5;
+		public static final int DEFAULT_DURATION = 3;
 		public static final PlaceAnimation DEFAULT = new PlaceAnimation(PortalPlaceAnimationType.EXPAND_ALL_CENTER);
 
 		public static final Codec<PlaceAnimation> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(

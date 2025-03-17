@@ -16,5 +16,10 @@
     "closed": "portalcubed:portals/keyhole/keyhole",
     "tracer": "portalcubed:portals/keyhole/keyhole_tracer"
   },
-  "stencil": "portalcubed:portals/keyhole/keyhole_stencil"
+  "stencil": "portalcubed:portals/keyhole/keyhole_stencil",
+  "place_animation": {
+    "type": "expand_all_center",
+    "easing": "ease_out_back",
+    "duration": 90
+  }
 }

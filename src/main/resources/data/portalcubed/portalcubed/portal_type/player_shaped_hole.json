@@ -30,5 +30,10 @@
     ],
     "tracer": "portalcubed:portals/player_shaped_hole/player_shaped_hole_tracer"
   },
-  "stencil": "portalcubed:portals/player_shaped_hole/player_shaped_hole_stencil"
+  "stencil": "portalcubed:portals/player_shaped_hole/player_shaped_hole_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }

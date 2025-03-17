@@ -33,5 +33,10 @@
       }
     ],
     "tracer": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_tracer"
+  },
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
   }
 }

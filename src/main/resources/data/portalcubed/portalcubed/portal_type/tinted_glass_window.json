@@ -38,5 +38,10 @@
       }
     ]
   },
-  "stencil": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal_stencil"
+  "stencil": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
 }
