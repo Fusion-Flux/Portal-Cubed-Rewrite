@@ -39,7 +39,7 @@ public class ConstructPreviewRenderer {
 
 		Minecraft minecraft = Minecraft.getInstance();
 		Player player = minecraft.player;
-		if (player == null)
+		if (player == null || player.isSpectator())
 			return;
 
 		if (!(minecraft.hitResult instanceof BlockHitResult hit) || hit.getType() != HitResult.Type.BLOCK)
