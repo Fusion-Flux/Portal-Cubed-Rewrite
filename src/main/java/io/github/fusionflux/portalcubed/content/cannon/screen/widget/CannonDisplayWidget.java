@@ -24,9 +24,11 @@ public class CannonDisplayWidget extends AbstractWidget {
 		PoseStack matrices = graphics.pose();
 		matrices.pushPose();
 
-		matrices.scale(this.scale, this.scale, 1);
-		matrices.translate(this.getX() / this.scale, this.getY() / this.scale, 0);
+		// magic offset to fix it rendering over tooltips
+		matrices.translate(this.getX(), this.getY(), -300);
+		matrices.scale(this.scale, this.scale, this.scale);
 		graphics.renderFakeItem(this.item, 0, 0);
+
 		matrices.popPose();
 	}
 

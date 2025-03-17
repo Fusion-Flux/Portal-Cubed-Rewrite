@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannon
 import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 
@@ -18,10 +19,10 @@ public class ConstructPreviewWidget extends ConstructWidget implements TickableW
 
 	private final CannonSettingsHolder settings;
 
-	private int ticks = 0;
-	private float rotationOld = 0;
-	private float rotation = 0;
-	private float rotationAcceleration = 0;
+	private int ticks;
+	private float rotationOld;
+	private float rotation;
+	private float rotationAcceleration;
 
 	public ConstructPreviewWidget(int size, CannonSettingsHolder settings) {
 		super(size, MESSAGE);
@@ -39,20 +40,22 @@ public class ConstructPreviewWidget extends ConstructWidget implements TickableW
 
 	@Override
 	public void onClick(double mouseX, double mouseY) {
-		rotationAcceleration += 50;
+		this.rotationAcceleration += 50;
 	}
 
 	@Override
 	protected void applyConstructTransformations(PoseStack matrices, float delta) {
-		float fullTicks = this.ticks + delta;
+		float partialTick = Minecraft.getInstance().getDeltaTracker()
+				.getGameTimeDeltaPartialTick(false);
+		float fullTicks = this.ticks + partialTick;
 		float spin = fullTicks * 2;
 
-		float vel = rotation - rotationOld;
-		rotationOld = rotation;
-		rotation += Math.max(0, vel - ((delta * delta) / 2)) + rotationAcceleration * delta * delta;
-		rotationAcceleration = 0;
+		float vel = this.rotation - this.rotationOld;
+		this.rotationOld = this.rotation;
+		this.rotation += Math.max(0, vel - ((delta * delta) / 2)) + this.rotationAcceleration * delta * delta;
+		this.rotationAcceleration = 0;
 
-		matrices.mulPose(Axis.YP.rotationDegrees(spin + rotation));
+		matrices.mulPose(Axis.YP.rotationDegrees(spin + this.rotation));
 	}
 
 	@Override
