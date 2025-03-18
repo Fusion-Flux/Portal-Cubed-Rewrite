@@ -1,21 +1,33 @@
 package io.github.fusionflux.portalcubed.content.portal.renderer;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.NotNull;
+
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 public record RecursionAttachedResource<T>(Supplier<T> factory, ObjectArrayList<T> recursions) {
 	private static final List<WeakReference<RecursionAttachedResource<?>>> ALL = new LinkedList<>();
 
-	public T get() {
-		int recursionIndex = PortalRenderer.recursion() - 1;
+	public void ensure(int recursionIndex) {
 		for (int i = this.recursions.size(); i <= recursionIndex; i++) {
 			this.recursions.add(this.factory.get());
 		}
+	}
+
+	public T get() {
+		int recursionIndex = PortalRenderer.recursion() - 1;
+		this.ensure(recursionIndex);
 		return this.recursions.get(recursionIndex);
+	}
+
+	public void set(@NotNull T value) {
+		int recursionIndex = PortalRenderer.recursion() - 1;
+		this.ensure(recursionIndex);
+		this.recursions.set(recursionIndex, value);
 	}
 
 	public static void cleanup() {

@@ -101,10 +101,8 @@
     "client.ParticleEngineMixin",
     "client.PlayerRendererMixin",
     "client.RenderBuffersMixin",
-    "client.RenderRegionMixin",
     "client.RenderSectionManagerAccessor",
     "client.RenderSystemAccessor",
-    "client.RenderTargetMixin",
     "client.ScreenEffectRendererMixin",
     "client.ScreenMixin",
     "client.SelectorAccessor",
@@ -124,7 +122,10 @@
     "portals.client.ItemModelResolverMixin",
     "portals.client.KeyboardHandlerMixin",
     "portals.client.LevelRendererMixin",
-    "portals.client.MinecraftMixin"
+    "portals.client.MinecraftMixin",
+    "portals.client.RenderRegionMixin",
+    "portals.client.RenderSectionManagerMixin",
+    "portals.client.RenderTargetMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.mixin.client;
+package io.github.fusionflux.portalcubed.mixin.portals.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

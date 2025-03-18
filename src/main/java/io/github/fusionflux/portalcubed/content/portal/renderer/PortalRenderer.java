@@ -46,7 +46,6 @@ import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
 import net.caffeinemc.mods.sodium.client.render.chunk.RenderSection;
 import net.caffeinemc.mods.sodium.client.render.chunk.RenderSectionManager;
-import net.caffeinemc.mods.sodium.client.render.chunk.lists.SortedRenderLists;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
@@ -343,7 +342,6 @@ public class PortalRenderer {
 			Vector3f[] shaderLightDirections,
 			FogParameters fog,
 			RenderBuffers renderBuffers,
-			SortedRenderLists renderLists,
 			LongArrayList visibleSections
 	) {
 		public static StateCapture capture(LevelRenderer worldRenderer, Camera camera) {
@@ -368,7 +366,6 @@ public class PortalRenderer {
 					RenderSystemAccessor.getShaderLightDirections().clone(),
 					RenderSystem.getShaderFog(),
 					((LevelRendererAccessor) worldRenderer).getRenderBuffers(),
-					renderSectionManager.getRenderLists(),
 					visibleSections
 			);
 		}
@@ -389,7 +386,6 @@ public class PortalRenderer {
 			((LevelRendererAccessor) worldRenderer).setRenderBuffers(this.renderBuffers);
 
 			RenderSectionManager renderSectionManager = ((SodiumWorldRendererAccessor) SodiumWorldRenderer.instance()).getRenderSectionManager();
-			((RenderSectionManagerAccessor) renderSectionManager).setRenderLists(this.renderLists);
 
 			int frame = ((RenderSectionManagerAccessor) renderSectionManager).getLastUpdatedFrame();
 			Long2ReferenceMap<RenderSection> sections = ((RenderSectionManagerAccessor) renderSectionManager).getSectionByPosition();
