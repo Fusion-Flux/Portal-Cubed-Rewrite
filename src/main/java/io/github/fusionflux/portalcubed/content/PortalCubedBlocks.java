@@ -24,13 +24,14 @@ import io.github.fusionflux.portalcubed.content.door.ChamberDoorMaterial;
 import io.github.fusionflux.portalcubed.content.door.ChamberDoorType;
 import io.github.fusionflux.portalcubed.content.goo.GooBlock;
 import io.github.fusionflux.portalcubed.content.goo.GooCauldronBlock;
+import io.github.fusionflux.portalcubed.content.misc.MagnesiumFireBlock;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.block.CollisionlessFacadeBlock;
-import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.FacadeBlock;
+import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
@@ -78,6 +79,10 @@ public class PortalCubedBlocks {
 			.build();
 	public static final Block RAW_MAGNESIUM_BLOCK = REGISTRAR.blocks.createFrom("raw_magnesium_block", Blocks.RAW_IRON_BLOCK)
 			.properties(s -> s.mapColor(MapColor.CLAY))
+			.build();
+	public static final Block MAGNESIUM_FIRE = REGISTRAR.blocks.createFrom("magnesium_fire", MagnesiumFireBlock::new, Blocks.SOUL_FIRE)
+			.properties(s -> s.mapColor(MapColor.SNOW))
+			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- cake -----
 	public static final CakeBlockSet BLACK_FOREST_CAKE = CakeBlockSet.builder("black_forest_cake", REGISTRAR)

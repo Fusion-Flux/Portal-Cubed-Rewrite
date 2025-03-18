@@ -1,0 +1,90 @@
+{
+  "multipart": [
+    {
+      "apply": [
+        {
+          "model": "portalcubed:block/magnesium_fire_floor0"
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_floor1"
+        }
+      ]
+    },
+    {
+      "apply": [
+        {
+          "model": "portalcubed:block/magnesium_fire_side0"
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side1"
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side_alt0"
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side_alt1"
+        }
+      ]
+    },
+    {
+      "apply": [
+        {
+          "model": "portalcubed:block/magnesium_fire_side0",
+          "y": 90
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side1",
+          "y": 90
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side_alt0",
+          "y": 90
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side_alt1",
+          "y": 90
+        }
+      ]
+    },
+    {
+      "apply": [
+        {
+          "model": "portalcubed:block/magnesium_fire_side0",
+          "y": 180
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side1",
+          "y": 180
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side_alt0",
+          "y": 180
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side_alt1",
+          "y": 180
+        }
+      ]
+    },
+    {
+      "apply": [
+        {
+          "model": "portalcubed:block/magnesium_fire_side0",
+          "y": 270
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side1",
+          "y": 270
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side_alt0",
+          "y": 270
+        },
+        {
+          "model": "portalcubed:block/magnesium_fire_side_alt1",
+          "y": 270
+        }
+      ]
+    }
+  ]
+}
