@@ -20,6 +20,8 @@
   "block/portal_1_floor_button": "block/button_emissives",
   "block/portal_1_floor_button_active": "block/button_emissives",
 
+  "block/portal_gun_workstation": "block/portal_gun_workstation_emissive",
+
   "item/white_octopus_chamber_door": "item/octopus_chamber_door_emissive",
   "block/white_octopus_chamber_door_top_right_open": "block/chamber_door_emissive",
   "block/white_octopus_chamber_door_top_right_unlocked": "block/chamber_door_emissive",
