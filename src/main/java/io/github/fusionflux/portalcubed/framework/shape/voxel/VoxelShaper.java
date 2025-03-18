@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.framework.util;
+package io.github.fusionflux.portalcubed.framework.shape.voxel;
 
 
 import java.util.Arrays;

@@ -15,6 +15,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
+import io.github.fusionflux.portalcubed.framework.shape.Plane;
+import io.github.fusionflux.portalcubed.framework.shape.Quad;
+import io.github.fusionflux.portalcubed.framework.shape.Tri;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

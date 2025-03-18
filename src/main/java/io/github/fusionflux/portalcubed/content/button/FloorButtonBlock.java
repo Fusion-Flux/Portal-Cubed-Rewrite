@@ -14,7 +14,7 @@ import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
-import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
+import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.PufferfishAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

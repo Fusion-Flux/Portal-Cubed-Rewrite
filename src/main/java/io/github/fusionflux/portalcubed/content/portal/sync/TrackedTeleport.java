@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.sync;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
-import io.github.fusionflux.portalcubed.framework.util.Plane;
+import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;

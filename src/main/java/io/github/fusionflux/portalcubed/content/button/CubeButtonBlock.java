@@ -5,7 +5,7 @@ import com.google.common.collect.Iterables;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
-import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
+import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

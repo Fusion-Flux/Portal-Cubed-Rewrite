@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
-import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
+import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
 import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

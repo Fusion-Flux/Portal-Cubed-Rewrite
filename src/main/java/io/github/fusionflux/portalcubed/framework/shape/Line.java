@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.framework.util;
+package io.github.fusionflux.portalcubed.framework.shape;
 
 import net.minecraft.world.phys.Vec3;
 

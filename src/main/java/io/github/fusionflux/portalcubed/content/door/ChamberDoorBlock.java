@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.extension.BigShapeBlock;
-import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
+import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

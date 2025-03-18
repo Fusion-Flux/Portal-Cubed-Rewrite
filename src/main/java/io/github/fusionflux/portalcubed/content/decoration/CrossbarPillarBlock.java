@@ -1,13 +1,11 @@
 package io.github.fusionflux.portalcubed.content.decoration;
 
-import io.github.fusionflux.portalcubed.framework.util.VoxelShaper;
-
-import net.minecraft.core.Direction.Axis;
-
 import org.jetbrains.annotations.NotNull;
 
+import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;

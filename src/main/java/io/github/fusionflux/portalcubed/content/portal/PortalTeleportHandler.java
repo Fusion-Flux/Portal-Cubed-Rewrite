@@ -9,7 +9,7 @@ import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
-import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
+import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.EntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;

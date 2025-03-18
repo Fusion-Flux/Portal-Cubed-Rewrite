@@ -7,9 +7,9 @@ import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
-import io.github.fusionflux.portalcubed.framework.shape.VoxelShenanigans;
-import io.github.fusionflux.portalcubed.framework.util.Plane;
-import io.github.fusionflux.portalcubed.framework.util.Quad;
+import io.github.fusionflux.portalcubed.framework.shape.Plane;
+import io.github.fusionflux.portalcubed.framework.shape.Quad;
+import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.core.BlockPos;
