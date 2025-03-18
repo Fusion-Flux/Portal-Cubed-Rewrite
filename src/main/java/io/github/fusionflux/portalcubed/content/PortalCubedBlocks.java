@@ -82,6 +82,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final Block MAGNESIUM_FIRE = REGISTRAR.blocks.createFrom("magnesium_fire", MagnesiumFireBlock::new, Blocks.SOUL_FIRE)
 			.properties(s -> s.mapColor(MapColor.SNOW))
+			.item(BlockItemProvider::noItem)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- cake -----
