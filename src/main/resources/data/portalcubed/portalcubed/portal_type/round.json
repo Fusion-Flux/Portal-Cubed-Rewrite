@@ -2,8 +2,8 @@
   "name": {
     "translate": "portal_type.portalcubed.round"
   },
-  "default_primary_color": 29154,
-  "default_secondary_color": 14380292,
+  "default_primary_color": 2396924,
+  "default_secondary_color": 16748062,
   "sounds": {
     "shared": {
       "cant_open": "portalcubed:portal_type.default.cant_open",
@@ -20,8 +20,32 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/round/round_portal_open",
-    "closed": "portalcubed:portals/round/round_portal_closed",
+    "open": [
+      {
+      "texture": "portalcubed:portals/round/round_portal_open",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/round/round_portal_open_overlay",
+      "tint": true,
+      "offset": 0.005
+      }
+    ],
+    "closed": [
+      {
+      "texture": "portalcubed:portals/round/round_portal_closed",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/round/round_portal_open",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portals/round/round_portal_closed_overlay",
+      "tint": true,
+      "offset": 0.005
+      }
+    ],
     "tracer": "portalcubed:portals/round/round_portal_tracer"
   },
   "stencil": "portalcubed:portals/round/round_portal_stencil"

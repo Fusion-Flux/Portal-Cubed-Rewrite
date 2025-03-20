@@ -2,8 +2,8 @@
   "name": {
     "translate": "portal_type.portalcubed.noise"
   },
-  "default_primary_color": 29154,
-  "default_secondary_color": 14380292,
+  "default_primary_color": 2396924,
+  "default_secondary_color": 16748062,
   "sounds": {
     "shared": {
       "cant_open": "portalcubed:portal_type.default.cant_open",
