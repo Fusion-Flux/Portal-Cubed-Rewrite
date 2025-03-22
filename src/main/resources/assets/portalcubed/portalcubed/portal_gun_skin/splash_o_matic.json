@@ -4,8 +4,8 @@
   },
   "item_model": "portalcubed:portal_guns/splash_o_matic",
   "sounds": {
-    "primary_shoot": "minecraft:block.mud.step",
-    "secondary_shoot": "minecraft:block.mud.step",
-    "fizzle": "minecraft:item.bucket.fill_tadpole"
+    "primary_shoot": "portalcubed:portal_gun.splash_o_matic.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.splash_o_matic.shoot",
+    "fizzle": "portalcubed:portal_gun.splash_o_matic.fizzle"
   }
 }

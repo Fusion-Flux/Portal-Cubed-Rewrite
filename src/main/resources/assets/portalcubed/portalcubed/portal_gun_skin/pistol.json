@@ -4,8 +4,8 @@
   },
   "item_model": "portalcubed:portal_guns/pistol",
   "sounds": {
-    "primary_shoot": "minecraft:entity.firework_rocket.blast",
-    "secondary_shoot": "minecraft:entity.firework_rocket.blast_far",
-    "fizzle": "minecraft:item.crossbow.loading_end"
+    "primary_shoot": "portalcubed:portal_gun.pistol.primary_shoot",
+    "secondary_shoot": "portalcubed:portal_gun.pistol.primary_shoot",
+    "fizzle": "portalcubed:portal_gun.pistol.fizzle"
   }
 }

@@ -573,6 +573,166 @@
     "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
   },
 
+  "portal_gun.pistol.primary_shoot": {
+    "sounds": [
+      {
+        "name": "entity.firework_rocket.blast",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.pistol.shoot"
+  },
+  "portal_gun.pistol.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "entity.firework_rocket.blast_far",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.pistol.shoot"
+  },
+  "portal_gun.pistol.fizzle": {
+    "sounds": [
+      {
+        "name": "item.crossbow.loading_end",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+
+  "portal_gun.wand.shoot": {
+    "sounds": [
+      {
+        "name": "entity.evoker.cast_spell",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.wand.shoot"
+  },
+  "portal_gun.wand.fizzle": {
+    "sounds": [
+      {
+        "name": "entity.evoker.prepare_attack",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.wand.fizzle"
+  },
+  "portal_gun.wand.grab": {
+    "sounds": [
+      {
+        "name": "item.bottle.fill_dragonbreath",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.wand.grab"
+  },
+
+  "portal_gun.paintbrush.primary_shoot": {
+    "sounds": [
+      {
+        "name": "item.brush.brushing.gravel",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.paintbrush"
+  },
+  "portal_gun.paintbrush.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "item.brush.brushing.sand",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.paintbrush"
+  },
+  "portal_gun.paintbrush.fizzle": {
+    "sounds": [
+      {
+        "name": "item.brush.brushing.generic",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.paintbrush"
+  },
+
+  "portal_gun.polaroid.shoot": {
+    "sounds": [
+      {
+        "name": "item.lodestone_compass.lock",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.polaroid.shoot"
+  },
+  "portal_gun.polaroid.fizzle": {
+    "sounds": [
+      {
+        "name": "ui.cartography_table.take_result",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.polaroid.fizzle"
+  },
+
+  "portal_gun.splash_o_matic.shoot": {
+    "sounds": [
+      {
+        "name": "block.mud.step",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.splash_o_matic.shoot"
+  },
+  "portal_gun.splash_o_matic.fizzle": {
+    "sounds": [
+      {
+        "name": "item.bucket.fill_tadpole",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.splash_o_matic.fizzle"
+  },
+
+  "portal_gun.pipis_cannon.shoot": {
+    "sounds": [
+      {
+        "name": "entity.arrow.shoot",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.pipis_cannon.shoot"
+  },
+  "portal_gun.pipis_cannon.fizzle": {
+    "sounds": [
+      {
+        "name": "entity.chicken.egg",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.pipis_cannon.fizzle"
+  },
+
+  "portal_gun.peashooter.shoot": {
+    "sounds": [
+      {
+        "name": "entity.arrow.shoot",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.peashooter.shoot"
+  },
+  "portal_gun.peashooter.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:item.crop.plant",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.peashooter.fizzle"
+  },
+
   "portal_type.default.ambient": {
     "sounds": [
       {

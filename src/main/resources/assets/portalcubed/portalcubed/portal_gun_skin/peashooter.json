@@ -4,8 +4,8 @@
   },
   "item_model": "portalcubed:portal_guns/peashooter",
   "sounds": {
-    "primary_shoot": "minecraft:entity.arrow.shoot",
-    "secondary_shoot": "minecraft:entity.arrow.shoot",
-    "fizzle": "minecraft:item.crop.plant"
+    "primary_shoot": "portalcubed:portal_gun.peashooter.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.peashooter.shoot",
+    "fizzle": "portalcubed:portal_gun.peashooter.fizzle"
   }
 }
