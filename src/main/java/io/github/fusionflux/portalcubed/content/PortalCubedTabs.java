@@ -295,6 +295,7 @@ public class PortalCubedTabs {
 			addPortalGunSkin(output, "polaroid", "polaroid");
 			addPortalGunSkin(output, "pipis_cannon", "pipis_cannon");
 			addPortalGunSkin(output, "portal_gun_rick", "rick");
+			addPortalGunSkin(output, "wiimote", "wiimote");
 
 			// ----- props -----
 			output.accept(PortalCubedBlocks.PROP_BARRIER);

@@ -1,0 +1,152 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"textures": {
+		"0": "portalcubed:item/wiimote",
+		"particle": "portalcubed:item/wiimote"
+	},
+	"elements": [
+		{
+			"name": "cutout",
+			"from": [6, 1, 0],
+			"to": [10, 3, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 0, 0]},
+			"faces": {
+				"north": {"uv": [4, 3, 8, 5], "texture": "#0", "tintindex": 1},
+				"east": {"uv": [0, 0, 16, 2], "texture": "#0", "tintindex": 1},
+				"south": {"uv": [0, 3, 4, 5], "texture": "#0", "tintindex": 1},
+				"west": {"uv": [0, 0, 16, 2], "texture": "#0", "tintindex": 1},
+				"up": {"uv": [0, 10, 16, 14], "rotation": 90, "texture": "#0", "tintindex": 1},
+				"down": {"uv": [16, 10, 0, 6], "rotation": 90, "texture": "#0", "tintindex": 1}
+			}
+		},
+		{
+			"name": "cutout",
+			"from": [6, 3, 0],
+			"to": [7, 3, 1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 0, 0]},
+			"faces": {
+				"up": {"uv": [12, 14, 13, 15], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "cutout",
+			"from": [6, 3, 14],
+			"to": [10, 3, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 0, 14]},
+			"faces": {
+				"up": {"uv": [12, 15, 16, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "transparent",
+			"from": [6.5, 3.125, 1],
+			"to": [9.5, 3.125, 6],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.5, 0.125, 0]},
+			"faces": {
+				"up": {"uv": [9.032, 3.032, 13.968, 5.968], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "cutout",
+			"from": [6.5, 3.125, 7.5],
+			"to": [9.5, 3.125, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.5, 0.125, 2.5]},
+			"faces": {
+				"up": {"uv": [14.032, 3.032, 14.968, 5.968], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "cutout",
+			"from": [7.5, 3.125, 10.5],
+			"to": [8.5, 3.125, 13.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.5, 0.125, 6.5]},
+			"faces": {
+				"up": {"uv": [15.032, 3.032, 15.968, 5.968], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cutout",
+			"from": [7, 0.75, 16],
+			"to": [9, 0.75, 27],
+			"rotation": {"angle": 45, "axis": "x", "origin": [8, 0.75, 16]},
+			"faces": {
+				"up": {"uv": [0, 14, 11, 16], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [11, 14, 0, 16], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "cutout",
+			"from": [7, 1, 0],
+			"to": [9, 2, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 0, 0]},
+			"faces": {
+				"north": {"uv": [14, 14, 16, 15], "texture": "#0"},
+				"south": {"uv": [14, 14, 16, 15], "texture": "#0"}
+			}
+		},
+		{
+			"name": "cutout",
+			"from": [6, 0, 4],
+			"to": [10, 1, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, -1, 0]},
+			"faces": {
+				"north": {"uv": [4, 5, 8, 6], "texture": "#0", "tintindex": 1},
+				"east": {"uv": [16, 2, 4, 3], "texture": "#0", "tintindex": 1},
+				"south": {"uv": [0, 5, 4, 6], "texture": "#0", "tintindex": 1},
+				"west": {"uv": [4, 2, 16, 3], "texture": "#0", "tintindex": 1},
+				"down": {"uv": [16, 10, 4, 6], "rotation": 90, "texture": "#0", "tintindex": 1}
+			}
+		},
+		{
+			"name": "cutout",
+			"from": [8, 0.25, 1],
+			"to": [8, 1.75, 4],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 0.5, 2.5]},
+			"faces": {
+				"east": {"uv": [0, 2, 3, 3], "texture": "#0", "tintindex": 1},
+				"west": {"uv": [3, 2, 0, 3], "texture": "#0", "tintindex": 1}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 3.5, -1.75],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 3.5, -1.75],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"firstperson_righthand": {
+			"rotation": [13.25, 0, 0],
+			"translation": [1, 5.25, -1.75],
+			"scale": [0.66133, 0.66133, 0.66133]
+		},
+		"firstperson_lefthand": {
+			"rotation": [13.25, 0, 0],
+			"translation": [1, 5.25, -1.75],
+			"scale": [0.66133, 0.66133, 0.66133]
+		},
+		"ground": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 5, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [30, -50, 0],
+			"translation": [1.75, 5.5, 0],
+			"scale": [0.72656, 0.72656, 0.72656]
+		},
+		"head": {
+			"rotation": [-90, 180, 0],
+			"translation": [0, 15, -7]
+		},
+		"fixed": {
+			"rotation": [-90, 180, 0],
+			"translation": [0, 0, -7.5]
+		}
+	},
+	"portalcubed:render_types": {
+		"cutout": ["cutout"]
+	}
+}

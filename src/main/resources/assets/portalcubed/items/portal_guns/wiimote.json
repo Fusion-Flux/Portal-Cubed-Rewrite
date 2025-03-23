@@ -1,0 +1,146 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": "minecraft:fox",
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/wiimote/fox/wiimote",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "active"
+            },
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "primary"
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "secondary"
+            }
+          ]
+        }
+      },
+      {
+        "when": [
+          "minecraft:villager",
+          "minecraft:witch",
+          "minecraft:wandering_trader"
+        ],
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/wiimote/villager/wiimote",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
+        "when": [
+          "minecraft:allay",
+          "minecraft:vex"
+        ],
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/wiimote/allay/wiimote",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:select",
+      "property": "minecraft:display_context",
+      "cases": [
+        {
+          "when": [
+            "thirdperson_righthand",
+            "thirdperson_lefthand"
+          ],
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:portal_gun/wiimote/humanoid/wiimote_3rd_person",
+            "tints": [
+              {
+                "type": "portalcubed:portal_gun",
+                "polarity": "active"
+              },
+              {
+                "type": "minecraft:dye",
+                "default": -1
+              },
+              {
+                "type": "portalcubed:portal_gun",
+                "polarity": "primary"
+              },
+              {
+                "type": "portalcubed:portal_gun",
+                "polarity": "secondary"
+              }
+            ]
+          }
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "portalcubed:portal_gun/wiimote/humanoid/wiimote",
+        "tints": [
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "active"
+          },
+          {
+            "type": "minecraft:dye",
+            "default": -1
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "primary"
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "secondary"
+          }
+        ]
+      }
+    }
+  }
+}
