@@ -29,14 +29,9 @@ public abstract class AbstractHurtingProjectileMixin extends Projectile {
 					ordinal = 0
 			)
 	)
-	public void portalCubed$projectilePortalFix(AbstractHurtingProjectile self, Vec3 pos, Operation<Void> original) {
+	private void portalCubed$projectilePortalFix(AbstractHurtingProjectile self, Vec3 pos, Operation<Void> original) {
 		Vec3 oldPos = self.position();
 		original.call(self, pos);
-		if (PortalTeleportHandler.handle(self, oldPos)) {
-			// need to update the values that were used to move to this new pos
-			Vec3 newVel = this.getDeltaMovement();
-			this.setDeltaMovement(newVel);
-			//collide.set(this.collide(newVel));
-		}
+		PortalTeleportHandler.handle(self, oldPos);
 	}
 }

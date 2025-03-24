@@ -55,6 +55,7 @@
     "test.FireworkRocketEntityMixin",
     "test.FishingHookMixin",
     "test.LlamaSpitMixin",
+    "test.ProjectileFixMixin",
     "test.ShulkerBulletMixin",
     "test.ThrowableProjectileMixin",
     "utils.BlockBehaviour$PropertiesMixin",

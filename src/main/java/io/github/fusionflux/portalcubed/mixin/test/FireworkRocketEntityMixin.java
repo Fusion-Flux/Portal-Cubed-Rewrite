@@ -29,14 +29,22 @@ public abstract class FireworkRocketEntityMixin extends Projectile {
 					ordinal = 0
 			)
 	)
-	public void portalCubed$projectilePortalFix(FireworkRocketEntity self, double x, double y, double z, Operation<Void> original) {
+	private void portalCubed$fixAttached(FireworkRocketEntity self, double x, double y, double z, Operation<Void> original) {
 		Vec3 oldPos = self.position();
 		original.call(self, x, y, z);
-		if (PortalTeleportHandler.handle(self, oldPos)) {
-			// need to update the values that were used to move to this new pos
-			Vec3 newVel = this.getDeltaMovement();
-			this.setDeltaMovement(newVel);
-			//collide.set(this.collide(newVel));
-		}
+		PortalTeleportHandler.handle(self, oldPos);
+	}
+
+	@WrapOperation(
+			method = "tick",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/projectile/FireworkRocketEntity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V",
+					ordinal = 2
+			)
+	)
+	private void portalCubed$projectilePortalFixReal(FireworkRocketEntity self, Vec3 deltaMove, Operation<Void> original) {
+		deltaMove = this.getDeltaMovement();
+		original.call(self, deltaMove);
 	}
 }

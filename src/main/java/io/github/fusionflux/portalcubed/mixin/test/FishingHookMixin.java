@@ -27,14 +27,9 @@ public abstract class FishingHookMixin extends Projectile {
 					ordinal = 0
 			)
 	)
-	public void portalCubed$projectilePortalFix(FishingHook self, double x, double y, double z, Operation<Void> original) {
+	private void portalCubed$projectilePortalFix(FishingHook self, double x, double y, double z, Operation<Void> original) {
 		Vec3 oldPos = self.position();
 		original.call(self, x, y, z);
-		if (PortalTeleportHandler.handle(self, oldPos)) {
-			// need to update the values that were used to move to this new pos
-			Vec3 newVel = this.getDeltaMovement();
-			this.setDeltaMovement(newVel);
-			//collide.set(this.collide(newVel));
-		}
+		PortalTeleportHandler.handle(self, oldPos);
 	}
 }

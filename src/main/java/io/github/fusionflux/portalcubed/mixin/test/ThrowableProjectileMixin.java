@@ -29,12 +29,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ThrowableProjectile.class)
 public abstract class ThrowableProjectileMixin extends Projectile {
-	@Shadow
-	protected abstract void handleFirstTickBubbleColumn();
-
-	@Shadow
-	protected abstract void applyInertia();
-
 	protected ThrowableProjectileMixin(EntityType<? extends Projectile> entityType, Level level) {
 		super(entityType, level);
 	}
@@ -47,14 +41,9 @@ public abstract class ThrowableProjectileMixin extends Projectile {
 					ordinal = 0
 			)
 	)
-	public void portalCubed$projectilePortalFix(ThrowableProjectile self, Vec3 pos, Operation<Void> original) {
+	private void portalCubed$projectilePortalFix(ThrowableProjectile self, Vec3 pos, Operation<Void> original) {
 		Vec3 oldPos = self.position();
 		original.call(self, pos);
-		if (PortalTeleportHandler.handle(self, oldPos)) {
-			// need to update the values that were used to move to this new pos
-			Vec3 newVel = this.getDeltaMovement();
-			this.setDeltaMovement(newVel);
-			//collide.set(this.collide(newVel));
-		}
+		PortalTeleportHandler.handle(self, oldPos);
 	}
 }
