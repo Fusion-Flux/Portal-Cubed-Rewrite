@@ -30,6 +30,14 @@
     "minecraft:chorus_flower",
     "minecraft:mangrove_roots",
     "minecraft:iron_bars",
-    "minecraft:chain"
+    "minecraft:chain",
+    "minecraft:copper_grate",
+    "minecraft:exposed_copper_grate",
+    "minecraft:weathered_copper_grate",
+    "minecraft:oxidized_copper_grate",
+    "minecraft:waxed_copper_grate",
+    "minecraft:waxed_exposed_copper_grate",
+    "minecraft:waxed_weathered_copper_grate",
+    "minecraft:waxed_oxidized_copper_grate"
   ]
 }
