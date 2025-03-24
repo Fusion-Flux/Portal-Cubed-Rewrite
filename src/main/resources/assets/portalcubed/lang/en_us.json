@@ -162,6 +162,7 @@
   "portal_gun_crosshair.portalcubed.beta": "Beta Crosshair",
   "portal_gun_crosshair.portalcubed.none": "Empty Crosshair",
   "portal_gun_crosshair.portalcubed.splash_o_matic": "Splash-o-Matic Crosshair",
+  "portal_gun_crosshair.portalcubed.wiimote": "Wii Cursor",
 
 
   "portal_gun_skin.portalcubed.portal_gun": "Portal Gun",
@@ -200,6 +201,7 @@
   "portal_gun_skin.portalcubed.polaroid": "Polaroid",
   "portal_gun_skin.portalcubed.pipis_cannon": "Pipis Cannon",
   "portal_gun_skin.portalcubed.portal_gun_rick": "Rick's Portal Gun",
+  "portal_gun_skin.portalcubed.wiimote": "Wiimote",
 
   "portal_type.portalcubed.round": "Round Portal",
   "portal_type.portalcubed.portal_1_round": "Round Portal (Portal 1 Sounds)",
