@@ -17,6 +17,7 @@
       "io.github.fusionflux.portalcubed_gametests.gametests.ConstructionCannonGameTests",
       "io.github.fusionflux.portalcubed_gametests.gametests.FizzlingGameTests",
       "io.github.fusionflux.portalcubed_gametests.gametests.PortalGameTests",
+      "io.github.fusionflux.portalcubed_gametests.gametests.ButtonGameTests",
       "io.github.fusionflux.portalcubed_gametests.gametests.ClientPortalGameTests"
     ]
   }

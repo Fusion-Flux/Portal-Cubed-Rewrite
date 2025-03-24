@@ -16,6 +16,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CopperBulbBlock;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.phys.Vec3;
 
@@ -179,8 +180,8 @@ public class PortalGameTests implements FabricGameTest {
 		verticalGrate.secondary().placeOn(new BlockPos(7, 2, 8), Direction.NORTH);
 		horizontalGrate.secondary().placeOn(new BlockPos(2, 4, 6), Direction.DOWN, 0);
 
-		helper.setBlock(7, 3, 2, Blocks.AIR);
-		helper.setBlock(2, 3, 2, Blocks.AIR);
+		helper.setBlock(7, 3, 3, Blocks.AIR);
+		helper.setBlock(2, 3, 3, Blocks.AIR);
 
 		helper.runAfterDelay(40, () -> helper.succeedWhen(() -> {
 			helper.assertBlockProperty(new BlockPos(7, 1, 8), RedstoneLampBlock.LIT, false);
@@ -243,9 +244,51 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "portal_command_remove")
 	public void portalCommandRemove(GameTestHelper helper) {
 
-		//todo
+		PortalHelper removeSingle = new PortalHelper(helper, "removesingle", 0x2055fe, 0xfe7020);
+		PortalHelper removePair = new PortalHelper(helper, "removepair", 0x2055fe, 0xfe7020);
+
+		removeSingle.primary().placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
+		removePair.primary().placeOn(new BlockPos(2, 2, 4), Direction.NORTH);
+		removePair.secondary().placeOn(new BlockPos(4, 2, 4), Direction.NORTH);
+
+		helper.runAfterDelay(20, () -> helper.pullLever(2, 1, 0));
+		helper.succeedWhen(() -> {
+			//removesingle.primary().assertNotPresent();
+			//removepair.primary().assertNotPresent();
+			//removepair.secondary().assertNotPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
 	}
 
+	//Tests the "create" portion of the portal command
+	@GameTest(template = GROUP + "projectiles_through_portals")
+	public void projectilesThroughPortals(GameTestHelper helper) {
+
+		PortalHelper windCharge = new PortalHelper(helper, "wind_charge", 0x2055fe, 0xfe7020);
+		PortalHelper snowball = new PortalHelper(helper, "snowball", 0x2055fe, 0xfe7020);
+		PortalHelper fireworkRocket = new PortalHelper(helper, "firework_rocket", 0x2055fe, 0xfe7020);
+		PortalHelper arrow = new PortalHelper(helper, "arrow", 0x2055fe, 0xfe7020);
+
+		windCharge.primary().shootFrom(new Vec3(1.5, 2, 4.5), Direction.UP);
+		windCharge.secondary().shootFrom(new Vec3(1.5, 2.5, 1.5), Direction.DOWN);
+		snowball.primary().shootFrom(new Vec3(3.5, 2, 4.5), Direction.UP);
+		snowball.secondary().shootFrom(new Vec3(3.5, 2.5, 1.5), Direction.DOWN);
+		fireworkRocket.primary().shootFrom(new Vec3(5.5, 2, 4.5), Direction.UP);
+		fireworkRocket.secondary().shootFrom(new Vec3(5.5, 2.5, 1.5), Direction.DOWN);
+		arrow.primary().shootFrom(new Vec3(7.5, 2, 4.5), Direction.UP);
+		arrow.secondary().shootFrom(new Vec3(7.5, 2.5, 1.5), Direction.DOWN);
+
+		helper.pullLever(6, 1, 4);
+		helper.pullLever(2, 1, 4);
+
+		helper.succeedWhen(() -> {
+			helper.assertBlockProperty(new BlockPos(1, 4, 1), CopperBulbBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(3, 4, 1), CopperBulbBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(5, 4, 1), RedstoneLampBlock.LIT, true);
+			helper.assertBlockProperty(new BlockPos(7, 4, 1), CopperBulbBlock.LIT, true);
+		});
+	}
 
 	//Tests portals becoming obstructed by solid blocks
 	@GameTest(template = GROUP + "portal_become_obstructed")
