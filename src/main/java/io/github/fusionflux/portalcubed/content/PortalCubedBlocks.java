@@ -31,6 +31,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.block.CollisionlessFacadeBlock;
 import io.github.fusionflux.portalcubed.framework.block.FacadeBlock;
+import io.github.fusionflux.portalcubed.content.portal.PortalBarrierBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
@@ -908,6 +909,10 @@ public class PortalCubedBlocks {
 	public static final PropBarrierBlock PROP_BARRIER = REGISTRAR.blocks.createFrom("prop_barrier", PropBarrierBlock::new, Blocks.BARRIER)
 			.properties(BlockBehaviour.Properties::dynamicShape)
 			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
+			.build();
+	public static final PortalBarrierBlock PORTAL_BARRIER = REGISTRAR.blocks.createFrom("portal_barrier", PortalBarrierBlock::new, Blocks.BARRIER)
+			.properties(BlockBehaviour.Properties::dynamicShape)
+			//.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 
 	public static final Block GOO = REGISTRAR.blocks.createFrom("toxic_goo", GooBlock::new, Blocks.WATER)

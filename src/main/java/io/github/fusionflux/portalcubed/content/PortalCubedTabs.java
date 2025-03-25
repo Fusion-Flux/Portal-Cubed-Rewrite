@@ -67,7 +67,7 @@ public class PortalCubedTabs {
 		builder.displayItems((params, output) -> {
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
 			output.accept(PortalCubedBlocks.PROP_BARRIER);
-			//output.accept(PortalCubedBlocks.PORTAL_BARRIER);
+			output.accept(PortalCubedBlocks.PORTAL_BARRIER);
 			output.accept(PortalCubedBlocks.MAGNESIUM_ORE);
 			output.accept(PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE);
 			output.accept(PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
@@ -477,7 +477,7 @@ public class PortalCubedTabs {
 				return;
 
 			entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER);
-			//entries.addAfter(PortalCubedBlocks.PROP_BARRIER, PortalCubedBlocks.PORTAL_BARRIER);
+			entries.addAfter(PortalCubedBlocks.PROP_BARRIER, PortalCubedBlocks.PORTAL_BARRIER);
 			entries.addAfter(Items.DEBUG_STICK, PortalCubedItems.FIZZLEINATOR);
 		});
 	}
