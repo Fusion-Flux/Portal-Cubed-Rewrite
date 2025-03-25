@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.fusionflux.portalcubed.content.portal.renderer.CrossPortalEntityRenderer;
@@ -57,19 +57,22 @@ public class LevelRendererMixin {
 	private static void replaceClearingIfRenderingPortal(int mask, Operation<Void> original, @Local(argsOnly = true) Vector4f clearColor) {
 		if (PortalRenderer.isRenderingView()) {
 			// Setup state
-			RenderSystem.depthFunc(GL11.GL_ALWAYS);
 			GL11.glDepthRange(1, 1);
 			GL11.glDisable(GL11.GL_CLIP_PLANE0);
 
 			RenderingUtils.renderFullScreenQuad(clearColor.x, clearColor.y, clearColor.z);
 
 			// Cleanup state
-			RenderSystem.depthFunc(GL11.GL_LEQUAL);
 			GL11.glDepthRange(0, 1);
 			GL11.glEnable(GL11.GL_CLIP_PLANE0);
 		} else {
 			original.call(mask);
 		}
+	}
+
+	@ModifyReturnValue(method = "shouldShowEntityOutlines", at = @At("RETURN"))
+	private boolean dontShowEntityOutlinesIfRenderingPortal(boolean original) {
+		return original && !PortalRenderer.isRenderingView();
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))

@@ -20,7 +20,6 @@ import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -51,12 +50,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.FogParameters;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -68,6 +67,7 @@ public class PortalRenderer {
 	public static final double OFFSET_FROM_WALL = 0.001;
 
 	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
+	private static final ByteBufferBuilder PORTAL_BYTE_BUFFER_BUILDER = new ByteBufferBuilder(RenderType.TRANSIENT_BUFFER_SIZE);
 
 	private static VertexBuffer stencilQuadBuffer;
 
@@ -152,9 +152,13 @@ public class PortalRenderer {
 
 		// Render portals
 		RenderType renderType = PortalCubedRenderTypes.emissive(PortalTextureManager.ATLAS_LOCATION);
-		BufferBuilder vertices = Tesselator.getInstance().begin(renderType.mode(), renderType.format());
-		visiblePortals.forEach(visiblePortal -> renderPortal(visiblePortal, matrices, level, tickDelta, vertices));
-		renderType.draw(vertices.buildOrThrow());
+		BufferBuilder bufferBuilder = new BufferBuilder(PORTAL_BYTE_BUFFER_BUILDER, renderType.mode(), renderType.format());
+		visiblePortals.forEach(visiblePortal -> renderPortal(visiblePortal, matrices, level, tickDelta, bufferBuilder));
+		try (MeshData mesh = bufferBuilder.buildOrThrow()) {
+			if (renderType.sortOnUpload())
+				mesh.sortQuads(PORTAL_BYTE_BUFFER_BUILDER, RenderSystem.getProjectionType().vertexSorting());
+			renderType.draw(mesh);
+		}
 	}
 
 	private static PoseStack.Pose transformToPortal(VisiblePortal visiblePortal, ClientLevel level, float tickDelta, PoseStack matrices) {
@@ -176,8 +180,7 @@ public class PortalRenderer {
 		return matrices.last();
 	}
 
-	private static void renderPortalStencil(ResourceLocation texture, Matrix4f matrix) {
-		// Build buffer
+	private static void renderPortalStencil(RenderStateShard.DepthTestStateShard depthTest, ResourceLocation texture, Matrix4f matrix) {
 		if (stencilQuadBuffer == null) {
 			try (ByteBufferBuilder byteBufferBuilder = new ByteBufferBuilder(DefaultVertexFormat.POSITION_TEX.getVertexSize() * 4)) {
 				BufferBuilder builder = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
@@ -196,22 +199,16 @@ public class PortalRenderer {
 			}
 		}
 
-		// Setup state
-		RenderSystem.setShaderTexture(0, texture);
 		GL11.glEnable(ARBDepthClamp.GL_DEPTH_CLAMP);
-		RenderSystem.colorMask(false, false, false, false);
 
 		Matrix4fStack matrices = RenderSystem.getModelViewStack();
 		matrices.pushMatrix();
 		matrices.mul(matrix);
-		stencilQuadBuffer.bind();
-		stencilQuadBuffer.drawWithShader(matrices, RenderSystem.getProjectionMatrix(), RenderSystem.setShader(CoreShaders.POSITION_TEX));
-		VertexBuffer.unbind();
+		stencilQuadBuffer.drawWithRenderType(PortalCubedRenderTypes.depthCutout(depthTest, texture));
 		matrices.popMatrix();
 
-		// Cleanup state
 		GL11.glDisable(ARBDepthClamp.GL_DEPTH_CLAMP);
-		RenderSystem.colorMask(true, true, true, true);
+		RenderSystem.enableDepthTest();
 	}
 
 	private static void renderPortalView(VisiblePortal visiblePortal, float tickDelta, PoseStack matrices, WorldRenderContext context) {
@@ -237,12 +234,8 @@ public class PortalRenderer {
 		Matrix4f matrix = transformToPortal(visiblePortal, context.world(), tickDelta, matrices).pose();
 
 		// Draw stencil
-		RenderSystem.depthMask(false);
-		RenderSystem.enableDepthTest();
-		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderingUtils.setupStencilForWriting(recursion, true);
-		renderPortalStencil(stencilTexture, matrix);
-		RenderSystem.depthMask(true);
+		renderPortalStencil(RenderStateShard.LEQUAL_DEPTH_TEST, stencilTexture, matrix);
 
 		// Backup old state
 		LevelRenderer worldRenderer = context.worldRenderer();
@@ -291,10 +284,8 @@ public class PortalRenderer {
 		// Restore depth
 		RenderingUtils.setupStencilForWriting(recursion + 1, false);
 		RenderSystem.depthFunc(GL11.GL_ALWAYS);
-		RenderSystem.colorMask(false, false, false, false);
-		renderPortalStencil(stencilTexture, matrix);
+		renderPortalStencil(RenderStateShard.NO_DEPTH_TEST, stencilTexture, matrix);
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
-		RenderSystem.colorMask(true, true, true, true);
 
 		matrices.popPose();
 	}
