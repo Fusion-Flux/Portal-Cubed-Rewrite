@@ -71,7 +71,6 @@ public class PortalBarrierBlock extends MultifaceBlock {
 		return 1.0F;
 	}
 
-
 	@Override
 	public boolean canPlaceLiquid(@Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid) {
 		return player != null && player.isCreative() && super.canPlaceLiquid(player, level, pos, state, fluid);
@@ -89,8 +88,6 @@ public class PortalBarrierBlock extends MultifaceBlock {
 
 	@Override
 	public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-		// all vanilla multifaces are always replaceable
-		// facades should only be replaceable with themselves for adding faces
 		return context.getItemInHand().is(this.asItem());
 	}
 
@@ -99,7 +96,7 @@ public class PortalBarrierBlock extends MultifaceBlock {
 
 		for (Direction direction : DIRECTIONS) {
 			if (hasFace(state, direction)) {
-				voxelShape = Shapes.or(voxelShape, (VoxelShape)SHAPE_BY_DIRECTION.get(direction));
+				voxelShape = Shapes.or(voxelShape, SHAPE_BY_DIRECTION.get(direction));
 			}
 		}
 

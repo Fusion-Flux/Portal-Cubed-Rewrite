@@ -912,7 +912,7 @@ public class PortalCubedBlocks {
 			.build();
 	public static final PortalBarrierBlock PORTAL_BARRIER = REGISTRAR.blocks.createFrom("portal_barrier", PortalBarrierBlock::new, Blocks.BARRIER)
 			.properties(BlockBehaviour.Properties::dynamicShape)
-			//.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
+			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 
 	public static final Block GOO = REGISTRAR.blocks.createFrom("toxic_goo", GooBlock::new, Blocks.WATER)
