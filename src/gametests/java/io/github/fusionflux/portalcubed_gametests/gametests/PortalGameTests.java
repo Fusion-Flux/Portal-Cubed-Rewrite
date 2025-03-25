@@ -347,7 +347,113 @@ public class PortalGameTests implements FabricGameTest {
 
 			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		});
+	}
 
+
+	//Tests portal bumping if you shoot too close to a wall
+	@GameTest(template = GROUP + "portal_bump_wall")
+	public void portalBumpWall(GameTestHelper helper) {
+
+		PortalHelper portalBumpWall = new PortalHelper(helper, "portal_bump_wall", 0x2055fe, 0xfe7020);
+		portalBumpWall.primary().shootFrom(new Vec3(1, 3, 2.5), Direction.DOWN);
+
+		helper.succeedWhen(() -> {
+			//portalBumpWall.primary().assertPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+
+	//Tests portal bumping if you shoot too close to another portal
+	@GameTest(template = GROUP + "portal_bump_portal")
+	public void portalBumpPortal(GameTestHelper helper) {
+
+		PortalHelper portalBumpPortal = new PortalHelper(helper, "portal_bump_portal", 0x2055fe, 0xfe7020);
+		portalBumpPortal.primary().shootFrom(new Vec3(1.5, 3, 2.5), Direction.DOWN);
+		helper.runAfterDelay(20, () -> portalBumpPortal.secondary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN));
+
+		helper.succeedWhen(() -> {
+			//portalBumpPortal.secondary().assertPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+
+	//Tests portal bumping if you shoot an invalid portal surface.  The portal should not be bumped.
+	@GameTest(template = GROUP + "portal_bump_invalid_surface")
+	public void portalBumpInvalidSurface(GameTestHelper helper) {
+
+		PortalHelper portalBumpInvalidSurface = new PortalHelper(helper, "portal_bump_invalid_surface", 0x2055fe, 0xfe7020);
+		portalBumpInvalidSurface.primary().shootFrom(new Vec3(0.75, 3, 2.5), Direction.DOWN);
+
+		helper.succeedWhen(() -> {
+			//portalBumpInvalidSurface.primary().assertNotPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+
+	//Tests portal bumping across a gap.  It probably shouldn't bump, but the current implementation does, and it's hard to make it not do that.
+	@GameTest(template = GROUP + "portal_bump_gap")
+	public void portalBumpGap(GameTestHelper helper) {
+
+		PortalHelper portalBumpGap = new PortalHelper(helper, "portal_bump_gap", 0x2055fe, 0xfe7020);
+
+		portalBumpGap.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+
+		helper.succeedWhen(() -> {
+			//portalBumpGap.primary().assertPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+
+	//Tests portal bumping through a thin wall.  Bumping across walls is the correct behavior to match portal.
+	@GameTest(template = GROUP + "portal_bump_thin_wall")
+	public void portalBumpThinWall(GameTestHelper helper) {
+
+		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall", 0x2055fe, 0xfe7020);
+		portalBumpThinWall.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+
+		helper.succeedWhen(() -> {
+			//portalBumpThinWall.primary().assertPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+
+	//Tests portal bumping when a portal is shot on the edge of a block
+	@GameTest(template = GROUP + "portal_bump_edge")
+	public void portalBumpEdge(GameTestHelper helper) {
+
+		PortalHelper portalBumpEdge = new PortalHelper(helper, "portal_bump_edge", 0x2055fe, 0xfe7020);
+		portalBumpEdge.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+
+		helper.succeedWhen(() -> {
+			//portalBumpEdge.primary().assertPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+
+	//Tests portal bumping when a portal is shot into a thin trench.  The portal should not be placed.
+	@GameTest(template = GROUP + "portal_bump_trench")
+	public void portalBumpTrench(GameTestHelper helper) {
+
+		PortalHelper portalBumpTrench = new PortalHelper(helper, "portal_bump_trench", 0x2055fe, 0xfe7020);
+		portalBumpTrench.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+
+		helper.succeedWhen(() -> {
+			//portalBumpTrench.primary().assertNotPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
 	}
 
 
