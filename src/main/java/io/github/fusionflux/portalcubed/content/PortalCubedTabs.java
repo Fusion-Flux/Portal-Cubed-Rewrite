@@ -476,8 +476,7 @@ public class PortalCubedTabs {
 			if (!entries.shouldShowOpRestrictedItems())
 				return;
 
-			entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER);
-			entries.addAfter(PortalCubedBlocks.PROP_BARRIER, PortalCubedBlocks.PORTAL_BARRIER);
+			entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER, PortalCubedBlocks.PORTAL_BARRIER);
 			entries.addAfter(Items.DEBUG_STICK, PortalCubedItems.FIZZLEINATOR);
 		});
 	}

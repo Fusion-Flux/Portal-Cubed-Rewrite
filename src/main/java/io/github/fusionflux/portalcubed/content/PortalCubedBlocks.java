@@ -911,7 +911,6 @@ public class PortalCubedBlocks {
 			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 	public static final PortalBarrierBlock PORTAL_BARRIER = REGISTRAR.blocks.createFrom("portal_barrier", PortalBarrierBlock::new, Blocks.BARRIER)
-			.properties(BlockBehaviour.Properties::dynamicShape)
 			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 

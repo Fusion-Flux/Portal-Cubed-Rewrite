@@ -87,6 +87,11 @@ public class PortalBarrierBlock extends MultifaceBlock {
 	}
 
 	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return this.shapesCache.get(state);
+	}
+
+	@Override
 	public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
 		return context.getItemInHand().is(this.asItem());
 	}
@@ -101,10 +106,5 @@ public class PortalBarrierBlock extends MultifaceBlock {
 		}
 
 		return voxelShape.isEmpty() ? Shapes.block() : voxelShape;
-	}
-
-	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return this.shapesCache.get(state);
 	}
 }
