@@ -80,7 +80,6 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 	}
 
 	private static final class ModelEmitter extends DelegatingVertexConsumer {
-		@SuppressWarnings("deprecation")
 		private static final RenderType EMISSIVE_RENDER_TYPE = PortalCubedRenderTypes.emissive(TextureAtlas.LOCATION_BLOCKS);
 		private static final RenderType DEFAULT_RENDER_TYPE = Sheets.translucentItemSheet();
 		private static final RenderType CUTOUT_RENDER_TYPE = Sheets.cutoutBlockSheet();
