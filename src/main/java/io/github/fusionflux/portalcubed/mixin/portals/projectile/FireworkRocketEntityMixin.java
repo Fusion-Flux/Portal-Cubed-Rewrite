@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.mixin.test;
+package io.github.fusionflux.portalcubed.mixin.portals.projectile;
 
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -29,12 +29,13 @@ public abstract class FireworkRocketEntityMixin extends Projectile {
 					ordinal = 0
 			)
 	)
-	private void portalCubed$fixAttached(FireworkRocketEntity self, double x, double y, double z, Operation<Void> original) {
+	private void fixAttachedFireworks(FireworkRocketEntity self, double x, double y, double z, Operation<Void> original) {
 		Vec3 oldPos = self.position();
 		original.call(self, x, y, z);
 		PortalTeleportHandler.handle(self, oldPos);
 	}
 
+	// This is the actual fix.
 	@WrapOperation(
 			method = "tick",
 			at = @At(
@@ -43,7 +44,7 @@ public abstract class FireworkRocketEntityMixin extends Projectile {
 					ordinal = 2
 			)
 	)
-	private void portalCubed$projectilePortalFixReal(FireworkRocketEntity self, Vec3 deltaMove, Operation<Void> original) {
+	private void fixFireworkMovement(FireworkRocketEntity self, Vec3 deltaMove, Operation<Void> original) {
 		deltaMove = this.getDeltaMovement();
 		original.call(self, deltaMove);
 	}

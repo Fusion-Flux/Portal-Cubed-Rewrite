@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.mixin.test;
+package io.github.fusionflux.portalcubed.mixin.portals.projectile;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -16,8 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ShulkerBullet.class)
 public abstract class ShulkerBulletMixin extends Projectile {
-
-	public ShulkerBulletMixin(EntityType<? extends Projectile> entityType, Level level) {
+	protected ShulkerBulletMixin(EntityType<? extends Projectile> entityType, Level level) {
 		super(entityType, level);
 	}
 
@@ -29,7 +28,7 @@ public abstract class ShulkerBulletMixin extends Projectile {
 					ordinal = 0
 			)
 	)
-	private void portalCubed$projectilePortalFix(ShulkerBullet self, Vec3 pos, Operation<Void> original) {
+	private void allowShulketBulletsThroughPortals(ShulkerBullet self, Vec3 pos, Operation<Void> original) {
 		Vec3 oldPos = self.position();
 		original.call(self, pos);
 		PortalTeleportHandler.handle(self, oldPos);

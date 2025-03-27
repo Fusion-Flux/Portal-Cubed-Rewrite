@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.mixin.test;
+package io.github.fusionflux.portalcubed.mixin.portals.projectile;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -8,7 +8,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ShulkerBullet;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -29,7 +28,7 @@ public abstract class AbstractArrowMixin extends Projectile {
 					ordinal = 0
 			)
 	)
-	private void portalCubed$projectilePortalFix(AbstractArrow self, Vec3 pos, Operation<Void> original) {
+	private void allowArrowsThroughPortals(AbstractArrow self, Vec3 pos, Operation<Void> original) {
 		Vec3 oldPos = self.position();
 		original.call(self, pos);
 		PortalTeleportHandler.handle(self, oldPos);
