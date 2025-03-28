@@ -45,7 +45,7 @@ public class LemonTrunkPlacer extends TrunkPlacer {
 	private final IntProvider branchDistance;
 
 	public LemonTrunkPlacer(UniformInt centerHeight, IntProvider branchCount, IntProvider branchDistance) {
-		super(centerHeight.getMinValue(), centerHeight.getMaxValue() - centerHeight.getMaxValue(), 0);
+		super(centerHeight.getMinValue(), centerHeight.getMaxValue() - centerHeight.getMinValue(), 0);
 		this.centerHeight = centerHeight;
 		this.branchCount = branchCount;
 		this.branchDistance = branchDistance;
