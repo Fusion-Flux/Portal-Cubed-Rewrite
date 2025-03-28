@@ -142,10 +142,12 @@ public class PropGameTests implements FabricGameTest {
 
 		helper.pullLever(4, 1, 1);
 
-		helper.succeedWhen(() -> {
-			assertPropVariant(helper, p2StorageCube, 0);
-			assertPropVariant(helper, p1CompanionCube, 0);
-		});
+		helper.runAfterDelay(20, () ->
+				helper.succeedWhen(() -> {
+					assertPropVariant(helper, p2StorageCube, 0);
+					assertPropVariant(helper, p1CompanionCube, 0);
+				})
+		);
 	}
 
 	//Tests dirty/charred props not being washed in goo
