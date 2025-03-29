@@ -70,32 +70,32 @@
   "block/gray_chamber_door_bottom_left_unlocked": "block/chamber_door_emissive",
 
 
-  "portal_gun/default/humanoid/portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/default/fox/portal_gun": "item/portal_gun_dyeable",
+  "portal_gun/default/humanoid/portal_gun": "item/portal_gun_emissive",
+  "portal_gun/default/fox/portal_gun": "item/portal_gun_emissive",
 
-  "portal_gun/default_special/humanoid/damaged_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/default_special/humanoid/painted_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/default_special/fox/damaged_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/default_special/fox/painted_portal_gun": "item/portal_gun_dyeable",
+  "portal_gun/default_special/humanoid/damaged_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/default_special/humanoid/painted_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/default_special/fox/damaged_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/default_special/fox/painted_portal_gun": "item/portal_gun_emissive",
 
-  "portal_gun/legacy/humanoid/legacy_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/legacy/fox/legacy_portal_gun": "item/portal_gun_dyeable",
+  "portal_gun/legacy/humanoid/legacy_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/legacy/fox/legacy_portal_gun": "item/portal_gun_emissive",
 
-  "portal_gun/2d/2d_portal_gun": "item/2d_portal_gun_dyeable",
-  "portal_gun/2d/2d_portal_gun_atlas": "item/2d_portal_gun_dyeable",
-  "portal_gun/2d/2d_portal_gun_p_body": "item/2d_portal_gun_dyeable",
-  "portal_gun/2d/2d_portal_gun_reloaded": "item/2d_portal_gun_dyeable",
+  "portal_gun/2d/2d_portal_gun": "item/2d_portal_gun_emissive",
+  "portal_gun/2d/2d_portal_gun_atlas": "item/2d_portal_gun_emissive",
+  "portal_gun/2d/2d_portal_gun_p_body": "item/2d_portal_gun_emissive",
+  "portal_gun/2d/2d_portal_gun_reloaded": "item/2d_portal_gun_emissive",
 
-  "portal_gun/beta/humanoid/2005_beta_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/beta/humanoid/2006_beta_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/beta/fox/2005_beta_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/beta/fox/2006_beta_portal_gun": "item/portal_gun_dyeable",
+  "portal_gun/beta/humanoid/2005_beta_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/beta/humanoid/2006_beta_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/beta/fox/2005_beta_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/beta/fox/2006_beta_portal_gun": "item/portal_gun_emissive",
 
-  "portal_gun/mel/humanoid/mel_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/mel/fox/mel_portal_gun": "item/portal_gun_dyeable",
+  "portal_gun/mel/humanoid/mel_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/mel/fox/mel_portal_gun": "item/portal_gun_emissive",
 
-  "portal_gun/lego/humanoid/lego_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/lego/fox/lego_portal_gun": "item/portal_gun_dyeable",
+  "portal_gun/lego/humanoid/lego_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/lego/fox/lego_portal_gun": "item/portal_gun_emissive",
 
   "portal_gun/wand/humanoid/wand": "item/wand_orb",
   "portal_gun/wand/fox/wand": "item/wand_orb",
@@ -105,11 +105,11 @@
   "portal_gun/crossbow/humanoid/black_hole_model_part": "item/wand_orb",
 
 
-  "portal_gun/smithers/humanoid/smithers_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/smithers/fox/smithers_portal_gun": "item/portal_gun_dyeable",
+  "portal_gun/smithers/humanoid/smithers_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/smithers/fox/smithers_portal_gun": "item/portal_gun_emissive",
 
-  "portal_gun/rick/humanoid/rick_portal_gun": "item/portal_gun_dyeable",
-  "portal_gun/rick/fox/rick_portal_gun": "item/portal_gun_dyeable",
+  "portal_gun/rick/humanoid/rick_portal_gun": "item/portal_gun_emissive",
+  "portal_gun/rick/fox/rick_portal_gun": "item/portal_gun_emissive",
 
 
 

@@ -1,9 +1,9 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
-		"0": "portalcubed:item/portal_gun_dyeable",
+		"0": "portalcubed:item/portal_gun_emissive",
 		"1": "portalcubed:item/rick_portal_gun",
-		"particle": "portalcubed:item/portal_gun_dyeable"
+		"particle": "portalcubed:item/portal_gun_emissive"
 	},
 	"elements": [
 		{

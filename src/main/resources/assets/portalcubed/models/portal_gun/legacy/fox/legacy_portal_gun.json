@@ -2,7 +2,7 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "portalcubed:item/portal_gun_dyeable",
+		"1": "portalcubed:item/portal_gun_emissive",
 		"3": "portalcubed:item/legacy_portal_gun",
 		"particle": "portalcubed:item/legacy_portal_gun"
 	},

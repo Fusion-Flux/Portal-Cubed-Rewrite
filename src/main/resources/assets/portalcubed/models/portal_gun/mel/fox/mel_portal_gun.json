@@ -3,7 +3,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "portalcubed:item/mel_portal_gun",
-		"1": "portalcubed:item/portal_gun_dyeable",
+		"1": "portalcubed:item/portal_gun_emissive",
 		"particle": "portalcubed:item/mel_portal_gun"
 	},
 	"elements": [
