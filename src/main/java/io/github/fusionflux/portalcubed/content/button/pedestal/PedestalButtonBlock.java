@@ -2,12 +2,12 @@ package io.github.fusionflux.portalcubed.content.button.pedestal;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
@@ -18,7 +18,6 @@ import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
 import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper.DefaultRotationValues;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -71,7 +70,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	private static final VoxelShaper BASE_SHAPE = VoxelShaper.forHorizontal(box(5.5, 1, 5.5, 10.5, 20, 10.5), Direction.UP);
 	private static final VoxelShaper OLD_AP_BASE_SHAPE = VoxelShaper.forHorizontal(Shapes.or(box(5.5, 0, 5.5, 10.5, 17.05, 10.5), box(6, 17, 6, 10, 19.05, 10)), Direction.UP);
 
-	private final Map<BlockState, VoxelShape> shapes;
+	private final ImmutableMap<BlockState, VoxelShape> shapesCache;
 	private final SoundEvent pressSound;
 	private final SoundEvent releaseSound;
 
@@ -87,15 +86,14 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		super(properties);
 		this.pressSound = pressSound;
 		this.releaseSound = releaseSound;
-		this.shapes = new Reference2ReferenceOpenHashMap<>();
-		for (BlockState state : this.stateDefinition.getPossibleStates()) {
+		this.shapesCache = this.getShapeForEachState(state -> {
 			Direction face = state.getValue(FACE);
 			Direction facing = state.getValue(FACING);
 			boolean base = state.getValue(BASE);
 			Vec3 shift = state.getValue(OFFSET).get(face, facing, base);
 			VoxelShape rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
-			this.shapes.put(state, rotated.move(shift.x() / 16d, shift.y() / 16d, shift.z() / 16d));
-		}
+			return rotated.move(shift.x() / 16d, shift.y() / 16d, shift.z() / 16d);
+		});
 		this.registerDefaultState(this.stateDefinition.any()
 			.setValue(FACE, Direction.UP)
 			.setValue(FACING, Direction.SOUTH)
@@ -193,7 +191,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	@Override
 	@NotNull
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return this.shapes.get(state);
+		return this.shapesCache.get(state);
 	}
 
 	@Override
