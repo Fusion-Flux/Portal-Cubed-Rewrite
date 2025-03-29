@@ -1,8 +1,8 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
-		"0": "portalcubed:item/pistol",
-		"particle": "portalcubed:item/pistol"
+		"0": "portalcubed:portal_gun/pistol",
+		"particle": "portalcubed:portal_gun/pistol"
 	},
 	"elements": [
 		{

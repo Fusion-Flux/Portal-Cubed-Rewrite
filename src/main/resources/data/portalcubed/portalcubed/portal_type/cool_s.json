@@ -20,9 +20,9 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/cool_s/cool_s_open",
-    "closed": "portalcubed:portals/cool_s/cool_s_closed",
-    "tracer": "portalcubed:portals/cool_s/cool_s_tracer"
+    "open": "portalcubed:portal/cool_s/cool_s_open",
+    "closed": "portalcubed:portal/cool_s/cool_s_closed",
+    "tracer": "portalcubed:portal/cool_s/cool_s_tracer"
   },
-  "stencil": "portalcubed:portals/cool_s/cool_s_stencil"
+  "stencil": "portalcubed:portal/cool_s/cool_s_stencil"
 }

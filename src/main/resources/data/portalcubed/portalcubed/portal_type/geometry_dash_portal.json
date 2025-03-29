@@ -14,31 +14,31 @@
   "textures": {
     "closed": [
       {
-      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal",
+      "texture": "portalcubed:portal/geometry_dash_portal/geometry_dash_portal",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal_overlay",
+      "texture": "portalcubed:portal/geometry_dash_portal/geometry_dash_portal_overlay",
       "tint": false
       }
     ],
     "open": [
       {
-      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal",
+      "texture": "portalcubed:portal/geometry_dash_portal/geometry_dash_portal",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal_overlay",
+      "texture": "portalcubed:portal/geometry_dash_portal/geometry_dash_portal_overlay",
       "tint": false
       }
     ],
     "tracer": [
       {
-      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal_tracer",
+      "texture": "portalcubed:portal/geometry_dash_portal/geometry_dash_portal_tracer",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/geometry_dash_portal/geometry_dash_portal_tracer_overlay",
+      "texture": "portalcubed:portal/geometry_dash_portal/geometry_dash_portal_tracer_overlay",
       "tint": false
       }
     ]

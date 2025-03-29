@@ -16,31 +16,31 @@
   "textures": {
     "open": [
       {
-      "texture": "portalcubed:portals/round/round_portal_open",
+      "texture": "portalcubed:portal/round/round_portal_open",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/round/round_portal_open_overlay",
+      "texture": "portalcubed:portal/round/round_portal_open_overlay",
       "tint": true,
       "offset": 0.005
       }
     ],
     "closed": [
       {
-      "texture": "portalcubed:portals/round/round_portal_closed",
+      "texture": "portalcubed:portal/round/round_portal_closed",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/round/round_portal_open",
+      "texture": "portalcubed:portal/round/round_portal_open",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/round/round_portal_closed_overlay",
+      "texture": "portalcubed:portal/round/round_portal_closed_overlay",
       "tint": true,
       "offset": 0.005
       }
     ],
-    "tracer": "portalcubed:portals/round/round_portal_tracer"
+    "tracer": "portalcubed:portal/round/round_portal_tracer"
   },
-  "stencil": "portalcubed:portals/round/round_portal_stencil"
+  "stencil": "portalcubed:portal/round/round_portal_stencil"
 }

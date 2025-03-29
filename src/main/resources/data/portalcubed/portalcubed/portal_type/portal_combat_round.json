@@ -13,16 +13,16 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/portal_combat_round/portal_combat_round_closed",
+        "texture": "portalcubed:portal/portal_combat_round/portal_combat_round_closed",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/portal_combat_round/portal_combat_round_open",
+        "texture": "portalcubed:portal/portal_combat_round/portal_combat_round_open",
         "tint": false
       }
     ],
-    "closed": "portalcubed:portals/portal_combat_round/portal_combat_round_closed",
-    "tracer": "portalcubed:portals/portal_combat_round/portal_combat_round_tracer"
+    "closed": "portalcubed:portal/portal_combat_round/portal_combat_round_closed",
+    "tracer": "portalcubed:portal/portal_combat_round/portal_combat_round_tracer"
   },
   "place_animation": {
     "type": "expand_vertical_center",

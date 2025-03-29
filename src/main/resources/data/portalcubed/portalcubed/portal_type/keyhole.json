@@ -12,11 +12,11 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/keyhole/keyhole_open",
-    "closed": "portalcubed:portals/keyhole/keyhole",
-    "tracer": "portalcubed:portals/keyhole/keyhole_tracer"
+    "open": "portalcubed:portal/keyhole/keyhole_open",
+    "closed": "portalcubed:portal/keyhole/keyhole",
+    "tracer": "portalcubed:portal/keyhole/keyhole_tracer"
   },
-  "stencil": "portalcubed:portals/keyhole/keyhole_stencil",
+  "stencil": "portalcubed:portal/keyhole/keyhole_stencil",
   "place_animation": {
     "type": "expand_all_center",
     "easing": "out_back",

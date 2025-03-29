@@ -20,9 +20,9 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/dx8/dx8_portal_open",
-    "closed": "portalcubed:portals/dx8/dx8_portal_closed",
-    "tracer": "portalcubed:portals/dx8/dx8_portal_tracer"
+    "open": "portalcubed:portal/dx8/dx8_portal_open",
+    "closed": "portalcubed:portal/dx8/dx8_portal_closed",
+    "tracer": "portalcubed:portal/dx8/dx8_portal_tracer"
   },
-  "stencil": "portalcubed:portals/dx8/dx8_portal_stencil"
+  "stencil": "portalcubed:portal/dx8/dx8_portal_stencil"
 }

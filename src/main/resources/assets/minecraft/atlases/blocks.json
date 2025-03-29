@@ -24,6 +24,11 @@
             "prefix": "prop/"
         },
         {
+            "type": "directory",
+            "source": "portal_gun",
+            "prefix": "portal_gun/"
+        },
+        {
           "type": "single",
           "resource": "minecraft:entity/fish/salmon"
         }

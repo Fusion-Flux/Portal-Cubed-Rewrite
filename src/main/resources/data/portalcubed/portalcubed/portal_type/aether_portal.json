@@ -16,43 +16,43 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/aether_portal/aether_portal_frame",
+        "texture": "portalcubed:portal/aether_portal/aether_portal_frame",
         "tint": false
       },
       {
-        "texture": "portalcubed:portals/aether_portal/aether_portal_frame",
+        "texture": "portalcubed:portal/aether_portal/aether_portal_frame",
         "tint": false,
         "offset": 0.01
       },
       {
-        "texture": "portalcubed:portals/aether_portal/aether_portal_open",
+        "texture": "portalcubed:portal/aether_portal/aether_portal_open",
         "tint": true,
         "offset": 0.01
       }
     ],
     "closed": [
       {
-        "texture":"portalcubed:portals/aether_portal/aether_portal_frame",
+        "texture":"portalcubed:portal/aether_portal/aether_portal_frame",
         "tint": false
       },
       {
-        "texture": "portalcubed:portals/aether_portal/aether_portal_frame",
+        "texture": "portalcubed:portal/aether_portal/aether_portal_frame",
         "tint": false,
         "offset": 0.01
       }
     ],
     "tracer": [
       {
-        "texture": "portalcubed:portals/aether_portal/aether_portal_tracer",
+        "texture": "portalcubed:portal/aether_portal/aether_portal_tracer",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/aether_portal/aether_portal_tracer_overlay",
+        "texture": "portalcubed:portal/aether_portal/aether_portal_tracer_overlay",
         "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/aether_portal/aether_portal_stencil",
+  "stencil": "portalcubed:portal/aether_portal/aether_portal_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

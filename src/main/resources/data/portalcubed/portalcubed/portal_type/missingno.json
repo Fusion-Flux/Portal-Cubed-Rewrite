@@ -19,29 +19,29 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/missingno/missing_texture_portal",
+    "open": "portalcubed:portal/missingno/missing_texture_portal",
     "closed": [
       {
-        "texture": "portalcubed:portals/missingno/missing_texture_portal",
+        "texture": "portalcubed:portal/missingno/missing_texture_portal",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/missingno/missing_texture_portal_overlay",
+        "texture": "portalcubed:portal/missingno/missing_texture_portal_overlay",
         "tint": false
       }
     ],
     "tracer": [
       {
-        "texture": "portalcubed:portals/missingno/missing_texture_portal_tracer",
+        "texture": "portalcubed:portal/missingno/missing_texture_portal_tracer",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/missingno/missing_texture_portal_tracer_overlay",
+        "texture": "portalcubed:portal/missingno/missing_texture_portal_tracer_overlay",
         "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/missingno/missing_texture_portal_stencil",
+  "stencil": "portalcubed:portal/missingno/missing_texture_portal_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

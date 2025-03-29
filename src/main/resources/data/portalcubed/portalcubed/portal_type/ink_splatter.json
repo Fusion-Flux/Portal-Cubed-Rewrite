@@ -12,15 +12,15 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/ink_splatter/ink_splatter",
-    "closed": "portalcubed:portals/ink_splatter/ink_splatter",
+    "open": "portalcubed:portal/ink_splatter/ink_splatter",
+    "closed": "portalcubed:portal/ink_splatter/ink_splatter",
     "tracer": [
       {
-        "texture": "portalcubed:portals/ink_splatter/ink_splatter_tracer",
+        "texture": "portalcubed:portal/ink_splatter/ink_splatter_tracer",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/ink_splatter/ink_splatter_tracer_overlay",
+        "texture": "portalcubed:portal/ink_splatter/ink_splatter_tracer_overlay",
         "tint": false
       }
     ]

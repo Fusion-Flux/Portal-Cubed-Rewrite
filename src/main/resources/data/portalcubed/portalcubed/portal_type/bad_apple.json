@@ -14,25 +14,25 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/bad_apple/bad_apple",
+        "texture": "portalcubed:portal/bad_apple/bad_apple",
         "tint": true,
         "offset": 0.01
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/bad_apple/bad_apple_background",
+        "texture": "portalcubed:portal/bad_apple/bad_apple_background",
         "tint": false
       },
       {
-        "texture": "portalcubed:portals/bad_apple/bad_apple",
+        "texture": "portalcubed:portal/bad_apple/bad_apple",
         "tint": true,
         "offset": 0.01
       }
     ],
-    "tracer": "portalcubed:portals/bad_apple/bad_apple_tracer"
+    "tracer": "portalcubed:portal/bad_apple/bad_apple_tracer"
   },
-  "stencil": "portalcubed:portals/bad_apple/bad_apple_background",
+  "stencil": "portalcubed:portal/bad_apple/bad_apple_background",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

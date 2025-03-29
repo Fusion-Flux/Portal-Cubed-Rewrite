@@ -17,43 +17,43 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/nether_portal/nether_portal_frame",
+        "texture": "portalcubed:portal/nether_portal/nether_portal_frame",
         "tint": false
       },
       {
-        "texture": "portalcubed:portals/nether_portal/nether_portal_frame",
+        "texture": "portalcubed:portal/nether_portal/nether_portal_frame",
         "tint": false,
         "offset": 0.01
       },
       {
-        "texture": "portalcubed:portals/nether_portal/nether_portal_open",
+        "texture": "portalcubed:portal/nether_portal/nether_portal_open",
         "tint": true,
         "offset": 0.01
       }
     ],
     "closed": [
       {
-        "texture":"portalcubed:portals/nether_portal/nether_portal_frame",
+        "texture":"portalcubed:portal/nether_portal/nether_portal_frame",
         "tint": false
       },
       {
-        "texture": "portalcubed:portals/nether_portal/nether_portal_frame",
+        "texture": "portalcubed:portal/nether_portal/nether_portal_frame",
         "tint": false,
         "offset": 0.01
       }
     ],
     "tracer": [
       {
-        "texture": "portalcubed:portals/nether_portal/nether_portal_tracer",
+        "texture": "portalcubed:portal/nether_portal/nether_portal_tracer",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/nether_portal/nether_portal_tracer_overlay",
+        "texture": "portalcubed:portal/nether_portal/nether_portal_tracer_overlay",
         "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/nether_portal/nether_portal_stencil",
+  "stencil": "portalcubed:portal/nether_portal/nether_portal_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

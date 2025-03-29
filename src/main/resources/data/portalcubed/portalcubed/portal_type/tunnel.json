@@ -14,19 +14,19 @@
   "textures": {
     "open": [
        {
-         "texture": "portalcubed:portals/tunnel/tunnel_open",
+         "texture": "portalcubed:portal/tunnel/tunnel_open",
          "tint": false
        }
     ],
     "closed": [
        {
-         "texture": "portalcubed:portals/tunnel/tunnel",
+         "texture": "portalcubed:portal/tunnel/tunnel",
          "tint": false
        }
     ],
-    "tracer": "portalcubed:portals/tunnel/tunnel_tracer"
+    "tracer": "portalcubed:portal/tunnel/tunnel_tracer"
   },
-  "stencil": "portalcubed:portals/tunnel/tunnel_stencil",
+  "stencil": "portalcubed:portal/tunnel/tunnel_stencil",
   "place_animation": {
     "type": "expand_vertical_top",
     "easing": "in_out_expo",

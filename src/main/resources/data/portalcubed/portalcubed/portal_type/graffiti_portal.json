@@ -12,9 +12,9 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/graffiti_portal/graffiti_portal",
-    "closed": "portalcubed:portals/graffiti_portal/graffiti_portal",
-    "tracer": "portalcubed:portals/graffiti_portal/graffiti_portal_tracer"
+    "open": "portalcubed:portal/graffiti_portal/graffiti_portal",
+    "closed": "portalcubed:portal/graffiti_portal/graffiti_portal",
+    "tracer": "portalcubed:portal/graffiti_portal/graffiti_portal_tracer"
   },
   "place_animation": {
     "type": "pop_in",

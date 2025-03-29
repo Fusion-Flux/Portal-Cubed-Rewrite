@@ -20,9 +20,9 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/logo_portal/logo_portal_open",
-    "closed": "portalcubed:portals/logo_portal/logo_portal_closed",
-    "tracer": "portalcubed:portals/logo_portal/logo_portal_tracer"
+    "open": "portalcubed:portal/logo_portal/logo_portal_open",
+    "closed": "portalcubed:portal/logo_portal/logo_portal_closed",
+    "tracer": "portalcubed:portal/logo_portal/logo_portal_tracer"
   },
-  "stencil": "portalcubed:portals/logo_portal/logo_portal_stencil"
+  "stencil": "portalcubed:portal/logo_portal/logo_portal_stencil"
 }

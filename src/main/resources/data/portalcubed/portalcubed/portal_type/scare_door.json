@@ -14,23 +14,23 @@
   "textures": {
     "open": [
       {
-      "texture": "portalcubed:portals/scare_door/scare_door_open_overlay",
+      "texture": "portalcubed:portal/scare_door/scare_door_open_overlay",
       "tint": false
       }
     ],
     "closed": [
       {
-      "texture": "portalcubed:portals/scare_door/scare_door",
+      "texture": "portalcubed:portal/scare_door/scare_door",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/scare_door/scare_door_overlay",
+      "texture": "portalcubed:portal/scare_door/scare_door_overlay",
       "tint": false
       }
     ],
-    "tracer": "portalcubed:portals/scare_door/scare_door_tracer"
+    "tracer": "portalcubed:portal/scare_door/scare_door_tracer"
   },
-  "stencil": "portalcubed:portals/scare_door/scare_door_stencil",
+  "stencil": "portalcubed:portal/scare_door/scare_door_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

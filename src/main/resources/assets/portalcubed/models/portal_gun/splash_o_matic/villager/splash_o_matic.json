@@ -1,9 +1,9 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
-		"0": "portalcubed:item/splash_o_matic",
-		"1": "portalcubed:item/portal_gun_emissive",
-		"particle": "portalcubed:item/splash_o_matic"
+		"0": "portalcubed:portal_gun/splash_o_matic",
+		"1": "portalcubed:portal_gun/portal_gun_emissive",
+		"particle": "portalcubed:portal_gun/splash_o_matic"
 	},
 	"elements": [
 		{

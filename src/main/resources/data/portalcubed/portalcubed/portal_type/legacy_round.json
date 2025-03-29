@@ -20,9 +20,9 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/legacy_round/legacy_round_open",
-    "closed": "portalcubed:portals/legacy_round/legacy_round_closed",
-    "tracer": "portalcubed:portals/legacy_round/legacy_round_tracer"
+    "open": "portalcubed:portal/legacy_round/legacy_round_open",
+    "closed": "portalcubed:portal/legacy_round/legacy_round_closed",
+    "tracer": "portalcubed:portal/legacy_round/legacy_round_tracer"
   },
-    "stencil": "portalcubed:portals/legacy_round/legacy_round_stencil"
+    "stencil": "portalcubed:portal/legacy_round/legacy_round_stencil"
 }

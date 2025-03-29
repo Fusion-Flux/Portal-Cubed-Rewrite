@@ -22,19 +22,19 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/noise/noise_open",
+        "texture": "portalcubed:portal/noise/noise_open",
         "tint": true,
         "offset": 0.01
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/noise/noise",
+        "texture": "portalcubed:portal/noise/noise",
         "tint": true,
         "offset": 0.01
       }
     ],
-    "tracer": "portalcubed:portals/noise/noise_tracer"
+    "tracer": "portalcubed:portal/noise/noise_tracer"
   },
-  "stencil": "portalcubed:portals/noise/noise_stencil"
+  "stencil": "portalcubed:portal/noise/noise_stencil"
 }

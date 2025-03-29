@@ -2,8 +2,8 @@
 	"credit": "Made by Cart3r using Blockbench.  Tiny Potato is property of Vazkii.",
 	"texture_size": [16, 32],
 	"textures": {
-		"2": "portalcubed:item/tiny_potatos",
-		"particle": "portalcubed:item/tiny_potatos"
+		"2": "portalcubed:portal_gun/tiny_potatos",
+		"particle": "portalcubed:portal_gun/tiny_potatos"
 	},
 	"elements": [
 		{

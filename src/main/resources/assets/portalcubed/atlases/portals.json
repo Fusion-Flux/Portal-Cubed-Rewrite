@@ -2,8 +2,8 @@
   "sources": [
     {
       "type": "directory",
-      "source": "portals",
-      "prefix": "portals/"
+      "source": "portal",
+      "prefix": "portal/"
     },
     {
       "type": "single",

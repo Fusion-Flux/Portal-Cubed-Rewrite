@@ -14,27 +14,27 @@
   "textures": {
     "closed": [
       {
-      "texture": "portalcubed:portals/paper_portal/paper_portal",
+      "texture": "portalcubed:portal/paper_portal/paper_portal",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/paper_portal/paper_portal_closed_overlay",
+      "texture": "portalcubed:portal/paper_portal/paper_portal_closed_overlay",
       "tint": false
       }
     ],
     "open": [
       {
-      "texture": "portalcubed:portals/paper_portal/paper_portal",
+      "texture": "portalcubed:portal/paper_portal/paper_portal",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/paper_portal/paper_portal_open_overlay",
+      "texture": "portalcubed:portal/paper_portal/paper_portal_open_overlay",
       "tint": false
       }
     ],
-    "tracer": "portalcubed:portals/paper_portal/paper_portal_tracer"
+    "tracer": "portalcubed:portal/paper_portal/paper_portal_tracer"
     },
-  "stencil": "portalcubed:portals/paper_portal/paper_portal_stencil",
+  "stencil": "portalcubed:portal/paper_portal/paper_portal_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

@@ -14,23 +14,23 @@
   "textures": {
     "open": [
       {
-      "texture": "portalcubed:portals/player_shaped_hole/player_shaped_hole_overlay",
+      "texture": "portalcubed:portal/player_shaped_hole/player_shaped_hole_overlay",
       "tint": false
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/player_shaped_hole/player_shaped_hole",
+        "texture": "portalcubed:portal/player_shaped_hole/player_shaped_hole",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/player_shaped_hole/player_shaped_hole_overlay",
+        "texture": "portalcubed:portal/player_shaped_hole/player_shaped_hole_overlay",
         "tint": false
       }
     ],
-    "tracer": "portalcubed:portals/player_shaped_hole/player_shaped_hole_tracer"
+    "tracer": "portalcubed:portal/player_shaped_hole/player_shaped_hole_tracer"
   },
-  "stencil": "portalcubed:portals/player_shaped_hole/player_shaped_hole_stencil",
+  "stencil": "portalcubed:portal/player_shaped_hole/player_shaped_hole_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

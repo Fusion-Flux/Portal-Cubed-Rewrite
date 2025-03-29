@@ -12,8 +12,8 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/the_barrier/the_barrier",
-    "closed": "portalcubed:portals/the_barrier/the_barrier",
-    "tracer": "portalcubed:portals/the_barrier/the_barrier_tracer"
+    "open": "portalcubed:portal/the_barrier/the_barrier",
+    "closed": "portalcubed:portal/the_barrier/the_barrier",
+    "tracer": "portalcubed:portal/the_barrier/the_barrier_tracer"
   }
 }

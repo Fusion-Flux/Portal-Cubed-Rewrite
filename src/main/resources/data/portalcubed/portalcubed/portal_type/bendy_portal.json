@@ -22,40 +22,40 @@
   "textures": {
     "open": [
        {
-         "texture": "portalcubed:portals/bendy_portal/bendy_portal_base",
+         "texture": "portalcubed:portal/bendy_portal/bendy_portal_base",
          "tint": false
        },
        {
-         "texture": "portalcubed:portals/bendy_portal/bendy_portal_open",
+         "texture": "portalcubed:portal/bendy_portal/bendy_portal_open",
          "tint": false
        },
        {
-         "texture": "portalcubed:portals/bendy_portal/bendy_portal_overlay",
+         "texture": "portalcubed:portal/bendy_portal/bendy_portal_overlay",
          "tint": false,
          "offset": 0.005
        },
        {
-         "texture": "portalcubed:portals/bendy_portal/bendy_portal_tint_open",
+         "texture": "portalcubed:portal/bendy_portal/bendy_portal_tint_open",
          "tint": true,
          "offset": 0.005
        }
     ],
     "closed": [
        {
-         "texture": "portalcubed:portals/bendy_portal/bendy_portal_base",
+         "texture": "portalcubed:portal/bendy_portal/bendy_portal_base",
          "tint": false
        },
        {
-         "texture": "portalcubed:portals/bendy_portal/bendy_portal_overlay",
+         "texture": "portalcubed:portal/bendy_portal/bendy_portal_overlay",
          "tint": false,
          "offset": 0.005
        },
        {
-         "texture": "portalcubed:portals/bendy_portal/bendy_portal_tint",
+         "texture": "portalcubed:portal/bendy_portal/bendy_portal_tint",
          "tint": true,
          "offset": 0.005
        }
     ],
-    "tracer": "portalcubed:portals/bendy_portal/bendy_portal_tracer"
+    "tracer": "portalcubed:portal/bendy_portal/bendy_portal_tracer"
   }
 }

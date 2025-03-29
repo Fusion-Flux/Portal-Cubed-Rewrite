@@ -22,39 +22,39 @@
   "textures": {
     "closed": [
       {
-        "texture": "portalcubed:portals/phone/phone",
+        "texture": "portalcubed:portal/phone/phone",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/phone/phone",
+        "texture": "portalcubed:portal/phone/phone",
         "tint": true,
         "offset": 0.01
       },
       {
-        "texture": "portalcubed:portals/phone/phone_overlay",
+        "texture": "portalcubed:portal/phone/phone_overlay",
         "tint": false,
         "offset": 0.01
       }
     ],
     "open": [
       {
-        "texture": "portalcubed:portals/phone/phone",
+        "texture": "portalcubed:portal/phone/phone",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/phone/phone",
+        "texture": "portalcubed:portal/phone/phone",
         "tint": true,
         "offset": 0.01
       },
       {
-        "texture": "portalcubed:portals/phone/phone_open_overlay",
+        "texture": "portalcubed:portal/phone/phone_open_overlay",
         "tint": false,
         "offset": 0.01
       }
     ],
-    "tracer": "portalcubed:portals/phone/phone_tracer"
+    "tracer": "portalcubed:portal/phone/phone_tracer"
   },
-  "stencil": "portalcubed:portals/phone/phone_stencil",
+  "stencil": "portalcubed:portal/phone/phone_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

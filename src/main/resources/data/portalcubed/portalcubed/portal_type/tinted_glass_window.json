@@ -15,30 +15,30 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal",
+        "texture": "portalcubed:portal/tinted_glass_window/tinted_glass_window_portal",
         "tint": false,
         "offset": 0.01
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal_closed",
+        "texture": "portalcubed:portal/tinted_glass_window/tinted_glass_window_portal_closed",
         "tint": false
       },
       {
-        "texture": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal",
+        "texture": "portalcubed:portal/tinted_glass_window/tinted_glass_window_portal",
         "tint": false,
         "offset": 0.01
       }
     ],
     "tracer": [
       {
-        "texture": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal_tracer",
+        "texture": "portalcubed:portal/tinted_glass_window/tinted_glass_window_portal_tracer",
         "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/tinted_glass_window/tinted_glass_window_portal_stencil",
+  "stencil": "portalcubed:portal/tinted_glass_window/tinted_glass_window_portal_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

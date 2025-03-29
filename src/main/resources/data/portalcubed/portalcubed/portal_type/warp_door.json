@@ -12,16 +12,16 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/warp_door/warp_door_open",
-    "closed": "portalcubed:portals/warp_door/warp_door",
+    "open": "portalcubed:portal/warp_door/warp_door_open",
+    "closed": "portalcubed:portal/warp_door/warp_door",
     "tracer": [
       {
-      "texture": "portalcubed:portals/warp_door/warp_door_tracer",
+      "texture": "portalcubed:portal/warp_door/warp_door_tracer",
       "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/warp_door/warp_door_stencil",
+  "stencil": "portalcubed:portal/warp_door/warp_door_stencil",
   "place_animation": {
     "type": "expand_horizontal_center",
     "easing": "linear",
