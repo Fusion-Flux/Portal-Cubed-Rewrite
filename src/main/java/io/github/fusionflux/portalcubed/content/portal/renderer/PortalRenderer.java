@@ -279,9 +279,11 @@ public class PortalRenderer {
 					context.projectionMatrix()
 			);
 		} finally {
-			GL11.glDisable(GL11.GL_CLIP_PLANE0);
-			modelViewMatrices.popMatrix();
 			renderingPortals.removeLast();
+			if (!isRenderingView())
+				GL11.glDisable(GL11.GL_CLIP_PLANE0);
+
+			modelViewMatrices.popMatrix();
 			RenderSystem.enableDepthTest();
 		}
 
