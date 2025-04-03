@@ -14,6 +14,7 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import io.github.fusionflux.portalcubed.framework.shape.Line;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.shape.Quad;
@@ -100,6 +101,10 @@ public class RenderingUtils {
 		renderLine(matrices, buffers, tri.a(), tri.b(), color);
 		renderLine(matrices, buffers, tri.a(), tri.c(), color);
 		renderLine(matrices, buffers, tri.b(), tri.c(), color);
+	}
+
+	public static void renderLine(PoseStack matrices, MultiBufferSource buffers, Line line, Color color) {
+		renderLine(matrices, buffers, line.from(), line.to(), color);
 	}
 
 	public static void renderLine(PoseStack matrices, MultiBufferSource vertexConsumers, Vec3 from, Vec3 to, Color color) {

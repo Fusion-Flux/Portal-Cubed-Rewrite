@@ -18,6 +18,13 @@ public class PortalCubedBlockTags {
 	public static final TagKey<Block> BULLET_HOLE_METAL = create("bullet_hole_metal");
 	public static final TagKey<Block> CROWBAR_MAKES_HOLES = create("crowbar_makes_holes");
 
+	public static final TagKey<Block> ADDS_PORTALABILITY = create("adds_portalability");
+	public static final TagKey<Block> REMOVES_PORTALABILITY = create("removes_portalability");
+	public static final TagKey<Block> NONSOLID_TO_PORTALS = create("nonsolid_to_portals");
+	public static final TagKey<Block> SOLID_TO_PORTALS = create("solid_to_portals");
+	public static final TagKey<Block> UNRESTRICTED_PORTAL_SURFACES = create("unrestricted_portal_surfaces");
+	public static final TagKey<Block> CANT_PLACE_PORTAL_ON = create("cant_place_portal_on");
+
 	private static TagKey<Block> create(String name) {
 		return TagKey.create(Registries.BLOCK, PortalCubed.id(name));
 	}

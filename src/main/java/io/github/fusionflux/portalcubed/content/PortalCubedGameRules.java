@@ -30,6 +30,10 @@ public class PortalCubedGameRules {
 			"portalShotRangeLimit", CATEGORY, GameRuleFactory.createIntRule(512, 1, 512)
 	);
 
+	public static final GameRules.Key<GameRules.BooleanValue> RESTRICT_VALID_PORTAL_SURFACES = GameRuleRegistry.register(
+			"restrictValidPortalSurfaces", CATEGORY, GameRuleFactory.createBooleanRule(false)
+	);
+
 	public static void init() {
 	}
 }

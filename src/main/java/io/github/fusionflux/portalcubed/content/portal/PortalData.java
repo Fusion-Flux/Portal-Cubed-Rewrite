@@ -5,6 +5,7 @@ import org.joml.Quaternionf;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -88,18 +89,20 @@ public record PortalData(
 	}
 
 	public static Quaternionf normalToRotation(Direction normal, float yRot) {
-		Quaternionf rotation = normal.getRotation();
+		return normal.getRotation().rotateY(Mth.DEG_TO_RAD * degreesForNormal(normal, yRot));
+	}
+
+	public static Angle normalToFlatRotation(Direction normal, float yRot) {
+		return Angle.ofDeg(degreesForNormal(normal, yRot));
+	}
+
+	private static float degreesForNormal(Direction normal, float yRot) {
 		// vanilla treats rotations like they're on the outside of a box, not the inside.
 		// the easiest way to handle this is to just 180 the yRot on horizontal axes.
-
-		if (normal == Direction.UP) {
-			rotation.rotateY(Mth.DEG_TO_RAD * -yRot);
-		} else if (normal == Direction.DOWN) {
-			rotation.rotateY(Mth.DEG_TO_RAD * yRot);
-		} else {
-			rotation.rotateY(Mth.DEG_TO_RAD * 180);
-		}
-
-		return rotation;
+		return switch (normal) {
+			case UP -> -yRot;
+			case DOWN -> yRot;
+			default -> 180;
+		};
 	}
 }

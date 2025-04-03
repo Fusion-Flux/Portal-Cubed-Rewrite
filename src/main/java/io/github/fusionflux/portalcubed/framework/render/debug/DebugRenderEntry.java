@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 public abstract class DebugRenderEntry {
 	int ticksLeft;
 
-	public DebugRenderEntry(int ticks) {
+	protected DebugRenderEntry(int ticks) {
 		this.ticksLeft = ticks;
 	}
 

@@ -27,8 +27,9 @@ public final class PortalInstance {
 	public static final Codec<PortalInstance> CODEC = PortalData.CODEC.xmap(PortalInstance::new, instance -> instance.data);
 	public static final StreamCodec<RegistryFriendlyByteBuf, PortalInstance> STREAM_CODEC = PortalData.STREAM_CODEC.map(PortalInstance::new, instance -> instance.data);
 
-	public static final double HEIGHT = 2;
-	public static final double WIDTH = 1;
+	public static final double BUFFER = 1e-3;
+	public static final double HEIGHT = 2 - BUFFER;
+	public static final double WIDTH = 1 - BUFFER;
 
 	// vanilla defines UP as having a rotation of a default quaternion
 	public static final Vec3 BASE_NORMAL = new Vec3(0, 1, 0);

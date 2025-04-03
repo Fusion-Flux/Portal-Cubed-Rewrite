@@ -7,7 +7,10 @@ import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ClipContext;
@@ -47,12 +50,15 @@ public record PortalGunShootContext(
 				this.from.x, this.from.y, this.from.z, 1, 0, 0, 0, 0
 		);
 
-		if (hit.getType() == HitResult.Type.BLOCK) {
-			this.level.portalManager().createPortal(
-					pair.orElse(this.key),
-					polarity,
-					PortalData.createWithSettings(this.level, hitPos, PortalData.normalToRotation(hit.getDirection(), this.yRot), settings)
-			);
-		}
+		if (hit.getType() != HitResult.Type.BLOCK)
+			return;
+
+		Direction face = hit.getDirection();
+		PortalPlacement placement = PortalBumper.findValidPlacement(this.level, hitPos, this.yRot, hit.getBlockPos(), face);
+		if (placement == null)
+			return;
+
+		PortalData data = PortalData.createWithSettings(this.level, placement.pos(), placement.rotation(), settings);
+		this.level.portalManager().createPortal(pair.orElse(this.key), polarity, data);
 	}
 }

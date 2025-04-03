@@ -4,6 +4,7 @@ import java.util.function.UnaryOperator;
 
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
@@ -65,5 +66,9 @@ public class TransformUtils {
 	public static Vec3 project(Vec3 a, Vec3 b) {
 		double length = a.dot(b) / (b.length() * b.length());
 		return b.scale(length);
+	}
+
+	public static Vec3 toMc(Vector3dc vec) {
+		return new Vec3(vec.x(), vec.y(), vec.z());
 	}
 }
