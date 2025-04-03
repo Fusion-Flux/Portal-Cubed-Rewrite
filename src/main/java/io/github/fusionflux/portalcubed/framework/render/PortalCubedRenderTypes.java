@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.render;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -16,6 +17,21 @@ import net.minecraft.util.TriState;
 
 @SuppressWarnings("deprecation")
 public interface PortalCubedRenderTypes {
+	BiFunction<RenderStateShard.DepthTestStateShard, ResourceLocation, RenderType> DEPTH_CUTOUT = Util.memoize((depthTest, texture) -> RenderType.create(
+			"portalcubed:depth_cutout",
+			DefaultVertexFormat.POSITION_TEX,
+			VertexFormat.Mode.QUADS,
+			RenderType.TRANSIENT_BUFFER_SIZE,
+			false,
+			false,
+			RenderType.CompositeState.builder()
+					.setShaderState(RenderStateShard.POSITION_TEX_SHADER)
+					.setTextureState(new RenderStateShard.TextureStateShard(texture, TriState.FALSE, false))
+					.setWriteMaskState(RenderStateShard.DEPTH_WRITE)
+					.setDepthTestState(depthTest)
+					.createCompositeState(false)
+	));
+
 	Function<ResourceLocation, RenderType> EMISSIVE = Util.memoize(texture -> RenderType.create(
 			"portalcubed:emissive",
 			DefaultVertexFormat.BLOCK,
@@ -24,10 +40,10 @@ public interface PortalCubedRenderTypes {
 			false,
 			true,
 			RenderType.CompositeState.builder()
-					.setShaderState(RenderStateShard.RENDERTYPE_BEACON_BEAM_SHADER)
+					.setShaderState(RenderStateShard.RENDERTYPE_CUTOUT_SHADER)
 					.setTextureState(new RenderStateShard.TextureStateShard(texture, TriState.FALSE, false))
 					.setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-					.setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
+					.setLightmapState(RenderStateShard.LIGHTMAP)
 					.createCompositeState(false)
 	));
 
@@ -59,6 +75,10 @@ public interface PortalCubedRenderTypes {
 					.setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
 					.createCompositeState(false)
 	);
+
+	static RenderType depthCutout(RenderStateShard.DepthTestStateShard depthTest, ResourceLocation texture) {
+		return DEPTH_CUTOUT.apply(depthTest, texture);
+	}
 
 	static RenderType emissive(ResourceLocation texture) {
 		return EMISSIVE.apply(texture);

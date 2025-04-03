@@ -14,23 +14,23 @@
   "textures": {
     "open": [
        {
-        "texture": "portalcubed:portals/polaroid/polaroid_overlay",
+        "texture": "portalcubed:portal/polaroid/polaroid_overlay",
         "tint": false
        }
     ],
     "closed": [
        {
-        "texture": "portalcubed:portals/polaroid/polaroid_closed",
+        "texture": "portalcubed:portal/polaroid/polaroid_closed",
         "tint": true
        },
        {
-        "texture": "portalcubed:portals/polaroid/polaroid_overlay",
+        "texture": "portalcubed:portal/polaroid/polaroid_overlay",
         "tint": false
        }
     ],
-    "tracer": "portalcubed:portals/polaroid/polaroid_tracer"
+    "tracer": "portalcubed:portal/polaroid/polaroid_tracer"
   },
-  "stencil": "portalcubed:portals/polaroid/polaroid_stencil",
+  "stencil": "portalcubed:portal/polaroid/polaroid_stencil",
   "place_animation": {
     "type": "expand_vertical_top",
     "easing": "out_sine",

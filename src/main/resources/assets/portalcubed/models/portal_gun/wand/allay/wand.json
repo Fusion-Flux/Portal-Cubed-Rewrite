@@ -1,9 +1,9 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
-		"0": "portalcubed:item/wand",
-		"1": "portalcubed:item/wand_orb",
-		"particle": "portalcubed:item/wand"
+		"0": "portalcubed:portal_gun/wand",
+		"1": "portalcubed:portal_gun/wand_orb",
+		"particle": "portalcubed:portal_gun/wand"
 	},
 	"elements": [
 		{

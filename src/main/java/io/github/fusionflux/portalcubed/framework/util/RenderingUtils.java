@@ -160,12 +160,16 @@ public class RenderingUtils {
 			}
 		}
 
+		// Setup state
+		RenderSystem.depthFunc(GL11.GL_ALWAYS);
 		RenderSystem.setShaderColor(red, green, blue, 1f);
 
 		fullscreenQuadBuffer.bind();
 		fullscreenQuadBuffer.drawWithShader(IDENTITY_MATRIX, IDENTITY_MATRIX, RenderSystem.setShader(CoreShaders.POSITION_COLOR));
 		VertexBuffer.unbind();
 
+		// Cleanup state
+		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}
 }

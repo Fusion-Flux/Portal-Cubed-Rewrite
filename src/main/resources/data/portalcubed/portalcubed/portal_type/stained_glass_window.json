@@ -15,25 +15,25 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/stained_glass_window/stained_glass_window_portal",
+        "texture": "portalcubed:portal/stained_glass_window/stained_glass_window_portal",
         "tint": true,
         "offset": 0.01
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/stained_glass_window/stained_glass_window_portal_closed",
+        "texture": "portalcubed:portal/stained_glass_window/stained_glass_window_portal_closed",
         "tint": false
       },
       {
-        "texture": "portalcubed:portals/stained_glass_window/stained_glass_window_portal",
+        "texture": "portalcubed:portal/stained_glass_window/stained_glass_window_portal",
         "tint": true,
         "offset": 0.01
       }
     ],
-    "tracer": "portalcubed:portals/stained_glass_window/stained_glass_window_portal_tracer"
+    "tracer": "portalcubed:portal/stained_glass_window/stained_glass_window_portal_tracer"
   },
-  "stencil": "portalcubed:portals/stained_glass_window/stained_glass_window_portal_stencil",
+  "stencil": "portalcubed:portal/stained_glass_window/stained_glass_window_portal_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

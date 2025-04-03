@@ -15,36 +15,36 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/narbacular/narbacular_portal",
+        "texture": "portalcubed:portal/narbacular/narbacular_portal",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/narbacular/narbacular_portal_overlay",
+        "texture": "portalcubed:portal/narbacular/narbacular_portal_overlay",
         "tint": false
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/narbacular/narbacular_portal",
+        "texture": "portalcubed:portal/narbacular/narbacular_portal",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/narbacular/narbacular_portal_overlay",
+        "texture": "portalcubed:portal/narbacular/narbacular_portal_overlay",
         "tint": false
       }
     ],
     "tracer": [
       {
-        "texture": "portalcubed:portals/narbacular/narbacular_portal_tracer",
+        "texture": "portalcubed:portal/narbacular/narbacular_portal_tracer",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/narbacular/narbacular_portal_tracer_overlay",
+        "texture": "portalcubed:portal/narbacular/narbacular_portal_tracer_overlay",
         "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/narbacular/narbacular_portal_stencil",
+  "stencil": "portalcubed:portal/narbacular/narbacular_portal_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

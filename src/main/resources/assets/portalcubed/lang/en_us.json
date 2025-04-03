@@ -64,6 +64,37 @@
   "container.portalcubed.pedestal_button.offset": "Position Offset",
   "container.portalcubed.pedestal_button.base": "Include Base",
 
+  "container.portalcubed.portal_gun_workstation": "Portal Gun Workstation",
+  "container.portalcubed.portal_gun_workstation.tab.portal_gun": "Portal Gun Settings",
+  "container.portalcubed.portal_gun_workstation.tab.primary_portal": "Primary Portal Settings",
+  "container.portalcubed.portal_gun_workstation.tab.secondary_portal": "Secondary Portal Settings",
+  "container.portalcubed.portal_gun_workstation.tab.crosshair": "Crosshair Settings",
+  "container.portalcubed.portal_gun_workstation.tab.prefabs": "Portal Gun Prefabs",
+  "container.portalcubed.portal_gun_workstation.tab.custom": "Custom Portal Gun",
+
+  "container.portalcubed.portal_gun_workstation.portal_gun.preview_primary": "Preview Primary Shot",
+  "container.portalcubed.portal_gun_workstation.portal_gun.preview_secondary": "Preview Secondary Shot",
+  "container.portalcubed.portal_gun_workstation.portal_gun.toggle_primary": "Enable Primary Portal",
+  "container.portalcubed.portal_gun_workstation.portal_gun.toggle_secondary": "Enable Secondary Portal",
+  "container.portalcubed.portal_gun_workstation.portal_gun.toggle_tracer": "Enable Portal Tracers",
+
+  "container.portalcubed.portal_gun_workstation.portal.preview_open": "Preview Open",
+  "container.portalcubed.portal_gun_workstation.portal.preview_closed": "Preview Closed",
+  "container.portalcubed.portal_gun_workstation.portal.preview_tracer": "Preview Tracer",
+  "container.portalcubed.portal_gun_workstation.portal.random_color": "Randomize Color",
+  "container.portalcubed.portal_gun_workstation.portal.reset_color": "Reset Color",
+  "container.portalcubed.portal_gun_workstation.portal.pair_key": "Pair Key",
+
+  "container.portalcubed.portal_gun_workstation.crosshair.preview_primary": "Preview with Primary Shot",
+  "container.portalcubed.portal_gun_workstation.crosshair.preview_secondary": "Preview with Secondary Shot",
+  "container.portalcubed.portal_gun_workstation.crosshair.toggle_last_placed": "Enable Last-placed Indicator",
+
+  "container.portalcubed.portal_gun_workstation.locked.description": "This %s is locked!  Maybe there's an advancement you can earn to unlock it...",
+  "container.portalcubed.portal_gun_workstation.locked.portal": "portal type",
+  "container.portalcubed.portal_gun_workstation.locked.crosshair": "crosshair",
+  "container.portalcubed.portal_gun_workstation.locked.portal_gun": "portal gun",
+  "container.portalcubed.portal_gun_workstation.locked.prefab": "prefab",
+
 
   "signage.portalcubed.large_signage.adhesion_gel": "Adhesion Gel",
   "signage.portalcubed.large_signage.cake": "Cake",
@@ -131,6 +162,7 @@
   "portal_gun_crosshair.portalcubed.beta": "Beta Crosshair",
   "portal_gun_crosshair.portalcubed.none": "Empty Crosshair",
   "portal_gun_crosshair.portalcubed.splash_o_matic": "Splash-o-Matic Crosshair",
+  "portal_gun_crosshair.portalcubed.wiimote": "Wii Cursor",
 
 
   "portal_gun_skin.portalcubed.portal_gun": "Portal Gun",
@@ -169,6 +201,7 @@
   "portal_gun_skin.portalcubed.polaroid": "Polaroid",
   "portal_gun_skin.portalcubed.pipis_cannon": "Pipis Cannon",
   "portal_gun_skin.portalcubed.portal_gun_rick": "Rick's Portal Gun",
+  "portal_gun_skin.portalcubed.wiimote": "Wiimote",
 
   "portal_type.portalcubed.round": "Round Portal",
   "portal_type.portalcubed.portal_1_round": "Round Portal (Portal 1 Sounds)",
@@ -445,6 +478,27 @@
   "subtitles.portalcubed.portal_gun.default.hold_loop": "Portal gun holds object",
   "subtitles.portalcubed.portal_gun.default.release": "Portal gun releases object",
   "subtitles.portalcubed.portal_gun.default.cannot_grab": "Portal gun fails to pick up object",
+
+  "subtitles.portalcubed.portal_gun.pistol.shoot": "Gun makes hole (not a bullet hole)",
+
+  "subtitles.portalcubed.portal_gun.paintbrush": "Brushing",
+
+  "subtitles.portalcubed.portal_gun.polaroid.shoot": "Polaroid shoots",
+  "subtitles.portalcubed.portal_gun.polaroid.fizzle": "Polaroid resets",
+
+  "subtitles.portalcubed.portal_gun.splash_o_matic.shoot": "Splash-o-Matic shoots",
+  "subtitles.portalcubed.portal_gun.splash_o_matic.fizzle": "Splash-o-Matic refills",
+
+  "subtitles.portalcubed.portal_gun.pipis_cannon.shoot": "Pipis cannon shoots",
+  "subtitles.portalcubed.portal_gun.pipis_cannon.fizzle": "Pipis cannon reloads",
+
+  "subtitles.portalcubed.portal_gun.peashooter.shoot": "Peashooter fires",
+  "subtitles.portalcubed.portal_gun.peashooter.fizzle": "Peashooter reloads",
+
+  "subtitles.portalcubed.portal_gun.wand.shoot": "Portal is summoned",
+  "subtitles.portalcubed.portal_gun.wand.fizzle": "Wand recharges",
+  "subtitles.portalcubed.portal_gun.wand.grab": "Wand lifts object",
+
 
   "subtitles.portalcubed.portal.default.open": "Portal opens",
   "subtitles.portalcubed.portal.default.open.primary": "Primary portal opens",
@@ -1115,6 +1169,9 @@
   "block.portalcubed.pink_candle_black_forest_cake": "Black Forest Cake with Pink Candle",
 
   "block.portalcubed.prop_barrier": "Prop Barrier",
+  "block.portalcubed.portal_barrier": "Portal Barrier",
+
+  "block.portalcubed.portal_gun_workstation": "Portal Gun Workstation",
 
   "block.portalcubed.toxic_goo": "Toxic Goo",
   "item.portalcubed.toxic_goo_bucket": "Toxic Goo Bucket",

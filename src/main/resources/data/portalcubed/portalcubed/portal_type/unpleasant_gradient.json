@@ -22,19 +22,19 @@
   "textures": {
     "open": [
        {
-         "texture": "portalcubed:portals/unpleasant_gradient/unpleasant_gradient_portal",
+         "texture": "portalcubed:portal/unpleasant_gradient/unpleasant_gradient_portal",
          "tint": false
        }
     ],
     "closed": [
        {
-         "texture": "portalcubed:portals/unpleasant_gradient/unpleasant_gradient_portal",
+         "texture": "portalcubed:portal/unpleasant_gradient/unpleasant_gradient_portal",
          "tint": false
        }
     ],
     "tracer": [
        {
-         "texture": "portalcubed:portals/unpleasant_gradient/unpleasant_gradient_portal_tracer",
+         "texture": "portalcubed:portal/unpleasant_gradient/unpleasant_gradient_portal_tracer",
          "tint": false
        }
     ]

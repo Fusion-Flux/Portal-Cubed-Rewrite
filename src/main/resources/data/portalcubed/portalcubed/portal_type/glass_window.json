@@ -15,28 +15,28 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/glass_window/glass_window_portal",
+        "texture": "portalcubed:portal/glass_window/glass_window_portal",
         "tint": false
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/glass_window/glass_window_portal_closed",
+        "texture": "portalcubed:portal/glass_window/glass_window_portal_closed",
         "tint": false
       },
       {
-        "texture": "portalcubed:portals/glass_window/glass_window_portal",
+        "texture": "portalcubed:portal/glass_window/glass_window_portal",
         "tint": false
       }
     ],
     "tracer": [
       {
-      "texture": "portalcubed:portals/glass_window/glass_window_portal_tracer",
+      "texture": "portalcubed:portal/glass_window/glass_window_portal_tracer",
       "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/glass_window/glass_window_portal_stencil",
+  "stencil": "portalcubed:portal/glass_window/glass_window_portal_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

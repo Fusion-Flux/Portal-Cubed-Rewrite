@@ -31,6 +31,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropBarrierBlock;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.block.CollisionlessFacadeBlock;
 import io.github.fusionflux.portalcubed.framework.block.FacadeBlock;
+import io.github.fusionflux.portalcubed.content.portal.PortalBarrierBlock;
 import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
@@ -42,6 +43,7 @@ import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.Util;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
@@ -93,12 +95,18 @@ public class PortalCubedBlocks {
 	// ----- floor buttons -----
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("floor_button", FloorButtonBlock::new, Blocks.STONE)
 			.item(P1FloorButtonBlockItem::new)
-			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s
+					.pushReaction(PushReaction.BLOCK)
+					.mapColor(state -> state.getValue(FloorButtonBlock.FACE) == Direction.DOWN ? MapColor.WOOL : MapColor.TERRACOTTA_PINK)
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock CUBE_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("cube_button", CubeButtonBlock::new, Blocks.STONE)
 			.item(MultiBlockItem::new)
-			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s
+					.pushReaction(PushReaction.BLOCK)
+					.mapColor(state -> state.getValue(FloorButtonBlock.FACE) == Direction.DOWN ? MapColor.WOOL : MapColor.COLOR_RED)
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock OLD_AP_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("old_ap_floor_button", FloorButtonBlock::oldAp, Blocks.STONE)
@@ -108,7 +116,10 @@ public class PortalCubedBlocks {
 			.build();
 	public static final FloorButtonBlock PORTAL_1_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("portal_1_floor_button", FloorButtonBlock::p1, Blocks.STONE)
 			.item(P1FloorButtonBlockItem::new)
-			.properties(s -> s.pushReaction(PushReaction.BLOCK).mapColor(MapColor.TERRACOTTA_RED))
+			.properties(s -> s
+					.pushReaction(PushReaction.BLOCK)
+					.mapColor(state -> state.getValue(FloorButtonBlock.FACE) == Direction.DOWN ? MapColor.COLOR_LIGHT_GRAY : MapColor.NETHER)
+			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- pedestal buttons -----
@@ -165,11 +176,11 @@ public class PortalCubedBlocks {
 	// ----- lemon -----
 	public static final RotatedPillarBlock LEMON_LOG = REGISTRAR.blocks.create("lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.OAK_LOG)
-			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
+			.properties(settings -> settings.mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.TERRACOTTA_GRAY : MapColor.SAND))
 			.build();
 	public static final RotatedPillarBlock STRIPPED_LEMON_LOG = REGISTRAR.blocks.create("stripped_lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.STRIPPED_OAK_LOG)
-			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.properties(settings -> settings.mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.TERRACOTTA_YELLOW : MapColor.SAND))
 			.strippedOf(LEMON_LOG)
 			.build();
 	public static final RotatedPillarBlock LEMON_WOOD = REGISTRAR.blocks.create("lemon_wood", RotatedPillarBlock::new)
@@ -907,6 +918,9 @@ public class PortalCubedBlocks {
 
 	public static final PropBarrierBlock PROP_BARRIER = REGISTRAR.blocks.createFrom("prop_barrier", PropBarrierBlock::new, Blocks.BARRIER)
 			.properties(BlockBehaviour.Properties::dynamicShape)
+			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
+			.build();
+	public static final PortalBarrierBlock PORTAL_BARRIER = REGISTRAR.blocks.createFrom("portal_barrier", PortalBarrierBlock::new, Blocks.BARRIER)
 			.item((block, properties) -> new BlockItem(block, properties.rarity(Rarity.EPIC)))
 			.build();
 

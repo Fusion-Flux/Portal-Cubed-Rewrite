@@ -46,6 +46,37 @@ public class PortalCubedSounds {
 	public static final SoundEvent DEFAULT_PORTAL_GUN_HOLD_LOOP = register("portal_gun.default.hold_loop");
 	public static final SoundEvent DEFAULT_PORTAL_GUN_RELEASE = register("portal_gun.default.release");
 
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.portal_1.primary_shoot");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.portal_1.secondary_shoot");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_FIZZLE = register("portal_gun.portal_1.fizzle");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_CANNOT_GRAB = register("portal_gun.portal_1.cannot_grab");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_GRAB = register("portal_gun.portal_1.grab");
+	public static final SoundEvent PORTAL_1_PORTAL_GUN_HOLD_LOOP = register("portal_gun.portal_1.hold_loop");
+
+	public static final SoundEvent WAND_PORTAL_GUN_SHOOT = register("portal_gun.wand.shoot");
+	public static final SoundEvent WAND_PORTAL_GUN_GRAB = register("portal_gun.wand.grab");
+	public static final SoundEvent WAND_PORTAL_GUN_FIZZLE = register("portal_gun.wand.fizzle");
+
+	public static final SoundEvent PAINTBRUSH_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.paintbrush.primary_shoot");
+	public static final SoundEvent PAINTBRUSH_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.paintbrush.secondary_shoot");
+	public static final SoundEvent PAINTBRUSH_PORTAL_GUN_FIZZLE = register("portal_gun.paintbrush.fizzle");
+
+	public static final SoundEvent PISTOL_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.pistol.primary_shoot");
+	public static final SoundEvent PISTOL_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.pistol.secondary_shoot");
+	public static final SoundEvent PISTOL_PORTAL_GUN_FIZZLE = register("portal_gun.pistol.fizzle");
+
+	public static final SoundEvent SPLASH_O_MATIC_PORTAL_GUN_SHOOT = register("portal_gun.splash_o_matic.shoot");
+	public static final SoundEvent SPLASH_O_MATIC_PORTAL_GUN_FIZZLE = register("portal_gun.splash_o_matic.fizzle");
+
+	public static final SoundEvent POLAROID_PORTAL_GUN_SHOOT = register("portal_gun.polaroid.shoot");
+	public static final SoundEvent POLAROID_PORTAL_GUN_FIZZLE = register("portal_gun.polaroid.fizzle");
+
+	public static final SoundEvent PIPIS_CANNON_PORTAL_GUN_SHOOT = register("portal_gun.pipis_cannon.shoot");
+	public static final SoundEvent PIPIS_CANNON_PORTAL_GUN_FIZZLE = register("portal_gun.pipis_cannon.fizzle");
+
+	public static final SoundEvent PEASHOOTER_PORTAL_GUN_SHOOT = register("portal_gun.peashooter.shoot");
+	public static final SoundEvent PEASHOOTER_PORTAL_GUN_FIZZLE = register("portal_gun.peashooter.fizzle");
+
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_PRIMARY = register("portal_type.default.open.primary");
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_SECONDARY = register("portal_type.default.open.secondary");
 	public static final SoundEvent DEFAULT_PORTAL_CLOSE_PRIMARY = register("portal_type.default.close.primary");
@@ -54,20 +85,13 @@ public class PortalCubedSounds {
 	public static final SoundEvent DEFAULT_PORTAL_TRAVEL = register("portal_type.default.travel");
 	public static final SoundEvent DEFAULT_PORTAL_AMBIENT = register("portal_type.default.ambient");
 
-	public static final SoundEvent PORTAL_1_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.portal_1.primary_shoot");
-	public static final SoundEvent PORTAL_1_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.portal_1.secondary_shoot");
-	public static final SoundEvent PORTAL_1_PORTAL_GUN_FIZZLE = register("portal_gun.portal_1.fizzle");
-	public static final SoundEvent PORTAL_1_PORTAL_GUN_CANNOT_GRAB = register("portal_gun.portal_1.cannot_grab");
-	public static final SoundEvent PORTAL_1_PORTAL_GUN_GRAB = register("portal_gun.portal_1.grab");
-	public static final SoundEvent PORTAL_1_PORTAL_GUN_HOLD_LOOP = register("portal_gun.portal_1.hold_loop");
-
 	public static final SoundEvent PORTAL_1_PORTAL_OPEN = register("portal_type.portal_1.open");
 	public static final SoundEvent PORTAL_1_PORTAL_CLOSE = register("portal_type.portal_1.close");
 	public static final SoundEvent PORTAL_1_PORTAL_CANT_OPEN = register("portal_type.portal_1.cant_open");
 	public static final SoundEvent PORTAL_1_PORTAL_TRAVEL = register("portal_type.portal_1.travel");
 	public static final SoundEvent PORTAL_1_PORTAL_AMBIENT = register("portal_type.portal_1.ambient");
 
-	public static final SoundEvent PORTAL_COMBAT = register("portal_type.portal_combat");
+	public static final SoundEvent PORTAL_COMBAT_PORTAL = register("portal_type.portal_combat");
 
 	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon.obstructed");
 	public static final SoundEvent CONSTRUCTION_CANNON_MISSING_MATERIALS = register("construction_cannon.missing_materials");

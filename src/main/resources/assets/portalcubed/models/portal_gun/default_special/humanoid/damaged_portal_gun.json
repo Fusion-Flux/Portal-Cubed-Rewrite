@@ -2,10 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "portalcubed:item/damaged_portal_gun",
-		"1": "portalcubed:item/portal_gun_dyeable",
-		"2": "portalcubed:item/damaged_portal_gun_shell",
-		"particle": "portalcubed:item/damaged_portal_gun"
+		"0": "portalcubed:portal_gun/damaged_portal_gun",
+		"1": "portalcubed:portal_gun/portal_gun_emissive",
+		"2": "portalcubed:portal_gun/damaged_portal_gun_shell",
+		"particle": "portalcubed:portal_gun/damaged_portal_gun"
 	},
 	"elements": [
 		{

@@ -14,28 +14,28 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/doors/lemon/lemon_door_open",
+        "texture": "portalcubed:portal/doors/lemon/lemon_door_open",
         "tint": false
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/doors/lemon/lemon_door",
+        "texture": "portalcubed:portal/doors/lemon/lemon_door",
         "tint": false
       }
     ],
     "tracer": [
       {
-        "texture": "portalcubed:portals/doors/lemon/lemon_door_tracer",
+        "texture": "portalcubed:portal/doors/lemon/lemon_door_tracer",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/doors/lemon/lemon_door_tracer_overlay",
+        "texture": "portalcubed:portal/doors/lemon/lemon_door_tracer_overlay",
         "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/doors/door_stencil",
+  "stencil": "portalcubed:portal/doors/door_stencil",
   "place_animation": {
     "type": "expand_horizontal_left",
     "easing": "linear",

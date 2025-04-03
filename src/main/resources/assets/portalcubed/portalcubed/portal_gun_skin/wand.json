@@ -4,8 +4,12 @@
   },
   "item_model": "portalcubed:portal_guns/wand",
   "sounds": {
-    "primary_shoot": "minecraft:entity.evoker.cast_spell",
-    "secondary_shoot": "minecraft:entity.evoker.cast_spell",
-    "fizzle": "minecraft:entity.evoker.prepare_attack"
+    "primary_shoot": "portalcubed:portal_gun.wand.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.wand.shoot",
+    "fizzle": "portalcubed:portal_gun.wand.fizzle",
+    "grab": {
+      "sound": "portalcubed:portal_gun.wand.grab",
+      "length": 10
+    }
   }
 }

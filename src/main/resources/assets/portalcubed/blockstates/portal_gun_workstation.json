@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,has_portal_gun=false": {
+      "model": "portalcubed:block/portal_gun_workstation_empty",
+      "y": 270
+    },
+    "facing=east,has_portal_gun=true": {
+      "model": "portalcubed:block/portal_gun_workstation",
+      "y": 270
+    },
+    "facing=north,has_portal_gun=false": {
+      "model": "portalcubed:block/portal_gun_workstation_empty",
+      "y": 180
+    },
+    "facing=north,has_portal_gun=true": {
+      "model": "portalcubed:block/portal_gun_workstation",
+      "y": 180
+    },
+    "facing=south,has_portal_gun=false": {
+      "model": "portalcubed:block/portal_gun_workstation_empty"
+    },
+    "facing=south,has_portal_gun=true": {
+      "model": "portalcubed:block/portal_gun_workstation"
+    },
+    "facing=west,has_portal_gun=false": {
+      "model": "portalcubed:block/portal_gun_workstation_empty",
+      "y": 90
+    },
+    "facing=west,has_portal_gun=true": {
+      "model": "portalcubed:block/portal_gun_workstation",
+      "y": 90
+    }
+  }
+}

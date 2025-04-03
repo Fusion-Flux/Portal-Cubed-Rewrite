@@ -14,25 +14,25 @@
   "textures": {
     "closed": [
       {
-      "texture": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_closed",
+      "texture": "portalcubed:portal/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_closed",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_overlay",
+      "texture": "portalcubed:portal/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_overlay",
       "tint": false
       }
     ],
     "open": [
       {
-      "texture": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_open",
+      "texture": "portalcubed:portal/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_open",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_overlay",
+      "texture": "portalcubed:portal/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_overlay",
       "tint": false
       }
     ],
-    "tracer": "portalcubed:portals/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_tracer"
+    "tracer": "portalcubed:portal/ultimate_chicken_horse_teleporter/ultimate_chicken_horse_teleporter_tracer"
   },
   "place_animation": {
     "type": "pop_in",

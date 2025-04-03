@@ -22,31 +22,31 @@
   "textures": {
     "closed": [
       {
-      "texture": "portalcubed:portals/fire_exit/fire_exit_closed",
+      "texture": "portalcubed:portal/fire_exit/fire_exit_closed",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/fire_exit/fire_exit_overlay",
+      "texture": "portalcubed:portal/fire_exit/fire_exit_overlay",
       "tint": false
       }
     ],
     "open": [
       {
-      "texture": "portalcubed:portals/fire_exit/fire_exit_open",
+      "texture": "portalcubed:portal/fire_exit/fire_exit_open",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/fire_exit/fire_exit_overlay",
+      "texture": "portalcubed:portal/fire_exit/fire_exit_overlay",
       "tint": false
       }
     ],
     "tracer": [
       {
-      "texture": "portalcubed:portals/fire_exit/fire_exit_tracer",
+      "texture": "portalcubed:portal/fire_exit/fire_exit_tracer",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/fire_exit/fire_exit_tracer_overlay",
+      "texture": "portalcubed:portal/fire_exit/fire_exit_tracer_overlay",
       "tint": false
       }
     ]

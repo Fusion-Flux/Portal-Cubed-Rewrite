@@ -14,23 +14,23 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/dark_world_door/dark_world_door_frame_open",
+        "texture": "portalcubed:portal/dark_world_door/dark_world_door_frame_open",
         "tint": false
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/dark_world_door/dark_world_door_closed",
+        "texture": "portalcubed:portal/dark_world_door/dark_world_door_closed",
         "tint": true
       },
       {
-        "texture": "portalcubed:portals/dark_world_door/dark_world_door_frame_closed",
+        "texture": "portalcubed:portal/dark_world_door/dark_world_door_frame_closed",
         "tint": false
       }
     ],
-    "tracer": "portalcubed:portals/dark_world_door/dark_world_door_tracer"
+    "tracer": "portalcubed:portal/dark_world_door/dark_world_door_tracer"
   },
-  "stencil": "portalcubed:portals/dark_world_door/dark_world_door_stencil",
+  "stencil": "portalcubed:portal/dark_world_door/dark_world_door_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

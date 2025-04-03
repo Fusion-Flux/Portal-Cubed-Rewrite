@@ -2,8 +2,8 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
-		"2": "portalcubed:item/portal_gun_stripes",
-		"particle": "portalcubed:item/portal_gun_stripes"
+		"2": "portalcubed:portal_gun/portal_gun_stripes",
+		"particle": "portalcubed:portal_gun/portal_gun_stripes"
 	},
 	"elements": [
 		{

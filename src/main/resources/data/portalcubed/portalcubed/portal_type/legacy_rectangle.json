@@ -2,8 +2,8 @@
   "name": {
     "translate": "portal_type.portalcubed.legacy_rectangle"
   },
-  "default_primary_color": 29154,
-  "default_secondary_color": 14380292,
+  "default_primary_color": 2396924,
+  "default_secondary_color": 16748062,
   "sounds": {
     "shared": {
       "cant_open": "portalcubed:portal_type.default.cant_open",
@@ -20,9 +20,9 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/legacy_rectangle/legacy_rectangle_open",
-    "closed": "portalcubed:portals/legacy_rectangle/legacy_rectangle_closed",
-    "tracer": "portalcubed:portals/legacy_rectangle/legacy_rectangle_tracer"
+    "open": "portalcubed:portal/legacy_rectangle/legacy_rectangle_open",
+    "closed": "portalcubed:portal/legacy_rectangle/legacy_rectangle_closed",
+    "tracer": "portalcubed:portal/legacy_rectangle/legacy_rectangle_tracer"
   },
-    "stencil": "portalcubed:portals/legacy_rectangle/legacy_rectangle_stencil"
+    "stencil": "portalcubed:portal/legacy_rectangle/legacy_rectangle_stencil"
 }

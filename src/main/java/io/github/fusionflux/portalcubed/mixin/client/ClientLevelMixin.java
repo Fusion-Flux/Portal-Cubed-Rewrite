@@ -35,9 +35,10 @@ public abstract class ClientLevelMixin implements ClientLevelExt {
 	private static Set<Item> MARKER_PARTICLE_ITEMS;
 
 	@Inject(method = "<clinit>", at = @At("TAIL"))
-	private static void givePropBarrierMarkerParticles(CallbackInfo ci) {
+	private static void givePortalCubedBarrierMarkerParticles(CallbackInfo ci) {
 		Set<Item> newMarkerParticleItems = new HashSet<>(MARKER_PARTICLE_ITEMS);
 		newMarkerParticleItems.add(PortalCubedBlocks.PROP_BARRIER.asItem());
+		newMarkerParticleItems.add(PortalCubedBlocks.PORTAL_BARRIER.asItem());
 		MARKER_PARTICLE_ITEMS = Collections.unmodifiableSet(newMarkerParticleItems);
 	}
 

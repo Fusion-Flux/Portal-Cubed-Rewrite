@@ -13,18 +13,18 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/pipis/pipis_open",
-    "closed": "portalcubed:portals/pipis/pipis",
+    "open": "portalcubed:portal/pipis/pipis_open",
+    "closed": "portalcubed:portal/pipis/pipis",
     "tracer": [
       {
-      "texture": "portalcubed:portals/pipis/pipis_tracer",
+      "texture": "portalcubed:portal/pipis/pipis_tracer",
       "tint": true
       },
       {
-      "texture": "portalcubed:portals/pipis/pipis_tracer_overlay",
+      "texture": "portalcubed:portal/pipis/pipis_tracer_overlay",
       "tint": false
       }
     ]
   },
-  "stencil": "portalcubed:portals/pipis/pipis_stencil"
+  "stencil": "portalcubed:portal/pipis/pipis_stencil"
 }

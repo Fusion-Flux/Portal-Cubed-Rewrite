@@ -4,8 +4,8 @@
   },
   "item_model": "portalcubed:portal_guns/paintbrush",
   "sounds": {
-    "primary_shoot": "minecraft:item.brush.brushing.gravel",
-    "secondary_shoot": "minecraft:item.brush.brushing.sand",
-    "fizzle": "minecraft:item.brush.brushing.generic"
+    "primary_shoot": "portalcubed:portal_gun.paintbrush.primary_shoot",
+    "secondary_shoot": "portalcubed:portal_gun.paintbrush.secondary_shoot",
+    "fizzle": "portalcubed:portal_gun.paintbrush.fizzle"
   }
 }

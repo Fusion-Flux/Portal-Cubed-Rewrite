@@ -28,6 +28,6 @@ public class PropBarrierBlock extends BarrierBlock {
 	@NotNull
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return context.isHoldingItem(asItem()) ? super.getShape(state, world, pos, context) : Shapes.empty();
+		return context.isHoldingItem(this.asItem()) ? super.getShape(state, world, pos, context) : Shapes.empty();
 	}
 }

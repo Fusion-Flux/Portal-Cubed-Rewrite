@@ -6,8 +6,8 @@
   "default_secondary_color": -1,
   "sounds": {},
   "textures": {
-    "open": "portalcubed:portals/invisible/empty",
-    "closed": "portalcubed:portals/invisible/empty",
-    "tracer": "portalcubed:portals/invisible/empty"
+    "open": "portalcubed:portal/invisible/empty",
+    "closed": "portalcubed:portal/invisible/empty",
+    "tracer": "portalcubed:portal/invisible/empty"
   }
 }

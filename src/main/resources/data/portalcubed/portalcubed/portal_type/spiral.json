@@ -22,24 +22,24 @@
   "textures": {
     "open": [
         {
-          "texture": "portalcubed:portals/spiral/spiral",
+          "texture": "portalcubed:portal/spiral/spiral",
           "tint": true
         },
         {
-          "texture": "portalcubed:portals/spiral/spiral_overlay",
+          "texture": "portalcubed:portal/spiral/spiral_overlay",
           "tint": false
         }
     ],
     "closed": [
         {
-          "texture": "portalcubed:portals/spiral/spiral",
+          "texture": "portalcubed:portal/spiral/spiral",
           "tint": true
         },
         {
-          "texture": "portalcubed:portals/spiral/spiral_overlay",
+          "texture": "portalcubed:portal/spiral/spiral_overlay",
           "tint": false
         }
     ],
-    "tracer": "portalcubed:portals/spiral/spiral_tracer"
+    "tracer": "portalcubed:portal/spiral/spiral_tracer"
   }
 }

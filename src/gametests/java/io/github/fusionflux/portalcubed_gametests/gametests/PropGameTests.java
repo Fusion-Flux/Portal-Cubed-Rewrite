@@ -120,7 +120,6 @@ public class PropGameTests implements FabricGameTest {
 	}
 
 	//Tests dirty/charred props being washed when dropped into water
-	//Note - add redirection cubes to this once they get added.
 	@GameTest(template = GROUP + "prop_washing")
 	public void propWashing(GameTestHelper helper) {
 		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 2, 1));
@@ -135,8 +134,35 @@ public class PropGameTests implements FabricGameTest {
 		});
 	}
 
+	//Tests dirty/charred props being washed when hit with splash/lingering water
+	@GameTest(template = GROUP + "prop_washing_splash")
+	public void propWashingSplash(GameTestHelper helper) {
+		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(8, 2, 2));
+		Prop p1CompanionCube = spawnDirtyProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(1, 2, 2));
+
+		helper.pullLever(4, 1, 1);
+
+		helper.runAfterDelay(20, () ->
+				helper.succeedWhen(() -> {
+					assertPropVariant(helper, p2StorageCube, 0);
+					assertPropVariant(helper, p1CompanionCube, 0);
+				})
+		);
+	}
+
+	//Tests dirty/charred props not being washed in goo
+	@GameTest(template = GROUP + "prop_washing_goo")
+	public void propWashingGoo(GameTestHelper helper) {
+		Prop radio = spawnDirtyProp(helper, PropType.RADIO, new BlockPos(2, 4, 2));
+
+		helper.runAfterDelay(40, () ->
+			helper.succeedIf(() -> { //wait for it to drop into the goo
+				assertPropVariant(helper, radio, 1);
+			})
+		);
+	}
+
 	//Tests dirty/charred props being washed when the weather is rain
-	//Note - add redirection cubes to this once they get added
 	@GameTest(template = GROUP + "prop_washing_in_rain", batch = Batches.RAINY, skyAccess = true)
 	public void propWashingInRain(GameTestHelper helper) {
 		Prop p2StorageCube = spawnDirtyProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 2, 1));

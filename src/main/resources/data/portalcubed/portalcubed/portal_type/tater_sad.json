@@ -20,11 +20,11 @@
     }
   },
   "textures": {
-    "open": "portalcubed:portals/tater_sad/tater_sad_open",
-    "closed": "portalcubed:portals/tater_sad/tater_sad_closed",
-    "tracer": "portalcubed:portals/tater_sad/tater_sad_tracer"
+    "open": "portalcubed:portal/tater_sad/tater_sad_open",
+    "closed": "portalcubed:portal/tater_sad/tater_sad_closed",
+    "tracer": "portalcubed:portal/tater_sad/tater_sad_tracer"
   },
-  "stencil": "portalcubed:portals/tater_sad/tater_sad_stencil",
+  "stencil": "portalcubed:portal/tater_sad/tater_sad_stencil",
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

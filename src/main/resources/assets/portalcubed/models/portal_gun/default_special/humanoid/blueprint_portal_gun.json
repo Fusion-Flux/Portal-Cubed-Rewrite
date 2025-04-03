@@ -2,9 +2,9 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "portalcubed:item/blueprint_portal_gun",
-		"1": "portalcubed:item/blueprint_portal_gun_outline",
-		"particle": "portalcubed:item/blueprint_portal_gun"
+		"0": "portalcubed:portal_gun/blueprint_portal_gun",
+		"1": "portalcubed:portal_gun/blueprint_portal_gun_outline",
+		"particle": "portalcubed:portal_gun/blueprint_portal_gun"
 	},
 	"elements": [
 		{

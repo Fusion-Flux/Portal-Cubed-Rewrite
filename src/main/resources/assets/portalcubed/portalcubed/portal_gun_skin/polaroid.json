@@ -4,8 +4,8 @@
   },
   "item_model": "portalcubed:portal_guns/polaroid",
   "sounds": {
-    "primary_shoot": "minecraft:item.lodestone_compass.lock",
-    "secondary_shoot": "minecraft:item.lodestone_compass.lock",
-    "fizzle": "minecraft:ui.cartography_table.take_result"
+    "primary_shoot": "portalcubed:portal_gun.polaroid.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.polaroid.shoot",
+    "fizzle": "portalcubed:portal_gun.polaroid.fizzle"
   }
 }

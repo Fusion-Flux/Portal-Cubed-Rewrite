@@ -7,8 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.client.multiplayer.ClientRegistryLayer;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -23,8 +22,8 @@ public final class PortalGunSkinManager extends SimpleJsonResourceReloadListener
 	private Map<ResourceKey<PortalGunSkin>, PortalGunSkin> skins = Map.of();
 
 	private PortalGunSkinManager() {
-		// sneak in registry access for sound events
-		super(RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY), PortalGunSkin.CODEC, PortalGunSkin.REGISTRY_KEY);
+		// Registry access for sound events, ClientItemInfoLoader uses this too
+		super(ClientRegistryLayer.createRegistryAccess().compositeAccess(), PortalGunSkin.CODEC, PortalGunSkin.REGISTRY_KEY);
 	}
 
 	@Override

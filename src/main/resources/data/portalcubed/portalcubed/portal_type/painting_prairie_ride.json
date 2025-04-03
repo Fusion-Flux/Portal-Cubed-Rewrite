@@ -25,7 +25,7 @@
         "tint": false
       }
     ],
-    "tracer": "portalcubed:portals/prairie_ride/prairie_ride_tracer"
+    "tracer": "portalcubed:portal/prairie_ride/prairie_ride_tracer"
   },
   "place_animation": {
     "type": "pop_in",

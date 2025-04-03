@@ -15,17 +15,17 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portals/warp_painting/warp_painting",
+        "texture": "portalcubed:portal/warp_painting/warp_painting",
         "tint": false
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portals/warp_painting/warp_painting",
+        "texture": "portalcubed:portal/warp_painting/warp_painting",
         "tint": false
       }
     ],
-    "tracer": "portalcubed:portals/warp_painting/warp_painting_tracer"
+    "tracer": "portalcubed:portal/warp_painting/warp_painting_tracer"
   },
   "place_animation": {
     "type": "pop_in",

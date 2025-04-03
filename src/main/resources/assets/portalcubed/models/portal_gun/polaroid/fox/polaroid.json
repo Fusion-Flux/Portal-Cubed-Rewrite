@@ -2,8 +2,8 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "portalcubed:item/polaroid",
-		"particle": "portalcubed:item/polaroid"
+		"0": "portalcubed:portal_gun/polaroid",
+		"particle": "portalcubed:portal_gun/polaroid"
 	},
 	"elements": [
 		{
