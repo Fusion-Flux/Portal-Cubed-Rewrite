@@ -1,8 +1,5 @@
 package io.github.fusionflux.portalcubed;
 
-import java.awt.*;
-import java.lang.reflect.Field;
-
 import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
@@ -31,7 +28,6 @@ import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.renderer.item.ItemModels;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperties;
 import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperties;
-import sun.misc.Unsafe;
 
 public class PortalCubedClient implements ClientModInitializer {
 	@SuppressWarnings("StaticNonFinalField")
@@ -39,15 +35,6 @@ public class PortalCubedClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		Polygon.class.getName();
-		try {
-			Field field = Unsafe.class.getDeclaredField("theUnsafe");
-			field.setAccessible(true);
-			Unsafe unsafe = (Unsafe) field.get(null);
-			System.out.println("AAAAAAA " + unsafe.shouldBeInitialized(Toolkit.class));
-		} catch (Throwable t) {
-			throw new RuntimeException(t);
-		}
 		PortalRenderer.init();
 		EntityDebugRendering.init();
 		DebugRendering.init();
