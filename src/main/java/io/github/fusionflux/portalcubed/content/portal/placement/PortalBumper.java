@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -95,20 +96,24 @@ public class PortalBumper {
 
 		List<Line2d> walls = new ArrayList<>(surface.walls());
 
-		// max out at 5 attempts to not run forever
+		// make shots deterministic for the exact same position
+		Random random = new Random(initial.hashCode());
+
+		// limit attempts to not run forever
 		attempts: for (int attempt = 0; attempt < 5; attempt++) {
 			PortalCandidate currentPortal = portal;
 			// a different order is used each try so each search is unique and more than one candidate can be found.
-			Collections.shuffle(walls);
+			Collections.shuffle(walls, random);
 
-			// after 5 moves, it's probably cycling. give up if that happens.
+			// limit moves, after a bunch it's probably cycling
 			moves: for (int movement = 0; movement < 5; movement++) {
 				for (Line2d edge : walls) {
 					Vector2d offset = collide(currentPortal, edge);
 					if (offset != null) {
 						if (EVIL_DEBUG_RENDERING) {
+							DebugRendering.addLine(100, edge.to3d(surface), Color.RED);
 							Line2d moved = new Line2d(currentPortal.center(), currentPortal.center().add(offset, new Vector2d()));
-							DebugRendering.addLine(100, moved.to3d(surface).moved(initial), Color.CYAN);
+							DebugRendering.addLine(100, moved.to3d(surface), Color.CYAN);
 						}
 
 						// when a collision happens, restart the search at the new position, since newly intersecting walls may have already been checked.
@@ -326,7 +331,10 @@ public class PortalBumper {
 			return null;
 
 		Objects.requireNonNull(smallestDistanceAxis);
-		return smallestDistanceAxis.mul(-smallestDistanceOnAxis, new Vector2d());
+
+		// this tiny extra offset avoids intersections that practically shouldn't happen but do because of float precision
+		double extraOffsetScale = 1.001;
+		return smallestDistanceAxis.mul(-smallestDistanceOnAxis * extraOffsetScale, new Vector2d());
 	}
 
 }
