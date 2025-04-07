@@ -97,4 +97,16 @@ public record PortalPair(Optional<PortalInstance> primary, Optional<PortalInstan
 			return Collections.emptyIterator();
 		}
 	}
+
+	public record Holder(String key, PortalPair pair) {
+		public PortalInstance.Holder primary() {
+			PortalId id = new PortalId(this.key, Polarity.PRIMARY);
+			return new PortalInstance.Holder(id, this.pair.primary.orElseThrow());
+		}
+
+		public PortalInstance.Holder secondary() {
+			PortalId id = new PortalId(this.key, Polarity.SECONDARY);
+			return new PortalInstance.Holder(id, this.pair.secondary.orElseThrow());
+		}
+	}
 }

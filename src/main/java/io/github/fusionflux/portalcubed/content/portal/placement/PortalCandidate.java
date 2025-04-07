@@ -54,22 +54,26 @@ public record PortalCandidate(Angle rot, Vector2dc center,
 		});
 	}
 
-	public static PortalCandidate ofCenter(Vector2dc center, Angle rot) {
+	public static PortalCandidate create(Vector2dc center, double width, double height, Angle rot) {
 		Matrix2d rotationMatrix = new Matrix2d().rotation(rot.rad());
 
-		double hw = PortalInstance.WIDTH / 2;
-		double hh = PortalInstance.HEIGHT / 2;
+		double hw = width / 2;
+		double hh = height / 2;
 
-		Vector2dc bottomLeft = rotationMatrix.transform(add(center, -hw, -hh));
-		Vector2dc bottomRight = rotationMatrix.transform(add(center, hw, -hh));
-		Vector2dc topRight = rotationMatrix.transform(add(center, hw, hh));
-		Vector2dc topLeft = rotationMatrix.transform(add(center, -hw, hh));
+		Vector2dc bottomLeft = rotationMatrix.transform(new Vector2d(-hw, -hh)).add(center);
+		Vector2dc bottomRight = rotationMatrix.transform(new Vector2d(hw, -hh)).add(center);
+		Vector2dc topRight = rotationMatrix.transform(new Vector2d(hw, hh)).add(center);
+		Vector2dc topLeft = rotationMatrix.transform(new Vector2d(-hw, hh)).add(center);
 
 		return new PortalCandidate(rot, center, bottomLeft, bottomRight, topRight, topLeft);
 	}
 
 	public static PortalCandidate initial(Angle rot) {
-		return ofCenter(new Vector2d(), rot);
+		return create(new Vector2d(), PortalInstance.WIDTH, PortalInstance.HEIGHT, rot);
+	}
+
+	public static PortalCandidate other(Vector2dc origin, Angle rot) {
+		return create(origin, PortalInstance.WIDTH - 0.01, PortalInstance.HEIGHT - 0.01, rot);
 	}
 
 	private static Vector2d add(Vector2dc vec, double x, double y) {

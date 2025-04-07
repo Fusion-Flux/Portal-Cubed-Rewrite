@@ -72,4 +72,7 @@ public final class PortalInstance {
 	public Quaternionf rotation() {
 		return this.data.rotation();
 	}
+
+	public record Holder(PortalId id, PortalInstance portal) {
+	}
 }

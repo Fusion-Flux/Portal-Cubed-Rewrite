@@ -3,6 +3,8 @@ package io.github.fusionflux.portalcubed.content.portal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
@@ -144,8 +146,8 @@ public class PortalTeleportHandler {
 		return entity.level().isClientSide;
 	}
 
-	public static boolean ignoresPortalModifiedCollision(Entity entity) {
-		return entity.isPassenger() || entity.isVehicle() || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST);
+	public static boolean ignoresPortalModifiedCollision(@Nullable Entity entity) {
+		return entity == null || entity.isPassenger() || entity.isVehicle() || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST);
 	}
 
 	// teleportation utilities

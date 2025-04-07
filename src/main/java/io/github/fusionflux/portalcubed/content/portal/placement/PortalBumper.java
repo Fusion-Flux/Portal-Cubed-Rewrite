@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
@@ -42,14 +43,15 @@ public class PortalBumper {
 	public static final boolean DEBUG_SURFACE = false;
 
 	@Nullable
-	public static PortalPlacement findValidPlacement(ServerLevel level, Vec3 initial, float yRot, BlockPos surfacePos, Direction face) {
-		Collection<PortalableSurface> surfaceCandidates = getSurfaceCandidates(level, initial, surfacePos, face);
+	public static PortalPlacement findValidPlacement(PortalId id, ServerLevel level, Vec3 initial, float yRot, BlockPos surfacePos, Direction face) {
+		Collection<PortalableSurface> surfaceCandidates = getSurfaceCandidates(id, level, initial, surfacePos, face);
 		if (surfaceCandidates.isEmpty())
 			return null;
 
 		Angle rotation = PortalData.normalToFlatRotation(face, yRot);
 
 		for (PortalableSurface surface : surfaceCandidates) {
+			// TODO: on floors and ceilings, also test at 90 degree increments to catch 1x2s
 			PortalCandidate portal = PortalCandidate.initial(surface.supportsPortalRotation() ? rotation : Angle.ZERO);
 
 			if (EVIL_DEBUG_RENDERING) {
@@ -57,7 +59,10 @@ public class PortalBumper {
 					DebugRendering.addLine(100, portalSide.to3d(surface), Color.GREEN);
 				}
 				for (Line2d wall : surface.walls()) {
-					DebugRendering.addLine(100, wall.to3d(surface), Color.PURPLE);
+					Line line = wall.to3d(surface);
+					DebugRendering.addLine(100, line, Color.PURPLE);
+					// DebugRendering.addPos(100, line.from(), Color.PURPLE);
+					// DebugRendering.addPos(100, line.to(), Color.PURPLE);
 
 					Vector2d perpendicularAxis = wall.perpendicularCcwAxis().mul(0.25);
 					Line2d perpendicularLine = new Line2d(wall.midpoint(), wall.midpoint().add(perpendicularAxis));
@@ -111,7 +116,7 @@ public class PortalBumper {
 					Vector2d offset = collide(currentPortal, edge);
 					if (offset != null) {
 						if (EVIL_DEBUG_RENDERING) {
-							DebugRendering.addLine(100, edge.to3d(surface), Color.RED);
+							//DebugRendering.addLine(100, edge.to3d(surface), Color.RED);
 							Line2d moved = new Line2d(currentPortal.center(), currentPortal.center().add(offset, new Vector2d()));
 							DebugRendering.addLine(100, moved.to3d(surface), Color.CYAN);
 						}
@@ -133,7 +138,7 @@ public class PortalBumper {
 		return found;
 	}
 
-	private static Collection<PortalableSurface> getSurfaceCandidates(ServerLevel level, Vec3 initial, BlockPos surfacePos, Direction face) {
+	private static Collection<PortalableSurface> getSurfaceCandidates(PortalId id, ServerLevel level, Vec3 initial, BlockPos surfacePos, Direction face) {
 		// TODO: de-hardcode this
 
 		List<PortalableSurface> surfaces = new ArrayList<>();
@@ -141,13 +146,13 @@ public class PortalBumper {
 		// stairs take priority if present
 		BlockState state = level.getBlockState(surfacePos);
 		if (state.getBlock() instanceof StairBlock) {
-			PortalableSurface stair = StairSurfaceFinder.find(level, initial, surfacePos, face, state);
+			PortalableSurface stair = StairSurfaceFinder.find(id, level, initial, surfacePos, face, state);
 			if (stair != null) {
 				surfaces.add(stair);
 			}
 		}
 
-		PortalableSurface flat = getFlatSurface(level, initial, surfacePos, face);
+		PortalableSurface flat = getFlatSurface(id, level, initial, surfacePos, face);
 		if (flat != null) {
 			surfaces.add(flat);
 		}
@@ -158,14 +163,14 @@ public class PortalBumper {
 	// 0, 0 in surface coords is where the portal starts
 
 	@Nullable
-	private static PortalableSurface getFlatSurface(ServerLevel level, Vec3 initial, BlockPos pos, Direction face) {
+	private static PortalableSurface getFlatSurface(PortalId id, ServerLevel level, Vec3 initial, BlockPos pos, Direction face) {
 		if (isFlatSurfaceNonPortalable(level, pos, face))
 			return null;
 
 		Quaternionf surfaceRotation = PortalData.normalToRotation(face, 0);
 
 		if (DEBUG_SURFACE) {
-			return getDebugSurface(level, surfaceRotation);
+			return getDebugSurface(level, initial, surfaceRotation);
 		}
 
 		Direction up = switch (face) {
@@ -187,13 +192,7 @@ public class PortalBumper {
 			if (isFlatSurfaceNonPortalable(level, surfacePos, face))
 				continue;
 
-			if (false) {
-				walls.add(new Line2d(new Vector2d(-0.5, -0.5), new Vector2d(0.5, 0.5)));
-				continue;
-			}
-
 			BlockState surface = level.getBlockState(surfacePos);
-			// TODO: make portal holes show up with a custom context
 			VoxelShape shape = surface.getCollisionShape(level, surfacePos);
 			for (AABB box : shape.toAabbs()) {
 				AABB absolute = box.move(surfacePos);
@@ -209,13 +208,47 @@ public class PortalBumper {
 			}
 		}
 
+		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, walls, axis == Direction.Axis.Y);
+
+		findOtherPortals(id, level, surface, initial, pos, face, up, right, walls);
 		cancelOutOpposites(walls);
 
-		// if (face.getAxisDirection() == Direction.AxisDirection.NEGATIVE) {
-		// 	surfaceRotation.rotateZ(Mth.DEG_TO_RAD * 180);
-		// }
+		return surface;
+	}
 
-		return new PortalableSurface(surfaceRotation, initial, walls, axis == Direction.Axis.Y);
+	private static void findOtherPortals(PortalId placing, ServerLevel level, PortalableSurface surface, Vec3 initial, BlockPos pos, Direction face, Direction up, Direction right, List<Line2d> walls) {
+		BlockPos inFront = pos.relative(face);
+		BlockPos max = inFront.relative(up, 2).relative(right, 2);
+		BlockPos min = pos.relative(up, -2).relative(right, -2);
+		AABB area = AABB.encapsulatingFullBlocks(min, max);
+
+		level.portalManager().forEachPortalInBox(area, holder -> {
+			if (holder.id().equals(placing))
+				return;
+
+			PortalInstance portal = holder.portal();
+			if (!Mth.equal(face.getUnitVec3().dot(portal.normal), 1))
+				return; // not facing the same way
+
+			Direction.Axis axis = face.getAxis();
+			double posOnAxis = portal.data.origin().get(axis);
+			if (!Mth.equal(initial.get(axis), posOnAxis))
+				return; // not on the same plane
+
+			Vector2d origin = surface.to2d(portal.data.origin());
+
+			Vector3d absRight = new Vector3d(-1, 0, 0);
+			Vector3d relativeRight = portal.rotation().transform(absRight, new Vector3d());
+
+			Angle angle = Angle.ofRad(relativeRight.angleSigned(
+					absRight.x, absRight.y, absRight.z,
+					portal.normal.x, portal.normal.y, portal.normal.z
+			));
+
+			for (Line2d line : PortalCandidate.other(origin, angle).lines()) {
+				walls.add(line.flip());
+			}
+		});
 	}
 
 	private static void getWallsFromBox(AABB box, Direction face, Consumer<Line2d> output) {
@@ -267,27 +300,93 @@ public class PortalBumper {
 		return inFront.is(PortalCubedBlockTags.REMOVES_PORTALABILITY);
 	}
 
-	static PortalableSurface getDebugSurface(ServerLevel level, Quaternionf surfaceRotation) {
-		float h = level.getGameTime() / 100f;
-		return new PortalableSurface(surfaceRotation, List.of(
-				new Line2d(new Vector2d(-Math.cos(h), -Math.sin(h)), new Vector2d(Math.cos(h), Math.sin(h)))
-		), true);
+	static PortalableSurface getDebugSurface(ServerLevel level, Vec3 initial, Quaternionf surfaceRotation) {
+		List<Line2d> walls = new ArrayList<>();
+
+		// rotat e
+		// float h = level.getGameTime() / 100f;
+		// walls.add(new Line2d(new Vector2d(-Math.cos(h), -Math.sin(h)), new Vector2d(Math.cos(h), Math.sin(h))));
+
+		// opposite containment test
+		walls.add(new Line2d(new Vector2d(0, 1), new Vector2d(1, 1)));
+		walls.add(new Line2d(new Vector2d(0.75, 1), new Vector2d(0.25, 1)));
+
+		// opposite intersection test
+		walls.add(new Line2d(new Vector2d(0, 0), new Vector2d(1, 0)));
+		walls.add(new Line2d(new Vector2d(1.5, 0), new Vector2d(0.5, 0)));
+
+		cancelOutOpposites(walls);
+
+		return new PortalableSurface(surfaceRotation, initial, walls, true);
 	}
 
 	public static void cancelOutOpposites(List<Line2d> walls) {
-		Set<Line2d> removed = new HashSet<>();
-		walls.removeIf(first -> {
-			if (removed.contains(first))
-				return true;
+		outer: while (true) {
+			for (Line2d first : walls) {
+				for (Line2d second : walls) {
+					// must be facing opposite directions
+					Vector2d axis = first.axis();
+					if (!Mth.equal(axis.dot(second.axis()), -1))
+						continue;
 
-			for (Line2d second : walls) {
-				if (first.from().distance(second.to()) < 1e-5 && first.to().distance(second.from()) < 1e-5) {
-					removed.add(second);
-					return true;
+					if (!first.isAlignedWith(second))
+						continue;
+
+					/*
+					seven cases:
+					1. no intersection
+					2. first contains second	-| equivalent, swap first and second
+					3. second contains first	-/
+					4. overlap on left, first left of second	 -| equivalent, swap first and second  -| also equivalent, just side is flipped.
+					5. overlap on left, second left of first  	 -/										|  -| also equivalent, just side is flipped.
+					6. overlap on right, first right of second  -| equivalent, swap first and second	|  -/
+					7. overlap on right, second right of first  -/								       -/
+					so there's actually only 3 simplified cases.
+					- no intersection
+					- contains
+					- overlap
+					 */
+
+					// #1: check if there's an intersection at all
+					DoubleRange firstRange = first.project(axis);
+					DoubleRange secondRange = second.project(axis);
+					if (!firstRange.intersects(secondRange))
+						continue;
+
+					if (handleContains(first, second, firstRange, secondRange, walls) // #2
+							|| handleContains(second, first, secondRange, firstRange, walls) // #3
+							|| handleOverlap(first, second, firstRange, secondRange, walls) // #4 / #7
+							|| handleOverlap(second, first, secondRange, firstRange, walls)) { // #5 / #6
+						continue outer;
+					}
 				}
 			}
+
+			// when the inner loops don't end early, all opposites have been canceled.
+			break;
+		}
+	}
+
+	private static boolean handleContains(Line2d first, Line2d second, DoubleRange firstRange, DoubleRange secondRange, List<Line2d> walls) {
+		if (!firstRange.contains(secondRange))
 			return false;
-		});
+
+		walls.remove(first);
+		walls.remove(second);
+		walls.add(new Line2d(first.from(), second.to()));
+		walls.add(new Line2d(second.from(), first.to()));
+		return true;
+	}
+
+	private static boolean handleOverlap(Line2d first, Line2d second, DoubleRange firstRange, DoubleRange secondRange, List<Line2d> walls) {
+		if (!firstRange.contains(secondRange.min()))
+			return false;
+
+		walls.remove(first);
+		walls.remove(second);
+		walls.add(new Line2d(first.from(), second.to()));
+		walls.add(new Line2d(second.from(), first.to()));
+		return true;
 	}
 
 	/**
@@ -314,7 +413,7 @@ public class PortalBumper {
 			DoubleRange boxRange = portal.project(axis);
 			DoubleRange lineRange = line.project(axis);
 
-			if ((boxRange.min() - lineRange.max() > 0) || (lineRange.min() - boxRange.max() > 0)) {
+			if (!boxRange.intersects(lineRange)) {
 				// gap found, give up
 				return null;
 			}

@@ -11,6 +11,7 @@ import org.joml.Vector2dc;
 import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.flat.Line2d;
 import io.github.fusionflux.portalcubed.framework.util.Color;
@@ -30,7 +31,7 @@ public final class StairSurfaceFinder {
 	public static final double STEP_LENGTH = Math.sqrt((0.5 * 0.5) + (0.5 * 0.5));
 
 	@Nullable
-	static PortalableSurface find(ServerLevel level, Vec3 initial, BlockPos pos, Direction face, BlockState state) {
+	static PortalableSurface find(PortalId id, ServerLevel level, Vec3 initial, BlockPos pos, Direction face, BlockState state) {
 		StairsShape shape = state.getValue(StairBlock.SHAPE);
 		if (shape != StairsShape.STRAIGHT)
 			return null;
@@ -42,7 +43,7 @@ public final class StairSurfaceFinder {
 		rotation.rotateX(Mth.DEG_TO_RAD * 45 * (half == Half.BOTTOM ? 1 : -1));
 
 		if (PortalBumper.DEBUG_SURFACE) {
-			return PortalBumper.getDebugSurface(level, rotation);
+			return PortalBumper.getDebugSurface(level, initial, rotation);
 		}
 
 		// the surface should lie on the plane made by the edges of the steps

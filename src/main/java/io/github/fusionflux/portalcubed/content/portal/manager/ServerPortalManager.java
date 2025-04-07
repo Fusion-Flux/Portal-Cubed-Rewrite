@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import java.util.HashSet;
+import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -9,6 +10,7 @@ import com.mojang.datafixers.util.Pair;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -67,6 +69,20 @@ public class ServerPortalManager extends PortalManager {
 				return pair;
 			});
 		}
+	}
+
+	public void forEachPortalInBox(AABB bounds, Consumer<PortalInstance.Holder> consumer) {
+		// TODO: this is terrible too but refactors can come later
+		this.portals.forEach((key, pair) -> {
+			for (Polarity polarity : Polarity.values()) {
+				pair.get(polarity).ifPresent(portal -> {
+					if (portal.renderBounds.intersects(bounds)) {
+						PortalId id = new PortalId(key, polarity);
+						consumer.accept(new PortalInstance.Holder(id, portal));
+					}
+				});
+			}
+		});
 	}
 
 	public CompoundTag save(CompoundTag nbt) {
