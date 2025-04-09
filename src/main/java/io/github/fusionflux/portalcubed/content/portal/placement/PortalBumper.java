@@ -48,7 +48,10 @@ public class PortalBumper {
 		if (surfaceCandidates.isEmpty())
 			return null;
 
-		Angle rotation = PortalData.normalToFlatRotation(face, yRot);
+		// no I don't know why this needs to be negative.
+		// yes it's cancelled out by the other random negative below.
+		// but it's not cancelled out in other places, and that's required for correct behavior.
+		Angle rotation = PortalData.normalToFlatRotation(face, -yRot);
 
 		for (PortalableSurface surface : surfaceCandidates) {
 			// TODO: on floors and ceilings, also test at 90 degree increments to catch 1x2s
@@ -88,7 +91,7 @@ public class PortalBumper {
 			}
 
 			Vec3 finalPos = surface.to3d(finalLocation.center());
-			Quaternionf portalRotation = surface.rotation().rotateY(finalLocation.rot().radF(), new Quaternionf());
+			Quaternionf portalRotation = surface.rotation().rotateY(-finalLocation.rot().radF(), new Quaternionf());
 			return new PortalPlacement(finalPos, portalRotation);
 		}
 
