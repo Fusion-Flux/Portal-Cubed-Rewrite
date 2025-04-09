@@ -4,7 +4,7 @@
       "model": "portalcubed:block/aged_padded_gray_half_panel_slab"
     },
     "type=double": {
-      "model": "portalcubed:block/aged_padded_gray_half_panel"
+      "model": "portalcubed:block/aged_padded_gray_half_panel_1"
     },
     "type=top": {
       "model": "portalcubed:block/aged_padded_gray_half_panel_slab_top"

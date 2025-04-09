@@ -1,24 +1,14 @@
 {
   "variants": {
     "": [
-      {
-        "model": "portalcubed:block/aged_padded_gray_half_panel"
-      },
-      {
-        "model": "portalcubed:block/aged_padded_gray_half_panel2"
-      },
-      {
-        "model": "portalcubed:block/aged_padded_gray_half_panel3"
-      },
-      {
-        "model": "portalcubed:block/aged_padded_gray_half_panel4"
-      },
-      {
-        "model": "portalcubed:block/aged_padded_gray_half_panel5"
-      },
-      {
-        "model": "portalcubed:block/aged_padded_gray_half_panel6"
-      }
+      {"model": "portalcubed:block/aged_padded_gray_half_panel_1", "weight": 8},
+      {"model": "portalcubed:block/aged_padded_gray_half_panel_2", "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_half_panel_3", "weight": 2},
+      {"model": "portalcubed:block/aged_padded_gray_half_panel_4", "weight": 2},
+      {"model": "portalcubed:block/aged_padded_gray_half_panel_5", "weight": 2},
+      {"model": "portalcubed:block/aged_padded_gray_half_panel_6", "weight": 4},
+      {"model": "portalcubed:block/aged_padded_gray_half_panel_7", "weight": 2},
+      {"model": "portalcubed:block/aged_padded_gray_half_panel_8", "weight": 1}
     ]
   }
 }
