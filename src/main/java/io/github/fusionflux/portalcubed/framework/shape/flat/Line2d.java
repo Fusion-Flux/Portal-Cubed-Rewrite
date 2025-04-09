@@ -33,7 +33,8 @@ public record Line2d(Vector2dc from, Vector2dc to) {
 				new Vector3d(), new Vector3d()
 		);
 
-		return Mth.equal(distance, 0);
+		// if this precision is too low (ex. 1e-5, like in Mth.equal) then intersections can be too lenient
+		return Math.abs(distance) < 1e-7;
 	}
 
 	public boolean isAlignedWith(Line2d other) {

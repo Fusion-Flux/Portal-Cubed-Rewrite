@@ -20,9 +20,11 @@ public record PortalableSurface(Quaternionfc rotation, Vec3 origin, List<Line2d>
 	public boolean contains(Vector2dc point) {
 		// if the number of intersections is divisible by 2, then the point is contained
 		Line2d path = new Line2d(this.getRandomPointThatIsProbablyActuallyContained(), point);
+		// DebugRendering.addLine(100, path.to3d(this).moved(new Vec3(0, 1, 0)), Color.RED);
 		int intersections = 0;
 		for (Line2d wall : this.walls) {
 			if (wall.intersects(path)) {
+				// DebugRendering.addLine(100, wall.to3d(this).moved(new Vec3(0, 1, 0)), Color.ORANGE);
 				intersections++;
 			}
 		}
