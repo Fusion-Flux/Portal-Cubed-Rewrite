@@ -54,13 +54,7 @@ public class PortalBumper {
 		Angle rotation = PortalData.normalToFlatRotation(face, -yRot);
 
 		for (PortalableSurface surface : surfaceCandidates) {
-			// TODO: on floors and ceilings, also test at 90 degree increments to catch 1x2s
-			PortalCandidate portal = PortalCandidate.initial(surface.supportsPortalRotation() ? rotation : Angle.ZERO);
-
 			if (EVIL_DEBUG_RENDERING) {
-				for (Line2d portalSide : portal.lines()) {
-					DebugRendering.addLine(100, portalSide.to3d(surface), Color.GREEN);
-				}
 				for (Line2d wall : surface.walls()) {
 					Line line = wall.to3d(surface);
 					DebugRendering.addLine(100, line, Color.PURPLE);
@@ -76,12 +70,22 @@ public class PortalBumper {
 				DebugRendering.addLine(100, normalLine, Color.BLUE);
 			}
 
-			List<PortalCandidate> candidates = findCandidates(surface, portal, initial);
+			List<PortalCandidate> candidates = new ArrayList<>();
+			for (PortalCandidate portal : getInitialCandidates(surface, rotation)) {
+				if (EVIL_DEBUG_RENDERING) {
+					for (Line2d portalSide : portal.lines()) {
+						DebugRendering.addLine(100, portalSide.to3d(surface), Color.GREEN);
+					}
+				}
+
+				findCandidates(surface, portal, initial, candidates::add);
+			}
+
 			if (candidates.isEmpty())
 				continue;
 
 			// choose nearest found location
-			candidates.sort(Comparator.comparingDouble(location -> location.center().length()));
+			candidates.sort(getCandidateComparator(rotation));
 			PortalCandidate finalLocation = candidates.getFirst();
 
 			if (EVIL_DEBUG_RENDERING) {
@@ -98,12 +102,33 @@ public class PortalBumper {
 		return null;
 	}
 
-	private static List<PortalCandidate> findCandidates(PortalableSurface surface, PortalCandidate portal, Vec3 initial) {
+	private static List<PortalCandidate> getInitialCandidates(PortalableSurface surface, Angle rotation) {
+		if (!surface.supportsPortalRotation()) {
+			return List.of(PortalCandidate.initial(Angle.R0));
+		}
+
+		List<PortalCandidate> list = new ArrayList<>();
+		list.add(PortalCandidate.initial(rotation));
+		// also test 90 degree increments, to handle cases like floor and ceiling 1x2s where space is very limited
+		list.add(PortalCandidate.initial(Angle.R0));
+		list.add(PortalCandidate.initial(Angle.R90));
+		list.add(PortalCandidate.initial(Angle.R180));
+		list.add(PortalCandidate.initial(Angle.R270));
+		return list;
+	}
+
+	private static Comparator<PortalCandidate> getCandidateComparator(Angle desiredAngle) {
+		// prefer angle most, then distance
+		Comparator<PortalCandidate> byAngle = Comparator.comparingDouble(candidate -> candidate.rot().distanceTo(desiredAngle));
+		Comparator<PortalCandidate> byDistance = Comparator.comparingDouble(candidate -> candidate.center().length());
+		return byAngle.thenComparing(byDistance);
+	}
+
+	private static void findCandidates(PortalableSurface surface, PortalCandidate portal, Vec3 initial, Consumer<PortalCandidate> output) {
 		// repeatedly iterate edges of surface, finding several options
-		List<PortalCandidate> found = new ArrayList<>();
 
+		// make a mutable copy for shuffling
 		List<Line2d> walls = new ArrayList<>(surface.walls());
-
 		// make shots deterministic for the exact same position
 		Random random = new Random(initial.hashCode());
 
@@ -133,7 +158,7 @@ public class PortalBumper {
 				// no collision, valid position found
 				// make sure the position is actually within the bounds though
 				if (surface.contains(currentPortal.center())) {
-					found.add(currentPortal);
+					output.accept(currentPortal);
 				}
 
 				continue attempts;
@@ -141,8 +166,6 @@ public class PortalBumper {
 
 			// moves exhausted, next attempt
 		}
-
-		return found;
 	}
 
 	private static Collection<PortalableSurface> getSurfaceCandidates(PortalId id, ServerLevel level, Vec3 initial, BlockPos surfacePos, Direction face) {
