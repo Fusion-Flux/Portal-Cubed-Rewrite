@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.shape.flat;
 import org.joml.Intersectiond;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
+import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalableSurface;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
@@ -11,7 +12,6 @@ import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
 import net.minecraft.util.Mth;
 
 public record Line2d(Vector2dc from, Vector2dc to) {
-
 	public Line2d flip() {
 		return new Line2d(this.to, this.from);
 	}
@@ -22,6 +22,18 @@ public record Line2d(Vector2dc from, Vector2dc to) {
 				this.from.x(), this.from.y(),
 				this.to.x(), this.to.y()
 		);
+	}
+
+	public boolean intersects(Line2d that) {
+		double distance = Intersectiond.findClosestPointsLineSegments(
+				this.from.x(), this.from.y(), 0, this.to.x(), this.to.y(), 0,
+				that.from.x(), that.from.y(), 0, that.to.x(), that.to.y(), 0,
+				// send the actual positions to the void.
+				// can't reuse a single one here, since joml reads their values after setting them
+				new Vector3d(), new Vector3d()
+		);
+
+		return Mth.equal(distance, 0);
 	}
 
 	public boolean isAlignedWith(Line2d other) {

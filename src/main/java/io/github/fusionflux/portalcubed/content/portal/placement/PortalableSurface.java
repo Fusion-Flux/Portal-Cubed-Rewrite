@@ -16,6 +16,19 @@ import net.minecraft.world.phys.Vec3;
  * @param supportsPortalRotation true if portals on this surface may be rotated around this surface's normal axis
  */
 public record PortalableSurface(Quaternionfc rotation, Vec3 origin, List<Line2d> walls, boolean supportsPortalRotation) {
+
+	public boolean contains(Vector2dc point) {
+		// if the number of intersections is divisible by 2, then the point is contained
+		Line2d path = new Line2d(this.getRandomPointThatIsProbablyActuallyContained(), point);
+		int intersections = 0;
+		for (Line2d wall : this.walls) {
+			if (wall.intersects(path)) {
+				intersections++;
+			}
+		}
+		return intersections % 2 == 0;
+	}
+
 	public Vec3 to3d(Vector2dc pos) {
 		Vector3d up = this.rotation.transform(new Vector3d(0, 0, 1));
 		Vector3d right = this.rotation.transform(new Vector3d(1, 0, 0));
@@ -37,6 +50,21 @@ public record PortalableSurface(Quaternionfc rotation, Vec3 origin, List<Line2d>
 		Vec3 yPos = relative.projectedOn(up);
 		double y = allSignsMatch(yPos, up) ? yPos.length() : -yPos.length();
 		return new Vector2d(x, y);
+	}
+
+	/**
+	 * The origin might not actually be contained in this surface, ex. in the case of clicking on an existing portal.
+	 * This method gets a point that's *probably* actually inside the surface, by getting a point directly in front of a random wall.
+	 * This should only ever be wrong in the case of extremely weird geometry.
+	 */
+	private Vector2dc getRandomPointThatIsProbablyActuallyContained() {
+		if (this.walls.isEmpty())
+			return new Vector2d();
+
+		Line2d randomWall = this.walls.getFirst();
+		Vector2d pos = randomWall.midpoint();
+		Vector2d offset = randomWall.perpendicularCcwAxis().mul(0.01);
+		return pos.add(offset);
 	}
 
 	private static boolean allSignsMatch(Vec3 a, Vec3 b) {

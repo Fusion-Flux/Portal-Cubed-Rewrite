@@ -131,7 +131,11 @@ public class PortalBumper {
 				}
 
 				// no collision, valid position found
-				found.add(currentPortal);
+				// make sure the position is actually within the bounds though
+				if (surface.contains(currentPortal.center())) {
+					found.add(currentPortal);
+				}
+
 				continue attempts;
 			}
 
