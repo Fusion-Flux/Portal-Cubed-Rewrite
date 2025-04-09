@@ -1,19 +1,32 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_2",
-      "y": 270
-    },
-    "facing=north": {
-      "model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_2",
-      "y": 180
-    },
-    "facing=south": {
-      "model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right"
-    },
-    "facing=west": {
-      "model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right",
-      "y": 90
-    }
+    "facing=east": [
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_1_mirrored", "y": 270, "weight": 4},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_2_mirrored", "y": 270, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_3_mirrored", "y": 270, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_4_mirrored", "y": 270, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_5_mirrored", "y": 270, "weight": 1}
+    ],
+    "facing=north": [
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_1_mirrored", "y": 180, "weight": 4},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_2_mirrored", "y": 180, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_3_mirrored", "y": 180, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_4_mirrored", "y": 180, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_5_mirrored", "y": 180, "weight": 1}
+    ],
+    "facing=south": [
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_1", "weight": 4},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_2", "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_3", "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_4", "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_5", "weight": 1}
+    ],
+    "facing=west": [
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_1", "y": 90, "weight": 4},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_2", "y": 90, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_3", "y": 90, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_4", "y": 90, "weight": 1},
+      {"model": "portalcubed:block/aged_padded_gray_2x2_panel_top_right_5", "y": 90, "weight": 1}
+    ]
   }
 }
