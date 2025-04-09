@@ -1,14 +1,14 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.mojang.serialization.Codec;
+
+import net.minecraft.util.ExtraCodecs;
 
 // Functions ported from https://easings.net/
 @FunctionalInterface
 public interface EasingFunction {
-	BiMap<String, EasingFunction> FUNCTIONS = HashBiMap.create();
-	Codec<EasingFunction> CODEC = Codec.stringResolver(k -> FUNCTIONS.inverse().get(k), FUNCTIONS::get);
+	ExtraCodecs.LateBoundIdMapper<String, EasingFunction> ID_MAPPER = new ExtraCodecs.LateBoundIdMapper<>();
+	Codec<EasingFunction> CODEC = ID_MAPPER.codec(Codec.STRING);
 
 	EasingFunction LINEAR = create("linear", x -> x);
 
@@ -121,7 +121,7 @@ public interface EasingFunction {
 			: (1 + OUT_BOUNCE.apply(2 * x - 1)) / 2);
 
 	static EasingFunction create(String name, EasingFunction function) {
-		FUNCTIONS.put(name, function);
+		ID_MAPPER.put(name, function);
 		return function;
 	}
 
