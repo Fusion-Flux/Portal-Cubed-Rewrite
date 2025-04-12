@@ -64,7 +64,7 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 				.ifPresent(this::updateSoundInstance);
 	}
 
-	// this can't be lambda since they aren't environment stripped
+	// this can't be a lambda since they aren't environment stripped
 	@Environment(EnvType.CLIENT)
 	private void updateSoundInstance(Holder<SoundEvent> soundHolder) {
 		PropSoundInstance soundInstance = new PropSoundInstance(soundHolder.value(), this);
