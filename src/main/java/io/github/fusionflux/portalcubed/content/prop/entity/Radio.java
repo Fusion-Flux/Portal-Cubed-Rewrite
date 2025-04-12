@@ -1,9 +1,11 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.PropSoundInstance;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
-import io.github.fusionflux.portalcubed.framework.entity.FollowingSoundInstance;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -21,13 +23,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
 public class Radio extends Prop implements AmbientSoundEmitter {
+	private static final Logger logger = LoggerFactory.getLogger(Radio.class);
+
 	public static final EntityDataAccessor<String> TRACK = SynchedEntityData.defineId(Radio.class, EntityDataSerializers.STRING);
+	public static final String TRACK_KEY = "radio_track";
 
 	private static final String defaultSong = PortalCubedSounds.RADIO_SONG.location().toString();
 
-	// This needs to be an object or else the server will crash while loading PropType
 	@Environment(EnvType.CLIENT)
-	private Object soundInstance;
+	private PropSoundInstance soundInstance;
 
 	public Radio(PropType type, EntityType<?> entityType, Level level) {
 		super(type, entityType, level);
@@ -54,29 +58,33 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void playAmbientSound() {
+		ResourceLocation.read(this.entityData.get(TRACK))
+				.resultOrPartial(error -> logger.error("Failed to parse track: '{}'", error))
+				.flatMap(BuiltInRegistries.SOUND_EVENT::get)
+				.ifPresent(this::updateSoundInstance);
+	}
+
+	// this can't be lambda since they aren't environment stripped
+	@Environment(EnvType.CLIENT)
+	private void updateSoundInstance(Holder<SoundEvent> soundHolder) {
+		PropSoundInstance soundInstance = new PropSoundInstance(soundHolder.value(), this);
+		soundInstance.setLooping(true);
+		Minecraft.getInstance().getSoundManager().play(soundInstance);
+
 		if (this.soundInstance != null)
-			((FollowingSoundInstance) this.soundInstance).forceStop();
-		String track = this.entityData.get(TRACK);
-		ResourceLocation id = ResourceLocation.tryParse(track);
-		if (id != null) {
-			BuiltInRegistries.SOUND_EVENT.get(id).ifPresent(holder -> {
-				PropSoundInstance soundInstance = new PropSoundInstance(holder.value(), this);
-				soundInstance.setLooping(true);
-				Minecraft.getInstance().getSoundManager().play(soundInstance);
-				this.soundInstance = soundInstance;
-			});
-		}
+			this.soundInstance.forceStop();
+		this.soundInstance = soundInstance;
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
-		tag.putString("radio_track", this.entityData.get(TRACK));
+		tag.putString(TRACK_KEY, this.entityData.get(TRACK));
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		this.entityData.set(TRACK, tag.getString("radio_track"));
+		this.entityData.set(TRACK, tag.getString(TRACK_KEY));
 	}
 }
