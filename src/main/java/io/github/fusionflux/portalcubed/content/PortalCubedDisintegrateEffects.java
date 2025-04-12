@@ -7,12 +7,14 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.dimension.end.EndDragonFight;
 
 public class PortalCubedDisintegrateEffects {
-	public static final DisintegrateEffect DAMAGE = register(
+	private static final DisintegrateEffect DAMAGE = register(
 			"damage",
 			new DisintegrateEffect(
 					entity -> entity instanceof LivingEntity && !(entity instanceof ArmorStand),
@@ -33,7 +35,18 @@ public class PortalCubedDisintegrateEffects {
 					(world, entity) -> ((ItemEntity) entity).getItem().onDestroyed((ItemEntity) entity)
 			)
 	);
-	public static final DisintegrateEffect REMOVE = register(
+	private static final DisintegrateEffect END_THE_DRAGON_FIGHT = register(
+			"end_the_dragon_fight",
+			new DisintegrateEffect(
+					entity -> entity instanceof EnderDragon,
+					(world, entity) -> {
+						EndDragonFight fight = world.getDragonFight();
+						if (fight != null)
+							fight.setDragonKilled((EnderDragon) entity);
+					}
+			)
+	);
+	private static final DisintegrateEffect REMOVE = register(
 			"remove",
 			new DisintegrateEffect(
 					entity -> !(entity instanceof Player),
