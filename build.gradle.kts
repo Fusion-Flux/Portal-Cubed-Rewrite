@@ -55,7 +55,7 @@ dependencies {
 
     // dependencies
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fapiVersion")
-    modImplementation("com.terraformersmc.terraform-api:terraform-wood-api-v1:$woodApiVersion")
+    modImplementation(include("com.terraformersmc.terraform-api:terraform-wood-api-v1:$woodApiVersion")!!)
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixinExtrasVersion")!!)
     include("io.github.llamalad7:mixinextras-fabric:$mixinExtrasVersion:slim")
     modImplementation("maven.modrinth:sodium:mc$minecraftVersion-$sodiumVersion-fabric")
