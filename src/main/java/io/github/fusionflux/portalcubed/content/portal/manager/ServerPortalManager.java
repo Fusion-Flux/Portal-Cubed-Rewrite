@@ -20,6 +20,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.AABB;
@@ -92,8 +93,10 @@ public class ServerPortalManager extends PortalManager {
 		CompoundTag portals = new CompoundTag();
 		nbt.put("portals", portals);
 
+		RegistryOps<Tag> ops = this.level.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+
 		this.portals.forEach((key, pair) -> {
-			Tag tag = PortalPair.CODEC.encodeStart(NbtOps.INSTANCE, pair).result().orElseThrow();
+			Tag tag = PortalPair.CODEC.encodeStart(ops, pair).result().orElseThrow();
 			portals.put(key, tag);
 		});
 
@@ -102,9 +105,14 @@ public class ServerPortalManager extends PortalManager {
 
 	public void load(CompoundTag nbt) {
 		CompoundTag portals = nbt.getCompound("portals");
+		if (portals.isEmpty())
+			return;
+
+		RegistryOps<Tag> ops = this.level.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+
 		for (String key : portals.getAllKeys()) {
 			Tag tag = portals.get(key);
-			PortalPair.CODEC.decode(NbtOps.INSTANCE, tag).result().map(Pair::getFirst)
+			PortalPair.CODEC.decode(ops, tag).result().map(Pair::getFirst)
 					.ifPresent(pair -> this.portals.put(key, pair));
 		}
 	}
