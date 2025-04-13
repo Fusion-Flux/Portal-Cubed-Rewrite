@@ -51,6 +51,7 @@ public class PortalBumper {
 		// yes it's cancelled out by the other random negative below.
 		// but it's not cancelled out in other places, and that's required for correct behavior.
 		Angle rotation = PortalData.normalToFlatRotation(face, -yRot);
+		boolean bumpThroughWalls = level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
 
 		for (PortalableSurface surface : surfaceCandidates) {
 			if (EVIL_DEBUG_RENDERING) {
@@ -77,7 +78,7 @@ public class PortalBumper {
 					}
 				}
 
-				findCandidates(surface, portal, initial, candidates::add);
+				findCandidates(surface, portal, initial, bumpThroughWalls, candidates::add);
 			}
 
 			if (candidates.isEmpty())
@@ -123,7 +124,7 @@ public class PortalBumper {
 		return byAngle.thenComparing(byDistance);
 	}
 
-	private static void findCandidates(PortalableSurface surface, PortalCandidate portal, Vec3 initial, Consumer<PortalCandidate> output) {
+	private static void findCandidates(PortalableSurface surface, PortalCandidate portal, Vec3 initial, boolean bumpThroughWalls, Consumer<PortalCandidate> output) {
 		// repeatedly iterate edges of surface, finding several options
 
 		// make a mutable copy for shuffling
@@ -156,10 +157,18 @@ public class PortalBumper {
 
 				// no collision, valid position found
 				// make sure the position is actually within the bounds though
-				if (surface.contains(currentPortal.center())) {
-					output.accept(currentPortal);
+				if (!surface.contains(currentPortal.center()))
+					continue attempts;
+
+				// if bumping through walls is disallowed, make sure that didn't happen
+				if (!bumpThroughWalls && !portal.center().equals(currentPortal.center())) {
+					Line2d path = new Line2d(portal.center(), currentPortal.center());
+					if (surface.intersectsCollision(path)) {
+						continue attempts;
+					}
 				}
 
+				output.accept(currentPortal);
 				continue attempts;
 			}
 
@@ -281,7 +290,7 @@ public class PortalBumper {
 			));
 
 			for (Line2d line : PortalCandidate.other(origin, angle).lines()) {
-				walls.add(line.flip());
+				walls.add(line.flip().withSource(Line2d.Source.PORTAL));
 			}
 		});
 	}

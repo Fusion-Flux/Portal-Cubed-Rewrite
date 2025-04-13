@@ -11,9 +11,17 @@ import io.github.fusionflux.portalcubed.framework.util.DoubleRange;
 import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
 import net.minecraft.util.Mth;
 
-public record Line2d(Vector2dc from, Vector2dc to) {
+public record Line2d(Vector2dc from, Vector2dc to, Source source) {
+	public Line2d(Vector2dc from, Vector2dc to) {
+		this(from, to, Source.COLLISION);
+	}
+
 	public Line2d flip() {
-		return new Line2d(this.to, this.from);
+		return new Line2d(this.to, this.from, this.source);
+	}
+
+	public Line2d withSource(Source source) {
+		return new Line2d(this.from, this.to, source);
 	}
 
 	public double distanceOf(Vector2dc point) {
@@ -69,5 +77,9 @@ public record Line2d(Vector2dc from, Vector2dc to) {
 
 	public Line to3d(PortalableSurface surface) {
 		return new Line(surface.to3d(this.from), surface.to3d(this.to));
+	}
+
+	public enum Source {
+		COLLISION, PORTAL
 	}
 }

@@ -31,6 +31,15 @@ public record PortalableSurface(Quaternionfc rotation, Vec3 origin, List<Line2d>
 		return intersections % 2 == 0;
 	}
 
+	public boolean intersectsCollision(Line2d path) {
+		for (Line2d wall : this.walls) {
+			if (wall.source() == Line2d.Source.COLLISION && wall.intersects(path)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public Vec3 to3d(Vector2dc pos) {
 		Vector3d up = this.rotation.transform(new Vector3d(0, 0, 1));
 		Vector3d right = this.rotation.transform(new Vector3d(1, 0, 0));
