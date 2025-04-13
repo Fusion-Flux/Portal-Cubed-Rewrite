@@ -213,12 +213,25 @@ public class PortalBumper {
 			default -> face.getCounterClockWise();
 		};
 
-		Direction.Axis axis = face.getAxis();
-		double surfaceOnAxis = initial.get(axis);
 		List<Line2d> walls = new ArrayList<>();
 
+		collectSurface(level, initial, pos, right, up, face, walls, true);
+		collectSurface(level, initial, pos.relative(face), right, up, face, walls, false);
+
+		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, walls, face.getAxis() == Direction.Axis.Y);
+
+		findOtherPortals(id, level, surface, initial, pos, face, up, right, walls);
+		cancelOutOpposites(walls);
+
+		return surface;
+	}
+
+	private static void collectSurface(ServerLevel level, Vec3 initial, BlockPos pos, Direction right, Direction up, Direction face, List<Line2d> walls, boolean include) {
+		Direction.Axis axis = face.getAxis();
+		double surfaceOnAxis = initial.get(axis);
+
 		for (BlockPos surfacePos : BlockPos.spiralAround(pos, 2, right, up)) {
-			if (isFlatSurfaceNonPortalable(level, surfacePos, face))
+			if (include && isFlatSurfaceNonPortalable(level, surfacePos, face))
 				continue;
 
 			BlockState surface = level.getBlockState(surfacePos);
@@ -232,17 +245,10 @@ public class PortalBumper {
 					Vec3 offset = initial.vectorTo(centerOnAxis);
 					AABB centered = box.move(box.getCenter().scale(-1));
 					AABB relative = centered.move(offset);
-					getWallsFromBox(relative, face, walls::add);
+					getWallsFromBox(relative, face, include, walls::add);
 				}
 			}
 		}
-
-		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, walls, axis == Direction.Axis.Y);
-
-		findOtherPortals(id, level, surface, initial, pos, face, up, right, walls);
-		cancelOutOpposites(walls);
-
-		return surface;
 	}
 
 	private static void findOtherPortals(PortalId placing, ServerLevel level, PortalableSurface surface, Vec3 initial, BlockPos pos, Direction face, Direction up, Direction right, List<Line2d> walls) {
@@ -280,7 +286,7 @@ public class PortalBumper {
 		});
 	}
 
-	private static void getWallsFromBox(AABB box, Direction face, Consumer<Line2d> output) {
+	private static void getWallsFromBox(AABB box, Direction face, boolean include, Consumer<Line2d> output) {
 		// abandon all hope ye who enter here.
 		// this may appear to be an intuitive yet clunky solution at first glance, but do not be fooled.
 		// these numbers are complete nonsense, conjured out of thin air through trial and error after literal days of attempting a better solution.
@@ -291,10 +297,16 @@ public class PortalBumper {
 		double relativeMinY = choose(face, -box.minZ, box.minZ, box.minY, box.minY, box.minY, box.minY);
 		double relativeMaxY = choose(face, -box.maxZ, box.maxZ, box.maxY, box.maxY, box.maxY, box.maxY);
 
-		output.accept(new Line2d(new Vector2d(relativeMinX, relativeMinY), new Vector2d(relativeMaxX, relativeMinY)));
-		output.accept(new Line2d(new Vector2d(relativeMaxX, relativeMinY), new Vector2d(relativeMaxX, relativeMaxY)));
-		output.accept(new Line2d(new Vector2d(relativeMaxX, relativeMaxY), new Vector2d(relativeMinX, relativeMaxY)));
-		output.accept(new Line2d(new Vector2d(relativeMinX, relativeMaxY), new Vector2d(relativeMinX, relativeMinY)));
+		output.accept(boxLine(relativeMinX, relativeMinY, relativeMaxX, relativeMinY, include));
+		output.accept(boxLine(relativeMaxX, relativeMinY, relativeMaxX, relativeMaxY, include));
+		output.accept(boxLine(relativeMaxX, relativeMaxY, relativeMinX, relativeMaxY, include));
+		output.accept(boxLine(relativeMinX, relativeMaxY, relativeMinX, relativeMinY, include));
+	}
+
+	private static Line2d boxLine(double fromX, double fromY, double toX, double toY, boolean include) {
+		Vector2d from = new Vector2d(fromX, fromY);
+		Vector2d to = new Vector2d(toX, toY);
+		return new Line2d(include ? from : to, include ? to : from);
 	}
 
 	private static double choose(Direction direction, double down, double up, double north, double south, double east, double west) {
