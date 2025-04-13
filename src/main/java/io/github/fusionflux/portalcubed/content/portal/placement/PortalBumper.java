@@ -227,10 +227,20 @@ public class PortalBumper {
 		collectSurface(level, initial, pos, right, up, face, walls, true);
 		collectSurface(level, initial, pos.relative(face), right, up, face, walls, false);
 
-		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, walls, face.getAxis() == Direction.Axis.Y);
+		Vector2d containedPoint = new Vector2d();
+		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, containedPoint, walls, face.getAxis() == Direction.Axis.Y);
 
 		findOtherPortals(id, level, surface, initial, pos, face, up, right, walls);
 		cancelOutOpposites(walls);
+
+		// iterate the found walls and see if any portals were found.
+		// if one was, containedPoint needs to be updated, as initial might be inside one
+		for (Line2d wall : walls) {
+			if (wall.source() == Line2d.Source.PORTAL) {
+				containedPoint.set(wall.midpoint()).add(wall.perpendicularCcwAxis().mul(1e-5));
+				break;
+			}
+		}
 
 		return surface;
 	}
@@ -239,7 +249,7 @@ public class PortalBumper {
 		Direction.Axis axis = face.getAxis();
 		double surfaceOnAxis = initial.get(axis);
 
-		for (BlockPos surfacePos : BlockPos.spiralAround(pos, 2, right, up)) {
+		for (BlockPos surfacePos : BlockPos.spiralAround(pos, 4, right, up)) {
 			if (include && isFlatSurfaceNonPortalable(level, surfacePos, face))
 				continue;
 
@@ -249,13 +259,19 @@ public class PortalBumper {
 				AABB absolute = box.move(surfacePos);
 				double min = absolute.min(axis);
 				double max = absolute.max(axis);
-				if (Mth.equal(min, surfaceOnAxis) || Mth.equal(max, surfaceOnAxis)) {
-					Vec3 centerOnAxis = absolute.getCenter().with(axis, surfaceOnAxis);
-					Vec3 offset = initial.vectorTo(centerOnAxis);
-					AABB centered = box.move(box.getCenter().scale(-1));
-					AABB relative = centered.move(offset);
-					getWallsFromBox(relative, face, include, walls::add);
-				}
+
+				if (surfaceOnAxis < min || surfaceOnAxis > max)
+					continue;
+
+				double expected = face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? max : min;
+				// if surfaceOnAxis != expected, this box is not a part of the surface, but is instead a bounding wall of it
+				boolean includeBox = include && Mth.equal(surfaceOnAxis, expected);
+
+				Vec3 centerOnAxis = absolute.getCenter().with(axis, surfaceOnAxis);
+				Vec3 offset = initial.vectorTo(centerOnAxis);
+				AABB centered = box.move(box.getCenter().scale(-1));
+				AABB relative = centered.move(offset);
+				getWallsFromBox(relative, face, includeBox, walls::add);
 			}
 		}
 	}
@@ -367,7 +383,7 @@ public class PortalBumper {
 
 		cancelOutOpposites(walls);
 
-		return new PortalableSurface(surfaceRotation, initial, walls, true);
+		return new PortalableSurface(surfaceRotation, initial, new Vector2d(), walls, true);
 	}
 
 	public static void cancelOutOpposites(List<Line2d> walls) {
