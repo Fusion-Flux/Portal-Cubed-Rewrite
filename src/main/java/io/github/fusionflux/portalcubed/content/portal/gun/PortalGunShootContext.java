@@ -36,13 +36,15 @@ public record PortalGunShootContext(
 
 	public void shoot(Optional<String> pair, Polarity polarity, PortalSettings settings) {
 		int range = this.level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
-		BlockHitResult hit = this.level.clip(new ClipContext(
+
+		ClipContext ctx = new ClipContext(
 				this.from.subtract(this.lookAngle.scale(MAGIC_OFFSET)),
 				this.from.add(this.lookAngle.scale(range + MAGIC_OFFSET)),
-				ClipContext.Block.COLLIDER,
-				ClipContext.Fluid.NONE,
-				CollisionContext.empty()
-		));
+				ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()
+		);
+		ctx.pc$setIgnoreInteractionOverride(true);
+
+		BlockHitResult hit = this.level.clip(ctx);
 		Vec3 hitPos = hit.getLocation();
 
 		this.level.sendParticles(
