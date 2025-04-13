@@ -1,23 +1,6 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
-	"texture_size": [32, 32],
-	"textures": {
-		"2": "portalcubed:portal_gun/portal_gun_stripes",
-		"particle": "portalcubed:portal_gun/portal_gun_stripes"
-	},
-	"elements": [
-		{
-			"name": "cutout",
-			"from": [5.49, 2.99, 8.49],
-			"to": [10.51, 6.01, 18.51],
-			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 0, 0]},
-			"faces": {
-				"north": {"uv": [6, 13, 11, 16], "texture": "#2", "tintindex": 0},
-				"south": {"uv": [6, 0, 11, 3], "texture": "#2", "tintindex": 0},
-				"up": {"uv": [6, 3, 11, 13], "texture": "#2", "tintindex": 0}
-			}
-		}
-	],
+ 	"parent": "portalcubed:portal_gun/legacy/humanoid/legacy_stripes_model_part",
 	"display": {
 		"thirdperson_righthand": {
 			"translation": [0, 3.25, -2.75],

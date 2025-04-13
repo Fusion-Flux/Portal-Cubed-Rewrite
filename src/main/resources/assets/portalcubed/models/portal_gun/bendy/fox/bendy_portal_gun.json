@@ -1,21 +1,6 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
-	"texture_size": [32, 32],
-	"textures": {
-		"0": "portalcubed:portal_gun/bendy_portal_gun",
-		"particle": "portalcubed:portal_gun/bendy_portal_gun"
-	},
-	"elements": [
-		{
-			"name": "cutout",
-			"from": [8, 0, -3],
-			"to": [8, 8, 19],
-			"faces": {
-				"east": {"uv": [11.5, 0.5, 0.5, 4.5], "texture": "#0", "tintindex": 1},
-				"west": {"uv": [0.5, 0.5, 11.5, 4.5], "texture": "#0", "tintindex": 1}
-			}
-		}
-	],
+ 	"parent": "portalcubed:portal_gun/bendy/humanoid/bendy_portal_gun",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [0, -180, 0],

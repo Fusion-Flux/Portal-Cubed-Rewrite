@@ -25,8 +25,13 @@
     "portalcubed:plywood_wall",
     "portalcubed:plywood_facade",
 
+    "portalcubed:sewage",
+
     "portalcubed:insulation",
     "portalcubed:insulation_facade",
+
+    "portalcubed:elevator_wall_end",
+    "portalcubed:elevator_wall_middle",
 
     "portalcubed:white_chamber_door",
     "portalcubed:gray_chamber_door",
@@ -42,9 +47,13 @@
     "#minecraft:fences",
     "#minecraft:fence_gates",
     "minecraft:beacon",
+    "minecraft:end_portal",
+    "minecraft:nether_portal",
     "minecraft:sea_lantern",
     "minecraft:repeater",
     "minecraft:comparator",
+    "minecraft:campfire",
+    "minecraft:soul_campfire",
     "minecraft:slime_block",
     "minecraft:honey_block",
     "minecraft:spawner",
