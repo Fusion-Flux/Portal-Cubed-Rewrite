@@ -31,7 +31,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -174,13 +173,13 @@ public class PortalBumper {
 		List<PortalableSurface> surfaces = new ArrayList<>();
 
 		// stairs take priority if present
-		BlockState state = level.getBlockState(surfacePos);
-		if (state.getBlock() instanceof StairBlock) {
-			PortalableSurface stair = StairSurfaceFinder.find(id, level, initial, surfacePos, face, state);
-			if (stair != null) {
-				surfaces.add(stair);
-			}
-		}
+		// BlockState state = level.getBlockState(surfacePos);
+		// if (state.getBlock() instanceof StairBlock) {
+		// 	PortalableSurface stair = StairSurfaceFinder.find(id, level, initial, surfacePos, face, state);
+		// 	if (stair != null) {
+		// 		surfaces.add(stair);
+		// 	}
+		// }
 
 		PortalableSurface flat = getFlatSurface(id, level, initial, surfacePos, face);
 		if (flat != null) {
