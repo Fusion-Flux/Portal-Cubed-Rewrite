@@ -411,8 +411,8 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 
-	//Tests portal bumping through a thin wall.  Bumping across walls is the correct behavior to match portal.
-	@GameTest(template = GROUP + "portal_bump_thin_wall")
+	//Tests portal bumping through a thin wall with the gamerule enabled.  The portal should bump through the wall.
+	@GameTest(template = GROUP + "portal_bump_thin_wall", batch = Batches.PORTALS_BUMP_THROUGH_WALLS)
 	public void portalBumpThinWall(GameTestHelper helper) {
 
 		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall", 0x2055fe, 0xfe7020);
@@ -420,6 +420,20 @@ public class PortalGameTests implements FabricGameTest {
 
 		helper.succeedWhen(() -> {
 			//portalBumpThinWall.primary().assertPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
+	//Tests portal bumping through a thin wall with the gamerule disabled.  The portal should not bump through the wall.
+	@GameTest(template = GROUP + "portal_bump_thin_wall", batch = Batches.PORTALS_DO_NOT_BUMP_THROUGH_WALLS)
+	public void portalBumpThinWallDisabled(GameTestHelper helper) {
+
+		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall_disabled", 0x2055fe, 0xfe7020);
+		portalBumpThinWall.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+
+		helper.succeedWhen(() -> {
+			//portalBumpThinWall.primary().assertNotPresent();
 
 			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
 		});

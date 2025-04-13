@@ -32,6 +32,8 @@
   "gamerule.portalShotRangeLimit.description": "The range limit of a portal shot, in blocks.",
   "gamerule.restrictValidPortalSurfaces": "Restrict Valid Portal Surfaces",
   "gamerule.restrictValidPortalSurfaces.description": "Changes the list of valid portal surface blocks from a blacklist (#portalcubed:cant_place_portal_on) to a whitelist (#portalcubed:unrestricted_portal_surfaces). Intended for use in custom maps.",
+  "gamerule.portalsBumpThroughWalls": "Portals Bump Through Walls",
+  "gamerule.portalsBumpThroughWalls.description": "Controls whether or not portal bumping can be used to bypass thin walls, such as glass panes. Intended for use in custom maps.",
   "gamerule.disableManualPortalClearing": "Disable Manual Portal Clearing",
   "gamerule.disableManualPortalClearing.description": "Disables the ability for players to clear their portals with a keybind. Intended for use in custom maps.",
   "gamerule.disablePortalValidation": "Disable Portal Validation",

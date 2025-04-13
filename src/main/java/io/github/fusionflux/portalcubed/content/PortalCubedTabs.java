@@ -299,8 +299,6 @@ public class PortalCubedTabs {
 			addPortalGunSkin(output, "wiimote", "wiimote");
 
 			// ----- props -----
-			output.accept(PortalCubedBlocks.PROP_BARRIER);
-
 			addProp(output, PropType.PORTAL_1_STORAGE_CUBE);
 
 			addProp(output, PropType.PORTAL_1_COMPANION_CUBE);
