@@ -18,7 +18,6 @@ import io.github.fusionflux.portalcubed.framework.shape.Line;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.shape.Quad;
-import io.github.fusionflux.portalcubed.framework.shape.Tri;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -75,10 +74,9 @@ public class RenderingUtils {
 
 	public static void renderBox(PoseStack matrices, MultiBufferSource vertexConsumers, OBB box, Color color) {
 		matrices.pushPose();
-		matrices.translate(box.center.x, box.center.y, box.center.z);
+		matrices.translate(box.center.x(), box.center.y(), box.center.z());
 		matrices.mulPose(box.rotation.getUnnormalizedRotation(new Quaternionf()));
-		Vec3 extents = box.extents;
-		renderBox(matrices, vertexConsumers, AABB.ofSize(Vec3.ZERO, extents.x * 2, extents.y * 2, extents.z * 2), color);
+		renderBox(matrices, vertexConsumers, AABB.ofSize(Vec3.ZERO, box.extents.x() * 2, box.extents.y() * 2, box.extents.z() * 2), color);
 		matrices.popPose();
 	}
 
@@ -86,21 +84,22 @@ public class RenderingUtils {
 		Quad quad = Quad.create(plane, size);
 		renderQuad(matrices, vertexConsumers, quad, color);
 		Vec3 normal = plane.normal();
-		renderVec(matrices, vertexConsumers, normal, quad.topLeft(), color);
-		renderVec(matrices, vertexConsumers, normal, quad.topRight(), color);
-		renderVec(matrices, vertexConsumers, normal, quad.bottomLeft(), color);
-		renderVec(matrices, vertexConsumers, normal, quad.bottomRight(), color);
+		renderVec(matrices, vertexConsumers, normal, TransformUtils.toMc(quad.bottomLeft()), color);
+		renderVec(matrices, vertexConsumers, normal, TransformUtils.toMc(quad.bottomRight()), color);
+		renderVec(matrices, vertexConsumers, normal, TransformUtils.toMc(quad.topRight()), color);
+		renderVec(matrices, vertexConsumers, normal, TransformUtils.toMc(quad.topLeft()), color);
 	}
 
 	public static void renderQuad(PoseStack matrices, MultiBufferSource vertexConsumers, Quad quad, Color color) {
-		renderTri(matrices, vertexConsumers, quad.a(), color);
-		renderTri(matrices, vertexConsumers, quad.b(), color);
-	}
+		Vec3 bottomLeft = TransformUtils.toMc(quad.bottomLeft());
+		Vec3 bottomRight = TransformUtils.toMc(quad.bottomRight());
+		Vec3 topRight = TransformUtils.toMc(quad.topRight());
+		Vec3 topLeft = TransformUtils.toMc(quad.topLeft());
 
-	public static void renderTri(PoseStack matrices, MultiBufferSource buffers, Tri tri, Color color) {
-		renderLine(matrices, buffers, tri.a(), tri.b(), color);
-		renderLine(matrices, buffers, tri.a(), tri.c(), color);
-		renderLine(matrices, buffers, tri.b(), tri.c(), color);
+		renderLine(matrices, vertexConsumers, bottomLeft, bottomRight, color);
+		renderLine(matrices, vertexConsumers, bottomRight, topRight, color);
+		renderLine(matrices, vertexConsumers, topRight, topLeft, color);
+		renderLine(matrices, vertexConsumers, topLeft, bottomLeft, color);
 	}
 
 	public static void renderLine(PoseStack matrices, MultiBufferSource buffers, Line line, Color color) {

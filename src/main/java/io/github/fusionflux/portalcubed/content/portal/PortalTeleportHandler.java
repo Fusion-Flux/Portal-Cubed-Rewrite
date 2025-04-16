@@ -153,12 +153,8 @@ public class PortalTeleportHandler {
 	// teleportation utilities
 
 	public static OBB teleportBox(OBB box, PortalInstance in, PortalInstance out) {
-		return box.transformed(
-				center -> teleportAbsoluteVecBetween(center, in, out),
-				rotation -> rotation
-						.rotateLocal(in.rotation())
-						.rotateLocal(out.rotation180)
-		);
+		SinglePortalTransform transform = new SinglePortalTransform(in, out);
+		return box.transformed(transform::applyAbsolute, transform::apply);
 	}
 
 	public static Vec3 teleportAbsoluteVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {

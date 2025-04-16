@@ -8,7 +8,7 @@ import org.joml.Vector3d;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalableSurface;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
 import io.github.fusionflux.portalcubed.framework.util.DoubleRange;
-import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
+import io.github.fusionflux.portalcubed.framework.util.DualIterator;
 import net.minecraft.util.Mth;
 
 public record Line2d(Vector2dc from, Vector2dc to, Source source) {
@@ -64,11 +64,7 @@ public record Line2d(Vector2dc from, Vector2dc to, Source source) {
 	}
 
 	public Iterable<Vector2dc> vertices() {
-		return () -> SimpleIterator.create(i -> switch (i) {
-			case 0 -> this.from;
-			case 1 -> this.to;
-			default -> null;
-		});
+		return () -> new DualIterator<>(this.from, this.to);
 	}
 
 	public Vector2d midpoint() {

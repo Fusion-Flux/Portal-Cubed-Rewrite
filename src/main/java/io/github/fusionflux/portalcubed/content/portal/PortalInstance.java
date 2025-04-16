@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import org.jetbrains.annotations.Unmodifiable;
 import org.joml.Quaternionf;
+import org.joml.Vector3d;
 
 import com.mojang.serialization.Codec;
 
@@ -31,9 +32,6 @@ public final class PortalInstance {
 	public static final double HEIGHT = 2 - BUFFER;
 	public static final double WIDTH = 1 - BUFFER;
 
-	// vanilla defines UP as having a rotation of a default quaternion
-	public static final Vec3 BASE_NORMAL = new Vec3(0, 1, 0);
-
     public final PortalData data;
 
 	public final Vec3 normal;
@@ -52,12 +50,12 @@ public final class PortalInstance {
     public PortalInstance(PortalData data) {
         this.data = data;
 
-		this.normal = TransformUtils.apply(BASE_NORMAL, this.rotation()::transform);
+		this.normal = TransformUtils.toMc(this.rotation().transform(Quad.BASE_NORMAL, new Vector3d()));
 		this.rotation180 = SinglePortalTransform.rotate180(this.rotation());
 
 		this.plane = new Plane(this.normal, this.data.origin());
 
-		this.quad = Quad.create(this.rotation(), data.origin(), WIDTH, HEIGHT);
+		this.quad = Quad.create(TransformUtils.toJoml(data.origin()), WIDTH, HEIGHT, this.rotation());
 		this.renderBounds = this.quad.containingBox();
 
 		this.entityCollisionBounds = OBB.extrudeQuad(this.quad, Integer.MAX_VALUE);

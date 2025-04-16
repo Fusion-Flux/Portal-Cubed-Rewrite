@@ -14,7 +14,7 @@ public record PortalTeleportInfo(String pairKey, Polarity entered, @Nullable Por
 	public static final StreamCodec<ByteBuf, PortalTeleportInfo> STREAM_CODEC = StreamCodec.recursive(
 			streamCodec -> StreamCodec.composite(
 					ByteBufCodecs.STRING_UTF8, PortalTeleportInfo::pairKey,
-					PortalCubedStreamCodecs.ofEnum(Polarity.class), PortalTeleportInfo::entered,
+					Polarity.STREAM_CODEC, PortalTeleportInfo::entered,
 					PortalCubedStreamCodecs.nullable(streamCodec), PortalTeleportInfo::next,
 					PortalTeleportInfo::new
 			)

@@ -9,10 +9,9 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
-import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -51,11 +50,7 @@ public class PortalDebugRenderer {
 		RenderingUtils.renderBox(matrices, buffers, originBox, Color.GREEN);
 		RenderingUtils.renderQuad(matrices, buffers, portal.quad, Color.GREEN);
 		RenderingUtils.renderVec(matrices, buffers, portal.normal, portal.data.origin(), Color.RED);
-		RenderingUtils.renderVec(matrices, buffers, portal.quad.up(), portal.data.origin(), Color.BLUE);
-		// transform
-		if (polarity == Polarity.PRIMARY) {
-			renderTransform(portal, linked, matrices, buffers);
-		}
+		RenderingUtils.renderVec(matrices, buffers, TransformUtils.toMc(portal.quad.up()), portal.data.origin(), Color.BLUE);
 		// plane
 		RenderingUtils.renderPlane(matrices, buffers, portal.plane, 2.5f, Color.ORANGE);
 		// collision bounds
@@ -89,28 +84,6 @@ public class PortalDebugRenderer {
 		// hit is last, render out
 		RenderingUtils.renderLine(matrices, vertices, hit.outHit(), hit.end(), Color.BLUE);
 		RenderingUtils.renderPos(matrices, vertices, hit.end(), 0.1f, Color.BLUE);
-	}
-
-	private static void renderTransform(PortalInstance in, PortalInstance out, PoseStack matrices, MultiBufferSource buffers) {
-		PortalTransform transform = new SinglePortalTransform(in, out);
-		for (TransformSample sample : getSamplePositions(in)) {
-			RenderingUtils.renderPos(matrices, buffers, sample.pos, 0.1f, sample.color);
-			Vec3 transformed = transform.applyAbsolute(sample.pos);
-			RenderingUtils.renderPos(matrices, buffers, transformed, 0.1f, sample.color);
-		}
-	}
-
-	private static TransformSample[] getSamplePositions(PortalInstance portal) {
-		Vec3 out = portal.normal.scale(0.25);
-		Vec3 up = portal.quad.up().scale(0.25);
-		Vec3 right = portal.quad.right().scale(0.25);
-		Vec3 base = portal.data.origin().add(out);
-		return new TransformSample[] {
-				new TransformSample(base.add(up).add(right), Color.GREEN),
-				new TransformSample(base.add(up).subtract(right), Color.RED),
-				new TransformSample(base.subtract(up).add(right), Color.YELLOW),
-				new TransformSample(base.subtract(up).subtract(right), Color.BLUE)
-		};
 	}
 
 	private record TransformSample(Vec3 pos, Color color) {

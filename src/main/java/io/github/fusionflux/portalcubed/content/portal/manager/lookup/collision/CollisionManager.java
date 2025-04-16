@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.joml.Matrix3d;
+import org.joml.Vector3d;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
@@ -18,7 +19,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 public class CollisionManager {
 	private final Level level;
@@ -53,7 +53,14 @@ public class CollisionManager {
 
 	private CollisionPatch calculatePatch(PortalInstance portal, PortalInstance linked, BlockPos pos) {
 		// collect the block positions that intersect with this pos when teleported
-		OBB teleported = PortalTeleportHandler.teleportBox(new OBB(Vec3.atCenterOf(pos), 1, 1, 1, new Matrix3d()), portal, linked);
+		OBB teleported = PortalTeleportHandler.teleportBox(
+				new OBB(
+						new Vector3d(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5),
+						1, 1, 1,
+						new Matrix3d()
+				),
+				portal, linked
+		);
 		List<BlockPos> blocks = new ArrayList<>();
 		teleported.intersectingBlocks().forEach(intersectingBlock -> blocks.add(intersectingBlock.immutable()));
 		return new CollisionPatch.Complex(this.level, pos, portal, linked, blocks);

@@ -2,31 +2,35 @@ package io.github.fusionflux.portalcubed.content.portal.transform;
 
 import java.util.List;
 
+import org.joml.Matrix3d;
+import org.joml.Vector3d;
+
 import net.minecraft.core.Rotations;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
 
-public class MultiPortalTransform implements PortalTransform {
-	private final List<PortalTransform> children;
-
-	public MultiPortalTransform(List<PortalTransform> children) {
-		this.children = children;
-	}
-
+public record MultiPortalTransform(List<PortalTransform> children) implements PortalTransform {
 	@Override
-	public Vec3 applyRelative(Vec3 pos) {
+	public Vector3d applyRelative(Vector3d pos) {
 		for (PortalTransform child : this.children) {
-			pos = child.applyRelative(pos);
+			child.applyRelative(pos);
 		}
 		return pos;
 	}
 
 	@Override
-	public Vec3 applyAbsolute(Vec3 pos) {
+	public Vector3d applyAbsolute(Vector3d pos) {
 		for (PortalTransform child : this.children) {
-			pos = child.applyAbsolute(pos);
+			child.applyAbsolute(pos);
 		}
 		return pos;
+	}
+
+	@Override
+	public Matrix3d apply(Matrix3d rotation) {
+		for (PortalTransform child : this.children) {
+			child.apply(rotation);
+		}
+		return rotation;
 	}
 
 	@Override

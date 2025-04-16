@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.transform;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix3d;
 import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
 import org.joml.Vector3d;
@@ -55,18 +56,24 @@ public final class SinglePortalTransform implements PortalTransform {
 	}
 
 	@Override
-	public Vec3 applyRelative(Vec3 pos) {
-		Vector3d joml = new Vector3d(pos.x, pos.y, pos.z);
-		this.inRot.transformInverse(joml);
-		this.outRot180.transform(joml);
-		return new Vec3(joml.x, joml.y, joml.z);
+	public Vector3d applyRelative(Vector3d pos) {
+		this.inRot.transformInverse(pos);
+		this.outRot180.transform(pos);
+		return pos;
 	}
 
 	@Override
-	public Vec3 applyAbsolute(Vec3 pos) {
-		Vec3 relative = pos.subtract(this.inOrigin);
-		Vec3 transformed = this.applyRelative(relative);
-		return transformed.add(this.outOrigin);
+	public Vector3d applyAbsolute(Vector3d pos) {
+		pos.sub(this.inOrigin.x, this.inOrigin.y, this.inOrigin.z);
+		this.applyRelative(pos);
+		return pos.add(this.outOrigin.x, this.outOrigin.y, this.outOrigin.z);
+	}
+
+	@Override
+	public Matrix3d apply(Matrix3d rotation) {
+		return rotation
+				.rotateLocal(this.inRot)
+				.rotateLocal(this.outRot180);
 	}
 
 	@Override
