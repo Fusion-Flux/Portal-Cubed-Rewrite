@@ -1,9 +1,9 @@
 {
-  "block/floor_button": "block/button_emissives",
-  "block/floor_button_active": "block/button_emissives",
-
   "block/cube_button": "block/button_emissives",
   "block/cube_button_active": "block/button_emissives",
+
+  "block/portal_1_floor_button": "block/button_emissives",
+  "block/portal_1_floor_button_active": "block/button_emissives",
 
   "block/old_ap_floor_button": "block/button_emissives",
   "block/old_ap_floor_button_active": "block/button_emissives",
@@ -16,9 +16,6 @@
   "block/pedestal_button_base_left_active": "block/pedestal_button_e",
   "block/pedestal_button_base_right": "block/pedestal_button_e",
   "block/pedestal_button_base_right_active": "block/pedestal_button_e",
-
-  "block/portal_1_floor_button": "block/button_emissives",
-  "block/portal_1_floor_button_active": "block/button_emissives",
 
   "block/portal_gun_workstation": "block/portal_gun_workstation_emissive",
 

@@ -44,7 +44,6 @@
 			}
 		},
 		{
-			"name": "emission",
 			"from": [-12, 1.075, 4],
 			"to": [12, 3.075, 28],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 1.55, 16]},
@@ -60,6 +59,7 @@
 			"name": "emission",
 			"from": [-12.01, 1.065, 3.99],
 			"to": [12.01, 3.085, 28.01],
+			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 1.55, 16]},
 			"faces": {
 				"north": {"uv": [9.508, 6.5, 15.5, 6.984], "texture": "#3"},
