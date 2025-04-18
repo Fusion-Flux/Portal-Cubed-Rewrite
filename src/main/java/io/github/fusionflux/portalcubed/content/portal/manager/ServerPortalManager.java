@@ -1,8 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
-import java.util.HashSet;
-import java.util.function.Consumer;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.datafixers.util.Pair;
@@ -50,39 +47,9 @@ public class ServerPortalManager extends PortalManager {
 	}
 
 	public void removePortalsInBox(AABB bounds) {
-		// TODO: this is a mess. Need a section-based lookup and easy removal
-		// copy the ID set to avoid a CME
-		for (String key : new HashSet<>(this.getAllKeys())) {
-			this.modifyPair(key, pair -> {
-				if (pair.primary().isPresent()) {
-					PortalInstance primary = pair.primary().get();
-					if (primary.renderBounds.intersects(bounds)) {
-						pair = pair.without(Polarity.PRIMARY);
-					}
-				}
-				if (pair.secondary().isPresent()) {
-					PortalInstance secondary = pair.secondary().get();
-					if (secondary.renderBounds.intersects(bounds)) {
-						pair = pair.without(Polarity.SECONDARY);
-					}
-				}
-
-				return pair;
-			});
-		}
-	}
-
-	public void forEachPortalInBox(AABB bounds, Consumer<PortalInstance.Holder> consumer) {
-		// TODO: this is terrible too but refactors can come later
-		this.portals.forEach((key, pair) -> {
-			for (Polarity polarity : Polarity.values()) {
-				pair.get(polarity).ifPresent(portal -> {
-					if (portal.renderBounds.intersects(bounds)) {
-						PortalId id = new PortalId(key, polarity);
-						consumer.accept(new PortalInstance.Holder(id, portal));
-					}
-				});
-			}
+		this.activePortals.getPortals(bounds).forEach(holder -> {
+			PortalId id = holder.id();
+			this.modifyPair(id.key(), pair -> pair.without(id.polarity()));
 		});
 	}
 

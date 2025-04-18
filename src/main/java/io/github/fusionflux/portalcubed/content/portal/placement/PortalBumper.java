@@ -20,6 +20,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.ActivePortalLookup;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
@@ -282,7 +283,8 @@ public class PortalBumper {
 		BlockPos min = pos.relative(up, -2).relative(right, -2);
 		AABB area = AABB.encapsulatingFullBlocks(min, max);
 
-		level.portalManager().forEachPortalInBox(area, holder -> {
+		ActivePortalLookup portalLookup = level.portalManager().activePortals();
+		portalLookup.getPortals(area).forEach(holder -> {
 			if (holder.id().equals(placing))
 				return;
 

@@ -121,17 +121,9 @@ public final class OBB {
 	}
 
 	public static OBB extrudeQuad(Quad quad, double depth) {
-		Vector3dc up = quad.up();
 		Vector3dc normal = quad.normal();
-		Vector3dc right = up.cross(normal, new Vector3d()).normalize();
-
-		Matrix3d rotation = new Matrix3d(
-				right.x(), right.y(), right.z(),
-				up.x(), up.y(), up.z(),
-				normal.x(), normal.y(), normal.z()
-		);
-
 		Vector3dc center = normal.mul(depth / 2, new Vector3d()).add(quad.center());
+		Matrix3d rotation = new Matrix3d(quad.right(), quad.up(), normal);
 		return new OBB(center, quad.width(), quad.height(), Math.abs(depth), rotation);
 	}
 }

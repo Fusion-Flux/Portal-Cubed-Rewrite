@@ -12,8 +12,10 @@ import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public record Quad(Vector3dc up, Vector3dc normal, Vector3dc center,
+public record Quad(Vector3dc center,
+				   Vector3dc right, Vector3dc up, Vector3dc normal,
 				   Vector3dc bottomLeft, Vector3dc bottomRight, Vector3dc topRight, Vector3dc topLeft) {
+	public static final Vector3dc BASE_RIGHT = new Vector3d(1, 0, 0);
 	public static final Vector3dc BASE_UP = new Vector3d(0, 0, 1);
 	public static final Vector3dc BASE_NORMAL = new Vector3d(0, 1, 0);
 
@@ -55,6 +57,22 @@ public record Quad(Vector3dc up, Vector3dc normal, Vector3dc center,
 		});
 	}
 
+	public boolean intersects(AABB box) {
+		Vec3 boxCenter = box.getCenter();
+		return Intersectiond.testObOb(
+				this.center.x(), this.center.y(), this.center.z(),
+				this.right.x(), this.right.y(), this.right.z(),
+				this.up.x(), this.up.y(), this.up.z(),
+				this.normal.x(), this.normal.y(), this.normal.z(),
+				this.width() / 2, this.height() / 2, 0,
+				boxCenter.x, boxCenter.y, boxCenter.z,
+				1, 0, 0,
+				0, 1, 0,
+				0, 0, 1,
+				box.getXsize() / 2, box.getYsize() / 2, box.getZsize() / 2
+		);
+	}
+
 	public AABB containingBox() {
 		double minX = this.bottomLeft.x();
 		double minY = this.bottomLeft.y();
@@ -87,6 +105,7 @@ public record Quad(Vector3dc up, Vector3dc normal, Vector3dc center,
 		double w = width / 2;
 		double h = height / 2;
 
+		Vector3dc right = rotation.transform(BASE_RIGHT, new Vector3d());
 		Vector3dc up = rotation.transform(BASE_UP, new Vector3d());
 		Vector3dc normal = rotation.transform(BASE_NORMAL, new Vector3d());
 
@@ -95,7 +114,7 @@ public record Quad(Vector3dc up, Vector3dc normal, Vector3dc center,
 		Vector3dc topRight = rotation.transform(new Vector3d(w, 0, h)).add(center);
 		Vector3dc topLeft = rotation.transform(new Vector3d(-w, 0, h)).add(center);
 
-		return new Quad(up, normal, center, bottomLeft, bottomRight, topRight, topLeft);
+		return new Quad(center, right, up, normal, bottomLeft, bottomRight, topRight, topLeft);
 	}
 
 	public static Quad create(Plane plane, double size) {

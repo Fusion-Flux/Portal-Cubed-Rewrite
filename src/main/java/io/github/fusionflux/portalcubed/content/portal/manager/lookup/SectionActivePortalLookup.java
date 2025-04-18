@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
@@ -97,6 +98,27 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 				closest.hit, teleportedHit,
 				next
 		);
+	}
+
+	@Override
+	public List<PortalInstance.Holder> getPortals(AABB bounds) {
+		List<PortalInstance.Holder> portals = new ArrayList<>();
+
+		forEachSectionInBox(bounds, sectionPos -> {
+			List<PortalInstance> section = this.sectionsToPortals.get(sectionPos);
+			if (section != null) {
+				section.forEach(portal -> {
+					if (!portal.quad.intersects(bounds))
+						return;
+
+					PairEntry pairEntry = this.portalsToPairs.get(portal);
+					PortalId id = new PortalId(pairEntry.key, pairEntry.pair.polarityOf(portal));
+					portals.add(new PortalInstance.Holder(id, portal));
+				});
+			}
+		});
+
+		return portals;
 	}
 
 	@Override
