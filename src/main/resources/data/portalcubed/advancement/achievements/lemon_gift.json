@@ -1,0 +1,46 @@
+{
+  "display": {
+    "icon": {
+      "id": "portalcubed:lemon"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.lemon_gift.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.lemon_gift.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "portalcubed:achievements/lemon",
+  "criteria": {
+    "lemon": {
+      "trigger": "minecraft:thrown_item_picked_up_by_entity",
+      "conditions": {
+        "player": {},
+        "item": {
+          "items": "portalcubed:lemon"
+        },
+        "entity": {
+          "type": [
+            "minecraft:player",
+            "minecraft:zombie"
+          ],
+          "distance": {
+            "x": {
+              "min": 1
+            },
+            "z": {
+              "min": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "rewards": {
+    "experience": 25
+  }
+}
