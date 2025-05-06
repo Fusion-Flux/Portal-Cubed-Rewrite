@@ -469,6 +469,35 @@ public class PortalGameTests implements FabricGameTest {
 		});
 	}
 
+	//Tests blocks that add or remove portalability to block surfaces, such as facades and portal barriers.  Makes sure that only the intended surface supports portals.
+	@GameTest(template = GROUP + "surface_modification")
+	public void surfaceModification(GameTestHelper helper) {
+
+		PortalHelper addsPortalability = new PortalHelper(helper, "adds_portalability", 0x2055fe, 0xfe7020);
+		PortalHelper removesPortalability = new PortalHelper(helper, "removes_portalability", 0x2055fe, 0xfe7020);
+		PortalHelper portalBarrier = new PortalHelper(helper, "portal_barrier", 0x2055fe, 0xfe7020);
+
+		addsPortalability.primary().shootFrom(new Vec3(1.5, 1.5, 2.5), Direction.SOUTH);
+		addsPortalability.secondary().shootFrom(new Vec3(1.5, 1.5, 2.5), Direction.EAST);
+
+		removesPortalability.primary().shootFrom(new Vec3(4.5, 1.5, 2.5), Direction.SOUTH);
+		removesPortalability.secondary().shootFrom(new Vec3(4.5, 1.5, 2.5), Direction.EAST);
+
+		portalBarrier.primary().shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.SOUTH);
+		portalBarrier.secondary().shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.EAST);
+
+		helper.succeedWhen(() -> {
+			//addsPortalability.primary().assertNotPresent();
+			//addsPortalability.primary().assertPresent();
+			//removesPortalability.primary().assertPresent();
+			//removesPortalability.primary().assertNotPresent();
+			//portalBarrier.primary().assertPresent();
+			//portalBarrier.primary().assertNotPresent();
+
+			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+		});
+	}
+
 
 	//Tests portal collision carving to make sure it only works in the intended direction
 	@GameTest(template = GROUP + "collision_carving")
