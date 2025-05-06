@@ -25,6 +25,8 @@ public class PortalCubedBlockTags {
 	public static final TagKey<Block> UNRESTRICTED_PORTAL_SURFACES = create("unrestricted_portal_surfaces");
 	public static final TagKey<Block> CANT_PLACE_PORTAL_ON = create("cant_place_portal_on");
 
+	public static final TagKey<Block> PORTALS_USE_BASE_SHAPE = create("portals_use_base_shape");
+
 	private static TagKey<Block> create(String name) {
 		return TagKey.create(Registries.BLOCK, PortalCubed.id(name));
 	}

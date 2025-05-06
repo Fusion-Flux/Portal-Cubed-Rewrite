@@ -255,7 +255,10 @@ public class PortalBumper {
 				continue;
 
 			BlockState surface = level.getBlockState(surfacePos);
-			VoxelShape shape = surface.getCollisionShape(level, surfacePos);
+			VoxelShape shape = surface.is(PortalCubedBlockTags.PORTALS_USE_BASE_SHAPE)
+					? surface.getShape(level, surfacePos)
+					: surface.getCollisionShape(level, surfacePos);
+
 			for (AABB box : shape.toAabbs()) {
 				AABB absolute = box.move(surfacePos);
 				double min = absolute.min(axis);
