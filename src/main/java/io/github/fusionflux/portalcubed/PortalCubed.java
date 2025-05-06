@@ -27,6 +27,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedTestElementSettings;
 import io.github.fusionflux.portalcubed.content.fizzler.tool.FizzleinatorItem;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.MOTL;
+import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.data.loot.PortalCubedLootFunctions;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
@@ -75,6 +76,7 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedDisintegrateEffects.init();
 
 		ConstructManager.registerEventListeners();
+		ServerPortalManager.registerEventListeners();
 		DisintegrationExt.registerEventListeners();
 		HammerableBlock.registerEventListeners();
 		LemonadeItem.registerEventListeners();

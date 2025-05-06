@@ -31,6 +31,6 @@ public record UpdatePortalPairPacket(String key, @Nullable PortalPair pair) impl
 	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayNetworking.Context ctx) {
 		ClientPortalManager manager = ctx.player().clientLevel.portalManager();
-		manager.setSyncedPair(this.key, this.pair);
+		manager.setPair(this.key, this.pair);
 	}
 }

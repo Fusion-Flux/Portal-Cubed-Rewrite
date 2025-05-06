@@ -60,6 +60,8 @@ public record PortalGunShootContext(
 		if (placement == null)
 			return;
 
+		System.out.println("H");
+
 		PortalData data = PortalData.createWithSettings(this.level, placement.pos(), placement.rotation(), settings);
 		this.level.portalManager().createPortal(id.key(), polarity, data);
 	}

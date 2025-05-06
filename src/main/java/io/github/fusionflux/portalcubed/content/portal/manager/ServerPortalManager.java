@@ -2,9 +2,6 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.datafixers.util.Pair;
-
-import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
@@ -12,22 +9,26 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.RegistryOps;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.AABB;
 
 public class ServerPortalManager extends PortalManager {
 	public final ServerLevel level;
 
-	public ServerPortalManager(ServerLevel level) {
-		super(level);
+	public ServerPortalManager(PortalStorage storage, ServerLevel level) {
+		super(storage, level);
 		this.level = level;
+	}
+
+	public void syncToPlayer(ServerPlayer player) {
+		for (String key : this.storage.keys()) {
+			UpdatePortalPairPacket packet = new UpdatePortalPairPacket(key, this.storage.get(key));
+			PortalCubedPackets.sendToClient(player, packet);
+		}
 	}
 
 	/**
@@ -39,6 +40,17 @@ public class ServerPortalManager extends PortalManager {
 		this.modifyPair(key, pair -> pair.with(polarity, new PortalInstance(data)));
 	}
 
+	public void removePortal(String key, Polarity polarity) {
+		this.modifyPair(key, pair -> pair.without(polarity));
+	}
+
+	public void removePortalsInBox(AABB bounds) {
+		this.activePortals.getPortals(bounds).forEach(holder -> {
+			PortalId id = holder.id();
+			this.removePortal(id.key(), id.polarity());
+		});
+	}
+
 	@Override
 	public void setPair(String key, @Nullable PortalPair pair) {
 		super.setPair(key, pair);
@@ -46,68 +58,12 @@ public class ServerPortalManager extends PortalManager {
 		PortalCubedPackets.sendToClients(PlayerLookup.world(this.level), packet);
 	}
 
-	public void removePortalsInBox(AABB bounds) {
-		this.activePortals.getPortals(bounds).forEach(holder -> {
-			PortalId id = holder.id();
-			this.modifyPair(id.key(), pair -> pair.without(id.polarity()));
-		});
-	}
-
-	public CompoundTag save(CompoundTag nbt) {
-		if (this.portals.isEmpty())
-			return nbt;
-
-		CompoundTag portals = new CompoundTag();
-		nbt.put("portals", portals);
-
-		RegistryOps<Tag> ops = this.level.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-
-		this.portals.forEach((key, pair) -> {
-			Tag tag = PortalPair.CODEC.encodeStart(ops, pair).result().orElseThrow();
-			portals.put(key, tag);
-		});
-
-		return nbt;
-	}
-
-	public void load(CompoundTag nbt) {
-		CompoundTag portals = nbt.getCompound("portals");
-		if (portals.isEmpty())
-			return;
-
-		RegistryOps<Tag> ops = this.level.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-
-		for (String key : portals.getAllKeys()) {
-			Tag tag = portals.get(key);
-			PortalPair.CODEC.decode(ops, tag).result().map(Pair::getFirst)
-					.ifPresent(pair -> this.portals.put(key, pair));
-		}
-	}
-
-	public static final class PersistentState extends SavedData {
-		public static final String ID = PortalCubed.id("portals").toString().replace(":", "_");
-		public final ServerPortalManager manager;
-
-		private PersistentState(ServerLevel level) {
-			this.manager = new ServerPortalManager(level);
-		}
-
-		private PersistentState(ServerLevel level, CompoundTag nbt) {
-			this(level);
-			this.manager.load(nbt);
-		}
-
-		@Override
-		public CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
-			return this.manager.save(nbt);
-		}
-
-		public static Factory<PersistentState> factory(ServerLevel level) {
-			return new Factory<>(
-					() -> new PersistentState(level),
-					(nbt, registries) -> new PersistentState(level, nbt),
-					null // FAPI makes this fine
-			);
-		}
+	public static void registerEventListeners() {
+		ServerPlayConnectionEvents.JOIN.register(
+				(handler, sender, server) -> handler.player.serverLevel().portalManager().syncToPlayer(handler.player)
+		);
+		ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(
+				(player, origin, destination) -> destination.portalManager().syncToPlayer(player)
+		);
 	}
 }

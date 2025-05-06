@@ -2,9 +2,6 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 
@@ -17,20 +14,20 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
 public abstract class PortalManager {
-	protected final Map<String, PortalPair> portals;
+	protected final PortalStorage storage;
 	protected final SectionActivePortalLookup activePortals;
 
-	public PortalManager(Level level) {
-		this.portals = new HashMap<>();
+	protected PortalManager(PortalStorage storage, Level level) {
+		this.storage = storage;
 		this.activePortals = new SectionActivePortalLookup(level);
 	}
 
 	public PortalPair getPair(String key) {
-		return this.portals.get(key);
+		return this.storage.get(key);
 	}
 
 	public PortalPair getOrEmpty(String key) {
-		return this.portals.getOrDefault(key, PortalPair.EMPTY);
+		return this.storage.getOrEmpty(key);
 	}
 
 	public void setPair(String key, @Nullable PortalPair pair) {
@@ -38,12 +35,12 @@ public abstract class PortalManager {
 			pair = null;
 		}
 
-		PortalPair old = this.portals.get(key);
+		PortalPair old = this.storage.get(key);
 
 		if (pair == null) {
-			this.portals.remove(key);
+			this.storage.remove(key);
 		} else {
-			this.portals.put(key, pair);
+			this.storage.put(key, pair);
 		}
 
 		this.activePortals.portalsChanged(key, old, pair);
@@ -55,11 +52,11 @@ public abstract class PortalManager {
 	}
 
 	public Collection<PortalPair> getAllPairs() {
-		return Collections.unmodifiableCollection(this.portals.values());
+		return this.storage.values();
 	}
 
 	public Set<String> getAllKeys() {
-		return Collections.unmodifiableSet(this.portals.keySet());
+		return this.storage.keys();
 	}
 
 	public ActivePortalLookup activePortals() {
