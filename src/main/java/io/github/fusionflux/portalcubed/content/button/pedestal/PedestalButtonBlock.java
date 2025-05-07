@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.button.pedestal;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 import org.jetbrains.annotations.NotNull;
@@ -59,6 +60,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, HammerableBlock, BigShapeBlock {
+	public static final double ONE_PIXEL = 1 / 16d;
+
 	public static final MapCodec<PedestalButtonBlock> CODEC = simpleCodec(PedestalButtonBlock::new);
 
 	public static final EnumProperty<Direction> FACE = PortalCubedStateProperties.FACE;
@@ -67,8 +70,32 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-	private static final VoxelShaper BASE_SHAPE = VoxelShaper.forHorizontal(box(5.5, 1, 5.5, 10.5, 20, 10.5), Direction.UP);
-	private static final VoxelShaper OLD_AP_BASE_SHAPE = VoxelShaper.forHorizontal(Shapes.or(box(5.5, 0, 5.5, 10.5, 17.05, 10.5), box(6, 17, 6, 10, 19.05, 10)), Direction.UP);
+	public static final PedestalShapes NORMAL_SHAPES = new PedestalShapes(
+			Shapes.or(
+					// the shaft
+					shaft(20),
+					// the little base
+					box(4, 0, 4, 12, 1, 12)
+			),
+			new ThreeDepthBaseShapes(
+					box(0, 0, 7, 16, 1, 16),
+					box(0, 0, 3.5, 16, 1, 12.5),
+					box(0, 0, 0, 16, 1, 9)
+			)
+	);
+
+	public static final PedestalShapes OLD_AP_SHAPES = new PedestalShapes(
+			Shapes.or(
+					// the main part
+					shaft(17.05),
+					// the button is thinner
+					box(6, 17, 6, 10, 19.05, 10)
+			),
+			new RadialBaseShapes(
+					box(2.5, 0, 2.5, 13.5, 1, 13.5),
+					box(3.5, 0, 3.5, 12.5, 1, 12.5)
+			)
+	);
 
 	private final ImmutableMap<BlockState, VoxelShape> shapesCache;
 	private final SoundEvent pressSound;
@@ -77,23 +104,47 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	public PedestalButtonBlock(Properties properties) {
 		this(
 			properties,
-			BASE_SHAPE,
+			NORMAL_SHAPES,
 			PortalCubedSounds.PEDESTAL_BUTTON_PRESS, PortalCubedSounds.PEDESTAL_BUTTON_RELEASE
 		);
 	}
 
-	public PedestalButtonBlock(Properties properties, VoxelShaper shape, SoundEvent pressSound, SoundEvent releaseSound) {
+	public PedestalButtonBlock(Properties properties, PedestalShapes shapes, SoundEvent pressSound, SoundEvent releaseSound) {
 		super(properties);
 		this.pressSound = pressSound;
 		this.releaseSound = releaseSound;
+
 		this.shapesCache = this.getShapeForEachState(state -> {
 			Direction face = state.getValue(FACE);
 			Direction facing = state.getValue(FACING);
 			boolean base = state.getValue(BASE);
-			Vec3 shift = state.getValue(OFFSET).get(face, facing, base);
-			VoxelShape rotated = VoxelShaper.rotate(shape.get(facing).move(0, base ? 1 / 16d : 0, 0), Direction.UP, face, new DefaultRotationValues());
-			return rotated.move(shift.x() / 16d, shift.y() / 16d, shift.z() / 16d);
+			Offset offset = state.getValue(OFFSET).rotate(face, facing);
+			Vec3 shift = offset.get(base);
+
+			// start with the shaft
+			VoxelShape shape = shapes.shaft;
+			if (base) {
+				// move up a pixel to make room for the base
+				shape = shape.move(0, ONE_PIXEL, 0);
+			}
+
+			// shift the shaft
+			shape = shape.move(shift.x, shift.y, shift.z);
+
+			if (base) {
+				VoxelShape baseShape = shapes.base.get(offset);
+				shape = Shapes.or(shape, baseShape);
+			}
+
+			// rotat e
+			// step 1: towards facing
+			shape = VoxelShaper.rotate(shape, Direction.SOUTH, facing, DefaultRotationValues.INSTANCE);
+			// step 2: towards face
+			shape = VoxelShaper.rotate(shape, Direction.UP, face, DefaultRotationValues.INSTANCE);
+
+			return shape.optimize();
 		});
+
 		this.registerDefaultState(this.stateDefinition.any()
 			.setValue(FACE, Direction.UP)
 			.setValue(FACING, Direction.SOUTH)
@@ -107,7 +158,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	public static PedestalButtonBlock oldAp(Properties properties) {
 		return new PedestalButtonBlock(
 			properties,
-			OLD_AP_BASE_SHAPE,
+			OLD_AP_SHAPES,
 			PortalCubedSounds.OLD_AP_PEDESTAL_BUTTON_PRESS, PortalCubedSounds.OLD_AP_PEDESTAL_BUTTON_RELEASE
 		);
 	}
@@ -141,18 +192,19 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 				break;
 			}
 		}
-		return defaultBlockState()
+		return this.defaultBlockState()
 			.setValue(FACE, clickedFace)
-			.setValue(FACING, direction)
+			.setValue(FACING, direction.getOpposite())
 			.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
 	}
 
 	@Override
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
 		if (!moved && !state.is(newState.getBlock())) {
-			if (state.getValue(ACTIVE))
-				updateNeighbours(state, world, pos);
-			super.onRemove(state, world, pos, newState, moved);
+			if (state.getValue(ACTIVE)) {
+				this.updateNeighbours(state, world, pos);
+			}
+			super.onRemove(state, world, pos, newState, false);
 		}
 	}
 
@@ -191,7 +243,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	@Override
 	@NotNull
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return this.shapesCache.get(state);
+		return Objects.requireNonNull(this.shapesCache.get(state));
 	}
 
 	@Override
@@ -255,6 +307,11 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		return new PedestalButtonBlockEntity(pos, state);
 	}
 
+	private static VoxelShape shaft(double height) {
+		return box(5.5, 0, 5.5, 10.5, height, 10.5);
+	}
+
+	// these are relative to [facing=south,face=up] viewed from above, horizontally facing north
 	public enum Offset implements StringRepresentable {
 		NONE(0, 0),
 		UP(0, -1),
@@ -271,33 +328,107 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		public final String name;
 		public final int stepX;
 		public final int stepY;
-		public final boolean centered;
+
+		private final Vec3 offsetWithBase;
+		private final Vec3 offsetWithoutBase;
 
 		Offset(int stepX, int stepY) {
-			this.name = name().toLowerCase(Locale.ROOT);
+			this.name = this.name().toLowerCase(Locale.ROOT);
 			this.stepX = stepX;
 			this.stepY = stepY;
-			this.centered = stepX == 0;
+
+			this.offsetWithBase = this.computeOffset(true);
+			this.offsetWithoutBase = this.computeOffset(false);
 		}
 
 		@Override
 		@NotNull
 		public String getSerializedName() {
-			return name;
+			return this.name;
 		}
 
-		public Vec3 get(Direction face, Direction facing, boolean pad) {
-			boolean flip = face.getAxisDirection() == Direction.AxisDirection.NEGATIVE;
-			return (switch (face.getAxis()) {
-				case X -> new Vec3(0, -stepY, flip ? stepX : -stepX);
-				case Y -> switch (facing) {
-					case SOUTH -> new Vec3(-stepX, 0, -stepY);
-					case WEST -> new Vec3(stepY, 0, -stepX);
-					case EAST -> new Vec3(-stepY, 0, stepX);
-					default -> new Vec3(stepX, 0, stepY);
-				};
-				case Z -> new Vec3(flip ? -stepX : stepX, -stepY, 0);
-			}).scale(pad ? SHIFT_DIST - .5 : SHIFT_DIST);
+		private Vec3 get(boolean hasBase) {
+			return hasBase ? this.offsetWithBase : this.offsetWithoutBase;
+		}
+
+		public Vec3 forBase() {
+			return this.get(true);
+		}
+
+		public Offset ccw90() {
+			return switch (this) {
+				case NONE -> NONE;
+				case UP -> LEFT;
+				case LEFT -> DOWN;
+				case DOWN -> RIGHT;
+				case RIGHT -> UP;
+				case UP_LEFT -> DOWN_LEFT;
+				case DOWN_LEFT -> DOWN_RIGHT;
+				case DOWN_RIGHT -> UP_RIGHT;
+				case UP_RIGHT -> UP_LEFT;
+			};
+		}
+
+		public Offset opposite() {
+			return this.ccw90().ccw90();
+		}
+
+		public Offset cw90() {
+			return this.opposite().ccw90();
+		}
+
+		public Offset rotate(Direction face, Direction facing) {
+			if (this == NONE || face == Direction.UP) {
+				return this;
+			} else if (face == Direction.DOWN) {
+				return this.opposite();
+			}
+
+			// this is one of the 8 outer offsets, and face is horizontal
+			// offsets should be relative to [facing=south]
+
+			return switch (facing) {
+				case SOUTH -> this;
+				case NORTH -> this.opposite();
+				case WEST -> this.ccw90();
+				case EAST -> this.cw90();
+				default -> throw new IllegalArgumentException("Non-horizontal direction: " + facing);
+			};
+		}
+
+		private Vec3 computeOffset(boolean hasBase) {
+			double scale = ONE_PIXEL * (hasBase ? SHIFT_DIST - 0.5 : SHIFT_DIST);
+			return new Vec3(this.stepX * scale, 0, this.stepY * scale);
+		}
+	}
+
+	public record PedestalShapes(VoxelShape shaft, BaseShapes base) {
+	}
+
+	@FunctionalInterface
+	public interface BaseShapes {
+		VoxelShape get(Offset offset);
+	}
+
+	public record ThreeDepthBaseShapes(VoxelShape far, VoxelShape mid, VoxelShape near) implements BaseShapes {
+		@Override
+		public VoxelShape get(Offset offset) {
+			return switch (offset.stepY) {
+				case 1 -> this.far;
+				case 0 -> this.mid;
+				case -1 -> this.near;
+				default -> throw new IllegalStateException("Weird offset: " + offset);
+			};
+		}
+	}
+
+	public record RadialBaseShapes(VoxelShape center, VoxelShape edge) implements BaseShapes {
+		@Override
+		public VoxelShape get(Offset offset) {
+			if (offset == Offset.NONE)
+				return this.center;
+
+			return this.edge.move(offset.forBase());
 		}
 	}
 }

@@ -132,6 +132,9 @@ public class VoxelShaper {
 	}
 
 	public static class DefaultRotationValues implements Function<Direction, Vec3> {
+		// portalcubed: use a singleton
+		public static final DefaultRotationValues INSTANCE = new DefaultRotationValues();
+
 		// assume facing up as the default rotation
 		@Override
 		public Vec3 apply(Direction direction) {
