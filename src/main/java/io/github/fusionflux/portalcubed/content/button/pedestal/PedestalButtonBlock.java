@@ -369,6 +369,18 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 			};
 		}
 
+		public Offset xMirrored() {
+			return switch (this) {
+				case UP_LEFT -> UP_RIGHT;
+				case LEFT -> RIGHT;
+				case DOWN_LEFT -> DOWN_RIGHT;
+				case UP_RIGHT -> UP_LEFT;
+				case RIGHT -> LEFT;
+				case DOWN_RIGHT -> DOWN_LEFT;
+				default -> this;
+			};
+		}
+
 		public Offset opposite() {
 			return this.ccw90().ccw90();
 		}
@@ -381,7 +393,12 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 			if (this == NONE || face == Direction.UP) {
 				return this;
 			} else if (face == Direction.DOWN) {
-				return this.opposite();
+				// don't ask, I can't answer.
+				if (facing.getAxis() == Direction.Axis.Z) {
+					return this.xMirrored().opposite();
+				} else {
+					return this.xMirrored();
+				}
 			}
 
 			// this is one of the 8 outer offsets, and face is horizontal
