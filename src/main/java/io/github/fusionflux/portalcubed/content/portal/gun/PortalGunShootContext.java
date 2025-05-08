@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalShotClipContextMode;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,7 +41,7 @@ public record PortalGunShootContext(
 		ClipContext ctx = new ClipContext(
 				this.from.subtract(this.lookAngle.scale(MAGIC_OFFSET)),
 				this.from.add(this.lookAngle.scale(range + MAGIC_OFFSET)),
-				ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()
+				PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, CollisionContext.empty()
 		);
 		ctx.pc$setIgnoreInteractionOverride(true);
 

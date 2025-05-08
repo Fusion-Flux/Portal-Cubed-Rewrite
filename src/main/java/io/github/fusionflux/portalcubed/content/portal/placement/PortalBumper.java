@@ -32,9 +32,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PortalBumper {
@@ -259,9 +261,7 @@ public class PortalBumper {
 				continue;
 
 			BlockState surface = level.getBlockState(surfacePos);
-			VoxelShape shape = surface.is(PortalCubedBlockTags.PORTALS_USE_BASE_SHAPE)
-					? surface.getShape(level, surfacePos)
-					: surface.getCollisionShape(level, surfacePos);
+			VoxelShape shape = getPortalVisibleShape(surface, level, surfacePos, CollisionContext.empty());
 
 			for (AABB box : shape.toAabbs()) {
 				AABB absolute = box.move(surfacePos);
@@ -440,6 +440,12 @@ public class PortalBumper {
 			// when the inner loops don't end early, all opposites have been canceled.
 			break;
 		}
+	}
+
+	public static VoxelShape getPortalVisibleShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+		return state.is(PortalCubedBlockTags.PORTALS_USE_BASE_SHAPE)
+				? state.getShape(level, pos, ctx)
+				: state.getCollisionShape(level, pos, ctx);
 	}
 
 	private static boolean handleContains(Line2d first, Line2d second, DoubleRange firstRange, DoubleRange secondRange, List<Line2d> walls) {

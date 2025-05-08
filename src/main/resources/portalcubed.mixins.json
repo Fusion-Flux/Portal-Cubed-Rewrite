@@ -44,6 +44,7 @@
     "portals.BlockBehavior$BlockStateBaseMixin",
     "portals.BlockMixin",
     "portals.ClientboundTeleportEntityPacketMixin",
+    "portals.ClipContext$BlockMixin",
     "portals.EntityMixin",
     "portals.GameTestInfoMixin",
     "portals.ServerEntityMixin",
