@@ -7,6 +7,7 @@ import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.decoration.signage.component.SelectedLargeSignage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.component.SelectedSmallSignage;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
+import io.github.fusionflux.portalcubed.framework.item.FallSound;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -40,6 +41,9 @@ public class PortalCubedDataComponents {
 	);
 	public static final DataComponentType<SelectedSmallSignage> SELECTED_SMALL_SIGNAGE = register(
 			"selected_small_signage", SelectedSmallSignage.CODEC, SelectedSmallSignage.STREAM_CODEC
+	);
+	public static final DataComponentType<FallSound> FALL_SOUND = register(
+			"fall_sound", FallSound.CODEC, FallSound.STREAM_CODEC
 	);
 
 	private static <T> DataComponentType<T> register(String name, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {

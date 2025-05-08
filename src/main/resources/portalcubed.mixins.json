@@ -40,6 +40,7 @@
     "misc.BaseFireBlockMixin",
     "misc.BlockMixin",
     "misc.EntityMixin",
+    "misc.LivingEntityMixin",
     "misc.SlabBlockMixin",
     "portals.BlockBehavior$BlockStateBaseMixin",
     "portals.BlockMixin",

@@ -22,6 +22,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBannerPatternTags;
 import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
+import io.github.fusionflux.portalcubed.framework.item.FallSound;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.Util;
@@ -121,10 +122,16 @@ public class PortalCubedItems {
 			.build();
 
 	public static final ArmorItem LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new ArmorItem(PortalCubedArmorMaterials.LONG_FALL_BOOTS, ArmorType.BOOTS, s))
-			.properties(Item.Properties::fireResistant)
+			.properties(s -> s
+					.fireResistant()
+					.component(PortalCubedDataComponents.FALL_SOUND, new FallSound(PortalCubedSounds.LONG_FALL_BOOTS_LAND, 6))
+			)
 			.build();
 	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(PortalCubedArmorMaterials.ADVANCED_KNEE_REPLACEMENTS, ArmorType.BOOTS, s))
-			.properties(Item.Properties::fireResistant)
+			.properties(s -> s
+					.fireResistant()
+					.component(PortalCubedDataComponents.FALL_SOUND, new FallSound(PortalCubedSounds.ADVANCED_KNEE_REPLACEMENTS_LAND, 5))
+			)
 			.build();
 
 	public static final Map<PropType, PropItem> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {

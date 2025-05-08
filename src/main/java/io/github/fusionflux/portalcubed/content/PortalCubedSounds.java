@@ -6,6 +6,7 @@ import java.util.Map;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
 import net.minecraft.Util;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -77,8 +78,8 @@ public class PortalCubedSounds {
 	public static final SoundEvent PEASHOOTER_PORTAL_GUN_SHOOT = register("portal_gun.peashooter.shoot");
 	public static final SoundEvent PEASHOOTER_PORTAL_GUN_FIZZLE = register("portal_gun.peashooter.fizzle");
 
-	public static final SoundEvent LONG_FALL_BOOTS_LAND = register("armor.long_fall_boots.land");
-	public static final SoundEvent ADVANCED_KNEE_REPLACEMENTS_LAND = register("armor.advanced_knee_replacements.land");
+	public static final Holder<SoundEvent> LONG_FALL_BOOTS_LAND = registerForHolder("armor.long_fall_boots.land");
+	public static final Holder<SoundEvent> ADVANCED_KNEE_REPLACEMENTS_LAND = registerForHolder("armor.advanced_knee_replacements.land");
 
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_PRIMARY = register("portal_type.default.open.primary");
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_SECONDARY = register("portal_type.default.open.secondary");
@@ -121,6 +122,11 @@ public class PortalCubedSounds {
 	public static SoundEvent register(String name) {
 		ResourceLocation id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
+	}
+
+	public static Holder.Reference<SoundEvent> registerForHolder(String name) {
+		ResourceLocation id = PortalCubed.id(name);
+		return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
 	}
 
 	public static SoundEvent timerDing(RandomSource random) {
