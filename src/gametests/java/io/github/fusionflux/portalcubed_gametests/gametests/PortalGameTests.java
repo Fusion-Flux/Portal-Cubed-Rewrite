@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.CopperBulbBlock;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.phys.Vec3;
 
+import static io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests.spawnProp;
+
 public class PortalGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":portals/";
 
@@ -101,6 +103,20 @@ public class PortalGameTests implements FabricGameTest {
 		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> helper.assertEntityPresent(EntityType.ARMOR_STAND)));
 	}
 
+	//Tests infinite falling to make sure the entity doesn't collide with blocks behind the portal they fall into at high speeds
+	@GameTest(template = GROUP + "infinite_fall_collision")
+	public void infiniteFallCollision(GameTestHelper helper) {
+
+		PortalHelper infiniteFallCollision = new PortalHelper(helper, "infinite_fall_collision", 0x2055fe, 0xfe7020);
+
+		infiniteFallCollision.primary().placeOn(new BlockPos(2, 6, 4), Direction.UP, -90);
+		infiniteFallCollision.secondary().placeOn(new BlockPos(2, 10, 4), Direction.DOWN, 90);
+		spawnProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(2, 8, 4));
+
+		helper.runAfterDelay(99, () ->
+				helper.assertBlockProperty(new BlockPos(2, 1, 0), RedstoneLampBlock.LIT, false));
+	}
+
 
 	//Tests weird portal surface shapes to make sure the entity traveling through doesn't behave weirdly. Split into vertical and horizontal tests
 	@GameTest(template = GROUP + "odd_portal_surfaces_vertical")
@@ -115,14 +131,14 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper trapdoor = new PortalHelper(helper, "trapdoor", 0x2055fe, 0xfe7020);
 		PortalHelper path = new PortalHelper(helper, "path", 0x2055fe, 0xfe7020);
 
-		daylightSensor.primary().shootFrom(new Vec3(23, 2, 2.5), Direction.DOWN, 0);
-		slab.primary().shootFrom(new Vec3(20, 2, 2.5), Direction.DOWN, 0);
+		daylightSensor.primary().shootFrom(new Vec3(23, 3, 2.5), Direction.DOWN, 0);
+		slab.primary().shootFrom(new Vec3(20, 3, 2.5), Direction.DOWN, 0);
 		stairsIn.primary().shootFrom(new Vec3(17, 3, 2.5), Direction.DOWN, 0);
 		stairsOut.primary().shootFrom(new Vec3(14, 3, 2.5), Direction.DOWN, 0);
-		carpet.primary().shootFrom(new Vec3(11, 2, 2.5), Direction.DOWN, 0);
-		stonecutter.primary().shootFrom(new Vec3(8, 2, 2.5), Direction.DOWN, 0);
-		trapdoor.primary().shootFrom(new Vec3(5, 2, 2.5), Direction.DOWN, 0);
-		path.primary().shootFrom(new Vec3(2, 2, 2.5), Direction.DOWN, 0);
+		carpet.primary().shootFrom(new Vec3(11, 3, 2.5), Direction.DOWN, 0);
+		stonecutter.primary().shootFrom(new Vec3(8, 3, 2.5), Direction.DOWN, 0);
+		trapdoor.primary().shootFrom(new Vec3(5, 3, 2.5), Direction.DOWN, 0);
+		path.primary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN, 0);
 
 		daylightSensor.secondary().shootFrom(new Vec3(23, 6, 6.5), Direction.UP, 90);
 		slab.secondary().shootFrom(new Vec3(20, 6, 6.5), Direction.UP, 90);

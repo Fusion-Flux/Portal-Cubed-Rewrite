@@ -732,7 +732,38 @@
     ],
     "subtitle": "subtitles.portalcubed.portal_gun.peashooter.fizzle"
   },
-
+  "armor.long_fall_boots.land": {
+    "sounds": [
+      {
+        "name": "portalcubed:armor/boots_land_1",
+        "volume": 0.15
+      },
+      {
+        "name": "portalcubed:armor/boots_land_2",
+        "volume": 0.15
+      },
+      {
+        "name": "portalcubed:armor/boots_land_3",
+        "volume": 0.15
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.armor.boots_land"
+  },
+  "armor.advanced_knee_replacements.land": {
+    "sounds": [
+      {
+        "name": "portalcubed:armor/knee_replacements_land",
+        "volume": 0.3,
+        "pitch": 1
+      },
+      {
+        "name": "portalcubed:armor/knee_replacements_land",
+        "volume": 0.3,
+        "pitch": 0.75
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.armor.knee_replacements_land"
+  },
   "portal_type.default.ambient": {
     "sounds": [
       {
@@ -823,7 +854,6 @@
       }
     ]
   },
-
   "portal_type.portal_1.ambient": {
     "sounds": [
       {

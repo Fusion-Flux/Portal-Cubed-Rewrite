@@ -501,6 +501,8 @@
   "subtitles.portalcubed.portal_gun.wand.fizzle": "Wand recharges",
   "subtitles.portalcubed.portal_gun.wand.grab": "Wand lifts object",
 
+  "subtitles.portalcubed.armor.boots_land": "Long fall boots brace fall",
+  "subtitles.portalcubed.armor.knee_replacements_land": "Advanced knee replacements brace fall",
 
   "subtitles.portalcubed.portal.default.open": "Portal opens",
   "subtitles.portalcubed.portal.default.open.primary": "Primary portal opens",

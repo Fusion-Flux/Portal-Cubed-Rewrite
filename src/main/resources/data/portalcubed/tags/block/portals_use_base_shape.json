@@ -1,6 +1,9 @@
 {
   "values": [
     "#minecraft:walls",
-    "#minecraft:fences"
+    "#minecraft:fences",
+    "#minecraft:all_hanging_signs",
+    "minecraft:lectern",
+    "minecraft:snow"
   ]
 }

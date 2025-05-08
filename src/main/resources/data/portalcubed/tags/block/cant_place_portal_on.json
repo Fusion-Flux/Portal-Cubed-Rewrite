@@ -41,6 +41,9 @@
     "portalcubed:metal_portal_1_chamber_door",
     "portalcubed:old_ap_chamber_door",
 
+    "portalcubed:pedestal_button",
+    "portalcubed:old_ap_pedestal_button",
+
     "#c:glass_blocks",
     "#c:glass_panes",
     "#minecraft:shulker_boxes",
