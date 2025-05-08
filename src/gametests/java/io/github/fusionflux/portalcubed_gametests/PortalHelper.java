@@ -78,7 +78,8 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 
 			ServerLevel level = this.helper.getLevel();
 			BlockState state = level.getBlockState(blockPos);
-			VoxelShape shape = state.getCollisionShape(this.helper.getLevel(), blockPos);
+			VoxelShape shape = state.getCollisionShape(this.helper.getLevel(), blockPos)
+					.move(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			BlockHitResult hit = shape.clip(pos, pos.add(intoWall), blockPos);
 			if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
 				pos = hit.getLocation();
