@@ -225,8 +225,12 @@ public class PortalBumper {
 
 		List<Line2d> walls = new ArrayList<>();
 
+		// the surface itself
 		collectSurface(level, initial, pos, right, up, face, walls, true);
+		// exclude blocks in front of it
 		collectSurface(level, initial, pos.relative(face), right, up, face, walls, false);
+		// and let blocks behind poke through (ex. pedestal button under carpet)
+		collectSurface(level, initial, pos.relative(face, -1), right, up, face, walls, false);
 
 		Vector2d containedPoint = new Vector2d();
 		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, containedPoint, walls, face.getAxis() == Direction.Axis.Y);
