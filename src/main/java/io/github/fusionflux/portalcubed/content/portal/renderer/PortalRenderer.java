@@ -12,6 +12,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.ARBDepthClamp;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14C;
 
 import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -31,6 +32,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;
+import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import io.github.fusionflux.portalcubed.framework.util.ShaderPatcher;
 import io.github.fusionflux.portalcubed.mixin.client.CameraAccessor;
@@ -67,9 +69,13 @@ import net.minecraft.world.phys.Vec3;
 
 public class PortalRenderer {
 	public static final double OFFSET_FROM_WALL = 0.001;
+	public static final float BASE_TRACER_OPACITY = 80 / 255f;
+	public static final double TRACER_FADEOUT_START_DISTANCE = 3.5;
+	public static final double TRACER_FADEOUT_END_DISTANCE = 1.5;
 
 	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
-	private static final ByteBufferBuilder PORTAL_BYTE_BUFFER_BUILDER = new ByteBufferBuilder(RenderType.TRANSIENT_BUFFER_SIZE);
+	private static final ByteBufferBuilder BYTE_BUFFER_BUILDER = new ByteBufferBuilder(RenderType.TRANSIENT_BUFFER_SIZE);
+	private static final ByteBufferBuilder TRACER_BYTE_BUFFER_BUILDER = new ByteBufferBuilder(RenderType.TRANSIENT_BUFFER_SIZE);
 
 	private static VertexBuffer stencilQuadBuffer;
 
@@ -152,15 +158,35 @@ public class PortalRenderer {
 			RenderSystem.stencilMask(0x00);
 		}
 
-		// Render portals
+		RenderType tracerRenderType = PortalCubedRenderTypes.tracer(PortalTextureManager.ATLAS_LOCATION);
 		RenderType renderType = PortalCubedRenderTypes.emissive(PortalTextureManager.ATLAS_LOCATION);
-		BufferBuilder bufferBuilder = new BufferBuilder(PORTAL_BYTE_BUFFER_BUILDER, renderType.mode(), renderType.format());
-		visiblePortals.forEach(visiblePortal -> renderPortal(visiblePortal, matrices, level, tickDelta, bufferBuilder));
+		BufferBuilder bufferBuilder = new BufferBuilder(BYTE_BUFFER_BUILDER, renderType.mode(), renderType.format());
+
+		// Render portals
+		visiblePortals.forEach(visiblePortal -> {
+			BufferBuilder tracerBufferBuilder = new BufferBuilder(TRACER_BYTE_BUFFER_BUILDER, tracerRenderType.mode(), tracerRenderType.format());
+			renderPortal(visiblePortal, matrices, level, tickDelta, bufferBuilder, tracerBufferBuilder);
+			try (MeshData mesh = tracerBufferBuilder.build()) {
+				if (mesh != null) {
+					float alpha = getPortalTracerAlpha(visiblePortal.portal.plane, camPos);
+					if (alpha > 0) {
+						GL14C.glBlendColor(0, 0, 0, alpha);
+						RenderingUtils.renderMesh(mesh, tracerRenderType, TRACER_BYTE_BUFFER_BUILDER);
+					}
+				}
+			}
+		});
+
 		try (MeshData mesh = bufferBuilder.buildOrThrow()) {
-			if (renderType.sortOnUpload())
-				mesh.sortQuads(PORTAL_BYTE_BUFFER_BUILDER, RenderSystem.getProjectionType().vertexSorting());
-			renderType.draw(mesh);
+			RenderingUtils.renderMesh(mesh, renderType, BYTE_BUFFER_BUILDER);
 		}
+	}
+
+	private static float getPortalTracerAlpha(Plane portalPlane, Vec3 camPos) {
+		if (!portalPlane.isInFront(camPos))
+			return BASE_TRACER_OPACITY;
+
+		return BASE_TRACER_OPACITY * (float) Math.min((camPos.distanceTo(portalPlane.origin()) - TRACER_FADEOUT_END_DISTANCE) / TRACER_FADEOUT_START_DISTANCE, 1);
 	}
 
 	private static PoseStack.Pose transformToPortal(VisiblePortal visiblePortal, ClientLevel level, float tickDelta, PoseStack matrices) {
@@ -294,20 +320,28 @@ public class PortalRenderer {
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 	}
 
-	private static void renderPortal(VisiblePortal visiblePortal, PoseStack matrices, ClientLevel level, float tickDelta, VertexConsumer vertices) {
+	private static void renderPortal(VisiblePortal visiblePortal, PoseStack matrices, ClientLevel level, float tickDelta, VertexConsumer vertices, VertexConsumer tracerVertices) {
 		matrices.pushPose();
 		transformToPortal(visiblePortal, level, tickDelta, matrices);
 
 		PortalData portal = visiblePortal.portal.data;
 		PortalType.Textures textures = portal.type().value().textures();
-		List<PortalType.Textures.Layer> layers = visiblePortal.open ? textures.open() : textures.closed();
+		int portalColor = ARGB.opaque(portal.color());
+
+		renderPortalTexture(visiblePortal.open ? textures.open() : textures.closed(), portalColor, matrices, vertices);
+		renderPortalTexture(textures.tracer(), portalColor, matrices, tracerVertices);
+
+		matrices.popPose();
+	}
+
+	private static void renderPortalTexture(List<PortalType.Textures.Layer> layers, int portalColor, PoseStack matrices, VertexConsumer vertices) {
 		for (PortalType.Textures.Layer layer : layers) {
 			matrices.pushPose();
 			matrices.translate(0, layer.offset(), 0);
 			PoseStack.Pose pose = matrices.last();
 
 			TextureAtlasSprite sprite = PortalTextureManager.INSTANCE.getSprite(layer.texture());
-			int color = layer.tint() ? ARGB.opaque(portal.color()) : -1;
+			int color = layer.tint() ? portalColor : -1;
 
 			// start bottom left, go CCW
 			RenderingUtils.quadVertex(vertices, pose, LightTexture.FULL_BRIGHT, 1, 0, color, sprite.getU0(), sprite.getV1());
@@ -317,8 +351,6 @@ public class PortalRenderer {
 
 			matrices.popPose();
 		}
-
-		matrices.popPose();
 	}
 
 	private record VisiblePortal(PortalPair pair, PortalInstance portal, @Nullable PortalInstance linked, boolean open) {

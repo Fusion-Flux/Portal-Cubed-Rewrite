@@ -9,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -170,5 +171,12 @@ public class RenderingUtils {
 		// Cleanup state
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+	}
+
+	public static void renderMesh(MeshData mesh, RenderType renderType, ByteBufferBuilder byteBufferBuilder) {
+		if (renderType.sortOnUpload()) {
+			mesh.sortQuads(byteBufferBuilder, RenderSystem.getProjectionType().vertexSorting());
+		}
+		renderType.draw(mesh);
 	}
 }

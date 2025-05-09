@@ -47,6 +47,36 @@ public interface PortalCubedRenderTypes {
 					.createCompositeState(false)
 	));
 
+	Function<ResourceLocation, RenderType> TRACER = Util.memoize(texture -> RenderType.create(
+			"portalcubed:tracer",
+			DefaultVertexFormat.BLOCK,
+			VertexFormat.Mode.QUADS,
+			RenderType.TRANSIENT_BUFFER_SIZE,
+			false,
+			true,
+			RenderType.CompositeState.builder()
+					.setShaderState(RenderStateShard.RENDERTYPE_CUTOUT_SHADER)
+					.setTextureState(new RenderStateShard.TextureStateShard(texture, TriState.FALSE, false))
+					.setWriteMaskState(RenderStateShard.COLOR_WRITE)
+					.setDepthTestState(RenderStateShard.GREATER_DEPTH_TEST)
+					.setTransparencyState(
+							new RenderStateShard.TransparencyStateShard(
+									"constant_transparency",
+									() -> {
+										RenderSystem.enableBlend();
+										RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
+									},
+									() -> {
+										RenderSystem.disableBlend();
+										RenderSystem.defaultBlendFunc();
+									}
+							)
+					)
+					.setCullState(RenderStateShard.NO_CULL)
+					.setLightmapState(RenderStateShard.LIGHTMAP)
+					.createCompositeState(false)
+	));
+
 	RenderType MULTIPLY_PARTICLE = RenderType.create(
 			"portalcubed:multiply_particle",
 			DefaultVertexFormat.PARTICLE,
@@ -82,5 +112,9 @@ public interface PortalCubedRenderTypes {
 
 	static RenderType emissive(ResourceLocation texture) {
 		return EMISSIVE.apply(texture);
+	}
+
+	static RenderType tracer(ResourceLocation texture) {
+		return TRACER.apply(texture);
 	}
 }
