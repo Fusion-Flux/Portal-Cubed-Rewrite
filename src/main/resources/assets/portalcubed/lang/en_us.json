@@ -502,7 +502,9 @@
   "subtitles.portalcubed.portal_gun.wand.grab": "Wand lifts object",
 
   "subtitles.portalcubed.armor.boots_land": "Long fall boots brace fall",
+  "subtitles.portalcubed.armor.boots_equip": "Long fall boots rustle",
   "subtitles.portalcubed.armor.knee_replacements_land": "Advanced knee replacements brace fall",
+  "subtitles.portalcubed.armor.knee_replacements_equip": "Advanced knee replacements clank",
 
   "subtitles.portalcubed.portal.default.open": "Portal opens",
   "subtitles.portalcubed.portal.default.open.primary": "Primary portal opens",

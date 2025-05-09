@@ -78,8 +78,10 @@ public class PortalCubedSounds {
 	public static final SoundEvent PEASHOOTER_PORTAL_GUN_SHOOT = register("portal_gun.peashooter.shoot");
 	public static final SoundEvent PEASHOOTER_PORTAL_GUN_FIZZLE = register("portal_gun.peashooter.fizzle");
 
-	public static final Holder<SoundEvent> LONG_FALL_BOOTS_LAND = registerForHolder("armor.long_fall_boots.land");
-	public static final Holder<SoundEvent> ADVANCED_KNEE_REPLACEMENTS_LAND = registerForHolder("armor.advanced_knee_replacements.land");
+	public static final Holder<SoundEvent> LONG_FALL_BOOTS_LAND = registerForHolder("item.armor.long_fall_boots.land");
+	public static final Holder<SoundEvent> LONG_FALL_BOOTS_EQUIP = registerForHolder("item.armor.long_fall_boots.equip");
+	public static final Holder<SoundEvent> ADVANCED_KNEE_REPLACEMENTS_LAND = registerForHolder("item.armor.advanced_knee_replacements.land");
+	public static final Holder<SoundEvent> ADVANCED_KNEE_REPLACEMENTS_EQUIP = registerForHolder("item.armor.advanced_knee_replacements.equip");
 
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_PRIMARY = register("portal_type.default.open.primary");
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_SECONDARY = register("portal_type.default.open.secondary");

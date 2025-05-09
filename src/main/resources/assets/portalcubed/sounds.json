@@ -732,7 +732,7 @@
     ],
     "subtitle": "subtitles.portalcubed.portal_gun.peashooter.fizzle"
   },
-  "armor.long_fall_boots.land": {
+  "item.armor.long_fall_boots.land": {
     "sounds": [
       {
         "name": "portalcubed:armor/boots_land_1",
@@ -749,7 +749,16 @@
     ],
     "subtitle": "subtitles.portalcubed.armor.boots_land"
   },
-  "armor.advanced_knee_replacements.land": {
+  "item.armor.long_fall_boots.equip": {
+    "sounds": [
+      {
+        "name": "minecraft:item.armor.equip_gold",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.armor.boots_equip"
+  },
+  "item.armor.advanced_knee_replacements.land": {
     "sounds": [
       {
         "name": "portalcubed:armor/knee_replacements_land",
@@ -763,6 +772,15 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.armor.knee_replacements_land"
+  },
+  "item.armor.advanced_knee_replacements.equip": {
+    "sounds": [
+      {
+        "name": "minecraft:item.armor.equip_iron",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.armor.knee_replacements_equip"
   },
   "portal_type.default.ambient": {
     "sounds": [
