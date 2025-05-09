@@ -31,6 +31,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
+import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
@@ -74,8 +75,6 @@ public class PortalRenderer {
 	public static final double TRACER_FADEOUT_END_DISTANCE = 1.5;
 
 	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
-	private static final ByteBufferBuilder BYTE_BUFFER_BUILDER = new ByteBufferBuilder(RenderType.TRANSIENT_BUFFER_SIZE);
-	private static final ByteBufferBuilder TRACER_BYTE_BUFFER_BUILDER = new ByteBufferBuilder(RenderType.TRANSIENT_BUFFER_SIZE);
 
 	private static VertexBuffer stencilQuadBuffer;
 
@@ -146,6 +145,26 @@ public class PortalRenderer {
 
 		float tickDelta = context.tickCounter().getGameTimeDeltaPartialTick(false);
 
+		RenderType tracerRenderType = PortalCubedRenderTypes.tracer(PortalTextureManager.ATLAS_LOCATION);
+		RenderType renderType = PortalCubedRenderTypes.emissive(PortalTextureManager.ATLAS_LOCATION);
+		RenderBuffersExt renderBuffers = (RenderBuffersExt) ((LevelRendererAccessor) context.worldRenderer()).getRenderBuffers();
+		BufferBuilder bufferBuilder = new BufferBuilder(renderBuffers.pc$portalByteBufferBuilder(), renderType.mode(), renderType.format());
+
+		// Buffer portals and render tracers
+		visiblePortals.forEach(visiblePortal -> {
+			BufferBuilder tracerBufferBuilder = new BufferBuilder(renderBuffers.pc$portalTracerByteBufferBuilder(), tracerRenderType.mode(), tracerRenderType.format());
+			renderPortal(visiblePortal, matrices, level, tickDelta, bufferBuilder, tracerBufferBuilder);
+			try (MeshData mesh = tracerBufferBuilder.build()) {
+				if (mesh != null) {
+					float alpha = getPortalTracerAlpha(visiblePortal.portal.plane, camPos);
+					if (alpha > 0) {
+						GL14C.glBlendColor(0, 0, 0, alpha);
+						RenderingUtils.renderMesh(mesh, tracerRenderType, renderBuffers.pc$portalTracerByteBufferBuilder());
+					}
+				}
+			}
+		});
+
 		// Render portal views
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
 		visiblePortals.forEach(visiblePortal -> renderPortalView(visiblePortal, tickDelta, matrices, context));
@@ -158,27 +177,9 @@ public class PortalRenderer {
 			RenderSystem.stencilMask(0x00);
 		}
 
-		RenderType tracerRenderType = PortalCubedRenderTypes.tracer(PortalTextureManager.ATLAS_LOCATION);
-		RenderType renderType = PortalCubedRenderTypes.emissive(PortalTextureManager.ATLAS_LOCATION);
-		BufferBuilder bufferBuilder = new BufferBuilder(BYTE_BUFFER_BUILDER, renderType.mode(), renderType.format());
-
 		// Render portals
-		visiblePortals.forEach(visiblePortal -> {
-			BufferBuilder tracerBufferBuilder = new BufferBuilder(TRACER_BYTE_BUFFER_BUILDER, tracerRenderType.mode(), tracerRenderType.format());
-			renderPortal(visiblePortal, matrices, level, tickDelta, bufferBuilder, tracerBufferBuilder);
-			try (MeshData mesh = tracerBufferBuilder.build()) {
-				if (mesh != null) {
-					float alpha = getPortalTracerAlpha(visiblePortal.portal.plane, camPos);
-					if (alpha > 0) {
-						GL14C.glBlendColor(0, 0, 0, alpha);
-						RenderingUtils.renderMesh(mesh, tracerRenderType, TRACER_BYTE_BUFFER_BUILDER);
-					}
-				}
-			}
-		});
-
 		try (MeshData mesh = bufferBuilder.buildOrThrow()) {
-			RenderingUtils.renderMesh(mesh, renderType, BYTE_BUFFER_BUILDER);
+			RenderingUtils.renderMesh(mesh, renderType, renderBuffers.pc$portalByteBufferBuilder());
 		}
 	}
 
