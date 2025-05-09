@@ -69,7 +69,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class PortalRenderer {
 	public static final double OFFSET_FROM_WALL = 0.001;
-	public static final float BASE_TRACER_OPACITY = 80 / 255f;
+	public static final float BASE_TRACER_OPACITY = 180 / 255f;
 	public static final double TRACER_FADEOUT_START_DISTANCE = 3.5;
 	public static final double TRACER_FADEOUT_END_DISTANCE = 1.5;
 

@@ -25,7 +25,7 @@
         "tint": false
       }
     ],
-    "tracer": "portalcubed:portal/graham/graham_tracer"
+    "tracer": "portalcubed:portal/painting_graham/graham_tracer"
   },
   "place_animation": {
     "type": "pop_in",

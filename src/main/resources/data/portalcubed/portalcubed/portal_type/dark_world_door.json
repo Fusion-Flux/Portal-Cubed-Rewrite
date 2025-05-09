@@ -28,7 +28,12 @@
         "tint": false
       }
     ],
-    "tracer": "portalcubed:portal/dark_world_door/dark_world_door_tracer"
+    "tracer": [
+      {
+        "texture": "portalcubed:portal/dark_world_door/dark_world_door_tracer",
+        "tint": false
+      }
+    ]
   },
   "stencil": "portalcubed:portal/dark_world_door/dark_world_door_stencil",
   "place_animation": {
