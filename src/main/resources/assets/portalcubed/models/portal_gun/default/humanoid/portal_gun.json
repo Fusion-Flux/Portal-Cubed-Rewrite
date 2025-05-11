@@ -239,7 +239,7 @@
 			}
 		},
 		{
-			"name": "cutout",
+			"name": "transparent",
 			"from": [5.98, 5.955, 9.78],
 			"to": [9.02, 5.995, 12.82],
 			"rotation": {"angle": 45, "axis": "y", "origin": [8, 5.975, 10.8]},

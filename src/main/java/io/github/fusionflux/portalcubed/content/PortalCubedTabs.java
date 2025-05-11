@@ -475,9 +475,9 @@ public class PortalCubedTabs {
 					"missingno",
 					"missingno",
 					"missingno",
-					2396924,
+					16253176,
 					"missingno",
-					16748062
+					3407871
 			);
 			addPortalGunSkin(output,
 					"pistol_portal_gun",
@@ -529,9 +529,9 @@ public class PortalCubedTabs {
 					"mr_thingy",
 					"none",
 					"round",
-					2396924,
+					14019049,
 					"round",
-					16748062
+					5325897
 			);
 			addPortalGunSkin(output,
 					"smithers_portal_gun",

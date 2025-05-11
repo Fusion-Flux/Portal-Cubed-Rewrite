@@ -4,6 +4,8 @@
     "#minecraft:fences",
     "#minecraft:all_hanging_signs",
     "minecraft:lectern",
-    "minecraft:snow"
+    "minecraft:snow",
+    "portalcubed:portal_barrier",
+    "#minecraft:portals"
   ]
 }
