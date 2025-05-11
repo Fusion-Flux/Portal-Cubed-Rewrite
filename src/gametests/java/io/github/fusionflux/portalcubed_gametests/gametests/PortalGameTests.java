@@ -553,14 +553,15 @@ public class PortalGameTests implements FabricGameTest {
 		collisionEdges.secondary().placeOn(new BlockPos(3, 1, 7), Direction.SOUTH);
 
 		helper.pressButton(new BlockPos(4, 1, 0));
-
-		helper.succeedWhen(() -> {
-			helper.assertBlockProperty(new BlockPos(5, 1, 4), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(1, 1, 4), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(2, 1, 10), RedstoneLampBlock.LIT, false);
-			helper.assertBlockProperty(new BlockPos(3, 1, 10), RedstoneLampBlock.LIT, true);
-			helper.assertBlockProperty(new BlockPos(4, 1, 10), RedstoneLampBlock.LIT, false);
-		});
+		helper.runAfterDelay(20, () ->
+			helper.succeedWhen(() -> {
+				helper.assertBlockProperty(new BlockPos(5, 1, 4), RedstoneLampBlock.LIT, true);
+				helper.assertBlockProperty(new BlockPos(1, 1, 4), RedstoneLampBlock.LIT, true);
+				helper.assertBlockProperty(new BlockPos(2, 1, 10), RedstoneLampBlock.LIT, false);
+				helper.assertBlockProperty(new BlockPos(3, 1, 10), RedstoneLampBlock.LIT, true);
+				helper.assertBlockProperty(new BlockPos(4, 1, 10), RedstoneLampBlock.LIT, false);
+			})
+		);
 	}
 
 
