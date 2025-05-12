@@ -1,0 +1,12 @@
+{
+  "parent": "portalcubed:block/cube_2x2_vertical_faces_mirrored",
+  "textures": {
+    "particle": "portalcubed:block/aged_smooth_gray_2x2_panel_bottom_right_2",
+    "north": "portalcubed:block/aged_smooth_gray_2x2_panel_bottom_left_2",
+    "south": "portalcubed:block/aged_smooth_gray_2x2_panel_bottom_right_2",
+    "east": "portalcubed:block/aged_smooth_gray_2x2_panel_bottom_left_2",
+    "west": "portalcubed:block/aged_smooth_gray_2x2_panel_bottom_left_2",
+    "up": "portalcubed:block/aged_smooth_gray_2x2_panel_top_left_2",
+    "down": "portalcubed:block/aged_smooth_gray_2x2_panel_bottom_left_2"
+  }
+}
