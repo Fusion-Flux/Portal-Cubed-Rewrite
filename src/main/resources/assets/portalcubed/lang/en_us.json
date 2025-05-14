@@ -760,6 +760,8 @@
   "item.portalcubed.lil_pineapple.10": "Proud Lil' Prideapple",
 
   "item.portalcubed.portal_gun": "Portal Gun",
+  "item.portalcubed.portal_gun.primary_portal": "Primary Portal:",
+  "item.portalcubed.portal_gun.secondary_portal": "Secondary Portal:",
 
   "item.portalcubed.fizzleinator": "The Fizzleinator™",
 
