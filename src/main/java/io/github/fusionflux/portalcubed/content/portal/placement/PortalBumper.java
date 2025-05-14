@@ -33,13 +33,17 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PortalBumper {
+	public static final int SURFACE_SEARCH_RADIUS = 2;
+
 	// I would love to put the debug rendering on f3+p but this is server-side code, and I'm not adding a packet for it
 	public static final boolean EVIL_DEBUG_RENDERING = true;
 	public static final boolean DEBUG_SURFACE = false;
@@ -110,14 +114,14 @@ public class PortalBumper {
 			return List.of(PortalCandidate.initial(Angle.R0));
 		}
 
-		List<PortalCandidate> list = new ArrayList<>();
-		list.add(PortalCandidate.initial(rotation));
-		// also test 90 degree increments, to handle cases like floor and ceiling 1x2s where space is very limited
-		list.add(PortalCandidate.initial(Angle.R0));
-		list.add(PortalCandidate.initial(Angle.R90));
-		list.add(PortalCandidate.initial(Angle.R180));
-		list.add(PortalCandidate.initial(Angle.R270));
-		return list;
+		return List.of(
+				PortalCandidate.initial(rotation),
+				// also test 90 degree increments, to handle cases like floor and ceiling 1x2s where space is very limited
+				PortalCandidate.initial(Angle.R0),
+				PortalCandidate.initial(Angle.R90),
+				PortalCandidate.initial(Angle.R180),
+				PortalCandidate.initial(Angle.R270)
+		);
 	}
 
 	private static Comparator<PortalCandidate> getCandidateComparator(Angle desiredAngle) {
@@ -159,9 +163,6 @@ public class PortalBumper {
 				}
 
 				// no collision, valid position found
-				// make sure the position is actually within the bounds though
-				if (!surface.contains(currentPortal.center()))
-					continue attempts;
 
 				// if bumping through walls is disallowed, make sure that didn't happen
 				if (!bumpThroughWalls && !portal.center().equals(currentPortal.center())) {
@@ -194,7 +195,7 @@ public class PortalBumper {
 		// }
 
 		PortalableSurface flat = getFlatSurface(id, level, initial, surfacePos, face);
-		if (flat != null) {
+		if (flat != null && !flat.walls().isEmpty()) {
 			surfaces.add(flat);
 		}
 
@@ -205,9 +206,6 @@ public class PortalBumper {
 
 	@Nullable
 	private static PortalableSurface getFlatSurface(PortalId id, ServerLevel level, Vec3 initial, BlockPos pos, Direction face) {
-		if (isFlatSurfaceNonPortalable(level, pos, face))
-			return null;
-
 		Quaternionf surfaceRotation = PortalData.normalToRotation(face, 0);
 
 		if (DEBUG_SURFACE) {
@@ -227,67 +225,82 @@ public class PortalBumper {
 
 		List<Line2d> walls = new ArrayList<>();
 
-		// the surface itself
-		collectSurface(level, initial, pos, right, up, face, walls, true);
-		// exclude blocks in front of it
-		collectSurface(level, initial, pos.relative(face), right, up, face, walls, false);
-		// and let blocks behind poke through (ex. pedestal button under carpet)
-		collectSurface(level, initial, pos.relative(face, -1), right, up, face, walls, false);
-
-		Vector2d containedPoint = new Vector2d();
-		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, containedPoint, walls, face.getAxis() == Direction.Axis.Y);
-
-		findOtherPortals(id, level, surface, initial, pos, face, up, right, walls);
-		cancelOutOpposites(walls);
-
-		// iterate the found walls and see if any portals were found.
-		// if one was, containedPoint needs to be updated, as initial might be inside one
-		for (Line2d wall : walls) {
-			if (wall.source() == Line2d.Source.PORTAL) {
-				containedPoint.set(wall.midpoint()).add(wall.perpendicularCcwAxis().mul(1e-5));
-				break;
+		for (BlockPos surfacePos : BlockPos.spiralAround(pos, SURFACE_SEARCH_RADIUS, right, up)) {
+			if (!collectColumn(level, initial, surfacePos, face, walls) && pos.equals(surfacePos)) {
+				// if the initially hit block has no portalable surface, fully cancel
+				return null;
 			}
 		}
+
+		cancelOutOpposites(walls);
+
+		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, walls, face.getAxis() == Direction.Axis.Y);
+
+		findOtherPortals(id, level, surface, initial, pos, face, up, right, walls);
 
 		return surface;
 	}
 
-	private static void collectSurface(ServerLevel level, Vec3 initial, BlockPos pos, Direction right, Direction up, Direction face, List<Line2d> walls, boolean include) {
+	private static boolean collectColumn(ServerLevel level, Vec3 initial, BlockPos pos, Direction face, List<Line2d> walls) {
+		BlockState surface = level.getBlockState(pos);
+		VoxelShape shape = getPortalVisibleShape(surface, level, pos);
+		if (shape.isEmpty())
+			return false;
+
+		BlockPos inFrontPos = pos.relative(face);
+		BlockState inFront = level.getBlockState(inFrontPos);
+		boolean overridePortalability = overridesPortalability(inFront, face);
+		boolean portalable = overridePortalability ? isPortalable(level, inFront) : isPortalable(level, surface);
+		if (!portalable)
+			return false;
+
+		VoxelShape frontShape = overridePortalability ? Shapes.empty() : getPortalVisibleShape(inFront, level, inFrontPos);
+
+		// check behind surface to allow poking through (ex. pedestal button under carpet)
+		BlockPos behindPos = pos.relative(face, -1);
+		BlockState behind = level.getBlockState(behindPos);
+		VoxelShape behindShape = getPortalVisibleShape(behind, level, behindPos);
+
+		processShape(shape, pos, initial, face, walls, true);
+		processShape(behindShape, behindPos, initial, face, walls, false);
+		processShape(frontShape, inFrontPos, initial, face, walls, false);
+
+		return true;
+	}
+
+	private static void processShape(VoxelShape shape, BlockPos pos, Vec3 initial, Direction face, List<Line2d> walls, boolean include) {
+		if (shape.isEmpty())
+			return;
+
 		Direction.Axis axis = face.getAxis();
 		double surfaceOnAxis = initial.get(axis);
 
-		for (BlockPos surfacePos : BlockPos.spiralAround(pos, 4, right, up)) {
-			if (include && isFlatSurfaceNonPortalable(level, surfacePos, face))
+		for (AABB box : shape.toAabbs()) {
+			AABB absolute = box.move(pos);
+
+			double min = absolute.min(axis);
+			double max = absolute.max(axis);
+
+			// skip boxes that do not intersect the surface
+			if (surfaceOnAxis < min || surfaceOnAxis > max)
 				continue;
 
-			BlockState surface = level.getBlockState(surfacePos);
-			VoxelShape shape = getPortalVisibleShape(surface, level, surfacePos, CollisionContext.empty());
+			double expected = face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? max : min;
+			// if surfaceOnAxis != expected, this box is not a part of the surface, but is instead a bounding wall of it
+			boolean includeBox = include && Mth.equal(surfaceOnAxis, expected);
 
-			for (AABB box : shape.toAabbs()) {
-				AABB absolute = box.move(surfacePos);
-				double min = absolute.min(axis);
-				double max = absolute.max(axis);
-
-				if (surfaceOnAxis < min || surfaceOnAxis > max)
-					continue;
-
-				double expected = face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? max : min;
-				// if surfaceOnAxis != expected, this box is not a part of the surface, but is instead a bounding wall of it
-				boolean includeBox = include && Mth.equal(surfaceOnAxis, expected);
-
-				Vec3 centerOnAxis = absolute.getCenter().with(axis, surfaceOnAxis);
-				Vec3 offset = initial.vectorTo(centerOnAxis);
-				AABB centered = box.move(box.getCenter().scale(-1));
-				AABB relative = centered.move(offset);
-				getWallsFromBox(relative, face, includeBox, walls::add);
-			}
+			Vec3 centerOnAxis = absolute.getCenter().with(axis, surfaceOnAxis);
+			Vec3 offset = initial.vectorTo(centerOnAxis);
+			AABB centered = box.move(box.getCenter().scale(-1));
+			AABB relative = centered.move(offset);
+			getWallsFromBox(relative, face, includeBox, walls::add);
 		}
 	}
 
 	private static void findOtherPortals(PortalId placing, ServerLevel level, PortalableSurface surface, Vec3 initial, BlockPos pos, Direction face, Direction up, Direction right, List<Line2d> walls) {
 		BlockPos inFront = pos.relative(face);
-		BlockPos max = inFront.relative(up, 2).relative(right, 2);
-		BlockPos min = pos.relative(up, -2).relative(right, -2);
+		BlockPos max = inFront.relative(up, SURFACE_SEARCH_RADIUS).relative(right, SURFACE_SEARCH_RADIUS);
+		BlockPos min = pos.relative(up, -SURFACE_SEARCH_RADIUS).relative(right, -SURFACE_SEARCH_RADIUS);
 		AABB area = AABB.encapsulatingFullBlocks(min, max);
 
 		ActivePortalLookup portalLookup = level.portalManager().activePortals();
@@ -354,25 +367,23 @@ public class PortalBumper {
 		};
 	}
 
-	private static boolean isFlatSurfaceNonPortalable(ServerLevel level, BlockPos pos, Direction face) {
-		BlockState state = level.getBlockState(pos);
-		BlockState inFront = level.getBlockState(pos.relative(face));
-
+	private static boolean isPortalable(ServerLevel level, BlockState state) {
 		if (level.getGameRules().getBoolean(PortalCubedGameRules.RESTRICT_VALID_PORTAL_SURFACES)) {
-			if (inFront.is(PortalCubedBlockTags.ADDS_PORTALABILITY))
-				return false;
-
-			if (state.is(PortalCubedBlockTags.UNRESTRICTED_PORTAL_SURFACES)) {
-				return inFront.is(PortalCubedBlockTags.REMOVES_PORTALABILITY);
-			}
-
-			return true;
+			return state.is(PortalCubedBlockTags.UNRESTRICTED_PORTAL_SURFACES);
 		}
 
-		if (state.is(PortalCubedBlockTags.CANT_PLACE_PORTAL_ON) && !inFront.is(PortalCubedBlockTags.ADDS_PORTALABILITY))
+		return !state.is(PortalCubedBlockTags.CANT_PLACE_PORTAL_ON);
+	}
+
+	private static boolean overridesPortalability(BlockState inFront, Direction offset) {
+		if (!inFront.is(PortalCubedBlockTags.OVERRIDES_PORTALABILITY))
+			return false;
+
+		// TODO: datadrive this better
+		if (!(inFront.getBlock() instanceof MultifaceBlock))
 			return true;
 
-		return inFront.is(PortalCubedBlockTags.REMOVES_PORTALABILITY);
+		return MultifaceBlock.hasFace(inFront, offset.getOpposite());
 	}
 
 	static PortalableSurface getDebugSurface(ServerLevel level, Vec3 initial, Quaternionf surfaceRotation) {
@@ -392,7 +403,7 @@ public class PortalBumper {
 
 		cancelOutOpposites(walls);
 
-		return new PortalableSurface(surfaceRotation, initial, new Vector2d(), walls, true);
+		return new PortalableSurface(surfaceRotation, initial, walls, true);
 	}
 
 	public static void cancelOutOpposites(List<Line2d> walls) {
@@ -442,7 +453,14 @@ public class PortalBumper {
 		}
 	}
 
+	private static VoxelShape getPortalVisibleShape(BlockState state, BlockGetter level, BlockPos pos) {
+		return getPortalVisibleShape(state, level, pos, PortalCollisionContext.INSTANCE);
+	}
+
 	public static VoxelShape getPortalVisibleShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+		if (state.is(PortalCubedBlockTags.NONSOLID_TO_PORTALS))
+			return Shapes.empty();
+
 		return state.is(PortalCubedBlockTags.PORTALS_USE_BASE_SHAPE)
 				? state.getShape(level, pos, ctx)
 				: state.getCollisionShape(level, pos, ctx);
@@ -454,8 +472,8 @@ public class PortalBumper {
 
 		walls.remove(first);
 		walls.remove(second);
-		walls.add(new Line2d(first.from(), second.to()));
-		walls.add(new Line2d(second.from(), first.to()));
+		maybeAdd(walls, first.from(), second.to());
+		maybeAdd(walls, second.from(), first.to());
 		return true;
 	}
 
@@ -465,9 +483,15 @@ public class PortalBumper {
 
 		walls.remove(first);
 		walls.remove(second);
-		walls.add(new Line2d(first.from(), second.to()));
-		walls.add(new Line2d(second.from(), first.to()));
+		maybeAdd(walls, first.from(), second.to());
+		maybeAdd(walls, second.from(), first.to());
 		return true;
+	}
+
+	private static void maybeAdd(List<Line2d> walls, Vector2dc from, Vector2dc to) {
+		if (from.distance(to) > 1e-5) {
+			walls.add(new Line2d(from, to));
+		}
 	}
 
 	/**
@@ -517,4 +541,7 @@ public class PortalBumper {
 		return smallestDistanceAxis.mul(-smallestDistanceOnAxis * extraOffsetScale, new Vector2d());
 	}
 
+	private static boolean containsInclusive(AABB bounds, Vec3 pos) {
+		return pos.x >= bounds.minX && pos.x <= bounds.maxX && pos.y >= bounds.minY && pos.y <= bounds.maxY && pos.z >= bounds.minZ && pos.z <= bounds.maxZ;
+	}
 }

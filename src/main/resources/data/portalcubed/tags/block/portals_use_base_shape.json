@@ -6,6 +6,7 @@
     "minecraft:lectern",
     "minecraft:snow",
     "portalcubed:portal_barrier",
-    "#minecraft:portals"
+    "#minecraft:portals",
+    "#portalcubed:all_facades"
   ]
 }

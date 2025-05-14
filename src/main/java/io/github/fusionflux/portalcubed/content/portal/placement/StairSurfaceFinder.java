@@ -64,7 +64,7 @@ public final class StairSurfaceFinder {
 		}
 
 		PortalBumper.cancelOutOpposites(walls);
-		return new PortalableSurface(rotation, origin, new Vector2d(), walls, false);
+		return new PortalableSurface(rotation, origin, walls, false);
 	}
 
 	private static Vec3 getNearestOnPlane(BlockPos pos, Half half, Quaternionf rotation, Vec3 initial) {

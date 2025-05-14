@@ -29,7 +29,7 @@ public class ClipContext$BlockMixin {
 	@Inject(method = "<clinit>", at = @At("TAIL"))
 	private static void addPortalShot(CallbackInfo ci) {
 		int ordinal = $VALUES.length;
-		ClipContext.Block type = pc$create(PortalShotClipContextMode.NAME, ordinal, PortalShotClipContextMode.SHAPE_GETTER);
+		ClipContext.Block type = pc$create(PortalShotClipContextMode.NAME, ordinal, PortalShotClipContextMode::getPortalShotVisibleShape);
 		ClipContext.Block[] newArray = Arrays.copyOf($VALUES, $VALUES.length + 1);
 		newArray[$VALUES.length] = type;
 		$VALUES = newArray;

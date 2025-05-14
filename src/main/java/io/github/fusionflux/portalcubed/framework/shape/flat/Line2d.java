@@ -45,6 +45,10 @@ public record Line2d(Vector2dc from, Vector2dc to, Source source) {
 		return Math.abs(distance) < 1e-7;
 	}
 
+	public boolean isEquivalent(Line2d other) {
+		return this.from.distanceSquared(other.from) < 1e-5 && this.to.distanceSquared(other.to) < 1e-5;
+	}
+
 	public boolean isAlignedWith(Line2d other) {
 		return Mth.equal(this.distanceOf(other.from), 0) && Mth.equal(this.distanceOf(other.to), 0);
 	}

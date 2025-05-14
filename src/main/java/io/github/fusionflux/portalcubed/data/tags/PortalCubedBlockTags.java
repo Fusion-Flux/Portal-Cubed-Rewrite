@@ -18,12 +18,11 @@ public class PortalCubedBlockTags {
 	public static final TagKey<Block> BULLET_HOLE_METAL = create("bullet_hole_metal");
 	public static final TagKey<Block> CROWBAR_MAKES_HOLES = create("crowbar_makes_holes");
 
-	public static final TagKey<Block> ADDS_PORTALABILITY = create("adds_portalability");
-	public static final TagKey<Block> REMOVES_PORTALABILITY = create("removes_portalability");
 	public static final TagKey<Block> NONSOLID_TO_PORTALS = create("nonsolid_to_portals");
-	public static final TagKey<Block> SOLID_TO_PORTALS = create("solid_to_portals");
+	public static final TagKey<Block> NONSOLID_TO_PORTAL_SHOTS = create("nonsolid_to_portal_shots");
 	public static final TagKey<Block> UNRESTRICTED_PORTAL_SURFACES = create("unrestricted_portal_surfaces");
 	public static final TagKey<Block> CANT_PLACE_PORTAL_ON = create("cant_place_portal_on");
+	public static final TagKey<Block> OVERRIDES_PORTALABILITY = create("overrides_portalability");
 
 	public static final TagKey<Block> PORTALS_USE_BASE_SHAPE = create("portals_use_base_shape");
 

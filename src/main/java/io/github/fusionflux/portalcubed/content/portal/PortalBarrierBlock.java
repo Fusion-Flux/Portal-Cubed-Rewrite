@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
 
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,25 +19,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class PortalBarrierBlock extends MultifaceBlock {
 	public static final MapCodec<PortalBarrierBlock> CODEC = simpleCodec(PortalBarrierBlock::new);
 
-	private static final VoxelShaper SHAPE = VoxelShaper.forDirectional(Block.box(1, 15, 1, 15, 16, 15), Direction.UP);
+	private static final VoxelShaper PORTAL_SHAPE = VoxelShaper.forDirectional(Block.box(0, 16, 0, 16, 16 + Math.ulp(16), 16), Direction.UP);
 
-	private final ImmutableMap<BlockState, VoxelShape> shapesCache;
+	private final ImmutableMap<BlockState, VoxelShape> portalShapesCache;
 
 	public PortalBarrierBlock(Properties properties) {
 		super(properties);
-		this.shapesCache = this.getShapeForEachState(PortalBarrierBlock::calculateMultifaceShape);
-	}
-
-	private static VoxelShape calculateMultifaceShape(BlockState state) {
-		VoxelShape multiFaceShape = Shapes.empty();
-
-		for (Direction direction : DIRECTIONS) {
-			if (hasFace(state, direction)) {
-				multiFaceShape = Shapes.or(multiFaceShape, SHAPE.get(direction));
-			}
-		}
-
-		return multiFaceShape.isEmpty() ? Shapes.block() : multiFaceShape;
+		this.portalShapesCache = this.getShapeForEachState(PortalBarrierBlock::calculateShapeForPortals);
 	}
 
 	@Override
@@ -61,6 +50,22 @@ public class PortalBarrierBlock extends MultifaceBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return context.isHoldingItem(this.asItem()) ? this.shapesCache.getOrDefault(state, Shapes.empty()) : Shapes.empty();
+		if (context instanceof PortalCollisionContext) {
+			return this.portalShapesCache.get(state);
+		}
+
+		return context.isHoldingItem(this.asItem()) ? super.getShape(state, world, pos, context) : Shapes.empty();
+	}
+
+	public static VoxelShape calculateShapeForPortals(BlockState state) {
+		VoxelShape multiFaceShape = Shapes.empty();
+
+		for (Direction direction : DIRECTIONS) {
+			if (hasFace(state, direction)) {
+				multiFaceShape = Shapes.or(multiFaceShape, PORTAL_SHAPE.get(direction));
+			}
+		}
+
+		return multiFaceShape.isEmpty() ? Shapes.block() : multiFaceShape;
 	}
 }

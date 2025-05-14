@@ -9,6 +9,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalShotClipContextMode;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
@@ -18,7 +19,6 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
 
 public record PortalGunShootContext(
 		String key,
@@ -41,7 +41,7 @@ public record PortalGunShootContext(
 		ClipContext ctx = new ClipContext(
 				this.from.subtract(this.lookAngle.scale(MAGIC_OFFSET)),
 				this.from.add(this.lookAngle.scale(range + MAGIC_OFFSET)),
-				PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, CollisionContext.empty()
+				PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, PortalCollisionContext.INSTANCE
 		);
 		ctx.pc$setIgnoreInteractionOverride(true);
 
