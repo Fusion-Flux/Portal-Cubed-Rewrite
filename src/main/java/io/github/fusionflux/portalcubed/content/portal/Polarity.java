@@ -22,7 +22,7 @@ public enum Polarity implements StringRepresentable {
 	public final int defaultColor;
 
 	Polarity(int defaultColor) {
-		this.name = name().toLowerCase(Locale.ROOT);
+		this.name = this.name().toLowerCase(Locale.ROOT);
 		this.defaultColor = defaultColor;
 	}
 

@@ -1,6 +1,8 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -15,9 +17,17 @@ import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkinMan
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
 
 public record PortalGunSettings(
 		PortalSettings primary,
@@ -27,7 +37,7 @@ public record PortalGunSettings(
 		Optional<Polarity> shot,
 		PortalGunCrosshair crosshair,
 		ResourceKey<PortalGunSkin> skinId
-) {
+) implements TooltipProvider {
 	public static final Codec<PortalGunSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			PortalSettings.CODEC.fieldOf("primary").forGetter(PortalGunSettings::primary),
 			PortalSettings.CODEC.optionalFieldOf("secondary").forGetter(PortalGunSettings::secondary),
@@ -48,6 +58,8 @@ public record PortalGunSettings(
 			ResourceKey.streamCodec(PortalGunSkin.REGISTRY_KEY), PortalGunSettings::skinId,
 			PortalGunSettings::new
 	);
+
+	public static final Map<Polarity, Component> POLARITY_TOOLTIPS = Util.makeEnumMap(Polarity.class, polarity -> PortalGunItem.translate(polarity.name + "_portal").withStyle(ChatFormatting.GRAY));
 
 	public static final PortalGunSettings DEFAULT = builder().build();
 
@@ -71,6 +83,27 @@ public record PortalGunSettings(
 	@Nullable
 	public PortalGunSkin skin() {
 		return PortalGunSkinManager.INSTANCE.get(this.skinId);
+	}
+
+	@Override
+	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
+		HolderLookup.Provider provider = context.registries();
+		if (provider == null)
+			return;
+
+		for (Polarity polarity : Polarity.values()) {
+			if (polarity == Polarity.SECONDARY && this.secondary.isEmpty())
+				continue;
+
+			PortalSettings settings = this.portalSettingsOf(polarity);
+			Optional<Component> typeName = provider.get(this.portalSettingsOf(polarity).typeId())
+					.map(type -> type.value().name());
+			if (typeName.isEmpty())
+				continue;
+
+			tooltipAdder.accept(POLARITY_TOOLTIPS.get(polarity));
+			tooltipAdder.accept(CommonComponents.space().append(typeName.get()).withColor(settings.color()));
+		}
 	}
 
 	public static final class Builder {

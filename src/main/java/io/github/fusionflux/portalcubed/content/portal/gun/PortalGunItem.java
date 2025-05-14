@@ -13,6 +13,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
@@ -104,5 +106,9 @@ public class PortalGunItem extends Item implements DirectClickItem {
 	public static ItemStack setGunSettings(ItemStack stack, PortalGunSettings data) {
 		stack.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, data);
 		return stack;
+	}
+
+	public static MutableComponent translate(String key) {
+		return Component.translatable("item.portalcubed.portal_gun." + key);
 	}
 }

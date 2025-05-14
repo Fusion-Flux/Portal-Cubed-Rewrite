@@ -62,6 +62,7 @@ public abstract class ItemStackMixin implements ItemStackExt {
 			)
 	)
 	private void addCustomTooltipProviders(Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir, @Local Consumer<Component> consumer) {
+		this.addToTooltip(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, tooltipContext, consumer, tooltipFlag);
 		this.addToTooltip(PortalCubedDataComponents.CANNON_SETTINGS, tooltipContext, consumer, tooltipFlag);
 		this.addToTooltip(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE, tooltipContext, consumer, tooltipFlag);
 		this.addToTooltip(PortalCubedDataComponents.SELECTED_SMALL_SIGNAGE, tooltipContext, consumer, tooltipFlag);
