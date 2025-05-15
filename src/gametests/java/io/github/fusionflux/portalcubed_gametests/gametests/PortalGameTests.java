@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed_gametests.gametests;
 
+import static io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests.spawnProp;
+
 import java.util.stream.IntStream;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
@@ -20,8 +22,6 @@ import net.minecraft.world.level.block.CopperBulbBlock;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.phys.Vec3;
 
-import static io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests.spawnProp;
-
 public class PortalGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":portals/";
 
@@ -29,7 +29,7 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "drop_entity_into_portal")
 	public void dropEntityIntoPortal(GameTestHelper helper) {
 
-		PortalHelper armorStandPair = new PortalHelper(helper, "armor_stand", 0x2055fe, 0xfe7020);
+		PortalHelper armorStandPair = new PortalHelper(helper, "armor_stand");
 		PortalHelper cubePair = new PortalHelper(helper, "cube", 0xfe2020, 0xfeed20);
 
 		armorStandPair.primary().placeOn(new BlockPos(10, 0, 1), Direction.UP, -90);
@@ -51,7 +51,7 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "fling_distance_relative_to_height")
 	public void flingDistanceRelativeToHeight(GameTestHelper helper) {
 
-		PortalHelper pairOne = new PortalHelper(helper, "one", 0x2055fe, 0xfe7020);
+		PortalHelper pairOne = new PortalHelper(helper, "one");
 		PortalHelper pairTwo = new PortalHelper(helper, "two", 0xfe2020, 0xfeed20);
 		PortalHelper pairThree = new PortalHelper(helper, "three", 0x20abfe, 0x9120fe);
 		PortalHelper pairFour = new PortalHelper(helper, "four", 0x34fe20, 0xfe20fa);
@@ -94,7 +94,7 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "infinite_fall")
 	public void infiniteFall(GameTestHelper helper) {
 
-		PortalHelper infiniteFall = new PortalHelper(helper, "infinite_fall", 0x2055fe, 0xfe7020);
+		PortalHelper infiniteFall = new PortalHelper(helper, "infinite_fall");
 
 		helper.setBlock(3, 5, 2, Blocks.AIR);
 		infiniteFall.primary().placeOn(new BlockPos(3, 3, 2), Direction.UP, -90);
@@ -107,7 +107,7 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "infinite_fall_collision")
 	public void infiniteFallCollision(GameTestHelper helper) {
 
-		PortalHelper infiniteFallCollision = new PortalHelper(helper, "infinite_fall_collision", 0x2055fe, 0xfe7020);
+		PortalHelper infiniteFallCollision = new PortalHelper(helper, "infinite_fall_collision");
 
 		infiniteFallCollision.primary().placeOn(new BlockPos(2, 6, 4), Direction.UP, -90);
 		infiniteFallCollision.secondary().placeOn(new BlockPos(2, 10, 4), Direction.DOWN, 90);
@@ -122,14 +122,14 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "odd_portal_surfaces_vertical")
 	public void oddPortalSurfacesVertical(GameTestHelper helper) {
 
-		PortalHelper daylightSensor = new PortalHelper(helper, "daylight_sensor", 0x2055fe, 0xfe7020);
-		PortalHelper slab = new PortalHelper(helper, "slab", 0x2055fe, 0xfe7020);
-		PortalHelper stairsIn = new PortalHelper(helper, "stairs_in", 0x2055fe, 0xfe7020);
-		PortalHelper stairsOut = new PortalHelper(helper, "stairs_out", 0x2055fe, 0xfe7020);
-		PortalHelper carpet = new PortalHelper(helper, "carpet", 0x2055fe, 0xfe7020);
-		PortalHelper stonecutter = new PortalHelper(helper, "stonecutter", 0x2055fe, 0xfe7020);
-		PortalHelper trapdoor = new PortalHelper(helper, "trapdoor", 0x2055fe, 0xfe7020);
-		PortalHelper path = new PortalHelper(helper, "path", 0x2055fe, 0xfe7020);
+		PortalHelper daylightSensor = new PortalHelper(helper, "daylight_sensor");
+		PortalHelper slab = new PortalHelper(helper, "slab");
+		PortalHelper stairsIn = new PortalHelper(helper, "stairs_in");
+		PortalHelper stairsOut = new PortalHelper(helper, "stairs_out");
+		PortalHelper carpet = new PortalHelper(helper, "carpet");
+		PortalHelper stonecutter = new PortalHelper(helper, "stonecutter");
+		PortalHelper trapdoor = new PortalHelper(helper, "trapdoor");
+		PortalHelper path = new PortalHelper(helper, "path");
 
 		daylightSensor.primary().shootFrom(new Vec3(23, 3, 2.5), Direction.DOWN, 0);
 		slab.primary().shootFrom(new Vec3(20, 3, 2.5), Direction.DOWN, 0);
@@ -165,8 +165,8 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "odd_portal_surfaces_horizontal")
 	public void oddPortalSurfacesHorizontal(GameTestHelper helper) {
 
-		PortalHelper wallPair = new PortalHelper(helper, "wall", 0x2055fe, 0xfe7020);
-		PortalHelper doorPair = new PortalHelper(helper, "door", 0x2055fe, 0xfe7020);
+		PortalHelper wallPair = new PortalHelper(helper, "wall");
+		PortalHelper doorPair = new PortalHelper(helper, "door");
 
 		wallPair.primary().shootFrom(new Vec3(8, 2, 1.5), Direction.WEST);
 		doorPair.primary().shootFrom(new Vec3(8, 2, 3.5), Direction.WEST);
@@ -187,8 +187,8 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "portal_against_solid_blocks")
 	public void portalAgainstSolidBlocks(GameTestHelper helper) {
 
-		PortalHelper verticalGrate = new PortalHelper(helper, "vertical_grate", 0x2055fe, 0xfe7020);
-		PortalHelper horizontalGrate = new PortalHelper(helper, "horizontal_grate", 0x2055fe, 0xfe7020);
+		PortalHelper verticalGrate = new PortalHelper(helper, "vertical_grate");
+		PortalHelper horizontalGrate = new PortalHelper(helper, "horizontal_grate");
 
 		verticalGrate.primary().placeOn(new BlockPos(7, 1, 2), Direction.UP, 180);
 		horizontalGrate.primary().placeOn(new BlockPos(2, 1, 2), Direction.UP, 180);
@@ -209,16 +209,14 @@ public class PortalGameTests implements FabricGameTest {
 	//Tests portals being shot through solid and nonsolid blocks such as grates
 	@GameTest(template = GROUP + "portal_shots_through_nonsolid_blocks")
 	public void portalShotsThroughNonsolidBlocks(GameTestHelper helper) {
-
-		PortalHelper nonsolidSurfaceShot = new PortalHelper(helper, "nonsolidSurfaceShot", 0x2055fe, 0xfe7020);
+		PortalHelper nonsolidSurfaceShot = new PortalHelper(helper, "nonsolidSurfaceShot");
 
 		nonsolidSurfaceShot.primary().shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
 		nonsolidSurfaceShot.secondary().shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
 
 		helper.runAfterDelay(20, () -> helper.succeedWhen(() -> {
-			//nonsolidSurfaceShot.primary().assertPresent();
-			//nonsolidSurfaceShot.secondary().assertPresent();
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			nonsolidSurfaceShot.primary().assertPresent(5.5, 3, 3, Direction.NORTH);
+			nonsolidSurfaceShot.secondary().assertPresent(2.5, 3, 3, Direction.NORTH);
 		}));
 	}
 
@@ -226,16 +224,12 @@ public class PortalGameTests implements FabricGameTest {
 	//Tests the gamerule for more restrictive portal surfaces.  Ran separately as its own batch; toggles the gamerule on before running, then off when finishing
 	@GameTest(template = GROUP + "restrictive_portal_surfaces", batch = Batches.RESTRICTED_PORTAL_SURFACES)
 	public void restrictivePortalSurfaces(GameTestHelper helper) {
-
-		PortalHelper restrictiveSurface = new PortalHelper(helper, "restrictive_surface", 0x2055fe, 0xfe7020);
+		PortalHelper restrictiveSurface = new PortalHelper(helper, "restrictive_surface");
 
 		restrictiveSurface.primary().shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
 		restrictiveSurface.secondary().shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
 
-		helper.runAfterDelay(20, () -> helper.succeedWhen(() -> {
-			//restrictiveSurface.primary().assertNotPresent();
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
-		}));
+		helper.succeedWhen(() -> restrictiveSurface.primary().assertNotPresent());
 	}
 
 	//Tests the "create" portion of the portal command
@@ -259,9 +253,8 @@ public class PortalGameTests implements FabricGameTest {
 	//Tests the "remove" portion of the portal command
 	@GameTest(template = GROUP + "portal_command_remove")
 	public void portalCommandRemove(GameTestHelper helper) {
-
-		PortalHelper removeSingle = new PortalHelper(helper, "removesingle", 0x2055fe, 0xfe7020);
-		PortalHelper removePair = new PortalHelper(helper, "removepair", 0x2055fe, 0xfe7020);
+		PortalHelper removeSingle = new PortalHelper(helper, "removesingle");
+		PortalHelper removePair = new PortalHelper(helper, "removepair");
 
 		removeSingle.primary().placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
 		removePair.primary().placeOn(new BlockPos(2, 2, 4), Direction.NORTH);
@@ -269,11 +262,9 @@ public class PortalGameTests implements FabricGameTest {
 
 		helper.runAfterDelay(20, () -> helper.pullLever(2, 1, 0));
 		helper.succeedWhen(() -> {
-			//removesingle.primary().assertNotPresent();
-			//removepair.primary().assertNotPresent();
-			//removepair.secondary().assertNotPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			removeSingle.primary().assertNotPresent();
+			removePair.primary().assertNotPresent();
+			removePair.secondary().assertNotPresent();
 		});
 	}
 
@@ -281,10 +272,10 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "projectiles_through_portals")
 	public void projectilesThroughPortals(GameTestHelper helper) {
 
-		PortalHelper windCharge = new PortalHelper(helper, "wind_charge", 0x2055fe, 0xfe7020);
-		PortalHelper snowball = new PortalHelper(helper, "snowball", 0x2055fe, 0xfe7020);
-		PortalHelper fireworkRocket = new PortalHelper(helper, "firework_rocket", 0x2055fe, 0xfe7020);
-		PortalHelper arrow = new PortalHelper(helper, "arrow", 0x2055fe, 0xfe7020);
+		PortalHelper windCharge = new PortalHelper(helper, "wind_charge");
+		PortalHelper snowball = new PortalHelper(helper, "snowball");
+		PortalHelper fireworkRocket = new PortalHelper(helper, "firework_rocket");
+		PortalHelper arrow = new PortalHelper(helper, "arrow");
 
 		windCharge.primary().shootFrom(new Vec3(1.5, 2, 4.5), Direction.UP);
 		windCharge.secondary().shootFrom(new Vec3(1.5, 2.5, 1.5), Direction.DOWN);
@@ -310,10 +301,10 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "portal_become_obstructed")
 	public void portalBecomeObstructed(GameTestHelper helper) {
 
-		PortalHelper pistonSolid = new PortalHelper(helper, "piston_solid", 0x2055fe, 0xfe7020);
-		PortalHelper pistonNonSolid = new PortalHelper(helper, "piston_nonsolid", 0x2055fe, 0xfe7020);
-		PortalHelper waterFlow = new PortalHelper(helper, "water_flow", 0x2055fe, 0xfe7020);
-		PortalHelper doorTrapdoor = new PortalHelper(helper, "door_trapdoor", 0x2055fe, 0xfe7020);
+		PortalHelper pistonSolid = new PortalHelper(helper, "piston_solid");
+		PortalHelper pistonNonSolid = new PortalHelper(helper, "piston_nonsolid");
+		PortalHelper waterFlow = new PortalHelper(helper, "water_flow");
+		PortalHelper doorTrapdoor = new PortalHelper(helper, "door_trapdoor");
 
 		pistonSolid.primary().placeOn(new BlockPos(7, 1, 8), Direction.NORTH);
 		pistonNonSolid.primary().placeOn(new BlockPos(5, 1, 8), Direction.NORTH);
@@ -346,9 +337,8 @@ public class PortalGameTests implements FabricGameTest {
 	//Tests portals being placed on/in blocks that should or shouldn't support them
 	@GameTest(template = GROUP + "valid_portal_surfaces")
 	public void validPortalSurfaces(GameTestHelper helper) {
-
-		PortalHelper sanePortalSurfaces = new PortalHelper(helper, "sane_surfaces", 0x2055fe, 0xfe7020);
-		PortalHelper facadeSurfaces = new PortalHelper(helper, "facade_surfaces", 0x2055fe, 0xfe7020);
+		PortalHelper sanePortalSurfaces = new PortalHelper(helper, "sane_surfaces");
+		PortalHelper facadeSurfaces = new PortalHelper(helper, "facade_surfaces");
 
 		sanePortalSurfaces.primary().shootFrom(new Vec3(11.5, 3, 1), Direction.SOUTH);
 		sanePortalSurfaces.secondary().shootFrom(new Vec3(8.5, 3, 1), Direction.SOUTH);
@@ -356,12 +346,10 @@ public class PortalGameTests implements FabricGameTest {
 		facadeSurfaces.secondary().shootFrom(new Vec3(2.5, 3, 1), Direction.SOUTH);
 
 		helper.succeedWhen(() -> {
-			//sanePortalSurfaces.primary().assertPresent();
-			//sanePortalSurfaces.secondary().assertNotPresent();
-			//facadeSurfaces.primary().assertNotPresent();
-			//facadeSurfaces.secondary().assertPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			sanePortalSurfaces.primary().assertPresent(11.5, 3, 3, Direction.NORTH);
+			sanePortalSurfaces.secondary().assertNotPresent();
+			facadeSurfaces.primary().assertNotPresent();
+			facadeSurfaces.secondary().assertPresent(2.5, 3, 3, Direction.NORTH);
 		});
 	}
 
@@ -369,15 +357,12 @@ public class PortalGameTests implements FabricGameTest {
 	//Tests portal bumping if you shoot too close to a wall
 	@GameTest(template = GROUP + "portal_bump_wall")
 	public void portalBumpWall(GameTestHelper helper) {
+		PortalHelper portalBumpWall = new PortalHelper(helper, "portal_bump_wall");
 
-		PortalHelper portalBumpWall = new PortalHelper(helper, "portal_bump_wall", 0x2055fe, 0xfe7020);
-		portalBumpWall.primary().shootFrom(new Vec3(1, 3, 2.5), Direction.DOWN);
+		// 0.1 offset on X
+		portalBumpWall.primary().shootFrom(new Vec3(1.1, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> {
-			//portalBumpWall.primary().assertPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
-		});
+		helper.succeedWhen(() -> portalBumpWall.primary().assertPresent(1.5, 1, 2.5, Direction.UP));
 	}
 
 
@@ -385,7 +370,7 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "portal_bump_portal")
 	public void portalBumpPortal(GameTestHelper helper) {
 
-		PortalHelper portalBumpPortal = new PortalHelper(helper, "portal_bump_portal", 0x2055fe, 0xfe7020);
+		PortalHelper portalBumpPortal = new PortalHelper(helper, "portal_bump_portal");
 		portalBumpPortal.primary().shootFrom(new Vec3(1.5, 3, 2.5), Direction.DOWN);
 		helper.runAfterDelay(20, () -> portalBumpPortal.secondary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN));
 
@@ -400,98 +385,73 @@ public class PortalGameTests implements FabricGameTest {
 	//Tests portal bumping if you shoot an invalid portal surface.  The portal should not be bumped.
 	@GameTest(template = GROUP + "portal_bump_invalid_surface")
 	public void portalBumpInvalidSurface(GameTestHelper helper) {
+		PortalHelper portalBumpInvalidSurface = new PortalHelper(helper, "portal_bump_invalid_surface");
 
-		PortalHelper portalBumpInvalidSurface = new PortalHelper(helper, "portal_bump_invalid_surface", 0x2055fe, 0xfe7020);
 		portalBumpInvalidSurface.primary().shootFrom(new Vec3(0.75, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> {
-			//portalBumpInvalidSurface.primary().assertNotPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
-		});
+		helper.succeedWhen(() -> portalBumpInvalidSurface.primary().assertNotPresent());
 	}
 
 
 	//Tests portal bumping across a gap.  It probably shouldn't bump, but the current implementation does, and it's hard to make it not do that.
 	@GameTest(template = GROUP + "portal_bump_gap")
 	public void portalBumpGap(GameTestHelper helper) {
+		PortalHelper portalBumpGap = new PortalHelper(helper, "portal_bump_gap");
 
-		PortalHelper portalBumpGap = new PortalHelper(helper, "portal_bump_gap", 0x2055fe, 0xfe7020);
 		portalBumpGap.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> {
-			//portalBumpGap.primary().assertPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
-		});
+		helper.succeedWhen(() -> portalBumpGap.primary().assertPresent(3, 1, 2.5, Direction.UP));
 	}
 
 
 	//Tests portal bumping through a thin wall with the gamerule enabled.  The portal should bump through the wall.
 	@GameTest(template = GROUP + "portal_bump_thin_wall", batch = Batches.PORTALS_BUMP_THROUGH_WALLS)
 	public void portalBumpThinWall(GameTestHelper helper) {
+		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall");
 
-		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall", 0x2055fe, 0xfe7020);
 		portalBumpThinWall.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> {
-			//portalBumpThinWall.primary().assertPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
-		});
+		helper.succeedWhen(() -> portalBumpThinWall.primary().assertPresent(2, 1, 2.5, Direction.UP));
 	}
 
 	//Tests portal bumping through a thin wall with the gamerule disabled.  The portal should not bump through the wall.
 	@GameTest(template = GROUP + "portal_bump_thin_wall", batch = Batches.PORTALS_DO_NOT_BUMP_THROUGH_WALLS)
 	public void portalBumpThinWallDisabled(GameTestHelper helper) {
+		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall_disabled");
 
-		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall_disabled", 0x2055fe, 0xfe7020);
 		portalBumpThinWall.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> {
-			//portalBumpThinWall.primary().assertNotPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
-		});
+		helper.succeedWhen(() -> portalBumpThinWall.primary().assertNotPresent());
 	}
 
 
 	//Tests portal bumping when a portal is shot on the edge of a block
 	@GameTest(template = GROUP + "portal_bump_edge")
 	public void portalBumpEdge(GameTestHelper helper) {
+		PortalHelper portalBumpEdge = new PortalHelper(helper, "portal_bump_edge");
 
-		PortalHelper portalBumpEdge = new PortalHelper(helper, "portal_bump_edge", 0x2055fe, 0xfe7020);
 		portalBumpEdge.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> {
-			//portalBumpEdge.primary().assertPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
-		});
+		helper.succeedWhen(() -> portalBumpEdge.primary().assertPresent(1.5, 2, 2.5, Direction.UP));
 	}
 
 
 	//Tests portal bumping when a portal is shot into a thin trench.  The portal should not be placed.
 	@GameTest(template = GROUP + "portal_bump_trench")
 	public void portalBumpTrench(GameTestHelper helper) {
+		PortalHelper portalBumpTrench = new PortalHelper(helper, "portal_bump_trench");
 
-		PortalHelper portalBumpTrench = new PortalHelper(helper, "portal_bump_trench", 0x2055fe, 0xfe7020);
 		portalBumpTrench.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> {
-			//portalBumpTrench.primary().assertNotPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
-		});
+		helper.succeedWhen(() -> portalBumpTrench.primary().assertNotPresent());
 	}
 
 	//Tests blocks that add or remove portalability to block surfaces, such as facades and portal barriers.  Makes sure that only the intended surface supports portals.
 	@GameTest(template = GROUP + "surface_modification")
 	public void surfaceModification(GameTestHelper helper) {
-
-		PortalHelper addsPortalability = new PortalHelper(helper, "adds_portalability", 0x2055fe, 0xfe7020);
-		PortalHelper removesPortalability = new PortalHelper(helper, "removes_portalability", 0x2055fe, 0xfe7020);
-		PortalHelper portalBarrier = new PortalHelper(helper, "portal_barrier", 0x2055fe, 0xfe7020);
+		PortalHelper addsPortalability = new PortalHelper(helper, "adds_portalability");
+		PortalHelper removesPortalability = new PortalHelper(helper, "removes_portalability");
+		PortalHelper portalBarrier = new PortalHelper(helper, "portal_barrier");
 
 		addsPortalability.primary().shootFrom(new Vec3(1.5, 1.5, 2.5), Direction.SOUTH);
 		addsPortalability.secondary().shootFrom(new Vec3(1.5, 1.5, 2.5), Direction.EAST);
@@ -519,7 +479,7 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "collision_carving")
 	public void collisionCarving(GameTestHelper helper) {
 
-		PortalHelper collisionSides = new PortalHelper(helper, "collision_sides", 0x2055fe, 0xfe7020);
+		PortalHelper collisionSides = new PortalHelper(helper, "collision_sides");
 
 		collisionSides.primary().placeOn(new BlockPos(5, 6, 5), Direction.NORTH);
 		collisionSides.secondary().placeOn(new BlockPos(5, 14, 5), Direction.NORTH);
@@ -547,7 +507,7 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "edge_collision")
 	public void edgeCollision(GameTestHelper helper) {
 
-		PortalHelper collisionEdges = new PortalHelper(helper, "collision_edges", 0x2055fe, 0xfe7020);
+		PortalHelper collisionEdges = new PortalHelper(helper, "collision_edges");
 
 		collisionEdges.primary().placeOn(new BlockPos(3, 1, 5), Direction.NORTH);
 		collisionEdges.secondary().placeOn(new BlockPos(3, 1, 7), Direction.SOUTH);
@@ -569,15 +529,15 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "portal_open_popoff")
 	public void portalOpenPopoff(GameTestHelper helper) {
 
-		PortalHelper floorPairOne = new PortalHelper(helper, "floor_pair_one", 0x2055fe, 0xfe7020);
-		PortalHelper floorPairTwo = new PortalHelper(helper, "floor_pair_two", 0x2055fe, 0xfe7020);
-		PortalHelper floorPairThree = new PortalHelper(helper, "floor_pair_three", 0x2055fe, 0xfe7020);
-		PortalHelper wallPairOne = new PortalHelper(helper, "wall_pair_one", 0x2055fe, 0xfe7020);
-		PortalHelper wallPairTwo = new PortalHelper(helper, "wall_pair_two", 0x2055fe, 0xfe7020);
-		PortalHelper wallPairThree = new PortalHelper(helper, "wall_pair_three", 0x2055fe, 0xfe7020);
-		PortalHelper ceilingPairOne = new PortalHelper(helper, "ceiling_pair_one", 0x2055fe, 0xfe7020);
-		PortalHelper ceilingPairTwo = new PortalHelper(helper, "ceiling_pair_two", 0x2055fe, 0xfe7020);
-		PortalHelper ceilingPairThree = new PortalHelper(helper, "ceiling_pair_three", 0x2055fe, 0xfe7020);
+		PortalHelper floorPairOne = new PortalHelper(helper, "floor_pair_one");
+		PortalHelper floorPairTwo = new PortalHelper(helper, "floor_pair_two");
+		PortalHelper floorPairThree = new PortalHelper(helper, "floor_pair_three");
+		PortalHelper wallPairOne = new PortalHelper(helper, "wall_pair_one");
+		PortalHelper wallPairTwo = new PortalHelper(helper, "wall_pair_two");
+		PortalHelper wallPairThree = new PortalHelper(helper, "wall_pair_three");
+		PortalHelper ceilingPairOne = new PortalHelper(helper, "ceiling_pair_one");
+		PortalHelper ceilingPairTwo = new PortalHelper(helper, "ceiling_pair_two");
+		PortalHelper ceilingPairThree = new PortalHelper(helper, "ceiling_pair_three");
 
 		floorPairOne.primary().placeOn(new BlockPos(5, 0, 1), Direction.UP);
 		floorPairOne.secondary().placeOn(new BlockPos(4, 0, 1), Direction.UP);

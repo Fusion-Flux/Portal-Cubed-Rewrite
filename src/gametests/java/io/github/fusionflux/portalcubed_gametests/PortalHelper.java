@@ -7,12 +7,14 @@ import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
@@ -87,6 +89,31 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 
 			ServerPortalManager manager = level.portalManager();
 			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level, pos, rotation, this.settings));
+		}
+
+		public void assertPresent(double expectedX, double expectedY, double expectedZ, Direction expectedNormal) {
+			PortalInstance portal = this.getPortal().orElseThrow(() -> new GameTestAssertException("Expected " + this.polarity + " portal with key " + this.key + ", got nothing"));
+
+			Vec3 origin = this.helper.relativeVec(portal.data.origin());
+			System.out.println(this.polarity);
+			System.out.println(origin);
+			if (Math.abs(origin.x - expectedX) > 0.1 || Math.abs(origin.y - expectedY) > 0.1 || Math.abs(origin.z - expectedZ) > 0.1)
+				throw new GameTestAssertException("Expected portal position to be " + new Vec3(expectedX, expectedY, expectedZ) + " got " + origin);
+
+			Vector3d facing = portal.rotation().transformUnit(0, 1, 0, new Vector3d());
+			Direction normal = Direction.getApproximateNearest(facing.x, facing.y, facing.z);
+			if (normal != expectedNormal)
+				throw new GameTestAssertException("Expected portal direction to be " + expectedNormal + ", got " + normal);
+		}
+
+		public void assertNotPresent() {
+			if (this.getPortal().isPresent())
+				throw new GameTestAssertException("Did not expect " + this.polarity + " portal with key " + this.key);
+		}
+
+		private Optional<PortalInstance> getPortal() {
+			ServerPortalManager manager = this.helper.getLevel().portalManager();
+			return manager.getOrEmpty(this.key).get(this.polarity);
 		}
 	}
 }
