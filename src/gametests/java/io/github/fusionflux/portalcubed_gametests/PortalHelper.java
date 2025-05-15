@@ -24,6 +24,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper primary, SinglePortalHelper secondary) {
+	public static final double POSITION_ASSERTION_EPSILON = 0.1;
+
 	public PortalHelper(GameTestHelper helper, String key) {
 		this(helper, key, Polarity.PRIMARY.defaultColor, Polarity.SECONDARY.defaultColor);
 	}
@@ -95,9 +97,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			PortalInstance portal = this.getPortal().orElseThrow(() -> new GameTestAssertException("Expected " + this.polarity + " portal with key " + this.key + ", got nothing"));
 
 			Vec3 origin = this.helper.relativeVec(portal.data.origin());
-			System.out.println(this.polarity);
-			System.out.println(origin);
-			if (Math.abs(origin.x - expectedX) > 0.1 || Math.abs(origin.y - expectedY) > 0.1 || Math.abs(origin.z - expectedZ) > 0.1)
+			if (Math.abs(origin.x - expectedX) > POSITION_ASSERTION_EPSILON || Math.abs(origin.y - expectedY) > POSITION_ASSERTION_EPSILON || Math.abs(origin.z - expectedZ) > POSITION_ASSERTION_EPSILON)
 				throw new GameTestAssertException("Expected portal position to be " + new Vec3(expectedX, expectedY, expectedZ) + " got " + origin);
 
 			Vector3d facing = portal.rotation().transformUnit(0, 1, 0, new Vector3d());
