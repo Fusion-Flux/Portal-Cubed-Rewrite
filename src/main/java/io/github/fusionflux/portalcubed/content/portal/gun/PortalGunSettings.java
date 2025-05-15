@@ -91,6 +91,7 @@ public record PortalGunSettings(
 		if (provider == null)
 			return;
 
+		boolean first = true;
 		for (Polarity polarity : Polarity.values()) {
 			if (polarity == Polarity.SECONDARY && this.secondary.isEmpty())
 				continue;
@@ -100,6 +101,11 @@ public record PortalGunSettings(
 					.map(type -> type.value().name());
 			if (typeName.isEmpty())
 				continue;
+
+			if (first) {
+				tooltipAdder.accept(CommonComponents.EMPTY);
+				first = false;
+			}
 
 			tooltipAdder.accept(POLARITY_TOOLTIPS.get(polarity));
 			tooltipAdder.accept(CommonComponents.space().append(typeName.get()).withColor(settings.color()));

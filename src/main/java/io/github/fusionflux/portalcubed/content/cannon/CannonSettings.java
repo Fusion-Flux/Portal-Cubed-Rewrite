@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.cannon;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.Codec;
@@ -71,13 +72,25 @@ public record CannonSettings(
 
 	@Override
 	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
+		MutableBoolean first = new MutableBoolean(true);
+
 		this.material().ifPresent(material -> {
+			if (first.isTrue()) {
+				tooltipAdder.accept(CommonComponents.EMPTY);
+				first.setFalse();
+			}
+
 			tooltipAdder.accept(MATERIAL_TOOLTIP);
 			Component name = TagTranslation.translate(material);
 			tooltipAdder.accept(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
 		});
 
 		this.construct().ifPresent(construct -> {
+			if (first.isTrue()) {
+				tooltipAdder.accept(CommonComponents.EMPTY);
+				first.setFalse();
+			}
+
 			tooltipAdder.accept(CONSTRUCT_TOOLTIP);
 			Component name = ConstructSet.getName(this.construct().get());
 			tooltipAdder.accept(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
