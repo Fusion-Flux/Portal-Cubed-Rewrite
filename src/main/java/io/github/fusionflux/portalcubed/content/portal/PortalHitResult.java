@@ -1,93 +1,60 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import java.util.Objects;
-
-import org.jetbrains.annotations.Nullable;
+import java.util.function.Consumer;
 
 import net.minecraft.world.phys.Vec3;
 
 /**
- * A result of a raycast that passes through a pair of portals.
- * Each result may have either a next result or an end position. If there is another result, then the raycast passed
- * through multiple portals.
- *
- * @param start  Start of the raycast.
- * @param end    End of the raycast, teleported through the portals. This is non-null when next is null.
- * @param in     The portal that was entered.
- * @param out    The portal that was exited.
- * @param pair   The pair of portals passed through.
- * @param inHit  Position where the entered portal was hit.
- * @param outHit Position where the exited portal was hit.
- * @param next   The next hit result in the chain. Null when end is non-null.
+ * Represents the result of a raycast that only interacts with portals.
  */
-public record PortalHitResult(Vec3 start, @Nullable Vec3 end,
-							  PortalInstance in, PortalInstance out, PortalPair pair, String pairKey,
-							  Vec3 inHit, Vec3 outHit,
-							  @Nullable PortalHitResult next) {
+public sealed interface PortalHitResult permits PortalHitResult.Closed, PortalHitResult.Open {
+	PortalInstance.Holder enteredPortal();
 
-	public static final PortalHitResult OVERFLOW_MARKER = new PortalHitResult(null, Vec3.ZERO, null, null, null, null, null, null, null);
+	default PortalPair.Holder pair() {
+		return this.enteredPortal().pair();
+	}
 
-	public PortalHitResult(Vec3 start, @Nullable Vec3 end,
-						   PortalInstance in, PortalInstance out, PortalPair pair, String pairKey,
-						   Vec3 inHit, Vec3 outHit,
-						   @Nullable PortalHitResult next) {
-		this.start = start;
-		this.end = end;
-		this.inHit = inHit;
-		this.outHit = outHit;
-		this.in = in;
-		this.out = out;
-		this.pair = pair;
-		this.pairKey = pairKey;
-		this.next = next;
+	Vec3 hit();
 
-		// both null or both non-null
-		if ((end == null) == (next == null)) {
-			throw new IllegalArgumentException();
+	/**
+	 * The result of a raycast that hit a closed portal.
+	 */
+	record Closed(PortalInstance.Holder enteredPortal, Vec3 hit) implements PortalHitResult {
+	}
+
+	/**
+	 * Sub-interface for raycasts that hit open portals.
+	 */
+	sealed interface Open extends PortalHitResult {
+		Vec3 exitHit();
+
+		default PortalInstance.Holder exitedPortal() {
+			return this.enteredPortal().opposite().orElseThrow();
+		}
+
+		void forEach(Consumer<Open> consumer);
+	}
+
+	/**
+	 * A single step in a raycast that passed through more than one pair of portals.
+	 */
+	record Mid(PortalInstance.Holder enteredPortal, Vec3 hit, Vec3 exitHit, PortalHitResult next) implements Open {
+		@Override
+		public void forEach(Consumer<Open> consumer) {
+			consumer.accept(this);
+			if (this.next instanceof Open open) {
+				open.forEach(consumer);
+			}
 		}
 	}
 
-	public boolean hasNext() {
-		return this.next != null;
-	}
-
-	@Override
-	public PortalHitResult next() {
-		return Objects.requireNonNull(this.next);
-	}
-
-	public PortalHitResult nextOrNull() {
-		return this.next;
-	}
-
-	public boolean isEnd() {
-		return this.end != null;
-	}
-
-	@Override
-	public Vec3 end() {
-		return Objects.requireNonNull(this.end);
-	}
-
-	public Vec3 findEnd() {
-		return this.isEnd() ? this.end() : this.next().findEnd();
-	}
-
-	public PortalHitResult getLast() {
-		return this.hasNext() ? this.next.getLast() : this;
-	}
-
-	public int depth() {
-		return 1 + (this.hasNext() ? this.next.depth() : 0);
-	}
-
-	// TODO: these should go from in to the final out portal
-
-	public Vec3 teleportAbsoluteVec(Vec3 pos) {
-		return PortalTeleportHandler.teleportAbsoluteVecBetween(pos, in, out);
-	}
-
-	public Vec3 teleportRelativeVec(Vec3 vec) {
-		return PortalTeleportHandler.teleportRelativeVecBetween(vec, in, out);
+	/**
+	 * Either the result of a raycast that only passed through one pair of portals, or the tail of a chain of teleports.
+	 */
+	record Tail(PortalInstance.Holder enteredPortal, Vec3 hit, Vec3 exitHit, Vec3 end) implements Open {
+		@Override
+		public void forEach(Consumer<Open> consumer) {
+			consumer.accept(this);
+		}
 	}
 }

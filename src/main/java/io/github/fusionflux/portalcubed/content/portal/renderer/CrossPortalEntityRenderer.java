@@ -12,7 +12,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.manager.lookup.ActivePortalLookup;
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.SimpleBufferSource;
@@ -55,7 +55,7 @@ public class CrossPortalEntityRenderer {
 	}
 
 	public void collectEntities(Frustum frustum, DeltaTracker deltaTracker) {
-		ActivePortalLookup portalLookup = this.world.portalManager().activePortals();
+		PortalLookup portalLookup = this.world.portalManager().lookup();
 		for (Entity entity : this.world.entitiesForRendering()) {
 			TickRateManager tickRateManager = this.world.tickRateManager();
 			float tickDelta = deltaTracker.getGameTimeDeltaPartialTick(!tickRateManager.isEntityFrozen(entity));
@@ -79,8 +79,12 @@ public class CrossPortalEntityRenderer {
 						.add(center);
 
 				PortalHitResult hit = portalLookup.clip(start, end);
-				if (hit != null) {
-					this.entities.add(new CrossPortalEntity(entity, tickDelta, position, hit.in(), hit.out()));
+				if (hit instanceof PortalHitResult.Open open) {
+					this.entities.add(new CrossPortalEntity(
+							entity, tickDelta, position,
+							open.enteredPortal().portal(), open.exitedPortal().portal()
+					));
+
 					break;
 				}
 			}

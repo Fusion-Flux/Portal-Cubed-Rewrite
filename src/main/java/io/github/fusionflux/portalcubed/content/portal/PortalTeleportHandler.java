@@ -44,11 +44,8 @@ public class PortalTeleportHandler {
 		Vec3 oldCenter = oldPos.add(posToCenter);
 
 		PortalManager manager = entity.level().portalManager();
-		PortalHitResult result = manager.activePortals().clip(oldCenter, newCenter);
-		if (result == null)
-			return false;
-
-		if (theHorrors(result))
+		PortalHitResult maybeResult = manager.lookup().clip(oldCenter, newCenter);
+		if (!(maybeResult instanceof PortalHitResult.Open result))
 			return false;
 
 		PortalTransform transform = PortalTransform.of(result);
@@ -88,20 +85,6 @@ public class PortalTeleportHandler {
 		return entity.oldPosition().add(posToCenter);
 	}
 
-	private static boolean theHorrors(PortalHitResult result) {
-		if (result.getLast() == PortalHitResult.OVERFLOW_MARKER) {
-			// skip to last 10, toString can overflow
-			while (result.hasNext()) {
-				result = result.next();
-				if (result.depth() == 10) {
-					System.out.println(result);
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	public static void nudge(Entity entity, Vec3 exitOrigin) {
 		// because of the difference in a portal's plane and its collision, teleporting will always put an entity
 		// either in the ground or floating slightly, depending on direction. Need to nudge the entity towards the
@@ -114,22 +97,22 @@ public class PortalTeleportHandler {
 		entity.setPos(entity.position().add(completedStep));
 	}
 
-	private static PortalTeleportInfo buildTeleportInfo(PortalHitResult result) {
+	private static PortalTeleportInfo buildTeleportInfo(PortalHitResult.Open result) {
 		return new PortalTeleportInfo(
-				result.pairKey(),
-				result.pair().polarityOf(result.in()),
-				result.hasNext() ? buildTeleportInfo(result.next()) : null
+				result.pair().key(),
+				result.enteredPortal().polarity(),
+				result instanceof PortalHitResult.Mid mid && mid.next() instanceof PortalHitResult.Open open
+						? buildTeleportInfo(open) : null
 		);
 	}
 
-	private static List<TrackedTeleport> buildTeleports(PortalHitResult result) {
+	private static List<TrackedTeleport> buildTeleports(PortalHitResult.Open result) {
 		List<TrackedTeleport> teleports = new ArrayList<>();
 
-		while (result != null) {
-			SinglePortalTransform transform = new SinglePortalTransform(result.in(), result.out());
-			teleports.add(new TrackedTeleport(result.in().plane, transform));
-			result = result.nextOrNull();
-		}
+		result.forEach(open -> {
+			SinglePortalTransform transform = new SinglePortalTransform(open);
+			teleports.add(new TrackedTeleport(open.enteredPortal().portal().plane, transform));
+		});
 
 		return teleports;
 	}

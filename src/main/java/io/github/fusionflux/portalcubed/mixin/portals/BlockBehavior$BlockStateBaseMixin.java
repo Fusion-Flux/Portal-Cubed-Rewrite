@@ -50,7 +50,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 		if (PortalTeleportHandler.ignoresPortalModifiedCollision(entity))
 			return shape;
 
-		Collection<CollisionPatch> patches = level.portalManager().activePortals().collisionManager().getPatches(pos);
+		Collection<CollisionPatch> patches = level.portalManager().collision.getPatches(pos);
 		if (patches.isEmpty())
 			return shape;
 

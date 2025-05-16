@@ -1,36 +1,25 @@
 package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongConsumer;
 import net.minecraft.core.SectionPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class SectionActivePortalLookup implements ActivePortalLookup {
-	private final Long2ObjectMap<List<PortalInstance>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
-	private final Map<PortalInstance, PairEntry> portalsToPairs = new HashMap<>();
-	private final CollisionManager collisionManager;
-
-	public SectionActivePortalLookup(Level level) {
-		this.collisionManager = new CollisionManager(level);
-	}
+public class SectionPortalLookup implements PortalLookup {
+	private final Long2ObjectMap<List<PortalInstance.Holder>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
 
 	@Override
 	@Nullable
@@ -39,20 +28,22 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 			return null;
 
 		class Closest {
-			PortalInstance portal = null;
+			PortalInstance.Holder portal = null;
 			Vec3 hit = null;
 			double distSqr = Double.MIN_VALUE;
 		}
 
-		final Closest closest = new Closest();
+		Closest closest = new Closest();
 		Vec3 normal = from.vectorTo(to).normalize();
 
 		forEachSectionInBox(from, to, section -> {
-			List<PortalInstance> portals = this.sectionsToPortals.get(section);
+			List<PortalInstance.Holder> portals = this.sectionsToPortals.get(section);
 			if (portals == null)
 				return;
 
-			for (PortalInstance portal : portals) {
+			for (PortalInstance.Holder holder : portals) {
+				PortalInstance portal = holder.portal();
+
 				Vec3 hit = portal.quad.clip(from, to);
 				if (hit == null)
 					continue;
@@ -64,7 +55,7 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 				double distSqr = hit.distanceToSqr(from);
 				// if first portal, or this hit is closer than prev. closest
 				if (closest.portal == null || closest.distSqr > distSqr) {
-					closest.portal = portal;
+					closest.portal = holder;
 					closest.hit = hit;
 					closest.distSqr = distSqr;
 				}
@@ -74,30 +65,22 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		if (closest.portal == null)
 			return null;
 
-		PairEntry entry = this.portalsToPairs.get(closest.portal);
-		PortalInstance linked = entry.pair.other(closest.portal);
-		// only paired portals should be stored
-		Objects.requireNonNull(linked);
+		Optional<PortalInstance.Holder> linked = closest.portal.opposite();
 
-		PortalTransform transform = new SinglePortalTransform(closest.portal, linked);
-		Vec3 teleportedHit = transform.applyAbsolute(closest.hit);
-		Vec3 teleportedEnd = transform.applyAbsolute(to);
-
-		PortalHitResult next;
-		try {
-			next = this.clip(teleportedHit, teleportedEnd);
-		} catch (StackOverflowError e) {
-			System.out.println("stack overflow");
-			return PortalHitResult.OVERFLOW_MARKER;
+		if (linked.isEmpty()) {
+			return new PortalHitResult.Closed(closest.portal, closest.hit);
 		}
 
-		return new PortalHitResult(
-				from,
-				next == null ? teleportedEnd : null,
-				closest.portal, linked, entry.pair, entry.key,
-				closest.hit, teleportedHit,
-				next
-		);
+		PortalTransform transform = new SinglePortalTransform(closest.portal.portal(), linked.get().portal());
+		Vec3 teleportedHit = transform.applyAbsolute(closest.hit);
+		Vec3 teleportedEnd = transform.applyAbsolute(to);
+		PortalHitResult next = this.clip(teleportedHit, teleportedEnd);
+
+		if (next == null) {
+			return new PortalHitResult.Tail(closest.portal, closest.hit, teleportedHit, teleportedEnd);
+		} else {
+			return new PortalHitResult.Mid(closest.portal, closest.hit, teleportedHit, next);
+		}
 	}
 
 	@Override
@@ -105,15 +88,13 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		List<PortalInstance.Holder> portals = new ArrayList<>();
 
 		forEachSectionInBox(bounds, sectionPos -> {
-			List<PortalInstance> section = this.sectionsToPortals.get(sectionPos);
+			List<PortalInstance.Holder> section = this.sectionsToPortals.get(sectionPos);
 			if (section != null) {
-				section.forEach(portal -> {
-					if (!portal.quad.intersects(bounds))
-						return;
-
-					PairEntry pairEntry = this.portalsToPairs.get(portal);
-					PortalId id = new PortalId(pairEntry.key, pairEntry.pair.polarityOf(portal));
-					portals.add(new PortalInstance.Holder(id, portal));
+				section.forEach(holder -> {
+					PortalInstance portal = holder.portal();
+					if (portal.quad.intersects(bounds)) {
+						portals.add(holder);
+					}
 				});
 			}
 		});
@@ -126,35 +107,26 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 		return this.sectionsToPortals.isEmpty();
 	}
 
-	@Override
-	public CollisionManager collisionManager() {
-		return this.collisionManager;
-	}
-
 	public void portalsChanged(String pairKey, @Nullable PortalPair oldPair, @Nullable PortalPair newPair) {
 		if (oldPair != null && oldPair.isLinked()) {
-			for (PortalInstance portal : oldPair) {
-				this.portalsToPairs.remove(portal);
-				forEachSectionContainingPortal(portal, section -> {
-					List<PortalInstance> portals = this.sectionsToPortals.get(section);
+			PortalPair.Holder holder = new PortalPair.Holder(pairKey, oldPair);
+			for (PortalInstance.Holder portal : holder) {
+				forEachSectionContainingPortal(portal.portal(), section -> {
+					List<PortalInstance.Holder> portals = this.sectionsToPortals.get(section);
 					if (portals != null && portals.remove(portal) && portals.isEmpty()) {
 						this.sectionsToPortals.remove(section);
 					}
 				});
 			}
-			this.collisionManager.removePair(oldPair);
 		}
 		if (newPair != null && newPair.isLinked()) {
-			PairEntry entry = new PairEntry(pairKey, newPair);
-			for (PortalInstance portal : newPair) {
-				this.portalsToPairs.put(portal, entry);
+			PortalPair.Holder holder = new PortalPair.Holder(pairKey, newPair);
+			for (PortalInstance.Holder portal : holder) {
 				forEachSectionContainingPortal(
-						portal,
+						portal.portal(),
 						section -> this.sectionsToPortals.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal)
 				);
-
 			}
-			this.collisionManager.addPair(newPair);
 		}
 	}
 
@@ -192,8 +164,5 @@ public class SectionActivePortalLookup implements ActivePortalLookup {
 				}
 			}
 		}
-	}
-
-	private record PairEntry(String key, PortalPair pair) {
 	}
 }

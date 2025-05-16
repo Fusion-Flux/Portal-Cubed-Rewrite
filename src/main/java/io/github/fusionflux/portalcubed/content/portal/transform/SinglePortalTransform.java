@@ -6,6 +6,7 @@ import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
@@ -36,6 +37,10 @@ public final class SinglePortalTransform implements PortalTransform {
 	public final Quaternionfc outRot180;
 
 	public final PortalTransform inverse;
+
+	public SinglePortalTransform(PortalHitResult.Open hitResult) {
+		this(hitResult.enteredPortal().portal(), hitResult.exitedPortal().portal());
+	}
 
 	public SinglePortalTransform(PortalInstance in, PortalInstance out) {
 		this(in.data.origin(), in.data.rotation(), out.data.origin(), out.data.rotation());

@@ -39,19 +39,13 @@ public interface PortalTransform {
 
 	void apply(Entity entity);
 
-	static PortalTransform of(PortalHitResult result) {
-		PortalTransform first = new SinglePortalTransform(result.in(), result.out());
-		if (!result.hasNext())
-			return first;
-
+	static PortalTransform of(PortalHitResult.Open result) {
 		List<PortalTransform> transforms = new ArrayList<>();
-		transforms.add(first);
-		while (result.hasNext()) {
-			PortalHitResult next = result.next();
-			transforms.add(new SinglePortalTransform(next.in(), next.out()));
-			result = next;
+		while (result != null) {
+			transforms.add(new SinglePortalTransform(result));
+			result = result instanceof PortalHitResult.Mid mid && mid.next() instanceof PortalHitResult.Open open ? open : null;
 		}
 
-		return new MultiPortalTransform(transforms);
+		return transforms.size() == 1 ? transforms.getFirst() : new MultiPortalTransform(transforms);
 	}
 }

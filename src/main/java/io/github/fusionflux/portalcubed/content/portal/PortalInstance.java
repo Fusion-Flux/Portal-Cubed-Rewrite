@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import org.jetbrains.annotations.Unmodifiable;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
@@ -71,6 +74,23 @@ public final class PortalInstance {
 		return this.data.rotation();
 	}
 
-	public record Holder(PortalId id, PortalInstance portal) {
+	public record Holder(PortalPair.Holder pair, Polarity polarity, PortalInstance portal) {
+		public Optional<Holder> opposite() {
+			return this.pair.get(this.polarity.opposite());
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(this.pair, this.polarity);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return obj instanceof Holder that && this.pair.equals(that.pair) && this.polarity == that.polarity;
+		}
+
+		public boolean matches(PortalId id) {
+			return this.pair.key().equals(id.key()) && this.polarity == id.polarity();
+		}
 	}
 }

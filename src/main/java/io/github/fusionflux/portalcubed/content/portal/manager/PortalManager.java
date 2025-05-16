@@ -8,18 +8,21 @@ import java.util.function.UnaryOperator;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.manager.lookup.ActivePortalLookup;
-import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionActivePortalLookup;
-import net.minecraft.core.BlockPos;
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
+import io.github.fusionflux.portalcubed.content.portal.manager.lookup.collision.CollisionManager;
 import net.minecraft.world.level.Level;
 
 public abstract class PortalManager {
+	public final CollisionManager collision;
+
 	protected final PortalStorage storage;
-	protected final SectionActivePortalLookup activePortals;
+	protected final SectionPortalLookup lookup;
 
 	protected PortalManager(PortalStorage storage, Level level) {
+		this.collision = new CollisionManager(level);
 		this.storage = storage;
-		this.activePortals = new SectionActivePortalLookup(level);
+		this.lookup = new SectionPortalLookup();
 	}
 
 	public PortalPair getPair(String key) {
@@ -43,7 +46,8 @@ public abstract class PortalManager {
 			this.storage.put(key, pair);
 		}
 
-		this.activePortals.portalsChanged(key, old, pair);
+		this.collision.portalsChanged(old, pair);
+		this.lookup.portalsChanged(key, old, pair);
 	}
 
 	public void modifyPair(String key, UnaryOperator<PortalPair> op) {
@@ -59,12 +63,7 @@ public abstract class PortalManager {
 		return this.storage.keys();
 	}
 
-	public ActivePortalLookup activePortals() {
-		return this.activePortals;
-	}
-
-	// util used in a couple places
-	public boolean isCollisionModified(BlockPos pos) {
-		return !this.activePortals().collisionManager().getPatches(pos).isEmpty();
+	public PortalLookup lookup() {
+		return this.lookup;
 	}
 }

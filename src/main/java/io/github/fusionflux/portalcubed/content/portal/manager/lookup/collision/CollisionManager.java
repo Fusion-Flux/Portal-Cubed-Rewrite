@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3d;
 import org.joml.Vector3d;
 
@@ -33,11 +34,23 @@ public class CollisionManager {
 		return this.patches.row(pos).values();
 	}
 
-	public void removePair(PortalPair pair) {
+	public boolean isPatched(BlockPos pos) {
+		return !this.getPatches(pos).isEmpty();
+	}
+
+	public void portalsChanged(@Nullable PortalPair oldPair, @Nullable PortalPair newPair) {
+		if (oldPair != null && oldPair.isLinked())
+			this.removePair(oldPair);
+
+		if (newPair != null && newPair.isLinked())
+			this.addPair(newPair);
+	}
+
+	private void removePair(PortalPair pair) {
 		pair.forEach(portal -> this.patches.column(portal).clear());
 	}
 
-	public void addPair(PortalPair pair) {
+	private void addPair(PortalPair pair) {
 		PortalInstance primary = pair.primary().orElseThrow();
 		PortalInstance secondary = pair.secondary().orElseThrow();
 		this.addPortal(primary, secondary);

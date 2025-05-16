@@ -4,7 +4,6 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -45,10 +44,7 @@ public class ServerPortalManager extends PortalManager {
 	}
 
 	public void removePortalsInBox(AABB bounds) {
-		this.activePortals.getPortals(bounds).forEach(holder -> {
-			PortalId id = holder.id();
-			this.removePortal(id.key(), id.polarity());
-		});
+		this.lookup.getPortals(bounds).forEach(holder -> this.removePortal(holder.pair().key(), holder.polarity()));
 	}
 
 	@Override

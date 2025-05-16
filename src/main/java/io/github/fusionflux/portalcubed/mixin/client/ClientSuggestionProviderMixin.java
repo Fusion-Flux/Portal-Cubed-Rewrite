@@ -36,9 +36,8 @@ public class ClientSuggestionProviderMixin implements ClientSuggestionProviderEx
 		Vec3 to = from.add(normal.scale(16));
 
 		ClientPortalManager manager = level.portalManager();
-		// TODO: check for inactive portals too
-		PortalHitResult hit = manager.activePortals().clip(from, to);
-		return hit == null ? null : hit.pairKey();
+		PortalHitResult hit = manager.lookup().clip(from, to);
+		return hit == null ? null : hit.enteredPortal().pair().key();
 	}
 
 	@Override
