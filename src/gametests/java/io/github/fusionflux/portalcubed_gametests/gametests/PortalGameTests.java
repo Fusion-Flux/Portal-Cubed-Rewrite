@@ -375,9 +375,7 @@ public class PortalGameTests implements FabricGameTest {
 		portalBumpPortal.primary().shootFrom(new Vec3(1.5, 3, 2.5), Direction.DOWN);
 		helper.runAfterDelay(20, () -> portalBumpPortal.secondary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN));
 
-		helper.succeedWhen(() -> {
-			portalBumpPortal.secondary().assertPresent(1.5, 1, 2.5, Direction.UP);
-		});
+		helper.succeedWhen(() -> portalBumpPortal.secondary().assertPresent(3, 1, 2.5, Direction.UP));
 	}
 
 
