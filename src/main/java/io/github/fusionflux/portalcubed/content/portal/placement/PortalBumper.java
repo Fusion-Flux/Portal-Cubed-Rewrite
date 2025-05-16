@@ -57,7 +57,8 @@ public class PortalBumper {
 		// yes it's cancelled out by the other random negative below.
 		// but it's not cancelled out in other places, and that's required for correct behavior.
 		Angle rotation = PortalData.normalToFlatRotation(face, -yRot);
-		boolean bumpThroughWalls = level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
+		// FIXME: see PortalCubedGameRules
+		boolean bumpThroughWalls = true; // level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
 
 		for (PortalableSurface surface : surfaceCandidates) {
 			if (EVIL_DEBUG_RENDERING) {

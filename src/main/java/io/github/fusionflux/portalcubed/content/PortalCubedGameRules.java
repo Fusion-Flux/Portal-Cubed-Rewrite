@@ -34,9 +34,9 @@ public class PortalCubedGameRules {
 			"restrictValidPortalSurfaces", CATEGORY, GameRuleFactory.createBooleanRule(false)
 	);
 
-	public static final GameRules.Key<GameRules.BooleanValue> PORTALS_BUMP_THROUGH_WALLS = GameRuleRegistry.register(
-			"portalsBumpThroughWalls", CATEGORY, GameRuleFactory.createBooleanRule(true)
-	);
+	// public static final GameRules.Key<GameRules.BooleanValue> PORTALS_BUMP_THROUGH_WALLS = GameRuleRegistry.register(
+	// 		"portalsBumpThroughWalls", CATEGORY, GameRuleFactory.createBooleanRule(true)
+	// );
 
 	public static void init() {
 	}
