@@ -108,7 +108,7 @@ public class SectionPortalLookup implements PortalLookup {
 	}
 
 	public void portalsChanged(String pairKey, @Nullable PortalPair oldPair, @Nullable PortalPair newPair) {
-		if (oldPair != null && oldPair.isLinked()) {
+		if (oldPair != null) {
 			PortalPair.Holder holder = new PortalPair.Holder(pairKey, oldPair);
 			for (PortalInstance.Holder portal : holder) {
 				forEachSectionContainingPortal(portal.portal(), section -> {
@@ -119,7 +119,7 @@ public class SectionPortalLookup implements PortalLookup {
 				});
 			}
 		}
-		if (newPair != null && newPair.isLinked()) {
+		if (newPair != null) {
 			PortalPair.Holder holder = new PortalPair.Holder(pairKey, newPair);
 			for (PortalInstance.Holder portal : holder) {
 				forEachSectionContainingPortal(
