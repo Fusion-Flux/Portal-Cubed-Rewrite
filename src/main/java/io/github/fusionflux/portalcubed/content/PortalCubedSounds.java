@@ -99,6 +99,8 @@ public class PortalCubedSounds {
 
 	public static final SoundEvent PORTAL_COMBAT_PORTAL = register("portal_type.portal_combat");
 
+	public static final SoundEvent DIMENSION_PORTAL_TRAVEL = register("portal_type.dimension_portal.travel");
+
 	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon.obstructed");
 	public static final SoundEvent CONSTRUCTION_CANNON_MISSING_MATERIALS = register("construction_cannon.missing_materials");
 

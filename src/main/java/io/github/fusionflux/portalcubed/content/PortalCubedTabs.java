@@ -315,9 +315,9 @@ public class PortalCubedTabs {
 					"portal_1_portal_gun",
 					"portal_1",
 					"round",
-					"round",
+					"portal_1_round",
 					2396924,
-					"round",
+					"portal_1_round",
 					16748062
 			);
 

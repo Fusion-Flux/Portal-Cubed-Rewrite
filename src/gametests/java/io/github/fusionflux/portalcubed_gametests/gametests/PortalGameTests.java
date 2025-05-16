@@ -236,17 +236,20 @@ public class PortalGameTests implements FabricGameTest {
 	@GameTest(template = GROUP + "portal_command_create")
 	public void portalCommandCreate(GameTestHelper helper) {
 
+		PortalHelper placeOn1 = new PortalHelper(helper, "placeOn1");
+		PortalHelper placeAt1 = new PortalHelper(helper, "placeAt1");
+		PortalHelper shotFrom1 = new PortalHelper(helper, "shotFrom1");
+
 		helper.pressButton(0, 2, 1);
 
 		helper.succeedWhen(() -> {
-			//placeOn1.primary().assertPresent();
-			//placeOn1.secondary().assertPresent();
-			//placeAt1.primary().assertPresent();
-			//placeAt1.secondary().assertPresent();
-			//shotFrom1.primary().assertPresent();
-			//shotFrom1.secondary().assertPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			placeOn1.primary().assertPresent(1.5, 2, 5.5, Direction.NORTH);
+			placeOn1.secondary().assertPresent(2.5, 2, 5.5, Direction.NORTH);
+			placeAt1.primary().assertPresent(3.5, 2, 5.5, Direction.NORTH);
+			placeAt1.secondary().assertNotPresent();
+			shotFrom1.primary().assertNotPresent();
+			shotFrom1.secondary().assertNotPresent();
+			//TODO: revisit this after place_at is fixed to make sure the rest are correct
 		});
 	}
 
@@ -320,16 +323,14 @@ public class PortalGameTests implements FabricGameTest {
 		helper.pullLever(2, 2, 5);
 
 		helper.succeedWhen(() -> {
-			//pistonSolid.primary().assertNotPresent();
-			//pistonSolid.secondary().assertNotPresent();
-			//pistonNonSolid.primary().assertPresent();
-			//pistonNonSolid.secondary().assertPresent();
-			//waterFlow.primary().assertNotPresent();
-			//waterFlow.secondary().assertNotPresent();
-			//doorTrapdoor.primary().assertNotPresent();
-			//doorTrapdoor.secondary().assertNotPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			pistonSolid.primary().assertNotPresent();
+			pistonSolid.secondary().assertNotPresent();
+			pistonNonSolid.primary().assertPresent(5, 1, 8, Direction.NORTH);
+			pistonNonSolid.secondary().assertPresent(5, 0, 1, Direction.UP);
+			waterFlow.primary().assertNotPresent();
+			waterFlow.secondary().assertNotPresent();
+			doorTrapdoor.primary().assertNotPresent();
+			doorTrapdoor.secondary().assertNotPresent();
 		});
 	}
 
@@ -375,9 +376,7 @@ public class PortalGameTests implements FabricGameTest {
 		helper.runAfterDelay(20, () -> portalBumpPortal.secondary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN));
 
 		helper.succeedWhen(() -> {
-			//portalBumpPortal.secondary().assertPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			portalBumpPortal.secondary().assertPresent(1.5, 1, 2.5, Direction.UP);
 		});
 	}
 
@@ -463,14 +462,12 @@ public class PortalGameTests implements FabricGameTest {
 		portalBarrier.secondary().shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.EAST);
 
 		helper.succeedWhen(() -> {
-			//addsPortalability.primary().assertNotPresent();
-			//addsPortalability.primary().assertPresent();
-			//removesPortalability.primary().assertPresent();
-			//removesPortalability.primary().assertNotPresent();
-			//portalBarrier.primary().assertPresent();
-			//portalBarrier.primary().assertNotPresent();
-
-			helper.assertBlockPresent(Blocks.SPONGE, 0, 0, 0);	//todo: leave this here until the portal existence checks are implemented, so the test doesn't pass instantly.  Remove later
+			addsPortalability.primary().assertNotPresent();
+			addsPortalability.secondary().assertPresent(2, 2, 2.5, Direction.WEST);
+			removesPortalability.primary().assertPresent(4.5, 2, 3, Direction.NORTH);
+			removesPortalability.secondary().assertNotPresent();
+			portalBarrier.primary().assertPresent(7.5, 2, 3, Direction.NORTH);
+			portalBarrier.secondary().assertNotPresent();
 		});
 	}
 

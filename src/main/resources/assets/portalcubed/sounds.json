@@ -872,6 +872,15 @@
       }
     ]
   },
+  "portal_type.dimension_portal.travel": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.illusioner.mirror_move",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.travel"
+  },
   "portal_type.portal_1.ambient": {
     "sounds": [
       {

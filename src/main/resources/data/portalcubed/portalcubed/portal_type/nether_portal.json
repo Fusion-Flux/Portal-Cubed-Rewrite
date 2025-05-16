@@ -11,7 +11,7 @@
       "open": "minecraft:item.flintandsteel.use",
       "cant_open": "minecraft:entity.item.break",
       "close": "minecraft:block.glass.break",
-      "travel": "minecraft:block.portal.travel"
+      "travel": "portalcubed:portal_type.dimension_portal.travel"
     }
   },
   "textures": {
