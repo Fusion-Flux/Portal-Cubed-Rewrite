@@ -34,6 +34,8 @@ public class PortalCubedGameRules {
 			"restrictValidPortalSurfaces", CATEGORY, GameRuleFactory.createBooleanRule(false)
 	);
 
+	// making this gamerule work with the current portal validation implementation is not possible.
+	// it'll return at Some Point:tm: in the future.
 	// public static final GameRules.Key<GameRules.BooleanValue> PORTALS_BUMP_THROUGH_WALLS = GameRuleRegistry.register(
 	// 		"portalsBumpThroughWalls", CATEGORY, GameRuleFactory.createBooleanRule(true)
 	// );
