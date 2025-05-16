@@ -67,7 +67,7 @@ public class PropGameTests implements FabricGameTest {
 	}
 
 	//Tests fizzled cubes being pushed away from buttons.
-	@GameTest(template = GROUP + "fizzle_prop_on_button")
+	@GameTest(template = GROUP + "fizzle_prop_on_button", timeoutTicks = 60)
 	public void fizzlePropOnButton(GameTestHelper helper) {
 		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 2, 0));
 		Prop aSecondGeraldHasHitTheGametest = spawnProp(helper, PropType.COMPANION_CUBE, new BlockPos(1, 2, 4));
