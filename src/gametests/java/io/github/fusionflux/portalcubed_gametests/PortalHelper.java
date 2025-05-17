@@ -75,6 +75,13 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			// shift the portal so the bottom half is centered on the surface
 			Vector3d offset = rotation.transformUnit(0, 0, normal.getAxis() == Direction.Axis.Y ? -0.5f : 0.5f, new Vector3d());
 
+			// correct for float imprecision that can break surface detection
+			switch (normal.getAxis()) {
+				case X -> offset.x = 0;
+				case Y -> offset.y = 0;
+				case Z -> offset.z = 0;
+			}
+
 			BlockPos blockPos = this.helper.absolutePos(surface);
 			Vec3 pos = Vec3.atCenterOf(blockPos)
 					.add(normal.getUnitVec3().scale(0.5))
@@ -92,7 +99,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			}
 
 			ServerPortalManager manager = level.portalManager();
-			PortalValidator validator = new StandardPortalValidator(surface, normal, yRot);
+			PortalValidator validator = new StandardPortalValidator(blockPos, normal, yRot);
 			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level, pos, rotation, validator, this.settings));
 		}
 
