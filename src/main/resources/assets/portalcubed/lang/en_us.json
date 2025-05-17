@@ -264,6 +264,7 @@
   "parsing.portalcubed.flag.no_rendering.invalid": "Invalid flag '%s' is not 'no_rendering'",
   "parsing.portalcubed.flag.no_validation.expected": "Expected flag 'no_validation'",
   "parsing.portalcubed.flag.no_validation.invalid": "Invalid flag '%s' is not 'no_validation'",
+  "parsing.portalcubed.portal_validator.not_found": "Unknown portal validator: %s",
 
   "argument.portalcubed.portal_key.targeted_portal": "Targeted Portal",
   "argument.portalcubed.portal_key.targeted_entity": "Targeted Entity",

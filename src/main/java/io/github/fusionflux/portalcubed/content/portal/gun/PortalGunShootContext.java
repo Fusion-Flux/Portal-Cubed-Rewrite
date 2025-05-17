@@ -12,6 +12,8 @@ import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalShotClipContextMode;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,16 +38,7 @@ public record PortalGunShootContext(
 	}
 
 	public void shoot(Optional<String> pair, Polarity polarity, PortalSettings settings) {
-		int range = this.level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
-
-		ClipContext ctx = new ClipContext(
-				this.from.subtract(this.lookAngle.scale(MAGIC_OFFSET)),
-				this.from.add(this.lookAngle.scale(range + MAGIC_OFFSET)),
-				PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, PortalCollisionContext.INSTANCE
-		);
-		ctx.pc$setIgnoreInteractionOverride(true);
-
-		BlockHitResult hit = this.level.clip(ctx);
+		BlockHitResult hit = clip(this.level, this.from, this.lookAngle);
 		Vec3 hitPos = hit.getLocation();
 
 		this.level.sendParticles(
@@ -61,7 +54,21 @@ public record PortalGunShootContext(
 		if (placement == null)
 			return;
 
-		PortalData data = PortalData.createWithSettings(this.level, placement.pos(), placement.rotation(), settings);
+		PortalValidator validator = new StandardPortalValidator(hit.getBlockPos(), hit.getDirection(), this.yRot);
+		PortalData data = PortalData.createWithSettings(this.level, placement.pos(), placement.rotation(), validator, settings);
 		this.level.portalManager().createPortal(id.key(), polarity, data);
+	}
+
+	public static BlockHitResult clip(ServerLevel level, Vec3 from, Vec3 lookAngle) {
+		int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
+
+		ClipContext ctx = new ClipContext(
+				from.subtract(lookAngle.scale(MAGIC_OFFSET)),
+				from.add(lookAngle.scale(range + MAGIC_OFFSET)),
+				PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, PortalCollisionContext.INSTANCE
+		);
+		ctx.pc$setIgnoreInteractionOverride(true);
+
+		return level.clip(ctx);
 	}
 }

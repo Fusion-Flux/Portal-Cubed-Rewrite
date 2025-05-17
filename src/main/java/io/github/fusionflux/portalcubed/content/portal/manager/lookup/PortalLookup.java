@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
@@ -17,6 +18,7 @@ public interface PortalLookup {
 	@Nullable
 	PortalHitResult clip(Vec3 from, Vec3 to);
 
+	@Contract("_->new")
 	List<PortalInstance.Holder> getPortals(AABB bounds);
 
 	boolean isEmpty();

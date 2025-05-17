@@ -12,6 +12,8 @@ import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestAssertException;
@@ -90,7 +92,8 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			}
 
 			ServerPortalManager manager = level.portalManager();
-			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level, pos, rotation, this.settings));
+			PortalValidator validator = new StandardPortalValidator(surface, normal, yRot);
+			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level, pos, rotation, validator, this.settings));
 		}
 
 		public void assertPresent(double expectedX, double expectedY, double expectedZ, Direction expectedNormal) {

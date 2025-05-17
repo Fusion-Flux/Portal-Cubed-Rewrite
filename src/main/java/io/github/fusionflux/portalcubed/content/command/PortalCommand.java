@@ -21,7 +21,6 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -38,11 +37,16 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.NonePortalValidator;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
 import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PortalValidatorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
 import net.fabricmc.fabric.api.util.TriState;
@@ -57,16 +61,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
 
 public class PortalCommand {
 	public static final String LANG_PREFIX = "commands.portalcubed.portal.";
@@ -112,7 +113,7 @@ public class PortalCommand {
 																		optionalArg("type", ResourceArgument.resource(buildCtx, PortalCubedRegistries.PORTAL_TYPE)).then(
 																				optionalArg("color", ColorArgumentType.color()).then(
 																						flag("no_rendering").then(
-																								flag("no_validation")
+																								optionalArg("validator", PortalValidatorArgumentType.portalValidator())
 																										.executes(ctx -> create(ctx, strategy))
 																						)
 																				)
@@ -157,7 +158,9 @@ public class PortalCommand {
 		Holder<PortalType> type = getOptional(ctx, "type", PortalCommand::getType, source.registryAccess().get(PortalType.ROUND).orElseThrow());
 		int color = getOptional(ctx, "color", ColorArgumentType::getColor, type.value().defaultColorOf(polarity));
 		boolean noRender = getFlag(ctx, "no_rendering");
-		boolean noValidate = getFlag(ctx, "no_validation");
+		PortalValidator validator = getOptional(
+				ctx, "validator", PortalValidatorArgumentType::getPortalValidator, strategy::getFallbackValidator
+		).build(ctx);
 
 		if ("all".equals(key)) {
 			return fail(ctx, CREATE_FAILURE, ID_ALL);
@@ -172,7 +175,7 @@ public class PortalCommand {
 			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
 		}
 
-		PortalData data = new PortalData(level.getGameTime(), type, !noValidate, placement.pos, placement.rotation, ARGB.opaque(color), !noRender);
+		PortalData data = new PortalData(level.getGameTime(), type, validator, placement.pos, placement.rotation, ARGB.opaque(color), !noRender);
 		manager.createPortal(key, polarity, data);
 		source.sendSuccess(() -> lang("create.success"), true);
 		return Command.SINGLE_SUCCESS;
@@ -252,14 +255,7 @@ public class PortalCommand {
 	}
 
 	private static Component lang(String key, Object... args) {
-		// if you try to serialize a component with disallowed args it gets very mad
-		for (int i = 0; i < args.length; i++) {
-			Object arg = args[i];
-			if (!TranslatableContents.isAllowedPrimitiveArgument(arg) && !(arg instanceof Component)) {
-				args[i] = args[i].toString();
-			}
-		}
-		return Component.translatable(LANG_PREFIX + key, args);
+		return Component.translatableEscape(LANG_PREFIX + key, args);
 	}
 
 	private record Placement(Vec3 pos, Quaternionf rotation) {
@@ -322,6 +318,14 @@ public class PortalCommand {
 
 				return new Placement(pos, rotation);
 			}
+
+			@Override
+			protected PortalValidator getFallbackValidator(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+				BlockPos pos = BlockPosArgument.getBlockPos(ctx, "position");
+				Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
+				float rot = getOptional(ctx, "rotation", FloatArgumentType::getFloat, 0f);
+				return new StandardPortalValidator(pos, facing, rot);
+			}
 		},
 		SHOT_FROM {
 			@Override
@@ -356,18 +360,9 @@ public class PortalCommand {
 				}
 
 				Vec3 normal = Vec3.directionFromRotation(pitch, yaw).normalize();
-
 				ServerLevel level = ctx.getSource().getLevel();
-				int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
-				Vec3 end = start.add(normal.scale(range));
+				BlockHitResult hit = PortalGunShootContext.clip(level, start, normal);
 
-				ClipContext clip = new ClipContext(
-						start, end,
-						ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE,
-						CollisionContext.empty()
-				);
-
-				BlockHitResult hit = level.clip(clip);
 				if (hit.getType() == HitResult.Type.BLOCK) {
 					Vec3 pos = hit.getLocation();
 					Direction facing = hit.getDirection();
@@ -375,7 +370,35 @@ public class PortalCommand {
 					return new Placement(pos, rotation);
 				}
 
+				int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
 				throw MISSED.create(range);
+			}
+
+			@Override
+			protected PortalValidator getFallbackValidator(CommandContext<CommandSourceStack> ctx) {
+				// FIXME: this is garbage
+				Vec3 start = Vec3Argument.getVec3(ctx, "position");
+				float pitch, yaw;
+				if (PortalCubedCommands.hasArgument(ctx, "facing")) {
+					Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
+					pitch = switch (facing) {
+						case UP -> -90;
+						case DOWN -> 90;
+						default -> 0;
+					};
+					yaw = facing.toYRot();
+				} else {
+					Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
+					Vec2 rotations = coords.getRotation(ctx.getSource());
+					pitch = rotations.x;
+					yaw = rotations.y;
+				}
+
+				Vec3 normal = Vec3.directionFromRotation(pitch, yaw).normalize();
+				ServerLevel level = ctx.getSource().getLevel();
+				BlockHitResult hit = PortalGunShootContext.clip(level, start, normal);
+
+				return new StandardPortalValidator(hit.getBlockPos(), hit.getDirection(), yaw + 180);
 			}
 		},
 		PLACE_AT {
@@ -401,6 +424,11 @@ public class PortalCommand {
 				Quaternionf rotation = getRotation(ctx);
 				return new Placement(pos, rotation);
 			}
+
+			@Override
+			protected PortalValidator getFallbackValidator(CommandContext<CommandSourceStack> ctx) {
+				return NonePortalValidator.INSTANCE;
+			}
 		};
 
 		protected final String name = this.name().toLowerCase(Locale.ROOT);
@@ -408,6 +436,8 @@ public class PortalCommand {
 		protected abstract ArgumentBuilder<CommandSourceStack, ?> build(Consumer<ArgumentBuilder<CommandSourceStack, ?>> innerModifier);
 
 		protected abstract Placement getPlacement(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException;
+
+		protected abstract PortalValidator getFallbackValidator(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException;
 
 		protected static <T extends ArgumentBuilder<CommandSourceStack, T>> T modify(T inner, Consumer<ArgumentBuilder<CommandSourceStack, ?>> consumer) {
 			consumer.accept(inner);
@@ -529,19 +559,19 @@ public class PortalCommand {
 						: portal.withRender(shouldRender);
 			}
 		},
-		VALIDATE {
+		VALIDATOR {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(CommandBuildContext ctx, Command<CommandSourceStack> command) {
-				return argument("validate", BoolArgumentType.bool())
+				return argument("validator", PortalValidatorArgumentType.portalValidator())
 						.executes(command);
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) {
-				boolean validate = BoolArgumentType.getBool(ctx, "validate");
-				return portal.validate() == validate
-						? this.fail(ctx, validate)
-						: portal.withValidate(validate);
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) throws CommandSyntaxException {
+				PortalValidator validator = PortalValidatorArgumentType.getPortalValidator(ctx, "validator").build(ctx);
+				return portal.validator().equals(validator)
+						? this.fail(ctx, validator)
+						: portal.withValidator(validator);
 			}
 		};
 

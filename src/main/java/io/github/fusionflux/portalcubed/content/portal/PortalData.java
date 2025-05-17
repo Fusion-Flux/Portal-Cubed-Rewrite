@@ -5,6 +5,7 @@ import org.joml.Quaternionf;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -22,7 +23,7 @@ import net.minecraft.world.phys.Vec3;
 public record PortalData(
 		long creationTick,
 		Holder<PortalType> type,
-		boolean validate,
+		PortalValidator validator,
 		Vec3 origin,
 		Quaternionf rotation,
 		int color,
@@ -31,7 +32,7 @@ public record PortalData(
 	public static final Codec<PortalData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Codec.LONG.fieldOf("creation_tick").forGetter(PortalData::creationTick),
 			PortalType.CODEC.fieldOf("type").forGetter(PortalData::type),
-			Codec.BOOL.fieldOf("validate").forGetter(PortalData::validate),
+			PortalValidator.CODEC.fieldOf("validator").forGetter(PortalData::validator),
 			Vec3.CODEC.fieldOf("origin").forGetter(PortalData::origin),
 			ExtraCodecs.QUATERNIONF.fieldOf("rotation").forGetter(PortalData::rotation),
 			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("color").forGetter(PortalData::color),
@@ -41,7 +42,7 @@ public record PortalData(
 	public static final StreamCodec<RegistryFriendlyByteBuf, PortalData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.VAR_LONG, PortalData::creationTick,
 			PortalType.STREAM_CODEC, PortalData::type,
-			ByteBufCodecs.BOOL, PortalData::validate,
+			PortalValidator.STREAM_CODEC, PortalData::validator,
 			Vec3.STREAM_CODEC, PortalData::origin,
 			ByteBufCodecs.QUATERNIONF, PortalData::rotation,
 			ByteBufCodecs.INT, PortalData::color,
@@ -50,37 +51,37 @@ public record PortalData(
 	);
 
 	public PortalData withType(Holder<PortalType> type) {
-		return new PortalData(this.creationTick, type, this.validate, this.origin, this.rotation, this.color, this.render);
+		return new PortalData(this.creationTick, type, this.validator, this.origin, this.rotation, this.color, this.render);
 	}
 
-	public PortalData withValidate(boolean validate) {
-		return new PortalData(this.creationTick, this.type, validate, this.origin, this.rotation, this.color, this.render);
+	public PortalData withValidator(PortalValidator validator) {
+		return new PortalData(this.creationTick, this.type, validator, this.origin, this.rotation, this.color, this.render);
 	}
 
 	public PortalData withOrigin(Vec3 origin) {
-		return new PortalData(this.creationTick, this.type, this.validate, origin, this.rotation, this.color, this.render);
+		return new PortalData(this.creationTick, this.type, this.validator, origin, this.rotation, this.color, this.render);
 	}
 
 	public PortalData withRotation(Quaternionf rotation) {
-		return new PortalData(this.creationTick, this.type, this.validate, this.origin, rotation, this.color, this.render);
+		return new PortalData(this.creationTick, this.type, this.validator, this.origin, rotation, this.color, this.render);
 	}
 
 	public PortalData withColor(int color) {
-		return new PortalData(this.creationTick, this.type, this.validate, this.origin, this.rotation, color, this.render);
+		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, color, this.render);
 	}
 
 	public PortalData withRender(boolean render) {
-		return new PortalData(this.creationTick, this.type, this.validate, this.origin, this.rotation, this.color, render);
+		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, this.color, render);
 	}
 
-	public static PortalData createWithSettings(Level world, Vec3 origin, Quaternionf rotation, PortalSettings settings) {
+	public static PortalData createWithSettings(Level world, Vec3 origin, Quaternionf rotation, PortalValidator validator, PortalSettings settings) {
 		Holder<PortalType> type = world.registryAccess()
 				.get(settings.typeId())
 				.orElseThrow(() -> new IllegalStateException("Missing portal type " + settings.typeId()));
 		return new PortalData(
 				world.getGameTime(),
 				type,
-				settings.validate(),
+				validator,
 				origin,
 				rotation,
 				settings.color(),

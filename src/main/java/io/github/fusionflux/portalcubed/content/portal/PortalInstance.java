@@ -79,6 +79,14 @@ public final class PortalInstance {
 			return this.pair.get(this.polarity.opposite());
 		}
 
+		public PortalId asId() {
+			return new PortalId(this.pair.key(), this.polarity);
+		}
+
+		public boolean matches(PortalId id) {
+			return this.pair.key().equals(id.key()) && this.polarity == id.polarity();
+		}
+
 		@Override
 		public int hashCode() {
 			return Objects.hash(this.pair, this.polarity);
@@ -87,10 +95,6 @@ public final class PortalInstance {
 		@Override
 		public boolean equals(Object obj) {
 			return obj instanceof Holder that && this.pair.equals(that.pair) && this.polarity == that.polarity;
-		}
-
-		public boolean matches(PortalId id) {
-			return this.pair.key().equals(id.key()) && this.polarity == id.polarity();
 		}
 	}
 }
