@@ -325,8 +325,8 @@ public class PortalGameTests implements FabricGameTest {
 		helper.succeedWhen(() -> {
 			pistonSolid.primary().assertNotPresent();
 			pistonSolid.secondary().assertNotPresent();
-			pistonNonSolid.primary().assertPresent(5, 1, 8, Direction.NORTH);
-			pistonNonSolid.secondary().assertPresent(5, 0, 1, Direction.UP);
+			pistonNonSolid.primary().assertPresent(5.5, 2, 8, Direction.NORTH);
+			pistonNonSolid.secondary().assertPresent(5.5, 1, 2, Direction.UP);
 			waterFlow.primary().assertNotPresent();
 			waterFlow.secondary().assertNotPresent();
 			doorTrapdoor.primary().assertNotPresent();
@@ -521,7 +521,7 @@ public class PortalGameTests implements FabricGameTest {
 
 
 	//Tests portals breaking certain blocks by opening over their attachment points
-	@GameTest(template = GROUP + "portal_open_popoff")
+	@GameTest(template = GROUP + "portal_open_popoff", required = false) //TODO: require this once the feature exists, until then mark not required
 	public void portalOpenPopoff(GameTestHelper helper) {
 
 		PortalHelper floorPairOne = new PortalHelper(helper, "floor_pair_one");

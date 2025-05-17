@@ -66,7 +66,7 @@ public class PropGameTests implements FabricGameTest {
 				}));
 	}
 
-	//Tests fizzled cubes being pushed away from buttons.
+	//Tests fizzled cubes being pushed away from buttons.  Fizzling cubes that are still within a button's press area should not press the button.
 	@GameTest(template = GROUP + "fizzle_prop_on_button", timeoutTicks = 60)
 	public void fizzlePropOnButton(GameTestHelper helper) {
 		Prop gerald = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(1, 2, 0));

@@ -306,10 +306,10 @@ public class PortalCubedTabs {
 					"tiny_potatos_portal_gun",
 					"tiny_potatos",
 					"round",
-					"round",
-					2396924,
-					"round",
-					16748062
+					"tater_happy",
+					16371915,
+					"tater_sad",
+					12701688
 			);
 			addPortalGunSkin(output,
 					"portal_1_portal_gun",
