@@ -94,8 +94,9 @@ public class PortalGunItem extends Item implements DirectClickItem {
 
 	public static ItemStack shoot(PortalGunShootContext context, ItemStack stack, Polarity polarity) {
 		PortalGunSettings gunSettings = stack.getOrDefault(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT);
-		context.shoot(gunSettings.pair(), polarity, gunSettings.portalSettingsOf(polarity));
-		return setGunSettings(stack, gunSettings.shoot(polarity));
+		Polarity effectivePolarity = gunSettings.secondary().isEmpty() ? Polarity.PRIMARY : polarity;
+		context.shoot(gunSettings.pair(), effectivePolarity, gunSettings.portalSettingsOf(effectivePolarity));
+		return setGunSettings(stack, gunSettings.shoot(effectivePolarity));
 	}
 
 	@Nullable
