@@ -2,6 +2,7 @@
   "values": [
     "#portalcubed:nonsolid_to_portals",
     "#portalcubed:all_facades",
+    "minecraft:moving_piston",
     "portalcubed:portal_barrier"
   ]
 }
