@@ -34,6 +34,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -371,6 +372,9 @@ public class PortalBumper {
 	}
 
 	private static boolean isPortalable(ServerLevel level, BlockState state) {
+		if (hasLiquid(state))
+			return false;
+
 		if (level.getGameRules().getBoolean(PortalCubedGameRules.RESTRICT_VALID_PORTAL_SURFACES)) {
 			return state.is(PortalCubedBlockTags.UNRESTRICTED_PORTAL_SURFACES);
 		}
@@ -379,6 +383,9 @@ public class PortalBumper {
 	}
 
 	private static boolean overridesPortalability(BlockState inFront, Direction offset) {
+		if (hasLiquid(inFront))
+			return true;
+
 		if (!inFront.is(PortalCubedBlockTags.OVERRIDES_PORTALABILITY))
 			return false;
 
@@ -467,6 +474,12 @@ public class PortalBumper {
 		return state.is(PortalCubedBlockTags.PORTALS_USE_BASE_SHAPE)
 				? state.getShape(level, pos, ctx)
 				: state.getCollisionShape(level, pos, ctx);
+	}
+
+	private static boolean hasLiquid(BlockState state) {
+		return !state.getFluidState().isEmpty() || (
+				state.hasProperty(BlockStateProperties.WATERLOGGED) && state.getValue(BlockStateProperties.WATERLOGGED)
+		);
 	}
 
 	private static boolean handleContains(Line2d first, Line2d second, DoubleRange firstRange, DoubleRange secondRange, List<Line2d> walls) {
