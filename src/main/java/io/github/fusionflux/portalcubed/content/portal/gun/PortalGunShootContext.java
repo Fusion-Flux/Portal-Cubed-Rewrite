@@ -46,7 +46,7 @@ public record PortalGunShootContext(
 				this.from.x, this.from.y, this.from.z, 1, 0, 0, 0, 0
 		);
 
-		if (hit.getType() != HitResult.Type.BLOCK)
+		if (hit.getType() != HitResult.Type.BLOCK || hit.isInside())
 			return;
 
 		PortalId id = new PortalId(pair.orElse(this.key), polarity);
