@@ -58,7 +58,7 @@ public class PortalBumper {
 		// but it's not cancelled out in other places, and that's required for correct behavior.
 		Angle rotation = PortalData.normalToFlatRotation(face, -yRot);
 		// FIXME: see PortalCubedGameRules
-		boolean bumpThroughWalls = true; // level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
+		boolean bumpThroughWalls = false; // level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
 
 		for (PortalableSurface surface : surfaceCandidates) {
 			if (EVIL_DEBUG_RENDERING) {
