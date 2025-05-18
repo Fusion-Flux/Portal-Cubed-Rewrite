@@ -6,6 +6,17 @@
     "minecraft:iron_bars",
     "minecraft:chain",
     "minecraft:moving_piston",
+    "minecraft:lantern",
+    "minecraft:soul_lantern",
+    "minecraft:sea_pickle",
+    "minecraft:chorus_plant",
+    "minecraft:chorus_flower",
+    "minecraft:bamboo",
+    "minecraft:azalea",
+    "minecraft:flowering_azalea",
+    "minecraft:cactus",
+    "minecraft:big_dripleaf",
+    "minecraft:pointed_dripstone",
     "portalcubed:portal_barrier"
   ]
 }

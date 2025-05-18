@@ -1,0 +1,15 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.base"
+  },
+  "remove_vanilla_crosshair": true,
+  "base": "portalcubed:portal_gun_crosshair/base/base",
+  "primary": {
+      "empty": "portalcubed:portal_gun_crosshair/base/base_left",
+      "placed": "portalcubed:portal_gun_crosshair/base/base_left_placed"
+  },
+  "secondary": {
+      "empty": "portalcubed:portal_gun_crosshair/base/base_right",
+      "placed": "portalcubed:portal_gun_crosshair/base/base_right_placed"
+  }
+}

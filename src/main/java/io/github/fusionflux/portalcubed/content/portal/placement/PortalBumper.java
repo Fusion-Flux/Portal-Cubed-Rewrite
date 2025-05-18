@@ -45,7 +45,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PortalBumper {
 	public static final int SURFACE_SEARCH_RADIUS = 2;
-	public static final double MAX_BUMP_DISTANCE = 1.5;
+	public static final double MAX_BUMP_DISTANCE = 1.25;  //1.5 is closer to Portal's max bump distance, but 1.25 works a bit better with weird Minecraft geometry
 
 	// I would love to put the debug rendering on f3+p but this is server-side code, and I'm not adding a packet for it
 	public static final boolean EVIL_DEBUG_RENDERING = true;
