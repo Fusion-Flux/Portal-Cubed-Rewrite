@@ -29,6 +29,16 @@ public record Angle(double rad, double deg) {
 		return Math.abs(Mth.degreesDifference(this.degF(), other.degF()));
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof Angle that && this.rad == that.rad;
+	}
+
+	@Override
+	public int hashCode() {
+		return Double.hashCode(this.rad);
+	}
+
 	public static Angle ofRad(double rad) {
 		return new Angle(rad, Math.toDegrees(rad));
 	}

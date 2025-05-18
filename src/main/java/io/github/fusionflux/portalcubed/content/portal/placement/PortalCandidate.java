@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.placement;
 
+import java.util.Objects;
+
 import org.joml.Matrix2d;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
@@ -30,6 +32,10 @@ public record PortalCandidate(Angle rot, Vector2dc center,
 		);
 	}
 
+	public PortalCandidate moved(Vector2dc offset) {
+		return this.moved(offset.x(), offset.y());
+	}
+
 	public DoubleRange project(Vector2dc axis) {
 		return DoubleRange.project(axis, this.vertices());
 	}
@@ -52,6 +58,16 @@ public record PortalCandidate(Angle rot, Vector2dc center,
 			case 3 -> this.topLeft;
 			default -> null;
 		});
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof PortalCandidate that && this.rot.equals(that.rot) && this.center.equals(that.center);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.rot, this.center);
 	}
 
 	public static PortalCandidate create(Vector2dc center, double width, double height, Angle rot) {

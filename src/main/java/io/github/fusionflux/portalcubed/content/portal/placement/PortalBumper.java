@@ -1,12 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal.placement;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
@@ -43,6 +43,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PortalBumper {
 	public static final int SURFACE_SEARCH_RADIUS = 2;
+	public static final double MAX_BUMP_DISTANCE = 1.5;
 
 	// I would love to put the debug rendering on f3+p but this is server-side code, and I'm not adding a packet for it
 	public static final boolean EVIL_DEBUG_RENDERING = true;
@@ -86,7 +87,7 @@ public class PortalBumper {
 					}
 				}
 
-				findCandidates(surface, portal, initial, bumpThroughWalls, candidates::add);
+				findCandidates(surface, portal, bumpThroughWalls, candidates::add);
 			}
 
 			if (candidates.isEmpty())
@@ -132,52 +133,59 @@ public class PortalBumper {
 		return byAngle.thenComparing(byDistance);
 	}
 
-	private static void findCandidates(PortalableSurface surface, PortalCandidate portal, Vec3 initial, boolean bumpThroughWalls, Consumer<PortalCandidate> output) {
-		// repeatedly iterate edges of surface, finding several options
+	private static void findCandidates(PortalableSurface surface, PortalCandidate first, boolean bumpThroughWalls, Consumer<PortalCandidate> output) {
+		Deque<PortalCandidate> queue = new ArrayDeque<>();
+		queue.add(first);
+		// track every tested candidate to avoid duplicating work
+		List<PortalCandidate> all = new ArrayList<>(queue);
 
-		// make a mutable copy for shuffling
-		List<Line2d> walls = new ArrayList<>(surface.walls());
-		// make shots deterministic for the exact same position
-		Random random = new Random(initial.hashCode());
+		while (!queue.isEmpty()) {
+			PortalCandidate candidate = queue.removeFirst();
+			boolean hit = false;
 
-		// limit attempts to not run forever
-		attempts: for (int attempt = 0; attempt < 5; attempt++) {
-			PortalCandidate currentPortal = portal;
-			// a different order is used each try so each search is unique and more than one candidate can be found.
-			Collections.shuffle(walls, random);
+			walls: for (Line2d wall : surface.walls()) {
+				Vector2d offset = collide(candidate, wall);
+				if (offset == null)
+					continue;
 
-			// limit moves, after a bunch it's probably cycling
-			moves: for (int movement = 0; movement < 5; movement++) {
-				for (Line2d edge : walls) {
-					Vector2d offset = collide(currentPortal, edge);
-					if (offset != null) {
-						if (EVIL_DEBUG_RENDERING) {
-							//DebugRendering.addLine(100, edge.to3d(surface), Color.RED);
-							Line2d moved = new Line2d(currentPortal.center(), currentPortal.center().add(offset, new Vector2d()));
-							DebugRendering.addLine(100, moved.to3d(surface), Color.CYAN);
-						}
+				hit = true;
+				PortalCandidate moved = candidate.moved(offset);
 
-						// when a collision happens, restart the search at the new position, since newly intersecting walls may have already been checked.
-						currentPortal = currentPortal.moved(offset.x(), offset.y());
-						continue moves;
+				if (moved.center().distance(first.center()) > MAX_BUMP_DISTANCE)
+					continue;
+
+				// if this new candidate is unique, add it to the queue
+				// this can't just be a hashset add because of floats
+				for (PortalCandidate seen : all) {
+					if (seen.center().distance(moved.center()) < 1e-5) {
+						continue walls;
 					}
 				}
 
-				// no collision, valid position found
+				queue.add(moved);
+				all.add(moved);
 
-				// if bumping through walls is disallowed, make sure that didn't happen
-				if (!bumpThroughWalls && !portal.center().equals(currentPortal.center())) {
-					Line2d path = new Line2d(portal.center(), currentPortal.center());
-					if (surface.intersectsCollision(path)) {
-						continue attempts;
+				if (EVIL_DEBUG_RENDERING) {
+					for (Line2d line : moved.lines()) {
+						DebugRendering.addLine(10, line.to3d(surface), Color.RED);
 					}
 				}
-
-				output.accept(currentPortal);
-				continue attempts;
 			}
 
-			// moves exhausted, next attempt
+			if (hit) {
+				continue;
+			}
+
+			// no walls have been hit, do postprocess validation
+			if (!bumpThroughWalls) {
+				Line2d path = new Line2d(first.center(), candidate.center());
+				if (surface.intersectsCollision(path)) {
+					continue; // went through a wall
+				}
+			}
+
+			// valid candidate found
+			output.accept(candidate);
 		}
 	}
 
@@ -283,7 +291,8 @@ public class PortalBumper {
 			double max = absolute.max(axis);
 
 			// skip boxes that do not intersect the surface
-			if (surfaceOnAxis < min || surfaceOnAxis > max)
+			// curse you floating point
+			if (surfaceOnAxis < (min - 1e-5) || surfaceOnAxis > (max + 1e-5))
 				continue;
 
 			double expected = face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? max : min;
