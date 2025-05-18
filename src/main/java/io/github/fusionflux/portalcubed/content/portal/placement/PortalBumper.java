@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
@@ -137,13 +139,13 @@ public class PortalBumper {
 		Deque<PortalCandidate> queue = new ArrayDeque<>();
 		queue.add(first);
 		// track every tested candidate to avoid duplicating work
-		List<PortalCandidate> all = new ArrayList<>(queue);
+		Set<PortalCandidate> all = new HashSet<>(queue);
 
 		while (!queue.isEmpty()) {
 			PortalCandidate candidate = queue.removeFirst();
 			boolean hit = false;
 
-			walls: for (Line2d wall : surface.walls()) {
+			for (Line2d wall : surface.walls()) {
 				Vector2d offset = collide(candidate, wall);
 				if (offset == null)
 					continue;
@@ -155,19 +157,13 @@ public class PortalBumper {
 					continue;
 
 				// if this new candidate is unique, add it to the queue
-				// this can't just be a hashset add because of floats
-				for (PortalCandidate seen : all) {
-					if (seen.center().distance(moved.center()) < 1e-5) {
-						continue walls;
-					}
-				}
+				if (all.add(moved)) {
+					queue.add(moved);
 
-				queue.add(moved);
-				all.add(moved);
-
-				if (EVIL_DEBUG_RENDERING) {
-					for (Line2d line : moved.lines()) {
-						DebugRendering.addLine(10, line.to3d(surface), Color.RED);
+					if (EVIL_DEBUG_RENDERING) {
+						for (Line2d line : moved.lines()) {
+							DebugRendering.addLine(10, line.to3d(surface), Color.RED);
+						}
 					}
 				}
 			}

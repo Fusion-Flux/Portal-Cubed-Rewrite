@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.placement;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.Contract;
 import org.joml.Matrix2d;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
@@ -27,7 +28,7 @@ public record PortalCandidate(Angle rot, Vector2dc center,
 
 	public PortalCandidate moved(double x, double y) {
 		return new PortalCandidate(
-				this.rot, add(this.center, x, y),
+				this.rot, toNearest32nd(add(this.center, x, y)),
 				add(this.bottomLeft, x, y), add(this.bottomRight, x, y), add(this.topRight, x, y), add(this.topLeft, x, y)
 		);
 	}
@@ -94,5 +95,12 @@ public record PortalCandidate(Angle rot, Vector2dc center,
 
 	private static Vector2d add(Vector2dc vec, double x, double y) {
 		return vec.add(x, y, new Vector2d());
+	}
+
+	@Contract("_->param1")
+	private static Vector2d toNearest32nd(Vector2d pos) {
+		pos.x = Math.round(pos.x * 32) / 32d;
+		pos.y = Math.round(pos.y * 32) / 32d;
+		return pos;
 	}
 }
