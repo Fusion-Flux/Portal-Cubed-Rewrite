@@ -26,6 +26,9 @@
   "gamerule.portalPositionSnapping.description": "Controls the position alignment of portals to blocks, in fractions of a full block (1/n).  Setting to 0 disables position snapping entirely.",
   "gamerule.portalRotationSnapping": "Portal Rotation Snapping",
   "gamerule.portalRotationSnapping.description": "Controls the rotation alignment of portals placed on floors and ceilings, in degrees.  Setting to 90 aligns portals with blocks, and setting to 0 disables rotation snapping entirely.",
+  "gamerule.allowRotatedWallPortals": "Allow Rotated Wall Portals",
+  "gamerule.allowRotatedWallPortals.description": "Allows portals on walls to be placed sideways.",
+
   "gamerule.portalsVanishOnDeath": "Player Portals Vanish on Death",
   "gamerule.portalsVanishOnDeath.description": "Whether player-placed portals vanish when that player dies.",
   "gamerule.portalShotRangeLimit": "Portal Shot Range Limit",
@@ -559,6 +562,10 @@
   "advancement.portalcubed.wash_portal_gun.description": "Submerge the operational end of the device",
   "advancement.portalcubed.portal_gun_fox.title": "You Shouldn't be Eating That",
   "advancement.portalcubed.portal_gun_fox.description": "Give a Portal Gun to a Fox",
+  "advancement.portalcubed.speedy_thing_go_in.title": "Speedy Thing Go In",
+  "advancement.portalcubed.speedy_thing_go_in.description": "Fall into a Portal at high speed",
+  "advancement.portalcubed.teleport_bread.title": "What's Your Question, Soldier?",
+  "advancement.portalcubed.teleport_bread.description": "Teleport bread",
   "advancement.portalcubed.construction_cannon.title": "Trust Me, I'm an Engineer",
   "advancement.portalcubed.construction_cannon.description": "Use a Construction Cannon",
 

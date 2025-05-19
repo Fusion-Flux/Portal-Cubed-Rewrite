@@ -1,0 +1,33 @@
+{
+  "parent": "portalcubed:achievements/portal_gun",
+  "criteria": {
+    "portal_entry": {
+      "trigger": "portalcubed:enter_portal",
+      "conditions": {
+        "player": {
+          "movement": {
+            "vertical_speed": {
+              "min": 30
+            }
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.speedy_thing_go_in.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "portalcubed:advanced_knee_replacements"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.speedy_thing_go_in.title"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  }
+}
