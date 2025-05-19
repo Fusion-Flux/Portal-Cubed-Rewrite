@@ -99,7 +99,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			}
 
 			ServerPortalManager manager = level.portalManager();
-			PortalValidator validator = new StandardPortalValidator(blockPos, normal, yRot);
+			PortalValidator validator = new StandardPortalValidator(yRot);
 			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level, pos, rotation, validator, this.settings));
 		}
 

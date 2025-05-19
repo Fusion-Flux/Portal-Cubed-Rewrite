@@ -54,7 +54,7 @@ public record PortalGunShootContext(
 		if (placement == null)
 			return;
 
-		PortalValidator validator = new StandardPortalValidator(hit.getBlockPos(), hit.getDirection(), this.yRot);
+		PortalValidator validator = new StandardPortalValidator(this.yRot);
 		PortalData data = PortalData.createWithSettings(this.level, placement.pos(), placement.rotation(), validator, settings);
 		this.level.portalManager().createPortal(id.key(), polarity, data);
 	}

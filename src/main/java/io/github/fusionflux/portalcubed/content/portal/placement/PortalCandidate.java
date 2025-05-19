@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.content.portal.placement;
 
 import java.util.Objects;
 
-import org.jetbrains.annotations.Contract;
 import org.joml.Matrix2d;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
@@ -13,28 +12,28 @@ import io.github.fusionflux.portalcubed.framework.util.Angle;
 import io.github.fusionflux.portalcubed.framework.util.DoubleRange;
 import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
 
-public record PortalCandidate(Angle rot, Vector2dc center,
+public record PortalCandidate(Angle rot, Vector2dc center, int bumps,
 							  Vector2dc bottomLeft, Vector2dc bottomRight, Vector2dc topRight, Vector2dc topLeft,
 							  Line2d bottom, Line2d right, Line2d top, Line2d left) {
 
-	public PortalCandidate(Angle rot, Vector2dc center, Vector2dc bottomLeft, Vector2dc bottomRight, Vector2dc topRight, Vector2dc topLeft) {
+	public PortalCandidate(Angle rot, Vector2dc center, int bumps, Vector2dc bottomLeft, Vector2dc bottomRight, Vector2dc topRight, Vector2dc topLeft) {
 		this(
-				rot, center,
+				rot, center, bumps,
 				bottomLeft, bottomRight, topRight, topLeft,
 				new Line2d(bottomLeft, bottomRight), new Line2d(bottomRight, topRight),
 				new Line2d(topRight, topLeft), new Line2d(topLeft, bottomLeft)
 		);
 	}
 
-	public PortalCandidate moved(double x, double y) {
+	public PortalCandidate bumped(double x, double y) {
 		return new PortalCandidate(
-				this.rot, toNearest32nd(add(this.center, x, y)),
+				this.rot, add(this.center, x, y), this.bumps + 1,
 				add(this.bottomLeft, x, y), add(this.bottomRight, x, y), add(this.topRight, x, y), add(this.topLeft, x, y)
 		);
 	}
 
-	public PortalCandidate moved(Vector2dc offset) {
-		return this.moved(offset.x(), offset.y());
+	public PortalCandidate bumped(Vector2dc offset) {
+		return this.bumped(offset.x(), offset.y());
 	}
 
 	public DoubleRange project(Vector2dc axis) {
@@ -82,7 +81,7 @@ public record PortalCandidate(Angle rot, Vector2dc center,
 		Vector2dc topRight = rotationMatrix.transform(new Vector2d(hw, hh)).add(center);
 		Vector2dc topLeft = rotationMatrix.transform(new Vector2d(-hw, hh)).add(center);
 
-		return new PortalCandidate(rot, center, bottomLeft, bottomRight, topRight, topLeft);
+		return new PortalCandidate(rot, center, 0, bottomLeft, bottomRight, topRight, topLeft);
 	}
 
 	public static PortalCandidate initial(Angle rot) {
@@ -95,12 +94,5 @@ public record PortalCandidate(Angle rot, Vector2dc center,
 
 	private static Vector2d add(Vector2dc vec, double x, double y) {
 		return vec.add(x, y, new Vector2d());
-	}
-
-	@Contract("_->param1")
-	private static Vector2d toNearest32nd(Vector2d pos) {
-		pos.x = Math.round(pos.x * 32) / 32d;
-		pos.y = Math.round(pos.y * 32) / 32d;
-		return pos;
 	}
 }

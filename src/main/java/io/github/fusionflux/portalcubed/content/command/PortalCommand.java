@@ -321,10 +321,8 @@ public class PortalCommand {
 
 			@Override
 			protected PortalValidator getFallbackValidator(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
-				BlockPos pos = BlockPosArgument.getBlockPos(ctx, "position");
-				Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
 				float rot = getOptional(ctx, "rotation", FloatArgumentType::getFloat, 0f);
-				return new StandardPortalValidator(pos, facing, rot);
+				return new StandardPortalValidator(rot);
 			}
 		},
 		SHOT_FROM {
@@ -377,28 +375,17 @@ public class PortalCommand {
 			@Override
 			protected PortalValidator getFallbackValidator(CommandContext<CommandSourceStack> ctx) {
 				// FIXME: this is garbage
-				Vec3 start = Vec3Argument.getVec3(ctx, "position");
-				float pitch, yaw;
+				float yaw;
 				if (PortalCubedCommands.hasArgument(ctx, "facing")) {
 					Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
-					pitch = switch (facing) {
-						case UP -> -90;
-						case DOWN -> 90;
-						default -> 0;
-					};
 					yaw = facing.toYRot();
 				} else {
 					Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
 					Vec2 rotations = coords.getRotation(ctx.getSource());
-					pitch = rotations.x;
 					yaw = rotations.y;
 				}
 
-				Vec3 normal = Vec3.directionFromRotation(pitch, yaw).normalize();
-				ServerLevel level = ctx.getSource().getLevel();
-				BlockHitResult hit = PortalGunShootContext.clip(level, start, normal);
-
-				return new StandardPortalValidator(hit.getBlockPos(), hit.getDirection(), yaw + 180);
+				return new StandardPortalValidator(yaw + 180);
 			}
 		},
 		PLACE_AT {

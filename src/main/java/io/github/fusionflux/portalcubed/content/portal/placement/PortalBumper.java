@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +44,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class PortalBumper {
 	public static final int SURFACE_SEARCH_RADIUS = 2;
 	public static final double MAX_BUMP_DISTANCE = 1.25;  //1.5 is closer to Portal's max bump distance, but 1.25 works a bit better with weird Minecraft geometry
+	public static final int MAX_BUMPS = 5;
 
 	// I would love to put the debug rendering on f3+p but this is server-side code, and I'm not adding a packet for it
 	public static final boolean EVIL_DEBUG_RENDERING = true;
@@ -114,9 +113,9 @@ public class PortalBumper {
 	}
 
 	private static List<PortalCandidate> getInitialCandidates(PortalableSurface surface, Angle rotation) {
-		if (!surface.supportsPortalRotation()) {
-			return List.of(PortalCandidate.initial(Angle.R0));
-		}
+		// if (!surface.supportsPortalRotation()) {
+		// 	return List.of(PortalCandidate.initial(Angle.R0));
+		// }
 
 		return List.of(
 				PortalCandidate.initial(rotation),
@@ -139,31 +138,40 @@ public class PortalBumper {
 		Deque<PortalCandidate> queue = new ArrayDeque<>();
 		queue.add(first);
 		// track every tested candidate to avoid duplicating work
-		Set<PortalCandidate> all = new HashSet<>(queue);
+		List<PortalCandidate> all = new ArrayList<>(queue);
 
 		while (!queue.isEmpty()) {
 			PortalCandidate candidate = queue.removeFirst();
 			boolean hit = false;
 
-			for (Line2d wall : surface.walls()) {
+			walls: for (Line2d wall : surface.walls()) {
 				Vector2d offset = collide(candidate, wall);
 				if (offset == null)
 					continue;
 
 				hit = true;
-				PortalCandidate moved = candidate.moved(offset);
+
+				if (candidate.bumps() > MAX_BUMPS)
+					continue;
+
+				PortalCandidate moved = candidate.bumped(offset);
 
 				if (moved.center().distance(first.center()) > MAX_BUMP_DISTANCE)
 					continue;
 
 				// if this new candidate is unique, add it to the queue
-				if (all.add(moved)) {
-					queue.add(moved);
+				for (PortalCandidate seen : all) {
+					if (seen.center().distance(moved.center()) <= 1e-3) {
+						continue walls;
+					}
+				}
 
-					if (EVIL_DEBUG_RENDERING) {
-						for (Line2d line : moved.lines()) {
-							DebugRendering.addLine(10, line.to3d(surface), Color.RED);
-						}
+				all.add(moved);
+				queue.add(moved);
+
+				if (EVIL_DEBUG_RENDERING) {
+					for (Line2d line : moved.lines()) {
+						DebugRendering.addLine(10, line.to3d(surface), Color.RED);
 					}
 				}
 			}
@@ -560,9 +568,5 @@ public class PortalBumper {
 		// this tiny extra offset avoids intersections that practically shouldn't happen but do because of float precision
 		double extraOffsetScale = 1.001;
 		return smallestDistanceAxis.mul(-smallestDistanceOnAxis * extraOffsetScale, new Vector2d());
-	}
-
-	private static boolean containsInclusive(AABB bounds, Vec3 pos) {
-		return pos.x >= bounds.minX && pos.x <= bounds.maxX && pos.y >= bounds.minY && pos.y <= bounds.maxY && pos.z >= bounds.minZ && pos.z <= bounds.maxZ;
 	}
 }
