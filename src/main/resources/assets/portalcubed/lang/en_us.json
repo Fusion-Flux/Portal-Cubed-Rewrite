@@ -169,6 +169,7 @@
   "portal_gun_crosshair.portalcubed.base": "Base Crosshair",
   "portal_gun_crosshair.portalcubed.splash_o_matic": "Splash-o-Matic Crosshair",
   "portal_gun_crosshair.portalcubed.wiimote": "Wii Cursor",
+  "portal_gun_crosshair.portalcubed.dot": "Dot",
 
 
   "portal_gun_skin.portalcubed.portal_gun": "Portal Gun",
@@ -208,6 +209,7 @@
   "portal_gun_skin.portalcubed.pipis_cannon": "Pipis Cannon",
   "portal_gun_skin.portalcubed.portal_gun_rick": "Rick's Portal Gun",
   "portal_gun_skin.portalcubed.wiimote": "Wiimote",
+  "portal_gun_skin.portalcubed.laser_pointer": "Laser Pointer",
 
   "portal_type.portalcubed.round": "Round Portal",
   "portal_type.portalcubed.portal_1_round": "Round Portal (Portal 1 Sounds)",
@@ -253,6 +255,7 @@
   "portal_type.portalcubed.bendy_portal": "Bendy Portal",
   "portal_type.portalcubed.nether_portal": "Nether Portal",
   "portal_type.portalcubed.aether_portal": "Aether Portal",
+  "portal_type.portalcubed.laser": "Laser",
 
   "parsing.portalcubed.enum.Polarity.expected": "Expected polarity",
   "parsing.portalcubed.enum.Polarity.invalid": "Invalid polarity '%s'",

@@ -596,6 +596,15 @@ public class PortalCubedTabs {
 					"round",
 					16724273
 			);
+			addPortalGunSkin(output,
+					"laser_pointer",
+					"laser_pointer",
+					"dot",
+					"laser",
+					16711680,
+					"laser",
+					65318
+			);
 
 
 			// ----- props -----

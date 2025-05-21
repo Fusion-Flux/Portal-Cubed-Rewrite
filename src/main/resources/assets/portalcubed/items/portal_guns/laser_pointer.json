@@ -1,0 +1,120 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": "minecraft:fox",
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/laser_pointer/fox/laser_pointer",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "active"
+            },
+            {
+              "type": "minecraft:dye",
+              "default": 2105376
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "primary"
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "secondary"
+            }
+          ]
+        }
+      },
+      {
+        "when": [
+          "minecraft:villager",
+          "minecraft:witch",
+          "minecraft:wandering_trader"
+        ],
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/laser_pointer/villager/laser_pointer",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "active"
+            },
+            {
+              "type": "minecraft:dye",
+              "default": 2105376
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "primary"
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "secondary"
+            }
+          ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:select",
+      "property": "minecraft:display_context",
+      "cases": [
+        {
+          "when": [
+            "firstperson_righthand",
+            "firstperson_lefthand",
+            "thirdperson_righthand",
+            "thirdperson_lefthand"
+          ],
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:portal_gun/laser_pointer/humanoid/laser_pointer",
+            "tints": [
+              {
+                "type": "portalcubed:portal_gun",
+                "polarity": "active"
+              },
+              {
+                "type": "minecraft:dye",
+                "default": 2105376
+              },
+              {
+                "type": "portalcubed:portal_gun",
+                "polarity": "primary"
+              },
+              {
+                "type": "portalcubed:portal_gun",
+                "polarity": "secondary"
+              }
+            ]
+          }
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "portalcubed:portal_gun/laser_pointer/humanoid/laser_pointer_off",
+        "tints": [
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "active"
+          },
+          {
+            "type": "minecraft:dye",
+            "default": 2105376
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "primary"
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "secondary"
+          }
+        ]
+      }
+    }
+  }
+}

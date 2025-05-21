@@ -1,0 +1,16 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.dot"
+  },
+  "remove_vanilla_crosshair": true,
+  "primary": {
+      "empty": "portalcubed:portal_gun_crosshair/dot/dot_left",
+      "placed": "portalcubed:portal_gun_crosshair/dot/dot_left_placed",
+      "last_placed": "portalcubed:portal_gun_crosshair/dot/dot_left_last_placed"
+  },
+  "secondary": {
+      "empty": "portalcubed:portal_gun_crosshair/dot/dot_right",
+      "placed": "portalcubed:portal_gun_crosshair/dot/dot_right_placed",
+      "last_placed": "portalcubed:portal_gun_crosshair/dot/dot_right_last_placed"
+  }
+}

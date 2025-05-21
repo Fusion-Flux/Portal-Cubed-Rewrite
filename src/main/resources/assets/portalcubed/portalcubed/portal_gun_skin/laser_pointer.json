@@ -1,0 +1,10 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.laser_pointer"
+  },
+  "item_model": "portalcubed:portal_guns/laser_pointer",
+  "sounds": {
+    "primary_shoot": "minecraft:ui.button.click",
+    "secondary_shoot": "minecraft:ui.button.click"
+  }
+}

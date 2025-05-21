@@ -1,0 +1,27 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.laser"
+  },
+  "default_primary_color": 16711680,
+  "default_secondary_color": 65318,
+  "sounds": {
+    "shared": {
+      "cant_open": "portalcubed:portal_type.default.cant_open",
+      "travel": "portalcubed:portal_type.default.travel",
+      "ambient": "portalcubed:portal_type.default.ambient"
+    },
+    "primary": {
+      "open": "portalcubed:portal_type.default.open.primary",
+      "close": "portalcubed:portal_type.default.close.primary"
+    },
+    "secondary": {
+      "open": "portalcubed:portal_type.default.open.secondary",
+      "close": "portalcubed:portal_type.default.close.secondary"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portal/laser/laser",
+    "closed": "portalcubed:portal/laser/laser",
+    "tracer": "portalcubed:portal/laser/laser_tracer"
+  }
+}
