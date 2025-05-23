@@ -55,7 +55,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 
 		public void shootFrom(Vec3 from, Direction facing, float yRot) {
 			new PortalGunShootContext(this.key, this.helper.getLevel(), this.helper.absoluteVec(from), facing.getUnitVec3(), yRot)
-					.shoot(Optional.empty(), this.polarity, this.settings);
+					.shootAndPlace(Optional.empty(), this.polarity, this.settings);
 		}
 
 		public void placeOn(int x, int y, int z, Direction normal) {
@@ -99,7 +99,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 			}
 
 			ServerPortalManager manager = level.portalManager();
-			PortalValidator validator = new StandardPortalValidator(yRot);
+			PortalValidator validator = new StandardPortalValidator(PortalData.normalToFlatRotation(normal, yRot));
 			manager.createPortal(this.key, this.polarity, PortalData.createWithSettings(level, pos, rotation, validator, this.settings));
 		}
 

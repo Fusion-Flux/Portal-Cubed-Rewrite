@@ -40,6 +40,10 @@ public class PortalCubedGameRules {
 	// 		"portalsBumpThroughWalls", CATEGORY, GameRuleFactory.createBooleanRule(true)
 	// );
 
+	public static final GameRules.Key<GameRules.BooleanValue> ALLOW_ROTATED_WALL_PORTALS = GameRuleRegistry.register(
+			"allowRotatedWallPortals", CATEGORY, GameRuleFactory.createBooleanRule(false)
+	);
+
 	public static void init() {
 	}
 }

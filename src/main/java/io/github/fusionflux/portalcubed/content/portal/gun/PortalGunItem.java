@@ -75,7 +75,7 @@ public class PortalGunItem extends Item implements DirectClickItem {
 			this.doClientShootEffects(player, stack, polarity);
 		} else {
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(serverPlayer), new ShootPortalGunPacket(player, polarity));
-			player.setItemInHand(hand, shoot(new PortalGunShootContext(serverPlayer), stack, polarity));
+			player.setItemInHand(hand, shoot(PortalGunShootContext.ofPlayer(serverPlayer), stack, polarity));
 		}
 	}
 
@@ -95,7 +95,7 @@ public class PortalGunItem extends Item implements DirectClickItem {
 	public static ItemStack shoot(PortalGunShootContext context, ItemStack stack, Polarity polarity) {
 		PortalGunSettings gunSettings = stack.getOrDefault(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT);
 		Polarity effectivePolarity = gunSettings.secondary().isEmpty() ? Polarity.PRIMARY : polarity;
-		context.shoot(gunSettings.pair(), effectivePolarity, gunSettings.portalSettingsOf(effectivePolarity));
+		context.shootAndPlace(gunSettings.pair(), effectivePolarity, gunSettings.portalSettingsOf(effectivePolarity));
 		return setGunSettings(stack, gunSettings.shoot(effectivePolarity));
 	}
 

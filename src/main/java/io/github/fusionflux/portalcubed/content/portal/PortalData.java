@@ -94,15 +94,16 @@ public record PortalData(
 	}
 
 	public static Angle normalToFlatRotation(Direction normal, float yRot) {
-		return Angle.ofDeg(degreesForNormal(normal, yRot));
+		// we don't want to 180 the yRot for flat surfaces
+		return Angle.ofDeg(normal.getAxis().isHorizontal() ? 0 : degreesForNormal(normal, yRot));
 	}
 
 	private static float degreesForNormal(Direction normal, float yRot) {
 		// vanilla treats rotations like they're on the outside of a box, not the inside.
 		// the easiest way to handle this is to just 180 the yRot on horizontal axes.
 		return switch (normal) {
-			case UP -> -yRot;
-			case DOWN -> yRot;
+			case UP -> yRot;
+			case DOWN -> -yRot;
 			default -> 180;
 		};
 	}

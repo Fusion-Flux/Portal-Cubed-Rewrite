@@ -3,27 +3,26 @@ package io.github.fusionflux.portalcubed.content.portal.placement.validator;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
+import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 
-public record StandardPortalValidator(float yRot) implements PortalValidator {
+public record StandardPortalValidator(Angle rotation) implements PortalValidator {
 	public static final MapCodec<StandardPortalValidator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-			Codec.FLOAT.fieldOf("y_rot").forGetter(StandardPortalValidator::yRot)
+			Angle.CODEC.fieldOf("rotation").forGetter(StandardPortalValidator::rotation)
 	).apply(i, StandardPortalValidator::new));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, StandardPortalValidator> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.FLOAT, StandardPortalValidator::yRot,
+			Angle.STREAM_CODEC, StandardPortalValidator::rotation,
 			StandardPortalValidator::new
 	);
 
@@ -38,7 +37,7 @@ public record StandardPortalValidator(float yRot) implements PortalValidator {
 		Direction face = Direction.getApproximateNearest(portal.normal);
 		BlockPos pos = BlockPos.containing(portal.data.origin().relative(face, -1e-3));
 
-		PortalPlacement placement = PortalBumper.findValidPlacement(holder.asId(), level, portal.data.origin(), this.yRot, pos, face);
+		PortalPlacement placement = PortalBumper.findValidPlacement(holder.asId(), level, portal.data.origin(), 0, pos, face, null, this.rotation);
 
 		return placement != null && placement.pos().equals(portal.data.origin()) && placement.rotation().equals(portal.data.rotation());
 	}
@@ -50,12 +49,12 @@ public record StandardPortalValidator(float yRot) implements PortalValidator {
 
 	@Override
 	public String toString() {
-		return "standard{yRot=" + this.yRot + '}';
+		return "standard{rotation=" + this.rotation + '}';
 	}
 
 	private static PortalValidator.Parsed parse(StringReader reader) throws CommandSyntaxException {
 		reader.skipWhitespace();
-		Float yRot = dummyFloat.parse(reader);
-		return ctx -> new StandardPortalValidator(yRot);
+		Angle rotation = Angle.ofDeg(dummyFloat.parse(reader));
+		return ctx -> new StandardPortalValidator(rotation);
 	}
 }

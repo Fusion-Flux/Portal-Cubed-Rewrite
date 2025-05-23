@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
@@ -51,15 +53,12 @@ public class PortalBumper {
 	public static final boolean DEBUG_SURFACE = false;
 
 	@Nullable
-	public static PortalPlacement findValidPlacement(PortalId id, ServerLevel level, Vec3 initial, float yRot, BlockPos surfacePos, Direction face) {
-		Collection<PortalableSurface> surfaceCandidates = getSurfaceCandidates(id, level, initial, surfacePos, face);
+	public static PortalPlacement findValidPlacement(@Nullable PortalId ignored, ServerLevel level, Vec3 initial, float yRot, BlockPos surfacePos, Direction face, @Nullable Angle bias, @Nullable Angle forcedRotation) {
+		Collection<PortalableSurface> surfaceCandidates = getSurfaceCandidates(ignored, level, initial, surfacePos, face);
 		if (surfaceCandidates.isEmpty())
 			return null;
 
-		// no I don't know why this needs to be negative.
-		// yes it's cancelled out by the other random negative below.
-		// but it's not cancelled out in other places, and that's required for correct behavior.
-		Angle rotation = PortalData.normalToFlatRotation(face, -yRot);
+		Angle rotation = forcedRotation != null ? forcedRotation : PortalData.normalToFlatRotation(face, yRot);
 		// FIXME: see PortalCubedGameRules
 		boolean bumpThroughWalls = false; // level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
 
@@ -81,7 +80,7 @@ public class PortalBumper {
 			}
 
 			List<PortalCandidate> candidates = new ArrayList<>();
-			for (PortalCandidate portal : getInitialCandidates(surface, rotation)) {
+			for (PortalCandidate portal : getInitialCandidates(level, surface, rotation, forcedRotation != null)) {
 				if (EVIL_DEBUG_RENDERING) {
 					for (Line2d portalSide : portal.lines()) {
 						DebugRendering.addLine(100, portalSide.to3d(surface), Color.GREEN);
@@ -95,7 +94,10 @@ public class PortalBumper {
 				continue;
 
 			// choose nearest found location
-			candidates.sort(getCandidateComparator(rotation));
+			if (candidates.size() > 1) {
+				candidates.sort(getCandidateComparator(rotation, bias));
+			}
+
 			PortalCandidate finalLocation = candidates.getFirst();
 
 			if (EVIL_DEBUG_RENDERING) {
@@ -105,33 +107,36 @@ public class PortalBumper {
 			}
 
 			Vec3 finalPos = surface.to3d(finalLocation.center());
+			// no idea why this needs to be negative
 			Quaternionf portalRotation = surface.rotation().rotateY(-finalLocation.rot().radF(), new Quaternionf());
-			return new PortalPlacement(finalPos, portalRotation);
+			return new PortalPlacement(finalPos, portalRotation, finalLocation.rot());
 		}
 
 		return null;
 	}
 
-	private static List<PortalCandidate> getInitialCandidates(PortalableSurface surface, Angle rotation) {
-		// if (!surface.supportsPortalRotation()) {
-		// 	return List.of(PortalCandidate.initial(Angle.R0));
-		// }
+	private static Collection<PortalCandidate> getInitialCandidates(ServerLevel level, PortalableSurface surface, Angle rotation, boolean forced) {
+		if (forced) {
+			return List.of(PortalCandidate.initial(rotation));
+		}
 
-		return List.of(
-				PortalCandidate.initial(rotation),
-				// also test 90 degree increments, to handle cases like floor and ceiling 1x2s where space is very limited
-				PortalCandidate.initial(Angle.R0),
-				PortalCandidate.initial(Angle.R90),
-				PortalCandidate.initial(Angle.R180),
-				PortalCandidate.initial(Angle.R270)
-		);
+		if (!surface.supportsPortalRotation() && !level.getGameRules().getBoolean(PortalCubedGameRules.ALLOW_ROTATED_WALL_PORTALS)) {
+			return List.of(PortalCandidate.initial(Angle.R0));
+		}
+
+		// don't duplicate the rotation if it's already a 90 degree increment
+		Set<Angle> angles = new HashSet<>(Angle.INCREMENTS);
+		angles.add(rotation);
+
+		return angles.stream().map(PortalCandidate::initial).toList();
 	}
 
-	private static Comparator<PortalCandidate> getCandidateComparator(Angle desiredAngle) {
-		// prefer angle most, then distance
+	private static Comparator<PortalCandidate> getCandidateComparator(Angle desiredAngle, @Nullable Angle bias) {
 		Comparator<PortalCandidate> byAngle = Comparator.comparingDouble(candidate -> candidate.rot().distanceTo(desiredAngle));
 		Comparator<PortalCandidate> byDistance = Comparator.comparingDouble(candidate -> candidate.center().length());
-		return byAngle.thenComparing(byDistance);
+		// prefer angle most, then distance
+		Comparator<PortalCandidate> chained = byAngle.thenComparing(byDistance);
+		return bias == null ? chained : chained.thenComparing(candidate -> candidate.rot().distanceTo(bias));
 	}
 
 	private static void findCandidates(PortalableSurface surface, PortalCandidate first, boolean bumpThroughWalls, Consumer<PortalCandidate> output) {
@@ -193,7 +198,7 @@ public class PortalBumper {
 		}
 	}
 
-	private static Collection<PortalableSurface> getSurfaceCandidates(PortalId id, ServerLevel level, Vec3 initial, BlockPos surfacePos, Direction face) {
+	private static Collection<PortalableSurface> getSurfaceCandidates(@Nullable PortalId ignored, ServerLevel level, Vec3 initial, BlockPos surfacePos, Direction face) {
 		// TODO: de-hardcode this
 
 		List<PortalableSurface> surfaces = new ArrayList<>();
@@ -207,7 +212,7 @@ public class PortalBumper {
 		// 	}
 		// }
 
-		PortalableSurface flat = getFlatSurface(id, level, initial, surfacePos, face);
+		PortalableSurface flat = getFlatSurface(ignored, level, initial, surfacePos, face);
 		if (flat != null && !flat.walls().isEmpty()) {
 			surfaces.add(flat);
 		}
@@ -218,7 +223,7 @@ public class PortalBumper {
 	// 0, 0 in surface coords is where the portal starts
 
 	@Nullable
-	private static PortalableSurface getFlatSurface(PortalId id, ServerLevel level, Vec3 initial, BlockPos pos, Direction face) {
+	private static PortalableSurface getFlatSurface(@Nullable PortalId ignored, ServerLevel level, Vec3 initial, BlockPos pos, Direction face) {
 		Quaternionf surfaceRotation = PortalData.normalToRotation(face, 0);
 
 		if (DEBUG_SURFACE) {
@@ -249,7 +254,7 @@ public class PortalBumper {
 
 		PortalableSurface surface = new PortalableSurface(surfaceRotation, initial, walls, face.getAxis() == Direction.Axis.Y);
 
-		findOtherPortals(id, level, surface, initial, pos, face, up, right, walls);
+		findOtherPortals(ignored, level, surface, initial, pos, face, up, right, walls);
 
 		return surface;
 	}
@@ -311,14 +316,14 @@ public class PortalBumper {
 		}
 	}
 
-	private static void findOtherPortals(PortalId placing, ServerLevel level, PortalableSurface surface, Vec3 initial, BlockPos pos, Direction face, Direction up, Direction right, List<Line2d> walls) {
+	private static void findOtherPortals(@Nullable PortalId ignored, ServerLevel level, PortalableSurface surface, Vec3 initial, BlockPos pos, Direction face, Direction up, Direction right, List<Line2d> walls) {
 		BlockPos inFront = pos.relative(face);
 		BlockPos max = inFront.relative(up, SURFACE_SEARCH_RADIUS).relative(right, SURFACE_SEARCH_RADIUS);
 		BlockPos min = pos.relative(up, -SURFACE_SEARCH_RADIUS).relative(right, -SURFACE_SEARCH_RADIUS);
 		AABB area = AABB.encapsulatingFullBlocks(min, max);
 
 		level.portalManager().lookup().getPortals(area).forEach(holder -> {
-			if (holder.matches(placing))
+			if (ignored != null && holder.matches(ignored))
 				return;
 
 			PortalInstance portal = holder.portal();
