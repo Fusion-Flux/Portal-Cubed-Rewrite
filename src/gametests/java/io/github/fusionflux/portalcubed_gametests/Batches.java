@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 public class Batches {
 	public static final String RAINY = PortalCubedGameTests.ID + ":rainy";
 	public static final String RESTRICTED_PORTAL_SURFACES = PortalCubedGameTests.ID + ":restricted_portal_surfaces";
-	// public static final String PORTALS_BUMP_THROUGH_WALLS = PortalCubedGameTests.ID + ":portals_bump_through_walls";
+	public static final String PORTALS_BUMP_THROUGH_WALLS = PortalCubedGameTests.ID + ":portals_bump_through_walls";
 	public static final String PORTALS_DO_NOT_BUMP_THROUGH_WALLS = PortalCubedGameTests.ID + ":portals_do_not_bump_through_walls";
 
 	@BeforeBatch(batch = RAINY)
@@ -30,18 +30,18 @@ public class Batches {
 		level.getGameRules().getRule(PortalCubedGameRules.RESTRICT_VALID_PORTAL_SURFACES).set(false, level.getServer());
 	}
 
-	// @BeforeBatch(batch = PORTALS_BUMP_THROUGH_WALLS)
-	// public void resetPortalBumpingGamerule(ServerLevel level) {
-	// 	level.getGameRules().getRule(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS).set(true, level.getServer());
-	// }
-	//
-	// @BeforeBatch(batch = PORTALS_DO_NOT_BUMP_THROUGH_WALLS)
-	// public void disablePortalBumpingGamerule(ServerLevel level) {
-	// 	level.getGameRules().getRule(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS).set(false, level.getServer());
-	// }
-	// @AfterBatch(batch = PORTALS_DO_NOT_BUMP_THROUGH_WALLS)
-	// public void enablePortalBumpingGamerule(ServerLevel level) {
-	// 	level.getGameRules().getRule(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS).set(true, level.getServer());
-	// }
+	@BeforeBatch(batch = PORTALS_BUMP_THROUGH_WALLS)
+	public void resetPortalBumpingGamerule(ServerLevel level) {
+		level.getGameRules().getRule(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS).set(true, level.getServer());
+	}
+
+	@BeforeBatch(batch = PORTALS_DO_NOT_BUMP_THROUGH_WALLS)
+	public void disablePortalBumpingGamerule(ServerLevel level) {
+		level.getGameRules().getRule(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS).set(false, level.getServer());
+	}
+	@AfterBatch(batch = PORTALS_DO_NOT_BUMP_THROUGH_WALLS)
+	public void enablePortalBumpingGamerule(ServerLevel level) {
+		level.getGameRules().getRule(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS).set(true, level.getServer());
+	}
 
 }

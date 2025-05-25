@@ -17,12 +17,22 @@ import net.minecraft.world.phys.Vec3;
  */
 public record PortalableSurface(Quaternionfc rotation, Vec3 origin, List<Line2d> walls, boolean supportsPortalRotation) {
 	public boolean intersectsCollision(Line2d path) {
+		return this.countIntersections(path) != 0;
+	}
+
+	public boolean areOnSameSideOfBounds(Vector2dc a, Vector2dc b) {
+		Line2d path = new Line2d(a, b);
+		return this.countIntersections(path) % 2 == 0;
+	}
+
+	private int countIntersections(Line2d path) {
+		int intersections = 0;
 		for (Line2d wall : this.walls) {
 			if (wall.source() == Line2d.Source.COLLISION && wall.intersects(path)) {
-				return true;
+				intersections++;
 			}
 		}
-		return false;
+		return intersections;
 	}
 
 	public Vec3 to3d(Vector2dc pos) {

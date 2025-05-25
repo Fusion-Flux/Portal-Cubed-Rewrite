@@ -59,8 +59,7 @@ public class PortalBumper {
 			return null;
 
 		Angle rotation = forcedRotation != null ? forcedRotation : PortalData.normalToFlatRotation(face, yRot);
-		// FIXME: see PortalCubedGameRules
-		boolean bumpThroughWalls = false; // level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
+		boolean bumpThroughWalls = level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
 
 		for (PortalableSurface surface : surfaceCandidates) {
 			if (EVIL_DEBUG_RENDERING) {
@@ -186,11 +185,15 @@ public class PortalBumper {
 			}
 
 			// no walls have been hit, do postprocess validation
+
 			if (!bumpThroughWalls) {
 				Line2d path = new Line2d(first.center(), candidate.center());
 				if (surface.intersectsCollision(path)) {
 					continue; // went through a wall
 				}
+			} else if (!surface.areOnSameSideOfBounds(first.center(), candidate.center())) {
+				// bumping through walls is allowed, but we still need to make sure the result is in bounds
+				continue;
 			}
 
 			// valid candidate found
