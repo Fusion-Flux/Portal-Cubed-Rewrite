@@ -403,10 +403,10 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalBumpGap(GameTestHelper helper) {
 		PortalHelper portalBumpGap = new PortalHelper(helper, "portal_bump_gap");
 
-		portalBumpGap.primary().shootFrom(new Vec3(1.35, 3, 2.5), Direction.DOWN, 0);
+		portalBumpGap.primary().shootFrom(new Vec3(1.35, 3, 2.5), Direction.DOWN, 5);
 
 		helper.runAfterDelay(10, () ->
-			helper.succeedWhen(() -> portalBumpGap.primary().assertPresent(3, 1, 2.5, Direction.UP))
+			helper.succeedWhen(() -> portalBumpGap.primary().assertPresent(2.6, 1, 2.5, Direction.UP))
 		);
 	}
 
