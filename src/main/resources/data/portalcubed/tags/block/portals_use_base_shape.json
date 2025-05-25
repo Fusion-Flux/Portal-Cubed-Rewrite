@@ -3,13 +3,14 @@
     "#minecraft:walls",
     "#minecraft:fences",
     "#minecraft:all_hanging_signs",
+    "#minecraft:portals",
+    "#minecraft:fire",
     "minecraft:lectern",
     "minecraft:snow",
     "minecraft:mud",
     "minecraft:soul_sand",
+    "minecraft:honey_block",
     "portalcubed:portal_barrier",
-    "#minecraft:portals",
-    "#minecraft:fire",
     "#portalcubed:all_facades"
   ]
 }

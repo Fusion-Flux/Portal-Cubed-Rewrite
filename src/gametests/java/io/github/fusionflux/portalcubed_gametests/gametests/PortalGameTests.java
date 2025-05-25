@@ -229,7 +229,9 @@ public class PortalGameTests implements FabricGameTest {
 		restrictiveSurface.primary().shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
 		restrictiveSurface.secondary().shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
 
-		helper.succeedWhen(() -> restrictiveSurface.primary().assertNotPresent());
+		helper.runAfterDelay(10, () ->
+				helper.succeedWhen(() -> restrictiveSurface.primary().assertNotPresent())
+		);
 	}
 
 	//Tests the "create" portion of the portal command
@@ -246,7 +248,7 @@ public class PortalGameTests implements FabricGameTest {
 			placeOn1.primary().assertPresent(1.5, 2, 5.5, Direction.NORTH);
 			placeOn1.secondary().assertPresent(2.5, 2, 5.5, Direction.NORTH);
 			placeAt1.primary().assertPresent(3.5, 2, 5.5, Direction.NORTH);
-			placeAt1.secondary().assertNotPresent();
+			placeAt1.secondary().assertNotPresent(); //this needs to be assertPresent eventually I think
 			shotFrom1.primary().assertNotPresent();
 			shotFrom1.secondary().assertNotPresent();
 			//TODO: revisit this after place_at is fixed to make sure the rest are correct
@@ -363,7 +365,9 @@ public class PortalGameTests implements FabricGameTest {
 		// 0.1 offset on X
 		portalBumpWall.primary().shootFrom(new Vec3(1.1, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> portalBumpWall.primary().assertPresent(1.5, 1, 2.5, Direction.UP));
+		helper.runAfterDelay(10, () ->
+			helper.succeedWhen(() -> portalBumpWall.primary().assertPresent(1.5, 1, 2.5, Direction.UP))
+		);
 	}
 
 
@@ -373,9 +377,11 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper portalBumpPortal = new PortalHelper(helper, "portal_bump_portal");
 		portalBumpPortal.primary().shootFrom(new Vec3(1.5, 3, 2.5), Direction.DOWN);
-		helper.runAfterDelay(20, () -> portalBumpPortal.secondary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN));
+		helper.runAfterDelay(10, () -> portalBumpPortal.secondary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN));
 
-		helper.succeedWhen(() -> portalBumpPortal.secondary().assertPresent(2.5, 1, 2.5, Direction.UP));
+		helper.runAfterDelay(20, () ->
+			helper.succeedWhen(() -> portalBumpPortal.secondary().assertPresent(2.5, 1, 2.5, Direction.UP))
+		);
 	}
 
 
@@ -386,18 +392,22 @@ public class PortalGameTests implements FabricGameTest {
 
 		portalBumpInvalidSurface.primary().shootFrom(new Vec3(0.75, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> portalBumpInvalidSurface.primary().assertNotPresent());
+		helper.runAfterDelay(10, () ->
+			helper.succeedWhen(() -> portalBumpInvalidSurface.primary().assertNotPresent())
+		);
 	}
 
 
 	//Tests portal bumping across a gap.  It probably shouldn't bump, but the current implementation does, and it's hard to make it not do that.
-	@GameTest(template = GROUP + "portal_bump_gap")
+	@GameTest(template = GROUP + "portal_bump_gap", batch = Batches.PORTALS_BUMP_THROUGH_WALLS)
 	public void portalBumpGap(GameTestHelper helper) {
 		PortalHelper portalBumpGap = new PortalHelper(helper, "portal_bump_gap");
 
-		portalBumpGap.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+		portalBumpGap.primary().shootFrom(new Vec3(1.35, 3, 2.5), Direction.DOWN, 0);
 
-		helper.succeedWhen(() -> portalBumpGap.primary().assertPresent(3, 1, 2.5, Direction.UP));
+		helper.runAfterDelay(10, () ->
+			helper.succeedWhen(() -> portalBumpGap.primary().assertPresent(3, 1, 2.5, Direction.UP))
+		);
 	}
 
 
@@ -408,7 +418,9 @@ public class PortalGameTests implements FabricGameTest {
 
 		portalBumpThinWall.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> portalBumpThinWall.primary().assertPresent(2, 1, 2.5, Direction.UP));
+		helper.runAfterDelay(10, () ->
+				helper.succeedWhen(() -> portalBumpThinWall.primary().assertPresent(2, 1, 2.5, Direction.UP))
+		);
 	}
 
 	//Tests portal bumping through a thin wall with the gamerule disabled.  The portal should not bump through the wall.
@@ -418,7 +430,9 @@ public class PortalGameTests implements FabricGameTest {
 
 		portalBumpThinWall.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> portalBumpThinWall.primary().assertNotPresent());
+		helper.runAfterDelay(10, () ->
+			helper.succeedWhen(() -> portalBumpThinWall.primary().assertNotPresent())
+		);
 	}
 
 
@@ -429,7 +443,9 @@ public class PortalGameTests implements FabricGameTest {
 
 		portalBumpEdge.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> portalBumpEdge.primary().assertPresent(1.5, 2, 2.5, Direction.UP));
+		helper.runAfterDelay(10, () ->
+				helper.succeedWhen(() -> portalBumpEdge.primary().assertPresent(1.5, 2, 2.5, Direction.UP))
+		);
 	}
 
 
@@ -440,7 +456,9 @@ public class PortalGameTests implements FabricGameTest {
 
 		portalBumpTrench.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
-		helper.succeedWhen(() -> portalBumpTrench.primary().assertNotPresent());
+		helper.runAfterDelay(10, () ->
+				helper.succeedWhen(() -> portalBumpTrench.primary().assertNotPresent())
+		);
 	}
 
 	//Tests blocks that add or remove portalability to block surfaces, such as facades and portal barriers.  Makes sure that only the intended surface supports portals.
