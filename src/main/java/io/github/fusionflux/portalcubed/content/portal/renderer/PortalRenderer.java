@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.renderer;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -77,6 +78,10 @@ public class PortalRenderer {
 	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
 
 	private static VertexBuffer stencilQuadBuffer;
+	// the fog is coming
+	private static Vector4f fogColor;
+	private static FogParameters terrainFog;
+	private static FogParameters skyFog;
 
 	private static final List<PortalInstance> renderingPortals = new ObjectArrayList<>();
 	private static int maxRecursions = 3;
@@ -307,8 +312,12 @@ public class PortalRenderer {
 			);
 		} finally {
 			renderingPortals.removeLast();
-			if (!isRenderingView())
+			if (!isRenderingView()) {
 				GL11.glDisable(GL11.GL_CLIP_PLANE0);
+				fogColor = null;
+				terrainFog = null;
+				skyFog = null;
+			}
 
 			modelViewMatrices.popMatrix();
 			RenderSystem.enableDepthTest();
@@ -429,5 +438,37 @@ public class PortalRenderer {
 	public static void init() {
 		WorldRenderEvents.BEFORE_DEBUG_RENDER.register(PortalRenderer::render);
 		WorldRenderEvents.AFTER_ENTITIES.register(PortalDebugRenderer::render);
+	}
+
+	@Nullable
+	public static Vector4f updateFogColor(Supplier<Vector4f> supplier) {
+		// note: do not call supplier twice, has side effects
+
+		if (!isRenderingView()) {
+			fogColor = supplier.get();
+			return fogColor;
+		}
+
+		if (fogColor != null) {
+			return fogColor;
+		} else {
+			return supplier.get();
+		}
+	}
+
+	public static FogParameters updateTerrainFog(FogParameters fog) {
+		if (!isRenderingView()) {
+			terrainFog = fog;
+		}
+
+		return terrainFog != null ? terrainFog : fog;
+	}
+
+	public static FogParameters updateSkyFog(FogParameters fog) {
+		if (!isRenderingView()) {
+			skyFog = fog;
+		}
+
+		return skyFog != null ? skyFog : fog;
 	}
 }

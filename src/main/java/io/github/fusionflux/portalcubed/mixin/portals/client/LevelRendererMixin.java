@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -29,6 +30,8 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.FogParameters;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderBuffers;
@@ -38,7 +41,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
-@Mixin(LevelRenderer.class)
+@Mixin(value = LevelRenderer.class, priority = 938)
 public class LevelRendererMixin {
 	@Shadow
 	private RenderBuffers renderBuffers;
@@ -148,5 +151,41 @@ public class LevelRendererMixin {
 			y.set(override.pos().y);
 			z.set(override.pos().z);
 		}
+	}
+
+	@WrapOperation(
+			method = "renderLevel",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/FogRenderer;computeFogColor(Lnet/minecraft/client/Camera;FLnet/minecraft/client/multiplayer/ClientLevel;IF)Lorg/joml/Vector4f;"
+			)
+	)
+	private Vector4f updateFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Operation<Vector4f> original) {
+		return PortalRenderer.updateFogColor(() -> original.call(camera, partialTick, level, renderDistance, darkenWorldAmount));
+	}
+
+	// this needs to be a wrap-op that applies before sodium so it captures our modified fog
+	@WrapOperation(
+			method = "renderLevel",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/FogRenderer;setupFog(Lnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/FogRenderer$FogMode;Lorg/joml/Vector4f;FZF)Lnet/minecraft/client/renderer/FogParameters;",
+					ordinal = 0
+			)
+	)
+	private FogParameters updateTerrainFog(Camera camera, FogRenderer.FogMode fogMode, Vector4f fogColor, float renderDistance, boolean isFoggy, float partialTick, Operation<FogParameters> original) {
+		return PortalRenderer.updateTerrainFog(original.call(camera, fogMode, fogColor, renderDistance, isFoggy, partialTick));
+	}
+
+	@ModifyExpressionValue(
+			method = "renderLevel",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/FogRenderer;setupFog(Lnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/FogRenderer$FogMode;Lorg/joml/Vector4f;FZF)Lnet/minecraft/client/renderer/FogParameters;",
+					ordinal = 1
+			)
+	)
+	private FogParameters updateSkyFog(FogParameters original) {
+		return PortalRenderer.updateSkyFog(original);
 	}
 }
