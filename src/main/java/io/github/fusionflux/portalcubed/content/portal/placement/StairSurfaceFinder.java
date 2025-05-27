@@ -79,7 +79,6 @@ public final class StairSurfaceFinder {
 		));
 
 		DebugRendering.addPos(100, nearestOnPlane, Color.ORANGE);
-		System.out.println(nearestOnPlane);
 
 		// discard components of offset that don't offset out of the stairs
 		Vec3 surfaceNormal = TransformUtils.toMc(rotation.transform(new Vector3d(0, 1, 0)));

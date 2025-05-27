@@ -63,35 +63,32 @@ public class TeleportProgressTracker {
 			TrackedTeleport teleport = itr.next();
 			// need to re-get center each time, since the entity moves after each teleport
 			Vec3 center = PortalTeleportHandler.centerOf(this.entity);
-			if (teleport.isDone(center)) {
-				itr.remove();
-				remainingTeleports--;
-				this.reverseTransforms.removeLast();
-
-				Vec3 oldCenter = PortalTeleportHandler.oldCenterOf(this.entity);
-				Vec3 clip = teleport.threshold.clip(oldCenter, center);
-				// this shouldn't happen, but just in case
-				if (clip == null)
-					continue;
-
-				double totalDistance = oldCenter.distanceTo(center);
-				double distancePreTp = oldCenter.distanceTo(clip);
-				float progressPreTp = (float) (distancePreTp / totalDistance);
-
-				EntityState state = EntityState.capture(this.entity);
-				EntityState old = EntityState.captureOld(this.entity);
-				this.currentSteps.add(new TeleportStep(progressPreTp, old, state));
-
-				teleport.transform.apply(this.entity);
-
-				EntityState afterTp = EntityState.capture(this.entity);
-				EntityState oldAfterTp = EntityState.captureOld(this.entity);
-				this.currentSteps.add(new TeleportStep(1f / remainingTeleports, oldAfterTp, afterTp));
-
-				System.out.println("teleport done; left: " + this.teleports);
-			} else {
+			if (!teleport.isDone(center))
 				break;
-			}
+
+			itr.remove();
+			remainingTeleports--;
+			this.reverseTransforms.removeLast();
+
+			Vec3 oldCenter = PortalTeleportHandler.oldCenterOf(this.entity);
+			Vec3 clip = teleport.threshold.clip(oldCenter, center);
+			// this shouldn't happen, but just in case
+			if (clip == null)
+				continue;
+
+			double totalDistance = oldCenter.distanceTo(center);
+			double distancePreTp = oldCenter.distanceTo(clip);
+			float progressPreTp = (float) (distancePreTp / totalDistance);
+
+			EntityState state = EntityState.capture(this.entity);
+			EntityState old = EntityState.captureOld(this.entity);
+			this.currentSteps.add(new TeleportStep(progressPreTp, old, state));
+
+			teleport.transform.apply(this.entity);
+
+			EntityState afterTp = EntityState.capture(this.entity);
+			EntityState oldAfterTp = EntityState.captureOld(this.entity);
+			this.currentSteps.add(new TeleportStep(1f / remainingTeleports, oldAfterTp, afterTp));
 		}
 	}
 
@@ -100,7 +97,6 @@ public class TeleportProgressTracker {
 			this.teleports.add(teleport);
 			this.reverseTransforms.addFirst(teleport.transform.inverse);
 		}
-		System.out.println("added " + teleports.size() + " teleports; new: " + this.teleports);
 	}
 
 	@Nullable
@@ -126,7 +122,6 @@ public class TeleportProgressTracker {
 	}
 
 	private void abort() {
-		System.out.println("aborted tracking");
 		this.teleports.clear();
 		this.reverseTransforms.clear();
 		RequestEntitySyncPacket packet = new RequestEntitySyncPacket(this.entity);
