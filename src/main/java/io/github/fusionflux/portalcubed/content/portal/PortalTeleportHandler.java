@@ -18,6 +18,7 @@ import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -50,6 +51,11 @@ public class PortalTeleportHandler {
 
 		PortalTransform transform = PortalTransform.of(result);
 		transform.apply(entity);
+
+		// wakey wakey
+		if (entity instanceof LivingEntity living) {
+			living.stopSleeping();
+		}
 
 		// tp command does this
 		if (entity instanceof PathfinderMob pathfinderMob) {
