@@ -53,8 +53,13 @@ public class PortalTeleportHandler {
 		transform.apply(entity);
 
 		// wakey wakey
-		if (entity instanceof LivingEntity living) {
-			living.stopSleeping();
+		if (entity instanceof LivingEntity living && living.isSleeping()) {
+			try {
+				living.pc$skipWakeUpMovement(true);
+				living.stopSleeping();
+			} finally {
+				living.pc$skipWakeUpMovement(false);
+			}
 		}
 
 		// tp command does this
