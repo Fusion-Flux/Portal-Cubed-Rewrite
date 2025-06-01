@@ -15,13 +15,19 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.PortalCubedClient;
+import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 import net.minecraft.Util;
 import net.minecraft.client.KeyboardHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 
 @Mixin(KeyboardHandler.class)
 public abstract class KeyboardHandlerMixin {
@@ -59,17 +65,35 @@ public abstract class KeyboardHandlerMixin {
 
 		Component message = Component.translatable(key);
 
-		List<IntIntPair> colorSchemes = List.of(
+		IntIntPair colors = chooseColors();
+		Component portal = Component.translatable("debug.portalcubed.help.prefix.portal").withColor(colors.firstInt());
+		Component cubed = Component.translatable("debug.portalcubed.help.prefix.cubed").withColor(colors.secondInt());
+		Component inner = Component.translatable("debug.portalcubed.help.prefix.inner", portal, cubed);
+		return Component.translatable("debug.portalcubed.help", inner, message);
+	}
+
+	@Unique
+	private static IntIntPair chooseColors() {
+		LocalPlayer player = Minecraft.getInstance().player;
+		if (player != null) {
+			// main is first so it takes priority
+			for (InteractionHand hand : InteractionHand.values()) {
+				ItemStack stack = player.getItemInHand(hand);
+				PortalGunSettings settings = stack.get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
+				if (settings != null) {
+					int primary = settings.primary().color();
+					int secondary = settings.effectiveSecondary().color();
+					return IntIntPair.of(primary, secondary);
+				}
+			}
+		}
+
+		List<IntIntPair> fallback = List.of(
 				IntIntPair.of(Polarity.PRIMARY.defaultColor, Polarity.SECONDARY.defaultColor),
 				IntIntPair.of(0x76b5eb, 0x4f45b8), // atlas
 				IntIntPair.of(0xcac850, 0x9f2525) // p-body
 		);
 
-		IntIntPair colors = Util.getRandom(colorSchemes, RandomSource.create());
-
-		Component portal = Component.translatable("debug.portalcubed.help.prefix.portal").withColor(colors.firstInt());
-		Component cubed = Component.translatable("debug.portalcubed.help.prefix.cubed").withColor(colors.secondInt());
-		Component inner = Component.translatable("debug.portalcubed.help.prefix.inner", portal, cubed);
-		return Component.translatable("debug.portalcubed.help", inner, message);
+		return Util.getRandom(fallback, RandomSource.create());
 	}
 }
