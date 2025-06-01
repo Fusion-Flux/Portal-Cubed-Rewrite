@@ -345,6 +345,14 @@
   "commands.portalcubed.portal.modify.validate.true": "set to true",
   "commands.portalcubed.portal.modify.validate.false": "set to false",
 
+  "commands.data.portalcubed.portal.modified": "Modified portal data of %s",
+  "commands.data.portalcubed.portal.query": "%1$s has the following portal data: %2$s",
+  "commands.data.portalcubed.portal.get": "%1$s on %2$s after scale factor of %3$s is %4$s",
+
+  "commands.data.portalcubed.portal.error.encode": "Failed to encode portal, this is likely a bug in PortalCubed: %s",
+  "commands.data.portalcubed.portal.error.decode": "Invalid portal: %s",
+  "commands.data.portalcubed.portal.error.missing": "That portal does not exist",
+
   "commands.portalcubed.client.portal_recursions.query": "Number of portal recursions is currently set to %s",
   "commands.portalcubed.client.portal_recursions.success": "Set number of portal recursions to %s",
   "commands.portalcubed.client.portal_recursions.failure": "Could not set number of portal recursions to %1$s: %2$s",

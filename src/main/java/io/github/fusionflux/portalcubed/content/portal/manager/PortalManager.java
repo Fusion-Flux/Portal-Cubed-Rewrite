@@ -7,6 +7,9 @@ import java.util.function.UnaryOperator;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
@@ -25,8 +28,15 @@ public abstract class PortalManager {
 		this.lookup = new SectionPortalLookup();
 	}
 
+	@Nullable
 	public PortalPair getPair(String key) {
 		return this.storage.get(key);
+	}
+
+	@Nullable
+	public PortalInstance getPortal(PortalId id) {
+		PortalPair pair = this.getPair(id.key());
+		return pair == null ? null : pair.getNullable(id.polarity());
 	}
 
 	public PortalPair getOrEmpty(String key) {
@@ -48,6 +58,10 @@ public abstract class PortalManager {
 
 		this.collision.portalsChanged(old, pair);
 		this.lookup.portalsChanged(key, old, pair);
+	}
+
+	public void setPortal(PortalId id, @Nullable PortalData data) {
+		this.modifyPair(id.key(), pair -> pair.with(id.polarity(), data));
 	}
 
 	public void modifyPair(String key, UnaryOperator<PortalPair> op) {

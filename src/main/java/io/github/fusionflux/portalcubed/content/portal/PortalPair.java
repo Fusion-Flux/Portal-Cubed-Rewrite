@@ -79,8 +79,12 @@ public record PortalPair(Optional<PortalInstance> primary, Optional<PortalInstan
 				: new PortalPair(this.primary, Optional.ofNullable(portal));
 	}
 
+	public PortalPair with(Polarity polarity, @Nullable PortalData portal) {
+		return this.with(polarity, portal == null ? null : new PortalInstance(portal));
+	}
+
 	public PortalPair without(Polarity polarity) {
-		return this.with(polarity, null);
+		return this.with(polarity, (PortalInstance) null);
 	}
 
 	@Override
