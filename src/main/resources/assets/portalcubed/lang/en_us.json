@@ -285,7 +285,7 @@
   "debug.portalcubed.help.prefix.inner": "%1$s%2$s",
   "debug.portalcubed.help": "[%s]: %s",
 
-  "debug.portalcubed.help.portals": "F3 + P = Enable portal debug renderers",
+  "debug.portalcubed.help.portals": "F3 + O = Enable portal debug renderers",
   "debug.portalcubed.help.portals.on": "Portal debug renderers: shown",
   "debug.portalcubed.help.portals.off": "Portal debug renderers: hidden",
 

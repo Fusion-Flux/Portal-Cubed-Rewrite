@@ -45,7 +45,7 @@ public abstract class KeyboardHandlerMixin {
 
 	@Inject(method = "handleDebugKeys", at = @At("HEAD"), cancellable = true)
 	private void handlePortalDebugKeybind(int key, CallbackInfoReturnable<Boolean> cir) {
-		if (key == GLFW.GLFW_KEY_P) {
+		if (key == GLFW.GLFW_KEY_O) {
 			PortalCubedClient.portalDebugEnabled = !PortalCubedClient.portalDebugEnabled;
 			String suffix = PortalCubedClient.portalDebugEnabled ? "on" : "off";
 			this.debugFeedbackTranslated("debug.portalcubed.help.portals." + suffix);

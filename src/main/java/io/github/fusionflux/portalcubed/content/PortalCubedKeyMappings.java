@@ -18,7 +18,7 @@ public class PortalCubedKeyMappings {
 	private static final List<Pair<KeyMapping, KeyMappingAction>> actions = new ArrayList<>();
 
 	public static void init() {
-		register("grab", InputConstants.KEY_G, new GrabKeyMappingAction());
+		register("grab", InputConstants.KEY_R, new GrabKeyMappingAction());
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			for (Pair<KeyMapping, KeyMappingAction> pair : actions) {
