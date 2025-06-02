@@ -25,6 +25,9 @@ public class ConstructionCannonAnimator {
 	private static float wiggle;
 
 	public static void tick(Minecraft client) {
+		if (client.isPaused())
+			return;
+
 		recoilOld = recoil;
 		recoil = Math.max(0, recoil - RECOIL_DECAY);
 

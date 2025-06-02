@@ -18,6 +18,7 @@ import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingP
 import io.github.fusionflux.portalcubed.framework.model.emissive.EmissiveLoader;
 import io.github.fusionflux.portalcubed.framework.render.debug.CameraRotator;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin;
@@ -57,6 +58,7 @@ public class PortalCubedClient implements ClientModInitializer {
 
 		HudRenderCallback.EVENT.register(SourcePhysics.DebugRenderer.INSTANCE);
 
+		ClientTickEvents.END_CLIENT_TICK.register(ClientTicks::tick);
 		ClientTickEvents.END_CLIENT_TICK.register(ConstructionCannonAnimator::tick);
 		ClientTickEvents.END_CLIENT_TICK.register(CameraRotator::tick);
 	}

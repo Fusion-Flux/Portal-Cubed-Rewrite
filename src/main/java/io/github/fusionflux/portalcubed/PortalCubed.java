@@ -18,7 +18,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
-import io.github.fusionflux.portalcubed.content.PortalCubedPortalColors;
 import io.github.fusionflux.portalcubed.content.PortalCubedPortalValidators;
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
@@ -68,7 +67,6 @@ public class PortalCubed implements ModInitializer {
 		PortalCubedFeatures.init();
 		PortalCubedSounds.init();
 		PortalCubedParticles.init();
-		PortalCubedPortalColors.init();
 		PortalCubedPortalValidators.init();
 		PortalCubedCommands.init();
 		PortalCubedPackets.init();

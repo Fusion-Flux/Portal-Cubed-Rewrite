@@ -4,8 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
+import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
@@ -53,7 +53,7 @@ public final class PortalGunCrosshairRenderer {
 		PortalPair pair = player.level().portalManager().getOrEmpty(pairKey);
 		Polarity shotPolarity = settings.shot().orElse(null);
 
-		float ticks = PortalColor.getClientTicks(player.clientLevel);
+		float ticks = ClientTicks.get();
 
 		for (Polarity polarity : Polarity.values()) {
 			int color = settings.portalSettingsOf(polarity).color().getOpaque(ticks);

@@ -1,29 +1,23 @@
 package io.github.fusionflux.portalcubed.content.portal.color;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.Locale;
+
+import org.jetbrains.annotations.NotNull;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ARGB;
+import net.minecraft.util.StringRepresentable;
 
 public interface PortalColor {
-	Codec<PortalColor> CODEC = PortalCubedRegistries.PORTAL_COLOR_TYPE.byNameCodec()
-			.dispatch(PortalColor::type, Type::codec);
-	StreamCodec<RegistryFriendlyByteBuf, PortalColor> STREAM_CODEC = ByteBufCodecs.registry(PortalCubedRegistries.PORTAL_COLOR_TYPE.key())
-			.dispatch(PortalColor::type, Type::streamCodec);
+	Codec<PortalColor> CODEC = Type.CODEC.dispatch(PortalColor::type, type -> type.codec);
+	StreamCodec<ByteBuf, PortalColor> STREAM_CODEC = Type.STREAM_CODEC.dispatch(PortalColor::type, type -> type.streamCodec);
 
 	int get(float ticks);
 
@@ -31,38 +25,44 @@ public interface PortalColor {
 		return ARGB.opaque(this.get(ticks));
 	}
 
-	Type<?> type();
+	Type type();
 
 	@Override
 	boolean equals(Object o);
 
-	// the eternal problem of too little tooltip context
-	static float tryGetClientTicks() {
-		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-			return getClientTicks();
-		} else {
-			return 0;
-		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	static float getClientTicks() {
-		return getClientTicks(Minecraft.getInstance().level);
-	}
-
-	@Environment(EnvType.CLIENT)
-	static float getClientTicks(@Nullable ClientLevel level) {
-		if (level == null)
-			return 0;
-
-		return level.getGameTime() + Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
-	}
-
-	record Type<T extends PortalColor>(MapCodec<T> codec, StreamCodec<ByteBuf, T> streamCodec, CommandParser parser) {
-	}
-
 	@FunctionalInterface
 	interface CommandParser {
 		PortalColor parse(StringReader reader) throws CommandSyntaxException;
+	}
+
+	enum Type implements StringRepresentable {
+		CONSTANT(ConstantPortalColor.CODEC, ConstantPortalColor.STREAM_CODEC, ConstantPortalColor::parse),
+		JEB(JebPortalColor.CODEC, JebPortalColor.STREAM_CODEC, JebPortalColor::parse);
+
+		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
+		public static final StreamCodec<ByteBuf, Type> STREAM_CODEC = PortalCubedStreamCodecs.ofEnum(Type.class);
+
+		public final String name;
+		public final MapCodec<? extends PortalColor> codec;
+		public final StreamCodec<ByteBuf, ? extends PortalColor> streamCodec;
+		public final CommandParser parser;
+
+		Type(MapCodec<? extends PortalColor> codec, StreamCodec<ByteBuf, ? extends PortalColor> streamCodec, CommandParser parser) {
+			this.name = this.name().toLowerCase(Locale.ROOT);
+			this.codec = codec;
+			this.streamCodec = streamCodec;
+			this.parser = parser;
+		}
+
+		@Override
+		@NotNull
+		public String getSerializedName() {
+			return this.name;
+		}
+
+		@Override
+		public String toString() {
+			return this.name;
+		}
 	}
 }

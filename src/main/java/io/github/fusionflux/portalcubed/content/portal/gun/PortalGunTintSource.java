@@ -9,7 +9,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
+import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.ExtraCodecs;
@@ -36,7 +36,7 @@ public record PortalGunTintSource(Selection selection, int defaultColor) impleme
 			case SECONDARY -> Polarity.SECONDARY;
 		};
 
-		float ticks = PortalColor.getClientTicks(level);
+		float ticks = ClientTicks.get();
 		return settings.portalSettingsOf(polarity).color().getOpaque(ticks);
 	}
 

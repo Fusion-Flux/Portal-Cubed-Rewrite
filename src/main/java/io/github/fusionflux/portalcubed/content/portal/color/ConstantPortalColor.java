@@ -13,7 +13,6 @@ import net.minecraft.util.ExtraCodecs;
 public record ConstantPortalColor(int color) implements PortalColor {
 	public static final MapCodec<ConstantPortalColor> CODEC = ExtraCodecs.RGB_COLOR_CODEC.fieldOf("value").xmap(ConstantPortalColor::new, ConstantPortalColor::color);
 	public static final StreamCodec<ByteBuf, ConstantPortalColor> STREAM_CODEC = ByteBufCodecs.INT.map(ConstantPortalColor::new, ConstantPortalColor::color);
-	public static final Type<?> TYPE = new Type<>(CODEC, STREAM_CODEC, ConstantPortalColor::parse);
 
 	private static final ColorArgumentType dummyColor = ColorArgumentType.color();
 
@@ -23,11 +22,11 @@ public record ConstantPortalColor(int color) implements PortalColor {
 	}
 
 	@Override
-	public Type<?> type() {
-		return TYPE;
+	public Type type() {
+		return Type.CONSTANT;
 	}
 
-	private static ConstantPortalColor parse(StringReader reader) throws CommandSyntaxException {
+	public static ConstantPortalColor parse(StringReader reader) throws CommandSyntaxException {
 		reader.skipWhitespace();
 		int color = dummyColor.parse(reader);
 		return new ConstantPortalColor(color);

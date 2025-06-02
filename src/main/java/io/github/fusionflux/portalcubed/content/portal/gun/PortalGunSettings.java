@@ -11,10 +11,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshair;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkinManager;
+import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -110,7 +110,7 @@ public record PortalGunSettings(
 
 			tooltipAdder.accept(POLARITY_TOOLTIPS.get(polarity));
 
-			int color = settings.color().getOpaque(PortalColor.tryGetClientTicks());
+			int color = settings.color().getOpaque(ClientTicks.tryGet());
 			tooltipAdder.accept(CommonComponents.space().append(typeName.get()).withColor(color));
 		}
 	}

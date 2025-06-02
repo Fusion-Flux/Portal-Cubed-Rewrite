@@ -16,7 +16,6 @@ import net.minecraft.world.item.DyeColor;
 public record JebPortalColor(int colorOffset) implements PortalColor {
 	public static final MapCodec<JebPortalColor> CODEC = Codec.INT.optionalFieldOf("color_offset", 0).xmap(JebPortalColor::new, JebPortalColor::colorOffset);
 	public static final StreamCodec<ByteBuf, JebPortalColor> STREAM_CODEC = ByteBufCodecs.VAR_INT.map(JebPortalColor::new, JebPortalColor::colorOffset);
-	public static final Type<?> TYPE = new Type<>(CODEC, STREAM_CODEC, JebPortalColor::parse);
 
 	@Override
 	public int get(float ticks) {
@@ -34,11 +33,11 @@ public record JebPortalColor(int colorOffset) implements PortalColor {
 	}
 
 	@Override
-	public Type<?> type() {
-		return TYPE;
+	public Type type() {
+		return Type.JEB;
 	}
 
-	private static JebPortalColor parse(StringReader reader) {
+	public static JebPortalColor parse(StringReader reader) {
 		reader.skipWhitespace();
 		try {
 			return new JebPortalColor(reader.readInt());

@@ -17,8 +17,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.fusionflux.portalcubed.PortalCubedClient;
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
+import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 import net.minecraft.Util;
 import net.minecraft.client.KeyboardHandler;
@@ -81,7 +81,7 @@ public abstract class KeyboardHandlerMixin {
 				ItemStack stack = mc.player.getItemInHand(hand);
 				PortalGunSettings settings = stack.get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
 				if (settings != null) {
-					float ticks = PortalColor.getClientTicks(mc.player.clientLevel);
+					float ticks = ClientTicks.get();
 					int primary = settings.primary().color().getOpaque(ticks);
 					int secondary = settings.effectiveSecondary().color().getOpaque(ticks);
 					return IntIntPair.of(primary, secondary);

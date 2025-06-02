@@ -5,7 +5,6 @@ import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrateEffect;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
@@ -18,7 +17,6 @@ public class PortalCubedRegistries {
 	public static final Registry<ResourceLocation> TEST_ELEMENT_SETTINGS = simple("test_element_settings");
 	public static final Registry<DisintegrateEffect> DISINTEGRATE_EFFECT = simple("disintegrate_effect");
 	public static final Registry<PortalValidator.Type<?>> PORTAL_VALIDATOR_TYPE = simple("portal_validator_type");
-	public static final Registry<PortalColor.Type<?>> PORTAL_COLOR_TYPE = simple("portal_color_type");
 	// dynamic
 	public static final ResourceKey<Registry<Signage>> LARGE_SIGNAGE = key("large_signage");
 	public static final ResourceKey<Registry<Signage>> SMALL_SIGNAGE = key("small_signage");
