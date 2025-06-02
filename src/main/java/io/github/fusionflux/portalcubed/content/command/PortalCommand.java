@@ -38,6 +38,8 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
+import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
@@ -48,6 +50,7 @@ import io.github.fusionflux.portalcubed.content.portal.placement.validator.Stand
 import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PortalColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalValidatorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
@@ -65,7 +68,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec2;
@@ -114,7 +116,7 @@ public class PortalCommand {
 														Arrays.stream(PlacementStrategy.values())
 																.map(strategy -> strategy.build(inner -> inner.then(
 																		optionalArg("type", ResourceArgument.resource(buildCtx, PortalCubedRegistries.PORTAL_TYPE)).then(
-																				optionalArg("color", ColorArgumentType.color()).then(
+																				optionalArg("color", PortalColorArgumentType.portalColor()).then(
 																						flag("no_rendering").then(
 																								optionalArg("validator", PortalValidatorArgumentType.portalValidator())
 																										.executes(ctx -> create(ctx, strategy))
@@ -154,12 +156,15 @@ public class PortalCommand {
 
 	private static int create(CommandContext<CommandSourceStack> ctx, PlacementStrategy strategy) throws CommandSyntaxException {
 		CommandSourceStack source = ctx.getSource();
+		ServerLevel level = source.getLevel();
 
 		Placement placement = strategy.getPlacement(ctx);
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
 		Polarity polarity = PolarityArgumentType.getPolarity(ctx, "polarity");
 		Holder<PortalType> type = getOptional(ctx, "type", PortalCommand::getType, source.registryAccess().get(PortalType.ROUND).orElseThrow());
-		int color = getOptional(ctx, "color", ColorArgumentType::getColor, type.value().defaultColorOf(polarity));
+		PortalColor color = getOptional(ctx, "color", PortalColorArgumentType::getPortalColor).orElseGet(
+				() -> new ConstantPortalColor(type.value().defaultColorOf(polarity))
+		);
 		boolean noRender = getFlag(ctx, "no_rendering");
 		PortalValidator validator = getOptional(
 				ctx, "validator", PortalValidatorArgumentType::getPortalValidator, $ -> placement.validator
@@ -171,14 +176,13 @@ public class PortalCommand {
 			return fail(ctx, CREATE_FAILURE, ID_TOO_LONG);
 		}
 
-		ServerLevel level = source.getLevel();
 		ServerPortalManager manager = level.portalManager();
 		PortalPair pair = manager.getPair(key);
 		if (pair != null && pair.get(polarity).isPresent()) {
 			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
 		}
 
-		PortalData data = new PortalData(level.getGameTime(), type, validator, placement.pos, placement.rotation, ARGB.opaque(color), !noRender);
+		PortalData data = new PortalData(level.getGameTime(), type, validator, placement.pos, placement.rotation, color, !noRender);
 		manager.createPortal(key, polarity, data);
 		source.sendSuccess(() -> lang("create.success"), true);
 		return Command.SINGLE_SUCCESS;
@@ -494,7 +498,7 @@ public class PortalCommand {
 			@Override
 			protected ArgumentBuilder<CommandSourceStack, ?> build(CommandBuildContext ctx, Command<CommandSourceStack> command) {
 				return collection(List.of(
-						argument("color", ColorArgumentType.color()).executes(command),
+						argument("color", PortalColorArgumentType.portalColor()).executes(command),
 						literal("default").executes(command)
 				));
 			}
@@ -502,9 +506,11 @@ public class PortalCommand {
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, Polarity polarity, PortalData portal) throws CommandSyntaxException {
 				PortalType type = portal.type().value();
-				int color = getOptional(ctx, "color", ColorArgumentType::getColor, type.defaultColorOf(polarity));
-				return portal.color() == ARGB.opaque(color)
-						? this.fail(ctx, "#" + Integer.toHexString(color))
+				PortalColor color = getOptional(ctx, "color", PortalColorArgumentType::getPortalColor).orElseGet(
+						() -> new ConstantPortalColor(type.defaultColorOf(polarity))
+				);
+				return portal.color().equals(color)
+						? this.fail(ctx, color)
 						: portal.withColor(color);
 			}
 		},

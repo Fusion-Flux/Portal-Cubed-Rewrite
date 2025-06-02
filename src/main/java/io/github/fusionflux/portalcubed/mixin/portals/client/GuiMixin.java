@@ -1,5 +1,12 @@
 package io.github.fusionflux.portalcubed.mixin.portals.client;
 
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshairRenderer;
@@ -7,13 +14,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.entity.player.Player;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.minecraft.client.player.LocalPlayer;
 
 @Mixin(Gui.class)
 public class GuiMixin {
@@ -31,7 +32,7 @@ public class GuiMixin {
 			cancellable = true
 	)
 	private void renderPortalGunCrossHair(GuiGraphics graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-		Player player = this.minecraft.player;
+		LocalPlayer player = this.minecraft.player;
 		if (player == null)
 			return;
 

@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
@@ -37,12 +38,12 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 				helper, key,
 				new SinglePortalHelper(
 						helper, key,
-						new PortalSettings(PortalType.ROUND, false, primaryColor, false),
+						new PortalSettings(PortalType.ROUND, false, new ConstantPortalColor(primaryColor), false),
 						Polarity.PRIMARY
 				),
 				new SinglePortalHelper(
 						helper, key,
-						new PortalSettings(PortalType.ROUND, false, secondaryColor, false),
+						new PortalSettings(PortalType.ROUND, false, new ConstantPortalColor(secondaryColor), false),
 						Polarity.SECONDARY
 				)
 		);

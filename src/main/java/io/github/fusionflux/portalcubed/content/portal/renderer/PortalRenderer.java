@@ -66,7 +66,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ARGB;
 import net.minecraft.world.phys.Vec3;
 
 public class PortalRenderer {
@@ -336,7 +335,7 @@ public class PortalRenderer {
 
 		PortalData portal = visiblePortal.portal.data;
 		PortalType.Textures textures = portal.type().value().textures();
-		int portalColor = ARGB.opaque(portal.color());
+		int portalColor = portal.color().getOpaque(level.getGameTime() + tickDelta);
 
 		renderPortalTexture(visiblePortal.open ? textures.open() : textures.closed(), portalColor, matrices, vertices);
 		renderPortalTexture(textures.tracer(), portalColor, matrices, tracerVertices);

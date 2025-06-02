@@ -5,6 +5,7 @@ import org.joml.Quaternionf;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.Direction;
@@ -26,7 +27,7 @@ public record PortalData(
 		PortalValidator validator,
 		Vec3 origin,
 		Quaternionf rotation,
-		int color,
+		PortalColor color,
 		boolean render
 ) {
 	public static final Codec<PortalData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -35,7 +36,7 @@ public record PortalData(
 			PortalValidator.CODEC.fieldOf("validator").forGetter(PortalData::validator),
 			Vec3.CODEC.fieldOf("origin").forGetter(PortalData::origin),
 			ExtraCodecs.QUATERNIONF.fieldOf("rotation").forGetter(PortalData::rotation),
-			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("color").forGetter(PortalData::color),
+			PortalColor.CODEC.fieldOf("color").forGetter(PortalData::color),
 			Codec.BOOL.fieldOf("render").forGetter(PortalData::render)
 	).apply(instance, PortalData::new));
 
@@ -45,7 +46,7 @@ public record PortalData(
 			PortalValidator.STREAM_CODEC, PortalData::validator,
 			Vec3.STREAM_CODEC, PortalData::origin,
 			ByteBufCodecs.QUATERNIONF, PortalData::rotation,
-			ByteBufCodecs.INT, PortalData::color,
+			PortalColor.STREAM_CODEC, PortalData::color,
 			ByteBufCodecs.BOOL, PortalData::render,
 			PortalData::new
 	);
@@ -66,7 +67,7 @@ public record PortalData(
 		return new PortalData(this.creationTick, this.type, this.validator, this.origin, rotation, this.color, this.render);
 	}
 
-	public PortalData withColor(int color) {
+	public PortalData withColor(PortalColor color) {
 		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, color, this.render);
 	}
 

@@ -3,39 +3,34 @@ package io.github.fusionflux.portalcubed.content.portal;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import io.netty.buffer.ByteBuf;
+import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
+import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.ExtraCodecs;
 
-public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate, int color, boolean render) {
+public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate, PortalColor color, boolean render) {
 	public static final Codec<PortalSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			PortalType.KEY_CODEC.fieldOf("type").forGetter(PortalSettings::typeId),
 			Codec.BOOL.fieldOf("validate").forGetter(PortalSettings::validate),
-			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("color").forGetter(PortalSettings::colorNoAlpha),
+			PortalColor.CODEC.fieldOf("color").forGetter(PortalSettings::color),
 			Codec.BOOL.fieldOf("render").forGetter(PortalSettings::render)
 	).apply(instance, PortalSettings::new));
 
-	public static final StreamCodec<ByteBuf, PortalSettings> STREAM_CODEC = StreamCodec.composite(
+	public static final StreamCodec<RegistryFriendlyByteBuf, PortalSettings> STREAM_CODEC = StreamCodec.composite(
 			PortalType.KEY_STREAM_CODEC, PortalSettings::typeId,
 			ByteBufCodecs.BOOL, PortalSettings::validate,
-			ByteBufCodecs.INT, PortalSettings::colorNoAlpha,
+			PortalColor.STREAM_CODEC, PortalSettings::color,
 			ByteBufCodecs.BOOL, PortalSettings::render,
 			PortalSettings::new
 	);
 
-	public static final PortalSettings DEFAULT_PRIMARY = new PortalSettings(PortalType.ROUND, true, Polarity.PRIMARY.defaultColor, true);
-	public static final PortalSettings DEFAULT_SECONDARY = new PortalSettings(PortalType.ROUND, true, Polarity.SECONDARY.defaultColor, true);
+	public static final PortalSettings DEFAULT_PRIMARY = makeDefault(Polarity.PRIMARY);
+	public static final PortalSettings DEFAULT_SECONDARY = makeDefault(Polarity.SECONDARY);
 
-	public PortalSettings(ResourceKey<PortalType> typeId, boolean validate, int color, boolean render) {
-		this.typeId = typeId;
-		this.validate = validate;
-		this.color = color | 0xFF000000;
-		this.render = render;
-	}
-
-	public int colorNoAlpha() {
-		return this.color & 0x00FFFFFF;
+	private static PortalSettings makeDefault(Polarity polarity) {
+		PortalColor color = new ConstantPortalColor(polarity.defaultColor);
+		return new PortalSettings(PortalType.ROUND, true, color, true);
 	}
 }

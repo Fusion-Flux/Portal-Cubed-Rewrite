@@ -48,8 +48,9 @@ public record PortalGunShootContext(
 		PortalId id = new PortalId(key, polarity);
 		PortalShot shot = this.shoot(id);
 
+		int color = settings.color().getOpaque(this.level.getGameTime());
 		this.level.sendParticles(
-				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, shot.hit.getLocation(), settings.color(), 3),
+				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, shot.hit.getLocation(), color, 3),
 				this.from.x, this.from.y, this.from.z, 1, 0, 0, 0, 0
 		);
 

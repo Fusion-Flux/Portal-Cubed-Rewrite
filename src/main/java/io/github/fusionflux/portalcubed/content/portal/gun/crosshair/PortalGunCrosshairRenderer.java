@@ -4,14 +4,15 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
-import net.minecraft.world.entity.player.Player;
 
 @Environment(EnvType.CLIENT)
 public final class PortalGunCrosshairRenderer {
@@ -38,7 +39,7 @@ public final class PortalGunCrosshairRenderer {
 	/**
 	 * @return false to not draw the vanilla crosshair, true to fall back to vanilla
 	 */
-	public static boolean render(GuiGraphics graphics, Player player, PortalGunSettings settings, PortalGunCrosshair crosshair) {
+	public static boolean render(GuiGraphics graphics, LocalPlayer player, PortalGunSettings settings, PortalGunCrosshair crosshair) {
 		PortalGunCrosshairType type = PortalGunCrosshairTypeManager.INSTANCE.get(crosshair.typeId());
 		if (type == null)
 			return false;
@@ -51,8 +52,12 @@ public final class PortalGunCrosshairRenderer {
 		String pairKey = settings.pair().orElse(player.getGameProfile().getName());
 		PortalPair pair = player.level().portalManager().getOrEmpty(pairKey);
 		Polarity shotPolarity = settings.shot().orElse(null);
+
+		float ticks = PortalColor.getClientTicks(player.clientLevel);
+
 		for (Polarity polarity : Polarity.values()) {
-			renderIndicator(graphics, type.indicatorOf(polarity), pair.get(polarity).isPresent(), shotPolarity == polarity, settings.portalSettingsOf(polarity).color());
+			int color = settings.portalSettingsOf(polarity).color().getOpaque(ticks);
+			renderIndicator(graphics, type.indicatorOf(polarity), pair.get(polarity).isPresent(), shotPolarity == polarity, color);
 		}
 
 		return type.removeVanillaCrosshair();

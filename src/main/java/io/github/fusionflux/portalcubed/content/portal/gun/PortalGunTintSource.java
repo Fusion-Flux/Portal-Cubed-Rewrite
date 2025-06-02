@@ -2,8 +2,6 @@ package io.github.fusionflux.portalcubed.content.portal.gun;
 
 import java.util.Locale;
 
-import net.minecraft.util.ExtraCodecs;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.Codec;
@@ -11,8 +9,10 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +35,9 @@ public record PortalGunTintSource(Selection selection, int defaultColor) impleme
 			case PRIMARY -> Polarity.PRIMARY;
 			case SECONDARY -> Polarity.SECONDARY;
 		};
-		return settings.portalSettingsOf(polarity).color();
+
+		float ticks = PortalColor.getClientTicks(level);
+		return settings.portalSettingsOf(polarity).color().getOpaque(ticks);
 	}
 
 	@Override

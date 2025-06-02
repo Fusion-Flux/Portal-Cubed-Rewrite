@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgu
 import io.github.fusionflux.portalcubed.framework.command.argument.FizzleBehaviourArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PortalColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalValidatorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
@@ -29,6 +30,7 @@ public class PortalCubedArgumentTypes {
 		register("flag", FlagArgumentType.class, FlagArgumentType.Serializer.INSTANCE);
 		register("fizzle_behaviour", FizzleBehaviourArgumentType.class, SingletonArgumentInfo.contextFree(FizzleBehaviourArgumentType::fizzleBehaviour));
 		register("portal_validator", PortalValidatorArgumentType.class, SingletonArgumentInfo.contextFree(PortalValidatorArgumentType::portalValidator));
+		register("portal_color", PortalColorArgumentType.class, SingletonArgumentInfo.contextFree(PortalColorArgumentType::portalColor));
 	}
 
 	private static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>> void register(

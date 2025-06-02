@@ -11,15 +11,16 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshair;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkinManager;
-import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -48,7 +49,7 @@ public record PortalGunSettings(
 			ResourceKey.codec(PortalGunSkin.REGISTRY_KEY).fieldOf("skin").forGetter(PortalGunSettings::skinId)
 	).apply(instance, PortalGunSettings::new));
 
-	public static final StreamCodec<ByteBuf, PortalGunSettings> STREAM_CODEC = StreamCodec.composite(
+	public static final StreamCodec<RegistryFriendlyByteBuf, PortalGunSettings> STREAM_CODEC = StreamCodec.composite(
 			PortalSettings.STREAM_CODEC, PortalGunSettings::primary,
 			ByteBufCodecs.optional(PortalSettings.STREAM_CODEC), PortalGunSettings::secondary,
 			Polarity.STREAM_CODEC, PortalGunSettings::active,
@@ -108,7 +109,9 @@ public record PortalGunSettings(
 			}
 
 			tooltipAdder.accept(POLARITY_TOOLTIPS.get(polarity));
-			tooltipAdder.accept(CommonComponents.space().append(typeName.get()).withColor(settings.color()));
+
+			int color = settings.color().getOpaque(PortalColor.tryGetClientTicks());
+			tooltipAdder.accept(CommonComponents.space().append(typeName.get()).withColor(color));
 		}
 	}
 

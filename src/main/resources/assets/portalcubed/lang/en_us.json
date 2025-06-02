@@ -273,6 +273,7 @@
   "parsing.portalcubed.flag.no_validation.expected": "Expected flag 'no_validation'",
   "parsing.portalcubed.flag.no_validation.invalid": "Invalid flag '%s' is not 'no_validation'",
   "parsing.portalcubed.portal_validator.not_found": "Unknown portal validator: %s",
+  "parsing.portalcubed.portal_color.not_found": "Unknown portal color: %s",
 
   "argument.portalcubed.portal_key.targeted_portal": "Targeted Portal",
   "argument.portalcubed.portal_key.targeted_entity": "Targeted Entity",

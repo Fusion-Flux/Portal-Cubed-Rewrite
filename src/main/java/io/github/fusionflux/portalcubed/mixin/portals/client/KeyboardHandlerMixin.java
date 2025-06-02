@@ -17,13 +17,13 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.fusionflux.portalcubed.PortalCubedClient;
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 import net.minecraft.Util;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -74,15 +74,16 @@ public abstract class KeyboardHandlerMixin {
 
 	@Unique
 	private static IntIntPair chooseColors() {
-		LocalPlayer player = Minecraft.getInstance().player;
-		if (player != null) {
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.player != null) {
 			// main is first so it takes priority
 			for (InteractionHand hand : InteractionHand.values()) {
-				ItemStack stack = player.getItemInHand(hand);
+				ItemStack stack = mc.player.getItemInHand(hand);
 				PortalGunSettings settings = stack.get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
 				if (settings != null) {
-					int primary = settings.primary().color();
-					int secondary = settings.effectiveSecondary().color();
+					float ticks = PortalColor.getClientTicks(mc.player.clientLevel);
+					int primary = settings.primary().color().getOpaque(ticks);
+					int secondary = settings.effectiveSecondary().color().getOpaque(ticks);
 					return IntIntPair.of(primary, secondary);
 				}
 			}

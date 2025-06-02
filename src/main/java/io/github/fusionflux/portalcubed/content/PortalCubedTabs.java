@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.content.door.ChamberDoorType;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshair;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshairType;
@@ -697,8 +698,8 @@ public class PortalCubedTabs {
 				PortalGunSettings.builder()
 						.setSkinId(ResourceKey.create(PortalGunSkin.REGISTRY_KEY, PortalCubed.id(skin)))
 						.setCrosshair(new PortalGunCrosshair(ResourceKey.create(PortalGunCrosshairType.REGISTRY_KEY, PortalCubed.id(crosshairType)), true))
-						.setPrimary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(primaryType)), true, primaryColor, true))
-						.setSecondary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(secondaryType)), true, secondaryColor, true))
+						.setPrimary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(primaryType)), true, new ConstantPortalColor(primaryColor), true))
+						.setSecondary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(secondaryType)), true, new ConstantPortalColor(secondaryColor), true))
 						.build()
 		);
 		output.accept(stack);
