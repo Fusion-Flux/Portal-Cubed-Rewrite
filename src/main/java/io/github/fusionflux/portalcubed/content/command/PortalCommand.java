@@ -47,7 +47,6 @@ import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.NonePortalValidator;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
-import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalColorArgumentType;
@@ -281,12 +280,8 @@ public class PortalCommand {
 			Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
 			Vec2 rotations = coords.getRotation(ctx.getSource());
 			// x is pitch, y is yaw
-			return new Quaternionf()
-					// a plain quaternion is UP, rotate to face south
-					// spin it around first though, so it's not upside down
-					.rotateY(Mth.DEG_TO_RAD * 180)
-					.rotateX(Mth.DEG_TO_RAD * -90)
-					// apply actual rotation
+			return Direction.SOUTH.getRotation()
+					.rotateY(Mth.DEG_TO_RAD * 180) // see PortalData
 					.rotateZ(Mth.DEG_TO_RAD * rotations.y)
 					.rotateX(Mth.DEG_TO_RAD * -rotations.x);
 		} else {

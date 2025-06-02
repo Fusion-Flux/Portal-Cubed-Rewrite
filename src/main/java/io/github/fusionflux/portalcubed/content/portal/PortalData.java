@@ -91,21 +91,38 @@ public record PortalData(
 	}
 
 	public static Quaternionf normalToRotation(Direction normal, float yRot) {
-		return normal.getRotation().rotateY(Mth.DEG_TO_RAD * degreesForNormal(normal, yRot));
+		// vanilla's Direction#getRotation is very weird.
+		// UP is the default, corresponding to (0, 0, 0, 1) / new Quaternionf()
+		// SOUTH is based on UP, simply rotated 90 degrees around X.
+		// Keep the Right Hand Rule in mind. This rotation places the portal upside down on the south face,
+		// assuming the top of the portal started facing south (which it does for the default quaternion).
+		// DOWN simply continues this, rotating another 90 degrees around X.
+		// The 3 remaining directions are interesting. NORTH, WEST, and EAST all start with SOUTH and add
+		// a 180, 90, and -90 degree Z rotation, respectively.
+		// The Z rotation is evidently applied first. This manifests in-game as these 3 directions actually being
+		// rotated around the Y axis, not the Z axis.
+		// So UP is the default, SOUTH is a 90-degree X rotation, and DOWN is 180.
+		// NORTH, WEST, and EAST are additional rotations around the Y axis starting from SOUTH.
+		//
+		// So if this puts the texture upside down, wouldn't that apply to vanilla too?
+		// Yes! Except it doesn't matter. This method is used exclusively for Shulkers and the block breaking effect.
+		// For Shulkers, they're symmetrical cubes, so they're fine. It actually does matter for crumbling, though.
+		// Mojang just works around it by adding the necessary 180-degree rotation there.
+		Quaternionf rotation = normal.getRotation();
+		if (normal.getAxis().isHorizontal()) {
+			// make walls right-side-up
+			rotation.rotateY(Mth.DEG_TO_RAD * 180);
+		}
+
+		return rotation.rotateY(Mth.DEG_TO_RAD * yRot);
 	}
 
 	public static Angle normalToFlatRotation(Direction normal, float yRot) {
-		// we don't want to 180 the yRot for flat surfaces
-		return Angle.ofDeg(normal.getAxis().isHorizontal() ? 0 : degreesForNormal(normal, yRot));
-	}
-
-	private static float degreesForNormal(Direction normal, float yRot) {
-		// vanilla treats rotations like they're on the outside of a box, not the inside.
-		// the easiest way to handle this is to just 180 the yRot on horizontal axes.
 		return switch (normal) {
-			case UP -> yRot;
-			case DOWN -> -yRot;
-			default -> 180;
+			case UP -> Angle.ofDeg(yRot);
+			// down is weird since it's rotated 180 around X, not mirrored
+			case DOWN -> Angle.ofDeg(-yRot + 180);
+			default -> Angle.R0;
 		};
 	}
 }

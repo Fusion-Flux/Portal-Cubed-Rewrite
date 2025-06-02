@@ -74,7 +74,7 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 		public void placeOn(BlockPos surface, Direction normal, float yRot) {
 			Quaternionf rotation = PortalData.normalToRotation(normal, yRot);
 			// shift the portal so the bottom half is centered on the surface
-			Vector3d offset = rotation.transformUnit(0, 0, normal.getAxis() == Direction.Axis.Y ? -0.5f : 0.5f, new Vector3d());
+			Vector3d offset = rotation.transformUnit(0, 0, 0.5f, new Vector3d());
 
 			// correct for float imprecision that can break surface detection
 			switch (normal.getAxis()) {

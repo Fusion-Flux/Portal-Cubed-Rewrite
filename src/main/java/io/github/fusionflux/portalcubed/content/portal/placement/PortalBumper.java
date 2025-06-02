@@ -76,6 +76,9 @@ public class PortalBumper {
 				Vector3f normal = surface.rotation().transform(new Vector3f(0, 1, 0));
 				Line normalLine = new Line(surface.origin(), surface.origin().add(normal.x, normal.y, normal.z));
 				DebugRendering.addLine(100, normalLine, Color.BLUE);
+				Vector3f up = surface.rotation().transform(new Vector3f(0, 0, 1));
+				Line upLine = new Line(surface.origin(), surface.origin().add(up.x, up.y, up.z));
+				DebugRendering.addLine(100, upLine, Color.CYAN);
 			}
 
 			List<PortalCandidate> candidates = new ArrayList<>();
@@ -101,7 +104,8 @@ public class PortalBumper {
 
 			if (EVIL_DEBUG_RENDERING) {
 				for (Line2d portalSide : finalLocation.lines()) {
-					DebugRendering.addLine(100,  portalSide.to3d(surface), Color.YELLOW);
+					Color color = portalSide == finalLocation.top() ? Color.PURPLE : Color.YELLOW;
+					DebugRendering.addLine(100,  portalSide.to3d(surface), color);
 				}
 			}
 
