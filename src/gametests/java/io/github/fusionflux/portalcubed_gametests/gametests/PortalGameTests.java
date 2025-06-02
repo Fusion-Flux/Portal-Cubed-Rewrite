@@ -97,8 +97,8 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper infiniteFall = new PortalHelper(helper, "infinite_fall");
 
 		helper.setBlock(3, 5, 2, Blocks.AIR);
-		infiniteFall.primary().placeOn(new BlockPos(3, 3, 2), Direction.UP, -90);
-		infiniteFall.secondary().placeOn(new BlockPos(3, 9, 2), Direction.DOWN, 90);
+		infiniteFall.primary().placeOn(new BlockPos(2, 3, 2), Direction.UP, 90);
+		infiniteFall.secondary().placeOn(new BlockPos(2, 9, 2), Direction.DOWN, 90);
 
 		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> helper.assertEntityPresent(EntityType.ARMOR_STAND)));
 	}
@@ -109,8 +109,8 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper infiniteFallCollision = new PortalHelper(helper, "infinite_fall_collision");
 
-		infiniteFallCollision.primary().placeOn(new BlockPos(2, 6, 4), Direction.UP, -90);
-		infiniteFallCollision.secondary().placeOn(new BlockPos(2, 10, 4), Direction.DOWN, 90);
+		infiniteFallCollision.primary().placeOn(new BlockPos(1, 6, 4), Direction.UP, 90);
+		infiniteFallCollision.secondary().placeOn(new BlockPos(1, 10, 4), Direction.DOWN, 90);
 		spawnProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(2, 8, 4));
 
 		helper.runAfterDelay(99, () ->
@@ -190,11 +190,11 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper verticalGrate = new PortalHelper(helper, "vertical_grate");
 		PortalHelper horizontalGrate = new PortalHelper(helper, "horizontal_grate");
 
-		verticalGrate.primary().placeOn(new BlockPos(7, 1, 2), Direction.UP, 180);
-		horizontalGrate.primary().placeOn(new BlockPos(2, 1, 2), Direction.UP, 180);
+		verticalGrate.primary().placeOn(new BlockPos(7, 1, 2), Direction.UP);
+		horizontalGrate.primary().placeOn(new BlockPos(2, 1, 2), Direction.UP);
 
 		verticalGrate.secondary().placeOn(new BlockPos(7, 2, 8), Direction.NORTH);
-		horizontalGrate.secondary().placeOn(new BlockPos(2, 4, 6), Direction.DOWN, 0);
+		horizontalGrate.secondary().placeOn(new BlockPos(2, 4, 6), Direction.DOWN);
 
 		helper.setBlock(7, 3, 3, Blocks.AIR);
 		helper.setBlock(2, 3, 3, Blocks.AIR);
@@ -566,12 +566,12 @@ public class PortalGameTests implements FabricGameTest {
 		wallPairThree.primary().placeOn(new BlockPos(1, 2, 4), Direction.NORTH);
 		wallPairThree.secondary().placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
 
-		ceilingPairOne.primary().placeOn(new BlockPos(5, 4, 1), Direction.DOWN);
-		ceilingPairOne.secondary().placeOn(new BlockPos(4, 4, 1), Direction.DOWN);
-		ceilingPairTwo.primary().placeOn(new BlockPos(3, 4, 1), Direction.DOWN);
-		ceilingPairTwo.secondary().placeOn(new BlockPos(2, 4, 1), Direction.DOWN);
-		ceilingPairThree.primary().placeOn(new BlockPos(1, 4, 1), Direction.DOWN);
-		ceilingPairThree.secondary().placeOn(new BlockPos(0, 4, 1), Direction.DOWN);
+		ceilingPairOne.primary().placeOn(new BlockPos(5, 4, 2), Direction.DOWN);
+		ceilingPairOne.secondary().placeOn(new BlockPos(4, 4, 2), Direction.DOWN);
+		ceilingPairTwo.primary().placeOn(new BlockPos(3, 4, 2), Direction.DOWN);
+		ceilingPairTwo.secondary().placeOn(new BlockPos(2, 4, 2), Direction.DOWN);
+		ceilingPairThree.primary().placeOn(new BlockPos(1, 4, 2), Direction.DOWN);
+		ceilingPairThree.secondary().placeOn(new BlockPos(0, 4, 2), Direction.DOWN);
 
 		helper.succeedWhen(() -> {
 			//Floor
