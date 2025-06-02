@@ -35,6 +35,7 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManag
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
+import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import io.github.fusionflux.portalcubed.framework.util.ShaderPatcher;
 import io.github.fusionflux.portalcubed.mixin.client.CameraAccessor;
@@ -335,7 +336,7 @@ public class PortalRenderer {
 
 		PortalData portal = visiblePortal.portal.data;
 		PortalType.Textures textures = portal.type().value().textures();
-		int portalColor = portal.color().getOpaque(level.getGameTime() + tickDelta);
+		int portalColor = portal.color().getOpaque(ClientTicks.get());
 
 		renderPortalTexture(visiblePortal.open ? textures.open() : textures.closed(), portalColor, matrices, vertices);
 		renderPortalTexture(textures.tracer(), portalColor, matrices, tracerVertices);
