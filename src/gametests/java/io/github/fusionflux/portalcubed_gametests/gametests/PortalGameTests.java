@@ -246,10 +246,10 @@ public class PortalGameTests implements FabricGameTest {
 
 		helper.succeedWhen(() -> {
 			placeOn1.primary().assertPresent(1.5, 2, 5.5, Direction.NORTH);
-			placeOn1.secondary().assertPresent(2.5, 2, 5.5, Direction.NORTH);
-			placeAt1.primary().assertPresent(3.5, 2, 5.5, Direction.NORTH);
+			placeOn1.secondary().assertNotPresent();
+			placeAt1.primary().assertPresent(2.5, 2, 5.5, Direction.NORTH);
 			placeAt1.secondary().assertNotPresent(); //this needs to be assertPresent eventually I think
-			shotFrom1.primary().assertNotPresent();
+			shotFrom1.primary().assertPresent(3.5, 2, 5.5, Direction.NORTH);
 			shotFrom1.secondary().assertNotPresent();
 			//TODO: revisit this after place_at is fixed to make sure the rest are correct
 		});

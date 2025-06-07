@@ -4,11 +4,11 @@
     "models": [
       {
         "type": "minecraft:model",
-        "model": "portalcubed:portal_gun/crossbow/humanoid/crossbow_model_part"
+        "model": "portalcubed:portal_gun/crossbow/crossbow_model_part"
       },
       {
         "type": "minecraft:model",
-        "model": "portalcubed:portal_gun/crossbow/humanoid/black_hole_model_part",
+        "model": "portalcubed:portal_gun/crossbow/black_hole_model_part",
         "tints": [
           {
             "type": "portalcubed:portal_gun",
