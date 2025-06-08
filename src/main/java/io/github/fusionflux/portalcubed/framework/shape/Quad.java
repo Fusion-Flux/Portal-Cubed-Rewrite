@@ -57,6 +57,16 @@ public record Quad(Vector3dc center,
 		});
 	}
 
+	public Iterable<Line> lines() {
+		return () -> SimpleIterator.create(i -> switch (i) {
+			case 0 -> new Line(this.bottomLeft, this.bottomRight);
+			case 1 -> new Line(this.bottomRight, this.topRight);
+			case 2 -> new Line(this.topRight, this.topLeft);
+			case 3 -> new Line(this.topLeft, this.bottomLeft);
+			default -> null;
+		});
+	}
+
 	public boolean intersects(AABB box) {
 		Vec3 boxCenter = box.getCenter();
 		return Intersectiond.testObOb(

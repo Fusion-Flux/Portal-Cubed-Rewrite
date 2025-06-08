@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
@@ -342,24 +341,10 @@ public class PortalBumper {
 			if (!Mth.equal(initial.get(axis), posOnAxis))
 				return; // not on the same plane
 
-			Vector2d origin = surface.to2d(portal.data.origin());
-			Angle angle = Angle.ofDeg(calculateRot(portal));
-
-			for (Line2d line : PortalCandidate.other(origin, angle).lines()) {
-				walls.add(line.flip().withSource(Line2d.Source.PORTAL));
+			for (Line line : portal.quad.lines()) {
+				walls.add(line.to2d(surface).flip().withSource(Line2d.Source.PORTAL));
 			}
 		});
-	}
-
-	// this might be 180'd relative to the actual yRot, but it doesn't matter
-	private static double calculateRot(PortalInstance portal) {
-		Vector3d absRight = new Vector3d(-1, 0, 0);
-		Vector3d relativeRight = portal.rotation().transform(absRight, new Vector3d());
-
-		return Mth.RAD_TO_DEG * relativeRight.angleSigned(
-				absRight.x, absRight.y, absRight.z,
-				portal.normal.x, portal.normal.y, portal.normal.z
-		);
 	}
 
 	private static void getWallsFromBox(AABB box, Direction face, boolean include, Consumer<Line2d> output) {
