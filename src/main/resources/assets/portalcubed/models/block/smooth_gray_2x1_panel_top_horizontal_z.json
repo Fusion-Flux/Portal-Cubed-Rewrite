@@ -1,0 +1,8 @@
+{
+  "parent": "portalcubed:block/cube_column_horizontal_fixed_z",
+  "textures": {
+    "end": "portalcubed:block/smooth_gray_half_panel",
+    "side": "portalcubed:block/smooth_gray_2x1_panel_top",
+    "other_side": "portalcubed:block/smooth_gray_2x1_panel_bottom"
+  }
+}
