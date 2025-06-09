@@ -4,24 +4,24 @@
       "model": "portalcubed:block/portal_1_metal_2x1_panel_top"
     },
     "facing=east": {
-      "model": "portalcubed:block/portal_1_metal_2x1_panel_bottom_horizontal",
+      "model": "portalcubed:block/portal_1_metal_2x1_panel_bottom_horizontal_x",
       "x": 90,
       "y": 90
     },
     "facing=north": {
-      "model": "portalcubed:block/portal_1_metal_2x1_panel_bottom_horizontal",
+      "model": "portalcubed:block/portal_1_metal_2x1_panel_bottom_horizontal_z",
       "x": 90
     },
     "facing=up": {
       "model": "portalcubed:block/portal_1_metal_2x1_panel_bottom"
     },
     "facing=west": {
-      "model": "portalcubed:block/portal_1_metal_2x1_panel_top_horizontal",
+      "model": "portalcubed:block/portal_1_metal_2x1_panel_top_horizontal_x",
       "x": 90,
       "y": 90
     },
     "facing=south": {
-      "model": "portalcubed:block/portal_1_metal_2x1_panel_top_horizontal",
+      "model": "portalcubed:block/portal_1_metal_2x1_panel_top_horizontal_z",
       "x": 90
     }
   }

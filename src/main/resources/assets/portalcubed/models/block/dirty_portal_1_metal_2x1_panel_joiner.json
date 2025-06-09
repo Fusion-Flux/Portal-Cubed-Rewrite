@@ -2,6 +2,6 @@
   "parent": "minecraft:block/cube_column",
   "textures": {
     "end": "portalcubed:block/dirty_portal_1_metal_half_panel",
-    "side": "portalcubed:block/dirty_portal_1_metal_panel_joiner"
+    "side": "portalcubed:block/dirty_portal_1_metal_2x1_panel_joiner"
   }
 }

@@ -1,7 +1,7 @@
 {
   "variants": {
     "axis=x": {
-      "model": "portalcubed:block/dirty_portal_1_metal_2x1_panel_joiner",
+      "model": "portalcubed:block/dirty_portal_1_metal_2x1_panel_joiner_horizontal_x",
       "x": 90,
       "y": 90
     },
@@ -9,7 +9,7 @@
       "model": "portalcubed:block/dirty_portal_1_metal_2x1_panel_joiner"
     },
     "axis=z": {
-      "model": "portalcubed:block/dirty_portal_1_metal_2x1_panel_joiner_horizontal",
+      "model": "portalcubed:block/dirty_portal_1_metal_2x1_panel_joiner_horizontal_z",
       "x": 90
     }
   }

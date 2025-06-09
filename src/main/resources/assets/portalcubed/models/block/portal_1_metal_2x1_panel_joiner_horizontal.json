@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "portalcubed:block/portal_1_metal_half_panel",
-    "side": "portalcubed:block/portal_1_metal_panel_joiner"
-  }
-}
