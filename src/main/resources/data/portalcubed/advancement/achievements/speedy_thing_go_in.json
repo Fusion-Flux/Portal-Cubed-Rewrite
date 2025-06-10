@@ -2,7 +2,7 @@
   "parent": "portalcubed:achievements/portal_gun",
   "criteria": {
     "portal_entry": {
-      "trigger": "enter_block",
+      "trigger": "portalcubed:entered_portal",
       "conditions": {
         "player": {
           "movement": {
