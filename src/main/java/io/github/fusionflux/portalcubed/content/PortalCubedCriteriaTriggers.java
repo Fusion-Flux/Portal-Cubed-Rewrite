@@ -3,7 +3,9 @@ package io.github.fusionflux.portalcubed.content;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.button.EntityOnButtonTrigger;
 import io.github.fusionflux.portalcubed.content.misc.ConfigureTestElementTrigger;
-import io.github.fusionflux.portalcubed.content.portal.gun.SubmergedTheOperationalEndOfTheDeviceTrigger;
+import io.github.fusionflux.portalcubed.content.portal.trigger.PortalTrigger;
+import io.github.fusionflux.portalcubed.content.portal.trigger.SubmergedTheOperationalEndOfTheDeviceTrigger;
+import io.github.fusionflux.portalcubed.content.portal.trigger.ThrownItemPortalTrigger;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,6 +21,10 @@ public class PortalCubedCriteriaTriggers {
 	public static final EntityOnButtonTrigger ENTITY_ON_BUTTON = register(
 			"entity_on_button", new EntityOnButtonTrigger()
 	);
+	public static final PortalTrigger ENTER_PORTAL = register("entered_portal", new PortalTrigger());
+	public static final PortalTrigger EXIT_PORTAL = register("exited_portal", new PortalTrigger());
+	public static final ThrownItemPortalTrigger THROWN_ITEM_ENTERED_PORTAL = register("thrown_item_entered_portal", new ThrownItemPortalTrigger());
+	public static final ThrownItemPortalTrigger THROWN_ITEM_EXITED_PORTAL = register("thrown_item_exited_portal", new ThrownItemPortalTrigger());
 
 	private static <T extends CriterionTrigger<?>> T register(String name, T trigger) {
 		ResourceLocation id = PortalCubed.id(name);

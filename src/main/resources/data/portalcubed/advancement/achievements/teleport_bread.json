@@ -17,7 +17,7 @@
   "parent": "portalcubed:achievements/speedy_thing_go_in",
   "criteria": {
     "teleport_bread": {
-      "trigger": "portalcubed:thrown_item_enters_portal",
+      "trigger": "portalcubed:thrown_item_entered_portal",
       "conditions": {
         "item": {
           "items": "minecraft:bread"

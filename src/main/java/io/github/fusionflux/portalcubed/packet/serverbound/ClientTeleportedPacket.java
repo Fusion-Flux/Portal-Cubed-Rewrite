@@ -48,6 +48,7 @@ public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xR
 
 		player.absMoveTo(this.pos.x, this.pos.y, this.pos.z, this.yRot, this.xRot);
 		player.serverLevel().getChunkSource().move(player);
+		// TODO: run triggers
 	}
 
 	private boolean isTeleportInvalid(ServerPlayer player) {

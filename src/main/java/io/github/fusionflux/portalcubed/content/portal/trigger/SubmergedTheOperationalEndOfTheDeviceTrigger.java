@@ -1,13 +1,13 @@
-package io.github.fusionflux.portalcubed.content.portal.gun;
+package io.github.fusionflux.portalcubed.content.portal.trigger;
+
+import java.util.Optional;
 
 import com.mojang.serialization.Codec;
 
-import io.github.fusionflux.portalcubed.content.portal.gun.SubmergedTheOperationalEndOfTheDeviceTrigger.TriggerInstance;
+import io.github.fusionflux.portalcubed.content.portal.trigger.SubmergedTheOperationalEndOfTheDeviceTrigger.TriggerInstance;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
-
-import java.util.Optional;
 
 public class SubmergedTheOperationalEndOfTheDeviceTrigger extends SimpleCriterionTrigger<TriggerInstance> {
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
@@ -17,10 +18,13 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 public class PortalTeleportHandler {
@@ -51,6 +55,8 @@ public class PortalTeleportHandler {
 
 		PortalTransform transform = PortalTransform.of(result);
 		transform.apply(entity);
+
+		runTriggers(entity, result);
 
 		// wakey wakey
 		if (entity instanceof LivingEntity living && living.isSleeping()) {
@@ -126,6 +132,18 @@ public class PortalTeleportHandler {
 		});
 
 		return teleports;
+	}
+
+	private static void runTriggers(Entity entity, PortalHitResult.Open result) {
+		if (!(entity instanceof ItemEntity item) || !(item.getOwner() instanceof ServerPlayer player))
+			return;
+
+		ItemStack stack = item.getItem();
+
+		result.forEach(hit -> {
+			PortalCubedCriteriaTriggers.THROWN_ITEM_ENTERED_PORTAL.trigger(player, hit.enteredPortal(), stack);
+			PortalCubedCriteriaTriggers.THROWN_ITEM_EXITED_PORTAL.trigger(player, hit.exitedPortal(), stack);
+		});
 	}
 
 	public static boolean cannotTeleport(Entity entity) {
