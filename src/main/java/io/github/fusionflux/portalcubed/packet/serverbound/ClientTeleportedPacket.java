@@ -1,13 +1,18 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportInfo;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
 import io.netty.buffer.ByteBuf;
@@ -16,11 +21,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
-public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xRot, float yRot) implements ServerboundPacket {
+public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, float yRot) implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, ClientTeleportedPacket> CODEC = StreamCodec.composite(
-			PortalTeleportInfo.STREAM_CODEC, ClientTeleportedPacket::info,
+			Teleport.CODEC, ClientTeleportedPacket::teleport,
 			Vec3.STREAM_CODEC, ClientTeleportedPacket::pos,
 			ByteBufCodecs.FLOAT, ClientTeleportedPacket::xRot,
 			ByteBufCodecs.FLOAT, ClientTeleportedPacket::yRot,
@@ -48,7 +54,18 @@ public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xR
 
 		player.absMoveTo(this.pos.x, this.pos.y, this.pos.z, this.yRot, this.xRot);
 		player.serverLevel().getChunkSource().move(player);
-		// TODO: run triggers
+
+		ServerPortalManager manager = player.serverLevel().portalManager();
+		Teleport teleport = this.teleport;
+		while (teleport != null) {
+			PortalPair pair = manager.getPair(teleport.pair);
+			PortalPair.Holder holder = new PortalPair.Holder(teleport.pair, pair);
+
+			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, holder.get(teleport.entered).orElseThrow());
+			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, holder.get(teleport.entered.opposite()).orElseThrow());
+
+			teleport = teleport.next.orElse(null);
+		}
 	}
 
 	private boolean isTeleportInvalid(ServerPlayer player) {
@@ -57,31 +74,32 @@ public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xR
 		double distance = 0;
 
 		// entrance
-		PortalPair firstPair = manager.getPair(this.info.pairKey());
+		PortalPair firstPair = manager.getPair(this.teleport.pair);
 		if (firstPair == null || !firstPair.isLinked())
 			return true;
 
-		PortalInstance firstEntered = firstPair.getOrThrow(this.info.entered());
+		PortalInstance firstEntered = firstPair.getOrThrow(this.teleport.entered);
 		Vec3 center = PortalTeleportHandler.centerOf(player);
 		distance += (center.distanceTo(firstEntered.data.origin()));
 		if (distance > expectedDistance)
 			return true;
 
 		// intermediate
-		PortalInstance exited = firstPair.getOrThrow(this.info.entered().opposite());
-		PortalTeleportInfo info = this.info.next();
-		while (info != null) {
-			PortalPair pair = manager.getPair(info.pairKey());
+		PortalInstance exited = firstPair.getOrThrow(this.teleport.entered.opposite());
+		Optional<Teleport> maybeNext = this.teleport.next;
+		while (maybeNext.isPresent()) {
+			Teleport next = maybeNext.get();
+			PortalPair pair = manager.getPair(next.pair);
 			if (pair == null || !pair.isLinked())
 				return true;
 
-			PortalInstance entered = pair.getOrThrow(info.entered());
+			PortalInstance entered = pair.getOrThrow(next.entered);
 			distance += (exited.data.origin().distanceTo(entered.data.origin()));
 			if (distance > expectedDistance)
 				return true;
 
-			exited = pair.getOrThrow(info.entered().opposite());
-			info = info.next();
+			exited = pair.getOrThrow(next.entered.opposite());
+			maybeNext = next.next;
 		}
 
 		// exit
@@ -90,6 +108,11 @@ public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xR
 		Vec3 finalCenter = this.pos.add(posToCenter);
 		distance += (finalCenter.distanceTo(exited.data.origin()));
 		return distance > expectedDistance;
+	}
+
+	public static ClientTeleportedPacket of(Player player, PortalHitResult.Open result) {
+		Teleport first = Teleport.of(result);
+		return new ClientTeleportedPacket(first, player.position(), player.getXRot(), player.getYRot());
 	}
 
 	private static double getExpectedDistance(ServerPlayer player) {
@@ -106,5 +129,22 @@ public record ClientTeleportedPacket(PortalTeleportInfo info, Vec3 pos, float xR
 		if (deltaSqr - velSqr > maxDistSqr) {...} // too quick
 		 */
 		return player.isFallFlying() ? GLIDING_MAX : NORMAL_MAX;
+	}
+
+	private record Teleport(String pair, Polarity entered, Optional<Teleport> next) {
+		private static final StreamCodec<ByteBuf, Teleport> CODEC = StreamCodec.recursive(self -> StreamCodec.composite(
+				ByteBufCodecs.STRING_UTF8, Teleport::pair,
+				Polarity.STREAM_CODEC, Teleport::entered,
+				ByteBufCodecs.optional(self), Teleport::next,
+				Teleport::new
+		));
+
+		private static Teleport of(PortalHitResult.Open result) {
+			return new Teleport(
+					result.pair().key(), result.enteredPortal().polarity(),
+					result instanceof PortalHitResult.Mid mid && mid.next() instanceof PortalHitResult.Open open
+							? Optional.of(Teleport.of(open)) : Optional.empty()
+			);
+		}
 	}
 }

@@ -56,7 +56,14 @@ public class PortalTeleportHandler {
 		PortalTransform transform = PortalTransform.of(result);
 		transform.apply(entity);
 
-		runTriggers(entity, result);
+		if (entity instanceof ItemEntity item && item.getOwner() instanceof ServerPlayer player) {
+			ItemStack stack = item.getItem();
+
+			result.forEach(hit -> {
+				PortalCubedCriteriaTriggers.THROWN_ITEM_ENTERED_PORTAL.trigger(player, hit.enteredPortal(), stack);
+				PortalCubedCriteriaTriggers.THROWN_ITEM_EXITED_PORTAL.trigger(player, hit.exitedPortal(), stack);
+			});
+		}
 
 		// wakey wakey
 		if (entity instanceof LivingEntity living && living.isSleeping()) {
@@ -77,9 +84,7 @@ public class PortalTeleportHandler {
 		if (entity instanceof Player player && player.isLocalPlayer()) {
 			// players are handled specially. All the logic is client side and the server is notified.
 			// server does some verification and tells the client if the teleport was invalid.
-			PortalTeleportInfo info = buildTeleportInfo(result);
-			ClientTeleportedPacket packet = new ClientTeleportedPacket(info, entity.position(), entity.getXRot(), entity.getYRot());
-			PortalCubedPackets.sendToServer(packet);
+			PortalCubedPackets.sendToServer(ClientTeleportedPacket.of(player, result));
 			return true;
 		}
 
@@ -114,15 +119,6 @@ public class PortalTeleportHandler {
 		entity.setPos(entity.position().add(completedStep));
 	}
 
-	private static PortalTeleportInfo buildTeleportInfo(PortalHitResult.Open result) {
-		return new PortalTeleportInfo(
-				result.pair().key(),
-				result.enteredPortal().polarity(),
-				result instanceof PortalHitResult.Mid mid && mid.next() instanceof PortalHitResult.Open open
-						? buildTeleportInfo(open) : null
-		);
-	}
-
 	private static List<TrackedTeleport> buildTeleports(PortalHitResult.Open result) {
 		List<TrackedTeleport> teleports = new ArrayList<>();
 
@@ -132,18 +128,6 @@ public class PortalTeleportHandler {
 		});
 
 		return teleports;
-	}
-
-	private static void runTriggers(Entity entity, PortalHitResult.Open result) {
-		if (!(entity instanceof ItemEntity item) || !(item.getOwner() instanceof ServerPlayer player))
-			return;
-
-		ItemStack stack = item.getItem();
-
-		result.forEach(hit -> {
-			PortalCubedCriteriaTriggers.THROWN_ITEM_ENTERED_PORTAL.trigger(player, hit.enteredPortal(), stack);
-			PortalCubedCriteriaTriggers.THROWN_ITEM_EXITED_PORTAL.trigger(player, hit.exitedPortal(), stack);
-		});
 	}
 
 	public static boolean cannotTeleport(Entity entity) {
