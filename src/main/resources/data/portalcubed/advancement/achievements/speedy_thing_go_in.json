@@ -6,8 +6,8 @@
       "conditions": {
         "player": {
           "movement": {
-            "vertical_speed": {
-              "min": 30
+            "speed": {
+              "min": 25
             }
           }
         }
