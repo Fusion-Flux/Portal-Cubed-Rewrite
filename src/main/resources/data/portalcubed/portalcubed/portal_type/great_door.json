@@ -1,0 +1,61 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.great_door"
+  },
+  "default_primary_color": 16763150,
+  "default_secondary_color": 4479365,
+  "sounds": {
+    "shared": {
+      "cant_open": "portalcubed:portal_type.default.cant_open",
+      "travel": "portalcubed:portal_type.default.travel",
+      "ambient": "portalcubed:portal_type.default.ambient"
+    },
+    "primary": {
+      "open": "portalcubed:portal_type.default.open.primary",
+      "close": "portalcubed:portal_type.default.close.primary"
+    },
+    "secondary": {
+      "open": "portalcubed:portal_type.default.open.secondary",
+      "close": "portalcubed:portal_type.default.close.secondary"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture":"portalcubed:portal/great_door/great_door_open_base",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portal/great_door/great_door_open_base_overlay",
+        "tint": false
+      },
+      {
+        "texture": "portalcubed:portal/great_door/great_door_open_shadow",
+        "tint": false,
+        "offset": 0.01
+      },
+      {
+        "texture": "portalcubed:portal/great_door/great_door_smoke",
+        "tint": false,
+        "offset": 0.1
+      }
+    ],
+    "closed": [
+      {
+        "texture":"portalcubed:portal/great_door/great_door_closed",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portal/great_door/great_door_closed_overlay",
+        "tint": false
+      }
+    ],
+    "tracer": "portalcubed:portal/great_door/great_door_tracer"
+  },
+  "stencil": "portalcubed:portal/great_door/great_door_stencil",
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
+}
