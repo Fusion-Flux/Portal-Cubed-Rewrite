@@ -316,10 +316,10 @@ public class PortalGameTests implements FabricGameTest {
 		waterFlow.primary().placeOn(new BlockPos(3, 1, 8), Direction.NORTH);
 		doorTrapdoor.primary().placeOn(new BlockPos(1, 1, 8), Direction.NORTH);
 
-		pistonSolid.secondary().placeOn(new BlockPos(7, 0, 1), Direction.UP, 180);
-		pistonNonSolid.secondary().placeOn(new BlockPos(5, 0, 1), Direction.UP, 180);
-		waterFlow.secondary().placeOn(new BlockPos(3, 0, 1), Direction.UP, 180);
-		doorTrapdoor.secondary().placeOn(new BlockPos(1, 0, 1), Direction.UP, 180);
+		pistonSolid.secondary().placeOn(new BlockPos(7, 0, 2), Direction.UP, 180);
+		pistonNonSolid.secondary().placeOn(new BlockPos(5, 0, 2), Direction.UP, 180);
+		waterFlow.secondary().placeOn(new BlockPos(3, 0, 2), Direction.UP, 180);
+		doorTrapdoor.secondary().placeOn(new BlockPos(1, 0, 2), Direction.UP, 180);
 
 		helper.pullLever(6, 2, 5);
 		helper.pullLever(2, 2, 5);
