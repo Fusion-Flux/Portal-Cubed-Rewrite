@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.6",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:prop/computer",
@@ -9,12 +10,12 @@
 			"from": [4, 0, 4],
 			"to": [12, 3, 12],
 			"faces": {
-				"north": {"uv": [0.032, 9.032, 7.968, 11.968], "texture": "#0"},
-				"east": {"uv": [8.032, 9.032, 15.968, 11.968], "texture": "#0"},
-				"south": {"uv": [0.032, 13.032, 7.968, 15.968], "texture": "#0"},
-				"west": {"uv": [8.032, 13.032, 15.968, 15.968], "texture": "#0"},
-				"up": {"uv": [7.968, 7.968, 0.032, 0.032], "texture": "#0"},
-				"down": {"uv": [15.968, 7.968, 8.032, 0.032], "texture": "#0"}
+				"north": {"uv": [0, 9, 8, 12], "texture": "#0"},
+				"east": {"uv": [8, 9, 16, 12], "texture": "#0"},
+				"south": {"uv": [0, 13, 8, 16], "texture": "#0"},
+				"west": {"uv": [8, 13, 16, 16], "texture": "#0"},
+				"up": {"uv": [8, 8, 0, 0], "texture": "#0"},
+				"down": {"uv": [16, 8, 8, 0], "texture": "#0"}
 			}
 		}
 	],
@@ -30,12 +31,12 @@
 			"scale": [0.73828, 0.73828, 0.73828]
 		},
 		"firstperson_righthand": {
-			"rotation": [-178.63, 70, 180],
+			"rotation": [-178.63, 70, -180],
 			"translation": [-0.5, 7.5, -0.75],
 			"scale": [0.73828, 0.73828, 0.73828]
 		},
 		"firstperson_lefthand": {
-			"rotation": [-178.63, 70, 180],
+			"rotation": [-178.63, 70, -180],
 			"translation": [-0.5, 7.5, -0.75],
 			"scale": [0.73828, 0.73828, 0.73828]
 		},
@@ -44,7 +45,7 @@
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {
-			"rotation": [30, 225, 0],
+			"rotation": [30, -135, 0],
 			"translation": [0, 5, 0],
 			"scale": [1.24023, 1.24023, 1.24023]
 		},

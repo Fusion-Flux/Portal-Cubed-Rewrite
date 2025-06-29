@@ -38,40 +38,6 @@
 			"translation": [-1, 0.25, -7.75]
 		}
 	},
-	"groups": [
-		0,
-		1,
-		{
-			"name": "frame",
-			"origin": [0, 1, 6],
-			"color": 0,
-			"children": [2, 3, 4, 5, 6, 7, 8]
-		},
-		{
-			"name": "shell",
-			"origin": [8, 3.5, 13],
-			"color": 0,
-			"children": [9, 10, 11, 12, 13]
-		},
-		{
-			"name": "prongs",
-			"origin": [7.9995, 4.54813, -2.2675],
-			"color": 0,
-			"children": [14, 15, 16, 17, 18, 19, 20, 21]
-		},
-		{
-			"name": "dyeable",
-			"origin": [8, 5.975, 10.8],
-			"color": 0,
-			"children": [22, 23]
-		},
-		{
-			"name": "tube",
-			"origin": [8.02475, 3.30404, 7.025],
-			"color": 0,
-			"children": [24, 25]
-		}
-	],
 	"portalcubed:render_types": {
 		"cutout": ["cutout"]
 	}

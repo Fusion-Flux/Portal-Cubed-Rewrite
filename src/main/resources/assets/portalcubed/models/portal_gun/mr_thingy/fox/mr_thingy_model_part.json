@@ -30,26 +30,5 @@
 		"gui": {
 			"translation": [-1, 0, 0]
 		}
-	},
-	"groups": [
-		{
-			"name": "mr_thingy",
-			"origin": [8, 8, 8],
-			"color": 0,
-			"children": [
-				{
-					"name": "horn",
-					"origin": [6.5, 6.5, 5.825],
-					"color": 0,
-					"children": [0, 1, 2, 3]
-				},
-				{
-					"name": "plunger",
-					"origin": [6.5, 6.5, 5.825],
-					"color": 0,
-					"children": [4, 5, 6, 7]
-				}
-			]
-		}
-	]
+	}
 }
