@@ -442,8 +442,16 @@ public class PortalCubedTabs {
 					8712693,
 					"round",
 					12786459
-					);
-
+			);
+			addPortalGunSkin(output,
+					"portalizer",
+					"portalizer",
+					"portalizer",
+					"portalizer",
+					65280,
+					"portalizer",
+					16711680
+			);
 			addPortalGunSkin(output,
 					"lego_portal_gun",
 					"lego",

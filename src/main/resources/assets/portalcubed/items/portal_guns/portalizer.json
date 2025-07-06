@@ -1,0 +1,84 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": "minecraft:fox",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/portalizer/fox/portalizer",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
+        "when": [
+          "minecraft:villager",
+          "minecraft:witch",
+          "minecraft:wandering_trader"
+        ],
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/portalizer/villager/portalizer",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "portalcubed:portal_gun/portalizer/humanoid/portalizer",
+      "tints": [
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "active"
+        },
+        {
+          "type": "minecraft:dye",
+          "default": -1
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "primary"
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "secondary"
+        }
+      ]
+    }
+  }
+}
