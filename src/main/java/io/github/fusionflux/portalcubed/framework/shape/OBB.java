@@ -11,6 +11,7 @@ import org.joml.Vector3f;
 
 import com.google.common.collect.Iterables;
 
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
@@ -27,6 +28,14 @@ public final class OBB {
 	public final Matrix3dc inverseRotation;
 
 	public final AABB encompassingAabb;
+
+	public OBB(BlockPos pos) {
+		this(new AABB(pos));
+	}
+
+	public OBB(AABB aabb) {
+		this(TransformUtils.toJoml(aabb.getCenter()), aabb.getXsize(), aabb.getYsize(), aabb.getZsize(), new Matrix3d());
+	}
 
 	public OBB(Vector3dc center, double xSize, double ySize, double zSize, Matrix3dc rotation) {
 		this.extents = new Vector3d(xSize / 2, ySize / 2, zSize / 2);

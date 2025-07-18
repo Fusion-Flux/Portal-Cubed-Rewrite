@@ -12,6 +12,7 @@ import io.github.fusionflux.portalcubed.framework.render.debug.entry.DebugBox;
 import io.github.fusionflux.portalcubed.framework.render.debug.entry.DebugLine;
 import io.github.fusionflux.portalcubed.framework.render.debug.entry.DebugPos;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
@@ -21,6 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DebugRendering {
 	private static final List<DebugRenderEntry> entries = Collections.synchronizedList(new ArrayList<>());
@@ -35,6 +37,14 @@ public class DebugRendering {
 
 	public static void addBox(int ticks, AABB box, Color color) {
 	    entries.add(new DebugBox(ticks, box, color));
+	}
+
+	public static void addBox(int ticks, OBB box, Color color) {
+		entries.add(new DebugBox(ticks, box, color));
+	}
+
+	public static void addShape(int ticks, VoxelShape shape, Color color) {
+		shape.toAabbs().forEach(box -> addBox(ticks, box, color));
 	}
 
 	// internal

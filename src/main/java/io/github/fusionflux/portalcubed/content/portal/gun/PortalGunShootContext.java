@@ -14,6 +14,7 @@ import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalShotClipContextMode;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.NonePortalValidator;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
@@ -58,7 +59,7 @@ public record PortalGunShootContext(
 		if (placement == null)
 			return;
 
-		PortalValidator validator = new StandardPortalValidator(placement.rotationAngle());
+		PortalValidator validator = settings.validate() ? new StandardPortalValidator(placement.rotationAngle()) : NonePortalValidator.INSTANCE;
 		PortalData data = PortalData.createWithSettings(this.level, placement.pos(), placement.rotation(), validator, settings);
 		this.level.portalManager().createPortal(id.key(), polarity, data);
 	}

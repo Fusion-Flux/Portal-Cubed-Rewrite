@@ -23,8 +23,8 @@ public class SectionPortalLookup implements PortalLookup {
 
 	@Override
 	@Nullable
-	public PortalHitResult clip(Vec3 from, Vec3 to) {
-		if (this.isEmpty())
+	public PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth) {
+		if (this.isEmpty() || maxDepth == 0)
 			return null;
 
 		class Closest {
@@ -44,7 +44,7 @@ public class SectionPortalLookup implements PortalLookup {
 			for (PortalInstance.Holder holder : portals) {
 				PortalInstance portal = holder.portal();
 
-				Vec3 hit = portal.quad.clip(from, to);
+				Vec3 hit = portal.visualQuad.clip(from, to);
 				if (hit == null)
 					continue;
 
@@ -74,7 +74,7 @@ public class SectionPortalLookup implements PortalLookup {
 		PortalTransform transform = new SinglePortalTransform(closest.portal.portal(), linked.get().portal());
 		Vec3 teleportedHit = transform.applyAbsolute(closest.hit);
 		Vec3 teleportedEnd = transform.applyAbsolute(to);
-		PortalHitResult next = this.clip(teleportedHit, teleportedEnd);
+		PortalHitResult next = this.clip(teleportedHit, teleportedEnd, maxDepth - 1);
 
 		if (next == null) {
 			return new PortalHitResult.Tail(closest.portal, closest.hit, teleportedHit, teleportedEnd);
@@ -92,7 +92,7 @@ public class SectionPortalLookup implements PortalLookup {
 			if (section != null) {
 				section.forEach(holder -> {
 					PortalInstance portal = holder.portal();
-					if (portal.quad.intersects(bounds)) {
+					if (portal.visualQuad.intersects(bounds)) {
 						portals.add(holder);
 					}
 				});
@@ -131,7 +131,7 @@ public class SectionPortalLookup implements PortalLookup {
 	}
 
 	private static void forEachSectionContainingPortal(PortalInstance portal, LongConsumer consumer) {
-		forEachSectionInBox(portal.quad.containingBox(), consumer);
+		forEachSectionInBox(portal.visualQuad.containingBox(), consumer);
 	}
 
 	private static void forEachSectionInBox(Vec3 cornerA, Vec3 cornerB, LongConsumer consumer) {

@@ -47,6 +47,7 @@
     "portals.ClientboundTeleportEntityPacketMixin",
     "portals.ClipContext$BlockMixin",
     "portals.DataCommandsMixin",
+    "portals.EntityCollisionContextMixin",
     "portals.EntityMixin",
     "portals.GameTestInfoMixin",
     "portals.LivingEntityMixin",

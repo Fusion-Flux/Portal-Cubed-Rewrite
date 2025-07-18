@@ -7,6 +7,7 @@ import org.joml.Matrix3d;
 import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.Rotations;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +36,10 @@ public interface PortalTransform {
 
 	default Rotations apply(float xRot, float yRot, float zRot) {
 		return this.apply(new Rotations(xRot, yRot, zRot));
+	}
+
+	default OBB apply(OBB box) {
+		return box.transformed(this::applyAbsolute, this::apply);
 	}
 
 	void apply(Entity entity);

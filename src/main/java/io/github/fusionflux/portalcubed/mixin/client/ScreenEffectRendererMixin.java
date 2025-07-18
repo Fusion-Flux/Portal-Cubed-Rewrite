@@ -30,6 +30,6 @@ public class ScreenEffectRendererMixin {
 		if (!(blockGetter instanceof Level level))
 			return true; // how
 
-		return !level.portalManager().collision.isPatched(pos);
+		return !level.portalManager().areActivePortalsPresent(pos);
 	}
 }

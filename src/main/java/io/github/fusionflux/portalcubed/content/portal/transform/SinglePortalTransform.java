@@ -30,6 +30,7 @@ public final class SinglePortalTransform implements PortalTransform {
 
 	public final Vec3 inOrigin;
 	public final Quaternionfc inRot;
+	public final Quaternionfc inRotInverse;
 	public final Quaternionfc inRot180;
 
 	public final Vec3 outOrigin;
@@ -53,6 +54,7 @@ public final class SinglePortalTransform implements PortalTransform {
 	private SinglePortalTransform(Vec3 inOrigin, Quaternionfc inRot, Vec3 outOrigin, Quaternionfc outRot, @Nullable PortalTransform inverse) {
 		this.inOrigin = inOrigin;
 		this.inRot = new Quaternionf(inRot);
+		this.inRotInverse = inRot.invert(new Quaternionf());
 		this.inRot180 = rotate180(inRot);
 		this.outOrigin = outOrigin;
 		this.outRot = new Quaternionf(outRot);
@@ -62,7 +64,7 @@ public final class SinglePortalTransform implements PortalTransform {
 
 	@Override
 	public Vector3d applyRelative(Vector3d pos) {
-		this.inRot.transformInverse(pos);
+		this.inRotInverse.transform(pos);
 		this.outRot180.transform(pos);
 		return pos;
 	}
@@ -77,7 +79,7 @@ public final class SinglePortalTransform implements PortalTransform {
 	@Override
 	public Matrix3d apply(Matrix3d rotation) {
 		return rotation
-				.rotateLocal(this.inRot)
+				.rotateLocal(this.inRotInverse)
 				.rotateLocal(this.outRot180);
 	}
 
@@ -86,7 +88,7 @@ public final class SinglePortalTransform implements PortalTransform {
 		// TODO: handle Z
 		Quaternionf rot = new Quaternionf()
 				.rotationYXZ((180 - rotations.getY()) * Mth.DEG_TO_RAD, -rotations.getX() * Mth.DEG_TO_RAD, 0)
-				.premul(this.inRot.invert(new Quaternionf()))
+				.premul(this.inRotInverse)
 				.premul(this.outRot180)
 				.conjugate();
 		float pitch = (float) Math.atan2((rot.x * rot.w + rot.y * rot.z) * 2, 1 - 2 * (rot.x * rot.x + rot.z * rot.z));

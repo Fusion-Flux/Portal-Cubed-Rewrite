@@ -34,8 +34,10 @@ public abstract class LocalPlayerMixin extends AbstractClientPlayer {
 
 	@Inject(method = "suffocatesAt", at = @At("HEAD"), cancellable = true)
 	private void dontSuffocateInPortals(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		// disable suffocation when any portal modifies this position
-		if (this.clientLevel.portalManager().collision.isPatched(pos)) {
+		// disable suffocation when any portal is on/in this block.
+		// imperfect, but about the best we can do.
+		// vanilla's check here is bad too.
+		if (this.clientLevel.portalManager().areActivePortalsPresent(pos)) {
 			cir.setReturnValue(false);
 		}
 	}

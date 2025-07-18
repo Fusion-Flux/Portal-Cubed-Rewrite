@@ -341,7 +341,7 @@ public class PortalBumper {
 			if (!Mth.equal(initial.get(axis), posOnAxis))
 				return; // not on the same plane
 
-			for (Line line : portal.quad.lines()) {
+			for (Line line : portal.visualQuad.lines()) {
 				walls.add(line.to2d(surface).flip().withSource(Line2d.Source.PORTAL));
 			}
 		});
