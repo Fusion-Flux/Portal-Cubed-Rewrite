@@ -12,7 +12,7 @@ import net.minecraft.world.phys.shapes.BitSetDiscreteVoxelShape;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class VoxelShenanigans {
-	public static final int OBB_APPROXIMATION_RESOLUTION = 16;
+	public static final int OBB_APPROXIMATION_RESOLUTION = 32;
 	/**
 	 * The number of bits required to store {@link VoxelShenanigans#RESOLUTION}
 	 */
