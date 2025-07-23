@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 
@@ -14,7 +13,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
@@ -79,11 +77,9 @@ public abstract class PortalManager {
 		return this.lookup;
 	}
 
-	public boolean areActivePortalsPresent(BlockPos pos) {
-		AABB bounds = new AABB(pos).inflate(1e-7);
-		List<PortalInstance.Holder> portals = this.lookup().getPortals(bounds);
-		for (PortalInstance.Holder holder : portals) {
-			if (holder.pair().pair().isLinked()) {
+	public boolean containsActivePortals(AABB box) {
+		for (PortalInstance.Holder portal : this.lookup().getPortals(box)) {
+			if (portal.opposite().isPresent()) {
 				return true;
 			}
 		}
