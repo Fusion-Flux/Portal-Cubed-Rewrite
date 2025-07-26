@@ -90,7 +90,11 @@ public class PortalCubedBlocks {
 	// ----- cake -----
 	public static final CakeBlockSet BLACK_FOREST_CAKE = CakeBlockSet.builder("black_forest_cake", REGISTRAR)
 			.all(builder -> builder.copyFrom(Blocks.CAKE))
-			.base(builder -> builder.item((name, block, item) -> item.compostChance(1)))
+			.base(builder ->
+					builder.item((name, block, item) -> item
+							.properties(s -> s.stacksTo(1))
+							.compostChance(1)
+					))
 			.build();
 	// ----- floor buttons -----
 	public static final FloorButtonBlock FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("floor_button", FloorButtonBlock::new, Blocks.STONE)
