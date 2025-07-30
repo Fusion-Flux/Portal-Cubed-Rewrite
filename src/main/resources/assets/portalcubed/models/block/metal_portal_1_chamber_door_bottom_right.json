@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.6",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [64, 64],
 	"textures": {
@@ -40,8 +41,8 @@
 			"from": [6, 16, 16],
 			"to": [0, 0, 0],
 			"faces": {
-				"east": {"uv": [4, 8, 8, 4], "texture": "#0"},
-				"west": {"uv": [0, 8, 4, 4], "texture": "#0"}
+				"east": {"uv": [4, 8, 0, 4], "texture": "#0"},
+				"west": {"uv": [8, 8, 4, 4], "texture": "#0"}
 			}
 		}
 	]
