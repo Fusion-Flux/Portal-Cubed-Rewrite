@@ -1,5 +1,8 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
+import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -13,14 +16,19 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -38,6 +46,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	@Shadow
 	protected abstract Vec3 collide(Vec3 vec);
+
+	@Shadow
+	public abstract Vec3 position();
 
 	@Unique
 	private final TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
@@ -157,5 +168,40 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		if (override != null) {
 			cir.setReturnValue(override.pos().add(0, this.getEyeHeight(), 0));
 		}
+	}
+
+	@WrapOperation(
+			method = "collide",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/Entity;collideBoundingBox(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Lnet/minecraft/world/level/Level;Ljava/util/List;)Lnet/minecraft/world/phys/Vec3;"
+			)
+	)
+	private Vec3 portalCollision(@Nullable Entity entity, Vec3 vec, AABB bounds, Level level, List<VoxelShape> shapes, Operation<Vec3> original) {
+		Vec3 motion = original.call(entity, vec, bounds, level, shapes);
+		if (motion.lengthSqr() == 0)
+			return Vec3.ZERO;
+
+		double motionLength = motion.length() + Math.sqrt(bounds.getXsize() * bounds.getXsize() + bounds.getZsize() * bounds.getZsize());
+		Vec3 start = PortalTeleportHandler.centerOf((Entity) (Object) this);
+		Vec3 end = start.add(motion.normalize().scale(motionLength));
+		PortalHitResult hit = level.portalManager().lookup().clip(start, end, 1);
+		if (!(hit instanceof PortalHitResult.Tail tail))
+			return motion;
+
+		PortalInstance portal = tail.enteredPortal().portal();
+
+		for (OBB collisionBox : portal.perimeterBoxes) {
+			Vec3 limited = collisionBox.collideOnAxis(bounds, motion);
+			if (limited != null) {
+				if (limited.lengthSqr() < 1e-7) {
+					return Vec3.ZERO;
+				}
+
+				motion = limited;
+			}
+		}
+
+		return motion;
 	}
 }

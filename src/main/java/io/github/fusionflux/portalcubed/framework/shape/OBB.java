@@ -5,12 +5,15 @@ import java.util.function.Function;
 import org.joml.Intersectiond;
 import org.joml.Matrix3d;
 import org.joml.Matrix3dc;
+import org.joml.Vector2d;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 import org.joml.Vector3f;
 
 import com.google.common.collect.Iterables;
 
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -24,6 +27,8 @@ import net.minecraft.world.phys.Vec3;
 public final class OBB {
 	public final Vector3dc extents;
 	public final Vector3dc center;
+	public final Vector3dc localMin;
+	public final Vector3dc localMax;
 	public final Matrix3dc rotation;
 	public final Matrix3dc inverseRotation;
 
@@ -37,9 +42,15 @@ public final class OBB {
 		this(TransformUtils.toJoml(aabb.getCenter()), aabb.getXsize(), aabb.getYsize(), aabb.getZsize(), new Matrix3d());
 	}
 
+	public OBB(Vec3 center, double xSize, double ySize, double zSize, Matrix3dc rotation) {
+		this(TransformUtils.toJoml(center), xSize, ySize, zSize, rotation);
+	}
+
 	public OBB(Vector3dc center, double xSize, double ySize, double zSize, Matrix3dc rotation) {
 		this.extents = new Vector3d(xSize / 2, ySize / 2, zSize / 2);
 		this.center = center;
+		this.localMin = center.sub(this.extents, new Vector3d());
+		this.localMax = center.add(this.extents, new Vector3d());
 		this.rotation = rotation;
 		this.inverseRotation = rotation.invert(new Matrix3d());
 
@@ -118,6 +129,42 @@ public final class OBB {
 		);
 	}
 
+	/**
+	 * Collide an AABB moving along a vector with this OBB.
+	 * @return a modified motion vector that avoids a collision, or null if there was none
+	 */
+	public Vec3 collideOnAxis(AABB bounds, Vec3 motion) {
+		// 1: check for an initial collision
+		if (this.intersects(bounds)) {
+			//  already inside the collision, do nothing in this case.
+			return null;
+		}
+
+		// 2: move bounds to new pos
+		AABB moved = bounds.move(motion);
+
+		// 3: check if the path of any vertex hit the box
+		double maxScale = 1;
+		for (int i = 0; i < 8; i++) {
+			Vector3d start = vertex(bounds, i);
+			Vector3d end = vertex(moved, i);
+			DebugRendering.addLine(60, new Line(start, end), Color.RED);
+			// transform the line into local coordinates
+			this.inverseRotation.transform(start.sub(this.center)).add(this.center);
+			this.inverseRotation.transform(end.sub(this.center)).add(this.center);
+
+			Vector2d result = new Vector2d();
+			switch (Intersectiond.intersectLineSegmentAab(start, end, this.localMin, this.localMax, result)) {
+				case Intersectiond.INSIDE -> throw new IllegalStateException("INSIDE, but collision was checked earlier");
+				case Intersectiond.OUTSIDE -> {} // do nothing
+				case Intersectiond.ONE_INTERSECTION, Intersectiond.TWO_INTERSECTION -> maxScale = Math.min(maxScale, result.x);
+				default -> throw new IllegalStateException("JOML returned an invalid value");
+			}
+		}
+
+		return maxScale == 1 ? null : TransformUtils.withLength(motion, (motion.length() * maxScale) - 1e-5);
+	}
+
 	public Iterable<BlockPos> intersectingBlocks() {
 		return Iterables.filter(BlockPos.betweenClosed(
 				Mth.floor(this.encompassingAabb.minX),
@@ -134,5 +181,19 @@ public final class OBB {
 		Vector3dc center = normal.mul(depth / 2, new Vector3d()).add(quad.center());
 		Matrix3d rotation = new Matrix3d(quad.right(), quad.up(), normal);
 		return new OBB(center, quad.width(), quad.height(), Math.abs(depth), rotation);
+	}
+
+	private static Vector3d vertex(AABB box, int i) {
+		return switch (i) {
+			case 0 -> new Vector3d(box.minX, box.minY, box.minZ); // 000
+			case 1 -> new Vector3d(box.minX, box.minY, box.maxZ); // 001
+			case 2 -> new Vector3d(box.minX, box.maxY, box.minZ); // 010
+			case 3 -> new Vector3d(box.minX, box.maxY, box.maxZ); // 011
+			case 4 -> new Vector3d(box.maxX, box.minY, box.minZ); // 100
+			case 5 -> new Vector3d(box.maxX, box.minY, box.maxZ); // 101
+			case 6 -> new Vector3d(box.maxX, box.maxY, box.minZ); // 110
+			case 7 -> new Vector3d(box.maxX, box.maxY, box.maxZ); // 111
+			default -> throw new IndexOutOfBoundsException(i);
+		};
 	}
 }

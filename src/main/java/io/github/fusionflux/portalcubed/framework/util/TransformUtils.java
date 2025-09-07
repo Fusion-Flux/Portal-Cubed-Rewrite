@@ -16,6 +16,10 @@ public class TransformUtils {
 		return b.scale(length);
 	}
 
+	public static Vec3 withLength(Vec3 vec, double length) {
+		return vec.normalize().scale(length);
+	}
+
 	public static boolean equals(Quaternionfc a, Quaternionfc b, float delta) {
 		return a.equals(b, delta) || a.equals(b.mul(-1, new Quaternionf()), delta);
 	}

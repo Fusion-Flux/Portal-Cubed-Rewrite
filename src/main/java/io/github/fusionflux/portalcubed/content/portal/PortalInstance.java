@@ -1,15 +1,17 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.joml.Matrix3d;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
 
 import com.mojang.serialization.Codec;
 
-import io.github.fusionflux.portalcubed.content.portal.collision.PatchedShapes;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.shape.Quad;
 import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShenanigans;
@@ -39,29 +41,49 @@ public final class PortalInstance {
     public final PortalData data;
 
 	public final Vec3 normal;
-	public final Quaternionf rotation180;
+	public final Vec3 up;
+	public final Vec3 right;
 
+	public final Quaternionf rotation180;
 	public final Plane plane;
+	public final Plane collisionPlane;
 
 	public final Quad visualQuad;
 	public final Quad physicalQuad;
 	public final AABB renderBounds;
 
-	public final PatchedShapes patchedShapes;
+	public final List<OBB> perimeterBoxes;
 
     public PortalInstance(PortalData data) {
         this.data = data;
 
 		this.normal = TransformUtils.toMc(this.rotation().transform(Quad.BASE_NORMAL, new Vector3d()));
-		this.rotation180 = SinglePortalTransform.rotate180(this.rotation());
+		this.up = TransformUtils.toMc(this.rotation().transform(Quad.BASE_UP, new Vector3d()));
+		this.right = TransformUtils.toMc(this.rotation().transform(Quad.BASE_RIGHT, new Vector3d()));
 
+		this.rotation180 = SinglePortalTransform.rotate180(this.rotation());
 		this.plane = new Plane(this.normal, this.data.origin());
+		this.collisionPlane = this.plane.forward(1);
 
 		this.visualQuad = Quad.create(TransformUtils.toJoml(data.origin()), WIDTH, HEIGHT, this.rotation());
 		this.physicalQuad = Quad.create(TransformUtils.toJoml(data.origin()), PHYSICAL_WIDTH, PHYSICAL_HEIGHT, this.rotation());
 		this.renderBounds = this.visualQuad.containingBox();
 
-		this.patchedShapes = new PatchedShapes(this.physicalQuad);
+		Matrix3d rotationAsMatrix = new Matrix3d().rotation(this.rotation());
+
+		Vec3 boxOrigin = this.data.origin().add(this.normal.scale(-0.5));
+		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.5);
+		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.5);
+
+		// no perimeter collision when not validated, to avoid ghost collision around floating portals
+		this.perimeterBoxes = !data.isValidated() ? List.of() : List.of(
+				// top and bottom, wide
+				new OBB(boxOrigin.add(upToBox), 3, 1, 1, rotationAsMatrix),
+				new OBB(boxOrigin.add(upToBox.reverse()), 3, 1, 1, rotationAsMatrix),
+				// right and left, tall
+				new OBB(boxOrigin.add(rightToBox), 1, 1, 2, rotationAsMatrix),
+				new OBB(boxOrigin.add(rightToBox.reverse()), 1, 1, 2, rotationAsMatrix)
+		);
     }
 
 	public PortalType type() {

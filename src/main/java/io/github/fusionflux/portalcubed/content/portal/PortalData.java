@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.NonePortalValidator;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.Direction;
@@ -50,6 +51,10 @@ public record PortalData(
 			ByteBufCodecs.BOOL, PortalData::render,
 			PortalData::new
 	);
+
+	public boolean isValidated() {
+		return this.validator != NonePortalValidator.INSTANCE;
+	}
 
 	public PortalData withType(Holder<PortalType> type) {
 		return new PortalData(this.creationTick, type, this.validator, this.origin, this.rotation, this.color, this.render);

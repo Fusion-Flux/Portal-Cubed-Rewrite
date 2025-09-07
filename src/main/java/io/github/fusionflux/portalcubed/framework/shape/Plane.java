@@ -21,6 +21,10 @@ public record Plane(Vec3 normal, Vec3 origin) {
 			Plane::new
 	);
 
+	public Plane forward(double distance) {
+		return new Plane(this.normal, this.origin.add(this.normal.scale(distance)));
+	}
+
 	public boolean isInFront(Vec3 pos) {
 		Vec3 to = this.origin.vectorTo(pos);
 		return to.dot(this.normal) > 0;
