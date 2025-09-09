@@ -205,11 +205,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		}
 
 		try {
-			OBB.ran.set(0);
 			collisionState.set(new EntityCollisionState((Entity) (Object) this, relevantPortals));
 			return original.call(motion);
 		} finally {
-			System.out.println(OBB.ran.get());
 			//noinspection ThreadLocalSetWithNull - remove is slow and this codepath won't run on many threads
 			collisionState.set(null);
 		}

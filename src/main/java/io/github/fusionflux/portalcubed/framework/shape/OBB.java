@@ -11,8 +11,6 @@ import org.joml.Vector3f;
 
 import com.google.common.collect.Iterables;
 
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
-import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -213,13 +211,11 @@ public final class OBB {
 		final int steps = 20;
 
 		// skip 0, already checked
-		Vector3d h = new Vector3d();
 		for (int step = 1; step <= steps; step++) {
 			double progress = step / (double) steps;
 			double offset = Mth.lerp(progress, 0, motion);
-			h.set(axis).mul(offset);
-			AABB moved = box.move(h.x, h.y, h.z);
-			DebugRendering.addBox(1, moved, Color.GREEN);
+			AABB moved = box.move(axis.x() * offset, axis.y() * offset, axis.z() * offset);
+
 			if (this.intersects(moved)) {
 				// step back 1
 				double prevProgress = (step - 1) / (double) steps;
