@@ -107,6 +107,37 @@ public final class OBB {
 		return this.transformed(center -> center.add(offset), rotation -> rotation);
 	}
 
+	public OBB expandTowards(Vector3dc offset) {
+		Vector3d localized = this.inverseRotation.transform(offset, new Vector3d());
+		Vector3d newLocalMin = new Vector3d(this.localMin);
+		Vector3d newLocalMax = new Vector3d(this.localMax);
+
+		if (localized.x > 0) {
+			newLocalMax.x += localized.x;
+		} else {
+			newLocalMin.x -= localized.x;
+		}
+
+		if (localized.y > 0) {
+			newLocalMax.y += localized.y;
+		} else {
+			newLocalMin.y -= localized.y;
+		}
+
+		if (localized.z > 0) {
+			newLocalMax.z += localized.z;
+		} else {
+			newLocalMin.z -= localized.z;
+		}
+
+		double xSize = newLocalMax.x - newLocalMin.x;
+		double ySize = newLocalMax.y - newLocalMin.y;
+		double zSize = newLocalMax.z - newLocalMin.z;
+
+		Vector3d center = newLocalMin.add(xSize / 2, ySize / 2, zSize / 2);
+		return new OBB(center, xSize, ySize, zSize, this.rotation);
+	}
+
 	public boolean contains(Vec3 pos) {
 		return this.contains(pos.x, pos.y, pos.z);
 	}

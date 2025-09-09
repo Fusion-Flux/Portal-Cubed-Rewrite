@@ -24,8 +24,11 @@ import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.collision.EntityCollisionState;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
+import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -194,6 +197,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 		List<PortalInstance.Holder> relevantPortals = new ArrayList<>();
 		for (PortalInstance.Holder holder : portals) {
+			if (!holder.pair().pair().isLinked())
+				continue;
+
 			PortalInstance portal = holder.portal();
 			if (!portal.perimeterBoxes.isEmpty() && portal.seesModifiedCollision((Entity) (Object) this)) {
 				relevantPortals.add(holder);
@@ -214,22 +220,50 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	}
 
 	@ModifyVariable(method = "collideWithShapes", at = @At("HEAD"), argsOnly = true)
-	private static Vec3 portalCollision(Vec3 motion, @Local(argsOnly = true) AABB bounds) {
+	private static Vec3 portalCollision(Vec3 motionMc, @Local(argsOnly = true) AABB bounds) {
 		EntityCollisionState state = collisionState.get();
-		if (state == null)
-			return motion;
+		if (state == null) {
+			return motionMc;
+		}
 
-		Vector3d motionJoml = TransformUtils.toJoml(motion);
+		Vector3d motion = TransformUtils.toJoml(motionMc);
 
 		for (PortalInstance.Holder portal : state.portals()) {
+			// collide with perimeter
 			for (OBB collisionBox : portal.portal().perimeterBoxes) {
-				collisionBox.collideAndSlide(bounds, motionJoml);
-				if (motionJoml.lengthSquared() < 1e-5) {
+				if (handleCollision(collisionBox, bounds, motion)) {
 					return Vec3.ZERO;
+				}
+			}
+
+			// collide with collision on the other side
+			PortalInstance.Holder linked = portal.opposite().orElseThrow();
+			SinglePortalTransform transform = new SinglePortalTransform(portal.portal(), linked.portal());
+			Vector3d transformedMotion = transform.applyRelative(new Vector3d(motion));
+
+			AABB area = transform.apply(bounds)
+					.expandTowards(transformedMotion)
+					.encompassingAabb;
+
+			DebugRendering.addBox(1, area, Color.PURPLE);
+
+			for (VoxelShape shape : state.entity().level().getCollisions(state.entity(), area)) {
+				for (AABB box : shape.toAabbs()) {
+					OBB transformed = transform.inverse.apply(box);
+					if (handleCollision(transformed, bounds, motion)) {
+						return Vec3.ZERO;
+					}
 				}
 			}
 		}
 
-		return TransformUtils.toMc(motionJoml);
+		return TransformUtils.toMc(motion);
+	}
+
+	// returns true if collision should exit early
+	@Unique
+	private static boolean handleCollision(OBB box, AABB bounds, Vector3d motion) {
+		box.collideAndSlide(bounds, motion);
+		return motion.lengthSquared() < 1e-5;
 	}
 }

@@ -42,9 +42,9 @@ public class PortalDebugRenderer {
 		// origin and quad
 		AABB originBox = AABB.ofSize(portal.data.origin(), 0.1, 0.1, 0.1);
 		RenderingUtils.renderBox(matrices, buffers, originBox, Color.GREEN);
-		RenderingUtils.renderQuad(matrices, buffers, portal.visualQuad, Color.GREEN);
+		RenderingUtils.renderQuad(matrices, buffers, portal.quad, Color.GREEN);
 		RenderingUtils.renderVec(matrices, buffers, portal.normal, portal.data.origin(), Color.RED);
-		RenderingUtils.renderVec(matrices, buffers, TransformUtils.toMc(portal.visualQuad.up()), portal.data.origin(), Color.BLUE);
+		RenderingUtils.renderVec(matrices, buffers, TransformUtils.toMc(portal.quad.up()), portal.data.origin(), Color.BLUE);
 		// plane
 		RenderingUtils.renderPlane(matrices, buffers, portal.plane, 2.5f, Color.ORANGE);
 		// collision bounds

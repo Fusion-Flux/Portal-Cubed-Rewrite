@@ -42,7 +42,7 @@ public final class PortalInstance {
 	public final Quaternionf rotation180;
 	public final Plane plane;
 
-	public final Quad visualQuad;
+	public final Quad quad;
 	public final AABB renderBounds;
 
 	public final OBB entityCollisionArea;
@@ -58,8 +58,8 @@ public final class PortalInstance {
 		this.rotation180 = SinglePortalTransform.rotate180(this.rotation());
 		this.plane = new Plane(this.normal, this.data.origin());
 
-		this.visualQuad = Quad.create(TransformUtils.toJoml(data.origin()), WIDTH, HEIGHT, this.rotation());
-		this.renderBounds = this.visualQuad.containingBox();
+		this.quad = Quad.create(TransformUtils.toJoml(data.origin()), WIDTH, HEIGHT, this.rotation());
+		this.renderBounds = this.quad.containingBox();
 
 		Matrix3d rotationAsMatrix = new Matrix3d().rotation(this.rotation());
 
@@ -67,7 +67,7 @@ public final class PortalInstance {
 		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.5);
 		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.5);
 
-		this.entityCollisionArea = OBB.extrudeQuad(this.visualQuad, 1024);
+		this.entityCollisionArea = OBB.extrudeQuad(this.quad, 1024);
 		// no perimeter collision when not validated, to avoid ghost collision around floating portals
 		this.perimeterBoxes = !data.isValidated() ? List.of() : List.of(
 				// top and bottom, wide

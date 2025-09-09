@@ -44,7 +44,7 @@ public class SectionPortalLookup implements PortalLookup {
 			for (PortalInstance.Holder holder : portals) {
 				PortalInstance portal = holder.portal();
 
-				Vec3 hit = portal.visualQuad.clip(from, to);
+				Vec3 hit = portal.quad.clip(from, to);
 				if (hit == null)
 					continue;
 
@@ -92,7 +92,7 @@ public class SectionPortalLookup implements PortalLookup {
 			if (section != null) {
 				section.forEach(holder -> {
 					PortalInstance portal = holder.portal();
-					if (portal.visualQuad.intersects(bounds)) {
+					if (portal.quad.intersects(bounds)) {
 						portals.add(holder);
 					}
 				});
@@ -131,7 +131,7 @@ public class SectionPortalLookup implements PortalLookup {
 	}
 
 	private static void forEachSectionContainingPortal(PortalInstance portal, LongConsumer consumer) {
-		forEachSectionInBox(portal.visualQuad.containingBox(), consumer);
+		forEachSectionInBox(portal.quad.containingBox(), consumer);
 	}
 
 	private static void forEachSectionInBox(Vec3 cornerA, Vec3 cornerB, LongConsumer consumer) {

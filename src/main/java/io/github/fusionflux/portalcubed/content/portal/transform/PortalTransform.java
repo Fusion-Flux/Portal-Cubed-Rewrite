@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.Rotations;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public interface PortalTransform {
@@ -40,6 +41,10 @@ public interface PortalTransform {
 
 	default OBB apply(OBB box) {
 		return box.transformed(this::applyAbsolute, this::apply);
+	}
+
+	default OBB apply(AABB box) {
+		return this.apply(new OBB(box));
 	}
 
 	void apply(Entity entity);
