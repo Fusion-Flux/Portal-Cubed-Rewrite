@@ -1,28 +1,32 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.collision.EntityCollisionState;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -35,6 +39,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements PortalTeleportationExt {
+	@Unique
+	private static final ThreadLocal<EntityCollisionState> collisionState = new ThreadLocal<>();
+
 	@Shadow
 	public abstract int getId();
 
@@ -49,6 +56,12 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	@Shadow
 	public abstract Vec3 position();
+
+	@Shadow
+	public abstract AABB getBoundingBox();
+
+	@Shadow
+	public abstract Level level();
 
 	@Unique
 	private final TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
@@ -170,38 +183,55 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		}
 	}
 
-	@WrapOperation(
-			method = "collide",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/Entity;collideBoundingBox(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Lnet/minecraft/world/level/Level;Ljava/util/List;)Lnet/minecraft/world/phys/Vec3;"
-			)
-	)
-	private Vec3 portalCollision(@Nullable Entity entity, Vec3 vec, AABB bounds, Level level, List<VoxelShape> shapes, Operation<Vec3> original) {
-		Vec3 motion = original.call(entity, vec, bounds, level, shapes);
-		if (motion.lengthSqr() == 0)
-			return Vec3.ZERO;
+	@WrapMethod(method = "collide")
+	private Vec3 wrapCollide(Vec3 motion, Operation<Vec3> original) {
+		AABB area = this.getBoundingBox().expandTowards(motion).inflate(1e-7);
+		List<PortalInstance.Holder> portals = this.level().portalManager().lookup().getPortals(area);
 
-		double motionLength = motion.length() + Math.sqrt(bounds.getXsize() * bounds.getXsize() + bounds.getZsize() * bounds.getZsize());
-		Vec3 start = PortalTeleportHandler.centerOf((Entity) (Object) this);
-		Vec3 end = start.add(motion.normalize().scale(motionLength));
-		PortalHitResult hit = level.portalManager().lookup().clip(start, end, 1);
-		if (!(hit instanceof PortalHitResult.Tail tail))
-			return motion;
+		if (portals.isEmpty()) {
+			return original.call(motion);
+		}
 
-		PortalInstance portal = tail.enteredPortal().portal();
-
-		for (OBB collisionBox : portal.perimeterBoxes) {
-			Vec3 limited = collisionBox.collideOnAxis(bounds, motion);
-			if (limited != null) {
-				if (limited.lengthSqr() < 1e-7) {
-					return Vec3.ZERO;
-				}
-
-				motion = limited;
+		List<PortalInstance.Holder> relevantPortals = new ArrayList<>();
+		for (PortalInstance.Holder holder : portals) {
+			PortalInstance portal = holder.portal();
+			if (!portal.perimeterBoxes.isEmpty() && portal.seesModifiedCollision((Entity) (Object) this)) {
+				relevantPortals.add(holder);
 			}
 		}
 
-		return motion;
+		if (relevantPortals.isEmpty()) {
+			return original.call(motion);
+		}
+
+		try {
+			OBB.ran.set(0);
+			collisionState.set(new EntityCollisionState((Entity) (Object) this, relevantPortals));
+			return original.call(motion);
+		} finally {
+			System.out.println(OBB.ran.get());
+			//noinspection ThreadLocalSetWithNull - remove is slow and this codepath won't run on many threads
+			collisionState.set(null);
+		}
+	}
+
+	@ModifyVariable(method = "collideWithShapes", at = @At("HEAD"), argsOnly = true)
+	private static Vec3 portalCollision(Vec3 motion, @Local(argsOnly = true) AABB bounds) {
+		EntityCollisionState state = collisionState.get();
+		if (state == null)
+			return motion;
+
+		Vector3d motionJoml = TransformUtils.toJoml(motion);
+
+		for (PortalInstance.Holder portal : state.portals()) {
+			for (OBB collisionBox : portal.portal().perimeterBoxes) {
+				collisionBox.collideAndSlide(bounds, motionJoml);
+				if (motionJoml.lengthSquared() < 1e-5) {
+					return Vec3.ZERO;
+				}
+			}
+		}
+
+		return TransformUtils.toMc(motionJoml);
 	}
 }

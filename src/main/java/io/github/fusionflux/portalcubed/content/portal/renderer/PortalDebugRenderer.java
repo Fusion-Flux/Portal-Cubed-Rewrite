@@ -48,7 +48,10 @@ public class PortalDebugRenderer {
 		// plane
 		RenderingUtils.renderPlane(matrices, buffers, portal.plane, 2.5f, Color.ORANGE);
 		// collision bounds
-		portal.perimeterBoxes.forEach(shape -> RenderingUtils.renderBox(matrices, buffers, shape, Color.CYAN));
+		portal.perimeterBoxes.forEach(shape -> {
+			Color color = shape.intersects(camera.getEntity().getBoundingBox()) ? Color.RED : Color.CYAN;
+			RenderingUtils.renderBox(matrices, buffers, shape, color);
+		});
 		matrices.popPose();
 	}
 }

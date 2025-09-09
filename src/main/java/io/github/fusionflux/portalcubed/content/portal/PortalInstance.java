@@ -14,10 +14,10 @@ import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTra
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.shape.Quad;
-import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShenanigans;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -33,11 +33,6 @@ public final class PortalInstance {
 	public static final double HEIGHT = 2 - 1e-3;
 	public static final double WIDTH = 1 - 1e-3;
 
-	public static final double BUFFER = 1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION;
-
-	public static final double PHYSICAL_HEIGHT = HEIGHT - BUFFER;
-	public static final double PHYSICAL_WIDTH = WIDTH - BUFFER;
-
     public final PortalData data;
 
 	public final Vec3 normal;
@@ -46,12 +41,11 @@ public final class PortalInstance {
 
 	public final Quaternionf rotation180;
 	public final Plane plane;
-	public final Plane collisionPlane;
 
 	public final Quad visualQuad;
-	public final Quad physicalQuad;
 	public final AABB renderBounds;
 
+	public final OBB entityCollisionArea;
 	public final List<OBB> perimeterBoxes;
 
     public PortalInstance(PortalData data) {
@@ -63,10 +57,8 @@ public final class PortalInstance {
 
 		this.rotation180 = SinglePortalTransform.rotate180(this.rotation());
 		this.plane = new Plane(this.normal, this.data.origin());
-		this.collisionPlane = this.plane.forward(1);
 
 		this.visualQuad = Quad.create(TransformUtils.toJoml(data.origin()), WIDTH, HEIGHT, this.rotation());
-		this.physicalQuad = Quad.create(TransformUtils.toJoml(data.origin()), PHYSICAL_WIDTH, PHYSICAL_HEIGHT, this.rotation());
 		this.renderBounds = this.visualQuad.containingBox();
 
 		Matrix3d rotationAsMatrix = new Matrix3d().rotation(this.rotation());
@@ -75,6 +67,7 @@ public final class PortalInstance {
 		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.5);
 		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.5);
 
+		this.entityCollisionArea = OBB.extrudeQuad(this.visualQuad, 1024);
 		// no perimeter collision when not validated, to avoid ghost collision around floating portals
 		this.perimeterBoxes = !data.isValidated() ? List.of() : List.of(
 				// top and bottom, wide
@@ -92,6 +85,10 @@ public final class PortalInstance {
 
 	public Quaternionf rotation() {
 		return this.data.rotation();
+	}
+
+	public boolean seesModifiedCollision(Entity entity) {
+		return this.entityCollisionArea.intersects(entity.getBoundingBox());
 	}
 
 	public record Holder(PortalPair.Holder pair, Polarity polarity, PortalInstance portal) {
