@@ -201,7 +201,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 				continue;
 
 			PortalInstance portal = holder.portal();
-			if (!portal.perimeterBoxes.isEmpty() && portal.seesModifiedCollision((Entity) (Object) this)) {
+			if (portal.seesModifiedCollision((Entity) (Object) this)) {
 				relevantPortals.add(holder);
 			}
 		}
@@ -250,6 +250,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			for (VoxelShape shape : state.entity().level().getCollisions(state.entity(), area)) {
 				for (AABB box : shape.toAabbs()) {
 					OBB transformed = transform.inverse.apply(box);
+					DebugRendering.addBox(1, transformed, Color.YELLOW);
 					if (handleCollision(transformed, bounds, motion)) {
 						return Vec3.ZERO;
 					}
@@ -263,7 +264,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	// returns true if collision should exit early
 	@Unique
 	private static boolean handleCollision(OBB box, AABB bounds, Vector3d motion) {
-		box.collideAndSlide(bounds, motion);
+		box.collide(bounds, motion);
 		return motion.lengthSquared() < 1e-5;
 	}
 }

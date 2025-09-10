@@ -50,32 +50,32 @@ public final class PortalInstance {
 
     public PortalInstance(PortalData data) {
         this.data = data;
+		Vec3 origin = data.origin();
 
 		this.normal = TransformUtils.toMc(this.rotation().transform(Quad.BASE_NORMAL, new Vector3d()));
 		this.up = TransformUtils.toMc(this.rotation().transform(Quad.BASE_UP, new Vector3d()));
 		this.right = TransformUtils.toMc(this.rotation().transform(Quad.BASE_RIGHT, new Vector3d()));
 
 		this.rotation180 = SinglePortalTransform.rotate180(this.rotation());
-		this.plane = new Plane(this.normal, this.data.origin());
+		this.plane = new Plane(this.normal, origin);
 
-		this.quad = Quad.create(TransformUtils.toJoml(data.origin()), WIDTH, HEIGHT, this.rotation());
+		this.quad = Quad.create(TransformUtils.toJoml(origin), WIDTH, HEIGHT, this.rotation());
 		this.renderBounds = this.quad.containingBox();
 
 		Matrix3d rotationAsMatrix = new Matrix3d().rotation(this.rotation());
 
-		Vec3 boxOrigin = this.data.origin().add(this.normal.scale(-0.5));
 		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.5);
 		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.5);
 
-		this.entityCollisionArea = OBB.extrudeQuad(this.quad, 1024);
+		this.entityCollisionArea = OBB.extrudeQuad(this.quad, 5);
 		// no perimeter collision when not validated, to avoid ghost collision around floating portals
-		this.perimeterBoxes = !data.isValidated() ? List.of() : List.of(
+		this.perimeterBoxes = !this.data.isValidated() ? List.of() : List.of(
 				// top and bottom, wide
-				new OBB(boxOrigin.add(upToBox), 3, 1, 1, rotationAsMatrix),
-				new OBB(boxOrigin.add(upToBox.reverse()), 3, 1, 1, rotationAsMatrix),
+				new OBB(origin.add(upToBox), 3, 1e-3, 1, rotationAsMatrix),
+				new OBB(origin.add(upToBox.reverse()), 3, 1e-3, 1, rotationAsMatrix),
 				// right and left, tall
-				new OBB(boxOrigin.add(rightToBox), 1, 1, 2, rotationAsMatrix),
-				new OBB(boxOrigin.add(rightToBox.reverse()), 1, 1, 2, rotationAsMatrix)
+				new OBB(origin.add(rightToBox), 1, 1e-3, 2, rotationAsMatrix),
+				new OBB(origin.add(rightToBox.reverse()), 1, 1e-3, 2, rotationAsMatrix)
 		);
     }
 

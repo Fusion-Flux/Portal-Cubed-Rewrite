@@ -52,6 +52,7 @@ public class PortalDebugRenderer {
 			Color color = shape.intersects(camera.getEntity().getBoundingBox()) ? Color.RED : Color.CYAN;
 			RenderingUtils.renderBox(matrices, buffers, shape, color);
 		});
+		RenderingUtils.renderBox(matrices, buffers, portal.entityCollisionArea, Color.YELLOW);
 		matrices.popPose();
 	}
 }

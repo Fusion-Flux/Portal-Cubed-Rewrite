@@ -1,7 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
+import java.util.Map;
 import java.util.function.Function;
 
+import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
 import org.joml.Matrix3d;
 import org.joml.Matrix3dc;
@@ -12,6 +14,7 @@ import org.joml.Vector3f;
 import com.google.common.collect.Iterables;
 
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -23,7 +26,12 @@ import net.minecraft.world.phys.Vec3;
  * Identity rotation represents a normal towards east (+X), where relative right is south (+Z) and relative up is... up (+Y).
  */
 public final class OBB {
+	private static final Vector3dc up = new Vector3d(0, 1, 0);
+	// based on Entity.collideWithShapes
 	private static final Direction.Axis[] collisionAxisOrder = { Direction.Axis.Y, Direction.Axis.Z, Direction.Axis.X };
+	private static final Map<Direction.Axis, Vector3dc> axisVectors = Util.makeEnumMap(
+			Direction.Axis.class, axis -> TransformUtils.toJoml(axis.getPositive().getUnitVec3())
+	);
 
 	public final Vector3dc extents;
 	public final Vector3dc center;
@@ -56,10 +64,10 @@ public final class OBB {
 
 	public OBB(Vector3dc center, double xSize, double ySize, double zSize, Matrix3dc rotation) {
 		this.extents = new Vector3d(xSize / 2, ySize / 2, zSize / 2);
-		this.center = center;
+		this.center = new Vector3d(center);
 		this.localMin = center.sub(this.extents, new Vector3d());
 		this.localMax = center.add(this.extents, new Vector3d());
-		this.rotation = rotation;
+		this.rotation = new Matrix3d(rotation);
 		this.inverseRotation = rotation.invert(new Matrix3d());
 
 		this.basisX = rotation.transform(new Vector3d(1, 0, 0));
@@ -135,7 +143,7 @@ public final class OBB {
 		double zSize = newLocalMax.z - newLocalMin.z;
 
 		Vector3d center = newLocalMin.add(xSize / 2, ySize / 2, zSize / 2);
-		return new OBB(center, xSize, ySize, zSize, this.rotation);
+		return new OBB(center, xSize, ySize, zSize, new Matrix3d(this.rotation));
 	}
 
 	public boolean contains(Vec3 pos) {
@@ -193,30 +201,47 @@ public final class OBB {
 	}
 
 	/**
-	 * Collide an AABB moving along a vector with this OBB, sliding along it if a collision occurs.
+	 * Collide an AABB moving along a vector with this OBB, possibly sliding along it if a collision occurs.
 	 * @param motion the motion vector. Will be modified based on collisions.
 	 */
-	public void collideAndSlide(AABB bounds, Vector3d motion) {
+	public void collide(AABB bounds, Vector3d motion) {
 		// check for an initial collision
 		if (this.intersects(bounds.deflate(1e-5))) {
 			// already inside the collision, do nothing in this case.
 			return;
 		}
 
+		// first, do a simple collision in world coordinates to determine which face, if any, will be hit
+		Vector3d motionCopy = new Vector3d(motion);
+		Vector3d hitFaceNormal = this.collideNoSlide(bounds, motionCopy);
+		if (hitFaceNormal == null) {
+			// no collision
+			return;
+		}
+
+		// we need to determine behavior based on the normal of the hit face.
+		// when the normal is approximately horizontal, re-collide, but slide this time
+		if (Math.abs(hitFaceNormal.dot(up)) > 1e-2) {
+			// normal is not approximately horizontal.
+			// use the motion vector that was just calculated.
+			motion.set(motionCopy);
+			return;
+		}
+
 		// motion as local coords corresponds to numbers of basis vectors
 		Vector3d bases = this.rotation.transform(motion, new Vector3d());
 
-		// replicates Entity.collideWithShapes
 		for (Direction.Axis axis : collisionAxisOrder) {
 			Vector3dc basis = this.basis(axis);
-			double targetDistance = projectionLength(motion, basis);
-			double actualDistance = this.collideOnAxis(bounds, basis, targetDistance);
-			set(bases, axis, actualDistance);
+			double target = projectionLength(motion, basis);
+			double actual = this.collideOnAxis(bounds, basis, target);
+			set(bases, axis, actual);
+			// update the bounding box so the next axis step starts after this one
+			bounds = bounds.move(basis.x() * actual, basis.y() * actual, basis.z() * actual);
 		}
 
 		// recombine into a final motion vector
-		motion.set(0, 0, 0);
-		motion.add(this.basisX.x() * bases.x, this.basisX.y() * bases.x, this.basisX.z() * bases.x);
+		motion.set(this.basisX.x() * bases.x, this.basisX.y() * bases.x, this.basisX.z() * bases.x);
 		motion.add(this.basisY.x() * bases.y, this.basisY.y() * bases.y, this.basisY.z() * bases.y);
 		motion.add(this.basisZ.x() * bases.z, this.basisZ.y() * bases.z, this.basisZ.z() * bases.z);
 	}
@@ -258,6 +283,26 @@ public final class OBB {
 		return motion;
 	}
 
+	// collide, but don't slide along walls.
+	@Nullable
+	private Vector3d collideNoSlide(AABB bounds, Vector3d motion) {
+		for (Direction.Axis axis : collisionAxisOrder) {
+			double target = get(motion, axis);
+			Vector3dc axisVec = axisVectors.get(axis);
+			double actual = this.collideOnAxis(bounds, axisVec, target);
+			if (target == actual) {
+				bounds = bounds.move(axisVec.x() * actual, axisVec.y() * actual, axisVec.z() * actual);
+				continue;
+			}
+
+			// collision occurred
+			set(motion, axis, actual);
+			return this.rotation.transform(new Vector3d(axisVec).mul(actual < 0 ? -1 : 1));
+		}
+
+		return null;
+	}
+
 	public static OBB extrudeQuad(Quad quad, double depth) {
 		Vector3dc normal = quad.normal();
 		Vector3dc center = normal.mul(depth / 2, new Vector3d()).add(quad.center());
@@ -267,6 +312,14 @@ public final class OBB {
 
 	private static double projectionLength(Vector3dc a, Vector3dc b) {
 		return a.dot(b) / b.lengthSquared();
+	}
+
+	private static double get(Vector3dc vec, Direction.Axis axis) {
+		return switch (axis) {
+			case X -> vec.x();
+			case Y -> vec.y();
+			case Z -> vec.z();
+		};
 	}
 
 	private static void set(Vector3d vec, Direction.Axis axis, double value) {

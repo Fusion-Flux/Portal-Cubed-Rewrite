@@ -27,7 +27,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 			at = @At("RETURN")
 	)
 	private VoxelShape quantumSpaceHole(VoxelShape shape, BlockGetter world, BlockPos pos, CollisionContext context) {
-		if (!(world instanceof Level level) || !(context instanceof EntityCollisionContext entityCtx))
+		if (!(world instanceof Level level) || !(context instanceof EntityCollisionContext entityCtx) || shape.isEmpty())
 			return shape;
 
 		Entity entity = entityCtx.getEntity();
