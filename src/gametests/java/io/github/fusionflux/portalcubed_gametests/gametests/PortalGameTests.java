@@ -113,8 +113,7 @@ public class PortalGameTests implements FabricGameTest {
 		infiniteFallCollision.secondary().placeOn(new BlockPos(1, 10, 4), Direction.DOWN, 90);
 		spawnProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(2, 8, 4));
 
-		helper.runAfterDelay(99, () ->
-				helper.assertBlockProperty(new BlockPos(2, 1, 0), RedstoneLampBlock.LIT, false));
+		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> helper.assertBlockProperty(new BlockPos(2, 1, 0), RedstoneLampBlock.LIT, false)));
 	}
 
 
@@ -194,7 +193,7 @@ public class PortalGameTests implements FabricGameTest {
 		horizontalGrate.primary().placeOn(new BlockPos(2, 1, 2), Direction.UP);
 
 		verticalGrate.secondary().placeOn(new BlockPos(7, 2, 8), Direction.NORTH);
-		horizontalGrate.secondary().placeOn(new BlockPos(2, 4, 6), Direction.DOWN);
+		horizontalGrate.secondary().placeOn(new BlockPos(2, 4, 7), Direction.DOWN);
 
 		helper.setBlock(7, 3, 3, Blocks.AIR);
 		helper.setBlock(2, 3, 3, Blocks.AIR);
@@ -202,6 +201,8 @@ public class PortalGameTests implements FabricGameTest {
 		helper.runAfterDelay(40, () -> helper.succeedWhen(() -> {
 			helper.assertBlockProperty(new BlockPos(7, 1, 8), RedstoneLampBlock.LIT, false);
 			helper.assertBlockProperty(new BlockPos(0, 1, 7), RedstoneLampBlock.LIT, false);
+			helper.assertEntityPresent(PropType.PORTAL_1_STORAGE_CUBE.entityType(), new BlockPos(2, 2, 3));
+			helper.assertEntityPresent(PropType.PORTAL_1_STORAGE_CUBE.entityType(), new BlockPos(7, 2, 3));
 		}));
 
 	}
@@ -324,16 +325,18 @@ public class PortalGameTests implements FabricGameTest {
 		helper.pullLever(6, 2, 5);
 		helper.pullLever(2, 2, 5);
 
-		helper.succeedWhen(() -> {
-			pistonSolid.primary().assertNotPresent();
-			pistonSolid.secondary().assertNotPresent();
-			pistonNonSolid.primary().assertPresent(5.5, 2, 8, Direction.NORTH);
-			pistonNonSolid.secondary().assertPresent(5.5, 1, 2, Direction.UP);
-			waterFlow.primary().assertNotPresent();
-			waterFlow.secondary().assertNotPresent();
-			doorTrapdoor.primary().assertNotPresent();
-			doorTrapdoor.secondary().assertNotPresent();
-		});
+		helper.runAfterDelay(10, () ->
+			helper.succeedWhen(() -> {
+				pistonSolid.primary().assertNotPresent();
+				pistonSolid.secondary().assertNotPresent();
+				pistonNonSolid.primary().assertPresent(5.5, 2, 8, Direction.NORTH);
+				pistonNonSolid.secondary().assertPresent(5.5, 1, 2, Direction.UP);
+				waterFlow.primary().assertNotPresent();
+				waterFlow.secondary().assertNotPresent();
+				doorTrapdoor.primary().assertNotPresent();
+				doorTrapdoor.secondary().assertNotPresent();
+			})
+		);
 	}
 
 
@@ -348,12 +351,14 @@ public class PortalGameTests implements FabricGameTest {
 		facadeSurfaces.primary().shootFrom(new Vec3(5.5, 3, 1), Direction.SOUTH);
 		facadeSurfaces.secondary().shootFrom(new Vec3(2.5, 3, 1), Direction.SOUTH);
 
-		helper.succeedWhen(() -> {
-			sanePortalSurfaces.primary().assertPresent(11.5, 3, 3, Direction.NORTH);
-			sanePortalSurfaces.secondary().assertNotPresent();
-			facadeSurfaces.primary().assertNotPresent();
-			facadeSurfaces.secondary().assertPresent(2.5, 3, 3, Direction.NORTH);
-		});
+		helper.runAfterDelay(10, () ->
+			helper.succeedWhen(() -> {
+				sanePortalSurfaces.primary().assertPresent(11.5, 3, 3, Direction.NORTH);
+				sanePortalSurfaces.secondary().assertNotPresent();
+				facadeSurfaces.primary().assertNotPresent();
+				facadeSurfaces.secondary().assertPresent(2.5, 3, 3, Direction.NORTH);
+			})
+		);
 	}
 
 
@@ -477,14 +482,16 @@ public class PortalGameTests implements FabricGameTest {
 		portalBarrier.primary().shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.SOUTH);
 		portalBarrier.secondary().shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.EAST);
 
-		helper.succeedWhen(() -> {
-			addsPortalability.primary().assertNotPresent();
-			addsPortalability.secondary().assertPresent(2, 2, 2.5, Direction.WEST);
-			removesPortalability.primary().assertPresent(4.5, 2, 3, Direction.NORTH);
-			removesPortalability.secondary().assertNotPresent();
-			portalBarrier.primary().assertPresent(7.5, 2, 3, Direction.NORTH);
-			portalBarrier.secondary().assertNotPresent();
-		});
+		helper.runAfterDelay(10, () ->
+			helper.succeedWhen(() -> {
+				addsPortalability.primary().assertNotPresent();
+				addsPortalability.secondary().assertPresent(2, 2, 2.5, Direction.WEST);
+				removesPortalability.primary().assertPresent(4.5, 2, 3, Direction.NORTH);
+				removesPortalability.secondary().assertNotPresent();
+				portalBarrier.primary().assertPresent(7.5, 2, 3, Direction.NORTH);
+				portalBarrier.secondary().assertNotPresent();
+			})
+		);
 	}
 
 

@@ -1,0 +1,28 @@
+{
+  "parent": "portalcubed:achievements/dyed_portal_gun",
+  "criteria": {
+    "dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#portalcubed:chamber_portal_surfaces"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.chamber_portal_surface.description"
+    },
+    "frame": "task",
+    "icon": {
+      "count": 1,
+      "id": "portalcubed:white_half_panel"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.chamber_portal_surface.title"
+    }
+  }
+}
