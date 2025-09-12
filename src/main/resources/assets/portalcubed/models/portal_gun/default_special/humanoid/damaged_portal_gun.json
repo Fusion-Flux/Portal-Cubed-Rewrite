@@ -1,9 +1,10 @@
 {
+	"format_version": "1.21.6",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "portalcubed:portal_gun/damaged_portal_gun",
-		"1": "portalcubed:portal_gun/portal_gun_emissive",
+		"1": "portalcubed:portal_gun/default_portal_gun_emissive",
 		"2": "portalcubed:portal_gun/damaged_portal_gun_shell",
 		"particle": "portalcubed:portal_gun/damaged_portal_gun"
 	},
@@ -269,15 +270,15 @@
 			}
 		},
 		{
-			"name": "cutout",
+			"name": "transparent",
 			"from": [7.5, 2.80226, 5],
 			"to": [8.5, 3.80226, 9],
 			"rotation": {"angle": 45, "axis": "z", "origin": [7.99515, 3.30226, 7]},
 			"faces": {
-				"east": {"uv": [2, 2, 4, 1.5], "texture": "#1", "tintindex": 0},
-				"west": {"uv": [4, 2, 2, 1.5], "texture": "#1", "tintindex": 0},
-				"up": {"uv": [4, 2, 2, 1.5], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"down": {"uv": [2, 2, 4, 1.5], "rotation": 90, "texture": "#1", "tintindex": 0}
+				"east": {"uv": [4, 4, 8, 3], "texture": "#1", "tintindex": 0},
+				"west": {"uv": [8, 4, 4, 3], "texture": "#1", "tintindex": 0},
+				"up": {"uv": [8, 4, 4, 3], "rotation": 90, "texture": "#1", "tintindex": 0},
+				"down": {"uv": [4, 4, 8, 3], "rotation": 90, "texture": "#1", "tintindex": 0}
 			}
 		},
 		{
@@ -286,9 +287,9 @@
 			"to": [9, 4.35, 9],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 3.35, 2.575]},
 			"faces": {
-				"east": {"uv": [2, 0, 4, 1], "texture": "#1"},
+				"east": {"uv": [4, 0, 10, 2], "texture": "#1"},
 				"west": {"uv": [0, 16, 1, 14], "rotation": 90, "texture": "#0"},
-				"up": {"uv": [2, 0, 4, 1], "rotation": 90, "texture": "#1"},
+				"up": {"uv": [4, 0, 10, 2], "rotation": 90, "texture": "#1"},
 				"down": {"uv": [0, 14, 1, 16], "rotation": 180, "texture": "#0"}
 			}
 		},
@@ -298,7 +299,7 @@
 			"to": [9.02, 5.995, 12.82],
 			"rotation": {"angle": 45, "axis": "y", "origin": [8, 5.975, 10.8]},
 			"faces": {
-				"up": {"uv": [0, 0, 1.5, 1.5], "texture": "#1", "tintindex": 0}
+				"up": {"uv": [0, 0, 3, 3], "texture": "#1", "tintindex": 0}
 			}
 		}
 	],

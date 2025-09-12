@@ -3,7 +3,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"2": "portalcubed:portal_gun/painted_portal_gun",
-		"particle": "portalcubed:portal_gun/portal_gun"
+		"particle": "portalcubed:portal_gun/painted_portal_gun"
 	},
 	"elements": [
 		{
