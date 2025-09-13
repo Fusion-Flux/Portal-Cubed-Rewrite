@@ -240,15 +240,17 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			PortalInstance.Holder linked = portal.opposite().orElseThrow();
 			SinglePortalTransform transform = new SinglePortalTransform(portal.portal(), linked.portal());
 			Vector3d transformedMotion = transform.applyRelative(new Vector3d(motion));
-
-			AABB area = transform.apply(bounds)
-					.expandTowards(transformedMotion)
-					.encompassingAabb;
+			AABB area = transform.apply(bounds).encompassingAabb.expandTowards(
+					transformedMotion.x, transformedMotion.y, transformedMotion.z
+			);
 
 			DebugRendering.addBox(1, area, Color.PURPLE);
 
 			for (VoxelShape shape : state.entity().level().getCollisions(state.entity(), area)) {
 				for (AABB box : shape.toAabbs()) {
+					if (linked.portal().plane.isBehind(box))
+						continue;
+
 					OBB transformed = transform.inverse.apply(box);
 					DebugRendering.addBox(1, transformed, Color.YELLOW);
 					if (handleCollision(transformed, bounds, motion)) {
@@ -265,6 +267,6 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@Unique
 	private static boolean handleCollision(OBB box, AABB bounds, Vector3d motion) {
 		box.collide(bounds, motion);
-		return motion.lengthSquared() < 1e-5;
+		return motion.lengthSquared() < 1e-7;
 	}
 }

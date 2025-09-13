@@ -12,6 +12,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public record Plane(Vec3 normal, Vec3 origin) {
@@ -21,10 +22,6 @@ public record Plane(Vec3 normal, Vec3 origin) {
 			Plane::new
 	);
 
-	public Plane forward(double distance) {
-		return new Plane(this.normal, this.origin.add(this.normal.scale(distance)));
-	}
-
 	public boolean isInFront(Vec3 pos) {
 		Vec3 to = this.origin.vectorTo(pos);
 		return to.dot(this.normal) > 0;
@@ -32,6 +29,20 @@ public record Plane(Vec3 normal, Vec3 origin) {
 
 	public boolean isBehind(Vec3 pos) {
 		return !this.isInFront(pos);
+	}
+
+	/**
+	 * @return true if any vertex of the box is behind this plane
+	 */
+	public boolean isBehind(AABB box) {
+		return this.isBehind(new Vec3(box.minX, box.minY, box.minZ))
+				|| this.isBehind(new Vec3(box.minX, box.minY, box.maxZ))
+				|| this.isBehind(new Vec3(box.minX, box.maxY, box.minZ))
+				|| this.isBehind(new Vec3(box.minX, box.maxY, box.maxZ))
+				|| this.isBehind(new Vec3(box.maxX, box.minY, box.minZ))
+				|| this.isBehind(new Vec3(box.maxX, box.minY, box.maxZ))
+				|| this.isBehind(new Vec3(box.maxX, box.maxY, box.minZ))
+				|| this.isBehind(new Vec3(box.maxX, box.maxY, box.maxZ));
 	}
 
 	@Environment(EnvType.CLIENT)

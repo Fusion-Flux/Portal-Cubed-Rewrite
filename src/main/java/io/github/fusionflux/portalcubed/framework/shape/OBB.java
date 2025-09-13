@@ -103,49 +103,6 @@ public final class OBB {
 		);
 	}
 
-	public OBB moved(Direction.Axis axis, double distance) {
-		return this.transformed(center -> switch (axis) {
-			case X -> center.add(distance, 0, 0);
-			case Y -> center.add(0, distance, 0);
-			case Z -> center.add(0, 0, distance);
-		}, rotation -> rotation);
-	}
-
-	public OBB moved(Vector3dc offset) {
-		return this.transformed(center -> center.add(offset), rotation -> rotation);
-	}
-
-	public OBB expandTowards(Vector3dc offset) {
-		Vector3d localized = this.inverseRotation.transform(offset, new Vector3d());
-		Vector3d newLocalMin = new Vector3d(this.localMin);
-		Vector3d newLocalMax = new Vector3d(this.localMax);
-
-		if (localized.x > 0) {
-			newLocalMax.x += localized.x;
-		} else {
-			newLocalMin.x -= localized.x;
-		}
-
-		if (localized.y > 0) {
-			newLocalMax.y += localized.y;
-		} else {
-			newLocalMin.y -= localized.y;
-		}
-
-		if (localized.z > 0) {
-			newLocalMax.z += localized.z;
-		} else {
-			newLocalMin.z -= localized.z;
-		}
-
-		double xSize = newLocalMax.x - newLocalMin.x;
-		double ySize = newLocalMax.y - newLocalMin.y;
-		double zSize = newLocalMax.z - newLocalMin.z;
-
-		Vector3d center = newLocalMin.add(xSize / 2, ySize / 2, zSize / 2);
-		return new OBB(center, xSize, ySize, zSize, new Matrix3d(this.rotation));
-	}
-
 	public boolean contains(Vec3 pos) {
 		return this.contains(pos.x, pos.y, pos.z);
 	}
@@ -286,27 +243,35 @@ public final class OBB {
 	// collide, but don't slide along walls.
 	@Nullable
 	private Vector3d collideNoSlide(AABB bounds, Vector3d motion) {
+		Vector3d normal = null;
+
 		for (Direction.Axis axis : collisionAxisOrder) {
 			double target = get(motion, axis);
 			Vector3dc axisVec = axisVectors.get(axis);
 			double actual = this.collideOnAxis(bounds, axisVec, target);
-			if (target == actual) {
+
+			if (actual != 0) {
 				bounds = bounds.move(axisVec.x() * actual, axisVec.y() * actual, axisVec.z() * actual);
-				continue;
 			}
+
+			if (target == actual)
+				continue;
 
 			// collision occurred
 			set(motion, axis, actual);
-			return this.rotation.transform(new Vector3d(axisVec).mul(actual < 0 ? -1 : 1));
+
+			if (normal == null) {
+				normal = this.rotation.transform(new Vector3d(axisVec).mul(actual < 0 ? -1 : 1));
+			}
 		}
 
-		return null;
+		return normal;
 	}
 
 	public static OBB extrudeQuad(Quad quad, double depth) {
 		Vector3dc normal = quad.normal();
 		Vector3dc center = normal.mul(depth / 2, new Vector3d()).add(quad.center());
-		Matrix3d rotation = new Matrix3d(quad.right(), quad.up(), normal);
+		Matrix3d rotation = new Matrix3d(quad.right(), quad.up(), normal).normal();
 		return new OBB(center, quad.width(), quad.height(), Math.abs(depth), rotation);
 	}
 
