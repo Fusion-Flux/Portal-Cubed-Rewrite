@@ -1,0 +1,40 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.beta_plasma"
+  },
+  "default_primary_color": 9692669,
+  "default_secondary_color": 12820222,
+  "sounds": {
+    "shared": {
+      "cant_open": "portalcubed:portal_type.default.cant_open",
+      "travel": "portalcubed:portal_type.default.travel",
+      "ambient": "portalcubed:portal_type.default.ambient"
+    },
+    "primary": {
+      "open": "portalcubed:portal_type.default.open.primary",
+      "close": "portalcubed:portal_type.default.close.primary"
+    },
+    "secondary": {
+      "open": "portalcubed:portal_type.default.open.secondary",
+      "close": "portalcubed:portal_type.default.close.secondary"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+      "texture": "portalcubed:portal/beta_plasma/beta_plasma",
+      "tint": true,
+      "offset": 0.005
+      }
+    ],
+    "closed": [
+      {
+      "texture": "portalcubed:portal/beta_plasma/beta_plasma",
+      "tint": true,
+      "offset": 0.005
+      }
+    ],
+    "tracer": "portalcubed:portal/beta_plasma/beta_plasma_tracer"
+  },
+  "stencil": "portalcubed:portal/beta_plasma/beta_plasma_stencil"
+}

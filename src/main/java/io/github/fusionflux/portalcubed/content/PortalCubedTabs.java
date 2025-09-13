@@ -419,9 +419,9 @@ public class PortalCubedTabs {
 					"2006_beta_portal_gun",
 					"2006_beta",
 					"beta",
-					"round",
+					"beta_plasma",
 					9692669,
-					"round",
+					"beta_plasma",
 					12820222
 			);
 
