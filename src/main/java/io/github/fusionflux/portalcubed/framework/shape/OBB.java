@@ -204,14 +204,7 @@ public final class OBB {
 	}
 
 	public Iterable<BlockPos> intersectingBlocks() {
-		return Iterables.filter(BlockPos.betweenClosed(
-				Mth.floor(this.encompassingAabb.minX),
-				Mth.floor(this.encompassingAabb.minY),
-				Mth.floor(this.encompassingAabb.minZ),
-				Mth.floor(this.encompassingAabb.maxX),
-				Mth.floor(this.encompassingAabb.maxY),
-				Mth.floor(this.encompassingAabb.maxZ)
-		), this::intersects);
+		return Iterables.filter(BlockPos.betweenClosed(this.encompassingAabb), this::intersects);
 	}
 
 	private double collideOnAxis(AABB box, Vector3dc axis, double motion) {
