@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
@@ -47,6 +48,8 @@ public sealed interface PortalStorage permits PortalStorage.Simple, PortalStorag
 	@UnmodifiableView
 	Collection<PortalPair> values();
 
+	void forEach(BiConsumer<String, PortalPair> consumer);
+
 	record Simple(Map<String, PortalPair> internal) implements PortalStorage {
 		public static final Codec<Simple> CODEC = Codec.unboundedMap(Codec.STRING, PortalPair.CODEC).xmap(Simple::new, Simple::internal);
 
@@ -82,6 +85,11 @@ public sealed interface PortalStorage permits PortalStorage.Simple, PortalStorag
 		@UnmodifiableView
 		public Collection<PortalPair> values() {
 			return Collections.unmodifiableCollection(this.internal.values());
+		}
+
+		@Override
+		public void forEach(BiConsumer<String, PortalPair> consumer) {
+			this.internal.forEach(consumer);
 		}
 	}
 
@@ -124,6 +132,11 @@ public sealed interface PortalStorage permits PortalStorage.Simple, PortalStorag
 		@UnmodifiableView
 		public Collection<PortalPair> values() {
 			return this.internal.values();
+		}
+
+		@Override
+		public void forEach(BiConsumer<String, PortalPair> consumer) {
+			this.internal.forEach(consumer);
 		}
 
 		@Override

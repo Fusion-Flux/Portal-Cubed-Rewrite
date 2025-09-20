@@ -23,6 +23,7 @@ public abstract class PortalManager {
 	protected PortalManager(PortalStorage storage, Level level) {
 		this.storage = storage;
 		this.lookup = new SectionPortalLookup();
+		storage.forEach((key, pair) -> this.lookup.portalsChanged(key, null, pair));
 	}
 
 	@Nullable
