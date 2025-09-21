@@ -252,7 +252,7 @@ public class PortalGameTests implements FabricGameTest {
 			placeAt1.secondary().assertNotPresent(); //this needs to be assertPresent eventually I think
 			shotFrom1.primary().assertPresent(3.5, 2, 5.5, Direction.NORTH);
 			shotFrom1.secondary().assertNotPresent();
-			//TODO: revisit this after place_at is fixed to make sure the rest are correct
+			//TODO: revisit this after the command is rewritten
 		});
 	}
 
@@ -274,7 +274,7 @@ public class PortalGameTests implements FabricGameTest {
 		});
 	}
 
-	//Tests the "create" portion of the portal command
+	//Tests projectiles traveling through portals
 	@GameTest(template = GROUP + "projectiles_through_portals")
 	public void projectilesThroughPortals(GameTestHelper helper) {
 

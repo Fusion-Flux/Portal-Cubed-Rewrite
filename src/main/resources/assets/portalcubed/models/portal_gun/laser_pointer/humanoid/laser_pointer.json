@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.6",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:portal_gun/laser_pointer",
@@ -109,7 +110,7 @@
 			"translation": [2.75, 0, -9.5]
 		},
 		"fixed": {
-			"rotation": [0, 0, 50.5],
+			"rotation": [0, -180, -51],
 			"translation": [-3.25, 2.25, -1.25]
 		}
 	},
