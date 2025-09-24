@@ -74,6 +74,8 @@
   "portal_gun/default_special/fox/damaged_portal_gun": "portal_gun/default_portal_gun_emissive",
   "portal_gun/default_special/humanoid/painted_portal_gun": "portal_gun/default_portal_gun_emissive",
   "portal_gun/default_special/fox/painted_portal_gun": "portal_gun/default_portal_gun_emissive",
+  "portal_gun/default_special/humanoid/blueprint_portal_gun": "portal_gun/blueprint_portal_gun_outline",
+  "portal_gun/default_special/fox/blueprint_portal_gun": "portal_gun/blueprint_portal_gun_outline",
 
   "portal_gun/legacy/humanoid/legacy_portal_gun": "portal_gun/portal_gun_emissive",
   "portal_gun/legacy/fox/legacy_portal_gun": "portal_gun/portal_gun_emissive",
