@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
 import org.joml.Vector2dc;
+import org.joml.Vector3dc;
 
 public record DoubleRange(double min, double max) {
 	public DoubleRange add(double value) {
@@ -28,6 +29,19 @@ public record DoubleRange(double min, double max) {
 		double max = -Double.MAX_VALUE;
 
 		for (Vector2dc vertex : vertices) {
+			double dot = axis.dot(vertex);
+			min = Math.min(min, dot);
+			max = Math.max(max, dot);
+		}
+
+		return new DoubleRange(min, max);
+	}
+
+	public static DoubleRange project(Vector3dc axis, Iterable<Vector3dc> vertices) {
+		double min = Double.MAX_VALUE;
+		double max = -Double.MAX_VALUE;
+
+		for (Vector3dc vertex : vertices) {
 			double dot = axis.dot(vertex);
 			min = Math.min(min, dot);
 			max = Math.max(max, dot);

@@ -5,6 +5,7 @@ import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class TransformUtils {
@@ -14,6 +15,21 @@ public class TransformUtils {
 	public static Vec3 project(Vec3 a, Vec3 b) {
 		double length = a.dot(b) / (b.length() * b.length());
 		return b.scale(length);
+	}
+
+	public static Iterable<Vector3dc> vertices(AABB box) {
+		Vector3d scratch = new Vector3d();
+		return () -> SimpleIterator.create(i -> switch (i) {
+			case 0 -> scratch.set(box.minX, box.minY, box.minZ);
+			case 1 -> scratch.set(box.minX, box.minY, box.maxZ);
+			case 2 -> scratch.set(box.minX, box.maxY, box.minZ);
+			case 3 -> scratch.set(box.minX, box.maxY, box.maxZ);
+			case 4 -> scratch.set(box.maxX, box.minY, box.minZ);
+			case 5 -> scratch.set(box.maxX, box.minY, box.maxZ);
+			case 6 -> scratch.set(box.maxX, box.maxY, box.minZ);
+			case 7 -> scratch.set(box.maxX, box.maxY, box.maxZ);
+			default -> null;
+		});
 	}
 
 	public static Vec3 withLength(Vec3 vec, double length) {

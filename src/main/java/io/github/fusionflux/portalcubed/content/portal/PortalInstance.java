@@ -15,6 +15,7 @@ import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.shape.Quad;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.Entity;
@@ -65,6 +66,7 @@ public final class PortalInstance {
 
 		Matrix3d rotationAsMatrix = new Matrix3d().rotation(this.rotation());
 
+		Vec3 boxOrigin = origin.add(this.normal.scale(-0.05));
 		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.5);
 		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.5);
 
@@ -73,11 +75,11 @@ public final class PortalInstance {
 		// no perimeter collision when not validated, to avoid ghost collision around floating portals
 		this.perimeterBoxes = !this.data.isValidated() ? List.of() : List.of(
 				// top and bottom, wide
-				new OBB(origin.add(upToBox), 3, 1e-3, 1, rotationAsMatrix),
-				new OBB(origin.add(upToBox.reverse()), 3, 1e-3, 1, rotationAsMatrix),
+				new OBB(boxOrigin.add(upToBox), 3, 0.1, 1, rotationAsMatrix),
+				new OBB(boxOrigin.add(upToBox.reverse()), 3, 0.1, 1, rotationAsMatrix),
 				// right and left, tall
-				new OBB(origin.add(rightToBox), 1, 1e-3, 2, rotationAsMatrix),
-				new OBB(origin.add(rightToBox.reverse()), 1, 1e-3, 2, rotationAsMatrix)
+				new OBB(boxOrigin.add(rightToBox), 1, 0.1, 2, rotationAsMatrix),
+				new OBB(boxOrigin.add(rightToBox.reverse()), 1, 0.1, 2, rotationAsMatrix)
 		);
     }
 
@@ -91,6 +93,10 @@ public final class PortalInstance {
 
 	public boolean seesModifiedCollision(Entity entity) {
 		return this.entityCollisionArea.intersects(entity.getBoundingBox());
+	}
+
+	public boolean modifiesCollision(BlockPos pos) {
+		return this.blockModificationArea.intersects(pos);
 	}
 
 	public record Holder(PortalPair.Holder pair, Polarity polarity, PortalInstance portal) {

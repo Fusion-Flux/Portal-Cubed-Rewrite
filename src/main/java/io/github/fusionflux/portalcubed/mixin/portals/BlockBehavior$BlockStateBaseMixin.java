@@ -12,6 +12,8 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -44,6 +46,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 			return shape;
 
 		AABB area = new AABB(pos).minmax(entity.getBoundingBox());
+		DebugRendering.addBox(1, area, Color.ORANGE);
 		List<PortalInstance.Holder> portals = level.portalManager().lookup().getPortals(area);
 		if (portals.isEmpty())
 			return shape;
@@ -55,7 +58,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 				continue;
 
 			PortalInstance portal = holder.portal();
-			if (portal.plane.isBehind(thisCenter) && portal.seesModifiedCollision(entity)) {
+			if (portal.plane.isBehind(thisCenter) && portal.seesModifiedCollision(entity) && portal.modifiesCollision(pos)) {
 				// this check is insufficient on its own, since the other portal will often be behind this one.
 				// raycast from center to center, and cancel if the first hit portal doesn't match.
 				// imperfect, but should be good enough.

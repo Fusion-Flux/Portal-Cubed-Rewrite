@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.util;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector3dc;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.buffers.BufferUsage;
@@ -79,6 +80,10 @@ public class RenderingUtils {
 		matrices.mulPose(box.rotation.getUnnormalizedRotation(new Quaternionf()));
 		renderBox(matrices, vertexConsumers, AABB.ofSize(Vec3.ZERO, box.extents.x() * 2, box.extents.y() * 2, box.extents.z() * 2), color);
 		matrices.popPose();
+
+		for (Vector3dc vertex : box.vertices()) {
+			renderPos(matrices, vertexConsumers, TransformUtils.toMc(vertex), 0.05f, color);
+		}
 	}
 
 	public static void renderPlane(PoseStack matrices, MultiBufferSource vertexConsumers, Plane plane, float size, Color color) {
