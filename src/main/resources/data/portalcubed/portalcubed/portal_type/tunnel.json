@@ -3,7 +3,7 @@
     "translate": "portal_type.portalcubed.tunnel"
   },
   "default_primary_color": 1524369,
-  "default_secondary_color": 9353676,
+  "default_secondary_color": 3229012,
   "sounds": {
     "shared": {
       "open": "minecraft:item.brush.brushing.generic",
@@ -14,14 +14,26 @@
   "textures": {
     "open": [
        {
-         "texture": "portalcubed:portal/tunnel/tunnel_open",
+         "texture": "portalcubed:portal/tunnel/tunnel_overlay",
          "tint": false
+       },
+       {
+         "texture": "portalcubed:portal/tunnel/tunnel",
+         "tint": true
        }
     ],
     "closed": [
        {
-         "texture": "portalcubed:portal/tunnel/tunnel",
+         "texture": "portalcubed:portal/tunnel/tunnel_overlay",
          "tint": false
+       },
+       {
+         "texture": "portalcubed:portal/tunnel/tunnel_closed",
+         "tint": false
+       },
+       {
+         "texture": "portalcubed:portal/tunnel/tunnel",
+         "tint": true
        }
     ],
     "tracer": "portalcubed:portal/tunnel/tunnel_tracer"

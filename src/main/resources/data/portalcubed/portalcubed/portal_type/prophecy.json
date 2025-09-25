@@ -1,0 +1,55 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.prophecy"
+  },
+  "default_primary_color": 3580159,
+  "default_secondary_color": 9586636,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:block.beacon.activate",
+      "cant_open": "minecraft:block.beacon.power_select",
+      "close": "minecraft:block.glass.break",
+      "travel": "minecraft:block.glass.break"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portal/prophecy/prophecy_open_backdrop",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portal/prophecy/prophecy_open",
+        "tint": true,
+        "offset": 0.01
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portal/prophecy/prophecy_closed_backdrop",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portal/prophecy/prophecy_closed",
+        "tint": true,
+        "offset": 0.01
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portal/prophecy/prophecy_tracer_backdrop",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portal/prophecy/prophecy_tracer",
+        "tint": true,
+        "offset": 0.01
+      }
+    ]
+  },
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
+}
