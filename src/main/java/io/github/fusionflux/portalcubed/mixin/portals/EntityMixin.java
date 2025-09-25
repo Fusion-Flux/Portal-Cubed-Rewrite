@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.mixin.portals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -30,6 +32,7 @@ import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -195,6 +198,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			return original.call(motion);
 		}
 
+		// gets IDEA to be quiet about "impossible" conditions
+		assert (Object) this instanceof Entity;
+
 		List<PortalInstance.Holder> relevantPortals = new ArrayList<>();
 		for (PortalInstance.Holder holder : portals) {
 			if (!holder.pair().pair().isLinked())
@@ -211,7 +217,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		}
 
 		try {
-			collisionState.set(new EntityCollisionState((Entity) (Object) this, relevantPortals));
+			collisionState.set(new EntityCollisionState((Entity) (Object) this, motion, relevantPortals));
 			return original.call(motion);
 		} finally {
 			//noinspection ThreadLocalSetWithNull - remove is slow and this codepath won't run on many threads
@@ -228,10 +234,10 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 		Vector3d motion = TransformUtils.toJoml(motionMc);
 
-		for (PortalInstance.Holder portal : state.portals()) {
+		for (PortalInstance.Holder portal : state.portals) {
 			// collide with perimeter
 			for (OBB collisionBox : portal.portal().perimeterBoxes) {
-				if (handleCollision(collisionBox, bounds, motion)) {
+				if (handleCollision(collisionBox, bounds, motion, state::addCollider)) {
 					return Vec3.ZERO;
 				}
 			}
@@ -246,14 +252,14 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 			DebugRendering.addBox(1, area, Color.PURPLE);
 
-			for (VoxelShape shape : state.entity().level().getCollisions(state.entity(), area)) {
+			for (VoxelShape shape : state.entity.level().getCollisions(state.entity, area)) {
 				for (AABB box : shape.toAabbs()) {
 					if (linked.portal().plane.isBehind(box))
 						continue;
 
 					OBB transformed = transform.inverse.apply(box);
 					DebugRendering.addBox(1, transformed, Color.YELLOW);
-					if (handleCollision(transformed, bounds, motion)) {
+					if (handleCollision(transformed, bounds, motion, state::addCollider)) {
 						return Vec3.ZERO;
 					}
 				}
@@ -263,10 +269,47 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		return TransformUtils.toMc(motion);
 	}
 
-	// returns true if collision should exit early
+	@ModifyReceiver(
+			method = "collectCandidateStepUpHeights",
+			at = @At(
+					value = "INVOKE",
+					target = "Lit/unimi/dsi/fastutil/floats/FloatSet;toFloatArray()[F",
+					remap = false
+			)
+	) // ordinal on maxUpStep is not wrong, the params have flipped names
+	private static FloatSet stepUpObbs(FloatSet heights, @Local(argsOnly = true) AABB bounds, @Local(argsOnly = true, ordinal = 0) float maxUpStep) {
+		EntityCollisionState state = collisionState.get();
+		if (state != null && state.hasColliders()) {
+			AABB targetBounds = bounds.move(state.idealMotion.x, 0, state.idealMotion.z);
+			AABB collisionStart = targetBounds.move(0, maxUpStep, 0);
+			Vector3d motion = new Vector3d(0, -maxUpStep, 0);
+
+			state.forEachCollider(box -> {
+				if (box.collide(collisionStart, motion)) {
+					double step = maxUpStep + motion.y;
+					heights.add((float) step);
+
+					// reset for next box
+					motion.set(0, -maxUpStep, 0);
+				}
+			});
+
+			// collideWithShapes will run again after this, but we're done with this information
+			state.stopCollectingColliders();
+		}
+
+		return heights;
+	}
+
+	/**
+	 * @return true if collision should exit early
+	 */
 	@Unique
-	private static boolean handleCollision(OBB box, AABB bounds, Vector3d motion) {
-		box.collide(bounds, motion);
+	private static boolean handleCollision(OBB box, AABB bounds, Vector3d motion, Consumer<OBB> ifCollided) {
+		if (box.collide(bounds, motion)) {
+			ifCollided.accept(box);
+		}
+
 		return motion.lengthSquared() < 1e-7;
 	}
 }
