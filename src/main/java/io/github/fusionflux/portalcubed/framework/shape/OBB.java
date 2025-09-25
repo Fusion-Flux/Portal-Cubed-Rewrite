@@ -194,12 +194,13 @@ public final class OBB {
 	/**
 	 * Collide an AABB moving along a vector with this OBB, possibly sliding along it if a collision occurs.
 	 * @param motion the motion vector. Will be modified based on collisions.
+	 * @return true if a collision occurred
 	 */
-	public void collide(AABB bounds, Vector3d motion) {
+	public boolean collide(AABB bounds, Vector3d motion) {
 		// check for an initial collision
 		if (this.intersects(bounds.deflate(1e-5))) {
 			// already inside the collision, do nothing in this case.
-			return;
+			return false;
 		}
 
 		// first, do a simple collision in world coordinates to determine which face, if any, will be hit
@@ -207,7 +208,7 @@ public final class OBB {
 		Vector3d offsetNormal = this.collidePhaseOne(bounds, motionCopy);
 		if (offsetNormal == null) {
 			// no collision
-			return;
+			return false;
 		}
 
 		// we need to determine behavior based on the normal of the hit face.
@@ -216,7 +217,7 @@ public final class OBB {
 			// normal is not approximately horizontal.
 			// use the motion vector that was just calculated.
 			motion.set(motionCopy);
-			return;
+			return true;
 		}
 
 		// when the hit face is approximately horizontal, we need to re-collide with sliding.
@@ -244,6 +245,7 @@ public final class OBB {
 		motion.set(this.basisX.x() * bases.x, y, this.basisX.z() * bases.x);
 		motion.add(this.basisY.x() * bases.y, 0, this.basisY.z() * bases.y);
 		motion.add(this.basisZ.x() * bases.z, 0, this.basisZ.z() * bases.z);
+		return true;
 	}
 
 	public Iterable<BlockPos> intersectingBlocks() {
