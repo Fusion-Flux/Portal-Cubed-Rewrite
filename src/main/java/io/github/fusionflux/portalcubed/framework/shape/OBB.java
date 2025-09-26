@@ -14,6 +14,8 @@ import org.joml.Vector3f;
 
 import com.google.common.collect.Iterables;
 
+import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.Util;
@@ -197,6 +199,7 @@ public final class OBB {
 	 * @return true if a collision occurred
 	 */
 	public boolean collide(AABB bounds, Vector3d motion) {
+		DebugRendering.addBox(1, bounds, Color.RED);
 		// check for an initial collision
 		if (this.intersects(bounds.deflate(1e-5))) {
 			// already inside the collision, do nothing in this case.

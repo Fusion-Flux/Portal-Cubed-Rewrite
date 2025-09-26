@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -10,11 +9,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -24,9 +23,9 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.collision.EntityCollisionState;
+import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollisionUtils;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
-import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
@@ -192,25 +191,11 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@WrapMethod(method = "collide")
 	private Vec3 wrapCollide(Vec3 motion, Operation<Vec3> original) {
 		AABB area = this.getBoundingBox().expandTowards(motion).inflate(1e-7);
-		List<PortalInstance.Holder> portals = this.level().portalManager().lookup().getPortals(area);
-
-		if (portals.isEmpty()) {
-			return original.call(motion);
-		}
 
 		// gets IDEA to be quiet about "impossible" conditions
 		assert (Object) this instanceof Entity;
 
-		List<PortalInstance.Holder> relevantPortals = new ArrayList<>();
-		for (PortalInstance.Holder holder : portals) {
-			if (!holder.pair().pair().isLinked())
-				continue;
-
-			PortalInstance portal = holder.portal();
-			if (portal.seesModifiedCollision((Entity) (Object) this)) {
-				relevantPortals.add(holder);
-			}
-		}
+		List<PortalInstance.Holder> relevantPortals = PortalCollisionUtils.findRelevantPortalsFor((Entity) (Object) this, area);
 
 		if (relevantPortals.isEmpty()) {
 			return original.call(motion);
@@ -225,7 +210,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		}
 	}
 
-	@ModifyVariable(method = "collideWithShapes", at = @At("HEAD"), argsOnly = true)
+	@ModifyReturnValue(method = "collideWithShapes", at = @At("RETURN"))
 	private static Vec3 portalCollision(Vec3 motionMc, @Local(argsOnly = true) AABB bounds) {
 		EntityCollisionState state = collisionState.get();
 		if (state == null) {
@@ -243,27 +228,11 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			}
 
 			// collide with collision on the other side
-			PortalInstance.Holder linked = portal.opposite().orElseThrow();
-			SinglePortalTransform transform = new SinglePortalTransform(portal.portal(), linked.portal());
-			Vector3d transformedMotion = transform.applyRelative(new Vector3d(motion));
-			AABB area = transform.apply(bounds).encompassingAabb.expandTowards(
-					transformedMotion.x, transformedMotion.y, transformedMotion.z
-			);
-
-			DebugRendering.addBox(1, area, Color.PURPLE);
-
-			for (VoxelShape shape : state.entity.level().getCollisions(state.entity, area)) {
-				for (AABB box : shape.toAabbs()) {
-					if (linked.portal().plane.isBehind(box))
-						continue;
-
-					OBB transformed = transform.inverse.apply(box);
-					DebugRendering.addBox(1, transformed, Color.YELLOW);
-					if (handleCollision(transformed, bounds, motion, state::addCollider)) {
-						return Vec3.ZERO;
-					}
-				}
-			}
+			AABB area = bounds.expandTowards(motion.x, motion.y, motion.z);
+			PortalCollisionUtils.forEachBoxOnOtherSide(state.entity, portal, area, box -> {
+				DebugRendering.addBox(1, box, Color.YELLOW);
+				return !handleCollision(box, bounds, motion, state::addCollider);
+			});
 		}
 
 		return TransformUtils.toMc(motion);
@@ -282,15 +251,13 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		if (state != null && state.hasColliders()) {
 			AABB targetBounds = bounds.move(state.idealMotion.x, 0, state.idealMotion.z);
 			AABB collisionStart = targetBounds.move(0, maxUpStep, 0);
-			Vector3d motion = new Vector3d(0, -maxUpStep, 0);
+			Vector3d motion = new Vector3d();
 
 			state.forEachCollider(box -> {
+				motion.set(0, -maxUpStep, 0);
 				if (box.collide(collisionStart, motion)) {
 					double step = maxUpStep + motion.y;
 					heights.add((float) step);
-
-					// reset for next box
-					motion.set(0, -maxUpStep, 0);
 				}
 			});
 

@@ -25,6 +25,10 @@ public interface PortalLookup {
 	@Nullable
 	PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth);
 
+	/**
+	 * Find all portals intersecting the given box.
+	 * @return a new, mutable list containing any found portals
+	 */
 	@Contract("_->new")
 	List<PortalInstance.Holder> getPortals(AABB bounds);
 
