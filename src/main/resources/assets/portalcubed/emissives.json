@@ -8,14 +8,14 @@
   "block/old_ap_floor_button": "block/button_emissives",
   "block/old_ap_floor_button_active": "block/button_emissives",
 
-  "block/pedestal_button": "block/pedestal_button_e",
-  "block/pedestal_button_active": "block/pedestal_button_e",
-  "block/pedestal_button_base_center": "block/pedestal_button_e",
-  "block/pedestal_button_base_center_active": "block/pedestal_button_e",
-  "block/pedestal_button_base_left": "block/pedestal_button_e",
-  "block/pedestal_button_base_left_active": "block/pedestal_button_e",
-  "block/pedestal_button_base_right": "block/pedestal_button_e",
-  "block/pedestal_button_base_right_active": "block/pedestal_button_e",
+  "block/pedestal_button": "block/pedestal_button_emissive",
+  "block/pedestal_button_active": "block/pedestal_button_emissive",
+  "block/pedestal_button_base_center": "block/pedestal_button_emissive",
+  "block/pedestal_button_base_center_active": "block/pedestal_button_emissive",
+  "block/pedestal_button_base_left": "block/pedestal_button_emissive",
+  "block/pedestal_button_base_left_active": "block/pedestal_button_emissive",
+  "block/pedestal_button_base_right": "block/pedestal_button_emissive",
+  "block/pedestal_button_base_right_active": "block/pedestal_button_emissive",
 
   "block/portal_gun_workstation": "block/portal_gun_workstation_emissive",
 
@@ -133,13 +133,13 @@
   "prop/schrodinger_cube_lit": "prop/schrodinger_cube_center_lit",
   "prop/dirty_schrodinger_cube_lit": "prop/dirty_schrodinger_cube_center_lit",
 
-  "item/prop_barrier": "item/prop_barrier_e",
-  "item/advanced_knee_replacements": "item/advanced_knee_replacements_e",
+  "item/prop_barrier": "item/prop_barrier_emissive",
+  "item/advanced_knee_replacements": "item/advanced_knee_replacements_emissive",
 
-  "prop/radio": "prop/radio_e",
-  "prop/radio_transmission_received": "prop/radio_e",
-  "prop/radio_awaiting_transmission": "prop/radio_e",
-  "prop/dirty_radio": "prop/radio_e",
+  "prop/radio": "prop/radio_emissive",
+  "prop/radio_transmission_received": "prop/radio_emissive",
+  "prop/radio_awaiting_transmission": "prop/radio_emissive",
+  "prop/dirty_radio": "prop/radio_emissive",
 
   "prop/taco_with_way_too_much_ranch_on_it_holy_shit_why_is_there_so_much": "prop/the_taco",
 
@@ -216,15 +216,15 @@
   ],
 
   "block/elevator_wall_top": [
-    "block/elevator_wall_upper_e",
-    "block/elevator_wall_middle_top_e"
+    "block/elevator_wall_upper_emissive",
+    "block/elevator_wall_middle_top_emissive"
   ],
   "block/elevator_wall_middle": [
-    "block/elevator_wall_middle_e",
-    "block/elevator_wall_middle_top_e"
+    "block/elevator_wall_middle_emissive",
+    "block/elevator_wall_middle_top_emissive"
   ],
   "block/elevator_wall_bottom": [
-    "block/elevator_wall_lower_e",
-    "block/elevator_wall_middle_top_e"
+    "block/elevator_wall_lower_emissive",
+    "block/elevator_wall_middle_top_emissive"
   ]
 }

@@ -2,7 +2,7 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:prop/radio",
-		"1": "portalcubed:prop/radio_e",
+		"1": "portalcubed:prop/radio_emissive",
 		"particle": "portalcubed:prop/radio"
 	},
 	"elements": [

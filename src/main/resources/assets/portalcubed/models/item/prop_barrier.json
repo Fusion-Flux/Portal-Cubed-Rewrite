@@ -2,6 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "portalcubed:item/prop_barrier",
-    "layer1": "portalcubed:item/prop_barrier_e"
+    "layer1": "portalcubed:item/prop_barrier_emissive"
   }
 }

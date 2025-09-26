@@ -1,8 +1,8 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
-		"2": "portalcubed:block/elevator_wall_middle_top_e",
-		"3": "portalcubed:block/elevator_wall_middle_e",
+		"2": "portalcubed:block/elevator_wall_middle_top_emissive",
+		"3": "portalcubed:block/elevator_wall_middle_emissive",
 		"particle": "portalcubed:block/elevator_wall_middle_top",
 		"end": "portalcubed:block/elevator_wall_middle_top",
 		"side": "portalcubed:block/elevator_wall_middle"
