@@ -9,11 +9,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -210,7 +210,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		}
 	}
 
-	@ModifyReturnValue(method = "collideWithShapes", at = @At("RETURN"))
+	@ModifyVariable(method = "collideWithShapes", at = @At("HEAD"), argsOnly = true)
 	private static Vec3 portalCollision(Vec3 motionMc, @Local(argsOnly = true) AABB bounds) {
 		EntityCollisionState state = collisionState.get();
 		if (state == null) {
@@ -277,6 +277,11 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			ifCollided.accept(box);
 		}
 
-		return motion.lengthSquared() < 1e-7;
+		if (motion.lengthSquared() < 1e-7) {
+			motion.set(0);
+			return true;
+		}
+
+		return false;
 	}
 }

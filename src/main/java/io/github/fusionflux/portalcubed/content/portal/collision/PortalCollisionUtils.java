@@ -29,12 +29,7 @@ public final class PortalCollisionUtils {
 	 */
 	public static List<PortalInstance.Holder> findRelevantPortalsFor(Entity entity, AABB searchArea) {
 		List<PortalInstance.Holder> portals = entity.level().portalManager().lookup().getPortals(searchArea);
-		portals.removeIf(portal -> {
-			if (!portal.pair().pair().isLinked())
-				return true;
-
-			return !portal.portal().seesModifiedCollision(entity);
-		});
+		portals.removeIf(portal -> isIrrelevant(portal, entity));
 		return portals;
 	}
 
@@ -61,5 +56,12 @@ public final class PortalCollisionUtils {
 				}
 			}
 		}
+	}
+
+	private static boolean isIrrelevant(PortalInstance.Holder portal, Entity entity) {
+		if (!portal.pair().pair().isLinked())
+			return true;
+
+		return !portal.portal().seesModifiedCollision(entity);
 	}
 }
