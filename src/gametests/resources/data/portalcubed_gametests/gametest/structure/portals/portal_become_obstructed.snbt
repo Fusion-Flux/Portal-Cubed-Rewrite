@@ -1,5 +1,5 @@
 {
-    DataVersion: 3700,
+    DataVersion: 4189,
     size: [9, 5, 9],
     data: [
         {pos: [0, 0, 0], state: "minecraft:polished_andesite"},
@@ -114,8 +114,8 @@
         {pos: [3, 1, 1], state: "minecraft:air"},
         {pos: [3, 1, 2], state: "minecraft:air"},
         {pos: [3, 1, 3], state: "minecraft:air"},
-        {pos: [3, 1, 4], state: "minecraft:dispenser{facing:north,triggered:false}", nbt: {Items: [{Count: 1b, Slot: 0b, id: "minecraft:water_bucket"}], id: "minecraft:dispenser"}},
-        {pos: [3, 1, 5], state: "minecraft:dispenser{facing:south,triggered:false}", nbt: {Items: [{Count: 1b, Slot: 1b, id: "minecraft:water_bucket"}], id: "minecraft:dispenser"}},
+        {pos: [3, 1, 4], state: "minecraft:dispenser{facing:north,triggered:false}", nbt: {Items: [{Slot: 0b, count: 1, id: "minecraft:water_bucket"}], id: "minecraft:dispenser"}},
+        {pos: [3, 1, 5], state: "minecraft:dispenser{facing:south,triggered:false}", nbt: {Items: [{Slot: 1b, count: 1, id: "minecraft:water_bucket"}], id: "minecraft:dispenser"}},
         {pos: [3, 1, 6], state: "minecraft:air"},
         {pos: [3, 1, 7], state: "minecraft:air"},
         {pos: [3, 1, 8], state: "minecraft:light_blue_concrete"},
@@ -143,8 +143,8 @@
         {pos: [6, 1, 3], state: "minecraft:glass"},
         {pos: [6, 1, 4], state: "minecraft:polished_andesite"},
         {pos: [6, 1, 5], state: "minecraft:polished_andesite"},
-        {pos: [6, 1, 6], state: "minecraft:air"},
-        {pos: [6, 1, 7], state: "minecraft:air"},
+        {pos: [6, 1, 6], state: "minecraft:glass"},
+        {pos: [6, 1, 7], state: "minecraft:glass"},
         {pos: [6, 1, 8], state: "minecraft:polished_andesite"},
         {pos: [7, 1, 0], state: "minecraft:polished_andesite"},
         {pos: [7, 1, 1], state: "minecraft:air"},

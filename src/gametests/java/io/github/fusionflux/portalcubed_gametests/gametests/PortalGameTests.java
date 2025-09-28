@@ -321,20 +321,23 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper waterFlow = new PortalHelper(helper, "water_flow");
 		PortalHelper doorTrapdoor = new PortalHelper(helper, "door_trapdoor");
 
-		pistonSolid.primary().placeOn(new BlockPos(7, 1, 8), Direction.NORTH);
-		pistonNonSolid.primary().placeOn(new BlockPos(5, 1, 8), Direction.NORTH);
-		waterFlow.primary().placeOn(new BlockPos(3, 1, 8), Direction.NORTH);
-		doorTrapdoor.primary().placeOn(new BlockPos(1, 1, 8), Direction.NORTH);
+		pistonSolid.primary().shootFrom(new Vec3(7, 1, 7.5), Direction.SOUTH);
+		pistonNonSolid.primary().shootFrom(new Vec3(5, 1, 7.5), Direction.SOUTH);
+		waterFlow.primary().shootFrom(new Vec3(3, 1, 7.5), Direction.SOUTH);
+		doorTrapdoor.primary().shootFrom(new Vec3(1, 1, 7.5), Direction.SOUTH);
 
-		pistonSolid.secondary().placeOn(new BlockPos(7, 0, 2), Direction.UP, 180);
-		pistonNonSolid.secondary().placeOn(new BlockPos(5, 0, 2), Direction.UP, 180);
-		waterFlow.secondary().placeOn(new BlockPos(3, 0, 2), Direction.UP, 180);
-		doorTrapdoor.secondary().placeOn(new BlockPos(1, 0, 2), Direction.UP, 180);
+		pistonSolid.secondary().shootFrom(new Vec3(7, 1.5, 2), Direction.DOWN);
+		pistonNonSolid.secondary().shootFrom(new Vec3(5, 1.5, 2), Direction.DOWN);
+		waterFlow.secondary().shootFrom(new Vec3(3, 1.5, 2), Direction.DOWN);
+		doorTrapdoor.secondary().shootFrom(new Vec3(1, 1.5, 2), Direction.DOWN);
 
-		helper.pullLever(6, 2, 5);
-		helper.pullLever(2, 2, 5);
 
-		helper.runAfterDelay(10, () ->
+
+
+
+		helper.runAfterDelay(10, () -> {
+			helper.pullLever(6, 2, 5);
+			helper.pullLever(2, 2, 5);
 			helper.succeedWhen(() -> {
 				pistonSolid.primary().assertNotPresent();
 				pistonSolid.secondary().assertNotPresent();
@@ -344,8 +347,8 @@ public class PortalGameTests implements FabricGameTest {
 				waterFlow.secondary().assertNotPresent();
 				doorTrapdoor.primary().assertNotPresent();
 				doorTrapdoor.secondary().assertNotPresent();
-			})
-		);
+			});
+		});
 	}
 
 
