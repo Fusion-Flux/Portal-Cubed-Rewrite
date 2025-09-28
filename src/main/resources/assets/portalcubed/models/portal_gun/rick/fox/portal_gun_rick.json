@@ -2,43 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
  	"parent": "portalcubed:portal_gun/rick/humanoid/portal_gun_rick",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [14.75, 0, 0],
-			"translation": [0, 4.5, -1.5],
-			"scale": [0.80273, 0.80273, 0.80273]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [14.75, 0, 0],
-			"translation": [0, 4.5, -1.5],
-			"scale": [0.80273, 0.80273, 0.80273]
-		},
-		"firstperson_righthand": {
-			"translation": [-0.75, 5.75, -2.5],
-			"scale": [0.80273, 0.80273, 0.80273]
-		},
-		"firstperson_lefthand": {
-			"translation": [-0.75, 5.75, -2.5],
-			"scale": [0.80273, 0.80273, 0.80273]
-		},
 		"ground": {
 			"rotation": [-82.5, 0, -180],
 			"translation": [0, -3, 3.75],
 			"scale": [0.58984, 0.58984, 0.58984]
-		},
-		"gui": {
-			"rotation": [26.75, -139, 0],
-			"translation": [-0.75, 2.25, 0],
-			"scale": [1.05078, 1.05078, 1.05078]
-		},
-		"head": {
-			"translation": [0, 13.75, -1]
-		},
-		"fixed": {
-			"rotation": [-90, -90, 0],
-			"translation": [-1, 0.25, -7.75]
 		}
-	},
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
 	}
 }

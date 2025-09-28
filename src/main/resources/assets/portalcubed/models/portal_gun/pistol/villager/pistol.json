@@ -2,41 +2,9 @@
 	"credit": "Made by Cart3r using Blockbench.",
  	"parent": "portalcubed:portal_gun/pistol/humanoid/pistol",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [174.75, 0, 180],
-			"translation": [0, 1, -0.25],
-			"scale": [0.60156, 0.60156, 0.60156]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [174.75, 0, 180],
-			"translation": [0, 1, -0.25],
-			"scale": [0.60156, 0.60156, 0.60156]
-		},
-		"firstperson_righthand": {
-			"rotation": [-167.92, 7.55, 173.65],
-			"translation": [-0.25, 4, -2.5],
-			"scale": [0.60156, 0.60156, 0.60156]
-		},
-		"firstperson_lefthand": {
-			"rotation": [-167.92, 7.55, 173.65],
-			"translation": [-0.25, 4, -2.5],
-			"scale": [0.60156, 0.60156, 0.60156]
-		},
 		"ground": {
 			"translation": [0, 2, 0],
 			"scale": [0.5, 0.5, 0.5]
-		},
-		"gui": {
-			"rotation": [30, 45, 0],
-			"translation": [-0.25, 1, 0]
-		},
-		"head": {
-			"rotation": [0, 180, 0],
-			"translation": [0, 10.5, 0.25]
-		},
-		"fixed": {
-			"rotation": [0, -90, 0],
-			"translation": [0, 1.5, 0]
 		}
 	}
 }

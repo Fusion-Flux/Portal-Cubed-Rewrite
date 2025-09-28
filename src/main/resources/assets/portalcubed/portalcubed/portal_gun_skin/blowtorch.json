@@ -1,0 +1,11 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.blowtorch"
+  },
+  "item_model": "portalcubed:portal_guns/blowtorch",
+  "sounds": {
+    "primary_shoot": "minecraft:item.flintandsteel.use",
+    "secondary_shoot": "minecraft:item.firecharge.use",
+    "fizzle": "minecraft:block.fire.extinguish"
+  }
+}

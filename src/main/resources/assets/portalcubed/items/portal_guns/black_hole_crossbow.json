@@ -8,7 +8,7 @@
       },
       {
         "type": "minecraft:model",
-        "model": "portalcubed:portal_gun/crossbow/black_hole_model_part",
+        "model": "portalcubed:portal_gun/crossbow/mini_black_hole_model_part",
         "tints": [
           {
             "type": "portalcubed:portal_gun",

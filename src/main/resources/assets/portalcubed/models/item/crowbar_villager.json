@@ -2,40 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"parent": "portalcubed:item/crowbar",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [-5, 0, 0],
-			"translation": [0.5, -0.5, 2.25],
-			"scale": [1.2793, 1.2793, 1.2793]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [-5, 0, 0],
-			"translation": [0.5, -0.5, 2.25],
-			"scale": [1.2793, 1.2793, 1.2793]
-		},
-		"firstperson_righthand": {
-			"rotation": [-10.83, 13.81, 6.58],
-			"translation": [2, 4, 1.75]
-		},
-		"firstperson_lefthand": {
-			"rotation": [-10.83, 13.81, 6.58],
-			"translation": [2, 4, 1.75]
-		},
 		"ground": {
 			"rotation": [19, 180, 0],
 			"translation": [0, 1.25, -0.75],
 			"scale": [1.02539, 1.02539, 1.02539]
-		},
-		"gui": {
-			"rotation": [-123.9, -23.69, -158.64],
-			"translation": [-1, 0.5, 0],
-			"scale": [1.46484, 1.46484, 1.46484]
-		},
-		"head": {
-			"rotation": [-107, 0, 0],
-			"translation": [0, 10.25, -1]
-		},
-		"fixed": {
-			"rotation": [-180, 90, -180]
 		}
 	}
 }

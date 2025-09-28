@@ -1,0 +1,11 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+ 	"parent": "portalcubed:portal_gun/blowtorch/humanoid/blowtorch",
+	"display": {
+		"ground": {
+			"rotation": [-180, 0, 90],
+			"translation": [-1.5, 1.75, 0.5],
+			"scale": [0.58984, 0.58984, 0.58984]
+		}
+	}
+}

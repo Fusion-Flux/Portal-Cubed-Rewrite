@@ -489,8 +489,17 @@ public class PortalCubedTabs {
 					3407871
 			);
 			addPortalGunSkin(output,
-					"pistol_portal_gun",
 					"pistol",
+					"pistol",
+					"base",
+					"round",
+					2396924,
+					"round",
+					16748062
+			);
+			addPortalGunSkin(output,
+					"blowtorch",
+					"blowtorch",
 					"base",
 					"round",
 					2396924,

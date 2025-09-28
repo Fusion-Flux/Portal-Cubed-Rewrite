@@ -2,47 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"parent": "portalcubed:portal_gun/portalizer/humanoid/portalizer",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [83.25, 0, 0],
-			"translation": [0, 5.25, -3.25],
-			"scale": [0.87891, 0.87891, 0.87891]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [83.25, 0, 0],
-			"translation": [0, 5.25, -3.25],
-			"scale": [0.87891, 0.87891, 0.87891]
-		},
-		"firstperson_righthand": {
-			"rotation": [52.36, -6.09, 11.19],
-			"translation": [-0.5, 4, -3.25],
-			"scale": [0.69141, 0.62695, 0.63867]
-		},
-		"firstperson_lefthand": {
-			"rotation": [52.36, -6.09, 11.19],
-			"translation": [-0.5, 4, -3.25],
-			"scale": [0.69141, 0.62695, 0.63867]
-		},
 		"ground": {
 			"rotation": [-90, 0, -180],
 			"translation": [0, -4.25, 6.25],
 			"scale": [0.73242, 0.73242, 0.73242]
-		},
-		"gui": {
-			"rotation": [153.05, -24.85, 151.31],
-			"translation": [-0.75, 1, 0],
-			"scale": [0.8086, 0.8086, 0.8086]
-		},
-		"head": {
-			"rotation": [48.5, 0, 0],
-			"translation": [-0.5, 10.25, -0.25],
-			"scale": [0.69141, 0.62695, 0.63867]
-		},
-		"fixed": {
-			"rotation": [0, -45, 90],
-			"translation": [-1, 0.25, -7]
 		}
-	},
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
 	}
 }

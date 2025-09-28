@@ -2,41 +2,9 @@
 	"credit": "Made by Cart3r using Blockbench.",
  	"parent": "portalcubed:portal_gun/paintbrush/humanoid/paintbrush",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [-14.25, 0, 180],
-			"translation": [0, 1.25, 1.75]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [-14.25, 0, 180],
-			"translation": [0, 1.25, 1.75]
-		},
-		"firstperson_righthand": {
-			"rotation": [-32.75, 0, 180],
-			"translation": [0, 3, 1],
-			"scale": [0.8125, 0.8125, 0.8125]
-		},
-		"firstperson_lefthand": {
-			"rotation": [-32.75, 0, 180],
-			"translation": [0, 3, 1],
-			"scale": [0.8125, 0.8125, 0.8125]
-		},
 		"ground": {
 			"translation": [0, -0.75, 1.25],
 			"scale": [0.58984, 0.58984, 0.58984]
-		},
-		"gui": {
-			"rotation": [-136.7, -40.72, 6.69],
-			"translation": [-0.75, -0.5, 0],
-			"scale": [1.00781, 1.00781, 1.00781]
-		},
-		"head": {
-			"rotation": [-35, 1, 4],
-			"translation": [0, 7.75, -11.75],
-			"scale": [1.32227, 1.32227, 1.32227]
-		},
-		"fixed": {
-			"translation": [0, 1.5, -0.5],
-			"scale": [1.17773, 1.17773, 1.17773]
 		}
 	}
 }

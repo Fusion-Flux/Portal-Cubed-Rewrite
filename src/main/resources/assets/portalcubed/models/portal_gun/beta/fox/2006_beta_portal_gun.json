@@ -2,41 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
  	"parent": "portalcubed:portal_gun/beta/humanoid/2006_beta_portal_gun",
 	"display": {
-		"thirdperson_righthand": {
-			"translation": [0, -0.26, -7.25],
-			"scale": [0.85742, 0.85742, 0.85742]
-		},
-		"thirdperson_lefthand": {
-			"translation": [0, -0.26, -7.25],
-			"scale": [0.85742, 0.85742, 0.85742]
-		},
-		"firstperson_righthand": {
-			"rotation": [12.69, -2.61, 3.32],
-			"translation": [9.5, 0, -23.75],
-			"scale": [2.03, 2.18945, 1.82984]
-		},
-		"firstperson_lefthand": {
-			"rotation": [12.69, -2.61, 3.32],
-			"translation": [9.5, 0, -23.75],
-			"scale": [2.03, 2.18945, 1.82984]
-		},
 		"ground": {
 			"rotation": [-87, 0, -180],
 			"translation": [0, -4.75, 2.75],
 			"scale": [0.58984, 0.58984, 0.58984]
-		},
-		"gui": {
-			"rotation": [26.75, -139, 0],
-			"translation": [-2.25, 2.25, 0],
-			"scale": [0.70703, 0.70703, 0.70703]
-		},
-		"head": {
-			"rotation": [12.25, 0.43, -3.04],
-			"translation": [0.5, 13, 0]
-		},
-		"fixed": {
-			"rotation": [-90, -90, 0],
-			"translation": [-1, 0.25, -7.75]
 		}
 	}
 }

@@ -2,40 +2,9 @@
 	"credit": "Made by Cart3r using Blockbench.",
  	"parent": "portalcubed:portal_gun/splash_o_matic/humanoid/splash_o_matic",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [0, -180, 0],
-			"translation": [-0.5, 5.25, -5.5]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [0, -180, 0],
-			"translation": [-0.25, 5.25, -5.5]
-		},
-		"firstperson_righthand": {
-			"rotation": [-170.5, 2.46, 179.6],
-			"translation": [0, 7, -3.75]
-		},
-		"firstperson_lefthand": {
-			"rotation": [-170.5, 2.46, 179.6],
-			"translation": [0, 7, -3.75]
-		},
 		"ground": {
 			"translation": [0.5, 4.25, 4],
 			"scale": [0.6, 0.6, 0.6]
-		},
-		"gui": {
-			"rotation": [28, 42, 0],
-			"translation": [3.75, 2.25, 0],
-			"scale": [1.15821, 1.15821, 1.15821]
-		},
-		"head": {
-			"rotation": [180, 5.5, 180],
-			"translation": [1.75, 19, -9],
-			"scale": [1.93945, 1.93945, 1.93945]
-		},
-		"fixed": {
-			"rotation": [-91.32, 52.25, 90.14],
-			"translation": [1, 6, -1.75],
-			"scale": [1.29492, 1.29492, 1.29492]
 		}
 	}
 }

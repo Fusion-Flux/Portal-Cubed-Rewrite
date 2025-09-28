@@ -2,44 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
  	"parent": "portalcubed:portal_gun/laser_pointer/humanoid/laser_pointer",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [-19.75, 0, 0],
-			"translation": [0, 6.25, -1]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [-19.75, 0, 0],
-			"translation": [0, 6.25, -1]
-		},
-		"firstperson_righthand": {
-			"rotation": [-78.56, 1.2, 5.88],
-			"translation": [-3, 3.5, -0.5],
-			"scale": [0.79883, 0.77148, 0.79883]
-		},
-		"firstperson_lefthand": {
-			"rotation": [-78.56, 1.2, 5.88],
-			"translation": [-3, 3.5, -0.5],
-			"scale": [0.79883, 0.77148, 0.79883]
-		},
 		"ground": {
 			"rotation": [180, 180, 0.26],
 			"translation": [0, -2.75, 1],
 			"scale": [0.5, 0.5, 0.5]
-		},
-		"gui": {
-			"rotation": [-60, 0, -135],
-			"translation": [2.75, -2, 0],
-			"scale": [1.2461, 1.2461, 1.2461]
-		},
-		"head": {
-			"rotation": [-89.75, 0, 0],
-			"translation": [2.75, 0, -9.5]
-		},
-		"fixed": {
-			"rotation": [0, 0, 50.5],
-			"translation": [-3.25, 2.25, -1.25]
 		}
-	},
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
 	}
 }

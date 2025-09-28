@@ -2,44 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
  	"parent": "portalcubed:portal_gun/wiimote/humanoid/wiimote",
 	"display": {
-		"thirdperson_righthand": {
-			"translation": [0, 3.5, -1.75],
-			"scale": [0.55, 0.55, 0.55]
-		},
-		"thirdperson_lefthand": {
-			"translation": [0, 3.5, -1.75],
-			"scale": [0.55, 0.55, 0.55]
-		},
-		"firstperson_righthand": {
-			"rotation": [13.25, 0, 0],
-			"translation": [1, 5.25, -1.75],
-			"scale": [0.66133, 0.66133, 0.66133]
-		},
-		"firstperson_lefthand": {
-			"rotation": [13.25, 0, 0],
-			"translation": [1, 5.25, -1.75],
-			"scale": [0.66133, 0.66133, 0.66133]
-		},
 		"ground": {
 			"rotation": [90, 180, 0],
 			"translation": [0, -3.75, 4.5],
 			"scale": [0.5, 0.5, 0.5]
-		},
-		"gui": {
-			"rotation": [30, -50, 0],
-			"translation": [1.75, 5.5, 0],
-			"scale": [0.72656, 0.72656, 0.72656]
-		},
-		"head": {
-			"rotation": [-90, 180, 0],
-			"translation": [0, 15, -7]
-		},
-		"fixed": {
-			"rotation": [-90, 180, 0],
-			"translation": [0, 0, -7.5]
 		}
-	},
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
 	}
 }

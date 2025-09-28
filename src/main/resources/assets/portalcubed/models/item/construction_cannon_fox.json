@@ -2,44 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"parent": "portalcubed:item/construction_cannon",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [-175.75, 0, -180],
-			"translation": [0, 1.75, -9.5]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [-175.75, 0, -180],
-			"translation": [0, 1.75, -9.5]
-		},
-		"firstperson_righthand": {
-			"rotation": [-175.26, 4.11, 177.15],
-			"translation": [2.5, 4.5, -8],
-			"scale": [0.84766, 0.84766, 0.77149]
-		},
-		"firstperson_lefthand": {
-			"rotation": [-175.26, 4.11, 177.15],
-			"translation": [2.5, 4.5, -8],
-			"scale": [0.84766, 0.84766, 0.77149]
-		},
 		"ground": {
 			"rotation": [-87, 180, -180],
 			"translation": [0, -5.5, 3.5],
 			"scale": [0.58984, 0.58984, 0.58984]
-		},
-		"gui": {
-			"rotation": [28.18, 43.1, -2.16],
-			"translation": [-1.25, 2, 0],
-			"scale": [0.70899, 0.70899, 0.70899]
-		},
-		"head": {
-			"rotation": [0, 180, 0],
-			"translation": [0, 12.5, 0]
-		},
-		"fixed": {
-			"rotation": [0, 90, -90],
-			"translation": [-0.5, 0, -7.5]
 		}
-	},
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
 	}
 }

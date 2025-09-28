@@ -2,44 +2,10 @@
 	"credit": "Made by Cart3r using Blockbench.",
  	"parent": "portalcubed:portal_gun/smithers/humanoid/smithers_portal_gun",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [179.5, 0, -180],
-			"translation": [0, 3.75, -2.75]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [179.5, 0, -180],
-			"translation": [0, 3.75, -2.75]
-		},
-		"firstperson_righthand": {
-			"rotation": [-172.21, -6.21, -179.14],
-			"translation": [-2.75, 6, 0],
-			"scale": [0.81055, 0.81055, 0.87695]
-		},
-		"firstperson_lefthand": {
-			"rotation": [-172.21, -6.21, -179.14],
-			"translation": [-2.75, 6, 0],
-			"scale": [0.81055, 0.81055, 0.87695]
-		},
 		"ground": {
 			"rotation": [-87, 180, -180],
 			"translation": [0, -3.25, 4],
 			"scale": [0.58984, 0.58984, 0.58984]
-		},
-		"gui": {
-			"rotation": [26.75, 45, 0],
-			"translation": [1.25, 0.75, 0],
-			"scale": [1.08789, 1.08789, 1.08789]
-		},
-		"head": {
-			"rotation": [0, 180, 0],
-			"translation": [0, 13.75, -3.75]
-		},
-		"fixed": {
-			"rotation": [-90, -81, -89.5],
-			"translation": [-2.25, 3.25, -2.25]
 		}
-	},
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
 	}
 }
