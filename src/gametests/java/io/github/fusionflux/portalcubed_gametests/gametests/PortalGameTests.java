@@ -159,6 +159,15 @@ public class PortalGameTests implements FabricGameTest {
 			helper.assertBlockProperty(new BlockPos(7, 7, 0), RedstoneLampBlock.LIT, true);
 			helper.assertBlockProperty(new BlockPos(4, 7, 0), RedstoneLampBlock.LIT, true);
 			helper.assertBlockProperty(new BlockPos(1, 7, 0), RedstoneLampBlock.LIT, true);
+
+			helper.assertBlockProperty(new BlockPos(22, 3, 0), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(19, 3, 0), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(16, 3, 0), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(13, 3, 0), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(10, 3, 0), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(7, 3, 0), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(4, 3, 0), RedstoneLampBlock.LIT, false);
+			helper.assertBlockProperty(new BlockPos(1, 3, 0), RedstoneLampBlock.LIT, false);
 		});
 	}
 	@GameTest(template = GROUP + "odd_portal_surfaces_horizontal")
