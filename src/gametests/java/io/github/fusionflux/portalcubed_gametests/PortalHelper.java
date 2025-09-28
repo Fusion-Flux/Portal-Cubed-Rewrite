@@ -38,12 +38,12 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 				helper, key,
 				new SinglePortalHelper(
 						helper, key,
-						new PortalSettings(PortalType.ROUND, false, new ConstantPortalColor(primaryColor), false),
+						new PortalSettings(PortalType.ROUND, true, new ConstantPortalColor(primaryColor), false),
 						Polarity.PRIMARY
 				),
 				new SinglePortalHelper(
 						helper, key,
-						new PortalSettings(PortalType.ROUND, false, new ConstantPortalColor(secondaryColor), false),
+						new PortalSettings(PortalType.ROUND, true, new ConstantPortalColor(secondaryColor), false),
 						Polarity.SECONDARY
 				)
 		);
