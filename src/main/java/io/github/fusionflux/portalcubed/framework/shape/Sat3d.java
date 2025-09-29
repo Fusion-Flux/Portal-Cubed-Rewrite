@@ -17,7 +17,7 @@ public final class Sat3d {
 	/**
 	 * @param shapeA the set of vertices defining the first shape
 	 * @param shapeB the set of vertices defining the second shape
-	 * @param axes the set of axes to test for separation along
+	 * @param axes the set of axes to test for separation along. Axes with length {@code 0} are allowed, but ignored.
 	 * @return an offset to apply to {@code shapeB} to separate it from {@code shapeA}, or null if no collision occurred
 	 */
 	@Nullable
@@ -29,6 +29,8 @@ public final class Sat3d {
 
 		while (axes.hasNext()) {
 			Vector3dc axis = axes.next();
+			if (axis.lengthSquared() == 0)
+				continue;
 
 			DoubleRange aRange = DoubleRange.project(axis, shapeA);
 			DoubleRange bRange = DoubleRange.project(axis, shapeB);

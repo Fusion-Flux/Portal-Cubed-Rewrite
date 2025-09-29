@@ -17,6 +17,10 @@ public class TransformUtils {
 		return b.scale(length);
 	}
 
+	/**
+	 * Create a reusable iterator that provides the vertices of the given box.
+	 * Note that returned vertices should never be retained, as the returned object may be mutated in the future.
+	 */
 	public static Iterable<Vector3dc> vertices(AABB box) {
 		Vector3d scratch = new Vector3d();
 		return () -> SimpleIterator.create(i -> switch (i) {

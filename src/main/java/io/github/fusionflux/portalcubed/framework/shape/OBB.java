@@ -179,16 +179,16 @@ public final class OBB {
 			case 2 -> ZP;
 			case 3 -> this.basisX;
 			case 4 -> this.basisY;
-			case 6 -> this.basisZ;
-			case 7 -> new Vector3d(XP).cross(this.basisX);
-			case 8 -> new Vector3d(XP).cross(this.basisY);
-			case 9 -> new Vector3d(XP).cross(this.basisZ);
-			case 10 -> new Vector3d(YP).cross(this.basisX);
-			case 11 -> new Vector3d(YP).cross(this.basisY);
-			case 12 -> new Vector3d(YP).cross(this.basisZ);
-			case 13 -> new Vector3d(ZP).cross(this.basisX);
-			case 14 -> new Vector3d(ZP).cross(this.basisY);
-			case 15 -> new Vector3d(ZP).cross(this.basisZ);
+			case 5 -> this.basisZ;
+			case 6 -> new Vector3d(XP).cross(this.basisX);
+			case 7 -> new Vector3d(XP).cross(this.basisY);
+			case 8 -> new Vector3d(XP).cross(this.basisZ);
+			case 9 -> new Vector3d(YP).cross(this.basisX);
+			case 10 -> new Vector3d(YP).cross(this.basisY);
+			case 11 -> new Vector3d(YP).cross(this.basisZ);
+			case 12 -> new Vector3d(ZP).cross(this.basisX);
+			case 13 -> new Vector3d(ZP).cross(this.basisY);
+			case 14 -> new Vector3d(ZP).cross(this.basisZ);
 			default -> null;
 		}));
 	}
