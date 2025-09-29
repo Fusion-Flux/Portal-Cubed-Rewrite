@@ -24,6 +24,30 @@ public record DoubleRange(double min, double max) {
 		return this.max - this.min;
 	}
 
+	public double midpoint() {
+		return (this.max + this.min) / 2;
+	}
+
+	/**
+	 * Calculates the offset required to move {@code that} out of {@code this}. This operation is asymmetrical.
+	 * @return the offset, or 0 if there's no overlap
+	 */
+	public double offsetFor(DoubleRange that) {
+		if (!this.intersects(that))
+			return 0;
+
+		if (this.midpoint() < that.midpoint()) {
+			// offset should be positive (right)
+			return this.max - that.min;
+		} else {
+			// offset should be negative (left)
+			return this.min - that.max;
+		}
+	}
+
+	/**
+	 * @see #project(Vector3dc, Iterable)
+	 */
 	public static DoubleRange project(Vector2dc axis, Iterable<Vector2dc> vertices) {
 		double min = Double.MAX_VALUE;
 		double max = -Double.MAX_VALUE;
@@ -37,6 +61,10 @@ public record DoubleRange(double min, double max) {
 		return new DoubleRange(min, max);
 	}
 
+	/**
+	 * Project all the given vertices onto the given axis.
+	 * @see #project(Vector2dc, Iterable) the 2d version
+	 */
 	public static DoubleRange project(Vector3dc axis, Iterable<Vector3dc> vertices) {
 		double min = Double.MAX_VALUE;
 		double max = -Double.MAX_VALUE;

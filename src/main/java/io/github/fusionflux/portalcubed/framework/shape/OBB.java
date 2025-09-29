@@ -200,31 +200,36 @@ public final class OBB {
 	 */
 	public boolean collide(AABB bounds, Vector3d motion) {
 		DebugRendering.addBox(1, bounds, Color.RED);
-		// check for an initial collision
-		if (this.intersects(bounds.deflate(1e-5))) {
-			// already inside the collision, do nothing in this case.
+
+		if (this.intersects(bounds.deflate(1e-3))) {
+			// if the bounds are already noticeably within this box, do nothing.
+			// this matches how MC handles normal block collision.
 			return false;
 		}
 
-		// first, do a simple collision in world coordinates to determine which face, if any, will be hit
-		Vector3d motionCopy = new Vector3d(motion);
-		Vector3d offsetNormal = this.collidePhaseOne(bounds, motionCopy);
+		// first, do a simple collision in world coordinates to determine which face, if any, will be hit.
+		// copy motion, since we'll need to restore it if we need to re-collide with sliding
+		double motionX = motion.x;
+		double motionY = motion.y;
+		double motionZ = motion.z;
+
+		Vector3d offsetNormal = this.collidePhaseOne(bounds, motion);
 		if (offsetNormal == null) {
 			// no collision
 			return false;
 		}
 
-		// we need to determine behavior based on the normal of the hit face.
+		// we need to determine behavior based on the normal of the hit face to match typical block collision.
+		// when walking along a wall, you slide, but you shouldn't slide down an angled floor when you jump.
 		// when the normal is approximately horizontal, re-collide, but slide this time
 		if (Math.abs(offsetNormal.dot(YP)) > 1e-2) {
 			// normal is not approximately horizontal.
-			// use the motion vector that was just calculated.
-			motion.set(motionCopy);
+			// motion has already been modified, nothing else to do.
 			return true;
 		}
 
-		// when the hit face is approximately horizontal, we need to re-collide with sliding.
-		// this is done so you can slide along walls, but jumping in place on a slope doesn't push you down it.
+		// re-collide with sliding. restore the motion vector first
+		motion.set(motionX, motionY, motionZ);
 
 		// motion as local coords corresponds to numbers of basis vectors
 		Vector3d bases = this.rotation.transform(motion, new Vector3d());
@@ -232,6 +237,9 @@ public final class OBB {
 		for (Direction.Axis axis : collisionAxisOrder) {
 			Vector3dc basis = this.basis(axis);
 			double target = projectionLength(motion, basis);
+			if (target == 0)
+				continue;
+
 			Result result = this.collideOnAxis(bounds, basis, target);
 			double actual = result == null ? target : result.distance;
 			set(bases, axis, actual);
@@ -241,13 +249,10 @@ public final class OBB {
 			}
 		}
 
-		// preserve the y component as-is so you can't jump on near-vertical walls
-		double y = motion.y;
-
-		// recombine into a final motion vector
-		motion.set(this.basisX.x() * bases.x, y, this.basisX.z() * bases.x);
-		motion.add(this.basisY.x() * bases.y, 0, this.basisY.z() * bases.y);
-		motion.add(this.basisZ.x() * bases.z, 0, this.basisZ.z() * bases.z);
+		// recombine into a final motion vector. leave Y as-is so you can't jump on near-vertical walls
+		motion.set(this.basisX.x() * bases.x, motionY,	this.basisX.z() * bases.x);
+		motion.add(this.basisY.x() * bases.y, 0,		this.basisY.z() * bases.y);
+		motion.add(this.basisZ.x() * bases.z, 0,		this.basisZ.z() * bases.z);
 		return true;
 	}
 
@@ -272,9 +277,6 @@ public final class OBB {
 
 	@Nullable
 	private Result collideOnAxis(AABB box, Vector3dc axis, double motion) {
-		if (motion == 0)
-			return null;
-
 		// garbage brute-force linear scan to find the time of impact.
 		// I want to replace this with something better, but I've been researching for weeks with no results.
 
@@ -300,7 +302,8 @@ public final class OBB {
 	}
 
 	/**
-	 * Collides along the 3 world-space axes to figure out which face will be hit.
+	 * Collides along the 3 world-space axes without sliding to figure out which face will be hit.
+	 * @param motion the motion vector, which is modified in the case of a collision
 	 * @return a normal vector representing the hit "face", or null if no collision occurred
 	 */
 	@Nullable
@@ -309,6 +312,9 @@ public final class OBB {
 
 		for (Direction.Axis axis : collisionAxisOrder) {
 			double target = get(motion, axis);
+			if (target == 0)
+				continue;
+
 			Vector3dc axisVec = axisVectors.get(axis);
 			Result result = this.collideOnAxis(bounds, axisVec, target);
 			double actual = result == null ? target : result.distance;
