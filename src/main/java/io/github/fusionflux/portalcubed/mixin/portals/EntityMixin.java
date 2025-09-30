@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,11 +28,13 @@ import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
+import io.github.fusionflux.portalcubed.framework.shape.AabbObbCollider;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -220,19 +222,21 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		Vector3d motion = TransformUtils.toJoml(motionMc);
 
 		for (PortalInstance.Holder portal : state.portals) {
-			// collide with perimeter
-			for (OBB collisionBox : portal.portal().perimeterBoxes) {
-				if (handleCollision(collisionBox, bounds, motion, state::addCollider)) {
-					return Vec3.ZERO;
-				}
-			}
+			// collect all boxes to collide with. always start with the perimeter
+			List<OBB> boxes = new ArrayList<>(portal.portal().perimeterBoxes);
 
 			// collide with collision on the other side
 			AABB area = bounds.expandTowards(motion.x, motion.y, motion.z);
 			PortalCollisionUtils.forEachBoxOnOtherSide(state.entity, portal, area, box -> {
 				DebugRendering.addBox(1, box, Color.YELLOW);
-				return !handleCollision(box, bounds, motion, state::addCollider);
+				boxes.add(box);
+				return true;
 			});
+
+			AabbObbCollider collider = new AabbObbCollider(boxes);
+			if (collider.collide(bounds, motion, state::addCollider) && motion.lengthSquared() < 1e-7) {
+				return Vec3.ZERO;
+			}
 		}
 
 		return TransformUtils.toMc(motion);
@@ -255,8 +259,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 			state.forEachCollider(box -> {
 				motion.set(0, -maxUpStep, 0);
-				if (box.collide(collisionStart, motion)) {
-					double step = maxUpStep + motion.y;
+				OBB.Result result = box.collide(collisionStart, Direction.Axis.Y, -maxUpStep);
+				if (result != null) {
+					double step = maxUpStep + result.actual();
 					heights.add((float) step);
 				}
 			});
@@ -266,22 +271,5 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		}
 
 		return heights;
-	}
-
-	/**
-	 * @return true if collision should exit early
-	 */
-	@Unique
-	private static boolean handleCollision(OBB box, AABB bounds, Vector3d motion, Consumer<OBB> ifCollided) {
-		if (box.collide(bounds, motion)) {
-			ifCollided.accept(box);
-		}
-
-		if (motion.lengthSquared() < 1e-7) {
-			motion.set(0);
-			return true;
-		}
-
-		return false;
 	}
 }

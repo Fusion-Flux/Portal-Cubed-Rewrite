@@ -1,7 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.collision;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
@@ -14,13 +16,13 @@ public final class EntityCollisionState {
 	public final Vec3 idealMotion;
 	public final List<PortalInstance.Holder> portals;
 
-	private List<OBB> colliders;
+	private Set<OBB> colliders;
 
 	public EntityCollisionState(Entity entity, Vec3 idealMotion, List<PortalInstance.Holder> portals) {
 		this.entity = entity;
 		this.idealMotion = idealMotion;
 		this.portals = portals;
-		this.colliders = new ArrayList<>();
+		this.colliders = Collections.newSetFromMap(new IdentityHashMap<>());
 	}
 
 	public void addCollider(OBB box) {

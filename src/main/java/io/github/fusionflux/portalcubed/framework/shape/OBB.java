@@ -14,8 +14,7 @@ import org.joml.Vector3f;
 
 import com.google.common.collect.Iterables;
 
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
-import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.framework.util.Maath;
 import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.Util;
@@ -33,8 +32,7 @@ public final class OBB {
 	public static final Vector3dc XP = new Vector3d(1, 0, 0);
 	public static final Vector3dc YP = new Vector3d(0, 1, 0);
 	public static final Vector3dc ZP = new Vector3d(0, 0, 1);
-	// based on Entity.collideWithShapes
-	private static final Direction.Axis[] collisionAxisOrder = { Direction.Axis.Y, Direction.Axis.Z, Direction.Axis.X };
+	public static final Vector3dc ZERO = new Vector3d();
 	private static final Map<Direction.Axis, Vector3dc> axisVectors = Util.makeEnumMap(Direction.Axis.class, axis -> switch (axis) {
 		case X -> XP;
 		case Y -> YP;
@@ -194,29 +192,29 @@ public final class OBB {
 	}
 
 	/**
-	 * Collide an AABB moving along a vector with this OBB, possibly sliding along it if a collision occurs.
-	 * @param motion the motion vector. Will be modified based on collisions.
-	 * @return true if a collision occurred
+	 * Collide the given box along the given axis.
+	 * @return a result, or null if no collision occurred
 	 */
-	public boolean collide(AABB bounds, Vector3d motion) {
-		DebugRendering.addBox(1, bounds, Color.RED);
-
+	@Nullable
+	public Result collide(AABB bounds, Direction.Axis axis, double motion) {
 		if (this.intersects(bounds.deflate(1e-3))) {
 			// if the bounds are already noticeably within this box, do nothing.
 			// this matches how MC handles normal block collision.
-			return false;
+			return null;
 		}
 
 		// first, do a simple collision in world coordinates to determine which face, if any, will be hit.
-		// copy motion, since we'll need to restore it if we need to re-collide with sliding
-		double motionX = motion.x;
-		double motionY = motion.y;
-		double motionZ = motion.z;
 
-		Vector3d offsetNormal = this.collidePhaseOne(bounds, motion);
-		if (offsetNormal == null) {
+		// normal will be stored here if a collision occurs
+		Vector3d offsetNormal = new Vector3d();
+		double actual = this.collidePhaseOne(bounds, axis, motion, offsetNormal);
+		if (actual == motion) {
 			// no collision
-			return false;
+			return null;
+		}
+
+		if (offsetNormal.lengthSquared() == 0) {
+			throw new IllegalStateException("Normal is not set");
 		}
 
 		// we need to determine behavior based on the normal of the hit face to match typical block collision.
@@ -225,35 +223,38 @@ public final class OBB {
 		if (Math.abs(offsetNormal.dot(YP)) > 1e-2) {
 			// normal is not approximately horizontal.
 			// motion has already been modified, nothing else to do.
-			return true;
+			return new Result(actual, ZERO);
 		}
 
-		// re-collide with sliding. restore the motion vector first
-		motion.set(motionX, motionY, motionZ);
-
+		// re-collide with sliding.
 		// motion as local coords corresponds to numbers of basis vectors
-		Vector3d bases = this.rotation.transform(motion, new Vector3d());
+		Vector3d asMotionVector = Maath.vectorOf(axis, motion);
+		Vector3d bases = this.rotation.transform(asMotionVector, new Vector3d());
 
-		for (Direction.Axis axis : collisionAxisOrder) {
-			Vector3dc basis = this.basis(axis);
-			double target = projectionLength(motion, basis);
+		// axis order shouldn't matter here
+		for (Direction.Axis localAxis : Direction.Axis.VALUES) {
+			Vector3dc basis = this.basis(localAxis);
+			double target = Maath.projectionLength(asMotionVector, basis);
 			if (target == 0)
 				continue;
 
-			Result result = this.collideOnAxis(bounds, basis, target);
-			double actual = result == null ? target : result.distance;
-			set(bases, axis, actual);
+			ResultOnAxis result = this.collideOnAxis(bounds, basis, target);
+			double localActual = result == null ? target : result.distance;
+			Maath.set(bases, localAxis, localActual);
 			// update the bounding box so the next axis step starts after this one
-			if (actual != 0) {
-				bounds = bounds.move(basis.x() * actual, basis.y() * actual, basis.z() * actual);
+			if (localActual != 0) {
+				bounds = bounds.move(basis.x() * localActual, basis.y() * localActual, basis.z() * localActual);
 			}
 		}
 
 		// recombine into a final motion vector. leave Y as-is so you can't jump on near-vertical walls
-		motion.set(this.basisX.x() * bases.x, motionY,	this.basisX.z() * bases.x);
-		motion.add(this.basisY.x() * bases.y, 0,		this.basisY.z() * bases.y);
-		motion.add(this.basisZ.x() * bases.z, 0,		this.basisZ.z() * bases.z);
-		return true;
+		asMotionVector.set(this.basisX.x() * bases.x, asMotionVector.y,	this.basisX.z() * bases.x);
+		asMotionVector.add(this.basisY.x() * bases.y, 0,				this.basisY.z() * bases.y);
+		asMotionVector.add(this.basisZ.x() * bases.z, 0,				this.basisZ.z() * bases.z);
+
+		double finalMotion = Maath.get(asMotionVector, axis);
+		Maath.set(asMotionVector, axis, 0);
+		return new Result(finalMotion, asMotionVector);
 	}
 
 	public Iterable<BlockPos> intersectingBlocks() {
@@ -276,7 +277,7 @@ public final class OBB {
 	}
 
 	@Nullable
-	private Result collideOnAxis(AABB box, Vector3dc axis, double motion) {
+	private OBB.ResultOnAxis collideOnAxis(AABB box, Vector3dc axis, double motion) {
 		// garbage brute-force linear scan to find the time of impact.
 		// I want to replace this with something better, but I've been researching for weeks with no results.
 
@@ -293,7 +294,7 @@ public final class OBB {
 				// step back 1
 				double prevProgress = (step - 1) / (double) steps;
 				double finalMotion = Mth.lerp(prevProgress, 0, motion);
-				return new Result(finalMotion, vec);
+				return new ResultOnAxis(finalMotion, vec);
 			}
 		}
 
@@ -302,39 +303,18 @@ public final class OBB {
 	}
 
 	/**
-	 * Collides along the 3 world-space axes without sliding to figure out which face will be hit.
-	 * @param motion the motion vector, which is modified in the case of a collision
-	 * @return a normal vector representing the hit "face", or null if no collision occurred
+	 * @return the allowed motion before a collision occurs
 	 */
-	@Nullable
-	private Vector3d collidePhaseOne(AABB bounds, Vector3d motion) {
-		Vector3d normal = null;
+	private double collidePhaseOne(AABB bounds, Direction.Axis axis, double target, Vector3d normal) {
+		Vector3dc axisVec = axisVectors.get(axis);
+		ResultOnAxis result = this.collideOnAxis(bounds, axisVec, target);
 
-		for (Direction.Axis axis : collisionAxisOrder) {
-			double target = get(motion, axis);
-			if (target == 0)
-				continue;
-
-			Vector3dc axisVec = axisVectors.get(axis);
-			Result result = this.collideOnAxis(bounds, axisVec, target);
-			double actual = result == null ? target : result.distance;
-
-			if (actual != 0) {
-				bounds = bounds.move(axisVec.x() * actual, axisVec.y() * actual, axisVec.z() * actual);
-			}
-
-			if (target == actual)
-				continue;
-
-			// collision occurred
-			set(motion, axis, actual);
-
-			if (normal == null && result != null) {
-				normal = result.offset.normalize();
-			}
+		if (result != null) {
+			normal.set(result.offset.normalize());
+			return result.distance;
 		}
 
-		return normal;
+		return target;
 	}
 
 	public static OBB extrudeQuad(Quad quad, double depth) {
@@ -344,26 +324,13 @@ public final class OBB {
 		return new OBB(center, quad.width(), quad.height(), Math.abs(depth), rotation);
 	}
 
-	private static double projectionLength(Vector3dc a, Vector3dc b) {
-		return a.dot(b) / b.lengthSquared();
+	private record ResultOnAxis(double distance, Vector3d offset) {
 	}
 
-	private static double get(Vector3dc vec, Direction.Axis axis) {
-		return switch (axis) {
-			case X -> vec.x();
-			case Y -> vec.y();
-			case Z -> vec.z();
-		};
-	}
-
-	private static void set(Vector3d vec, Direction.Axis axis, double value) {
-		switch (axis) {
-			case X -> vec.x = value;
-			case Y -> vec.y = value;
-			case Z -> vec.z = value;
-		}
-	}
-
-	private record Result(double distance, Vector3d offset) {
+	/**
+	 * @param actual the actual distance moved before colliding
+	 * @param deflection a vector indicating a change in the motion vector, to handle sliding. May have a length of 0.
+	 */
+	public record Result(double actual, Vector3dc deflection) {
 	}
 }
