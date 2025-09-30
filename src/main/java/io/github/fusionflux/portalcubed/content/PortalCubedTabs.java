@@ -507,6 +507,15 @@ public class PortalCubedTabs {
 					16748062
 			);
 			addPortalGunSkin(output,
+					"construction_pda",
+					"construction_pda",
+					"base",
+					"teleporter",
+					6130645,
+					"teleporter",
+					13649204
+			);
+			addPortalGunSkin(output,
 					"splash_o_matic",
 					"splash_o_matic",
 					"splash_o_matic",

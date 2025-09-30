@@ -1,0 +1,11 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.construction_pda"
+  },
+  "item_model": "portalcubed:portal_guns/construction_pda",
+  "sounds": {
+    "primary_shoot": "minecraft:block.smithing_table.use",
+    "secondary_shoot": "minecraft:block.smithing_table.use",
+    "fizzle": "minecraft:entity.firework_rocket.blast"
+  }
+}
