@@ -419,6 +419,11 @@
         "texture": "portalcubed:portal/teleporter/teleporter_layer_8_active",
         "tint": true,
         "offset": 0.30859375
+      },
+      {
+        "texture": "portalcubed:portal/teleporter/teleporter_layer_9",
+        "tint": true,
+        "offset": 0.335
       }
     ],
     "closed": [
@@ -1235,5 +1240,10 @@
         "offset": 0.30859375
       }
     ]
+  },
+  "place_animation": {
+    "type": "expand_horizontal_center",
+    "easing": "out_sine",
+    "duration": 10
   }
 }
