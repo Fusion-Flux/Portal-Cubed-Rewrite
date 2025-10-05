@@ -1,0 +1,28 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.printed"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": 5325897,
+  "sounds": {
+    "shared": {
+      "cant_open": "portalcubed:portal_type.default.cant_open",
+      "travel": "portalcubed:portal_type.default.travel",
+      "ambient": "portalcubed:portal_type.default.ambient"
+    },
+    "primary": {
+      "open": "portalcubed:portal_type.default.open.primary",
+      "close": "portalcubed:portal_type.default.close.primary"
+    },
+    "secondary": {
+      "open": "portalcubed:portal_type.default.open.secondary",
+      "close": "portalcubed:portal_type.default.close.secondary"
+    }
+  },
+  "textures": {
+    "open": "portalcubed:portal/printed/printed_portal_open",
+    "closed": "portalcubed:portal/printed/printed_portal_closed",
+    "tracer": "portalcubed:portal/printed/printed_portal_tracer"
+  },
+  "stencil": "portalcubed:portal/printed/printed_portal_stencil"
+}

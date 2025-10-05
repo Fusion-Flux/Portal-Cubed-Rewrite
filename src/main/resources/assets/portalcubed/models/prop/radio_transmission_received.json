@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.6",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:prop/radio",
@@ -9,7 +10,7 @@
 		{
 			"from": [4, 0, 6],
 			"to": [12, 1, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.5, 8]},
 			"faces": {
 				"north": {"uv": [14, 8, 15, 16], "rotation": 90, "texture": "#0"},
 				"east": {"uv": [11, 12, 12, 16], "rotation": 90, "texture": "#0"},
@@ -22,7 +23,7 @@
 		{
 			"from": [4.5, 1, 6.5],
 			"to": [11.5, 5, 9.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 3.75, 8]},
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 3, 8]},
 			"faces": {
 				"north": {"uv": [10, 8, 3, 12], "texture": "#0"},
 				"east": {"uv": [3, 8, 0, 12], "texture": "#0"},
@@ -32,30 +33,26 @@
 			}
 		},
 		{
-			"from": [7.5, 2, 6.475],
-			"to": [8.5, 3, 6.475],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 3.75, 8]},
+			"from": [7.5, 2, 6.5],
+			"to": [8.5, 3, 6.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2.5, 6.5]},
 			"faces": {
-				"north": {"uv": [12, 6, 13, 7], "texture": "#1"},
-				"east": {"uv": [0, 8, 1, 10], "texture": "#1"},
-				"south": {"uv": [2, 8, 5, 10], "texture": "#1"},
-				"west": {"uv": [5, 8, 6, 10], "texture": "#1"},
-				"up": {"uv": [2, 8, 5, 7], "rotation": 180, "texture": "#1"}
+				"north": {"uv": [12, 6, 13, 7], "texture": "#1"}
 			}
 		},
 		{
-			"from": [9.4974, 5, 7.9974],
-			"to": [10.4974, 9, 7.9974],
-			"rotation": {"angle": -45, "axis": "y", "origin": [9.9974, 7, 7.9974]},
+			"from": [9.5, 5, 8],
+			"to": [10.5, 9, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [10, 7, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 4], "texture": "#0"},
 				"south": {"uv": [1, 0, 2, 4], "texture": "#0"}
 			}
 		},
 		{
-			"from": [9.9974, 5, 7.4974],
-			"to": [9.9974, 9, 8.4974],
-			"rotation": {"angle": -45, "axis": "y", "origin": [9.9974, 7, 7.9974]},
+			"from": [10, 5, 7.5],
+			"to": [10, 9, 8.5],
+			"rotation": {"angle": -45, "axis": "y", "origin": [10, 7, 8]},
 			"faces": {
 				"east": {"uv": [0, 0, 1, 4], "texture": "#0"},
 				"west": {"uv": [1, 0, 2, 4], "texture": "#0"}

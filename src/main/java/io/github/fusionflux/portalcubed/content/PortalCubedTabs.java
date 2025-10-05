@@ -555,9 +555,9 @@ public class PortalCubedTabs {
 					"mr_thingy",
 					"mr_thingy",
 					"none",
-					"round",
-					14019049,
-					"round",
+					"printed",
+					-1,
+					"printed",
 					5325897
 			);
 			addPortalGunSkin(output,
