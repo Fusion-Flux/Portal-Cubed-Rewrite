@@ -1,0 +1,6 @@
+{
+  "parent": "portalcubed:prop/template_spooky_lil_pineapple",
+  "textures": {
+    "pineapple": "portalcubed:prop/lil_pineapple"
+  }
+}

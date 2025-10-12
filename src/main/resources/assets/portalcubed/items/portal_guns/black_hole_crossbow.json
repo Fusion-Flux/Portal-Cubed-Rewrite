@@ -4,7 +4,25 @@
     "models": [
       {
         "type": "minecraft:model",
-        "model": "portalcubed:portal_gun/crossbow/crossbow_model_part"
+        "model": "portalcubed:portal_gun/crossbow/crossbow_model_part",
+        "tints": [
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "active"
+          },
+          {
+            "type": "minecraft:dye",
+            "default": 11891503
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "primary"
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "secondary"
+          }
+        ]
       },
       {
         "type": "minecraft:model",

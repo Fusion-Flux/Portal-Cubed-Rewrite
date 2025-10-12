@@ -1,85 +1,178 @@
 {
   "model": {
-    "type": "minecraft:range_dispatch",
-    "property": "portalcubed:prop_variant",
-    "entries": [
+    "type": "minecraft:select",
+    "cases": [
       {
-        "threshold": 0,
         "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple"
-        }
-      },
-      {
-        "threshold": 1,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_ace"
-        }
-      },
-      {
-        "threshold": 2,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_agender"
-        }
-      },
-      {
-        "threshold": 3,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_aro"
-        }
-      },
-      {
-        "threshold": 4,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_bi"
-        }
-      },
-      {
-        "threshold": 5,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_genderfluid"
-        }
-      },
-      {
-        "threshold": 6,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_lesbian"
-        }
-      },
-      {
-        "threshold": 7,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_nonbinary"
-        }
-      },
-      {
-        "threshold": 8,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_pan"
-        }
-      },
-      {
-        "threshold": 9,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_trans"
-        }
-      },
-      {
-        "threshold": 10,
-        "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/lil_pineapple_proud"
-        }
+          "type": "minecraft:range_dispatch",
+          "property": "portalcubed:prop_variant",
+          "entries": [
+            {
+              "threshold": 0,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple"
+              }
+            },
+            {
+              "threshold": 1,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_ace"
+              }
+            },
+            {
+              "threshold": 2,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_agender"
+              }
+            },
+            {
+              "threshold": 3,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_aro"
+              }
+            },
+            {
+              "threshold": 4,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_bi"
+              }
+            },
+            {
+              "threshold": 5,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_genderfluid"
+              }
+            },
+            {
+              "threshold": 6,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_lesbian"
+              }
+            },
+            {
+              "threshold": 7,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_nonbinary"
+              }
+            },
+            {
+              "threshold": 8,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_pan"
+              }
+            },
+            {
+              "threshold": 9,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_trans"
+              }
+            },
+            {
+              "threshold": 10,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/spooky_lil_pineapple_proud"
+              }
+            }
+          ]
+        },
+        "when": "10-31"
       }
-    ]
+    ],
+    "fallback": {
+      "type": "minecraft:range_dispatch",
+      "property": "portalcubed:prop_variant",
+      "entries": [
+        {
+          "threshold": 0,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple"
+          }
+        },
+        {
+          "threshold": 1,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_ace"
+          }
+        },
+        {
+          "threshold": 2,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_agender"
+          }
+        },
+        {
+          "threshold": 3,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_aro"
+          }
+        },
+        {
+          "threshold": 4,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_bi"
+          }
+        },
+        {
+          "threshold": 5,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_genderfluid"
+          }
+        },
+        {
+          "threshold": 6,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_lesbian"
+          }
+        },
+        {
+          "threshold": 7,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_nonbinary"
+          }
+        },
+        {
+          "threshold": 8,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_pan"
+          }
+        },
+        {
+          "threshold": 9,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_trans"
+          }
+        },
+        {
+          "threshold": 10,
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:prop/lil_pineapple_proud"
+          }
+        }
+      ]
+    },
+    "pattern": "MM-dd",
+    "property": "minecraft:local_time"
   }
 }

@@ -42,7 +42,7 @@
             ],
             "palette_key": "trims/color_palettes/trim_palette",
             "permutations": {
-                "magnesium": "portalcubed:trims/color_palettes/magnesium"
+                "magnesium": "portalcubed:color_palettes/trims/magnesium"
             }
         }
     ]

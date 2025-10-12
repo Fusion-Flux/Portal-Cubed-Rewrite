@@ -10,7 +10,7 @@
             ],
             "palette_key": "trims/color_palettes/trim_palette",
             "permutations": {
-                "magnesium": "portalcubed:trims/color_palettes/magnesium"
+                "magnesium": "portalcubed:color_palettes/trims/magnesium"
             }
         },
         {
@@ -29,8 +29,24 @@
             "prefix": "portal_gun/"
         },
         {
-          "type": "single",
-          "resource": "minecraft:entity/fish/salmon"
+            "type": "paletted_permutations",
+            "textures": [
+                "minecraft:entity/fish/salmon"
+            ],
+            "palette_key": "portalcubed:color_palettes/portal_guns/salmon_gun_palette_key",
+            "permutations": {
+                "grayscale": "portalcubed:color_palettes/portal_guns/salmon_gun_palette"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "minecraft:item/crossbow_pulling_2"
+            ],
+            "palette_key": "portalcubed:color_palettes/portal_guns/crossbow_palette_key",
+            "permutations": {
+                "grayscale": "portalcubed:color_palettes/portal_guns/crossbow_palette"
+            }
         }
     ]
 }
