@@ -6,8 +6,8 @@
       {
         "when": "minecraft:fox",
         "model": {
- 	   "type": "minecraft:model",
- 	   "model": "portalcubed:item/crowbar_fox"
+          "type": "minecraft:model",
+          "model": "portalcubed:item/crowbar_in_hand"
         }
       },
       {
@@ -17,15 +17,31 @@
           "minecraft:wandering_trader"
         ],
         "model": {
- 	   "type": "minecraft:model",
- 	   "model": "portalcubed:item/crowbar_villager"
+          "type": "minecraft:model",
+          "model": "portalcubed:item/crowbar_villager"
         }
       }
-
     ],
     "fallback": {
-      "type": "minecraft:model",
-      "model": "portalcubed:item/crowbar"
+      "type": "minecraft:select",
+      "cases": [
+        {
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/crowbar"
+          },
+          "when": [
+            "gui",
+            "ground",
+            "fixed"
+          ]
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "portalcubed:item/crowbar_in_hand"
+      },
+      "property": "minecraft:display_context"
     }
   }
 }

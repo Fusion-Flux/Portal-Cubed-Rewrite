@@ -1,0 +1,11 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.magic_brush"
+  },
+  "item_model": "portalcubed:portal_guns/magic_brush",
+  "sounds": {
+    "primary_shoot": "minecraft:item.glow_ink_sac.use",
+    "secondary_shoot": "minecraft:item.glow_ink_sac.use",
+    "fizzle": "minecraft:entity.player.splash"
+  }
+}

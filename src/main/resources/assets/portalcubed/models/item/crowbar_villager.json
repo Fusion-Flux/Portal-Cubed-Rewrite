@@ -1,6 +1,6 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
-	"parent": "portalcubed:item/crowbar",
+	"parent": "portalcubed:item/crowbar_in_hand",
 	"display": {
 		"ground": {
 			"rotation": [19, 180, 0],

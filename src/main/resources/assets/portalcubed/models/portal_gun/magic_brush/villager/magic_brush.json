@@ -1,0 +1,11 @@
+{
+ 	"parent": "portalcubed:portal_gun/magic_brush/humanoid/magic_brush",
+	"credit": "Made by Cart3r using Blockbench.",
+	"display": {
+		"ground": {
+			"rotation": [0, 0, 15],
+			"translation": [0, 2, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}

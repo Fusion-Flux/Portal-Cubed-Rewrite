@@ -6,14 +6,42 @@
       {
         "when": "minecraft:fox",
         "model": {
- 	   "type": "minecraft:model",
- 	   "model": "portalcubed:item/fizzleinator_fox"
+          "type": "minecraft:model",
+          "model": "portalcubed:item/fizzleinator_in_hand"
+        }
+      },
+      {
+        "when": [
+          "minecraft:villager",
+          "minecraft:witch",
+          "minecraft:wandering_trader"
+        ],
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:item/fizzleinator_villager"
         }
       }
     ],
     "fallback": {
-      "type": "minecraft:model",
-      "model": "portalcubed:item/fizzleinator"
+      "type": "minecraft:select",
+      "cases": [
+        {
+          "model": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/fizzleinator"
+          },
+          "when": [
+            "gui",
+            "ground",
+            "fixed"
+          ]
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "portalcubed:item/fizzleinator_in_hand"
+      },
+      "property": "minecraft:display_context"
     }
   }
 }

@@ -1,0 +1,11 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "portalcubed:item/fizzleinator_in_hand",
+	"display": {
+		"ground": {
+			"rotation": [79, 56, 0],
+			"translation": [0, 2, 6],
+			"scale": [0.59961, 0.59961, 0.59961]
+		}
+	}
+}

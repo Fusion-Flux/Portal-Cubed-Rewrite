@@ -588,6 +588,15 @@ public class PortalCubedTabs {
 					14846044
 			);
 			addPortalGunSkin(output,
+					"magic_brush",
+					"magic_brush",
+					"none",
+					"graffiti_portal",
+					10494720,
+					"graffiti_portal",
+					7667377
+			);
+			addPortalGunSkin(output,
 					"polaroid",
 					"polaroid",
 					"base",
