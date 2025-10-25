@@ -74,13 +74,7 @@
     "portalcubed:small_signage",
     "portalcubed:aged_small_signage",
 
-    "portalcubed:white_chamber_door",
-    "portalcubed:gray_chamber_door",
-    "portalcubed:white_octopus_chamber_door",
-    "portalcubed:gray_octopus_chamber_door",
-    "portalcubed:white_portal_1_chamber_door",
-    "portalcubed:metal_portal_1_chamber_door",
-    "portalcubed:old_ap_chamber_door",
+    "#portalcubed:chamber_doors",
 
     "portalcubed:floor_button",
     "portalcubed:portal_1_floor_button",
