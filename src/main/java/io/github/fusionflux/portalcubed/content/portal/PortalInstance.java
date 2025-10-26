@@ -67,8 +67,8 @@ public final class PortalInstance {
 		Matrix3d rotationAsMatrix = new Matrix3d().rotation(this.rotation());
 
 		Vec3 boxOrigin = origin.add(this.normal.scale(-0.05));
-		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.5);
-		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.5);
+		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.51);
+		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.51);
 
 		this.entityCollisionArea = OBB.extrudeQuad(this.quad, 128);
 		this.blockModificationArea = OBB.extrudeQuad(this.quad, -128);

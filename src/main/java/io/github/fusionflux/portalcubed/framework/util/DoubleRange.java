@@ -4,12 +4,26 @@ import org.joml.Vector2dc;
 import org.joml.Vector3dc;
 
 public record DoubleRange(double min, double max) {
-	public DoubleRange add(double value) {
+	public DoubleRange shift(double value) {
 		return new DoubleRange(this.min + value, this.max + value);
 	}
 
-	public boolean intersects(DoubleRange other) {
-		return !((this.min - other.max > 0) || (other.min - this.max > 0));
+	public DoubleRange expandTowards(double value) {
+		if (value > 0) {
+			return new DoubleRange(this.min, this.max + value);
+		} else if (value < 0) {
+			return new DoubleRange(this.min - value, this.max);
+		} else {
+			return this;
+		}
+	}
+
+	public boolean intersects(DoubleRange that) {
+		return this.intersects(that, 0);
+	}
+
+	public boolean intersects(DoubleRange that, double epsilon) {
+		return !((this.min - that.max > epsilon) || (that.min - this.max > epsilon));
 	}
 
 	public boolean contains(DoubleRange other) {

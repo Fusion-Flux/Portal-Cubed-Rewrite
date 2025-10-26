@@ -3,10 +3,12 @@ package io.github.fusionflux.portalcubed.framework.shape;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
 import org.joml.Matrix4fc;
+import org.joml.Vector3dc;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
+import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -21,6 +23,10 @@ public record Plane(Vec3 normal, Vec3 origin) {
 			Vec3.STREAM_CODEC, Plane::origin,
 			Plane::new
 	);
+
+	public Plane(Vector3dc normal, Vector3dc origin) {
+		this(TransformUtils.toMc(normal), TransformUtils.toMc(origin));
+	}
 
 	public boolean isInFront(Vec3 pos) {
 		Vec3 to = this.origin.vectorTo(pos);

@@ -5,15 +5,12 @@ import org.joml.Vector3dc;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Mojang removed the A, we're adding an extra one
  */
 public final class Maath {
-	public static double projectionLength(Vector3dc a, Vector3dc b) {
-		return a.dot(b) / b.lengthSquared();
-	}
-
 	public static double get(Vector3dc vec, Direction.Axis axis) {
 		return switch (axis) {
 			case X -> vec.x();
@@ -42,5 +39,13 @@ public final class Maath {
 		Vector3d vec = new Vector3d();
 		set(vec, axis, value);
 		return vec;
+	}
+
+	public static Vec3 vectorBetween(Vector3dc from, Vec3 to) {
+		return new Vec3(to.x - from.x(), to.y - from.y(), to.z - from.z());
+	}
+
+	public static boolean isZero(Vector3dc vec) {
+		return vec.x() == 0 && vec.y() == 0 && vec.z() == 0;
 	}
 }

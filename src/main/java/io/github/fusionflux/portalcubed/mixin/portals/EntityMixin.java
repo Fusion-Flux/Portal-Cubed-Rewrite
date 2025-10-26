@@ -233,6 +233,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 				return true;
 			});
 
+			if (boxes.isEmpty())
+				continue;
+
 			AabbObbCollider collider = new AabbObbCollider(boxes);
 			if (collider.collide(bounds, motion, state::addCollider) && motion.lengthSquared() < 1e-7) {
 				return Vec3.ZERO;
@@ -257,11 +260,12 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			AABB collisionStart = targetBounds.move(0, maxUpStep, 0);
 			Vector3d motion = new Vector3d();
 
+			double target = -maxUpStep;
 			state.forEachCollider(box -> {
-				motion.set(0, -maxUpStep, 0);
-				OBB.Result result = box.collide(collisionStart, Direction.Axis.Y, -maxUpStep);
-				if (result != null) {
-					double step = maxUpStep + result.actual();
+				motion.set(0, target, 0);
+				double allowed = box.collide(collisionStart, Direction.Axis.Y, target);
+				if (allowed != target) {
+					double step = maxUpStep + allowed;
 					heights.add((float) step);
 				}
 			});

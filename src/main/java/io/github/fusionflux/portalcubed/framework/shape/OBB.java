@@ -1,10 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
-import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
 import org.joml.Matrix3d;
 import org.joml.Matrix3dc;
@@ -17,10 +15,8 @@ import com.google.common.collect.Iterables;
 import io.github.fusionflux.portalcubed.framework.util.Maath;
 import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -33,11 +29,6 @@ public final class OBB {
 	public static final Vector3dc YP = new Vector3d(0, 1, 0);
 	public static final Vector3dc ZP = new Vector3d(0, 0, 1);
 	public static final Vector3dc ZERO = new Vector3d();
-	private static final Map<Direction.Axis, Vector3dc> axisVectors = Util.makeEnumMap(Direction.Axis.class, axis -> switch (axis) {
-		case X -> XP;
-		case Y -> YP;
-		case Z -> ZP;
-	});
 
 	public final Vector3dc extents;
 	public final Vector3dc center;
@@ -103,6 +94,26 @@ public final class OBB {
 		};
 	}
 
+	public Vector3dc normal(Direction direction) {
+		Vector3dc basis = this.basis(direction.getAxis());
+		if (direction.getAxisDirection() == Direction.AxisDirection.POSITIVE)
+			return basis;
+
+		return new Vector3d(basis).mul(-1);
+	}
+
+	public double extent(Direction.Axis axis) {
+		return Maath.get(this.extents, axis);
+	}
+
+	public Plane plane(Direction direction) {
+		Vector3dc normal = this.normal(direction);
+		double extent = this.extent(direction.getAxis());
+		Vector3dc origin = new Vector3d(normal).mul(extent).add(this.center);
+
+		return new Plane(normal, origin);
+	}
+
 	public OBB transformed(Function<Vector3d, Vector3dc> center, Function<Matrix3d, Matrix3dc> rotation) {
 		return new OBB(
 				center.apply(new Vector3d(this.center)),
@@ -166,95 +177,22 @@ public final class OBB {
 	}
 
 	/**
-	 * Hand-rolled SAT impl to find the offset needed to separate the given box from this one.
-	 * @return the offset, or null if there's no collision
+	 * Calculate how far the given box can move along the given axis before a collision occurs, up to and including {@code motion}.
 	 */
-	@Nullable
-	public Vector3d collide(AABB aabb) {
-		return Sat3d.run(this.vertices(), TransformUtils.vertices(aabb), SimpleIterator.create(i -> switch (i) {
-			case 0 -> XP;
-			case 1 -> YP;
-			case 2 -> ZP;
-			case 3 -> this.basisX;
-			case 4 -> this.basisY;
-			case 5 -> this.basisZ;
-			case 6 -> new Vector3d(XP).cross(this.basisX);
-			case 7 -> new Vector3d(XP).cross(this.basisY);
-			case 8 -> new Vector3d(XP).cross(this.basisZ);
-			case 9 -> new Vector3d(YP).cross(this.basisX);
-			case 10 -> new Vector3d(YP).cross(this.basisY);
-			case 11 -> new Vector3d(YP).cross(this.basisZ);
-			case 12 -> new Vector3d(ZP).cross(this.basisX);
-			case 13 -> new Vector3d(ZP).cross(this.basisY);
-			case 14 -> new Vector3d(ZP).cross(this.basisZ);
-			default -> null;
-		}));
-	}
-
-	/**
-	 * Collide the given box along the given axis.
-	 * @return a result, or null if no collision occurred
-	 */
-	@Nullable
-	public Result collide(AABB bounds, Direction.Axis axis, double motion) {
+	public double collide(AABB bounds, Direction.Axis axis, double motion) {
 		if (this.intersects(bounds.deflate(1e-3))) {
 			// if the bounds are already noticeably within this box, do nothing.
 			// this matches how MC handles normal block collision.
-			return null;
+			return motion;
 		}
 
-		// first, do a simple collision in world coordinates to determine which face, if any, will be hit.
+		Vector3dc axisVector = switch (axis) {
+			case X -> XP;
+			case Y -> YP;
+			case Z -> ZP;
+		};
 
-		// normal will be stored here if a collision occurs
-		Vector3d offsetNormal = new Vector3d();
-		double actual = this.collidePhaseOne(bounds, axis, motion, offsetNormal);
-		if (actual == motion) {
-			// no collision
-			return null;
-		}
-
-		if (offsetNormal.lengthSquared() == 0) {
-			throw new IllegalStateException("Normal is not set");
-		}
-
-		// we need to determine behavior based on the normal of the hit face to match typical block collision.
-		// when walking along a wall, you slide, but you shouldn't slide down an angled floor when you jump.
-		// when the normal is approximately horizontal, re-collide, but slide this time
-		if (Math.abs(offsetNormal.dot(YP)) > 1e-2) {
-			// normal is not approximately horizontal.
-			// motion has already been modified, nothing else to do.
-			return new Result(actual, ZERO);
-		}
-
-		// re-collide with sliding.
-		// motion as local coords corresponds to numbers of basis vectors
-		Vector3d asMotionVector = Maath.vectorOf(axis, motion);
-		Vector3d bases = this.rotation.transform(asMotionVector, new Vector3d());
-
-		// axis order shouldn't matter here
-		for (Direction.Axis localAxis : Direction.Axis.VALUES) {
-			Vector3dc basis = this.basis(localAxis);
-			double target = Maath.projectionLength(asMotionVector, basis);
-			if (target == 0)
-				continue;
-
-			ResultOnAxis result = this.collideOnAxis(bounds, basis, target);
-			double localActual = result == null ? target : result.distance;
-			Maath.set(bases, localAxis, localActual);
-			// update the bounding box so the next axis step starts after this one
-			if (localActual != 0) {
-				bounds = bounds.move(basis.x() * localActual, basis.y() * localActual, basis.z() * localActual);
-			}
-		}
-
-		// recombine into a final motion vector. leave Y as-is so you can't jump on near-vertical walls
-		asMotionVector.set(this.basisX.x() * bases.x, asMotionVector.y,	this.basisX.z() * bases.x);
-		asMotionVector.add(this.basisY.x() * bases.y, 0,				this.basisY.z() * bases.y);
-		asMotionVector.add(this.basisZ.x() * bases.z, 0,				this.basisZ.z() * bases.z);
-
-		double finalMotion = Maath.get(asMotionVector, axis);
-		Maath.set(asMotionVector, axis, 0);
-		return new Result(finalMotion, asMotionVector);
+		return this.collideOnAxis(bounds, axisVector, motion);
 	}
 
 	public Iterable<BlockPos> intersectingBlocks() {
@@ -276,45 +214,30 @@ public final class OBB {
 		return TransformUtils.vertices(this.localAabb);
 	}
 
-	@Nullable
-	private OBB.ResultOnAxis collideOnAxis(AABB box, Vector3dc axis, double motion) {
-		// garbage brute-force linear scan to find the time of impact.
-		// I want to replace this with something better, but I've been researching for weeks with no results.
-
-		final int steps = 20;
-
-		// skip 0, already checked
-		for (int step = 1; step <= steps; step++) {
-			double progress = step / (double) steps;
-			double offset = Mth.lerp(progress, 0, motion);
-			AABB moved = box.move(axis.x() * offset, axis.y() * offset, axis.z() * offset);
-
-			Vector3d vec = this.collide(moved);
-			if (vec != null) {
-				// step back 1
-				double prevProgress = (step - 1) / (double) steps;
-				double finalMotion = Mth.lerp(prevProgress, 0, motion);
-				return new ResultOnAxis(finalMotion, vec);
-			}
-		}
-
-		// no collision found.
-		return null;
+	private double collideOnAxis(AABB box, Vector3dc axis, double motion) {
+		Vector3d motionVector = new Vector3d(axis).mul(motion);
+		return this.collide(box, motionVector) * motion;
 	}
 
-	/**
-	 * @return the allowed motion before a collision occurs
-	 */
-	private double collidePhaseOne(AABB bounds, Direction.Axis axis, double target, Vector3d normal) {
-		Vector3dc axisVec = axisVectors.get(axis);
-		ResultOnAxis result = this.collideOnAxis(bounds, axisVec, target);
-
-		if (result != null) {
-			normal.set(result.offset.normalize());
-			return result.distance;
-		}
-
-		return target;
+	private double collide(AABB aabb, Vector3dc motion) {
+		return DynamicSat3d.run(this.vertices(), TransformUtils.vertices(aabb), motion, SimpleIterator.create(i -> switch (i) {
+			case 0  -> XP;
+			case 1  -> YP;
+			case 2  -> ZP;
+			case 3  -> this.basisX;
+			case 4  -> this.basisY;
+			case 5  -> this.basisZ;
+			case 6  -> new Vector3d(XP).cross(this.basisX);
+			case 7  -> new Vector3d(XP).cross(this.basisY);
+			case 8  -> new Vector3d(XP).cross(this.basisZ);
+			case 9  -> new Vector3d(YP).cross(this.basisX);
+			case 10 -> new Vector3d(YP).cross(this.basisY);
+			case 11 -> new Vector3d(YP).cross(this.basisZ);
+			case 12 -> new Vector3d(ZP).cross(this.basisX);
+			case 13 -> new Vector3d(ZP).cross(this.basisY);
+			case 14 -> new Vector3d(ZP).cross(this.basisZ);
+			default -> null;
+		}));
 	}
 
 	public static OBB extrudeQuad(Quad quad, double depth) {
@@ -322,15 +245,5 @@ public final class OBB {
 		Vector3dc center = normal.mul(depth / 2, new Vector3d()).add(quad.center());
 		Matrix3d rotation = new Matrix3d(quad.right(), quad.up(), normal).normal();
 		return new OBB(center, quad.width(), quad.height(), Math.abs(depth), rotation);
-	}
-
-	private record ResultOnAxis(double distance, Vector3d offset) {
-	}
-
-	/**
-	 * @param actual the actual distance moved before colliding
-	 * @param deflection a vector indicating a change in the motion vector, to handle sliding. May have a length of 0.
-	 */
-	public record Result(double actual, Vector3dc deflection) {
 	}
 }
