@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:lost_cube",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.lost_cube.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.lost_cube.author"
+  },
+  "height": 3,
+  "width": 4
+}

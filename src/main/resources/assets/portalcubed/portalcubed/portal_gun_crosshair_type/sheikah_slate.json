@@ -1,0 +1,17 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.sheikah_slate"
+  },
+  "remove_vanilla_crosshair": true,
+  "base": "portalcubed:portal_gun_crosshair/sheikah_slate/sheikah_slate_base",
+  "primary": {
+      "empty": "portalcubed:portal_gun_crosshair/sheikah_slate/sheikah_slate_left",
+      "placed": "portalcubed:portal_gun_crosshair/sheikah_slate/sheikah_slate_left_placed",
+      "last_placed": "portalcubed:portal_gun_crosshair/sheikah_slate/sheikah_slate_left_last_placed"
+  },
+  "secondary": {
+      "empty": "portalcubed:portal_gun_crosshair/sheikah_slate/sheikah_slate_right",
+      "placed": "portalcubed:portal_gun_crosshair/sheikah_slate/sheikah_slate_right_placed",
+      "last_placed": "portalcubed:portal_gun_crosshair/sheikah_slate/sheikah_slate_right_last_placed"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:angelic",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.angelic.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.angelic.author"
+  },
+  "height": 2,
+  "width": 3
+}

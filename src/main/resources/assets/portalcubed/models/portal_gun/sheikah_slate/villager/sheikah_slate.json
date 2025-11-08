@@ -1,0 +1,11 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+ 	"parent": "portalcubed:portal_gun/sheikah_slate/humanoid/sheikah_slate",
+	"display": {
+		"ground": {
+			"rotation": [-43, -90, 0],
+			"translation": [0, 4, -2],
+			"scale": [0.58984, 0.58984, 0.58984]
+		}
+	}
+}

@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:initiative",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.initiative.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.initiative.author"
+  },
+  "height": 6,
+  "width": 4
+}

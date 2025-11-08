@@ -633,6 +633,15 @@ public class PortalCubedTabs {
 					16724273
 			);
 			addPortalGunSkin(output,
+					"sheikah_slate",
+					"sheikah_slate",
+					"sheikah_slate",
+					"travel_medallion",
+					52223,
+					"travel_medallion",
+					15766816
+			);
+			addPortalGunSkin(output,
 					"laser_pointer",
 					"laser_pointer",
 					"dot",

@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:indefinite",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.indefinite.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.indefinite.author"
+  },
+  "height": 3,
+  "width": 2
+}

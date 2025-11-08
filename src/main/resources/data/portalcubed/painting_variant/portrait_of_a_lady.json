@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:portrait_of_a_lady",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.portrait_of_a_lady.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.portrait_of_a_lady.author"
+  },
+  "height": 3,
+  "width": 2
+}

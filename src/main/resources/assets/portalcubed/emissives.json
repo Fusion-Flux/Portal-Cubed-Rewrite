@@ -106,8 +106,18 @@
 
   "portal_gun/crossbow/humanoid/black_hole_model_part": "portal_gun/mini_black_hole",
 
+  "portal_gun/sheikah_slate/humanoid/sheikah_slate": "portal_gun/sheikah_slate_emissive",
+  "portal_gun/sheikah_slate/fox/sheikah_slate": "portal_gun/sheikah_slate_emissive",
+  "portal_gun/sheikah_slate/villager/sheikah_slate": "portal_gun/sheikah_slate_emissive",
+
   "portal_gun/magic_brush/humanoid/magic_brush": "portal_gun/magic_brush_emissive",
   "portal_gun/magic_brush/villager/magic_brush": "portal_gun/magic_brush_emissive",
+
+  "portal_gun/wiimote/humanoid/wiimote": "portal_gun/portal_gun_emissive",
+  "portal_gun/wiimote/humanoid/wiimote_3rd_person": "portal_gun/portal_gun_emissive",
+  "portal_gun/wiimote/fox/wiimote": "portal_gun/portal_gun_emissive",
+  "portal_gun/wiimote/villager/wiimote": "portal_gun/portal_gun_emissive",
+  "portal_gun/wiimote/allay/wiimote": "portal_gun/portal_gun_emissive",
 
   "portal_gun/laser_pointer/humanoid/laser_pointer": "portal_gun/portal_gun_emissive",
   "portal_gun/laser_pointer/fox/laser_pointer": "portal_gun/portal_gun_emissive",

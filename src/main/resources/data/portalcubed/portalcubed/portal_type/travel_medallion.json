@@ -1,0 +1,39 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.travel_medallion"
+  },
+  "default_primary_color": 52223,
+  "default_secondary_color": 15766816,
+  "sounds": {
+    "shared": {
+      "cant_open": "portalcubed:portal_type.default.cant_open",
+      "travel": "portalcubed:portal_type.default.travel",
+      "ambient": "portalcubed:portal_type.default.ambient"
+    },
+    "primary": {
+      "open": "portalcubed:portal_type.default.open.primary",
+      "close": "portalcubed:portal_type.default.close.primary"
+    },
+    "secondary": {
+      "open": "portalcubed:portal_type.default.open.secondary",
+      "close": "portalcubed:portal_type.default.close.secondary"
+    }
+  },
+  "textures": {
+    "open": [
+       {
+         "texture": "portalcubed:portal/travel_medallion/travel_medallion",
+         "tint": true,
+         "offset": 0.25
+       }
+    ],
+    "closed": [
+       {
+         "texture": "portalcubed:portal/travel_medallion/travel_medallion",
+         "tint": true,
+         "offset": 0.25
+       }
+    ],
+    "tracer": "portalcubed:portal/travel_medallion/travel_medallion_tracer"
+  }
+}

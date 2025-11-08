@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:restless",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.restless.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.restless.author"
+  },
+  "height": 1,
+  "width": 2
+}

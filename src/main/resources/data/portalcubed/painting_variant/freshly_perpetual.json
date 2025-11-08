@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:freshly_perpetual",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.freshly_perpetual.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.freshly_perpetual.author"
+  },
+  "height": 5,
+  "width": 4
+}

@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:restful",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.restful.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.restful.author"
+  },
+  "height": 1,
+  "width": 2
+}

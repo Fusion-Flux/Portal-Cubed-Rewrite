@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:personalities",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.personalities.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.personalities.author"
+  },
+  "height": 2,
+  "width": 2
+}
