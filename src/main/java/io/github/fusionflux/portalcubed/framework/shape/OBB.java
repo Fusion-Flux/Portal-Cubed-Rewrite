@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.framework.shape;
 import java.util.Objects;
 import java.util.function.Function;
 
-import org.joml.Intersectiond;
 import org.joml.Matrix3d;
 import org.joml.Matrix3dc;
 import org.joml.Vector3d;
@@ -146,46 +145,13 @@ public final class OBB {
 	}
 
 	public boolean intersects(AABB aabb) {
-		Vec3 aabbCenter = aabb.getCenter();
-		return Intersectiond.testObOb(
-				this.center.x(), this.center.y(), this.center.z(),
-				this.rotation.m00(), this.rotation.m01(), this.rotation.m02(),
-				this.rotation.m10(), this.rotation.m11(), this.rotation.m12(),
-				this.rotation.m20(), this.rotation.m21(), this.rotation.m22(),
-				this.extents.x(), this.extents.y(), this.extents.z(),
-				aabbCenter.x, aabbCenter.y, aabbCenter.z,
-				1, 0, 0,
-				0, 1, 0,
-				0, 0, 1,
-				aabb.getXsize() / 2, aabb.getYsize() / 2, aabb.getZsize() / 2
-		);
-	}
-
-	public boolean intersects(OBB that) {
-		return Intersectiond.testObOb(
-				this.center.x(), this.center.y(), this.center.z(),
-				this.rotation.m00(), this.rotation.m01(), this.rotation.m02(),
-				this.rotation.m10(), this.rotation.m11(), this.rotation.m12(),
-				this.rotation.m20(), this.rotation.m21(), this.rotation.m22(),
-				this.extents.x(), this.extents.y(), this.extents.z(),
-				that.center.x(), that.center.y(), that.center.z(),
-				that.rotation.m00(), that.rotation.m01(), that.rotation.m02(),
-				that.rotation.m10(), that.rotation.m11(), that.rotation.m12(),
-				that.rotation.m20(), that.rotation.m21(), that.rotation.m22(),
-				that.extents.x(), that.extents.y(), that.extents.z()
-		);
+		return this.collide(aabb, ZERO) == DynamicSat3d.COLLIDING;
 	}
 
 	/**
 	 * Calculate how far the given box can move along the given axis before a collision occurs, up to and including {@code motion}.
 	 */
 	public double collide(AABB bounds, Direction.Axis axis, double motion) {
-		if (this.intersects(bounds.deflate(1e-3))) {
-			// if the bounds are already noticeably within this box, do nothing.
-			// this matches how MC handles normal block collision.
-			return motion;
-		}
-
 		Vector3dc axisVector = switch (axis) {
 			case X -> XP;
 			case Y -> YP;
@@ -216,7 +182,8 @@ public final class OBB {
 
 	private double collideOnAxis(AABB box, Vector3dc axis, double motion) {
 		Vector3d motionVector = new Vector3d(axis).mul(motion);
-		return this.collide(box, motionVector) * motion;
+		double scale = this.collide(box, motionVector);
+		return scale == DynamicSat3d.COLLIDING ? motion : motion * scale;
 	}
 
 	private double collide(AABB aabb, Vector3dc motion) {

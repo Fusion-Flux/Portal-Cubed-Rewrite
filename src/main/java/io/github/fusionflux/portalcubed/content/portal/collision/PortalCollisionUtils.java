@@ -45,7 +45,7 @@ public final class PortalCollisionUtils {
 
 		DebugRendering.addBox(1, transformedArea, Color.PURPLE);
 
-		for (VoxelShape shape : entity.level().getCollisions(entity, transformedArea)) {
+		for (VoxelShape shape : entity.level().getCollisions(null, transformedArea)) {
 			for (AABB box : shape.toAabbs()) {
 				if (linked.portal().plane.isBehind(box))
 					continue;

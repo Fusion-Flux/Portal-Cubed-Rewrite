@@ -15,7 +15,6 @@ import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.shape.Quad;
 import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.Entity;
@@ -93,10 +92,6 @@ public final class PortalInstance {
 
 	public boolean seesModifiedCollision(Entity entity) {
 		return this.entityCollisionArea.intersects(entity.getBoundingBox());
-	}
-
-	public boolean modifiesCollision(BlockPos pos) {
-		return this.blockModificationArea.intersects(pos);
 	}
 
 	public record Holder(PortalPair.Holder pair, Polarity polarity, PortalInstance portal) {

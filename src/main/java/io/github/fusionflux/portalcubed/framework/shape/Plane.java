@@ -51,6 +51,20 @@ public record Plane(Vec3 normal, Vec3 origin) {
 				|| this.isBehind(new Vec3(box.maxX, box.maxY, box.maxZ));
 	}
 
+	/**
+	 * @return true if all vertices of the box are behind this plane
+	 */
+	public boolean isFullyBehind(AABB box) {
+		return this.isBehind(new Vec3(box.minX, box.minY, box.minZ))
+				&& this.isBehind(new Vec3(box.minX, box.minY, box.maxZ))
+				&& this.isBehind(new Vec3(box.minX, box.maxY, box.minZ))
+				&& this.isBehind(new Vec3(box.minX, box.maxY, box.maxZ))
+				&& this.isBehind(new Vec3(box.maxX, box.minY, box.minZ))
+				&& this.isBehind(new Vec3(box.maxX, box.minY, box.maxZ))
+				&& this.isBehind(new Vec3(box.maxX, box.maxY, box.minZ))
+				&& this.isBehind(new Vec3(box.maxX, box.maxY, box.maxZ));
+	}
+
 	@Environment(EnvType.CLIENT)
 	public boolean isInFront(Camera camera) {
 		return this.isInFront(camera.getPosition());

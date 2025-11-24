@@ -46,34 +46,31 @@ public final class AabbObbCollider {
 			for (OBB box : this.boxes) {
 				double allowed = box.collide(bounds, axis, motion);
 				if (allowed != motion) {
+					DebugRendering.addBox(1, box, Color.YELLOW);
 					collided = true;
 					onHit.accept(box);
-					DebugRendering.addBox(1, box, Color.YELLOW);
 
 					// only change the target if this collision results in a closer hit
 					if (Math.abs(allowed) < Math.abs(motion)) {
 						motion = allowed;
 					}
-				}
 
-				if (allowed == 0) {
-					// no need to check the other boxes
-					break;
+					if (allowed == 0) {
+						// no need to check the other boxes
+						break;
+					}
 				}
 			}
-
-			if (!collided) {
-				// update the bounds and exit early
-				bounds = Maath.move(bounds, axis, motion);
-				continue;
-			}
-
-			collisionOccurred = true;
-			Maath.set(motionVector, axis, motion);
 
 			if (motion != 0) {
 				bounds = Maath.move(bounds, axis, motion);
 			}
+
+			if (!collided)
+				continue;
+
+			collisionOccurred = true;
+			Maath.set(motionVector, axis, motion);
 		}
 
 		return collisionOccurred;
