@@ -1,0 +1,18 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.gman_portal"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": -1,
+  "sounds": {},
+  "textures": {
+    "open": "portalcubed:portal/gman_portal/gman_portal",
+    "closed": "portalcubed:portal/gman_portal/gman_portal",
+    "tracer": "portalcubed:portal/gman_portal/gman_portal_tracer"
+  },
+  "place_animation": {
+    "type": "expand_vertical_bottom",
+    "easing": "linear",
+    "duration": 12
+  }
+}

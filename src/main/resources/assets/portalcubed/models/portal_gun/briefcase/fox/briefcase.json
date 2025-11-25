@@ -1,0 +1,11 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+ 	"parent": "portalcubed:portal_gun/briefcase/humanoid/briefcase",
+	"display": {
+		"ground": {
+			"rotation": [0, 90, 0],
+			"translation": [0, -2.25, 1.5],
+			"scale": [0.58984, 0.58984, 0.58984]
+		}
+	}
+}

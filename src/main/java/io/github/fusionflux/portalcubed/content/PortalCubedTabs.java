@@ -516,6 +516,15 @@ public class PortalCubedTabs {
 					13649204
 			);
 			addPortalGunSkin(output,
+					"briefcase",
+					"briefcase",
+					"base",
+					"gman_portal",
+					-1,
+					"gman_portal",
+					-1
+			);
+			addPortalGunSkin(output,
 					"splash_o_matic",
 					"splash_o_matic",
 					"splash_o_matic",

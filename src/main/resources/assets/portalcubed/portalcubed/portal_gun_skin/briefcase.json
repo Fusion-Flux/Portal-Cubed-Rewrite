@@ -1,0 +1,7 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.briefcase"
+  },
+  "item_model": "portalcubed:portal_guns/briefcase",
+  "sounds": {}
+}

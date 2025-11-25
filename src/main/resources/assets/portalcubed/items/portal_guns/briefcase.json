@@ -1,0 +1,84 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:context_entity_type",
+    "cases": [
+      {
+        "when": [
+          "minecraft:villager",
+          "minecraft:witch",
+          "minecraft:wandering_trader"
+        ],
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/briefcase/villager/briefcase",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": 986895
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
+        "when": "minecraft:fox",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/briefcase/fox/briefcase",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": 986895
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "portalcubed:portal_gun/briefcase/humanoid/briefcase",
+      "tints": [
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "active"
+        },
+        {
+          "type": "minecraft:dye",
+          "default": 986895
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "primary"
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "secondary"
+        }
+      ]
+    }
+  }
+}
