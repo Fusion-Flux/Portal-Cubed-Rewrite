@@ -13,7 +13,6 @@ import com.google.common.collect.Iterables;
 
 import io.github.fusionflux.portalcubed.framework.util.Maath;
 import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
@@ -50,11 +49,11 @@ public final class OBB {
 	}
 
 	public OBB(AABB aabb, Matrix3dc rotation) {
-		this(TransformUtils.toJoml(aabb.getCenter()), aabb.getXsize(), aabb.getYsize(), aabb.getZsize(), rotation);
+		this(aabb.getCenter().asJoml(), aabb.getXsize(), aabb.getYsize(), aabb.getZsize(), rotation);
 	}
 
 	public OBB(Vec3 center, double xSize, double ySize, double zSize, Matrix3dc rotation) {
-		this(TransformUtils.toJoml(center), xSize, ySize, zSize, rotation);
+		this(center.asJoml(), xSize, ySize, zSize, rotation);
 	}
 
 	public OBB(Vector3dc center, double xSize, double ySize, double zSize, Matrix3dc rotation) {
@@ -177,7 +176,7 @@ public final class OBB {
 	}
 
 	public Iterable<Vector3dc> localVertices() {
-		return TransformUtils.vertices(this.localAabb);
+		return this.localAabb.vertices();
 	}
 
 	private double collideOnAxis(AABB box, Vector3dc axis, double motion) {
@@ -187,7 +186,7 @@ public final class OBB {
 	}
 
 	private double collide(AABB aabb, Vector3dc motion) {
-		return DynamicSat3d.run(this.vertices(), TransformUtils.vertices(aabb), motion, SimpleIterator.create(i -> switch (i) {
+		return DynamicSat3d.run(this.vertices(), aabb.vertices(), motion, SimpleIterator.create(i -> switch (i) {
 			case 0  -> XP;
 			case 1  -> YP;
 			case 2  -> ZP;

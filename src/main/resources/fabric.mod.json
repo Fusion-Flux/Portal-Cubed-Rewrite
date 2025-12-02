@@ -32,6 +32,8 @@
   },
   "custom": {
     "loom:injected_interfaces": {
+      "net/minecraft/class_238": [ "io/github/fusionflux/portalcubed/framework/extension/AABBExt" ],
+      "net/minecraft/class_243": [ "io/github/fusionflux/portalcubed/framework/extension/Vec3Ext" ],
       "net/minecraft/class_1657": [ "io/github/fusionflux/portalcubed/framework/extension/PlayerExt" ],
       "net/minecraft/class_1937": [ "io/github/fusionflux/portalcubed/framework/extension/LevelExt" ],
       "net/minecraft/class_3218": [ "io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt" ],

@@ -11,10 +11,10 @@ import org.joml.Vector3d;
 import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
+import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.shape.Quad;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.Entity;
@@ -53,14 +53,14 @@ public final class PortalInstance {
         this.data = data;
 		Vec3 origin = data.origin();
 
-		this.normal = TransformUtils.toMc(this.rotation().transform(Quad.BASE_NORMAL, new Vector3d()));
-		this.up = TransformUtils.toMc(this.rotation().transform(Quad.BASE_UP, new Vector3d()));
-		this.right = TransformUtils.toMc(this.rotation().transform(Quad.BASE_RIGHT, new Vector3d()));
+		this.normal = Vec3Ext.of(this.rotation().transform(Quad.BASE_NORMAL, new Vector3d()));
+		this.up = Vec3Ext.of(this.rotation().transform(Quad.BASE_UP, new Vector3d()));
+		this.right = Vec3Ext.of(this.rotation().transform(Quad.BASE_RIGHT, new Vector3d()));
 
 		this.rotation180 = SinglePortalTransform.rotate180(this.rotation());
 		this.plane = new Plane(this.normal, origin);
 
-		this.quad = Quad.create(TransformUtils.toJoml(origin), WIDTH, HEIGHT, this.rotation());
+		this.quad = Quad.create(origin.asJoml(), WIDTH, HEIGHT, this.rotation());
 		this.renderBounds = this.quad.containingBox();
 
 		Matrix3d rotationAsMatrix = new Matrix3d().rotation(this.rotation());

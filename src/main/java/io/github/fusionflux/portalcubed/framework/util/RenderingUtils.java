@@ -16,6 +16,7 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
@@ -82,7 +83,7 @@ public class RenderingUtils {
 		matrices.popPose();
 
 		for (Vector3dc vertex : box.vertices()) {
-			renderPos(matrices, vertexConsumers, TransformUtils.toMc(vertex), 0.05f, color);
+			renderPos(matrices, vertexConsumers, Vec3Ext.of(vertex), 0.05f, color);
 		}
 	}
 
@@ -90,17 +91,17 @@ public class RenderingUtils {
 		Quad quad = Quad.create(plane, size);
 		renderQuad(matrices, vertexConsumers, quad, color);
 		Vec3 normal = plane.normal();
-		renderVec(matrices, vertexConsumers, normal, TransformUtils.toMc(quad.bottomLeft()), color);
-		renderVec(matrices, vertexConsumers, normal, TransformUtils.toMc(quad.bottomRight()), color);
-		renderVec(matrices, vertexConsumers, normal, TransformUtils.toMc(quad.topRight()), color);
-		renderVec(matrices, vertexConsumers, normal, TransformUtils.toMc(quad.topLeft()), color);
+		renderVec(matrices, vertexConsumers, normal, Vec3Ext.of(quad.bottomLeft()), color);
+		renderVec(matrices, vertexConsumers, normal, Vec3Ext.of(quad.bottomRight()), color);
+		renderVec(matrices, vertexConsumers, normal, Vec3Ext.of(quad.topRight()), color);
+		renderVec(matrices, vertexConsumers, normal, Vec3Ext.of(quad.topLeft()), color);
 	}
 
 	public static void renderQuad(PoseStack matrices, MultiBufferSource vertexConsumers, Quad quad, Color color) {
-		Vec3 bottomLeft = TransformUtils.toMc(quad.bottomLeft());
-		Vec3 bottomRight = TransformUtils.toMc(quad.bottomRight());
-		Vec3 topRight = TransformUtils.toMc(quad.topRight());
-		Vec3 topLeft = TransformUtils.toMc(quad.topLeft());
+		Vec3 bottomLeft = Vec3Ext.of(quad.bottomLeft());
+		Vec3 bottomRight = Vec3Ext.of(quad.bottomRight());
+		Vec3 topRight = Vec3Ext.of(quad.topRight());
+		Vec3 topLeft = Vec3Ext.of(quad.topLeft());
 
 		renderLine(matrices, vertexConsumers, bottomLeft, bottomRight, color);
 		renderLine(matrices, vertexConsumers, bottomRight, topRight, color);

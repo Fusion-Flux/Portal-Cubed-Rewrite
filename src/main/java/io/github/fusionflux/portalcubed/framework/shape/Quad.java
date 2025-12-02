@@ -7,8 +7,8 @@ import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
+import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -44,7 +44,7 @@ public record Quad(Vector3dc center,
 			);
 		}
 
-		return intersect ? TransformUtils.toMc(pos) : null;
+		return intersect ? Vec3Ext.of(pos) : null;
 	}
 
 	public Iterable<Vector3dc> vertices() {
@@ -134,6 +134,6 @@ public record Quad(Vector3dc center,
 				(float) BASE_NORMAL.x(), (float) BASE_NORMAL.y(), (float) BASE_NORMAL.z(),
 				(float) normal.x, (float) normal.y, (float) normal.z
 		);
-		return create(TransformUtils.toJoml(plane.origin()), size, size, rotation);
+		return create(plane.origin().asJoml(), size, size, rotation);
 	}
 }

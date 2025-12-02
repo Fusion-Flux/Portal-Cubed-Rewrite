@@ -6,9 +6,9 @@ import io.github.fusionflux.portalcubed.PortalCubedClient;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -44,7 +44,7 @@ public class PortalDebugRenderer {
 		RenderingUtils.renderBox(matrices, buffers, originBox, Color.GREEN);
 		RenderingUtils.renderQuad(matrices, buffers, portal.quad, Color.GREEN);
 		RenderingUtils.renderVec(matrices, buffers, portal.normal, portal.data.origin(), Color.RED);
-		RenderingUtils.renderVec(matrices, buffers, TransformUtils.toMc(portal.quad.up()), portal.data.origin(), Color.BLUE);
+		RenderingUtils.renderVec(matrices, buffers, Vec3Ext.of(portal.quad.up()), portal.data.origin(), Color.BLUE);
 		// plane
 		RenderingUtils.renderPlane(matrices, buffers, portal.plane, 2.5f, Color.ORANGE);
 		// collision bounds

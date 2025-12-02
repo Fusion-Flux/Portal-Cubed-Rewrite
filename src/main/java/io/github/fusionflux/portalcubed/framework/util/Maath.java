@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
@@ -47,5 +49,9 @@ public final class Maath {
 
 	public static boolean isZero(Vector3dc vec) {
 		return vec.x() == 0 && vec.y() == 0 && vec.z() == 0;
+	}
+
+	public static boolean equals(Quaternionfc a, Quaternionfc b, float delta) {
+		return a.equals(b, delta) || a.equals(b.mul(-1, new Quaternionf()), delta);
 	}
 }

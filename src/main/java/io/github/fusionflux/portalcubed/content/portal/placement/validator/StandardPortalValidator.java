@@ -10,7 +10,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import io.github.fusionflux.portalcubed.framework.util.Maath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -40,7 +40,7 @@ public record StandardPortalValidator(Angle rotation) implements PortalValidator
 
 		PortalPlacement placement = PortalBumper.findValidPlacement(holder.asId(), level, portal.data.origin(), 0, pos, face, null, this.rotation);
 
-		return placement != null && placement.pos().equals(portal.data.origin()) && TransformUtils.equals(placement.rotation(), portal.rotation(), 1e-5f);
+		return placement != null && placement.pos().equals(portal.data.origin()) && Maath.equals(placement.rotation(), portal.rotation(), 1e-5f);
 	}
 
 	@Override

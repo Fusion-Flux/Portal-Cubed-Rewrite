@@ -8,11 +8,8 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
+import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.netty.buffer.ByteBuf;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.Camera;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -25,49 +22,63 @@ public record Plane(Vec3 normal, Vec3 origin) {
 	);
 
 	public Plane(Vector3dc normal, Vector3dc origin) {
-		this(TransformUtils.toMc(normal), TransformUtils.toMc(origin));
+		this(Vec3Ext.of(normal), Vec3Ext.of(origin));
 	}
 
-	public boolean isInFront(Vec3 pos) {
-		Vec3 to = this.origin.vectorTo(pos);
-		return to.dot(this.normal) > 0;
+	/**
+	 * @return true if the given pos is not on or in front of this plane
+	 */
+	public boolean isBehind(Vector3dc pos) {
+		// inlined pos.sub(this.origin)
+		double dx = pos.x() - this.origin.x;
+		double dy = pos.y() - this.origin.y;
+		double dz = pos.z() - this.origin.z;
+		// inlined dot product
+		return (dx * this.normal.x) + (dy * this.normal.y) + (dz * this.normal.z) < 0;
 	}
 
+	/**
+	 * @return true if the given pos is behind or on this plane
+	 */
+	public boolean isBehindOrOn(Vector3dc pos) {
+		// inlined pos.sub(this.origin)
+		double dx = pos.x() - this.origin.x;
+		double dy = pos.y() - this.origin.y;
+		double dz = pos.z() - this.origin.z;
+		// inlined dot product
+		return (dx * this.normal.x) + (dy * this.normal.y) + (dz * this.normal.z) <= 0;
+	}
+	/**
+	 * @see #isBehind(Vector3dc)
+	 */
 	public boolean isBehind(Vec3 pos) {
-		return !this.isInFront(pos);
+		return this.isBehind(pos.asJoml());
 	}
 
 	/**
-	 * @return true if any vertex of the box is behind this plane
+	 * @return true if any vertex of the box is {@link #isBehind(Vector3dc) behind} this plane
 	 */
-	public boolean isBehind(AABB box) {
-		return this.isBehind(new Vec3(box.minX, box.minY, box.minZ))
-				|| this.isBehind(new Vec3(box.minX, box.minY, box.maxZ))
-				|| this.isBehind(new Vec3(box.minX, box.maxY, box.minZ))
-				|| this.isBehind(new Vec3(box.minX, box.maxY, box.maxZ))
-				|| this.isBehind(new Vec3(box.maxX, box.minY, box.minZ))
-				|| this.isBehind(new Vec3(box.maxX, box.minY, box.maxZ))
-				|| this.isBehind(new Vec3(box.maxX, box.maxY, box.minZ))
-				|| this.isBehind(new Vec3(box.maxX, box.maxY, box.maxZ));
+	public boolean isPartiallyBehind(AABB box) {
+		for (Vector3dc vertex : box.vertices()) {
+			if (this.isBehind(vertex)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
-	 * @return true if all vertices of the box are behind this plane
+	 * @return true if all vertices of the box are {@link #isBehindOrOn(Vector3dc) behind or on} this plane
 	 */
-	public boolean isFullyBehind(AABB box) {
-		return this.isBehind(new Vec3(box.minX, box.minY, box.minZ))
-				&& this.isBehind(new Vec3(box.minX, box.minY, box.maxZ))
-				&& this.isBehind(new Vec3(box.minX, box.maxY, box.minZ))
-				&& this.isBehind(new Vec3(box.minX, box.maxY, box.maxZ))
-				&& this.isBehind(new Vec3(box.maxX, box.minY, box.minZ))
-				&& this.isBehind(new Vec3(box.maxX, box.minY, box.maxZ))
-				&& this.isBehind(new Vec3(box.maxX, box.maxY, box.minZ))
-				&& this.isBehind(new Vec3(box.maxX, box.maxY, box.maxZ));
-	}
+	public boolean isFullyBehindOrOn(AABB box) {
+		for (Vector3dc vertex : box.vertices()) {
+			if (!this.isBehindOrOn(vertex)) {
+				return false;
+			}
+		}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isInFront(Camera camera) {
-		return this.isInFront(camera.getPosition());
+		return true;
 	}
 
 	@Nullable
@@ -84,11 +95,11 @@ public record Plane(Vec3 normal, Vec3 origin) {
 		return distance == -1 ? null : from.add(direction.scale(distance));
 	}
 
-	@Environment(EnvType.CLIENT)
 	public void getClipping(Matrix4fc view, Vec3 camPos, Vector4f dest) {
 		Vec3 camRelativeOrigin = this.origin.subtract(camPos);
 		Vector3f normal = view.transformDirection(this.normal.toVector3f());
 		float distance = -view.transformPosition(camRelativeOrigin.toVector3f()).dot(normal);
+		// this is server-safe since javac inlines primitive constants
 		dest.set(normal, distance + (float) PortalRenderer.OFFSET_FROM_WALL);
 	}
 }

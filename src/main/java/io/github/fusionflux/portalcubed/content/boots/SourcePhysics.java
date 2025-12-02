@@ -14,7 +14,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 
 import io.github.fusionflux.portalcubed.PortalCubedClient;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.EntityAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -77,7 +76,7 @@ public class SourcePhysics {
 		if (dot < 0.1)
 			return;
 
-		Vec3 projection = TransformUtils.project(vel, accel);
+		Vec3 projection = vel.projectedOn(accel);
 		if (projection.length() > SPEED_LIMIT) {
 			// too fast, discard
 			// don't use 0, will stop sprinting
@@ -141,7 +140,7 @@ public class SourcePhysics {
 
 			Vec3 accel = getAcceleration(player);
 			if (accel.length() > 0) {
-				Vec3 projection = TransformUtils.project(vel, accel).scale(SCALE);
+				Vec3 projection = vel.projectedOn(accel).scale(SCALE);
 				renderVec(projection, PROJECTION_COLOR);
 				renderVec(accel.scale(SCALE), ACCEL_COLOR);
 			}

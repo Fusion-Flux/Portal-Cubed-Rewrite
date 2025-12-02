@@ -189,7 +189,7 @@ public class PortalRenderer {
 	}
 
 	private static float getPortalTracerAlpha(Plane portalPlane, Vec3 camPos) {
-		if (!portalPlane.isInFront(camPos))
+		if (portalPlane.isBehind(camPos))
 			return BASE_TRACER_OPACITY;
 
 		return BASE_TRACER_OPACITY * (float) Math.min((camPos.distanceTo(portalPlane.origin()) - TRACER_FADEOUT_END_DISTANCE) / TRACER_FADEOUT_START_DISTANCE, 1);
@@ -261,7 +261,7 @@ public class PortalRenderer {
 			return;
 
 		Camera camera = context.camera();
-		if (!portal.plane.isInFront(camera))
+		if (portal.plane.isBehind(camera.getPosition()))
 			return;
 
 		matrices.pushPose();

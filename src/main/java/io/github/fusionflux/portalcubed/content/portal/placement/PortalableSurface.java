@@ -7,8 +7,8 @@ import org.joml.Vector2d;
 import org.joml.Vector2dc;
 import org.joml.Vector3d;
 
+import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.flat.Line2d;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -46,8 +46,8 @@ public record PortalableSurface(Quaternionfc rotation, Vec3 origin, List<Line2d>
 	}
 
 	public Vector2d to2d(Vec3 pos) {
-		Vec3 up = TransformUtils.toMc(this.rotation.transform(new Vector3d(0, 0, 1)));
-		Vec3 right = TransformUtils.toMc(this.rotation.transform(new Vector3d(1, 0, 0)));
+		Vec3 up = Vec3Ext.of(this.rotation.transform(new Vector3d(0, 0, 1)));
+		Vec3 right = Vec3Ext.of(this.rotation.transform(new Vector3d(1, 0, 0)));
 
 		Vec3 relative = this.origin.vectorTo(pos);
 

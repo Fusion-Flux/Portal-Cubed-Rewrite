@@ -54,7 +54,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 				continue;
 
 			PortalInstance portal = holder.portal();
-			if (portal.plane.isFullyBehind(posAabb) && portal.seesModifiedCollision(entity)) {
+			if (portal.plane.isFullyBehindOrOn(posAabb) && portal.seesModifiedCollision(entity)) {
 				return Shapes.empty();
 			}
 		}

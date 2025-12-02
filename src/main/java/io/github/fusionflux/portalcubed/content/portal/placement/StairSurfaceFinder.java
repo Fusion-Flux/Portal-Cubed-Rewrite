@@ -12,10 +12,10 @@ import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.flat.Line2d;
 import io.github.fusionflux.portalcubed.framework.util.Color;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -71,7 +71,7 @@ public final class StairSurfaceFinder {
 		Vec3 edgeOfTopStep = Vec3.upFromBottomCenterOf(pos, half == Half.BOTTOM ? 1 : 0);
 		// I feel like I'm going insane, why are Y and Z swapped here
 		Vector3d planeNormal = rotation.transform(new Vector3d(0, 0, 1));
-		Vec3 nearestOnPlane = TransformUtils.toMc(Intersectiond.findClosestPointOnPlane(
+		Vec3 nearestOnPlane = Vec3Ext.of(Intersectiond.findClosestPointOnPlane(
 				edgeOfTopStep.x, edgeOfTopStep.z, edgeOfTopStep.y,
 				planeNormal.x, planeNormal.z, planeNormal.y,
 				initial.x, initial.z, initial.y,
@@ -81,7 +81,7 @@ public final class StairSurfaceFinder {
 		DebugRendering.addPos(100, nearestOnPlane, Color.ORANGE);
 
 		// discard components of offset that don't offset out of the stairs
-		Vec3 surfaceNormal = TransformUtils.toMc(rotation.transform(new Vector3d(0, 1, 0)));
+		Vec3 surfaceNormal = Vec3Ext.of(rotation.transform(new Vector3d(0, 1, 0)));
 		return nearestOnPlane;
 	}
 

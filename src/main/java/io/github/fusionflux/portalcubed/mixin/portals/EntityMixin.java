@@ -27,11 +27,11 @@ import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollision
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
+import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.AabbObbCollider;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.Color;
-import io.github.fusionflux.portalcubed.framework.util.TransformUtils;
 import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -219,7 +219,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			return motionMc;
 		}
 
-		Vector3d motion = TransformUtils.toJoml(motionMc);
+		Vector3d motion = new Vector3d(motionMc.asJoml());
 
 		for (PortalInstance.Holder portal : state.portals) {
 			// collect all boxes to collide with. always start with the perimeter
@@ -242,7 +242,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			}
 		}
 
-		return TransformUtils.toMc(motion);
+		return Vec3Ext.of(motion);
 	}
 
 	@ModifyReceiver(
