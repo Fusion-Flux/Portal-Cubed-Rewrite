@@ -9,15 +9,16 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
@@ -27,11 +28,11 @@ import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollision
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
-import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.AabbObbCollider;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.framework.util.Maath;
 import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -212,14 +213,25 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		}
 	}
 
-	@ModifyVariable(method = "collideWithShapes", at = @At("HEAD"), argsOnly = true)
-	private static Vec3 portalCollision(Vec3 motionMc, @Local(argsOnly = true) AABB bounds) {
+	@Inject(method = "collideWithShapes", at = @At("HEAD"))
+	private static void captureOriginalBounds(CallbackInfoReturnable<Vec3> cir,
+											  @Local(argsOnly = true) AABB bounds,
+											  @Share("bounds") LocalRef<AABB> boundsRef) {
+		boundsRef.set(bounds);
+	}
+
+	@ModifyReturnValue(method = "collideWithShapes", at = @At("RETURN"))
+	private static Vec3 portalCollision(Vec3 motionMc, @Share("bounds") LocalRef<AABB> boundsRef) {
 		EntityCollisionState state = collisionState.get();
 		if (state == null) {
 			return motionMc;
 		}
 
 		Vector3d motion = new Vector3d(motionMc.asJoml());
+		AABB bounds = boundsRef.get();
+		if (bounds == null) {
+			throw new IllegalStateException("Bounds not captured");
+		}
 
 		for (PortalInstance.Holder portal : state.portals) {
 			// collect all boxes to collide with. always start with the perimeter
@@ -242,7 +254,15 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			}
 		}
 
-		return Vec3Ext.of(motion);
+		if (Maath.equals(motionMc, motion))
+			return motionMc;
+
+		// we need to return the minimum allowed motion of the two passes (vanilla terrain, portal collision)
+		return new Vec3(
+				Maath.minAbs(motionMc.x, motion.x),
+				Maath.minAbs(motionMc.y, motion.y),
+				Maath.minAbs(motionMc.z, motion.z)
+		);
 	}
 
 	@ModifyReceiver(

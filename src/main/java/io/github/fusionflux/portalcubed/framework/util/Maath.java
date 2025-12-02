@@ -51,7 +51,18 @@ public final class Maath {
 		return vec.x() == 0 && vec.y() == 0 && vec.z() == 0;
 	}
 
+	public static double minAbs(double a, double b) {
+		if (Double.isNaN(a))
+			return a;
+
+		return Math.abs(a) <= Math.abs(b) ? a : b;
+	}
+
 	public static boolean equals(Quaternionfc a, Quaternionfc b, float delta) {
 		return a.equals(b, delta) || a.equals(b.mul(-1, new Quaternionf()), delta);
+	}
+
+	public static boolean equals(Vec3 a, Vector3dc b) {
+		return a.x == b.x() && a.y == b.y() && a.z == b.z();
 	}
 }
