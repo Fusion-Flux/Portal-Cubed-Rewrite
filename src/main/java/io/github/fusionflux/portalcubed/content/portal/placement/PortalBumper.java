@@ -18,9 +18,9 @@ import org.joml.Vector2dc;
 import org.joml.Vector3f;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
@@ -332,7 +332,7 @@ public class PortalBumper {
 			if (ignored != null && holder.matches(ignored))
 				return;
 
-			PortalInstance portal = holder.portal();
+			Portal portal = holder.portal();
 			if (!Mth.equal(face.getUnitVec3().dot(portal.normal), 1))
 				return; // not facing the same way
 

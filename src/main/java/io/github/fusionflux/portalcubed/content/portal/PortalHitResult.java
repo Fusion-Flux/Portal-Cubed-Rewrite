@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
  * Represents the result of a raycast that only interacts with portals.
  */
 public sealed interface PortalHitResult permits PortalHitResult.Closed, PortalHitResult.Open {
-	PortalInstance.Holder enteredPortal();
+	Portal.Holder enteredPortal();
 
 	default PortalPair.Holder pair() {
 		return this.enteredPortal().pair();
@@ -19,7 +19,7 @@ public sealed interface PortalHitResult permits PortalHitResult.Closed, PortalHi
 	/**
 	 * The result of a raycast that hit a closed portal.
 	 */
-	record Closed(PortalInstance.Holder enteredPortal, Vec3 hit) implements PortalHitResult {
+	record Closed(Portal.Holder enteredPortal, Vec3 hit) implements PortalHitResult {
 	}
 
 	/**
@@ -28,7 +28,7 @@ public sealed interface PortalHitResult permits PortalHitResult.Closed, PortalHi
 	sealed interface Open extends PortalHitResult {
 		Vec3 exitHit();
 
-		default PortalInstance.Holder exitedPortal() {
+		default Portal.Holder exitedPortal() {
 			return this.enteredPortal().opposite().orElseThrow();
 		}
 
@@ -38,7 +38,7 @@ public sealed interface PortalHitResult permits PortalHitResult.Closed, PortalHi
 	/**
 	 * A single step in a raycast that passed through more than one pair of portals.
 	 */
-	record Mid(PortalInstance.Holder enteredPortal, Vec3 hit, Vec3 exitHit, PortalHitResult next) implements Open {
+	record Mid(Portal.Holder enteredPortal, Vec3 hit, Vec3 exitHit, PortalHitResult next) implements Open {
 		@Override
 		public void forEach(Consumer<Open> consumer) {
 			consumer.accept(this);
@@ -51,7 +51,7 @@ public sealed interface PortalHitResult permits PortalHitResult.Closed, PortalHi
 	/**
 	 * Either the result of a raycast that only passed through one pair of portals, or the tail of a chain of teleports.
 	 */
-	record Tail(PortalInstance.Holder enteredPortal, Vec3 hit, Vec3 exitHit, Vec3 end) implements Open {
+	record Tail(Portal.Holder enteredPortal, Vec3 hit, Vec3 exitHit, Vec3 end) implements Open {
 		@Override
 		public void forEach(Consumer<Open> consumer) {
 			consumer.accept(this);

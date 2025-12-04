@@ -95,7 +95,7 @@ public record PortalType(
 			this(type, EasingFunction.LINEAR, DEFAULT_DURATION);
 		}
 
-		public float getProgress(Level level, PortalInstance portal, float tickDelta) {
+		public float getProgress(Level level, Portal portal, float tickDelta) {
 			int ageInTicks = (int) (level.getGameTime() - portal.data.creationTick());
 			double progress = Math.min((ageInTicks + tickDelta) / this.duration, 1);
 			return (float) this.easing.apply(progress);

@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
@@ -78,14 +78,14 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		if (firstPair == null || !firstPair.isLinked())
 			return true;
 
-		PortalInstance firstEntered = firstPair.getOrThrow(this.teleport.entered);
+		Portal firstEntered = firstPair.getOrThrow(this.teleport.entered);
 		Vec3 center = PortalTeleportHandler.centerOf(player);
 		distance += (center.distanceTo(firstEntered.data.origin()));
 		if (distance > expectedDistance)
 			return true;
 
 		// intermediate
-		PortalInstance exited = firstPair.getOrThrow(this.teleport.entered.opposite());
+		Portal exited = firstPair.getOrThrow(this.teleport.entered.opposite());
 		Optional<Teleport> maybeNext = this.teleport.next;
 		while (maybeNext.isPresent()) {
 			Teleport next = maybeNext.get();
@@ -93,7 +93,7 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 			if (pair == null || !pair.isLinked())
 				return true;
 
-			PortalInstance entered = pair.getOrThrow(next.entered);
+			Portal entered = pair.getOrThrow(next.entered);
 			distance += (exited.data.origin().distanceTo(entered.data.origin()));
 			if (distance > expectedDistance)
 				return true;

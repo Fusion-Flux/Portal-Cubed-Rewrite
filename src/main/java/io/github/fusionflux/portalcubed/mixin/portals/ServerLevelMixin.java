@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.framework.extension.ServerLevelExt;
@@ -47,7 +47,7 @@ public abstract class ServerLevelMixin implements ServerLevelExt {
 
 		AABB area = new AABB(pos).inflate(0.5);
 		this.portalManager.lookup().getPortals(area).forEach(holder -> {
-			PortalInstance portal = holder.portal();
+			Portal portal = holder.portal();
 			if (!portal.data.validator().isValid((ServerLevel) (Object) this, holder)) {
 				// krill
 				this.portalManager.removePortal(holder.pair().key(), holder.polarity());

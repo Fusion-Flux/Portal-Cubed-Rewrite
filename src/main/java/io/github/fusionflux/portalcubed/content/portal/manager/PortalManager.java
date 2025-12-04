@@ -7,9 +7,9 @@ import java.util.function.UnaryOperator;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
@@ -32,7 +32,7 @@ public abstract class PortalManager {
 	}
 
 	@Nullable
-	public PortalInstance getPortal(PortalId id) {
+	public Portal getPortal(PortalId id) {
 		PortalPair pair = this.getPair(id.key());
 		return pair == null ? null : pair.getNullable(id.polarity());
 	}
@@ -79,7 +79,7 @@ public abstract class PortalManager {
 	}
 
 	public boolean containsActivePortals(AABB box) {
-		for (PortalInstance.Holder portal : this.lookup().getPortals(box)) {
+		for (Portal.Holder portal : this.lookup().getPortals(box)) {
 			if (portal.opposite().isPresent()) {
 				return true;
 			}

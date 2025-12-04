@@ -6,7 +6,7 @@ import org.joml.Matrix2d;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.framework.shape.flat.Line2d;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
 import io.github.fusionflux.portalcubed.framework.util.DoubleRange;
@@ -85,11 +85,11 @@ public record PortalCandidate(Angle rot, Vector2dc center, int bumps,
 	}
 
 	public static PortalCandidate initial(Angle rot) {
-		return create(new Vector2d(), PortalInstance.WIDTH, PortalInstance.HEIGHT, rot);
+		return create(new Vector2d(), Portal.WIDTH, Portal.HEIGHT, rot);
 	}
 
 	public static PortalCandidate other(Vector2dc origin, Angle rot) {
-		return create(origin, PortalInstance.WIDTH - 0.01, PortalInstance.HEIGHT - 0.01, rot);
+		return create(origin, Portal.WIDTH - 0.01, Portal.HEIGHT - 0.01, rot);
 	}
 
 	private static Vector2d add(Vector2dc vec, double x, double y) {

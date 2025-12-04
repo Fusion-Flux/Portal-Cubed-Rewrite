@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
@@ -19,7 +19,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class SectionPortalLookup implements PortalLookup {
-	private final Long2ObjectMap<List<PortalInstance.Holder>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
+	private final Long2ObjectMap<List<Portal.Holder>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
 
 	@Override
 	@Nullable
@@ -28,7 +28,7 @@ public class SectionPortalLookup implements PortalLookup {
 			return null;
 
 		class Closest {
-			PortalInstance.Holder portal = null;
+			Portal.Holder portal = null;
 			Vec3 hit = null;
 			double distSqr = Double.MIN_VALUE;
 		}
@@ -37,12 +37,12 @@ public class SectionPortalLookup implements PortalLookup {
 		Vec3 normal = from.vectorTo(to).normalize();
 
 		forEachSectionInBox(from, to, section -> {
-			List<PortalInstance.Holder> portals = this.sectionsToPortals.get(section);
+			List<Portal.Holder> portals = this.sectionsToPortals.get(section);
 			if (portals == null)
 				return;
 
-			for (PortalInstance.Holder holder : portals) {
-				PortalInstance portal = holder.portal();
+			for (Portal.Holder holder : portals) {
+				Portal portal = holder.portal();
 
 				Vec3 hit = portal.quad.clip(from, to);
 				if (hit == null)
@@ -65,7 +65,7 @@ public class SectionPortalLookup implements PortalLookup {
 		if (closest.portal == null)
 			return null;
 
-		Optional<PortalInstance.Holder> linked = closest.portal.opposite();
+		Optional<Portal.Holder> linked = closest.portal.opposite();
 
 		if (linked.isEmpty()) {
 			return new PortalHitResult.Closed(closest.portal, closest.hit);
@@ -84,14 +84,14 @@ public class SectionPortalLookup implements PortalLookup {
 	}
 
 	@Override
-	public List<PortalInstance.Holder> getPortals(AABB bounds) {
-		List<PortalInstance.Holder> portals = new ArrayList<>();
+	public List<Portal.Holder> getPortals(AABB bounds) {
+		List<Portal.Holder> portals = new ArrayList<>();
 
 		forEachSectionInBox(bounds, sectionPos -> {
-			List<PortalInstance.Holder> section = this.sectionsToPortals.get(sectionPos);
+			List<Portal.Holder> section = this.sectionsToPortals.get(sectionPos);
 			if (section != null) {
 				section.forEach(holder -> {
-					PortalInstance portal = holder.portal();
+					Portal portal = holder.portal();
 					if (portal.quad.intersects(bounds)) {
 						portals.add(holder);
 					}
@@ -110,9 +110,9 @@ public class SectionPortalLookup implements PortalLookup {
 	public void portalsChanged(String pairKey, @Nullable PortalPair oldPair, @Nullable PortalPair newPair) {
 		if (oldPair != null) {
 			PortalPair.Holder holder = new PortalPair.Holder(pairKey, oldPair);
-			for (PortalInstance.Holder portal : holder) {
+			for (Portal.Holder portal : holder) {
 				forEachSectionContainingPortal(portal.portal(), section -> {
-					List<PortalInstance.Holder> portals = this.sectionsToPortals.get(section);
+					List<Portal.Holder> portals = this.sectionsToPortals.get(section);
 					if (portals != null && portals.remove(portal) && portals.isEmpty()) {
 						this.sectionsToPortals.remove(section);
 					}
@@ -121,7 +121,7 @@ public class SectionPortalLookup implements PortalLookup {
 		}
 		if (newPair != null) {
 			PortalPair.Holder holder = new PortalPair.Holder(pairKey, newPair);
-			for (PortalInstance.Holder portal : holder) {
+			for (Portal.Holder portal : holder) {
 				forEachSectionContainingPortal(
 						portal.portal(),
 						section -> this.sectionsToPortals.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal)
@@ -130,7 +130,7 @@ public class SectionPortalLookup implements PortalLookup {
 		}
 	}
 
-	private static void forEachSectionContainingPortal(PortalInstance portal, LongConsumer consumer) {
+	private static void forEachSectionContainingPortal(Portal portal, LongConsumer consumer) {
 		forEachSectionInBox(portal.quad.containingBox(), consumer);
 	}
 

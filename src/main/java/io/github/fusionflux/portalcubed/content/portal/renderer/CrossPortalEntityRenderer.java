@@ -9,8 +9,8 @@ import org.lwjgl.opengl.GL11;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
@@ -91,7 +91,7 @@ public class CrossPortalEntityRenderer {
 		}
 	}
 
-	public void withClippingPlane(Vec3 camPos, PortalInstance portal, Runnable runnable) {
+	public void withClippingPlane(Vec3 camPos, Portal portal, Runnable runnable) {
 		portal.plane.getClipping(RenderSystem.getModelViewStack(), camPos, ShaderPatcher.CLIPPING_PLANES[1]);
 		GL11.glEnable(GL11.GL_CLIP_PLANE1);
 
@@ -104,8 +104,8 @@ public class CrossPortalEntityRenderer {
 		Vec3 camPos = camera.getPosition();
 		SimpleBufferSource bufferSource = ((RenderBuffersExt) this.renderBuffers).pc$crossPortalBufferSource();
 		for (CrossPortalEntity crossPortalEntity : this.entities) {
-			PortalInstance inPortal = crossPortalEntity.inPortal;
-			PortalInstance outPortal = crossPortalEntity.outPortal;
+			Portal inPortal = crossPortalEntity.inPortal;
+			Portal outPortal = crossPortalEntity.outPortal;
 			Vec3 transformedPos = PortalTeleportHandler.teleportAbsoluteVecBetween(crossPortalEntity.position, inPortal, outPortal);
 			Vec3 transformedViewPos = transformedPos.subtract(camPos);
 
@@ -142,6 +142,6 @@ public class CrossPortalEntityRenderer {
 		return null;
 	}
 
-	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalInstance inPortal, PortalInstance outPortal) {
+	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, Portal inPortal, Portal outPortal) {
 	}
 }

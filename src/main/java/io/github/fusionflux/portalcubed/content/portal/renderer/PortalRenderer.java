@@ -26,8 +26,8 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
@@ -83,11 +83,11 @@ public class PortalRenderer {
 	private static FogParameters terrainFog;
 	private static FogParameters skyFog;
 
-	private static final List<PortalInstance> renderingPortals = new ObjectArrayList<>();
+	private static final List<Portal> renderingPortals = new ObjectArrayList<>();
 	private static int maxRecursions = 3;
 
 	@Nullable
-	public static PortalInstance getRenderingPortal() {
+	public static Portal getRenderingPortal() {
 		if (renderingPortals.isEmpty())
 			return null;
 		return renderingPortals.get(recursion() - 1);
@@ -106,7 +106,7 @@ public class PortalRenderer {
 		RecursionAttachedResource.cleanup();
 	}
 
-	public static boolean isPortalVisible(Frustum frustum, PortalInstance portal) {
+	public static boolean isPortalVisible(Frustum frustum, Portal portal) {
 		if (!frustum.isVisible(portal.renderBounds))
 			return false;
 
@@ -131,9 +131,9 @@ public class PortalRenderer {
 		List<VisiblePortal> visiblePortals = new ReferenceArrayList<>();
 		Frustum frustum = Objects.requireNonNull(context.frustum());
 		for (PortalPair pair : pairs) {
-			for (PortalInstance portal : pair) {
+			for (Portal portal : pair) {
 				if (isPortalVisible(frustum, portal)) {
-					PortalInstance linked = pair.other(portal);
+					Portal linked = pair.other(portal);
 					boolean render = portal.data.render();
 					boolean hasStencil = portal.type().stencil().isPresent();
 					visiblePortals.add(new VisiblePortal(pair, portal, linked, linked != null && (!hasStencil || (render && recursion() < maxRecursions))));
@@ -196,7 +196,7 @@ public class PortalRenderer {
 	}
 
 	private static PoseStack.Pose transformToPortal(VisiblePortal visiblePortal, ClientLevel level, float tickDelta, PoseStack matrices) {
-		PortalInstance portal = visiblePortal.portal;
+		Portal portal = visiblePortal.portal;
 
 		// translate to portal pos
 		matrices.translate(portal.data.origin());
@@ -249,14 +249,14 @@ public class PortalRenderer {
 		if (!visiblePortal.open)
 			return;
 
-		PortalInstance portal = visiblePortal.portal;
+		Portal portal = visiblePortal.portal;
 		ResourceLocation stencilTexture = portal.type().stencil()
 				.map(id -> id.withPath(path -> "textures/" + path + ".png"))
 				.orElse(null);
 		if (stencilTexture == null)
 			return;
 
-		PortalInstance linked = visiblePortal.linked;
+		Portal linked = visiblePortal.linked;
 		if (linked == null)
 			return;
 
@@ -363,7 +363,7 @@ public class PortalRenderer {
 		}
 	}
 
-	private record VisiblePortal(PortalPair pair, PortalInstance portal, @Nullable PortalInstance linked, boolean open) {
+	private record VisiblePortal(PortalPair pair, Portal portal, @Nullable Portal linked, boolean open) {
 	}
 
 	private record StateCapture(

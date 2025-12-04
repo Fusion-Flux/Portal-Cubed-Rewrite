@@ -34,8 +34,8 @@ import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.PortalCubedSuggestionProviders;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
@@ -197,12 +197,12 @@ public class PortalCommand {
 		if (pair == null || pair.get(polarity).isEmpty()) {
 			return fail(ctx, MODIFY_FAILURE, lang(MODIFY_NONEXISTENT, key, polarity));
 		}
-		PortalInstance portal = pair.getOrThrow(polarity);
+		Portal portal = pair.getOrThrow(polarity);
 		PortalData newData = attribute.modify(ctx, polarity, portal.data);
 		if (newData == null)
 			return 0;
 
-		manager.setPair(key, pair.with(polarity, new PortalInstance(newData)));
+		manager.setPair(key, pair.with(polarity, new Portal(newData)));
 
 		ctx.getSource().sendSuccess(() -> MODIFY_SUCCESS, true);
 		return Command.SINGLE_SUCCESS;

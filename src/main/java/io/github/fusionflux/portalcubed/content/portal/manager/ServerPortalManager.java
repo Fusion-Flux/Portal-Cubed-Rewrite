@@ -3,8 +3,8 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
@@ -36,7 +36,7 @@ public class ServerPortalManager extends PortalManager {
 	 * If an old portal already exists, it will be removed.
 	 */
 	public void createPortal(String key, Polarity polarity, PortalData data) {
-		this.modifyPair(key, pair -> pair.with(polarity, new PortalInstance(data)));
+		this.modifyPair(key, pair -> pair.with(polarity, new Portal(data)));
 	}
 
 	public void removePortal(String key, Polarity polarity) {

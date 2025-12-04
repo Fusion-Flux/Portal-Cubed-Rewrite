@@ -148,16 +148,16 @@ public class PortalTeleportHandler {
 
 	// teleportation utilities
 
-	public static OBB teleportBox(OBB box, PortalInstance in, PortalInstance out) {
+	public static OBB teleportBox(OBB box, Portal in, Portal out) {
 		SinglePortalTransform transform = new SinglePortalTransform(in, out);
 		return box.transformed(transform::applyAbsolute, transform::apply);
 	}
 
-	public static Vec3 teleportAbsoluteVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {
+	public static Vec3 teleportAbsoluteVecBetween(Vec3 vec, Portal in, Portal out) {
 		return new SinglePortalTransform(in, out).applyAbsolute(vec);
 	}
 
-	public static Vec3 teleportRelativeVecBetween(Vec3 vec, PortalInstance in, PortalInstance out) {
+	public static Vec3 teleportRelativeVecBetween(Vec3 vec, Portal in, Portal out) {
 		return new SinglePortalTransform(in, out).applyRelative(vec);
 	}
 }

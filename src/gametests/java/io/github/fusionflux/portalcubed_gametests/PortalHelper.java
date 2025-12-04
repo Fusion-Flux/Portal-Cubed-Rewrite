@@ -7,8 +7,8 @@ import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
@@ -101,7 +101,7 @@ public final class PortalHelper {
 		}
 
 		public void assertPresent(double expectedX, double expectedY, double expectedZ, Direction expectedNormal) {
-			PortalInstance portal = this.getPortal().orElseThrow(
+			Portal portal = this.getPortal().orElseThrow(
 					() -> new GameTestAssertException("Expected " + this.polarity + " portal with key " + PortalHelper.this.key + ", got nothing")
 			);
 
@@ -123,7 +123,7 @@ public final class PortalHelper {
 				throw new GameTestAssertException("Did not expect " + this.polarity + " portal with key " + PortalHelper.this.key);
 		}
 
-		private Optional<PortalInstance> getPortal() {
+		private Optional<Portal> getPortal() {
 			ServerPortalManager manager = PortalHelper.this.helper.getLevel().portalManager();
 			return manager.getOrEmpty(PortalHelper.this.key).get(this.polarity);
 		}

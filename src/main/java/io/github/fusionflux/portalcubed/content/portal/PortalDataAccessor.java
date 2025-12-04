@@ -46,7 +46,7 @@ public record PortalDataAccessor(ServerPortalManager manager, DynamicOps<Tag> op
 
 	@Override
 	public CompoundTag getData() throws CommandSyntaxException {
-		PortalInstance portal = this.manager.getPortal(this.id);
+		Portal portal = this.manager.getPortal(this.id);
 		if (portal == null) {
 			throw NO_PORTAL.create();
 		}

@@ -25,9 +25,9 @@ import net.minecraft.world.phys.Vec3;
  * A portal in the world, with all expensive data computed.
  * There will only ever be one instance per data.
  */
-public final class PortalInstance {
-	public static final Codec<PortalInstance> CODEC = PortalData.CODEC.xmap(PortalInstance::new, instance -> instance.data);
-	public static final StreamCodec<RegistryFriendlyByteBuf, PortalInstance> STREAM_CODEC = PortalData.STREAM_CODEC.map(PortalInstance::new, instance -> instance.data);
+public final class Portal {
+	public static final Codec<Portal> CODEC = PortalData.CODEC.xmap(Portal::new, instance -> instance.data);
+	public static final StreamCodec<RegistryFriendlyByteBuf, Portal> STREAM_CODEC = PortalData.STREAM_CODEC.map(Portal::new, instance -> instance.data);
 
 	// floats strike again
 	public static final double HEIGHT = 2 - 1e-3;
@@ -51,7 +51,7 @@ public final class PortalInstance {
 	public final OBB blockModificationArea;
 	public final List<OBB> perimeterBoxes;
 
-    public PortalInstance(PortalData data) {
+    public Portal(PortalData data) {
         this.data = data;
 		Vec3 origin = data.origin();
 
@@ -97,7 +97,7 @@ public final class PortalInstance {
 		return this.entityCollisionArea.intersects(entity.getBoundingBox());
 	}
 
-	public record Holder(PortalPair.Holder pair, Polarity polarity, PortalInstance portal) {
+	public record Holder(PortalPair.Holder pair, Polarity polarity, Portal portal) {
 		public Optional<Holder> opposite() {
 			return this.pair.get(this.polarity.opposite());
 		}

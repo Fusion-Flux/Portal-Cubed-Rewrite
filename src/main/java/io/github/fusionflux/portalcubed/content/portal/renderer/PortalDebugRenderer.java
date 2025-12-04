@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.fusionflux.portalcubed.PortalCubedClient;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.util.Color;
@@ -29,12 +29,12 @@ public class PortalDebugRenderer {
 	}
 
 	private static void renderPortalDebug(PortalPair pair, Polarity polarity, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource buffers) {
-		PortalInstance portal = pair.getOrThrow(polarity);
-		PortalInstance linked = pair.getOrThrow(polarity.opposite());
+		Portal portal = pair.getOrThrow(polarity);
+		Portal linked = pair.getOrThrow(polarity.opposite());
 		renderPortalDebug(portal, polarity, linked, ctx, matrices, buffers);
 	}
 
-	private static void renderPortalDebug(PortalInstance portal, Polarity polarity, PortalInstance linked, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource buffers) {
+	private static void renderPortalDebug(Portal portal, Polarity polarity, Portal linked, WorldRenderContext ctx, PoseStack matrices, MultiBufferSource buffers) {
 		matrices.pushPose();
 		Camera camera = ctx.camera();
 		matrices.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);

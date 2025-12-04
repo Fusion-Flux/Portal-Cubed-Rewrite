@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollisionUtils;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.world.entity.Entity;
@@ -44,12 +44,12 @@ public interface CollisionGetterMixin {
 
 		// original is true beyond this point
 
-		List<PortalInstance.Holder> portals = entity.relevantPortals().get();
+		List<Portal.Holder> portals = entity.relevantPortals().get();
 		if (portals.isEmpty())
 			return true;
 
-		for (PortalInstance.Holder holder : portals) {
-			PortalInstance portal = holder.portal();
+		for (Portal.Holder holder : portals) {
+			Portal portal = holder.portal();
 			for (OBB box : portal.perimeterBoxes) {
 				if (box.intersects(bounds)) {
 					return false;
