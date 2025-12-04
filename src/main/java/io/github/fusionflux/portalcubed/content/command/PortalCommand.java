@@ -279,11 +279,12 @@ public class PortalCommand {
 		} else if (hasArgument(ctx, "rotation")) {
 			Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
 			Vec2 rotations = coords.getRotation(ctx.getSource());
-			// x is pitch, y is yaw
-			return Direction.SOUTH.getRotation()
-					.rotateY(Mth.DEG_TO_RAD * 180) // see PortalData
-					.rotateZ(Mth.DEG_TO_RAD * rotations.y)
-					.rotateX(Mth.DEG_TO_RAD * -rotations.x);
+			// math based on Camera
+			return new Quaternionf().rotationYXZ(
+					Mth.PI - (rotations.y * Mth.DEG_TO_RAD),
+					(-rotations.x - 90) * Mth.DEG_TO_RAD,
+					0
+			);
 		} else {
 			return QuaternionArgumentType.getQuaternion(ctx, "quaternion");
 		}
