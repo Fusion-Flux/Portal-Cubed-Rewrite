@@ -5,7 +5,8 @@ import org.joml.Quaternionf;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.graphics.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.NonePortalValidator;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import io.github.fusionflux.portalcubed.framework.util.Angle;

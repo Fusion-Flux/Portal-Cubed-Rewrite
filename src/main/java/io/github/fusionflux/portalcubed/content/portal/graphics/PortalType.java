@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.graphics;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +9,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.framework.util.EasingFunction;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;

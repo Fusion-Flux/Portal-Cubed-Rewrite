@@ -1,10 +1,10 @@
-package io.github.fusionflux.portalcubed.content.portal.trigger;
+package io.github.fusionflux.portalcubed.content.portal.advancements;
 
 import java.util.Optional;
 
 import com.mojang.serialization.Codec;
 
-import io.github.fusionflux.portalcubed.content.portal.trigger.SubmergedTheOperationalEndOfTheDeviceTrigger.TriggerInstance;
+import io.github.fusionflux.portalcubed.content.portal.advancements.SubmergedTheOperationalEndOfTheDeviceTrigger.TriggerInstance;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;

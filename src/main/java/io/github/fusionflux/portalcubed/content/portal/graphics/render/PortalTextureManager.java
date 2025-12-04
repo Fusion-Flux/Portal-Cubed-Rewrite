@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal.renderer;
+package io.github.fusionflux.portalcubed.content.portal.graphics.render;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;

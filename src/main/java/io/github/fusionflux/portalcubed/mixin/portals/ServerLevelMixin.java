@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalStorage;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
+import io.github.fusionflux.portalcubed.content.portal.manager.storage.PersistentPortalStorage;
 import io.github.fusionflux.portalcubed.framework.extension.ServerLevelExt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
@@ -34,7 +34,7 @@ public abstract class ServerLevelMixin implements ServerLevelExt {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(CallbackInfo ci) {
 		this.portalManager = new ServerPortalManager(
-				this.getDataStorage().computeIfAbsent(PortalStorage.Persistent.factory(), PortalStorage.Persistent.ID),
+				this.getDataStorage().computeIfAbsent(PersistentPortalStorage.factory(), PersistentPortalStorage.ID),
 				(ServerLevel) (Object) this
 		);
 	}

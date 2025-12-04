@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal.renderer;
+package io.github.fusionflux.portalcubed.content.portal.graphics.render;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;

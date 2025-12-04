@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.command;
+package io.github.fusionflux.portalcubed.framework.construct;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
@@ -15,7 +15,6 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.serialization.JsonOps;
 
-import io.github.fusionflux.portalcubed.framework.construct.Construct;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;

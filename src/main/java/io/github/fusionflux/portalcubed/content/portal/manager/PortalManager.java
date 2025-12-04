@@ -13,6 +13,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
+import io.github.fusionflux.portalcubed.content.portal.manager.storage.PortalStorage;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 

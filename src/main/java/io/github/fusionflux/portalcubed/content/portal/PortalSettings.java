@@ -3,8 +3,9 @@ package io.github.fusionflux.portalcubed.content.portal;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.graphics.color.ConstantPortalColor;
+import io.github.fusionflux.portalcubed.content.portal.graphics.color.PortalColor;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;

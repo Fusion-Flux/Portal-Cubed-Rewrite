@@ -8,7 +8,7 @@ import io.github.fusionflux.portalcubed.content.door.ChamberDoorType;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
+import io.github.fusionflux.portalcubed.content.portal.graphics.color.ConstantPortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshair;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshairType;

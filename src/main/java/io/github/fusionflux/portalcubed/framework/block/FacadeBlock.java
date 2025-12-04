@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalBarrierBlock;
+import io.github.fusionflux.portalcubed.content.portal.block.PortalBarrierBlock;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;

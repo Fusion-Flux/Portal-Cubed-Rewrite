@@ -19,11 +19,11 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.command.CreateConstructCommand;
-import io.github.fusionflux.portalcubed.content.command.FizzleCommand;
-import io.github.fusionflux.portalcubed.content.command.PortalCommand;
+import io.github.fusionflux.portalcubed.content.fizzler.FizzleCommand;
+import io.github.fusionflux.portalcubed.content.portal.command.PortalCommand;
 import io.github.fusionflux.portalcubed.framework.command.CollectionSmuggler;
 import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
+import io.github.fusionflux.portalcubed.framework.construct.CreateConstructCommand;
 import io.github.fusionflux.portalcubed.framework.extension.RequiredArgumentBuilderExt;
 import io.github.fusionflux.portalcubed.mixin.commands.CommandContextAccessor;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;

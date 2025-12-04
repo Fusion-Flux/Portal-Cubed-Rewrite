@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.command;
+package io.github.fusionflux.portalcubed.content.fizzler;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
@@ -11,7 +11,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import io.github.fusionflux.portalcubed.content.fizzler.FizzleBehaviour;
 import io.github.fusionflux.portalcubed.framework.command.argument.FizzleBehaviourArgumentType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;

@@ -4,7 +4,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrateEffect;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;

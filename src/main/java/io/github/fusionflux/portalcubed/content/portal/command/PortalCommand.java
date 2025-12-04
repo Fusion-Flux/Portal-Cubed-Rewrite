@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.command;
+package io.github.fusionflux.portalcubed.content.portal.command;
 
 import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.collection;
 import static io.github.fusionflux.portalcubed.content.PortalCubedCommands.flag;
@@ -37,9 +37,9 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
-import io.github.fusionflux.portalcubed.content.portal.color.ConstantPortalColor;
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.graphics.color.ConstantPortalColor;
+import io.github.fusionflux.portalcubed.content.portal.graphics.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;

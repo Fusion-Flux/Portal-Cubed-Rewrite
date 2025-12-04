@@ -12,7 +12,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.framework.render.debug.CameraRotator;
 import net.minecraft.client.Camera;

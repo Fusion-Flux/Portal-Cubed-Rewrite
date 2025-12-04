@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.block;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;

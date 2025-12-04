@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.command;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
@@ -13,6 +13,10 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.serialization.DynamicOps;
 
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
@@ -27,6 +31,9 @@ import net.minecraft.server.commands.data.DataAccessor;
 import net.minecraft.server.commands.data.DataCommands;
 import net.minecraft.server.level.ServerLevel;
 
+/**
+ * Provides data from portals to {@code /data}.
+ */
 public record PortalDataAccessor(ServerPortalManager manager, DynamicOps<Tag> ops, PortalId id) implements DataAccessor {
 	public static final DynamicCommandExceptionType FAILED_TO_DECODE = new DynamicCommandExceptionType(
 			message -> Component.translatable("commands.data.portalcubed.portal.error.decode", message)

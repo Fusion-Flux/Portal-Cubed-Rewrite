@@ -7,7 +7,7 @@ import org.joml.Vector3dc;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;

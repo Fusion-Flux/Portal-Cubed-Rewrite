@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.content;
 
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalTextureManager;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshairTypeManager;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkinManager;
-import io.github.fusionflux.portalcubed.content.portal.renderer.PortalTextureManager;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;

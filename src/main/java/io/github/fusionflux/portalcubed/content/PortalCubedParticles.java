@@ -6,7 +6,7 @@ import io.github.fusionflux.portalcubed.content.fizzler.FizzleBrightAlternatePar
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleBrightParticle;
 import io.github.fusionflux.portalcubed.content.fizzler.FizzleDarkParticle;
 import io.github.fusionflux.portalcubed.content.misc.DecalParticle;
-import io.github.fusionflux.portalcubed.content.portal.PortalProjectileParticle;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalProjectileParticle;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;

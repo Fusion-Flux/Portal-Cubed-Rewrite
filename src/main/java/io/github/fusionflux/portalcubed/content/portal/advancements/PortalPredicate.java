@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal.trigger;
+package io.github.fusionflux.portalcubed.content.portal.advancements;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -13,8 +13,8 @@ import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.graphics.color.PortalColor;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;

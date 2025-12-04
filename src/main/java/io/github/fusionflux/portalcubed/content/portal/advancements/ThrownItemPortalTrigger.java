@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal.trigger;
+package io.github.fusionflux.portalcubed.content.portal.advancements;
 
 import java.util.Optional;
 

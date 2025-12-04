@@ -10,6 +10,7 @@ import org.joml.Vector3d;
 
 import com.mojang.serialization.Codec;
 
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;

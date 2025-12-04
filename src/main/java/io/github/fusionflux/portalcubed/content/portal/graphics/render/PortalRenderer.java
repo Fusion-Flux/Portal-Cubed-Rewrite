@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal.renderer;
+package io.github.fusionflux.portalcubed.content.portal.graphics.render;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +30,7 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.PortalType;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;

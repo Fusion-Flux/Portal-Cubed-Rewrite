@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.manager.storage.PortalStorage;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;

@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.graphics;
 
 import java.util.Locale;
 

@@ -14,8 +14,8 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
-import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
-import io.github.fusionflux.portalcubed.content.portal.renderer.RecursionAttachedResource;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.RecursionAttachedResource;
 import net.caffeinemc.mods.sodium.client.render.chunk.ChunkUpdateType;
 import net.caffeinemc.mods.sodium.client.render.chunk.RenderSection;
 import net.caffeinemc.mods.sodium.client.render.chunk.RenderSectionManager;

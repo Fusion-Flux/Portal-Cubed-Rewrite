@@ -44,6 +44,7 @@ public record PortalPair(Optional<Portal> primary, Optional<Portal> secondary) i
 		return polarity == Polarity.PRIMARY ? this.primary : this.secondary;
 	}
 
+	@Nullable
 	public Portal getNullable(Polarity polarity) {
 		return this.get(polarity).orElse(null);
 	}

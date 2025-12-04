@@ -20,8 +20,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import io.github.fusionflux.portalcubed.content.portal.renderer.CrossPortalEntityRenderer;
-import io.github.fusionflux.portalcubed.content.portal.renderer.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.CrossPortalEntityRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.SimpleBufferSource;

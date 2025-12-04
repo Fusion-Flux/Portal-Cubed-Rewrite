@@ -12,7 +12,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-import io.github.fusionflux.portalcubed.content.portal.color.PortalColor;
+import io.github.fusionflux.portalcubed.content.portal.graphics.color.PortalColor;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 

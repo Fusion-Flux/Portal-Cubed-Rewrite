@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import com.google.common.collect.ImmutableList;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalDataAccessor;
+import io.github.fusionflux.portalcubed.content.portal.command.PortalDataAccessor;
 import net.minecraft.server.commands.data.DataCommands;
 
 @Mixin(DataCommands.class)
