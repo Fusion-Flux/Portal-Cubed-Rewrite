@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
+import io.github.fusionflux.portalcubed.content.portal.collision.RelevantPortals;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 
 public interface PortalTeleportationExt {
@@ -22,6 +23,10 @@ public interface PortalTeleportationExt {
 	// no prefix needed, unique descriptors
 
 	default TeleportProgressTracker getTeleportProgressTracker() {
+		throw new AbstractMethodError();
+	}
+
+	default RelevantPortals relevantPortals() {
 		throw new AbstractMethodError();
 	}
 }

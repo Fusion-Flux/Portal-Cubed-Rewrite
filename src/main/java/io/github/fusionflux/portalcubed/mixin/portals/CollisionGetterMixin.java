@@ -44,8 +44,7 @@ public interface CollisionGetterMixin {
 
 		// original is true beyond this point
 
-		AABB portalArea = bounds.minmax(entity.getBoundingBox());
-		List<PortalInstance.Holder> portals = PortalCollisionUtils.findRelevantPortalsFor(entity, portalArea);
+		List<PortalInstance.Holder> portals = entity.relevantPortals().get();
 		if (portals.isEmpty())
 			return true;
 

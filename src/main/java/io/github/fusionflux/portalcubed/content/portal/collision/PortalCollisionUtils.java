@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal.collision;
 
-import java.util.List;
 import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
@@ -17,21 +16,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public final class PortalCollisionUtils {
 	private PortalCollisionUtils() {}
-
-	/**
-	 * Find any portals that are "relevant" for collision.
-	 * This includes portals that:
-	 * <ul>
-	 *     <li>intersect the given area</li>
-	 *     <li>are linked</li>
-	 *     <li>have the given entity in their entity-affecting area</li>
-	 * </ul>
-	 */
-	public static List<PortalInstance.Holder> findRelevantPortalsFor(Entity entity, AABB searchArea) {
-		List<PortalInstance.Holder> portals = entity.level().portalManager().lookup().getPortals(searchArea);
-		portals.removeIf(portal -> isIrrelevant(portal, entity));
-		return portals;
-	}
 
 	/**
 	 * Invoke a callback with each collision box found on the other side of a linked portal.
@@ -56,12 +40,5 @@ public final class PortalCollisionUtils {
 				}
 			}
 		}
-	}
-
-	private static boolean isIrrelevant(PortalInstance.Holder portal, Entity entity) {
-		if (!portal.pair().pair().isLinked())
-			return true;
-
-		return !portal.portal().seesModifiedCollision(entity);
 	}
 }

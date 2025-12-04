@@ -25,6 +25,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalInstance;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.collision.EntityCollisionState;
 import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollisionUtils;
+import io.github.fusionflux.portalcubed.content.portal.collision.RelevantPortals;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
@@ -73,6 +74,8 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	@Unique
 	private final TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
+	@Unique
+	private final RelevantPortals relevantPortals = new RelevantPortals((Entity) (Object) this);
 
 	@Unique
 	private int portalCollisionRecursionDepth;
@@ -168,6 +171,11 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		return this.teleportProgressTracker;
 	}
 
+	@Override
+	public RelevantPortals relevantPortals() {
+		return this.relevantPortals;
+	}
+
 	@WrapOperation(
 			method = {
 					"teleportTo(DDD)V",
@@ -193,19 +201,15 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	@WrapMethod(method = "collide")
 	private Vec3 wrapCollide(Vec3 motion, Operation<Vec3> original) {
-		AABB area = this.getBoundingBox().expandTowards(motion).inflate(1e-7);
-
 		// gets IDEA to be quiet about "impossible" conditions
 		assert (Object) this instanceof Entity;
 
-		List<PortalInstance.Holder> relevantPortals = PortalCollisionUtils.findRelevantPortalsFor((Entity) (Object) this, area);
-
-		if (relevantPortals.isEmpty()) {
+		if (this.relevantPortals.get().isEmpty()) {
 			return original.call(motion);
 		}
 
 		try {
-			collisionState.set(new EntityCollisionState((Entity) (Object) this, motion, relevantPortals));
+			collisionState.set(new EntityCollisionState((Entity) (Object) this, motion));
 			return original.call(motion);
 		} finally {
 			//noinspection ThreadLocalSetWithNull - remove is slow and this codepath won't run on many threads
@@ -233,7 +237,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			throw new IllegalStateException("Bounds not captured");
 		}
 
-		for (PortalInstance.Holder portal : state.portals) {
+		for (PortalInstance.Holder portal : state.entity.relevantPortals().get()) {
 			// collect all boxes to collide with. always start with the perimeter
 			List<OBB> boxes = new ArrayList<>(portal.portal().perimeterBoxes);
 
