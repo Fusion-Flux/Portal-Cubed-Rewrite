@@ -21,8 +21,8 @@ public class ClientPortalGameTests {
 	@GameTest(template = GROUP + "bump")
 	public void bump(GameTestHelper helper) {
 		PortalHelper portals = new PortalHelper(helper, "client_cube_bump");
-		portals.primary.placeOn(1, 0, 1, Direction.UP, 180);
-		portals.secondary.placeOn(5, 3, 2, Direction.DOWN, 180);
+		portals.primary.placeOn(1, 0, 2, Direction.UP, 180);
+		portals.secondary.placeOn(5, 3, 2, Direction.DOWN, 0);
 
 		helper.setBlock(4, 1, 3, Blocks.REDSTONE_BLOCK);
 
