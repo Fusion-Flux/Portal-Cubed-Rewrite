@@ -2,11 +2,7 @@ package io.github.fusionflux.portalcubed_gametests.gametests;
 
 import static io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests.spawnProp;
 
-import java.util.stream.IntStream;
-
-import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
-import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed_gametests.Batches;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import io.github.fusionflux.portalcubed_gametests.PortalHelper;
@@ -15,11 +11,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CopperBulbBlock;
 import net.minecraft.world.level.block.RedstoneLampBlock;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class PortalGameTests implements FabricGameTest {
@@ -621,37 +617,28 @@ public class PortalGameTests implements FabricGameTest {
 	//Tests a series of portals close together on thin surfaces
 	@GameTest(template = GROUP + "portal_stack")
 	public void stack(GameTestHelper helper) {
-		RandomSource random = helper.getLevel().random.fork();
-		PortalHelper[] pairs = IntStream.range(0, 7).mapToObj(i -> {
-			random.setSeed(i);
-			int colorBase = random.nextInt();
-			int primary = (colorBase + 10_000) | 0xFF000000;
-			int secondary = (colorBase - 10_000) | 0xFF000000;
-			return new PortalHelper(helper, "portal_stack_pair_" + i, primary, secondary);
-		}).toArray(PortalHelper[]::new);
+		PortalHelper lime = new PortalHelper(helper, "lime");
+		PortalHelper blue = new PortalHelper(helper, "blue");
+		PortalHelper orange = new PortalHelper(helper, "orange");
+		PortalHelper pink = new PortalHelper(helper, "pink");
+		PortalHelper yellow = new PortalHelper(helper, "yellow");
 
-		pairs[0].primary.placeOn(5, 2, 1, Direction.WEST);
-		pairs[0].secondary.placeOn(5, 2, 1, Direction.EAST);
-		pairs[1].primary.placeOn(6, 2, 1, Direction.WEST);
-		pairs[1].secondary.placeOn(6, 2, 1, Direction.EAST);
-		pairs[2].primary.placeOn(7, 2, 1, Direction.WEST);
-		pairs[2].secondary.placeOn(9, 2, 1, Direction.EAST);
-		pairs[3].primary.placeOn(10, 2, 1, Direction.WEST);
-		pairs[3].secondary.placeOn(10, 2, 1, Direction.EAST);
-		pairs[4].primary.placeOn(11, 2, 1, Direction.WEST);
-		pairs[4].secondary.placeOn(13, 2, 1, Direction.EAST);
-		pairs[5].primary.placeOn(14, 2, 1, Direction.WEST);
-		pairs[5].secondary.placeOn(14, 2, 1, Direction.EAST);
-		pairs[6].primary.placeOn(15, 2, 1, Direction.WEST);
-		pairs[6].secondary.placeOn(15, 2, 1, Direction.EAST);
+		final double yOff = 1 / 16d;
 
-		helper.setBlock(1, 1, 1, Blocks.REDSTONE_BLOCK);
-		EntityType<Prop> cube = PortalCubedEntities.PROPS.get(PropType.STORAGE_CUBE);
-		helper.succeedWhen(() -> {
-			if (helper.getTick() < 20 * 4)
-				helper.fail("Waiting");
+		lime.primary.placeOn(7, 0, 1, Direction.UP);
+		lime.secondary.shootFrom(5, 3 + yOff, 2, Direction.UP, 90);
+		blue.primary.shootFrom(5, 3 + yOff, 2, Direction.DOWN, 90);
+		blue.secondary.shootFrom(2, 3 + yOff, 2, Direction.UP, 90);
+		orange.primary.shootFrom(2, 3 + yOff, 2, Direction.DOWN, 90);
+		orange.secondary.shootFrom(5, 1 + yOff, 2, Direction.UP, 90);
+		pink.primary.shootFrom(5, 1 + yOff, 2, Direction.DOWN, 90);
+		pink.secondary.shootFrom(2, 1 + yOff, 2, Direction.UP, 90);
+		yellow.primary.shootFrom(2, 1 + yOff, 2, Direction.DOWN, 90);
+		yellow.secondary.placeOn(9, 4, 2, Direction.DOWN);
 
-			helper.assertEntityPresent(cube, 16, 2, 1);
-		});
+		helper.spawnWithNoFreeWill(EntityType.ENDERMAN, 7.5f, 2, 2);
+
+		AABB endBox = AABB.encapsulatingFullBlocks(new BlockPos(9, 1, 1), new BlockPos(9, 1, 2));
+		helper.succeedWhen(() -> helper.assertEntityPresent(EntityType.ENDERMAN, endBox));
 	}
 }

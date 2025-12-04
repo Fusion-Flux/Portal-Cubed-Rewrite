@@ -19,6 +19,7 @@ import io.github.fusionflux.portalcubed.content.portal.placement.validator.Porta
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,8 +35,8 @@ public record PortalGunShootContext(
 		Vec3 lookAngle,
 		float yRot
 ) {
-	// Magic number to avoid ray-cast clipping into blocks due to the end point being extremely far
-	private static final double MAGIC_OFFSET = 0.35;
+	// if this value is too high, clipping becomes noticeably imprecise, hitting blocks it shouldn't
+	public static final int MAX_CLIP_STEP = 32;
 
 	public PortalGunShootContext(@Nullable String key, ServerLevel level, Vec3 from, Vec3 lookAngle, float yRot) {
 		this(Optional.ofNullable(key), level, from, lookAngle, yRot);
@@ -89,11 +90,28 @@ public record PortalGunShootContext(
 	public static BlockHitResult clip(ServerLevel level, Vec3 from, Vec3 lookAngle) {
 		int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
 
-		ClipContext ctx = new ClipContext(
-				from.subtract(lookAngle.scale(MAGIC_OFFSET)),
-				from.add(lookAngle.scale(range + MAGIC_OFFSET)),
-				PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, PortalCollisionContext.INSTANCE
-		);
+		double distance = range;
+		while (distance > 0) {
+			double step = Math.min(distance, MAX_CLIP_STEP);
+			BlockHitResult result = clip(level, from, lookAngle, step);
+			if (result.getType() == HitResult.Type.BLOCK)
+				return result;
+
+			distance -= step;
+			from = result.getLocation();
+		}
+
+		// no hit. create a miss result at the maximum distance
+		Vec3 end = from.add(lookAngle.scale(range));
+		Direction nearestDirection = Direction.getApproximateNearest(lookAngle);
+		BlockPos endPos = BlockPos.containing(end);
+		return BlockHitResult.miss(end, nearestDirection, endPos);
+	}
+
+	private static BlockHitResult clip(ServerLevel level, Vec3 from, Vec3 lookAngle, double distance) {
+		Vec3 to = from.add(lookAngle.scale(distance));
+
+		ClipContext ctx = new ClipContext(from, to, PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, PortalCollisionContext.INSTANCE);
 		ctx.pc$setIgnoreInteractionOverride(true);
 
 		return level.clip(ctx);

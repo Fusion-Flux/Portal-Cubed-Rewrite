@@ -59,6 +59,10 @@ public final class PortalHelper {
 			this.polarity = polarity;
 		}
 
+		public void shootFrom(double x, double y, double z, Direction facing, float yRot) {
+			this.shootFrom(new Vec3(x, y, z), facing, yRot);
+		}
+
 		public void shootFrom(Vec3 pos, Direction facing) {
 			this.shootFrom(pos, facing, 0);
 		}
