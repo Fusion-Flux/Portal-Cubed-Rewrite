@@ -33,6 +33,8 @@ public final class PortalInstance {
 	public static final double HEIGHT = 2 - 1e-3;
 	public static final double WIDTH = 1 - 1e-3;
 
+	public static final double PERIMETER_BOX_DEPTH = 1 / 16d;
+
     public final PortalData data;
 
 	public final Vec3 normal;
@@ -65,20 +67,21 @@ public final class PortalInstance {
 
 		Matrix3d rotationAsMatrix = new Matrix3d().rotation(this.rotation());
 
-		Vec3 boxOrigin = origin.add(this.normal.scale(-0.05));
-		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.5);
-		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.5);
+		Vec3 boxOrigin = origin.add(this.normal.scale(-PERIMETER_BOX_DEPTH / 2));
+		// slight bonus offset (0.01) so you can walk into floor-aligned portals with no step height
+		Vec3 upToBox = this.up.scale((HEIGHT / 2) + 0.51);
+		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.51);
 
 		this.entityCollisionArea = OBB.extrudeQuad(this.quad, 128);
 		this.blockModificationArea = OBB.extrudeQuad(this.quad, -128);
 		// no perimeter collision when not validated, to avoid ghost collision around floating portals
 		this.perimeterBoxes = !this.data.isValidated() ? List.of() : List.of(
 				// top and bottom, wide
-				new OBB(boxOrigin.add(upToBox), 3, 0.1, 1, rotationAsMatrix),
-				new OBB(boxOrigin.add(upToBox.reverse()), 3, 0.1, 1, rotationAsMatrix),
+				new OBB(boxOrigin.add(upToBox), 3, PERIMETER_BOX_DEPTH, 1, rotationAsMatrix),
+				new OBB(boxOrigin.add(upToBox.reverse()), 3, PERIMETER_BOX_DEPTH, 1, rotationAsMatrix),
 				// right and left, tall
-				new OBB(boxOrigin.add(rightToBox), 1, 0.1, 2, rotationAsMatrix),
-				new OBB(boxOrigin.add(rightToBox.reverse()), 1, 0.1, 2, rotationAsMatrix)
+				new OBB(boxOrigin.add(rightToBox), 1, PERIMETER_BOX_DEPTH, 2, rotationAsMatrix),
+				new OBB(boxOrigin.add(rightToBox.reverse()), 1, PERIMETER_BOX_DEPTH, 2, rotationAsMatrix)
 		);
     }
 
