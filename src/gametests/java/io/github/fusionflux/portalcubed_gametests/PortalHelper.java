@@ -18,39 +18,59 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 
-public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper primary, SinglePortalHelper secondary) {
+public final class PortalHelper {
 	public static final double POSITION_ASSERTION_EPSILON = 0.1;
+
+	public final SinglePortalHelper primary;
+	public final SinglePortalHelper secondary;
+
+	private final GameTestHelper helper;
+	private final String key;
 
 	public PortalHelper(GameTestHelper helper, String key) {
 		this(helper, key, Polarity.PRIMARY.defaultColor, Polarity.SECONDARY.defaultColor);
 	}
 
 	public PortalHelper(GameTestHelper helper, String key, int primaryColor, int secondaryColor) {
-		this(
-				helper, key,
-				new SinglePortalHelper(
-						helper, key,
-						new PortalSettings(PortalType.ROUND, true, new ConstantPortalColor(primaryColor), false),
-						Polarity.PRIMARY
-				),
-				new SinglePortalHelper(
-						helper, key,
-						new PortalSettings(PortalType.ROUND, true, new ConstantPortalColor(secondaryColor), false),
-						Polarity.SECONDARY
-				)
-		);
+		this.helper = helper;
+		this.key = this.uniquifyKey(key);
+		this.primary = new SinglePortalHelper(defaultSettings(primaryColor), Polarity.PRIMARY);
+		this.secondary = new SinglePortalHelper(defaultSettings(secondaryColor), Polarity.SECONDARY);
 	}
 
-	public record SinglePortalHelper(GameTestHelper helper, String key, PortalSettings settings, Polarity polarity) {
+	private String uniquifyKey(String key) {
+		BlockPos origin = this.helper.absolutePos(BlockPos.ZERO);
+		return key + '(' + origin.getX() + ',' + origin.getY() + ',' + origin.getZ() + ')';
+	}
+
+	private static PortalSettings defaultSettings(int color) {
+		return new PortalSettings(PortalType.ROUND, true, new ConstantPortalColor(color), false);
+	}
+
+	public final class SinglePortalHelper {
+		private final PortalSettings settings;
+		private final Polarity polarity;
+
+		public SinglePortalHelper(PortalSettings settings, Polarity polarity) {
+			this.settings = settings;
+			this.polarity = polarity;
+		}
+
 		public void shootFrom(Vec3 pos, Direction facing) {
 			this.shootFrom(pos, facing, 0);
 		}
 
 		public void shootFrom(Vec3 from, Direction facing, float yRot) {
-			new PortalGunShootContext(this.key, this.helper.getLevel(), this.helper.absoluteVec(from), facing.getUnitVec3(), yRot)
-					.shootAndPlace(Optional.empty(), this.polarity, this.settings);
+			ServerLevel level = PortalHelper.this.helper.getLevel();
+			Vec3 pos = PortalHelper.this.helper.absoluteVec(from);
+			Vec3 direction = facing.getUnitVec3();
+
+			new PortalGunShootContext(PortalHelper.this.key, level, pos, direction, yRot).shootAndPlace(
+					Optional.empty(), this.polarity, this.settings
+			);
 		}
 
 		public void placeOn(int x, int y, int z, Direction normal) {
@@ -77,26 +97,31 @@ public record PortalHelper(GameTestHelper helper, String key, SinglePortalHelper
 		}
 
 		public void assertPresent(double expectedX, double expectedY, double expectedZ, Direction expectedNormal) {
-			PortalInstance portal = this.getPortal().orElseThrow(() -> new GameTestAssertException("Expected " + this.polarity + " portal with key " + this.key + ", got nothing"));
+			PortalInstance portal = this.getPortal().orElseThrow(
+					() -> new GameTestAssertException("Expected " + this.polarity + " portal with key " + PortalHelper.this.key + ", got nothing")
+			);
 
-			Vec3 origin = this.helper.relativeVec(portal.data.origin());
-			if (Math.abs(origin.x - expectedX) > POSITION_ASSERTION_EPSILON || Math.abs(origin.y - expectedY) > POSITION_ASSERTION_EPSILON || Math.abs(origin.z - expectedZ) > POSITION_ASSERTION_EPSILON)
-				throw new GameTestAssertException("Expected portal position to be " + new Vec3(expectedX, expectedY, expectedZ) + " got " + origin);
+			Vec3 origin = PortalHelper.this.helper.relativeVec(portal.data.origin());
+			Vec3 expectedVec = new Vec3(expectedX, expectedY, expectedZ);
+			if (origin.distanceTo(expectedVec) > POSITION_ASSERTION_EPSILON) {
+				throw new GameTestAssertException("Expected portal position to be " + expectedVec + " got " + origin);
+			}
 
 			Vector3d facing = portal.rotation().transformUnit(0, 1, 0, new Vector3d());
 			Direction normal = Direction.getApproximateNearest(facing.x, facing.y, facing.z);
-			if (normal != expectedNormal)
+			if (normal != expectedNormal) {
 				throw new GameTestAssertException("Expected portal direction to be " + expectedNormal + ", got " + normal);
+			}
 		}
 
 		public void assertNotPresent() {
 			if (this.getPortal().isPresent())
-				throw new GameTestAssertException("Did not expect " + this.polarity + " portal with key " + this.key);
+				throw new GameTestAssertException("Did not expect " + this.polarity + " portal with key " + PortalHelper.this.key);
 		}
 
 		private Optional<PortalInstance> getPortal() {
-			ServerPortalManager manager = this.helper.getLevel().portalManager();
-			return manager.getOrEmpty(this.key).get(this.polarity);
+			ServerPortalManager manager = PortalHelper.this.helper.getLevel().portalManager();
+			return manager.getOrEmpty(PortalHelper.this.key).get(this.polarity);
 		}
 	}
 }

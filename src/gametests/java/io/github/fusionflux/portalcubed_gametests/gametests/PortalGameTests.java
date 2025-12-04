@@ -32,10 +32,10 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper armorStandPair = new PortalHelper(helper, "armor_stand");
 		PortalHelper cubePair = new PortalHelper(helper, "cube", 0xfe2020, 0xfeed20);
 
-		armorStandPair.primary().placeOn(new BlockPos(10, 0, 1), Direction.UP, -90);
-		cubePair.primary().placeOn(new BlockPos(10, 0, 3), Direction.UP, -90);
-		armorStandPair.secondary().placeOn(new BlockPos(7, 2, 1), Direction.WEST);
-		cubePair.secondary().placeOn(new BlockPos(7, 2, 3), Direction.WEST);
+		armorStandPair.primary.placeOn(new BlockPos(10, 0, 1), Direction.UP, -90);
+		cubePair.primary.placeOn(new BlockPos(10, 0, 3), Direction.UP, -90);
+		armorStandPair.secondary.placeOn(new BlockPos(7, 2, 1), Direction.WEST);
+		cubePair.secondary.placeOn(new BlockPos(7, 2, 3), Direction.WEST);
 
 		helper.setBlock(9, 3, 1, Blocks.AIR);
 		helper.setBlock(9, 3, 3, Blocks.AIR);
@@ -58,19 +58,19 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper pairFive = new PortalHelper(helper, "five", 0xffffff, 0x000000);
 		PortalHelper pairSix = new PortalHelper(helper, "six", 0x2f8f8e, 0xff74e4);
 
-		pairOne.primary().placeOn(new BlockPos(22, 0, 1), Direction.UP, -90);
-		pairTwo.primary().placeOn(new BlockPos(22, 0, 3), Direction.UP, -90);
-		pairThree.primary().placeOn(new BlockPos(22, 0, 5), Direction.UP, -90);
-		pairFour.primary().placeOn(new BlockPos(22, 0, 7), Direction.UP, -90);
-		pairFive.primary().placeOn(new BlockPos(22, 0, 9), Direction.UP, -90);
-		pairSix.primary().placeOn(new BlockPos(22, 0, 11), Direction.UP, -90);
+		pairOne.primary.placeOn(new BlockPos(22, 0, 1), Direction.UP, -90);
+		pairTwo.primary.placeOn(new BlockPos(22, 0, 3), Direction.UP, -90);
+		pairThree.primary.placeOn(new BlockPos(22, 0, 5), Direction.UP, -90);
+		pairFour.primary.placeOn(new BlockPos(22, 0, 7), Direction.UP, -90);
+		pairFive.primary.placeOn(new BlockPos(22, 0, 9), Direction.UP, -90);
+		pairSix.primary.placeOn(new BlockPos(22, 0, 11), Direction.UP, -90);
 
-		pairOne.secondary().placeOn(new BlockPos(18, 6, 1), Direction.WEST);
-		pairTwo.secondary().placeOn(new BlockPos(18, 6, 3), Direction.WEST);
-		pairThree.secondary().placeOn(new BlockPos(18, 6, 5), Direction.WEST);
-		pairFour.secondary().placeOn(new BlockPos(18, 6, 7), Direction.WEST);
-		pairFive.secondary().placeOn(new BlockPos(18, 6, 9), Direction.WEST);
-		pairSix.secondary().placeOn(new BlockPos(18, 6, 11), Direction.WEST);
+		pairOne.secondary.placeOn(new BlockPos(18, 6, 1), Direction.WEST);
+		pairTwo.secondary.placeOn(new BlockPos(18, 6, 3), Direction.WEST);
+		pairThree.secondary.placeOn(new BlockPos(18, 6, 5), Direction.WEST);
+		pairFour.secondary.placeOn(new BlockPos(18, 6, 7), Direction.WEST);
+		pairFive.secondary.placeOn(new BlockPos(18, 6, 9), Direction.WEST);
+		pairSix.secondary.placeOn(new BlockPos(18, 6, 11), Direction.WEST);
 
 		helper.setBlock(21, 2, 1, Blocks.AIR);
 		helper.setBlock(21, 5, 3, Blocks.AIR);
@@ -97,8 +97,8 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper infiniteFall = new PortalHelper(helper, "infinite_fall");
 
 		helper.setBlock(3, 5, 2, Blocks.AIR);
-		infiniteFall.primary().placeOn(new BlockPos(2, 3, 2), Direction.UP, 90);
-		infiniteFall.secondary().placeOn(new BlockPos(2, 9, 2), Direction.DOWN, 90);
+		infiniteFall.primary.placeOn(new BlockPos(2, 3, 2), Direction.UP, 90);
+		infiniteFall.secondary.placeOn(new BlockPos(2, 9, 2), Direction.DOWN, 90);
 
 		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> {
 				helper.assertEntityPresent(EntityType.ARMOR_STAND);
@@ -113,8 +113,8 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper infiniteFallCollision = new PortalHelper(helper, "infinite_fall_collision");
 
-		infiniteFallCollision.primary().placeOn(new BlockPos(1, 6, 4), Direction.UP, 90);
-		infiniteFallCollision.secondary().placeOn(new BlockPos(1, 10, 4), Direction.DOWN, 90);
+		infiniteFallCollision.primary.placeOn(new BlockPos(1, 6, 4), Direction.UP, 90);
+		infiniteFallCollision.secondary.placeOn(new BlockPos(1, 10, 4), Direction.DOWN, 90);
 		spawnProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(2, 8, 4));
 
 		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> helper.assertBlockProperty(new BlockPos(2, 1, 0), RedstoneLampBlock.LIT, false)));
@@ -134,23 +134,23 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper trapdoor = new PortalHelper(helper, "trapdoor");
 		PortalHelper path = new PortalHelper(helper, "path");
 
-		daylightSensor.primary().shootFrom(new Vec3(23, 3, 2.5), Direction.DOWN, 0);
-		slab.primary().shootFrom(new Vec3(20, 3, 2.5), Direction.DOWN, 0);
-		stairsIn.primary().shootFrom(new Vec3(17, 3, 2.5), Direction.DOWN, 0);
-		stairsOut.primary().shootFrom(new Vec3(14, 3, 2.5), Direction.DOWN, 0);
-		carpet.primary().shootFrom(new Vec3(11, 3, 2.5), Direction.DOWN, 0);
-		stonecutter.primary().shootFrom(new Vec3(8, 3, 2.5), Direction.DOWN, 0);
-		trapdoor.primary().shootFrom(new Vec3(5, 3, 2.5), Direction.DOWN, 0);
-		path.primary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN, 0);
+		daylightSensor.primary.shootFrom(new Vec3(23, 3, 2.5), Direction.DOWN, 0);
+		slab.primary.shootFrom(new Vec3(20, 3, 2.5), Direction.DOWN, 0);
+		stairsIn.primary.shootFrom(new Vec3(17, 3, 2.5), Direction.DOWN, 0);
+		stairsOut.primary.shootFrom(new Vec3(14, 3, 2.5), Direction.DOWN, 0);
+		carpet.primary.shootFrom(new Vec3(11, 3, 2.5), Direction.DOWN, 0);
+		stonecutter.primary.shootFrom(new Vec3(8, 3, 2.5), Direction.DOWN, 0);
+		trapdoor.primary.shootFrom(new Vec3(5, 3, 2.5), Direction.DOWN, 0);
+		path.primary.shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN, 0);
 
-		daylightSensor.secondary().shootFrom(new Vec3(23, 6, 6.5), Direction.UP, 90);
-		slab.secondary().shootFrom(new Vec3(20, 6, 6.5), Direction.UP, 90);
-		stairsIn.secondary().shootFrom(new Vec3(17, 6, 6.5), Direction.UP, 0);
-		stairsOut.secondary().shootFrom(new Vec3(14, 6, 6.5), Direction.UP, 0);
-		carpet.secondary().shootFrom(new Vec3(11, 6, 6.5), Direction.UP, 90);
-		stonecutter.secondary().shootFrom(new Vec3(8, 6, 6.5), Direction.UP, 90);
-		trapdoor.secondary().shootFrom(new Vec3(5, 6, 6.5), Direction.UP, 90);
-		path.secondary().shootFrom(new Vec3(2, 6, 6.5), Direction.UP, 90);
+		daylightSensor.secondary.shootFrom(new Vec3(23, 6, 6.5), Direction.UP, 90);
+		slab.secondary.shootFrom(new Vec3(20, 6, 6.5), Direction.UP, 90);
+		stairsIn.secondary.shootFrom(new Vec3(17, 6, 6.5), Direction.UP, 0);
+		stairsOut.secondary.shootFrom(new Vec3(14, 6, 6.5), Direction.UP, 0);
+		carpet.secondary.shootFrom(new Vec3(11, 6, 6.5), Direction.UP, 90);
+		stonecutter.secondary.shootFrom(new Vec3(8, 6, 6.5), Direction.UP, 90);
+		trapdoor.secondary.shootFrom(new Vec3(5, 6, 6.5), Direction.UP, 90);
+		path.secondary.shootFrom(new Vec3(2, 6, 6.5), Direction.UP, 90);
 
 		helper.pressButton(12, 1, 9);
 
@@ -180,11 +180,11 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper wallPair = new PortalHelper(helper, "wall");
 		PortalHelper doorPair = new PortalHelper(helper, "door");
 
-		wallPair.primary().shootFrom(new Vec3(8, 2, 1.5), Direction.WEST);
-		doorPair.primary().shootFrom(new Vec3(8, 2, 3.5), Direction.WEST);
+		wallPair.primary.shootFrom(new Vec3(8, 2, 1.5), Direction.WEST);
+		doorPair.primary.shootFrom(new Vec3(8, 2, 3.5), Direction.WEST);
 
-		wallPair.secondary().placeOn(new BlockPos(3, 1, 1), Direction.WEST);
-		doorPair.secondary().placeOn(new BlockPos(3, 1, 3), Direction.WEST);
+		wallPair.secondary.placeOn(new BlockPos(3, 1, 1), Direction.WEST);
+		doorPair.secondary.placeOn(new BlockPos(3, 1, 3), Direction.WEST);
 
 		helper.pressButton(14, 2, 2);
 
@@ -202,11 +202,11 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper verticalGrate = new PortalHelper(helper, "vertical_grate");
 		PortalHelper horizontalGrate = new PortalHelper(helper, "horizontal_grate");
 
-		verticalGrate.primary().placeOn(new BlockPos(7, 1, 2), Direction.UP);
-		horizontalGrate.primary().placeOn(new BlockPos(2, 1, 2), Direction.UP);
+		verticalGrate.primary.placeOn(new BlockPos(7, 1, 2), Direction.UP);
+		horizontalGrate.primary.placeOn(new BlockPos(2, 1, 2), Direction.UP);
 
-		verticalGrate.secondary().placeOn(new BlockPos(7, 2, 8), Direction.NORTH);
-		horizontalGrate.secondary().placeOn(new BlockPos(2, 4, 7), Direction.DOWN);
+		verticalGrate.secondary.placeOn(new BlockPos(7, 2, 8), Direction.NORTH);
+		horizontalGrate.secondary.placeOn(new BlockPos(2, 4, 7), Direction.DOWN);
 
 		helper.setBlock(7, 3, 3, Blocks.AIR);
 		helper.setBlock(2, 3, 3, Blocks.AIR);
@@ -225,12 +225,12 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalShotsThroughNonsolidBlocks(GameTestHelper helper) {
 		PortalHelper nonsolidSurfaceShot = new PortalHelper(helper, "nonsolidSurfaceShot");
 
-		nonsolidSurfaceShot.primary().shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
-		nonsolidSurfaceShot.secondary().shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
+		nonsolidSurfaceShot.primary.shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
+		nonsolidSurfaceShot.secondary.shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
 
 		helper.runAfterDelay(20, () -> helper.succeedWhen(() -> {
-			nonsolidSurfaceShot.primary().assertPresent(5.5, 3, 3, Direction.NORTH);
-			nonsolidSurfaceShot.secondary().assertPresent(2.5, 3, 3, Direction.NORTH);
+			nonsolidSurfaceShot.primary.assertPresent(5.5, 3, 3, Direction.NORTH);
+			nonsolidSurfaceShot.secondary.assertPresent(2.5, 3, 3, Direction.NORTH);
 		}));
 	}
 
@@ -240,11 +240,11 @@ public class PortalGameTests implements FabricGameTest {
 	public void restrictivePortalSurfaces(GameTestHelper helper) {
 		PortalHelper restrictiveSurface = new PortalHelper(helper, "restrictive_surface");
 
-		restrictiveSurface.primary().shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
-		restrictiveSurface.secondary().shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
+		restrictiveSurface.primary.shootFrom(new Vec3(5.5, 3, 0), Direction.SOUTH);
+		restrictiveSurface.secondary.shootFrom(new Vec3(2.5, 3, 0), Direction.SOUTH);
 
 		helper.runAfterDelay(10, () ->
-				helper.succeedWhen(() -> restrictiveSurface.primary().assertNotPresent())
+				helper.succeedWhen(() -> restrictiveSurface.primary.assertNotPresent())
 		);
 	}
 
@@ -259,12 +259,12 @@ public class PortalGameTests implements FabricGameTest {
 		helper.pressButton(0, 2, 1);
 
 		helper.succeedWhen(() -> {
-			placeOn1.primary().assertPresent(1.5, 2, 5.5, Direction.NORTH);
-			placeOn1.secondary().assertNotPresent();
-			placeAt1.primary().assertPresent(2.5, 2, 5.5, Direction.NORTH);
-			placeAt1.secondary().assertNotPresent(); //this needs to be assertPresent eventually I think
-			shotFrom1.primary().assertPresent(3.5, 2, 5.5, Direction.NORTH);
-			shotFrom1.secondary().assertNotPresent();
+			placeOn1.primary.assertPresent(1.5, 2, 5.5, Direction.NORTH);
+			placeOn1.secondary.assertNotPresent();
+			placeAt1.primary.assertPresent(2.5, 2, 5.5, Direction.NORTH);
+			placeAt1.secondary.assertNotPresent(); //this needs to be assertPresent eventually I think
+			shotFrom1.primary.assertPresent(3.5, 2, 5.5, Direction.NORTH);
+			shotFrom1.secondary.assertNotPresent();
 			//TODO: revisit this after the command is rewritten
 		});
 	}
@@ -275,15 +275,15 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper removeSingle = new PortalHelper(helper, "removesingle");
 		PortalHelper removePair = new PortalHelper(helper, "removepair");
 
-		removeSingle.primary().placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
-		removePair.primary().placeOn(new BlockPos(2, 2, 4), Direction.NORTH);
-		removePair.secondary().placeOn(new BlockPos(4, 2, 4), Direction.NORTH);
+		removeSingle.primary.placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
+		removePair.primary.placeOn(new BlockPos(2, 2, 4), Direction.NORTH);
+		removePair.secondary.placeOn(new BlockPos(4, 2, 4), Direction.NORTH);
 
 		helper.runAfterDelay(20, () -> helper.pullLever(2, 1, 0));
 		helper.succeedWhen(() -> {
-			removeSingle.primary().assertNotPresent();
-			removePair.primary().assertNotPresent();
-			removePair.secondary().assertNotPresent();
+			removeSingle.primary.assertNotPresent();
+			removePair.primary.assertNotPresent();
+			removePair.secondary.assertNotPresent();
 		});
 	}
 
@@ -296,14 +296,14 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper fireworkRocket = new PortalHelper(helper, "firework_rocket");
 		PortalHelper arrow = new PortalHelper(helper, "arrow");
 
-		windCharge.primary().shootFrom(new Vec3(1.5, 2, 4.5), Direction.UP);
-		windCharge.secondary().shootFrom(new Vec3(1.5, 2.5, 1.5), Direction.DOWN);
-		snowball.primary().shootFrom(new Vec3(3.5, 2, 4.5), Direction.UP);
-		snowball.secondary().shootFrom(new Vec3(3.5, 2.5, 1.5), Direction.DOWN);
-		fireworkRocket.primary().shootFrom(new Vec3(5.5, 2, 4.5), Direction.UP);
-		fireworkRocket.secondary().shootFrom(new Vec3(5.5, 2.5, 1.5), Direction.DOWN);
-		arrow.primary().shootFrom(new Vec3(7.5, 2, 4.5), Direction.UP);
-		arrow.secondary().shootFrom(new Vec3(7.5, 2.5, 1.5), Direction.DOWN);
+		windCharge.primary.shootFrom(new Vec3(1.5, 2, 4.5), Direction.UP);
+		windCharge.secondary.shootFrom(new Vec3(1.5, 2.5, 1.5), Direction.DOWN);
+		snowball.primary.shootFrom(new Vec3(3.5, 2, 4.5), Direction.UP);
+		snowball.secondary.shootFrom(new Vec3(3.5, 2.5, 1.5), Direction.DOWN);
+		fireworkRocket.primary.shootFrom(new Vec3(5.5, 2, 4.5), Direction.UP);
+		fireworkRocket.secondary.shootFrom(new Vec3(5.5, 2.5, 1.5), Direction.DOWN);
+		arrow.primary.shootFrom(new Vec3(7.5, 2, 4.5), Direction.UP);
+		arrow.secondary.shootFrom(new Vec3(7.5, 2.5, 1.5), Direction.DOWN);
 
 		helper.pullLever(6, 1, 4);
 		helper.pullLever(2, 1, 4);
@@ -325,15 +325,15 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper waterFlow = new PortalHelper(helper, "water_flow");
 		PortalHelper doorTrapdoor = new PortalHelper(helper, "door_trapdoor");
 
-		pistonSolid.primary().shootFrom(new Vec3(7, 1, 7.5), Direction.SOUTH);
-		pistonNonSolid.primary().shootFrom(new Vec3(5, 1, 7.5), Direction.SOUTH);
-		waterFlow.primary().shootFrom(new Vec3(3, 1, 7.5), Direction.SOUTH);
-		doorTrapdoor.primary().shootFrom(new Vec3(1, 1, 7.5), Direction.SOUTH);
+		pistonSolid.primary.shootFrom(new Vec3(7, 1, 7.5), Direction.SOUTH);
+		pistonNonSolid.primary.shootFrom(new Vec3(5, 1, 7.5), Direction.SOUTH);
+		waterFlow.primary.shootFrom(new Vec3(3, 1, 7.5), Direction.SOUTH);
+		doorTrapdoor.primary.shootFrom(new Vec3(1, 1, 7.5), Direction.SOUTH);
 
-		pistonSolid.secondary().shootFrom(new Vec3(7, 1.5, 2), Direction.DOWN);
-		pistonNonSolid.secondary().shootFrom(new Vec3(5, 1.5, 2), Direction.DOWN);
-		waterFlow.secondary().shootFrom(new Vec3(3, 1.5, 2), Direction.DOWN);
-		doorTrapdoor.secondary().shootFrom(new Vec3(1, 1.5, 2), Direction.DOWN);
+		pistonSolid.secondary.shootFrom(new Vec3(7, 1.5, 2), Direction.DOWN);
+		pistonNonSolid.secondary.shootFrom(new Vec3(5, 1.5, 2), Direction.DOWN);
+		waterFlow.secondary.shootFrom(new Vec3(3, 1.5, 2), Direction.DOWN);
+		doorTrapdoor.secondary.shootFrom(new Vec3(1, 1.5, 2), Direction.DOWN);
 
 
 
@@ -343,14 +343,14 @@ public class PortalGameTests implements FabricGameTest {
 			helper.pullLever(6, 2, 5);
 			helper.pullLever(2, 2, 5);
 			helper.succeedWhen(() -> {
-				pistonSolid.primary().assertNotPresent();
-				pistonSolid.secondary().assertNotPresent();
-				pistonNonSolid.primary().assertPresent(5.5, 2, 8, Direction.NORTH);
-				pistonNonSolid.secondary().assertPresent(5.5, 1, 2, Direction.UP);
-				waterFlow.primary().assertNotPresent();
-				waterFlow.secondary().assertNotPresent();
-				doorTrapdoor.primary().assertNotPresent();
-				doorTrapdoor.secondary().assertNotPresent();
+				pistonSolid.primary.assertNotPresent();
+				pistonSolid.secondary.assertNotPresent();
+				pistonNonSolid.primary.assertPresent(5.5, 2, 8, Direction.NORTH);
+				pistonNonSolid.secondary.assertPresent(5.5, 1, 2, Direction.UP);
+				waterFlow.primary.assertNotPresent();
+				waterFlow.secondary.assertNotPresent();
+				doorTrapdoor.primary.assertNotPresent();
+				doorTrapdoor.secondary.assertNotPresent();
 			});
 		});
 	}
@@ -362,17 +362,17 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper sanePortalSurfaces = new PortalHelper(helper, "sane_surfaces");
 		PortalHelper facadeSurfaces = new PortalHelper(helper, "facade_surfaces");
 
-		sanePortalSurfaces.primary().shootFrom(new Vec3(11.5, 3, 1), Direction.SOUTH);
-		sanePortalSurfaces.secondary().shootFrom(new Vec3(8.5, 3, 1), Direction.SOUTH);
-		facadeSurfaces.primary().shootFrom(new Vec3(5.5, 3, 1), Direction.SOUTH);
-		facadeSurfaces.secondary().shootFrom(new Vec3(2.5, 3, 1), Direction.SOUTH);
+		sanePortalSurfaces.primary.shootFrom(new Vec3(11.5, 3, 1), Direction.SOUTH);
+		sanePortalSurfaces.secondary.shootFrom(new Vec3(8.5, 3, 1), Direction.SOUTH);
+		facadeSurfaces.primary.shootFrom(new Vec3(5.5, 3, 1), Direction.SOUTH);
+		facadeSurfaces.secondary.shootFrom(new Vec3(2.5, 3, 1), Direction.SOUTH);
 
 		helper.runAfterDelay(10, () ->
 			helper.succeedWhen(() -> {
-				sanePortalSurfaces.primary().assertPresent(11.5, 3, 3, Direction.NORTH);
-				sanePortalSurfaces.secondary().assertNotPresent();
-				facadeSurfaces.primary().assertNotPresent();
-				facadeSurfaces.secondary().assertPresent(2.5, 3, 3, Direction.NORTH);
+				sanePortalSurfaces.primary.assertPresent(11.5, 3, 3, Direction.NORTH);
+				sanePortalSurfaces.secondary.assertNotPresent();
+				facadeSurfaces.primary.assertNotPresent();
+				facadeSurfaces.secondary.assertPresent(2.5, 3, 3, Direction.NORTH);
 			})
 		);
 	}
@@ -384,10 +384,10 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper portalBumpWall = new PortalHelper(helper, "portal_bump_wall");
 
 		// 0.1 offset on X
-		portalBumpWall.primary().shootFrom(new Vec3(1.1, 3, 2.5), Direction.DOWN);
+		portalBumpWall.primary.shootFrom(new Vec3(1.1, 3, 2.5), Direction.DOWN);
 
 		helper.runAfterDelay(10, () ->
-			helper.succeedWhen(() -> portalBumpWall.primary().assertPresent(1.5, 1, 2.5, Direction.UP))
+			helper.succeedWhen(() -> portalBumpWall.primary.assertPresent(1.5, 1, 2.5, Direction.UP))
 		);
 	}
 
@@ -397,11 +397,11 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalBumpPortal(GameTestHelper helper) {
 
 		PortalHelper portalBumpPortal = new PortalHelper(helper, "portal_bump_portal");
-		portalBumpPortal.primary().shootFrom(new Vec3(1.5, 3, 2.5), Direction.DOWN);
-		helper.runAfterDelay(10, () -> portalBumpPortal.secondary().shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN));
+		portalBumpPortal.primary.shootFrom(new Vec3(1.5, 3, 2.5), Direction.DOWN);
+		helper.runAfterDelay(10, () -> portalBumpPortal.secondary.shootFrom(new Vec3(2, 3, 2.5), Direction.DOWN));
 
 		helper.runAfterDelay(20, () ->
-			helper.succeedWhen(() -> portalBumpPortal.secondary().assertPresent(2.5, 1, 2.5, Direction.UP))
+			helper.succeedWhen(() -> portalBumpPortal.secondary.assertPresent(2.5, 1, 2.5, Direction.UP))
 		);
 	}
 
@@ -411,10 +411,10 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalBumpInvalidSurface(GameTestHelper helper) {
 		PortalHelper portalBumpInvalidSurface = new PortalHelper(helper, "portal_bump_invalid_surface");
 
-		portalBumpInvalidSurface.primary().shootFrom(new Vec3(0.75, 3, 2.5), Direction.DOWN);
+		portalBumpInvalidSurface.primary.shootFrom(new Vec3(0.75, 3, 2.5), Direction.DOWN);
 
 		helper.runAfterDelay(10, () ->
-			helper.succeedWhen(() -> portalBumpInvalidSurface.primary().assertNotPresent())
+			helper.succeedWhen(() -> portalBumpInvalidSurface.primary.assertNotPresent())
 		);
 	}
 
@@ -424,10 +424,10 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalBumpGap(GameTestHelper helper) {
 		PortalHelper portalBumpGap = new PortalHelper(helper, "portal_bump_gap");
 
-		portalBumpGap.primary().shootFrom(new Vec3(1.35, 3, 2.5), Direction.DOWN, 5);
+		portalBumpGap.primary.shootFrom(new Vec3(1.35, 3, 2.5), Direction.DOWN, 5);
 
 		helper.runAfterDelay(10, () ->
-			helper.succeedWhen(() -> portalBumpGap.primary().assertPresent(2.6, 1, 2.5, Direction.UP))
+			helper.succeedWhen(() -> portalBumpGap.primary.assertPresent(2.6, 1, 2.5, Direction.UP))
 		);
 	}
 
@@ -437,10 +437,10 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalBumpThinWall(GameTestHelper helper) {
 		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall");
 
-		portalBumpThinWall.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+		portalBumpThinWall.primary.shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
 		helper.runAfterDelay(10, () ->
-				helper.succeedWhen(() -> portalBumpThinWall.primary().assertPresent(2, 1, 2.5, Direction.UP))
+				helper.succeedWhen(() -> portalBumpThinWall.primary.assertPresent(2, 1, 2.5, Direction.UP))
 		);
 	}
 
@@ -449,10 +449,10 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalBumpThinWallDisabled(GameTestHelper helper) {
 		PortalHelper portalBumpThinWall = new PortalHelper(helper, "portal_bump_thin_wall_disabled");
 
-		portalBumpThinWall.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+		portalBumpThinWall.primary.shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
 		helper.runAfterDelay(10, () ->
-			helper.succeedWhen(() -> portalBumpThinWall.primary().assertNotPresent())
+			helper.succeedWhen(() -> portalBumpThinWall.primary.assertNotPresent())
 		);
 	}
 
@@ -462,10 +462,10 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalBumpEdge(GameTestHelper helper) {
 		PortalHelper portalBumpEdge = new PortalHelper(helper, "portal_bump_edge");
 
-		portalBumpEdge.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+		portalBumpEdge.primary.shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
 		helper.runAfterDelay(10, () ->
-				helper.succeedWhen(() -> portalBumpEdge.primary().assertPresent(1.5, 2, 2.5, Direction.UP))
+				helper.succeedWhen(() -> portalBumpEdge.primary.assertPresent(1.5, 2, 2.5, Direction.UP))
 		);
 	}
 
@@ -475,10 +475,10 @@ public class PortalGameTests implements FabricGameTest {
 	public void portalBumpTrench(GameTestHelper helper) {
 		PortalHelper portalBumpTrench = new PortalHelper(helper, "portal_bump_trench");
 
-		portalBumpTrench.primary().shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
+		portalBumpTrench.primary.shootFrom(new Vec3(1.25, 3, 2.5), Direction.DOWN);
 
 		helper.runAfterDelay(10, () ->
-				helper.succeedWhen(() -> portalBumpTrench.primary().assertNotPresent())
+				helper.succeedWhen(() -> portalBumpTrench.primary.assertNotPresent())
 		);
 	}
 
@@ -489,23 +489,23 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper removesPortalability = new PortalHelper(helper, "removes_portalability");
 		PortalHelper portalBarrier = new PortalHelper(helper, "portal_barrier");
 
-		addsPortalability.primary().shootFrom(new Vec3(1.5, 1.5, 2.5), Direction.SOUTH);
-		addsPortalability.secondary().shootFrom(new Vec3(1.5, 1.5, 2.5), Direction.EAST);
+		addsPortalability.primary.shootFrom(new Vec3(1.5, 1.5, 2.5), Direction.SOUTH);
+		addsPortalability.secondary.shootFrom(new Vec3(1.5, 1.5, 2.5), Direction.EAST);
 
-		removesPortalability.primary().shootFrom(new Vec3(4.5, 1.5, 2.5), Direction.SOUTH);
-		removesPortalability.secondary().shootFrom(new Vec3(4.5, 1.5, 2.5), Direction.EAST);
+		removesPortalability.primary.shootFrom(new Vec3(4.5, 1.5, 2.5), Direction.SOUTH);
+		removesPortalability.secondary.shootFrom(new Vec3(4.5, 1.5, 2.5), Direction.EAST);
 
-		portalBarrier.primary().shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.SOUTH);
-		portalBarrier.secondary().shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.EAST);
+		portalBarrier.primary.shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.SOUTH);
+		portalBarrier.secondary.shootFrom(new Vec3(7.5, 1.5, 2.5), Direction.EAST);
 
 		helper.runAfterDelay(10, () ->
 			helper.succeedWhen(() -> {
-				addsPortalability.primary().assertNotPresent();
-				addsPortalability.secondary().assertPresent(2, 2, 2.5, Direction.WEST);
-				removesPortalability.primary().assertPresent(4.5, 2, 3, Direction.NORTH);
-				removesPortalability.secondary().assertNotPresent();
-				portalBarrier.primary().assertPresent(7.5, 2, 3, Direction.NORTH);
-				portalBarrier.secondary().assertNotPresent();
+				addsPortalability.primary.assertNotPresent();
+				addsPortalability.secondary.assertPresent(2, 2, 2.5, Direction.WEST);
+				removesPortalability.primary.assertPresent(4.5, 2, 3, Direction.NORTH);
+				removesPortalability.secondary.assertNotPresent();
+				portalBarrier.primary.assertPresent(7.5, 2, 3, Direction.NORTH);
+				portalBarrier.secondary.assertNotPresent();
 			})
 		);
 	}
@@ -517,8 +517,8 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper collisionSides = new PortalHelper(helper, "collision_sides");
 
-		collisionSides.primary().placeOn(new BlockPos(5, 6, 5), Direction.NORTH);
-		collisionSides.secondary().placeOn(new BlockPos(5, 14, 5), Direction.NORTH);
+		collisionSides.primary.placeOn(new BlockPos(5, 6, 5), Direction.NORTH);
+		collisionSides.secondary.placeOn(new BlockPos(5, 14, 5), Direction.NORTH);
 
 		helper.setBlock(5, 9, 5, Blocks.AIR);
 		helper.pressButton(new BlockPos(5, 1, 4));
@@ -545,8 +545,8 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper collisionEdges = new PortalHelper(helper, "collision_edges");
 
-		collisionEdges.primary().placeOn(new BlockPos(3, 1, 5), Direction.NORTH);
-		collisionEdges.secondary().placeOn(new BlockPos(3, 1, 7), Direction.SOUTH);
+		collisionEdges.primary.placeOn(new BlockPos(3, 1, 5), Direction.NORTH);
+		collisionEdges.secondary.placeOn(new BlockPos(3, 1, 7), Direction.SOUTH);
 
 		helper.pressButton(new BlockPos(4, 1, 0));
 		helper.runAfterDelay(20, () ->
@@ -575,26 +575,26 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper ceilingPairTwo = new PortalHelper(helper, "ceiling_pair_two");
 		PortalHelper ceilingPairThree = new PortalHelper(helper, "ceiling_pair_three");
 
-		floorPairOne.primary().placeOn(new BlockPos(5, 0, 1), Direction.UP);
-		floorPairOne.secondary().placeOn(new BlockPos(4, 0, 1), Direction.UP);
-		floorPairTwo.primary().placeOn(new BlockPos(3, 0, 1), Direction.UP);
-		floorPairTwo.secondary().placeOn(new BlockPos(2, 0, 1), Direction.UP);
-		floorPairThree.primary().placeOn(new BlockPos(1, 0, 1), Direction.UP);
-		floorPairThree.secondary().placeOn(new BlockPos(0, 0, 1), Direction.UP);
+		floorPairOne.primary.placeOn(new BlockPos(5, 0, 1), Direction.UP);
+		floorPairOne.secondary.placeOn(new BlockPos(4, 0, 1), Direction.UP);
+		floorPairTwo.primary.placeOn(new BlockPos(3, 0, 1), Direction.UP);
+		floorPairTwo.secondary.placeOn(new BlockPos(2, 0, 1), Direction.UP);
+		floorPairThree.primary.placeOn(new BlockPos(1, 0, 1), Direction.UP);
+		floorPairThree.secondary.placeOn(new BlockPos(0, 0, 1), Direction.UP);
 
-		wallPairOne.primary().placeOn(new BlockPos(5, 2, 4), Direction.NORTH);
-		wallPairOne.secondary().placeOn(new BlockPos(4, 2, 4), Direction.NORTH);
-		wallPairTwo.primary().placeOn(new BlockPos(3, 2, 4), Direction.NORTH);
-		wallPairTwo.secondary().placeOn(new BlockPos(2, 2, 4), Direction.NORTH);
-		wallPairThree.primary().placeOn(new BlockPos(1, 2, 4), Direction.NORTH);
-		wallPairThree.secondary().placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
+		wallPairOne.primary.placeOn(new BlockPos(5, 2, 4), Direction.NORTH);
+		wallPairOne.secondary.placeOn(new BlockPos(4, 2, 4), Direction.NORTH);
+		wallPairTwo.primary.placeOn(new BlockPos(3, 2, 4), Direction.NORTH);
+		wallPairTwo.secondary.placeOn(new BlockPos(2, 2, 4), Direction.NORTH);
+		wallPairThree.primary.placeOn(new BlockPos(1, 2, 4), Direction.NORTH);
+		wallPairThree.secondary.placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
 
-		ceilingPairOne.primary().placeOn(new BlockPos(5, 4, 2), Direction.DOWN);
-		ceilingPairOne.secondary().placeOn(new BlockPos(4, 4, 2), Direction.DOWN);
-		ceilingPairTwo.primary().placeOn(new BlockPos(3, 4, 2), Direction.DOWN);
-		ceilingPairTwo.secondary().placeOn(new BlockPos(2, 4, 2), Direction.DOWN);
-		ceilingPairThree.primary().placeOn(new BlockPos(1, 4, 2), Direction.DOWN);
-		ceilingPairThree.secondary().placeOn(new BlockPos(0, 4, 2), Direction.DOWN);
+		ceilingPairOne.primary.placeOn(new BlockPos(5, 4, 2), Direction.DOWN);
+		ceilingPairOne.secondary.placeOn(new BlockPos(4, 4, 2), Direction.DOWN);
+		ceilingPairTwo.primary.placeOn(new BlockPos(3, 4, 2), Direction.DOWN);
+		ceilingPairTwo.secondary.placeOn(new BlockPos(2, 4, 2), Direction.DOWN);
+		ceilingPairThree.primary.placeOn(new BlockPos(1, 4, 2), Direction.DOWN);
+		ceilingPairThree.secondary.placeOn(new BlockPos(0, 4, 2), Direction.DOWN);
 
 		helper.succeedWhen(() -> {
 			//Floor
@@ -630,20 +630,20 @@ public class PortalGameTests implements FabricGameTest {
 			return new PortalHelper(helper, "portal_stack_pair_" + i, primary, secondary);
 		}).toArray(PortalHelper[]::new);
 
-		pairs[0].primary().placeOn(5, 2, 1, Direction.WEST);
-		pairs[0].secondary().placeOn(5, 2, 1, Direction.EAST);
-		pairs[1].primary().placeOn(6, 2, 1, Direction.WEST);
-		pairs[1].secondary().placeOn(6, 2, 1, Direction.EAST);
-		pairs[2].primary().placeOn(7, 2, 1, Direction.WEST);
-		pairs[2].secondary().placeOn(9, 2, 1, Direction.EAST);
-		pairs[3].primary().placeOn(10, 2, 1, Direction.WEST);
-		pairs[3].secondary().placeOn(10, 2, 1, Direction.EAST);
-		pairs[4].primary().placeOn(11, 2, 1, Direction.WEST);
-		pairs[4].secondary().placeOn(13, 2, 1, Direction.EAST);
-		pairs[5].primary().placeOn(14, 2, 1, Direction.WEST);
-		pairs[5].secondary().placeOn(14, 2, 1, Direction.EAST);
-		pairs[6].primary().placeOn(15, 2, 1, Direction.WEST);
-		pairs[6].secondary().placeOn(15, 2, 1, Direction.EAST);
+		pairs[0].primary.placeOn(5, 2, 1, Direction.WEST);
+		pairs[0].secondary.placeOn(5, 2, 1, Direction.EAST);
+		pairs[1].primary.placeOn(6, 2, 1, Direction.WEST);
+		pairs[1].secondary.placeOn(6, 2, 1, Direction.EAST);
+		pairs[2].primary.placeOn(7, 2, 1, Direction.WEST);
+		pairs[2].secondary.placeOn(9, 2, 1, Direction.EAST);
+		pairs[3].primary.placeOn(10, 2, 1, Direction.WEST);
+		pairs[3].secondary.placeOn(10, 2, 1, Direction.EAST);
+		pairs[4].primary.placeOn(11, 2, 1, Direction.WEST);
+		pairs[4].secondary.placeOn(13, 2, 1, Direction.EAST);
+		pairs[5].primary.placeOn(14, 2, 1, Direction.WEST);
+		pairs[5].secondary.placeOn(14, 2, 1, Direction.EAST);
+		pairs[6].primary.placeOn(15, 2, 1, Direction.WEST);
+		pairs[6].secondary.placeOn(15, 2, 1, Direction.EAST);
 
 		helper.setBlock(1, 1, 1, Blocks.REDSTONE_BLOCK);
 		EntityType<Prop> cube = PortalCubedEntities.PROPS.get(PropType.STORAGE_CUBE);
