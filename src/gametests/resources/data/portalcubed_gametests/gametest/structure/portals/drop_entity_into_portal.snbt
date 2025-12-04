@@ -1,5 +1,5 @@
 {
-    DataVersion: 3700,
+    DataVersion: 4189,
     size: [12, 7, 5],
     data: [
         {pos: [0, 0, 0], state: "minecraft:polished_andesite"},
@@ -13,14 +13,14 @@
         {pos: [1, 0, 3], state: "minecraft:polished_andesite"},
         {pos: [1, 0, 4], state: "minecraft:polished_andesite"},
         {pos: [2, 0, 0], state: "minecraft:polished_andesite"},
-        {pos: [2, 0, 1], state: "minecraft:target{power:0}"},
+        {pos: [2, 0, 1], state: "minecraft:polished_andesite"},
         {pos: [2, 0, 2], state: "minecraft:polished_andesite"},
-        {pos: [2, 0, 3], state: "minecraft:target{power:0}"},
+        {pos: [2, 0, 3], state: "minecraft:polished_andesite"},
         {pos: [2, 0, 4], state: "minecraft:polished_andesite"},
         {pos: [3, 0, 0], state: "minecraft:polished_andesite"},
-        {pos: [3, 0, 1], state: "minecraft:polished_andesite"},
+        {pos: [3, 0, 1], state: "minecraft:target{power:0}"},
         {pos: [3, 0, 2], state: "minecraft:polished_andesite"},
-        {pos: [3, 0, 3], state: "minecraft:polished_andesite"},
+        {pos: [3, 0, 3], state: "minecraft:target{power:0}"},
         {pos: [3, 0, 4], state: "minecraft:polished_andesite"},
         {pos: [4, 0, 0], state: "minecraft:polished_andesite"},
         {pos: [4, 0, 1], state: "minecraft:polished_andesite"},
@@ -424,8 +424,8 @@
         {pos: [11, 6, 4], state: "minecraft:air"}
     ],
     entities: [
-        {blockPos: [9, 4, 1], pos: [9.5d, 4.0d, 1.5d], nbt: {AbsorptionAmount: 0.0f, Air: 300s, ArmorItems: [{}, {}, {}, {}], Attributes: [{Base: 0.699999988079071d, Name: "minecraft:generic.movement_speed"}], Brain: {memories: {}}, DeathTime: 0s, DisabledSlots: 0, FallDistance: 0.0f, FallFlying: 0b, Fire: -1s, HandItems: [{}, {}], Health: 20.0f, HurtByTimestamp: 0, HurtTime: 0s, Invisible: 0b, Invulnerable: 0b, Motion: [0.0d, -0.0784000015258789d, 0.0d], NoBasePlate: 0b, OnGround: 1b, PortalCooldown: 0, Pos: [93.5d, -55.0d, -10.5d], Pose: {}, Rotation: [-180.0f, 0.0f], ShowArms: 0b, Small: 0b, UUID: [I; 570047554, -2009379484, -1448959995, -672706323], id: "minecraft:armor_stand"}},
-        {blockPos: [9, 4, 3], pos: [9.5d, 4.0d, 3.5d], nbt: {Air: 300s, FallDistance: 0.0f, Fire: -1s, Invulnerable: 0b, Motion: [0.0d, 0.0d, 0.0d], OnGround: 1b, PortalCooldown: 0, Pos: [93.5d, -55.0d, -8.5d], Rotation: [0.0f, 0.0f], UUID: [I; 1015260228, -1797763492, -1299178297, -2001909393], id: "portalcubed:portal_1_storage_cube", variant: 0, variant_from_item: 0}}
+        {blockPos: [9, 4, 1], pos: [9.5d, 4.0d, 1.5d], nbt: {AbsorptionAmount: 0.0f, Air: 300s, ArmorItems: [{}, {}, {}, {}], Brain: {memories: {}}, DeathTime: 0s, DisabledSlots: 0, FallDistance: 0.0f, FallFlying: 0b, Fire: -1s, HandItems: [{}, {}], Health: 20.0f, HurtByTimestamp: 0, HurtTime: 0s, Invisible: 0b, Invulnerable: 0b, Motion: [0.0d, -0.0784000015258789d, 0.0d], NoBasePlate: 0b, OnGround: 1b, PortalCooldown: 0, Pos: [83.5d, -55.0d, 56.5d], Pose: {}, Rotation: [-180.0f, 0.0f], ShowArms: 0b, Small: 0b, UUID: [I; -686444117, 1181240874, -1093255332, -1114548416], attributes: [{base: 0.699999988079071d, id: "minecraft:movement_speed"}], id: "minecraft:armor_stand"}},
+        {blockPos: [9, 4, 3], pos: [9.5d, 4.0d, 3.5d], nbt: {Air: 300s, FallDistance: 0.0f, Fire: -1s, Invulnerable: 0b, Motion: [0.0d, 0.0d, 0.0d], OnGround: 1b, PortalCooldown: 0, Pos: [83.5d, -55.0d, 58.5d], Rotation: [0.0f, 0.0f], UUID: [I; 1634768975, -401520150, -1294368557, 116034036], collision: {bottom: 1b, side: 0b, top: 1b}, id: "portalcubed:portal_1_storage_cube", variant: 0, variant_from_item: 0}}
     ],
     palette: [
         "minecraft:polished_andesite",

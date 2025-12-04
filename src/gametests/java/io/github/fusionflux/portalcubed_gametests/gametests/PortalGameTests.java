@@ -41,8 +41,8 @@ public class PortalGameTests implements FabricGameTest {
 		helper.setBlock(9, 3, 3, Blocks.AIR);
 
 		helper.succeedWhen(() -> {
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(2, 1, 1));
-			helper.assertEntityPresent(PropType.PORTAL_1_STORAGE_CUBE.entityType(), new BlockPos(2, 1, 3));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(3, 1, 1));
+			helper.assertEntityPresent(PropType.PORTAL_1_STORAGE_CUBE.entityType(), new BlockPos(3, 1, 3));
 		});
 	}
 
@@ -83,8 +83,8 @@ public class PortalGameTests implements FabricGameTest {
 			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(12, 1, 1));
 			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(10, 1, 3));
 			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(9, 1, 5));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(8, 1, 7));
-			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 1, 9));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(9, 1, 7));
+			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(7, 1, 9));
 			helper.assertEntityPresent(EntityType.ARMOR_STAND, new BlockPos(6, 1, 11));
 		});
 	}
@@ -102,7 +102,7 @@ public class PortalGameTests implements FabricGameTest {
 
 		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> {
 				helper.assertEntityPresent(EntityType.ARMOR_STAND);
-				helper.assertBlockProperty(new BlockPos(0, 7, 4), RedstoneLampBlock.LIT, true);
+				helper.assertBlockProperty(new BlockPos(0, 8, 4), RedstoneLampBlock.LIT, true);
 			})
 		);
 	}
