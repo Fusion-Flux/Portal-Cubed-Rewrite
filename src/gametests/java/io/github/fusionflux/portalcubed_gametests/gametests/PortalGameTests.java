@@ -100,7 +100,11 @@ public class PortalGameTests implements FabricGameTest {
 		infiniteFall.primary().placeOn(new BlockPos(2, 3, 2), Direction.UP, 90);
 		infiniteFall.secondary().placeOn(new BlockPos(2, 9, 2), Direction.DOWN, 90);
 
-		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> helper.assertEntityPresent(EntityType.ARMOR_STAND)));
+		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> {
+				helper.assertEntityPresent(EntityType.ARMOR_STAND);
+				helper.assertBlockProperty(new BlockPos(0, 7, 4), RedstoneLampBlock.LIT, true);
+			})
+		);
 	}
 
 	//Tests infinite falling to make sure the entity doesn't collide with blocks behind the portal they fall into at high speeds
