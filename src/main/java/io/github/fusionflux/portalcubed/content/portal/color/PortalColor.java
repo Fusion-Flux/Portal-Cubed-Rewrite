@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.color;
 
 import java.util.Locale;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.brigadier.StringReader;
@@ -21,6 +22,7 @@ public interface PortalColor {
 
 	int get(float ticks);
 
+	@ApiStatus.NonExtendable
 	default int getOpaque(float ticks) {
 		return ARGB.opaque(this.get(ticks));
 	}
