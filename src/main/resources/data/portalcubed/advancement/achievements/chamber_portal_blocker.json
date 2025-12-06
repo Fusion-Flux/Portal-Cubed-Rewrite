@@ -16,7 +16,7 @@
     "description": {
       "translate": "advancement.portalcubed.chamber_portal_blocker.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "portalcubed:padded_gray_half_panel"
