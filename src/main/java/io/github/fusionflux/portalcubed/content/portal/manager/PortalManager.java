@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
 
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -151,6 +152,13 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 		return this.lookup;
 	}
 
+	/**
+	 * Register a new {@link PortalChangeListener}.
+	 * <p>
+	 * These listeners are stored in {@link WeakReference}s, so they will be automatically removed
+	 * once they are garbage collected. Make sure you hold on to a reference to registered listeners,
+	 * or else they might go missing at random.
+	 */
 	public void registerListener(PortalChangeListener listener) {
 		this.listeners.add(listener);
 	}

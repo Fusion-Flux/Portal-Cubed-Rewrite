@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
@@ -81,6 +82,12 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	private int portalCollisionRecursionDepth;
 	@Unique
 	private boolean isNextTeleportNonLocal;
+
+	@Inject(method = "<init>", at = @At("RETURN"))
+	private void afterInit(CallbackInfo ci) {
+		// make sure this is done after this.level is set
+		this.level().portalManager().registerListener(this.relevantPortals);
+	}
 
 	@WrapOperation(
 			method = "move",

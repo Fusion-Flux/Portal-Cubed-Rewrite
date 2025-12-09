@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -18,7 +19,7 @@ import net.minecraft.world.phys.Vec3;
  *     <li>the entity's bounds intersect the region in front of the portal</li>
  * </ul>
  */
-public final class RelevantPortals {
+public final class RelevantPortals implements PortalChangeListener {
 	private final Entity entity;
 
 	// null before the first time update is called
@@ -57,5 +58,24 @@ public final class RelevantPortals {
 
 		Portal portal = reference.get();
 		return !portal.seesModifiedCollision(this.entity);
+	}
+
+	private void invalidate() {
+		this.cached = null;
+	}
+
+	@Override
+	public void portalCreated(PortalReference reference) {
+		this.invalidate();
+	}
+
+	@Override
+	public void portalModified(Portal oldPortal, PortalReference reference) {
+		this.invalidate();
+	}
+
+	@Override
+	public void portalRemoved(PortalReference reference, Portal portal) {
+		this.invalidate();
 	}
 }
