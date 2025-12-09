@@ -49,6 +49,7 @@
     "portals.CollisionGetterMixin",
     "portals.DataCommandsMixin",
     "portals.EntityCollisionContextMixin",
+    "portals.EntityGetterMixin",
     "portals.EntityMixin",
     "portals.GameTestInfoMixin",
     "portals.LivingEntityMixin",

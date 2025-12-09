@@ -96,6 +96,13 @@ public final class Portal {
 		return this.entityCollisionArea.intersects(entity.getBoundingBox());
 	}
 
+	/**
+	 * @return true if this portal hides the given box from collision checks
+	 */
+	public boolean hides(AABB box) {
+		return this.plane.isPartiallyBehind(box);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Portal that && this.data.equals(that.data);

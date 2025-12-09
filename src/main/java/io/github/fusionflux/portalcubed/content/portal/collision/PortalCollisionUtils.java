@@ -31,7 +31,7 @@ public final class PortalCollisionUtils {
 
 		for (VoxelShape shape : entity.level().getCollisions(null, transformedArea)) {
 			for (AABB box : shape.toAabbs()) {
-				if (linked.get().plane.isPartiallyBehind(box))
+				if (linked.get().hides(box))
 					continue;
 
 				OBB transformed = transform.inverse.apply(box);
