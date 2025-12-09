@@ -53,6 +53,10 @@ public record PortalPair(Optional<Portal> primary, Optional<Portal> secondary) i
 		return this.get(polarity).orElseThrow();
 	}
 
+	public boolean has(Polarity polarity) {
+		return this.get(polarity).isPresent();
+	}
+
 	@Nullable
 	public Portal other(Portal portal) {
 		if (this.primary.isPresent() && this.primary.get() == portal) {
@@ -98,46 +102,6 @@ public record PortalPair(Optional<Portal> primary, Optional<Portal> secondary) i
 			return Iterators.singletonIterator(this.secondary.get());
 		} else { // neither
 			return Collections.emptyIterator();
-		}
-	}
-
-	public record Holder(String key, PortalPair pair) implements Iterable<Portal.Holder> {
-		public Optional<Portal.Holder> primary() {
-			return this.pair.primary.map(portal -> new Portal.Holder(this, Polarity.PRIMARY, portal));
-		}
-
-		public Optional<Portal.Holder> secondary() {
-			return this.pair.secondary.map(portal -> new Portal.Holder(this, Polarity.SECONDARY, portal));
-		}
-
-		public Optional<Portal.Holder> get(Polarity polarity) {
-			return switch (polarity) {
-				case PRIMARY -> this.primary();
-				case SECONDARY -> this.secondary();
-			};
-		}
-
-		@Override
-		public Iterator<Portal.Holder> iterator() {
-			if (this.pair.primary.isPresent() && this.pair.secondary.isPresent()) {
-				return new DualIterator<>(this.primary().orElseThrow(), this.secondary().orElseThrow());
-			} else if (this.pair.primary.isPresent()) { // no secondary
-				return Iterators.singletonIterator(this.primary().orElseThrow());
-			} else if (this.pair.secondary.isPresent()) { // no primary
-				return Iterators.singletonIterator(this.secondary().orElseThrow());
-			} else { // neither
-				return Collections.emptyIterator();
-			}
-		}
-
-		@Override
-		public int hashCode() {
-			return this.key.hashCode();
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			return obj instanceof PortalPair.Holder that && this.key.equals(that.key);
 		}
 	}
 }

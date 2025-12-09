@@ -11,6 +11,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
@@ -33,15 +34,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class CrossPortalEntityRenderer {
-	private final Minecraft minecraft;
 	private final RenderBuffers renderBuffers;
 	private final EntityRenderDispatcher entityRenderDispatcher;
 
 	private ClientLevel world;
 	private final List<CrossPortalEntity> entities = new ReferenceArrayList<>();
 
-	public CrossPortalEntityRenderer(Minecraft minecraft, RenderBuffers renderBuffers, EntityRenderDispatcher entityRenderDispatcher) {
-		this.minecraft = minecraft;
+	public CrossPortalEntityRenderer(RenderBuffers renderBuffers, EntityRenderDispatcher entityRenderDispatcher) {
 		this.renderBuffers = renderBuffers;
 		this.entityRenderDispatcher = entityRenderDispatcher;
 	}
@@ -82,7 +81,7 @@ public class CrossPortalEntityRenderer {
 				if (hit instanceof PortalHitResult.Open open) {
 					this.entities.add(new CrossPortalEntity(
 							entity, tickDelta, position,
-							open.enteredPortal().portal(), open.exitedPortal().portal()
+							open.enteredPortal(), open.exitedPortal().get()
 					));
 
 					break;
@@ -104,17 +103,15 @@ public class CrossPortalEntityRenderer {
 		Vec3 camPos = camera.getPosition();
 		SimpleBufferSource bufferSource = ((RenderBuffersExt) this.renderBuffers).pc$crossPortalBufferSource();
 		for (CrossPortalEntity crossPortalEntity : this.entities) {
-			Portal inPortal = crossPortalEntity.inPortal;
+			if (crossPortalEntity.shouldBeSkipped())
+				continue;
+
+			Portal inPortal = crossPortalEntity.inPortal.get();
 			Portal outPortal = crossPortalEntity.outPortal;
 			Vec3 transformedPos = PortalTeleportHandler.teleportAbsoluteVecBetween(crossPortalEntity.position, inPortal, outPortal);
 			Vec3 transformedViewPos = transformedPos.subtract(camPos);
-
 			Entity entity = crossPortalEntity.entity;
 			float tickDelta = crossPortalEntity.tickDelta;
-			if (entity == this.minecraft.player && this.minecraft.options.getCameraType().isFirstPerson()) {
-				if (PortalRenderer.recursion() == 1 && PortalRenderer.getRenderingPortal() == inPortal)
-					continue;
-			}
 
 			matrices.pushPose();
 
@@ -142,6 +139,13 @@ public class CrossPortalEntityRenderer {
 		return null;
 	}
 
-	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, Portal inPortal, Portal outPortal) {
+	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalReference inPortal, Portal outPortal) {
+		public boolean shouldBeSkipped() {
+			Minecraft mc = Minecraft.getInstance();
+			if (this.entity != mc.player || !mc.options.getCameraType().isFirstPerson())
+				return false;
+
+			return PortalRenderer.recursion() == 1 && this.inPortal.id.equals(PortalRenderer.getRenderingPortal());
+		}
 	}
 }

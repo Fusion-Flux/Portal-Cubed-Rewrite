@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -35,7 +35,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 		if (entity == null)
 			return shape;
 
-		List<Portal.Holder> relevantPortals = entity.relevantPortals().get();
+		List<PortalReference> relevantPortals = entity.relevantPortals().get();
 		if (relevantPortals.isEmpty())
 			return shape;
 
@@ -63,14 +63,14 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 	 * @return true if any boxes were filtered out
 	 */
 	@Unique
-	private static boolean filter(List<AABB> boxes, List<Portal.Holder> portals, BlockPos pos) {
+	private static boolean filter(List<AABB> boxes, List<PortalReference> portals, BlockPos pos) {
 		int initialSize = boxes.size();
 
 		for (Iterator<AABB> itr = boxes.iterator(); itr.hasNext();) {
 			AABB box = itr.next().move(pos);
 
-			for (Portal.Holder holder : portals) {
-				if (holder.portal().plane.isFullyBehindOrOn(box)) {
+			for (PortalReference holder : portals) {
+				if (holder.get().plane.isFullyBehindOrOn(box)) {
 					itr.remove();
 					break;
 				}

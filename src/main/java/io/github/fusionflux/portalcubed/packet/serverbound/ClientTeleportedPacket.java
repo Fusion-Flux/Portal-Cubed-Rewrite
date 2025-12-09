@@ -6,10 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
-import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
@@ -58,11 +58,12 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		ServerPortalManager manager = player.serverLevel().portalManager();
 		Teleport teleport = this.teleport;
 		while (teleport != null) {
-			PortalPair pair = manager.getPair(teleport.pair);
-			PortalPair.Holder holder = new PortalPair.Holder(teleport.pair, pair);
+			// these are guaranteed to exist by isTeleportInvalid
+			PortalReference entered = manager.getPortalOrThrow(teleport.entered);
+			PortalReference exited = entered.opposite().orElseThrow();
 
-			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, holder.get(teleport.entered).orElseThrow());
-			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, holder.get(teleport.entered.opposite()).orElseThrow());
+			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, entered);
+			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, exited);
 
 			teleport = teleport.next.orElse(null);
 		}
@@ -74,31 +75,37 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		double distance = 0;
 
 		// entrance
-		PortalPair firstPair = manager.getPair(this.teleport.pair);
-		if (firstPair == null || !firstPair.isLinked())
+		PortalReference firstEntered = manager.getPortal(this.teleport.entered);
+		if (firstEntered == null)
 			return true;
 
-		Portal firstEntered = firstPair.getOrThrow(this.teleport.entered);
+		Optional<PortalReference> firstExited = firstEntered.opposite();
+		if (firstExited.isEmpty())
+			return true;
+
 		Vec3 center = PortalTeleportHandler.centerOf(player);
-		distance += (center.distanceTo(firstEntered.data.origin()));
+		distance += (center.distanceTo(firstEntered.get().data.origin()));
 		if (distance > expectedDistance)
 			return true;
 
 		// intermediate
-		Portal exited = firstPair.getOrThrow(this.teleport.entered.opposite());
+		Portal exited = firstExited.get().get();
 		Optional<Teleport> maybeNext = this.teleport.next;
 		while (maybeNext.isPresent()) {
 			Teleport next = maybeNext.get();
-			PortalPair pair = manager.getPair(next.pair);
-			if (pair == null || !pair.isLinked())
+			PortalReference entered = manager.getPortal(next.entered);
+			if (entered == null)
 				return true;
 
-			Portal entered = pair.getOrThrow(next.entered);
-			distance += (exited.data.origin().distanceTo(entered.data.origin()));
+			Optional<PortalReference> opposite = entered.opposite();
+			if (opposite.isEmpty())
+				return true;
+
+			distance += (exited.data.origin().distanceTo(entered.get().data.origin()));
 			if (distance > expectedDistance)
 				return true;
 
-			exited = pair.getOrThrow(next.entered.opposite());
+			exited = opposite.get().get();
 			maybeNext = next.next;
 		}
 
@@ -131,17 +138,16 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		return player.isFallFlying() ? GLIDING_MAX : NORMAL_MAX;
 	}
 
-	private record Teleport(String pair, Polarity entered, Optional<Teleport> next) {
+	private record Teleport(PortalId entered, Optional<Teleport> next) {
 		private static final StreamCodec<ByteBuf, Teleport> CODEC = StreamCodec.recursive(self -> StreamCodec.composite(
-				ByteBufCodecs.STRING_UTF8, Teleport::pair,
-				Polarity.STREAM_CODEC, Teleport::entered,
+				PortalId.STREAM_CODEC, Teleport::entered,
 				ByteBufCodecs.optional(self), Teleport::next,
 				Teleport::new
 		));
 
 		private static Teleport of(PortalHitResult.Open result) {
 			return new Teleport(
-					result.pair().key(), result.enteredPortal().polarity(),
+					result.enteredPortal().id,
 					result instanceof PortalHitResult.Mid mid && mid.next() instanceof PortalHitResult.Open open
 							? Optional.of(Teleport.of(open)) : Optional.empty()
 			);

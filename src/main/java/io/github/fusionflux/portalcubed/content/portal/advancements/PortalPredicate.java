@@ -11,8 +11,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
-import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.graphics.color.PortalColor;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
@@ -24,7 +24,7 @@ import net.minecraft.world.phys.Vec3;
 public record PortalPredicate(
 		Optional<String> pair, Optional<Polarity> polarity, Optional<HolderSet<PortalType>> types,
 		Optional<Vec3> origin, Optional<Quaternionf> rotation, Optional<PortalColor> color
-) implements Predicate<Portal.Holder> {
+) implements Predicate<PortalReference> {
 	public static final Codec<PortalPredicate> CODEC = PortalCubedCodecs.validate(
 			RecordCodecBuilder.create(i -> i.group(
 					Codec.STRING.optionalFieldOf("pair").forGetter(PortalPredicate::pair),
@@ -38,14 +38,14 @@ public record PortalPredicate(
 	);
 
 	@Override
-	public boolean test(Portal.Holder portal) {
-		if (this.pair.isPresent() && !this.pair.get().equals(portal.pair().key()))
+	public boolean test(PortalReference portal) {
+		if (this.pair.isPresent() && !this.pair.get().equals(portal.id.key()))
 			return false;
 
-		if (this.polarity.isPresent() && this.polarity.get() != portal.polarity())
+		if (this.polarity.isPresent() && this.polarity.get() != portal.id.polarity())
 			return false;
 
-		PortalData data = portal.portal().data;
+		PortalData data = portal.get().data;
 
 		if (this.types.isPresent() && !this.types.get().contains(data.type()))
 			return false;

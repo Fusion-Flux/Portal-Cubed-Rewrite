@@ -7,6 +7,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
@@ -32,13 +33,13 @@ public record StandardPortalValidator(Angle rotation) implements PortalValidator
 	private static final FloatArgumentType dummyFloat = FloatArgumentType.floatArg(0, 360);
 
 	@Override
-	public boolean isValid(ServerLevel level, Portal.Holder holder) {
-		Portal portal = holder.portal();
+	public boolean isValid(ServerLevel level, PortalReference reference) {
+		Portal portal = reference.get();
 
 		Direction face = Direction.getApproximateNearest(portal.normal);
 		BlockPos pos = BlockPos.containing(portal.data.origin().relative(face, -1e-3));
 
-		PortalPlacement placement = PortalBumper.findValidPlacement(holder.asId(), level, portal.data.origin(), 0, pos, face, null, this.rotation);
+		PortalPlacement placement = PortalBumper.findValidPlacement(reference.id, level, portal.data.origin(), 0, pos, face, null, this.rotation);
 
 		return placement != null && placement.pos().equals(portal.data.origin()) && Maath.equals(placement.rotation(), portal.rotation(), 1e-5f);
 	}

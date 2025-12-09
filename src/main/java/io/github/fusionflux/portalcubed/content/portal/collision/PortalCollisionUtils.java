@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.collision;
 
 import java.util.function.Predicate;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
@@ -22,16 +22,16 @@ public final class PortalCollisionUtils {
 	 * The callback may return {@code false} to cancel iteration.
 	 * @throws IllegalArgumentException if the given portal is not linked
 	 */
-	public static void forEachBoxOnOtherSide(Entity entity, Portal.Holder portal, AABB area, Predicate<OBB> consumer) {
-		Portal.Holder linked = portal.opposite().orElseThrow(() -> new IllegalArgumentException("Portal is not linked"));
-		SinglePortalTransform transform = new SinglePortalTransform(portal.portal(), linked.portal());
+	public static void forEachBoxOnOtherSide(Entity entity, PortalReference portal, AABB area, Predicate<OBB> consumer) {
+		PortalReference linked = portal.opposite().orElseThrow(() -> new IllegalArgumentException("Portal is not linked"));
+		SinglePortalTransform transform = new SinglePortalTransform(portal.get(), linked.get());
 		AABB transformedArea = transform.apply(area).encompassingAabb;
 
 		DebugRendering.addBox(1, transformedArea, Color.PURPLE);
 
 		for (VoxelShape shape : entity.level().getCollisions(null, transformedArea)) {
 			for (AABB box : shape.toAabbs()) {
-				if (linked.portal().plane.isPartiallyBehind(box))
+				if (linked.get().plane.isPartiallyBehind(box))
 					continue;
 
 				OBB transformed = transform.inverse.apply(box);

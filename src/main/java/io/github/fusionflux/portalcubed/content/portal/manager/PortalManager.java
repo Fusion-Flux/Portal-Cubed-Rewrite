@@ -2,90 +2,178 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.UnaryOperator;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnmodifiableView;
 
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
-import io.github.fusionflux.portalcubed.content.portal.manager.storage.PortalStorage;
-import net.minecraft.world.level.Level;
+import io.github.fusionflux.portalcubed.framework.util.WeakCollection;
 import net.minecraft.world.phys.AABB;
 
-public abstract class PortalManager {
-	protected final PortalStorage storage;
-	protected final SectionPortalLookup lookup;
+public abstract sealed class PortalManager permits ServerPortalManager, ClientPortalManager {
+	private final Map<String, PortalPair> pairs;
+	private final Map<PortalId, PortalReference> references;
+	private final WeakCollection<PortalChangeListener> listeners;
+	private final PortalLookup lookup;
 
-	protected PortalManager(PortalStorage storage, Level level) {
-		this.storage = storage;
-		this.lookup = new SectionPortalLookup();
-		storage.forEach((key, pair) -> this.lookup.portalsChanged(key, null, pair));
+	protected PortalManager() {
+		this.pairs = new HashMap<>();
+		this.references = new HashMap<>();
+		this.listeners = new WeakCollection<>();
+
+		SectionPortalLookup lookup = new SectionPortalLookup();
+		this.lookup = lookup;
+		this.registerListener(lookup);
+	}
+
+	@Nullable
+	public PortalReference getPortal(PortalId id) {
+		return this.references.get(id);
+	}
+
+	public Optional<PortalReference> getPortalOptional(PortalId id) {
+		return Optional.ofNullable(this.getPortal(id));
+	}
+
+	public PortalReference getPortalOrThrow(PortalId id) {
+		PortalReference portal = this.getPortal(id);
+		if (portal == null) {
+			throw new NoSuchElementException("Portal does not exist: " + id);
+		}
+		return portal;
 	}
 
 	@Nullable
 	public PortalPair getPair(String key) {
-		return this.storage.get(key);
+		return this.pairs.get(key);
 	}
 
-	@Nullable
-	public Portal getPortal(PortalId id) {
-		PortalPair pair = this.getPair(id.key());
-		return pair == null ? null : pair.getNullable(id.polarity());
+	public PortalPair getPairOrEmpty(String key) {
+		return this.pairs.getOrDefault(key, PortalPair.EMPTY);
 	}
 
-	public PortalPair getOrEmpty(String key) {
-		return this.storage.getOrEmpty(key);
-	}
-
-	public void setPair(String key, @Nullable PortalPair pair) {
-		if (pair != null && pair.isEmpty()) {
-			pair = null;
+	protected void setPair(String key, @Nullable PortalPair newPair) {
+		if (newPair == null) {
+			newPair = PortalPair.EMPTY;
 		}
 
-		PortalPair old = this.storage.get(key);
+		PortalPair oldPair = this.getPairOrEmpty(key);
+		if (newPair.equals(oldPair)) {
+			// no need to do anything
+			return;
+		}
 
-		if (pair == null) {
-			this.storage.remove(key);
+		for (Polarity polarity : Polarity.values()) {
+			Portal oldPortal = oldPair.getNullable(polarity);
+			Portal newPortal = newPair.getNullable(polarity);
+
+			if (Objects.equals(oldPortal, newPortal)) {
+				// either both are null, or the two are identical. no change, so we can exit early.
+				continue;
+			}
+
+			PortalId id = new PortalId(key, polarity);
+
+			if (oldPortal == null) {
+				// newPortal must be non-null, since they're not equal.
+				// portal added, create a new reference.
+				PortalReference reference = new PortalReference(id, this, newPortal);
+				if (this.references.put(id, reference) != null) {
+					throw new IllegalStateException("Duplicate reference for portal: " + id);
+				}
+				this.portalCreated(reference);
+			} else if (newPortal == null) {
+				// oldPortal must be non-null, otherwise first case would've been hit.
+				// portal removed, remove reference.
+				PortalReference reference = this.references.remove(id);
+				Objects.requireNonNull(reference, () -> "Missing reference for portal: " + id);
+
+				reference.update(null);
+				this.portalRemoved(reference, oldPortal);
+			} else {
+				// both non-null, portal modified
+				PortalReference reference = this.getPortal(id);
+				Objects.requireNonNull(reference, () -> "Missing reference for portal: " + id);
+
+				reference.update(newPortal);
+				this.portalModified(oldPortal, reference);
+			}
+		}
+
+		if (newPair.isEmpty()) {
+			// when a pair is cleared, make sure not to keep a dead entry around forever
+			this.pairs.remove(key);
 		} else {
-			this.storage.put(key, pair);
+			this.pairs.put(key, newPair);
 		}
-
-		this.lookup.portalsChanged(key, old, pair);
 	}
 
-	public void setPortal(PortalId id, @Nullable PortalData data) {
+	protected void setPortal(PortalId id, @Nullable PortalData data) {
 		this.modifyPair(id.key(), pair -> pair.with(id.polarity(), data));
 	}
 
-	public void modifyPair(String key, UnaryOperator<PortalPair> op) {
-		PortalPair pair = this.getOrEmpty(key);
+	protected void modifyPair(String key, UnaryOperator<PortalPair> op) {
+		PortalPair pair = this.getPairOrEmpty(key);
 		this.setPair(key, op.apply(pair));
 	}
 
-	public Collection<PortalPair> getAllPairs() {
-		return this.storage.values();
+	@UnmodifiableView
+	public Collection<PortalReference> portals() {
+		return Collections.unmodifiableCollection(this.references.values());
 	}
 
-	public Set<String> getAllKeys() {
-		return this.storage.keys();
+	@UnmodifiableView
+	public Map<String, PortalPair> pairs() {
+		return Collections.unmodifiableMap(this.pairs);
+	}
+
+	public void forEachPair(BiConsumer<String, PortalPair> consumer) {
+		this.pairs.forEach(consumer);
 	}
 
 	public PortalLookup lookup() {
 		return this.lookup;
 	}
 
+	public void registerListener(PortalChangeListener listener) {
+		this.listeners.add(listener);
+	}
+
 	public boolean containsActivePortals(AABB box) {
-		for (Portal.Holder portal : this.lookup().getPortals(box)) {
-			if (portal.opposite().isPresent()) {
+		for (PortalReference portal : this.lookup().getPortals(box)) {
+			if (portal.isLinked()) {
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	private void portalCreated(PortalReference reference) {
+		this.listeners.forEach(listener -> listener.portalCreated(reference));
+	}
+
+	private void portalModified(Portal oldPortal, PortalReference reference) {
+		this.listeners.forEach(listener -> listener.portalModified(oldPortal, reference));
+	}
+
+	private void portalRemoved(PortalReference reference, Portal portal) {
+		this.listeners.forEach(listener -> listener.portalRemoved(reference, portal));
 	}
 }

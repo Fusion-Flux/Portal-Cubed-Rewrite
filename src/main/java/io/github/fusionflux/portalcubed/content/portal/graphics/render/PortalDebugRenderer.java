@@ -19,7 +19,7 @@ public class PortalDebugRenderer {
 		if (!PortalCubedClient.portalDebugEnabled)
 			return;
 
-		for (PortalPair pair : context.world().portalManager().getAllPairs()) {
+		for (PortalPair pair : context.world().portalManager().pairs().values()) {
 			if (!pair.isLinked())
 				continue;
 

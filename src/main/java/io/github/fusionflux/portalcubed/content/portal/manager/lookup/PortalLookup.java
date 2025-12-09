@@ -5,13 +5,19 @@ import java.util.List;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * Interface for various spatial portal lookups.
+ */
 public interface PortalLookup {
-
+	/**
+	 * Perform a raycast with no recursion limit.
+	 * @see #clip(Vec3, Vec3, int)
+	 */
 	@Nullable
 	default PortalHitResult clip(Vec3 from, Vec3 to) {
 		return this.clip(from, to, Integer.MAX_VALUE);
@@ -30,7 +36,7 @@ public interface PortalLookup {
 	 * @return a new, mutable list containing any found portals
 	 */
 	@Contract("_->new")
-	List<Portal.Holder> getPortals(AABB bounds);
+	List<PortalReference> getPortals(AABB bounds);
 
 	boolean isEmpty();
 }

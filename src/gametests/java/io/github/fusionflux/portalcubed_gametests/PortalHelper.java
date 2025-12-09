@@ -125,7 +125,7 @@ public final class PortalHelper {
 
 		private Optional<Portal> getPortal() {
 			ServerPortalManager manager = PortalHelper.this.helper.getLevel().portalManager();
-			return manager.getOrEmpty(PortalHelper.this.key).get(this.polarity);
+			return manager.getPairOrEmpty(PortalHelper.this.key).get(this.polarity);
 		}
 	}
 }

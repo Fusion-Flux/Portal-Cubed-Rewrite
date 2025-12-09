@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.manager.PortalSavedData;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
-import io.github.fusionflux.portalcubed.content.portal.manager.storage.PersistentPortalStorage;
 import io.github.fusionflux.portalcubed.framework.extension.ServerLevelExt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
@@ -33,10 +33,9 @@ public abstract class ServerLevelMixin implements ServerLevelExt {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(CallbackInfo ci) {
-		this.portalManager = new ServerPortalManager(
-				this.getDataStorage().computeIfAbsent(PersistentPortalStorage.factory(), PersistentPortalStorage.ID),
-				(ServerLevel) (Object) this
-		);
+		this.portalManager = this.getDataStorage().computeIfAbsent(
+				PortalSavedData.factory((ServerLevel) (Object) this), PortalSavedData.ID
+		).manager;
 	}
 
 	@Inject(method = "onBlockStateChange", at = @At("HEAD"))
@@ -46,11 +45,11 @@ public abstract class ServerLevelMixin implements ServerLevelExt {
 			return;
 
 		AABB area = new AABB(pos).inflate(0.5);
-		this.portalManager.lookup().getPortals(area).forEach(holder -> {
-			Portal portal = holder.portal();
-			if (!portal.data.validator().isValid((ServerLevel) (Object) this, holder)) {
+		this.portalManager.lookup().getPortals(area).forEach(reference -> {
+			Portal portal = reference.get();
+			if (!portal.data.validator().isValid((ServerLevel) (Object) this, reference)) {
 				// krill
-				this.portalManager.removePortal(holder.pair().key(), holder.polarity());
+				this.portalManager.remove(reference);
 			}
 		});
 	}

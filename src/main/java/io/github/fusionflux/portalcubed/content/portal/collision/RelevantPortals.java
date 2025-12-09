@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -23,13 +24,13 @@ public final class RelevantPortals {
 	// null before the first time update is called
 	private AABB lastBounds;
 	private Vec3 lastVelocity;
-	private List<Portal.Holder> cached;
+	private List<PortalReference> cached;
 
 	public RelevantPortals(Entity entity) {
 		this.entity = entity;
 	}
 
-	public List<Portal.Holder> get() {
+	public List<PortalReference> get() {
 		if (this.needsUpdate())
 			this.update();
 
@@ -50,11 +51,11 @@ public final class RelevantPortals {
 				|| !Objects.equals(this.lastVelocity, this.entity.getDeltaMovement());
 	}
 
-	private boolean isIrrelevant(Portal.Holder holder) {
-		if (holder.opposite().isEmpty())
+	private boolean isIrrelevant(PortalReference reference) {
+		if (reference.opposite().isEmpty())
 			return true;
 
-		Portal portal = holder.portal();
+		Portal portal = reference.get();
 		return !portal.seesModifiedCollision(this.entity);
 	}
 }

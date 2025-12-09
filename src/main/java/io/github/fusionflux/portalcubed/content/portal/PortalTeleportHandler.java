@@ -124,7 +124,7 @@ public class PortalTeleportHandler {
 
 		result.forEach(open -> {
 			SinglePortalTransform transform = new SinglePortalTransform(open);
-			teleports.add(new TrackedTeleport(open.enteredPortal().portal().plane, transform));
+			teleports.add(new TrackedTeleport(open.enteredPortal().get().plane, transform));
 		});
 
 		return teleports;

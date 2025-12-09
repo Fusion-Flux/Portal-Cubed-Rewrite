@@ -14,9 +14,9 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.serialization.DynamicOps;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
-import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
@@ -53,12 +53,12 @@ public record PortalDataAccessor(ServerPortalManager manager, DynamicOps<Tag> op
 
 	@Override
 	public CompoundTag getData() throws CommandSyntaxException {
-		Portal portal = this.manager.getPortal(this.id);
+		PortalReference portal = this.manager.getPortal(this.id);
 		if (portal == null) {
 			throw NO_PORTAL.create();
 		}
 
-		Tag tag = PortalData.CODEC.encodeStart(this.ops, portal.data).getOrThrow(FAILED_TO_ENCODE::create);
+		Tag tag = PortalData.CODEC.encodeStart(this.ops, portal.get().data).getOrThrow(FAILED_TO_ENCODE::create);
 		if (tag instanceof CompoundTag compound) {
 			return compound;
 		} else {

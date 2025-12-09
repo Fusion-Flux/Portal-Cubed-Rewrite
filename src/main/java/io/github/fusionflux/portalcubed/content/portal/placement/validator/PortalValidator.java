@@ -7,7 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -20,7 +20,7 @@ public interface PortalValidator {
 	StreamCodec<RegistryFriendlyByteBuf, PortalValidator> STREAM_CODEC = ByteBufCodecs.registry(PortalCubedRegistries.PORTAL_VALIDATOR_TYPE.key())
 			.dispatch(PortalValidator::type, Type::streamCodec);
 
-	boolean isValid(ServerLevel level, Portal.Holder holder);
+	boolean isValid(ServerLevel level, PortalReference portal);
 
 	Type<?> type();
 

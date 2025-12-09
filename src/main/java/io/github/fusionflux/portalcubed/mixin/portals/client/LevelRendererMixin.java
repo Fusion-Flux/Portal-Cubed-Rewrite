@@ -81,7 +81,7 @@ public class LevelRendererMixin {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void initCrossPortalEntityRenderer(
 			Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers, CallbackInfo ci) {
-		this.crossPortalEntityRenderer = new CrossPortalEntityRenderer(minecraft, renderBuffers, entityRenderDispatcher);
+		this.crossPortalEntityRenderer = new CrossPortalEntityRenderer(renderBuffers, entityRenderDispatcher);
 	}
 
 	@Inject(method = "setLevel", at = @At("HEAD"))
@@ -124,7 +124,7 @@ public class LevelRendererMixin {
 		CrossPortalEntityRenderer.CrossPortalEntity crossPortalEntity = this.crossPortalEntityRenderer.getCrossPortalEntity(entity);
 		if (crossPortalEntity != null) {
 			SimpleBufferSource crossPortalBufferSource = ((RenderBuffersExt) this.renderBuffers).pc$crossPortalBufferSource();
-			this.crossPortalEntityRenderer.withClippingPlane(new Vec3(camX, camY, camZ), crossPortalEntity.inPortal(), () -> {
+			this.crossPortalEntityRenderer.withClippingPlane(new Vec3(camX, camY, camZ), crossPortalEntity.inPortal().get(), () -> {
 				original.call(instance, entity, xOffset, yOffset, zOffset, partialTick, poseStack, crossPortalBufferSource, packedLight);
 				crossPortalBufferSource.flush();
 			});

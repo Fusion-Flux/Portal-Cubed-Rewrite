@@ -21,7 +21,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.collision.EntityCollisionState;
 import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollisionUtils;
@@ -237,9 +237,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			throw new IllegalStateException("Bounds not captured");
 		}
 
-		for (Portal.Holder portal : state.entity.relevantPortals().get()) {
+		for (PortalReference portal : state.entity.relevantPortals().get()) {
 			// collect all boxes to collide with. always start with the perimeter
-			List<OBB> boxes = new ArrayList<>(portal.portal().perimeterBoxes);
+			List<OBB> boxes = new ArrayList<>(portal.get().perimeterBoxes);
 
 			// collide with collision on the other side
 			AABB area = bounds.expandTowards(motion.x, motion.y, motion.z);

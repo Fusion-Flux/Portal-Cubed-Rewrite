@@ -239,7 +239,7 @@ public class PortalCommand {
 
 	private static int removeAll(CommandContext<CommandSourceStack> ctx) {
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
-		Set<String> keys = manager.getAllKeys();
+		Set<String> keys = manager.pairs().keySet();
 		if (keys.isEmpty()) {
 			return fail(ctx, REMOVE_FAIL, NO_PORTALS);
 		}

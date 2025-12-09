@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollisionUtils;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.world.entity.Entity;
@@ -44,20 +44,19 @@ public interface CollisionGetterMixin {
 
 		// original is true beyond this point
 
-		List<Portal.Holder> portals = entity.relevantPortals().get();
+		List<PortalReference> portals = entity.relevantPortals().get();
 		if (portals.isEmpty())
 			return true;
 
-		for (Portal.Holder holder : portals) {
-			Portal portal = holder.portal();
-			for (OBB box : portal.perimeterBoxes) {
+		for (PortalReference reference : portals) {
+			for (OBB box : reference.get().perimeterBoxes) {
 				if (box.intersects(bounds)) {
 					return false;
 				}
 			}
 
 			MutableBoolean collision = new MutableBoolean(false);
-			PortalCollisionUtils.forEachBoxOnOtherSide(entity, holder, bounds, box -> {
+			PortalCollisionUtils.forEachBoxOnOtherSide(entity, reference, bounds, box -> {
 				if (box.intersects(bounds)) {
 					collision.setTrue();
 					// we can stop iterating early

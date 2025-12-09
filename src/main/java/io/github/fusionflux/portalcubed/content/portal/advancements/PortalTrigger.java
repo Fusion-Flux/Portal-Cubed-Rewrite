@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
@@ -17,7 +17,7 @@ public class PortalTrigger extends SimpleCriterionTrigger<PortalTrigger.TriggerI
 		return TriggerInstance.CODEC;
 	}
 
-	public void trigger(ServerPlayer player, Portal.Holder portal) {
+	public void trigger(ServerPlayer player, PortalReference portal) {
 		this.trigger(player, instance -> instance.matches(portal));
 	}
 
@@ -27,7 +27,7 @@ public class PortalTrigger extends SimpleCriterionTrigger<PortalTrigger.TriggerI
 				PortalPredicate.CODEC.optionalFieldOf("portal").forGetter(TriggerInstance::portal)
 		).apply(i, TriggerInstance::new));
 
-		public boolean matches(Portal.Holder portal) {
+		public boolean matches(PortalReference portal) {
 			return this.portal.isEmpty() || this.portal.get().test(portal);
 		}
 	}

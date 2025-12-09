@@ -8,7 +8,8 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -18,8 +19,8 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class SectionPortalLookup implements PortalLookup {
-	private final Long2ObjectMap<List<Portal.Holder>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
+public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
+	private final Long2ObjectMap<List<PortalReference>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
 
 	@Override
 	@Nullable
@@ -28,7 +29,7 @@ public class SectionPortalLookup implements PortalLookup {
 			return null;
 
 		class Closest {
-			Portal.Holder portal = null;
+			PortalReference portal = null;
 			Vec3 hit = null;
 			double distSqr = Double.MIN_VALUE;
 		}
@@ -37,12 +38,12 @@ public class SectionPortalLookup implements PortalLookup {
 		Vec3 normal = from.vectorTo(to).normalize();
 
 		forEachSectionInBox(from, to, section -> {
-			List<Portal.Holder> portals = this.sectionsToPortals.get(section);
+			List<PortalReference> portals = this.sectionsToPortals.get(section);
 			if (portals == null)
 				return;
 
-			for (Portal.Holder holder : portals) {
-				Portal portal = holder.portal();
+			for (PortalReference reference : portals) {
+				Portal portal = reference.get();
 
 				Vec3 hit = portal.quad.clip(from, to);
 				if (hit == null)
@@ -55,7 +56,7 @@ public class SectionPortalLookup implements PortalLookup {
 				double distSqr = hit.distanceToSqr(from);
 				// if first portal, or this hit is closer than prev. closest
 				if (closest.portal == null || closest.distSqr > distSqr) {
-					closest.portal = holder;
+					closest.portal = reference;
 					closest.hit = hit;
 					closest.distSqr = distSqr;
 				}
@@ -65,13 +66,13 @@ public class SectionPortalLookup implements PortalLookup {
 		if (closest.portal == null)
 			return null;
 
-		Optional<Portal.Holder> linked = closest.portal.opposite();
+		Optional<PortalReference> linked = closest.portal.opposite();
 
 		if (linked.isEmpty()) {
 			return new PortalHitResult.Closed(closest.portal, closest.hit);
 		}
 
-		PortalTransform transform = new SinglePortalTransform(closest.portal.portal(), linked.get().portal());
+		PortalTransform transform = new SinglePortalTransform(closest.portal.get(), linked.get().get());
 		Vec3 teleportedHit = transform.applyAbsolute(closest.hit);
 		Vec3 teleportedEnd = transform.applyAbsolute(to);
 		PortalHitResult next = this.clip(teleportedHit, teleportedEnd, maxDepth - 1);
@@ -84,16 +85,16 @@ public class SectionPortalLookup implements PortalLookup {
 	}
 
 	@Override
-	public List<Portal.Holder> getPortals(AABB bounds) {
-		List<Portal.Holder> portals = new ArrayList<>();
+	public List<PortalReference> getPortals(AABB bounds) {
+		List<PortalReference> portals = new ArrayList<>();
 
 		forEachSectionInBox(bounds, sectionPos -> {
-			List<Portal.Holder> section = this.sectionsToPortals.get(sectionPos);
+			List<PortalReference> section = this.sectionsToPortals.get(sectionPos);
 			if (section != null) {
-				section.forEach(holder -> {
-					Portal portal = holder.portal();
+				section.forEach(reference -> {
+					Portal portal = reference.get();
 					if (portal.quad.intersects(bounds)) {
-						portals.add(holder);
+						portals.add(reference);
 					}
 				});
 			}
@@ -107,27 +108,37 @@ public class SectionPortalLookup implements PortalLookup {
 		return this.sectionsToPortals.isEmpty();
 	}
 
-	public void portalsChanged(String pairKey, @Nullable PortalPair oldPair, @Nullable PortalPair newPair) {
-		if (oldPair != null) {
-			PortalPair.Holder holder = new PortalPair.Holder(pairKey, oldPair);
-			for (Portal.Holder portal : holder) {
-				forEachSectionContainingPortal(portal.portal(), section -> {
-					List<Portal.Holder> portals = this.sectionsToPortals.get(section);
-					if (portals != null && portals.remove(portal) && portals.isEmpty()) {
-						this.sectionsToPortals.remove(section);
-					}
-				});
+	@Override
+	public void portalCreated(PortalReference reference) {
+		this.addPortal(reference);
+	}
+
+	@Override
+	public void portalModified(Portal oldPortal, PortalReference reference) {
+		this.removePortal(reference, oldPortal);
+		this.addPortal(reference);
+	}
+
+	@Override
+	public void portalRemoved(PortalReference reference, Portal portal) {
+		this.removePortal(reference, portal);
+	}
+
+	private void addPortal(PortalReference reference) {
+		forEachSectionContainingPortal(
+				reference.get(),
+				section -> this.sectionsToPortals.computeIfAbsent(section, $ -> new ArrayList<>()).add(reference)
+		);
+	}
+
+	private void removePortal(PortalReference reference, Portal portal) {
+		// reference may be removed, so portal is passed separately
+		forEachSectionContainingPortal(portal, section -> {
+			List<PortalReference> portals = this.sectionsToPortals.get(section);
+			if (portals != null && portals.remove(reference) && portals.isEmpty()) {
+				this.sectionsToPortals.remove(section);
 			}
-		}
-		if (newPair != null) {
-			PortalPair.Holder holder = new PortalPair.Holder(pairKey, newPair);
-			for (Portal.Holder portal : holder) {
-				forEachSectionContainingPortal(
-						portal.portal(),
-						section -> this.sectionsToPortals.computeIfAbsent(section, $ -> new ArrayList<>()).add(portal)
-				);
-			}
-		}
+		});
 	}
 
 	private static void forEachSectionContainingPortal(Portal portal, LongConsumer consumer) {

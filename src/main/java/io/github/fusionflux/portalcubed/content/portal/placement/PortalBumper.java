@@ -328,11 +328,11 @@ public class PortalBumper {
 		BlockPos min = pos.relative(up, -SURFACE_SEARCH_RADIUS).relative(right, -SURFACE_SEARCH_RADIUS);
 		AABB area = AABB.encapsulatingFullBlocks(min, max);
 
-		level.portalManager().lookup().getPortals(area).forEach(holder -> {
-			if (ignored != null && holder.matches(ignored))
+		level.portalManager().lookup().getPortals(area).forEach(reference -> {
+			if (reference.id.equals(ignored))
 				return;
 
-			Portal portal = holder.portal();
+			Portal portal = reference.get();
 			if (!Mth.equal(face.getUnitVec3().dot(portal.normal), 1))
 				return; // not facing the same way
 
