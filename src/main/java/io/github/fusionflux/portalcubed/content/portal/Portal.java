@@ -47,7 +47,6 @@ public final class Portal {
 	public final AABB renderBounds;
 
 	public final OBB entityCollisionArea;
-	public final OBB blockModificationArea;
 	public final List<OBB> perimeterBoxes;
 
     public Portal(PortalData data) {
@@ -72,7 +71,6 @@ public final class Portal {
 		Vec3 rightToBox = this.right.scale((WIDTH / 2) + 0.51);
 
 		this.entityCollisionArea = OBB.extrudeQuad(this.quad, 128);
-		this.blockModificationArea = OBB.extrudeQuad(this.quad, -128);
 		// no perimeter collision when not validated, to avoid ghost collision around floating portals
 		this.perimeterBoxes = !this.data.isValidated() ? List.of() : List.of(
 				// top and bottom, wide
