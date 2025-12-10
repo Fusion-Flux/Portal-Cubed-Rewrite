@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:achievements/dyed_portal_gun",
+  "parent": "portalcubed:achievements/dye_portal_gun",
   "criteria": {
     "wash": {
       "trigger": "portalcubed:submerged_the_operational_end_of_the_device"

@@ -59,6 +59,15 @@
           }
         ]
       }
+    },
+    "configure": {
+      "trigger": "portalcubed:configure_test_element",
+      "conditions": {
+        "test_element_settings": [
+          "portalcubed:small_signage/image",
+          "portalcubed:large_signage/image"
+        ]
+      }
     }
   },
   "requirements": [
@@ -67,6 +76,9 @@
       "small_signage",
       "aged_large_signage",
       "aged_small_signage"
+    ],
+    [
+      "configure"
     ]
   ]
 }

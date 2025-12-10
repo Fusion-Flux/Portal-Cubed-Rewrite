@@ -146,8 +146,8 @@
 			"translation": [0, 13.75, -3.75]
 		},
 		"fixed": {
-			"rotation": [-90, -81, -89.5],
-			"translation": [-2.25, 3.25, -2.25]
+			"rotation": [90, 115, -89.5],
+			"translation": [1.5, 3.25, -2.25]
 		}
 	},
 	"groups": [

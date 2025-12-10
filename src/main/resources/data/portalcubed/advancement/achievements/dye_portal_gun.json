@@ -15,7 +15,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancement.portalcubed.dyed_portal_gun.description"
+      "translate": "advancement.portalcubed.dye_portal_gun.description"
     },
     "frame": "task",
     "icon": {
@@ -29,7 +29,7 @@
       "id": "portalcubed:portal_gun"
     },
     "title": {
-      "translate": "advancement.portalcubed.dyed_portal_gun.title"
+      "translate": "advancement.portalcubed.dye_portal_gun.title"
     }
   }
 }
