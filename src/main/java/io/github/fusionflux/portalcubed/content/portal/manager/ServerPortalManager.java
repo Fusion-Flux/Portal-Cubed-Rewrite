@@ -4,7 +4,6 @@ import java.util.function.UnaryOperator;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
@@ -34,12 +33,10 @@ public final class ServerPortalManager extends PortalManager {
 	}
 
 	/**
-	 * Create a new portal.
-	 * If the pair does not exist, a new one is created.
-	 * If an old portal already exists, it will be removed.
+	 * Create a new portal. If a portal with the given ID already exists, it will be replaced.
 	 */
-	public void createPortal(String key, Polarity polarity, PortalData data) {
-		this.modifyPair(key, pair -> pair.with(polarity, new Portal(data)));
+	public void createPortal(PortalId id, PortalData data) {
+		this.modifyPair(id.key(), pair -> pair.with(id.polarity(), new Portal(data)));
 	}
 
 	public void remove(PortalId id) {

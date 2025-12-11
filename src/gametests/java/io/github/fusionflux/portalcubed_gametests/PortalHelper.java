@@ -7,12 +7,13 @@ import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
-import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.graphics.color.ConstantPortalColor;
-import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunShootContext;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,11 +53,11 @@ public final class PortalHelper {
 
 	public final class SinglePortalHelper {
 		private final PortalSettings settings;
-		private final Polarity polarity;
+		private final PortalId id;
 
 		public SinglePortalHelper(PortalSettings settings, Polarity polarity) {
 			this.settings = settings;
-			this.polarity = polarity;
+			this.id = new PortalId(PortalHelper.this.key, polarity);
 		}
 
 		public void shootFrom(double x, double y, double z, Direction facing, float yRot) {
@@ -72,9 +73,9 @@ public final class PortalHelper {
 			Vec3 pos = PortalHelper.this.helper.absoluteVec(from);
 			Vec3 direction = facing.getUnitVec3();
 
-			new PortalGunShootContext(PortalHelper.this.key, level, pos, direction, yRot).shootAndPlace(
-					Optional.empty(), this.polarity, this.settings
-			);
+			if (PortalShot.perform(this.id, level, pos, direction, yRot) instanceof PortalShot.Success success) {
+				success.place(this.settings);
+			}
 		}
 
 		public void placeOn(int x, int y, int z, Direction normal) {
@@ -101,11 +102,11 @@ public final class PortalHelper {
 		}
 
 		public void assertPresent(double expectedX, double expectedY, double expectedZ, Direction expectedNormal) {
-			Portal portal = this.getPortal().orElseThrow(
-					() -> new GameTestAssertException("Expected " + this.polarity + " portal with key " + PortalHelper.this.key + ", got nothing")
+			PortalData portal = this.getPortal().orElseThrow(
+					() -> new GameTestAssertException("Expected " + this.id.polarity() + " portal with key " + PortalHelper.this.key + ", got nothing")
 			);
 
-			Vec3 origin = PortalHelper.this.helper.relativeVec(portal.data.origin());
+			Vec3 origin = PortalHelper.this.helper.relativeVec(portal.origin());
 			Vec3 expectedVec = new Vec3(expectedX, expectedY, expectedZ);
 			if (origin.distanceTo(expectedVec) > POSITION_ASSERTION_EPSILON) {
 				throw new GameTestAssertException("Expected portal position to be " + expectedVec + " got " + origin);
@@ -120,12 +121,12 @@ public final class PortalHelper {
 
 		public void assertNotPresent() {
 			if (this.getPortal().isPresent())
-				throw new GameTestAssertException("Did not expect " + this.polarity + " portal with key " + PortalHelper.this.key);
+				throw new GameTestAssertException("Did not expect " + this.id.polarity() + " portal with key " + PortalHelper.this.key);
 		}
 
-		private Optional<Portal> getPortal() {
+		private Optional<PortalData> getPortal() {
 			ServerPortalManager manager = PortalHelper.this.helper.getLevel().portalManager();
-			return manager.getPairOrEmpty(PortalHelper.this.key).get(this.polarity);
+			return manager.getPortalOptional(this.id).map(PortalReference::get).map(portal -> portal.data);
 		}
 	}
 }

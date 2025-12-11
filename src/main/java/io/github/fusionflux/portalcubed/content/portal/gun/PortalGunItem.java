@@ -4,6 +4,9 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -26,6 +29,7 @@ import net.minecraft.world.item.component.UseCooldown;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class PortalGunItem extends Item implements DirectClickItem {
 	public PortalGunItem(Properties settings) {
@@ -75,7 +79,7 @@ public class PortalGunItem extends Item implements DirectClickItem {
 			this.doClientShootEffects(player, stack, polarity);
 		} else {
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(serverPlayer), new ShootPortalGunPacket(player, polarity));
-			player.setItemInHand(hand, shoot(PortalGunShootContext.ofPlayer(serverPlayer), stack, polarity));
+			player.setItemInHand(hand, shoot(serverPlayer, stack, polarity));
 		}
 	}
 
@@ -92,10 +96,20 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		}
 	}
 
-	public static ItemStack shoot(PortalGunShootContext context, ItemStack stack, Polarity polarity) {
+	public static ItemStack shoot(ServerPlayer player, ItemStack stack, Polarity polarity) {
 		PortalGunSettings gunSettings = stack.getOrDefault(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT);
 		Polarity effectivePolarity = gunSettings.secondary().isEmpty() ? Polarity.PRIMARY : polarity;
-		context.shootAndPlace(gunSettings.pair(), effectivePolarity, gunSettings.portalSettingsOf(effectivePolarity));
+
+		PortalId shooting = new PortalId(player.getName().getString(), effectivePolarity);
+		PortalSettings settings = gunSettings.portalSettingsOf(effectivePolarity);
+
+		Vec3 source = player.getEyePosition();
+		Vec3 direction = player.getLookAngle();
+
+		if (PortalShot.perform(shooting, player.serverLevel(), source, direction, player.getYRot()) instanceof PortalShot.Success success) {
+			success.place(settings);
+		}
+
 		return setGunSettings(stack, gunSettings.shoot(effectivePolarity));
 	}
 

@@ -1,0 +1,163 @@
+package io.github.fusionflux.portalcubed.content.portal;
+
+import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
+import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
+import io.github.fusionflux.portalcubed.content.portal.placement.PortalShotClipContextMode;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.NonePortalValidator;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
+import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
+import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
+import io.github.fusionflux.portalcubed.framework.util.Angle;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+
+/**
+ * An attempt to place a portal in the world by shooting it.
+ */
+public sealed interface PortalShot {
+	// we need to break the raycast into steps, since at large distances
+	// it becomes noticeably imprecise, hitting things when it shouldn't
+	int MAX_CLIP_STEP = 32;
+
+	/**
+	 * @return the hit result of the raycast performed by this shot
+	 */
+	BlockHitResult hit();
+
+	/**
+	 * A portal shot that completely missed, hitting no blocks.
+	 * @param hit a hit result with the {@link HitResult.Type#MISS miss} type
+	 */
+	record Missed(BlockHitResult hit) implements PortalShot {
+	}
+
+	/**
+	 * A portal shot that hit blocks, but failed to find a valid placement.
+	 * @param hit a hit result with the {@link HitResult.Type#BLOCK block} type.
+	 *            May be {@link BlockHitResult#isInside() inside} a block.
+	 */
+	record Failed(BlockHitResult hit) implements PortalShot {
+	}
+
+	/**
+	 * A portal shot that found a valid placement.
+	 */
+	final class Success implements PortalShot {
+		public final PortalPlacement placement;
+
+		private final PortalId id;
+		private final ServerLevel level;
+		private final Vec3 source;
+		private final BlockHitResult hit;
+
+		private Success(PortalId id, ServerLevel level, Vec3 source, PortalPlacement placement, BlockHitResult hit) {
+			this.id = id;
+			this.level = level;
+			this.source = source;
+			this.placement = placement;
+			this.hit = hit;
+		}
+
+		@Override
+		public BlockHitResult hit() {
+			return this.hit;
+		}
+
+		/**
+		 * Place a portal with the given settings at the location of this shot.
+		 */
+		public void place(PortalSettings settings) {
+			int color = settings.color().getOpaque(this.level.getGameTime());
+			this.level.sendParticles(
+					new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, this.hit.getLocation(), color, 3),
+					this.source.x, this.source.y, this.source.z, 1, 0, 0, 0, 0
+			);
+
+			PortalValidator validator = settings.validate()
+					? new StandardPortalValidator(this.placement.rotationAngle())
+					: NonePortalValidator.INSTANCE;
+
+			PortalData data = PortalData.createWithSettings(this.level, this.placement.pos(), this.placement.rotation(), validator, settings);
+			this.level.portalManager().createPortal(this.id, data);
+		}
+	}
+
+	/**
+	 * Perform a portal shot by raycasting from {@code source} along {@code direction}.
+	 * @param shooting the ID of the portal that is being shot
+	 * @param direction a normalized vector pointing in the direction of travel
+	 * @param yRot the Y rotation of the shooter, used for rotating the portal
+	 */
+	static PortalShot perform(PortalId shooting, ServerLevel level, Vec3 source, Vec3 direction, float yRot) {
+		if (!Mth.equal(direction.lengthSqr(), 1)) {
+			throw new IllegalArgumentException("Direction must be normalized");
+		}
+
+		BlockHitResult hit = clip(level, source, direction);
+		if (hit.getType() == HitResult.Type.MISS) {
+			return new Missed(hit);
+		} else if (hit.isInside()) {
+			return new Failed(hit);
+		}
+
+		Direction face = hit.getDirection();
+		Angle bias = getBias(direction, face);
+
+		PortalPlacement placement = PortalBumper.findValidPlacement(
+				shooting, level, hit.getLocation(), yRot, hit.getBlockPos(), face, bias, null
+		);
+
+		return placement == null ? new Failed(hit) : new Success(shooting, level, source, placement, hit);
+	}
+
+	@Nullable
+	private static Angle getBias(Vec3 direction, Direction face) {
+		if (!face.getAxis().isHorizontal())
+			return null;
+
+		Direction left = face.getClockWise();
+		double dot = direction.dot(left.getUnitVec3());
+		return dot > 0 ? Angle.R270 : Angle.R90;
+	}
+
+	private static BlockHitResult clip(ServerLevel level, Vec3 source, Vec3 direction) {
+		int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
+
+		double distance = range;
+		while (distance > 0) {
+			double step = Math.min(distance, MAX_CLIP_STEP);
+			BlockHitResult result = clip(level, source, direction, step);
+			if (result.getType() == HitResult.Type.BLOCK)
+				return result;
+
+			distance -= step;
+			source = result.getLocation();
+		}
+
+		// no hit. create a miss result at the maximum distance
+		Vec3 end = source.add(direction.scale(range));
+		Direction nearestDirection = Direction.getApproximateNearest(direction);
+		BlockPos endPos = BlockPos.containing(end);
+		return BlockHitResult.miss(end, nearestDirection, endPos);
+	}
+
+	private static BlockHitResult clip(ServerLevel level, Vec3 source, Vec3 direction, double distance) {
+		Vec3 to = source.add(direction.scale(distance));
+
+		ClipContext ctx = new ClipContext(source, to, PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, PortalCollisionContext.INSTANCE);
+		ctx.pc$setIgnoreInteractionOverride(true);
+
+		return level.clip(ctx);
+	}
+}
