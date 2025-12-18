@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.mojang.brigadier.Message;
@@ -81,6 +82,18 @@ public class PortalCubedCommands {
 
 	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message message) {
 		return SharedSuggestionProvider.suggest(iterable, builder, Function.identity(), $ -> message);
+	}
+
+	/**
+	 * Copy of {@link SharedSuggestionProvider#filterResources(Iterable, String, Function, Consumer)} that operates on Strings instead of IDs
+	 */
+	public static <T> void filterResources(Iterable<T> resources, String input, Function<T, String> nameFunction, Consumer<T> consumer) {
+		for (T object : resources) {
+			String name = nameFunction.apply(object);
+			if (SharedSuggestionProvider.matchesSubStr(input, name)) {
+				consumer.accept(object);
+			}
+		}
 	}
 
 	@FunctionalInterface

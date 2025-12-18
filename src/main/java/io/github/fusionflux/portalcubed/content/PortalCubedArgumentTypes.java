@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content;
 import com.mojang.brigadier.arguments.ArgumentType;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.portal.command.argument.portal.PortalArgument;
 import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.FizzleBehaviourArgumentType;
@@ -31,6 +32,7 @@ public class PortalCubedArgumentTypes {
 		register("fizzle_behaviour", FizzleBehaviourArgumentType.class, SingletonArgumentInfo.contextFree(FizzleBehaviourArgumentType::fizzleBehaviour));
 		register("portal_validator", PortalValidatorArgumentType.class, SingletonArgumentInfo.contextFree(PortalValidatorArgumentType::portalValidator));
 		register("portal_color", PortalColorArgumentType.class, SingletonArgumentInfo.contextFree(PortalColorArgumentType::portalColor));
+		register("portal", PortalArgument.class, SingletonArgumentInfo.contextAware(PortalArgument::portal));
 	}
 
 	private static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>> void register(

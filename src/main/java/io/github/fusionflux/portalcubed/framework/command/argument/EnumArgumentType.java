@@ -35,8 +35,8 @@ public abstract class EnumArgumentType<E extends Enum<E>> implements ArgumentTyp
 			this.values.put(namer.getName(value), value);
 		}
 
-		this.expectedValue = new SimpleCommandExceptionType(lang("expected"));
-		this.invalidValue = new DynamicCommandExceptionType(string -> lang("invalid", string));
+		this.expectedValue = new SimpleCommandExceptionType(this.lang("expected"));
+		this.invalidValue = new DynamicCommandExceptionType(string -> this.lang("invalid", string));
 	}
 
 	private Component lang(String suffix, Object... args) {

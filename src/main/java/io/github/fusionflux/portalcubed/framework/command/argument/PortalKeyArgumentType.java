@@ -8,6 +8,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
@@ -21,6 +22,13 @@ public class PortalKeyArgumentType implements ArgumentType<String> {
 	public static final Component EXISTING_KEY = lang("existing_key");
 	public static final Component ONLINE_PLAYER = lang("online_player");
 
+	public static final SimpleCommandExceptionType ERROR_KEY_ALL = new SimpleCommandExceptionType(
+			Component.translatable("argument.portalcubed.portal_key.error.key_all")
+	);
+	public static final SimpleCommandExceptionType ERROR_KEY_TOO_LONG = new SimpleCommandExceptionType(
+			Component.translatable("argument.portalcubed.portal_key.error.key_too_long")
+	);
+
 	public static PortalKeyArgumentType portalKey() {
 		return new PortalKeyArgumentType();
 	}
@@ -31,7 +39,21 @@ public class PortalKeyArgumentType implements ArgumentType<String> {
 
 	@Override
 	public String parse(StringReader reader) throws CommandSyntaxException {
-		return reader.readString();
+		int cursor = reader.getCursor();
+
+		try {
+			String key = reader.readString();
+			if ("all".equals(key)) {
+				throw ERROR_KEY_ALL.createWithContext(reader);
+			} else if (key.length() > 32) {
+				throw ERROR_KEY_TOO_LONG.createWithContext(reader);
+			} else {
+				return key;
+			}
+		} catch (CommandSyntaxException e) {
+			reader.setCursor(cursor);
+			throw e;
+		}
 	}
 
 	@Override
