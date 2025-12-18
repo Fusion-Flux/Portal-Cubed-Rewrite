@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import io.github.fusionflux.portalcubed.framework.util.Maath;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
@@ -100,7 +102,7 @@ public sealed interface PortalShot {
 	 * @param yRot the Y rotation of the shooter, used for rotating the portal
 	 */
 	static PortalShot perform(PortalId shooting, ServerLevel level, Vec3 source, Vec3 direction, float yRot) {
-		if (!Mth.equal(direction.lengthSqr(), 1)) {
+		if (!Maath.fuzzyEquals(direction.lengthSqr(), 1, 1e-4)) {
 			throw new IllegalArgumentException("Direction must be normalized");
 		}
 
