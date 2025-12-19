@@ -151,7 +151,7 @@ public class PortalCommand {
 			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
 		}
 
-		PortalColor defaultColor = new ConstantPortalColor(polarity.defaultColor);
+		PortalColor defaultColor = new ConstantPortalColor(input.type().value().defaultColorOf(polarity));
 
 		PortalData data = input.attributes().modify(new PortalData(
 				level.getGameTime(), input.type(), placement.validator(),
