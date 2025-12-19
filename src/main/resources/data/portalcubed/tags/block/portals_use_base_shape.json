@@ -6,7 +6,7 @@
     "#minecraft:portals",
     "#minecraft:fire",
     "minecraft:lectern",
-    "minecraft:snow",
+    "#minecraft:snow",
     "minecraft:mud",
     "minecraft:soul_sand",
     "minecraft:honey_block",

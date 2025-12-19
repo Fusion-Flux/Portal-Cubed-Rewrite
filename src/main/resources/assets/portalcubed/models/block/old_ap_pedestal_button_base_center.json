@@ -1,4 +1,5 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
@@ -24,8 +25,7 @@
 			"to": [12.5, 1.05, 9.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 1.5, 8]},
 			"faces": {
-				"up": {"uv": [4, 9.5, 2.5, 8.5], "rotation": 270, "texture": "#0"},
-				"down": {"uv": [2.5, 8.5, 4, 9.5], "rotation": 270, "texture": "#0", "cullface": "down"}
+				"up": {"uv": [4, 9.5, 2.5, 8.5], "rotation": 270, "texture": "#0"}
 			}
 		},
 		{
@@ -33,8 +33,7 @@
 			"to": [5.5, 1.05, 9.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 1.5, 8]},
 			"faces": {
-				"up": {"uv": [2.5, 8.5, 4, 9.5], "rotation": 270, "texture": "#0"},
-				"down": {"uv": [2.5, 9.5, 4, 8.5], "rotation": 270, "texture": "#0", "cullface": "down"}
+				"up": {"uv": [2.5, 8.5, 4, 9.5], "rotation": 270, "texture": "#0"}
 			}
 		},
 		{
@@ -45,8 +44,7 @@
 				"north": {"uv": [0, 0, 2.5, 8.5], "texture": "#0"},
 				"east": {"uv": [2.5, 0, 5, 8.5], "texture": "#0"},
 				"south": {"uv": [0, 0, 2.5, 8.5], "texture": "#0"},
-				"west": {"uv": [2.5, 0, 5, 8.5], "texture": "#0"},
-				"down": {"uv": [0, 8.5, 2.5, 11], "texture": "#0", "cullface": "down"}
+				"west": {"uv": [2.5, 0, 5, 8.5], "texture": "#0"}
 			}
 		},
 		{
