@@ -16,8 +16,7 @@ public final class PortalAttribute<T> {
 	public static final PortalAttribute<PortalColor> COLOR = new PortalAttribute<>("color", PortalColor.CODEC, PortalData::withColor);
 	public static final PortalAttribute<PortalValidator> VALIDATOR = new PortalAttribute<>("validator", PortalValidator.CODEC, PortalData::withValidator);
 	public static final PortalAttribute<Unit> NO_RENDERING = new PortalAttribute<>("no_rendering", Unit.CODEC, (data, $) -> data.withRender(false));
-	// TODO
-	public static final PortalAttribute<Unit> NO_TRACER = new PortalAttribute<>("no_tracer", Unit.CODEC, (data, $) -> data);
+	public static final PortalAttribute<Unit> NO_TRACER = new PortalAttribute<>("no_tracer", Unit.CODEC, (data, $) -> data.withTracer(false));
 
 	public final String name;
 	public final Codec<T> codec;

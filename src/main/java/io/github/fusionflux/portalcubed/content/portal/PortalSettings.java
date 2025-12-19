@@ -11,12 +11,14 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 
-public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate, PortalColor color, boolean render) {
+public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate,
+							 PortalColor color, boolean render, boolean tracer) {
 	public static final Codec<PortalSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			PortalType.KEY_CODEC.fieldOf("type").forGetter(PortalSettings::typeId),
 			Codec.BOOL.fieldOf("validate").forGetter(PortalSettings::validate),
 			PortalColor.CODEC.fieldOf("color").forGetter(PortalSettings::color),
-			Codec.BOOL.fieldOf("render").forGetter(PortalSettings::render)
+			Codec.BOOL.fieldOf("render").forGetter(PortalSettings::render),
+			Codec.BOOL.fieldOf("tracer").forGetter(PortalSettings::tracer)
 	).apply(instance, PortalSettings::new));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, PortalSettings> STREAM_CODEC = StreamCodec.composite(
@@ -24,6 +26,7 @@ public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate, P
 			ByteBufCodecs.BOOL, PortalSettings::validate,
 			PortalColor.STREAM_CODEC, PortalSettings::color,
 			ByteBufCodecs.BOOL, PortalSettings::render,
+			ByteBufCodecs.BOOL, PortalSettings::tracer,
 			PortalSettings::new
 	);
 
@@ -32,6 +35,6 @@ public record PortalSettings(ResourceKey<PortalType> typeId, boolean validate, P
 
 	private static PortalSettings makeDefault(Polarity polarity) {
 		PortalColor color = new ConstantPortalColor(polarity.defaultColor);
-		return new PortalSettings(PortalType.ROUND, true, color, true);
+		return new PortalSettings(PortalType.ROUND, true, color, true, true);
 	}
 }

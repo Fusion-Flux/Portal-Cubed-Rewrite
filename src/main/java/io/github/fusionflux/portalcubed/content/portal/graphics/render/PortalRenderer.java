@@ -348,7 +348,10 @@ public class PortalRenderer {
 		int portalColor = portal.color().getOpaque(ClientTicks.get());
 
 		renderPortalTexture(visiblePortal.open ? textures.open() : textures.closed(), portalColor, matrices, vertices);
-		renderPortalTexture(textures.tracer(), portalColor, matrices, tracerVertices);
+
+		if (visiblePortal.portal.data.tracer()) {
+			renderPortalTexture(textures.tracer(), portalColor, matrices, tracerVertices);
+		}
 
 		matrices.popPose();
 	}

@@ -751,8 +751,8 @@ public class PortalCubedTabs {
 				PortalGunSettings.builder()
 						.setSkinId(ResourceKey.create(PortalGunSkin.REGISTRY_KEY, PortalCubed.id(skin)))
 						.setCrosshair(new PortalGunCrosshair(ResourceKey.create(PortalGunCrosshairType.REGISTRY_KEY, PortalCubed.id(crosshairType)), true))
-						.setPrimary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(primaryType)), true, new ConstantPortalColor(primaryColor), true))
-						.setSecondary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(secondaryType)), true, new ConstantPortalColor(secondaryColor), true))
+						.setPrimary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(primaryType)), true, new ConstantPortalColor(primaryColor), true, true))
+						.setSecondary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(secondaryType)), true, new ConstantPortalColor(secondaryColor), true, true))
 						.build()
 		);
 		output.accept(stack);

@@ -48,7 +48,7 @@ public final class PortalHelper {
 	}
 
 	private static PortalSettings defaultSettings(int color) {
-		return new PortalSettings(PortalType.ROUND, true, new ConstantPortalColor(color), false);
+		return new PortalSettings(PortalType.ROUND, true, new ConstantPortalColor(color), false, true);
 	}
 
 	public final class SinglePortalHelper {

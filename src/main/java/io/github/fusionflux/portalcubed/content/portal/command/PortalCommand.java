@@ -14,6 +14,8 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
+import com.mojang.brigadier.arguments.BoolArgumentType;
+
 import org.joml.Quaternionf;
 
 import com.mojang.brigadier.Command;
@@ -153,7 +155,7 @@ public class PortalCommand {
 
 		PortalData data = input.attributes().modify(new PortalData(
 				level.getGameTime(), input.type(), placement.validator(),
-				placement.pos(), placement.rotation(), defaultColor, true
+				placement.pos(), placement.rotation(), defaultColor, true, true
 		));
 
 		manager.createPortal(id, data);
@@ -371,6 +373,21 @@ public class PortalCommand {
 				return portal.render() == shouldRender
 						? this.fail(ctx, shouldRender)
 						: portal.withRender(shouldRender);
+			}
+		},
+		TRACER {
+			@Override
+			protected ArgumentBuilder<CommandSourceStack, ?> build(CommandBuildContext ctx, Command<CommandSourceStack> command) {
+				return argument("tracer", BoolArgumentType.bool())
+						.executes(command);
+			}
+
+			@Override
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) {
+				boolean tracer = BoolArgumentType.getBool(ctx, "tracer");
+				return portal.tracer() == tracer
+						? this.fail(ctx, tracer)
+						: portal.withTracer(tracer);
 			}
 		},
 		VALIDATOR {

@@ -30,7 +30,8 @@ public record PortalData(
 		Vec3 origin,
 		Quaternionf rotation,
 		PortalColor color,
-		boolean render
+		boolean render,
+		boolean tracer
 ) {
 	public static final Codec<PortalData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Codec.LONG.fieldOf("creation_tick").forGetter(PortalData::creationTick),
@@ -39,7 +40,8 @@ public record PortalData(
 			Vec3.CODEC.fieldOf("origin").forGetter(PortalData::origin),
 			ExtraCodecs.QUATERNIONF.fieldOf("rotation").forGetter(PortalData::rotation),
 			PortalColor.CODEC.fieldOf("color").forGetter(PortalData::color),
-			Codec.BOOL.fieldOf("render").forGetter(PortalData::render)
+			Codec.BOOL.fieldOf("render").forGetter(PortalData::render),
+			Codec.BOOL.fieldOf("tracer").forGetter(PortalData::tracer)
 	).apply(instance, PortalData::new));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, PortalData> STREAM_CODEC = StreamCodec.composite(
@@ -50,6 +52,7 @@ public record PortalData(
 			ByteBufCodecs.QUATERNIONF, PortalData::rotation,
 			PortalColor.STREAM_CODEC, PortalData::color,
 			ByteBufCodecs.BOOL, PortalData::render,
+			ByteBufCodecs.BOOL, PortalData::tracer,
 			PortalData::new
 	);
 
@@ -58,27 +61,31 @@ public record PortalData(
 	}
 
 	public PortalData withType(Holder<PortalType> type) {
-		return new PortalData(this.creationTick, type, this.validator, this.origin, this.rotation, this.color, this.render);
+		return new PortalData(this.creationTick, type, this.validator, this.origin, this.rotation, this.color, this.render, this.tracer);
 	}
 
 	public PortalData withValidator(PortalValidator validator) {
-		return new PortalData(this.creationTick, this.type, validator, this.origin, this.rotation, this.color, this.render);
+		return new PortalData(this.creationTick, this.type, validator, this.origin, this.rotation, this.color, this.render, this.tracer);
 	}
 
 	public PortalData withOrigin(Vec3 origin) {
-		return new PortalData(this.creationTick, this.type, this.validator, origin, this.rotation, this.color, this.render);
+		return new PortalData(this.creationTick, this.type, this.validator, origin, this.rotation, this.color, this.render, this.tracer);
 	}
 
 	public PortalData withRotation(Quaternionf rotation) {
-		return new PortalData(this.creationTick, this.type, this.validator, this.origin, rotation, this.color, this.render);
+		return new PortalData(this.creationTick, this.type, this.validator, this.origin, rotation, this.color, this.render, this.tracer);
 	}
 
 	public PortalData withColor(PortalColor color) {
-		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, color, this.render);
+		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, color, this.render, this.tracer);
 	}
 
 	public PortalData withRender(boolean render) {
-		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, this.color, render);
+		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, this.color, render, this.tracer);
+	}
+
+	public PortalData withTracer(boolean tracer) {
+		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, this.color, this.render, tracer);
 	}
 
 	public static PortalData createWithSettings(Level world, Vec3 origin, Quaternionf rotation, PortalValidator validator, PortalSettings settings) {
@@ -92,7 +99,8 @@ public record PortalData(
 				origin,
 				rotation,
 				settings.color(),
-				settings.render()
+				settings.render(),
+				settings.tracer()
 		);
 	}
 
