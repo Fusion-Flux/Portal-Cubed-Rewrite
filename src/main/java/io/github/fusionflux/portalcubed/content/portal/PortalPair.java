@@ -40,6 +40,14 @@ public record PortalPair(Optional<Portal> primary, Optional<Portal> secondary) i
 		return this.primary.isEmpty() && this.secondary.isEmpty();
 	}
 
+	public int size() {
+		if (this.primary.isPresent()) {
+			return this.secondary.isPresent() ? 2 : 1;
+		} else {
+			return this.secondary.isPresent() ? 1 : 0;
+		}
+	}
+
 	public Optional<Portal> get(Polarity polarity) {
 		return polarity == Polarity.PRIMARY ? this.primary : this.secondary;
 	}

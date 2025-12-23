@@ -8,7 +8,6 @@ import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -202,6 +201,7 @@ public class PortalCommand {
 
 			manager.setPair(key, null);
 			source.sendSuccess(() -> REMOVE_MULTI, true);
+			return pair.size();
 		} else {
 			Polarity polarity = maybePolarity.get();
 			if (pair == null || pair.get(polarity).isEmpty()) {
@@ -210,9 +210,8 @@ public class PortalCommand {
 
 			manager.setPair(key, pair.without(polarity));
 			source.sendSuccess(() -> REMOVE_SINGLE, true);
+			return Command.SINGLE_SUCCESS;
 		}
-
-		return Command.SINGLE_SUCCESS;
 	}
 
 	private static int removeAll(CommandContext<CommandSourceStack> ctx) {
@@ -222,11 +221,11 @@ public class PortalCommand {
 			return fail(ctx, REMOVE_FAIL, NO_PORTALS);
 		}
 
-		// copy to avoid CME
-		Set<String> copy = new HashSet<>(keys);
-		copy.forEach(key -> manager.setPair(key, null));
+		int portals = manager.portals().size();
+		// copy to avoid a CME, since the backing collection will be modified with each call
+		Set.copyOf(keys).forEach(key -> manager.setPair(key, null));
 		ctx.getSource().sendSuccess(() -> REMOVE_ALL, true);
-		return Command.SINGLE_SUCCESS;
+		return portals;
 	}
 
 	private static int fail(CommandContext<CommandSourceStack> ctx, String key, Component argument) {
