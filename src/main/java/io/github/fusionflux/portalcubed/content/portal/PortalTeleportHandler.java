@@ -11,9 +11,6 @@ import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
-import io.github.fusionflux.portalcubed.framework.shape.OBB;
-import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShenanigans;
-import io.github.fusionflux.portalcubed.mixin.utils.accessors.EntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
@@ -29,11 +26,6 @@ import net.minecraft.world.phys.Vec3;
 
 public class PortalTeleportHandler {
 	public static final double MIN_OUTPUT_VELOCITY = 0.25;
-	public static final double DISTANCE_TO_STEP_BACK = new Vec3(
-			1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION,
-			1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION,
-			1f / VoxelShenanigans.OBB_APPROXIMATION_RESOLUTION
-	).length();
 
 	/**
 	 * Called by mixins after an entity moves relatively.
@@ -107,18 +99,6 @@ public class PortalTeleportHandler {
 		return entity.oldPosition().add(posToCenter);
 	}
 
-	public static void nudge(Entity entity, Vec3 exitOrigin) {
-		// because of the difference in a portal's plane and its collision, teleporting will always put an entity
-		// either in the ground or floating slightly, depending on direction. Need to nudge the entity towards the
-		// center and then back to the intended pos, stopping early if collision is hit.
-		Vec3 center = centerOf(entity);
-		Vec3 stepBack = center.vectorTo(exitOrigin).normalize().scale(DISTANCE_TO_STEP_BACK);
-		entity.setPos(entity.position().add(stepBack));
-		Vec3 stepForwards = stepBack.scale(-1);
-		Vec3 completedStep = ((EntityAccessor) entity).callCollide(stepForwards);
-		entity.setPos(entity.position().add(completedStep));
-	}
-
 	private static List<TrackedTeleport> buildTeleports(PortalHitResult.Open result) {
 		List<TrackedTeleport> teleports = new ArrayList<>();
 
@@ -144,20 +124,5 @@ public class PortalTeleportHandler {
 
 	public static boolean ignoresPortalModifiedCollision(@Nullable Entity entity) {
 		return entity == null || entity.isPassenger() || entity.isVehicle() || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST);
-	}
-
-	// teleportation utilities
-
-	public static OBB teleportBox(OBB box, Portal in, Portal out) {
-		SinglePortalTransform transform = new SinglePortalTransform(in, out);
-		return box.transformed(transform::applyAbsolute, transform::apply);
-	}
-
-	public static Vec3 teleportAbsoluteVecBetween(Vec3 vec, Portal in, Portal out) {
-		return new SinglePortalTransform(in, out).applyAbsolute(vec);
-	}
-
-	public static Vec3 teleportRelativeVecBetween(Vec3 vec, Portal in, Portal out) {
-		return new SinglePortalTransform(in, out).applyRelative(vec);
 	}
 }

@@ -30,9 +30,10 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
-import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
+import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
@@ -269,6 +270,8 @@ public class PortalRenderer {
 		if (linked == null)
 			return;
 
+		PortalTransform transform = new SinglePortalTransform(portal, linked);
+
 		Camera camera = context.camera();
 		if (portal.plane.isBehind(camera.getPosition()))
 			return;
@@ -289,7 +292,7 @@ public class PortalRenderer {
 		modelViewMatrices.identity();
 		try (StateCapture ignored = StateCapture.capture(context)) {
 			// Setup camera
-			Vec3 camPos = PortalTeleportHandler.teleportAbsoluteVecBetween(camera.getPosition(), portal, linked);
+			Vec3 camPos = transform.applyAbsolute(camera.getPosition());
 			((CameraAccessor) camera).pc$setPosition(camPos);
 
 			Quaternionf camRot = camera.rotation();

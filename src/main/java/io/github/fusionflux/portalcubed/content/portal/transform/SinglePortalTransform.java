@@ -107,7 +107,6 @@ public final class SinglePortalTransform implements PortalTransform {
 
 		// teleport
 		entity.setPos(this.applyAbsolute(center).add(centerToPos));
-		PortalTeleportHandler.nudge(entity, this.outOrigin);
 
 		// rotate
 		Rotations newRotations = this.apply(entity.getXRot(), entity.getYRot());

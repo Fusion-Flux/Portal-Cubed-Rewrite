@@ -15,6 +15,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
+import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.SimpleBufferSource;
 import io.github.fusionflux.portalcubed.framework.util.ShaderPatcher;
@@ -77,12 +78,9 @@ public class CrossPortalEntityRenderer {
 				Vec3 end = face.getUnitVec3().multiply(xSize, ySize, zSize)
 						.add(center);
 
-				PortalHitResult hit = portalLookup.clip(start, end);
-				if (hit instanceof PortalHitResult.Open open) {
-					this.entities.add(new CrossPortalEntity(
-							entity, tickDelta, position,
-							open.enteredPortal(), open.exitedPortal().get()
-					));
+				PortalHitResult hit = portalLookup.clip(start, end, 1);
+				if (hit instanceof PortalHitResult.Tail tail) {
+					this.entities.add(new CrossPortalEntity(entity, tickDelta, position, tail));
 
 					break;
 				}
@@ -108,7 +106,7 @@ public class CrossPortalEntityRenderer {
 
 			Portal inPortal = crossPortalEntity.inPortal.get();
 			Portal outPortal = crossPortalEntity.outPortal;
-			Vec3 transformedPos = PortalTeleportHandler.teleportAbsoluteVecBetween(crossPortalEntity.position, inPortal, outPortal);
+			Vec3 transformedPos = crossPortalEntity.transformedPos();
 			Vec3 transformedViewPos = transformedPos.subtract(camPos);
 			Entity entity = crossPortalEntity.entity;
 			float tickDelta = crossPortalEntity.tickDelta;
@@ -139,13 +137,21 @@ public class CrossPortalEntityRenderer {
 		return null;
 	}
 
-	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalReference inPortal, Portal outPortal) {
+	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalReference inPortal, Portal outPortal, PortalTransform transform) {
+		public CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalHitResult.Tail hit) {
+			this(entity, tickDelta, position, hit.enteredPortal(), hit.exitedPortal().get(), PortalTransform.of(hit));
+		}
+
 		public boolean shouldBeSkipped() {
 			Minecraft mc = Minecraft.getInstance();
 			if (this.entity != mc.player || !mc.options.getCameraType().isFirstPerson())
 				return false;
 
 			return PortalRenderer.recursion() == 1 && this.inPortal.id.equals(PortalRenderer.getRenderingPortal());
+		}
+
+		public Vec3 transformedPos() {
+			return this.transform.applyAbsolute(this.position);
 		}
 	}
 }
