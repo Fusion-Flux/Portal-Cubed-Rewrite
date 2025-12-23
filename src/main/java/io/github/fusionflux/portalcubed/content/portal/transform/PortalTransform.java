@@ -10,6 +10,7 @@ import org.joml.Vector3d;
 import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
@@ -38,6 +39,17 @@ public interface PortalTransform {
 	Matrix3d apply(Matrix3d rotation);
 
 	Rotations apply(Rotations rotations);
+
+	default float apply(float rot, Direction.Axis axis) {
+		Rotations rotations = new Rotations(
+				(float) axis.choose(rot, 0, 0),
+				(float) axis.choose(0, rot, 0),
+				(float) axis.choose(0, 0, rot)
+		);
+
+		Rotations transformed = this.apply(rotations);
+		return (float) axis.choose(transformed.getX(), transformed.getY(), transformed.getZ());
+	}
 
 	default Rotations apply(float xRot, float yRot) {
 		return this.apply(xRot, yRot, 0);

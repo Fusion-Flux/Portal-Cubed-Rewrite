@@ -12,6 +12,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
@@ -118,11 +119,12 @@ public final class SinglePortalTransform implements PortalTransform {
 		Rotations rotationsO = this.apply(entity.xRotO, entity.yRotO);
 		entity.setOldPosAndRot(oldPosTeleported, rotationsO.getWrappedY(), rotationsO.getWrappedX());
 
+		entity.setYHeadRot(this.apply(entity.getYHeadRot(), Direction.Axis.Y));
+
 		if (entity instanceof LivingEntity living) {
-//			living.setYHeadRot(result.teleportRotation(living.yHeadRot, Direction.Axis.Y));
-//			living.yHeadRotO = result.teleportRotation(living.yHeadRotO, Direction.Axis.Y);
-//			living.setYBodyRot(result.teleportRotation(living.yBodyRot, Direction.Axis.Y));
-//			living.yBodyRotO = result.teleportRotation(living.yBodyRotO, Direction.Axis.Y);
+			living.setYBodyRot(this.apply(living.yBodyRot, Direction.Axis.Y));
+			living.yHeadRotO = this.apply(living.yHeadRotO, Direction.Axis.Y);
+			living.yBodyRotO = this.apply(living.yBodyRotO, Direction.Axis.Y);
 		}
 
 		// teleport the current lerp target
