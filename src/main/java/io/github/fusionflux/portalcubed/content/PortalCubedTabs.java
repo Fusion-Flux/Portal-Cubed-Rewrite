@@ -319,7 +319,8 @@ public class PortalCubedTabs {
 					"portal_1_round",
 					2396924,
 					"portal_1_round",
-					16748062
+					16748062,
+					false
 			);
 
 			addPortalGunSkin(output,
@@ -743,8 +744,14 @@ public class PortalCubedTabs {
 		output.accept(stack);
 	}
 
-	//to-be-replaced with the proper prefabs system once added
-	private static void addPortalGunSkin(CreativeModeTab.Output output, String lang, String skin, String crosshairType, String primaryType, Integer primaryColor, String secondaryType, Integer secondaryColor) {
+	private static void addPortalGunSkin(CreativeModeTab.Output output, String lang, String skin, String crosshairType,
+										 String primaryType, Integer primaryColor, String secondaryType, Integer secondaryColor) {
+		addPortalGunSkin(output, lang, skin, crosshairType, primaryType, primaryColor, secondaryType, secondaryColor, true);
+	}
+
+	// to-be-replaced with the proper prefabs system once added
+	private static void addPortalGunSkin(CreativeModeTab.Output output, String lang, String skin, String crosshairType, String primaryType,
+										 Integer primaryColor, String secondaryType, Integer secondaryColor, boolean hasTracer) {
 		ItemStack stack = new ItemStack(PortalCubedItems.PORTAL_GUN);
 		stack.set(DataComponents.ITEM_NAME, Component.translatable("portal_gun_skin.portalcubed." + lang).withStyle(style -> style.withItalic(false)));
 		stack.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS,
