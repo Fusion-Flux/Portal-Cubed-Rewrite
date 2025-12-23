@@ -127,6 +127,8 @@ public final class SinglePortalTransform implements PortalTransform {
 			living.yBodyRotO = this.apply(living.yBodyRotO, Direction.Axis.Y);
 		}
 
+		entity.applyAdditionalTransforms(this);
+
 		// teleport the current lerp target
 		Vec3 oldTarget = new Vec3(entity.lerpTargetX(), entity.lerpTargetY(), entity.lerpTargetZ());
 		// target is current pos when no lerp, only teleport if it's different

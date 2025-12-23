@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.extension;
 
 import io.github.fusionflux.portalcubed.content.portal.collision.RelevantPortals;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 
 public interface PortalTeleportationExt {
 	default int pc$getPortalCollisionRecursionDepth() {
@@ -28,5 +29,8 @@ public interface PortalTeleportationExt {
 
 	default RelevantPortals relevantPortals() {
 		throw new AbstractMethodError();
+	}
+
+	default void applyAdditionalTransforms(SinglePortalTransform transform) {
 	}
 }

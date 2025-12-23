@@ -130,6 +130,7 @@
     "portals.client.ItemInHandRendererMixin",
     "portals.client.KeyboardHandlerMixin",
     "portals.client.LevelRendererMixin",
+    "portals.client.LocalPlayerMixin",
     "portals.client.MinecraftMixin",
     "portals.client.RenderRegionMixin",
     "portals.client.RenderSectionManagerMixin",
