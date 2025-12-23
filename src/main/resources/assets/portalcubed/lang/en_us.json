@@ -360,7 +360,7 @@
   "commands.portalcubed.portal.modify.failure": "Failed to modify portal: %s",
   "commands.portalcubed.portal.modify.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
   "commands.portalcubed.portal.modify.failure.invalid_rendering": "Portal type %s does not support rendering",
-  "commands.portalcubed.portal.modify.failure.unchanged": "Nothing changed. This portal's %1$s is already %2$s",
+  "commands.portalcubed.portal.modify.failure.unchanged": "Nothing changed. The specified property already has that value.",
 
   "commands.data.portalcubed.portal.modified": "Modified portal data of %s",
   "commands.data.portalcubed.portal.query": "%1$s has the following portal data: %2$s",

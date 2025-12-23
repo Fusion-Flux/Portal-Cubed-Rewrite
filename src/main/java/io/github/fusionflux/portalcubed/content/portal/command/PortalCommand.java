@@ -72,7 +72,7 @@ public class PortalCommand {
 	public static final Component MODIFY_SUCCESS = lang("modify.success");
 	public static final String MODIFY_FAILURE = "modify.failure";
 	public static final String MODIFY_NONEXISTENT = MODIFY_FAILURE + ".nonexistent";
-	public static final String MODIFY_UNCHANGED = MODIFY_FAILURE + ".unchanged";
+	public static final Component MODIFY_UNCHANGED = lang(MODIFY_FAILURE + ".unchanged");
 
 	public static final Component REMOVE_SINGLE = lang("remove.success");
 	public static final Component REMOVE_MULTI = lang("remove.success.multiple");
@@ -176,8 +176,10 @@ public class PortalCommand {
 		}
 
 		PortalData newData = attribute.modify(ctx, id, portal.get().data);
-		if (newData == null)
+		if (portal.get().data.equals(newData)) {
+			ctx.getSource().sendFailure(MODIFY_UNCHANGED);
 			return 0;
+		}
 
 		manager.setPortal(id, newData);
 		ctx.getSource().sendSuccess(() -> MODIFY_SUCCESS, true);
@@ -274,9 +276,9 @@ public class PortalCommand {
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) throws CommandSyntaxException {
 				PlacementStrategy strategy = findStrategy(ctx);
 				Placement placement = strategy.getPlacement(id, ctx);
-				return portal.origin().equals(placement.pos()) && portal.rotation().equals(placement.rotation())
-						? this.fail(ctx, placement)
-						: portal.withOrigin(placement.pos()).withRotation(placement.rotation()).withValidator(placement.validator());
+				return portal.withOrigin(placement.pos())
+						.withRotation(placement.rotation())
+						.withValidator(placement.validator());
 			}
 
 			private static PlacementStrategy findStrategy(CommandContext<CommandSourceStack> ctx) {
@@ -298,9 +300,7 @@ public class PortalCommand {
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) {
 				Vec3 pos = Vec3Argument.getVec3(ctx, "position");
-				return portal.origin().equals(pos)
-						? this.fail(ctx, pos)
-						: portal.withOrigin(pos);
+				return portal.withOrigin(pos);
 			}
 		},
 		ROTATION {
@@ -319,9 +319,7 @@ public class PortalCommand {
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) throws CommandSyntaxException {
 				Quaternionf rotation = getRotation(ctx);
-				return portal.rotation().equals(rotation)
-						? this.fail(ctx, rotation)
-						: portal.withRotation(rotation);
+				return portal.withRotation(rotation);
 			}
 		},
 		TYPE {
@@ -334,9 +332,7 @@ public class PortalCommand {
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) throws CommandSyntaxException {
 				Holder<PortalType> type = PortalCommand.getType(ctx, "type");
-				return portal.type() == type
-						? this.fail(ctx, type.value().name())
-						: portal.withType(type);
+				return portal.withType(type);
 			}
 		},
 		COLOR {
@@ -354,9 +350,7 @@ public class PortalCommand {
 				PortalColor color = getOptional(ctx, "color", PortalColorArgumentType::getPortalColor).orElseGet(
 						() -> new ConstantPortalColor(type.defaultColorOf(id.polarity()))
 				);
-				return portal.color().equals(color)
-						? this.fail(ctx, color)
-						: portal.withColor(color);
+				return portal.withColor(color);
 			}
 		},
 		RENDER {
@@ -370,9 +364,7 @@ public class PortalCommand {
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) {
 				TriState render = TriStateArgumentType.getTriState(ctx, "render");
 				boolean shouldRender = render.orElse(true);
-				return portal.render() == shouldRender
-						? this.fail(ctx, shouldRender)
-						: portal.withRender(shouldRender);
+				return portal.withRender(shouldRender);
 			}
 		},
 		TRACER {
@@ -385,9 +377,7 @@ public class PortalCommand {
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) {
 				boolean tracer = BoolArgumentType.getBool(ctx, "tracer");
-				return portal.tracer() == tracer
-						? this.fail(ctx, tracer)
-						: portal.withTracer(tracer);
+				return portal.withTracer(tracer);
 			}
 		},
 		VALIDATOR {
@@ -400,9 +390,7 @@ public class PortalCommand {
 			@Override
 			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) throws CommandSyntaxException {
 				PortalValidator validator = PortalValidatorArgumentType.getPortalValidator(ctx, "validator").build(ctx);
-				return portal.validator().equals(validator)
-						? this.fail(ctx, validator)
-						: portal.withValidator(validator);
+				return portal.withValidator(validator);
 			}
 		};
 
@@ -411,10 +399,5 @@ public class PortalCommand {
 		protected abstract ArgumentBuilder<CommandSourceStack, ?> build(CommandBuildContext ctx, Command<CommandSourceStack> command);
 
 		protected abstract PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) throws CommandSyntaxException;
-
-		protected PortalData fail(CommandContext<CommandSourceStack> ctx, Object value) {
-			ctx.getSource().sendFailure(lang(MODIFY_UNCHANGED, this.name, value));
-			return null;
-		}
 	}
 }
