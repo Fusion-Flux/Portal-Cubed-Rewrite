@@ -1,8 +1,10 @@
 package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -85,8 +87,8 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 	}
 
 	@Override
-	public List<PortalReference> getPortals(AABB bounds) {
-		List<PortalReference> portals = new ArrayList<>();
+	public Set<PortalReference> getPortals(AABB bounds) {
+		Set<PortalReference> portals = new HashSet<>();
 
 		forEachSectionInBox(bounds, sectionPos -> {
 			List<PortalReference> section = this.sectionsToPortals.get(sectionPos);

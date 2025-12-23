@@ -21,6 +21,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
@@ -328,23 +329,23 @@ public class PortalBumper {
 		BlockPos min = pos.relative(up, -SURFACE_SEARCH_RADIUS).relative(right, -SURFACE_SEARCH_RADIUS);
 		AABB area = AABB.encapsulatingFullBlocks(min, max);
 
-		level.portalManager().lookup().getPortals(area).forEach(reference -> {
+		for (PortalReference reference : level.portalManager().lookup().getPortals(area)) {
 			if (reference.id.equals(ignored))
-				return;
+				continue;
 
 			Portal portal = reference.get();
 			if (!Mth.equal(face.getUnitVec3().dot(portal.normal), 1))
-				return; // not facing the same way
+				continue;
 
 			Direction.Axis axis = face.getAxis();
 			double posOnAxis = portal.data.origin().get(axis);
 			if (!Mth.equal(initial.get(axis), posOnAxis))
-				return; // not on the same plane
+				continue;
 
 			for (Line line : portal.quad.lines()) {
 				walls.add(line.to2d(surface).flip().withSource(Line2d.Source.PORTAL));
 			}
-		});
+		}
 	}
 
 	private static void getWallsFromBox(AABB box, Direction face, boolean include, Consumer<Line2d> output) {

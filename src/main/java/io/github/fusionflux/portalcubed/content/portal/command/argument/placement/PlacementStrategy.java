@@ -9,7 +9,6 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -18,7 +17,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
-import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.command.PortalCommand;
@@ -36,7 +34,6 @@ import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
@@ -59,18 +56,14 @@ public enum PlacementStrategy {
 			Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
 			float rot = getOptional(ctx, "rotation", FloatArgumentType::getFloat, 0f);
 
-			Quaternionf rotation = PortalData.normalToRotation(facing, 0);
-			rotation.rotateZ(Mth.DEG_TO_RAD * rot);
-			// shift the portal so the bottom half is centered on the surface
-			Vector3f baseOffset = new Vector3f(0, 0.5f, 0);
-			Vector3f offset = rotation.transform(baseOffset);
+			PortalShot.Source source = PortalShot.Source.forPlacingOn(blockPos, facing, rot);
+			ServerLevel level = ctx.getSource().getLevel();
 
-			Vec3 pos = Vec3.atCenterOf(blockPos)
-					.add(facing.getStepX() / 2f, facing.getStepY() / 2f, facing.getStepZ() / 2f)
-					.add(offset.x, offset.y, offset.z);
+			if (source.shoot(portal, level) instanceof PortalShot.Success success) {
+				return new Placement(success.placement.pos(), success.placement.rotation(), success.createValidator());
+			}
 
-			PortalValidator validator = new StandardPortalValidator(PortalData.normalToFlatRotation(facing, rot));
-			return new Placement(pos, rotation, validator);
+			throw PortalCommand.PLACE_ON_INVALID.create();
 		}
 	},
 	SHOT_FROM {
@@ -109,10 +102,10 @@ public enum PlacementStrategy {
 			ServerLevel level = ctx.getSource().getLevel();
 
 			return switch (PortalShot.perform(portal, level, start, normal, yaw)) {
-				case PortalShot.Failed ignored -> throw PortalCommand.INVALID.create();
+				case PortalShot.Failed ignored -> throw PortalCommand.SHOT_FROM_INVALID.create();
 				case PortalShot.Missed ignored -> {
 					int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
-					throw PortalCommand.MISSED.create(range);
+					throw PortalCommand.SHOT_FROM_MISSED.create(range);
 				}
 				case PortalShot.Success success -> {
 					PortalPlacement placement = success.placement;

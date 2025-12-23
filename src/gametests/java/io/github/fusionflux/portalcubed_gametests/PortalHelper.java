@@ -2,9 +2,7 @@ package io.github.fusionflux.portalcubed_gametests;
 
 import java.util.Optional;
 
-import org.joml.Quaternionf;
 import org.joml.Vector3d;
-import org.joml.Vector3f;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
@@ -91,14 +89,8 @@ public final class PortalHelper {
 		}
 
 		public void placeOn(BlockPos surface, Direction normal, float yRot) {
-			// we want the bottom of the portal to be centered on the surface, so we need to shoot from 0.5 blocks "up"
-			Quaternionf rotation = PortalData.normalToRotation(normal, yRot);
-			Vector3f offsetUp = rotation.transformUnit(new Vector3f(0, 0, 0.5f));
-
-			Vec3 offsetFromWall = normal.getUnitVec3().scale(0.75);
-
-			Vec3 from = Vec3.atCenterOf(surface).add(offsetFromWall).add(offsetUp.x, offsetUp.y, offsetUp.z);
-			this.shootFrom(from, normal.getOpposite(), yRot);
+			PortalShot.Source source = PortalShot.Source.forPlacingOn(surface, normal, yRot);
+			this.shootFrom(source.source(), normal.getOpposite(), yRot);
 		}
 
 		public void assertPresent(double expectedX, double expectedY, double expectedZ, Direction expectedNormal) {

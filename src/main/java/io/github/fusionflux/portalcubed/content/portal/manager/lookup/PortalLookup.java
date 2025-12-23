@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 
-import java.util.List;
+import java.util.Set;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -33,10 +33,10 @@ public interface PortalLookup {
 
 	/**
 	 * Find all portals intersecting the given box.
-	 * @return a new, mutable list containing any found portals
+	 * @return a new, mutable set containing any found portals
 	 */
 	@Contract("_->new")
-	List<PortalReference> getPortals(AABB bounds);
+	Set<PortalReference> getPortals(AABB bounds);
 
 	boolean isEmpty();
 }

@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
-import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +29,7 @@ public interface EntityGetterMixin {
 			return predicate;
 		}
 
-		List<PortalReference> portals = entity.relevantPortals().get();
+		Set<PortalReference> portals = entity.relevantPortals().get();
 		if (portals.isEmpty())
 			return predicate;
 

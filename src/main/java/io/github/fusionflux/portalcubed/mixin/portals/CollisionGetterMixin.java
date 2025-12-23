@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
-import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.Nullable;
@@ -44,7 +44,7 @@ public interface CollisionGetterMixin {
 
 		// original is true beyond this point
 
-		List<PortalReference> portals = entity.relevantPortals().get();
+		Set<PortalReference> portals = entity.relevantPortals().get();
 		if (portals.isEmpty())
 			return true;
 

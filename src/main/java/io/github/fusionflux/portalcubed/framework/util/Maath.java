@@ -62,13 +62,6 @@ public final class Maath {
 		return a.equals(b, delta) || a.equals(b.mul(-1, new Quaternionf()), delta);
 	}
 
-	/**
-	 * @return true if {@code a} and {@code b} are within {@code epsilon} of each other
-	 */
-	public static boolean fuzzyEquals(double a, double b, double epsilon) {
-		return Math.abs(b - a) <= epsilon;
-	}
-
 	public static boolean equals(Vec3 a, Vector3dc b) {
 		return a.x == b.x() && a.y == b.y() && a.z == b.z();
 	}

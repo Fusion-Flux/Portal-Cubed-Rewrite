@@ -1,7 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.collision;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
@@ -25,13 +25,13 @@ public final class RelevantPortals implements PortalChangeListener {
 	// null before the first time update is called
 	private AABB lastBounds;
 	private Vec3 lastVelocity;
-	private List<PortalReference> cached;
+	private Set<PortalReference> cached;
 
 	public RelevantPortals(Entity entity) {
 		this.entity = entity;
 	}
 
-	public List<PortalReference> get() {
+	public Set<PortalReference> get() {
 		if (this.needsUpdate())
 			this.update();
 

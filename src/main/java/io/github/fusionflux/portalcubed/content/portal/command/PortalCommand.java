@@ -14,11 +14,10 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
-import com.mojang.brigadier.arguments.BoolArgumentType;
-
 import org.joml.Quaternionf;
 
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -85,10 +84,11 @@ public class PortalCommand {
 	public static final String REMOVE_NONEXISTENT_MULTI = REMOVE_NONEXISTENT + ".multiple";
 	public static final Component NO_PORTALS = lang(REMOVE_FAIL + ".no_portals");
 
-	public static final DynamicCommandExceptionType MISSED = new DynamicCommandExceptionType(
+	public static final SimpleCommandExceptionType PLACE_ON_INVALID = new SimpleCommandExceptionType(lang("create.failure.place_on.invalid"));
+	public static final DynamicCommandExceptionType SHOT_FROM_MISSED = new DynamicCommandExceptionType(
 			range -> lang("create.failure.shot_from.miss", range)
 	);
-	public static final SimpleCommandExceptionType INVALID = new SimpleCommandExceptionType(lang("create.failure.shot_from.invalid"));
+	public static final SimpleCommandExceptionType SHOT_FROM_INVALID = new SimpleCommandExceptionType(lang("create.failure.shot_from.invalid"));
 
 	public static Holder.Reference<PortalType> getType(CommandContext<CommandSourceStack> ctx, String name) throws CommandSyntaxException {
 		return ResourceArgument.getResource(ctx, name, PortalCubedRegistries.PORTAL_TYPE);

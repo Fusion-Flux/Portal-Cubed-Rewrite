@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import io.github.fusionflux.portalcubed.framework.util.Maath;
-
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
@@ -18,7 +18,6 @@ import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -36,6 +35,29 @@ public sealed interface PortalShot {
 	 * @return the hit result of the raycast performed by this shot
 	 */
 	BlockHitResult hit();
+
+	record Source(Vec3 source, Vec3 direction, float yRot) {
+		public PortalShot shoot(PortalId shooting, ServerLevel level) {
+			return PortalShot.perform(shooting, level, this.source, this.direction, this.yRot);
+		}
+
+		public static Source forPlacingOn(BlockPos pos, Direction facing, float yRot) {
+			// we want the bottom of the portal to be centered on the surface, so we need to shoot from 0.5 blocks "up"
+			Quaternionf rotation = PortalData.normalToRotation(facing, 0);
+
+			Angle angle = PortalData.normalToFlatRotation(facing, yRot);
+			if (angle.rad() != 0) {
+				rotation.rotateY(-angle.radF());
+			}
+
+			Vector3f offsetUp = rotation.transformUnit(new Vector3f(0, 0, 0.5f));
+
+			Vec3 offsetFromWall = facing.getUnitVec3().scale(0.75);
+			Vec3 source = Vec3.atCenterOf(pos).add(offsetFromWall).add(offsetUp.x, offsetUp.y, offsetUp.z);
+			Vec3 direction = facing.getUnitVec3().scale(-1);
+			return new Source(source, direction, yRot);
+		}
+	}
 
 	/**
 	 * A portal shot that completely missed, hitting no blocks.
@@ -86,12 +108,13 @@ public sealed interface PortalShot {
 					this.source.x, this.source.y, this.source.z, 1, 0, 0, 0, 0
 			);
 
-			PortalValidator validator = settings.validate()
-					? new StandardPortalValidator(this.placement.rotationAngle())
-					: NonePortalValidator.INSTANCE;
-
+			PortalValidator validator = settings.validate() ? this.createValidator() : NonePortalValidator.INSTANCE;
 			PortalData data = PortalData.createWithSettings(this.level, this.placement.pos(), this.placement.rotation(), validator, settings);
 			this.level.portalManager().createPortal(this.id, data);
+		}
+
+		public PortalValidator createValidator() {
+			return new StandardPortalValidator(this.placement.rotationAngle());
 		}
 	}
 
@@ -102,8 +125,10 @@ public sealed interface PortalShot {
 	 * @param yRot the Y rotation of the shooter, used for rotating the portal
 	 */
 	static PortalShot perform(PortalId shooting, ServerLevel level, Vec3 source, Vec3 direction, float yRot) {
-		if (!Maath.fuzzyEquals(direction.lengthSqr(), 1, 1e-4)) {
-			throw new IllegalArgumentException("Direction must be normalized");
+		if (direction.lengthSqr() == 0) {
+			throw new IllegalArgumentException("Direction vector has 0 length");
+		} else {
+			direction = direction.normalize();
 		}
 
 		BlockHitResult hit = clip(level, source, direction);

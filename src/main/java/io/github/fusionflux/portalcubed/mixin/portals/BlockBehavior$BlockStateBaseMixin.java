@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.mixin.portals;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -35,7 +36,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 		if (entity == null)
 			return shape;
 
-		List<PortalReference> relevantPortals = entity.relevantPortals().get();
+		Set<PortalReference> relevantPortals = entity.relevantPortals().get();
 		if (relevantPortals.isEmpty())
 			return shape;
 
@@ -63,7 +64,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 	 * @return true if any boxes were filtered out
 	 */
 	@Unique
-	private static boolean filter(List<AABB> boxes, List<PortalReference> portals, BlockPos pos) {
+	private static boolean filter(List<AABB> boxes, Set<PortalReference> portals, BlockPos pos) {
 		int initialSize = boxes.size();
 
 		for (Iterator<AABB> itr = boxes.iterator(); itr.hasNext();) {

@@ -343,6 +343,7 @@
   "commands.portalcubed.portal.create.failure": "Failed to create portal: %s",
   "commands.portalcubed.portal.create.failure.already_exists": "Portal with pair ID %1$s and %2$s polarity already exists",
   "commands.portalcubed.portal.create.failure.invalid_rendering": "Portal type %s does not support rendering",
+  "commands.portalcubed.portal.create.failure.place_on.invalid": "A portal cannot be placed on that surface",
   "commands.portalcubed.portal.create.failure.shot_from.miss": "Portal shot must not travel for more than %s blocks",
   "commands.portalcubed.portal.create.failure.shot_from.invalid": "A portal cannot be placed when shot from that position.",
 
