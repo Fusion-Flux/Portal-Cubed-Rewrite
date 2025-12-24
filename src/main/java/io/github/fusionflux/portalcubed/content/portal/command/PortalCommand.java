@@ -207,7 +207,7 @@ public class PortalCommand {
 
 			manager.setPair(key, null);
 			int removed = pair.size();
-			source.sendSuccess(() -> REMOVE_MULTI.apply(removed), true);
+			sendRemoval(source, removed);
 			return removed;
 		} else {
 			Polarity polarity = maybePolarity.get();
@@ -216,7 +216,7 @@ public class PortalCommand {
 			}
 
 			manager.setPair(key, pair.without(polarity));
-			source.sendSuccess(() -> REMOVE_SINGLE, true);
+			sendRemoval(source, 1);
 			return Command.SINGLE_SUCCESS;
 		}
 	}
@@ -231,8 +231,12 @@ public class PortalCommand {
 		int portals = manager.portals().size();
 		// copy to avoid a CME, since the backing collection will be modified with each call
 		Set.copyOf(keys).forEach(key -> manager.setPair(key, null));
-		ctx.getSource().sendSuccess(() -> REMOVE_MULTI.apply(portals), true);
+		sendRemoval(ctx.getSource(), portals);
 		return portals;
+	}
+
+	private static void sendRemoval(CommandSourceStack source, int removed) {
+		source.sendSuccess(() -> removed == 1 ? REMOVE_SINGLE : REMOVE_MULTI.apply(removed), true);
 	}
 
 	private static Component lang(String key) {
