@@ -8,9 +8,9 @@
 	},
 	"elements": [
 		{
-			"from": [3, 0.75, 3],
-			"to": [13, 10.75, 13],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
+			"from": [3, 0.25, 3],
+			"to": [13, 10.25, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.25, 8]},
 			"faces": {
 				"north": {"uv": [5, 0, 10, 5], "texture": "#cube"},
 				"east": {"uv": [5, 0, 10, 5], "texture": "#cube"},
@@ -20,9 +20,9 @@
 			}
 		},
 		{
-			"from": [3, 0.75, 3],
-			"to": [13, 10.75, 13],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
+			"from": [3, 0.25, 3],
+			"to": [13, 10.25, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.25, 8]},
 			"faces": {
 				"north": {"uv": [5, 0, 10, 5], "texture": "#bow"},
 				"east": {"uv": [5, 0, 10, 5], "texture": "#bow"},
@@ -32,39 +32,40 @@
 			}
 		},
 		{
-			"from": [2.5, 0.25, 2.5],
-			"to": [13.5, 11.25, 13.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5.75, 8]},
+			"from": [2.5, 7.5, 2.5],
+			"to": [13.5, 10.75, 13.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5.25, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 5, 5], "texture": "#cube"},
-				"east": {"uv": [0, 0, 5, 5], "texture": "#cube"},
-				"south": {"uv": [0, 0, 5, 5], "texture": "#cube"},
-				"west": {"uv": [0, 0, 5, 5], "texture": "#cube"},
+				"north": {"uv": [0, 0, 5, 1.5], "texture": "#cube"},
+				"east": {"uv": [0, 0, 5, 1.5], "texture": "#cube"},
+				"south": {"uv": [0, 0, 5, 1.5], "texture": "#cube"},
+				"west": {"uv": [0, 0, 5, 1.5], "texture": "#cube"},
 				"up": {"uv": [0, 5, 5, 10], "texture": "#cube"}
 			}
 		},
 		{
-			"from": [2.5, 0.25, 2.5],
-			"to": [13.5, 11.25, 13.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5.75, 8]},
+			"from": [2.5, 7.5, 2.5],
+			"to": [13.5, 10.75, 13.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5.25, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 5, 5], "texture": "#bow"},
-				"east": {"uv": [0, 0, 5, 5], "texture": "#bow"},
-				"south": {"uv": [0, 0, 5, 5], "texture": "#bow"},
-				"west": {"uv": [0, 0, 5, 5], "texture": "#bow"},
-				"up": {"uv": [0, 5, 5, 10], "texture": "#bow"}
+				"north": {"uv": [0, 0, 5, 1.5], "texture": "#bow"},
+				"east": {"uv": [0, 0, 5, 1.5], "texture": "#bow"},
+				"south": {"uv": [0, 0, 5, 1.5], "texture": "#bow"},
+				"west": {"uv": [0, 0, 5, 1.5], "texture": "#bow"},
+				"up": {"uv": [0, 5, 5, 10], "texture": "#bow"},
+				"down": {"uv": [0, 5, 5, 10], "texture": "#bow"}
 			}
 		},
 		{
 			"name": "cube inverted",
-			"from": [13.5, 11.25, 13.5],
-			"to": [2.5, 0.25, 2.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
+			"from": [13.5, 10.75, 13.5],
+			"to": [2.5, 7.5, 2.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.25, 8]},
 			"faces": {
-				"north": {"uv": [10, 5, 15, 0], "texture": "#cube"},
-				"east": {"uv": [10, 5, 15, 0], "texture": "#cube"},
-				"south": {"uv": [10, 5, 15, 0], "texture": "#cube"},
-				"west": {"uv": [10, 5, 15, 0], "texture": "#cube"},
+				"north": {"uv": [10, 1.5, 15, 0], "texture": "#cube"},
+				"east": {"uv": [10, 1.5, 15, 0], "texture": "#cube"},
+				"south": {"uv": [10, 1.5, 15, 0], "texture": "#cube"},
+				"west": {"uv": [10, 1.5, 15, 0], "texture": "#cube"},
 				"down": {"uv": [15, 5, 10, 10], "texture": "#cube"}
 			}
 		}
