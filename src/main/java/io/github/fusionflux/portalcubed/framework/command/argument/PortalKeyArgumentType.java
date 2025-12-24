@@ -8,6 +8,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
@@ -17,6 +18,8 @@ import io.github.fusionflux.portalcubed.framework.extension.ClientSuggestionProv
 import net.minecraft.network.chat.Component;
 
 public class PortalKeyArgumentType implements ArgumentType<String> {
+	public static final int MAX_LENGTH = 64;
+
 	public static final Component TARGETED_PORTAL = lang("targeted_portal");
 	public static final Component TARGETED_ENTITY = lang("targeted_entity");
 	public static final Component EXISTING_KEY = lang("existing_key");
@@ -25,8 +28,8 @@ public class PortalKeyArgumentType implements ArgumentType<String> {
 	public static final SimpleCommandExceptionType ERROR_KEY_ALL = new SimpleCommandExceptionType(
 			Component.translatable("argument.portalcubed.portal_key.error.key_all")
 	);
-	public static final SimpleCommandExceptionType ERROR_KEY_TOO_LONG = new SimpleCommandExceptionType(
-			Component.translatable("argument.portalcubed.portal_key.error.key_too_long")
+	public static final DynamicCommandExceptionType ERROR_KEY_TOO_LONG = new DynamicCommandExceptionType(
+			length -> Component.translatable("argument.portalcubed.portal_key.error.key_too_long", length, MAX_LENGTH)
 	);
 
 	public static PortalKeyArgumentType portalKey() {
@@ -45,8 +48,8 @@ public class PortalKeyArgumentType implements ArgumentType<String> {
 			String key = reader.readString();
 			if ("all".equals(key)) {
 				throw ERROR_KEY_ALL.createWithContext(reader);
-			} else if (key.length() > 32) {
-				throw ERROR_KEY_TOO_LONG.createWithContext(reader);
+			} else if (key.length() > MAX_LENGTH) {
+				throw ERROR_KEY_TOO_LONG.createWithContext(reader, key.length());
 			} else {
 				return key;
 			}

@@ -299,7 +299,7 @@
   "argument.portalcubed.portal_key.existing_key": "Existing Portal Pair",
   "argument.portalcubed.portal_key.online_player": "Online Player",
   "argument.portalcubed.portal_key.error.key_all": "Nice try",
-  "argument.portalcubed.portal_key.error.key_too_long": "Pair ID must not exceed 32 characters",
+  "argument.portalcubed.portal_key.error.key_too_long": "Pair key is too long (%1$s > maximum %2$s characters)",
 
   "argument.portalcubed.portal.type.invalid": "Unknown portal type '%s'",
   "arguments.portalcubed.portal.attribute.unknown": "Unknown portal attribute '%s'",
