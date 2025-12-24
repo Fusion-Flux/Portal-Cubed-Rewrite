@@ -27,6 +27,7 @@ import io.github.fusionflux.portalcubed.content.portal.placement.validator.Stand
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.commands.arguments.coordinates.Coordinates;
 import net.minecraft.commands.arguments.coordinates.RotationArgument;
@@ -34,6 +35,7 @@ import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
@@ -76,32 +78,19 @@ public enum PlacementStrategy {
 							).then(
 									modify(argument("rotation", RotationArgument.rotation()), innerModifier)
 							)
+			).then(
+					modify(argument("entity", EntityArgument.entity()), innerModifier)
 			);
 		}
 
 		@Override
 		public Placement getPlacement(PortalId portal, CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
-			Vec3 start = Vec3Argument.getVec3(ctx, "position");
-			float pitch, yaw;
-			if (PortalCubedCommands.hasArgument(ctx, "facing")) {
-				Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
-				pitch = switch (facing) {
-					case UP -> -90;
-					case DOWN -> 90;
-					default -> 0;
-				};
-				yaw = facing.toYRot();
-			} else {
-				Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
-				Vec2 rotations = coords.getRotation(ctx.getSource());
-				pitch = rotations.x;
-				yaw = rotations.y;
-			}
+			Source source = Source.get(ctx);
 
-			Vec3 normal = Vec3.directionFromRotation(pitch, yaw).normalize();
+			Vec3 normal = Vec3.directionFromRotation(source.pitch, source.yaw).normalize();
 			ServerLevel level = ctx.getSource().getLevel();
 
-			return switch (PortalShot.perform(portal, level, start, normal, yaw)) {
+			return switch (PortalShot.perform(portal, level, source.pos, normal, source.yaw)) {
 				case PortalShot.Failed ignored -> throw PortalCommand.SHOT_FROM_INVALID.create();
 				case PortalShot.Missed ignored -> {
 					int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
@@ -113,6 +102,34 @@ public enum PlacementStrategy {
 					yield new Placement(placement.pos(), placement.rotation(), validator);
 				}
 			};
+		}
+
+		private record Source(Vec3 pos, float pitch, float yaw) {
+			private static Source get(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+				if (PortalCubedCommands.hasArgument(ctx, "entity")) {
+					Entity entity = EntityArgument.getEntity(ctx, "entity");
+					return new Source(entity.getEyePosition(), entity.getXRot(), entity.getYRot());
+				}
+
+				Vec3 start = Vec3Argument.getVec3(ctx, "position");
+
+				if (PortalCubedCommands.hasArgument(ctx, "facing")) {
+					Direction facing = DirectionArgumentType.getDirection(ctx, "facing");
+					return new Source(
+							start,
+							switch (facing) {
+								case UP -> -90;
+								case DOWN -> 90;
+								default -> 0;
+							},
+							facing.toYRot()
+					);
+				} else {
+					Coordinates coords = RotationArgument.getRotation(ctx, "rotation");
+					Vec2 rotations = coords.getRotation(ctx.getSource());
+					return new Source(start, rotations.x, rotations.y);
+				}
+			}
 		}
 	},
 	PLACE_AT {
