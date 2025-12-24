@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.collision;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Set;
@@ -21,9 +22,9 @@ public final class EntityCollisionState {
 		this.colliders = Collections.newSetFromMap(new IdentityHashMap<>());
 	}
 
-	public void addCollider(OBB box) {
+	public void addColliders(Collection<OBB> colliders) {
 		if (this.colliders != null) {
-			this.colliders.add(box);
+			this.colliders.addAll(colliders);
 		}
 	}
 

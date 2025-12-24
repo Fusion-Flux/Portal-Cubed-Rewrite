@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
@@ -29,10 +28,9 @@ public final class AabbObbCollider {
 	/**
 	 * Collide the given bounds moving along the given motion vector with all boxes.
 	 * @param motionVector the motion vector, which will be modified if a collision occurs
-	 * @param onHit a callback that will be invoked each time a box is collided with
 	 * @return true if a collision occurred, otherwise false
 	 */
-	public boolean collide(AABB bounds, Vector3d motionVector, Consumer<OBB> onHit) {
+	public boolean collide(AABB bounds, Vector3d motionVector) {
 		Direction.Axis[] axes = orderedAxes(motionVector);
 
 		boolean collisionOccurred = false;
@@ -48,7 +46,6 @@ public final class AabbObbCollider {
 				if (allowed != motion) {
 					DebugRendering.addBox(1, box, Color.YELLOW);
 					collided = true;
-					onHit.accept(box);
 
 					// only change the target if this collision results in a closer hit
 					if (Math.abs(allowed) < Math.abs(motion)) {

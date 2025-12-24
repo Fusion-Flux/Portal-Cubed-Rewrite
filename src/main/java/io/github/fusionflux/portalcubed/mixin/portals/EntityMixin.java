@@ -259,8 +259,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			if (boxes.isEmpty())
 				continue;
 
+			state.addColliders(boxes);
 			AabbObbCollider collider = new AabbObbCollider(boxes);
-			if (collider.collide(bounds, motion, state::addCollider) && motion.lengthSquared() < 1e-7) {
+			if (collider.collide(bounds, motion) && motion.lengthSquared() < 1e-7) {
 				return Vec3.ZERO;
 			}
 		}
