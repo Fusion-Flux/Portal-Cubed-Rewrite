@@ -28,8 +28,8 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper armorStandPair = new PortalHelper(helper, "armor_stand");
 		PortalHelper cubePair = new PortalHelper(helper, "cube", 0xfe2020, 0xfeed20);
 
-		armorStandPair.primary.placeOn(new BlockPos(10, 0, 1), Direction.UP, -90);
-		cubePair.primary.placeOn(new BlockPos(10, 0, 3), Direction.UP, -90);
+		armorStandPair.primary.placeOn(new BlockPos(9, 0, 1), Direction.UP, -90);
+		cubePair.primary.placeOn(new BlockPos(9, 0, 3), Direction.UP, -90);
 		armorStandPair.secondary.placeOn(new BlockPos(7, 2, 1), Direction.WEST);
 		cubePair.secondary.placeOn(new BlockPos(7, 2, 3), Direction.WEST);
 
@@ -54,12 +54,12 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper pairFive = new PortalHelper(helper, "five", 0xffffff, 0x000000);
 		PortalHelper pairSix = new PortalHelper(helper, "six", 0x2f8f8e, 0xff74e4);
 
-		pairOne.primary.placeOn(new BlockPos(22, 0, 1), Direction.UP, -90);
-		pairTwo.primary.placeOn(new BlockPos(22, 0, 3), Direction.UP, -90);
-		pairThree.primary.placeOn(new BlockPos(22, 0, 5), Direction.UP, -90);
-		pairFour.primary.placeOn(new BlockPos(22, 0, 7), Direction.UP, -90);
-		pairFive.primary.placeOn(new BlockPos(22, 0, 9), Direction.UP, -90);
-		pairSix.primary.placeOn(new BlockPos(22, 0, 11), Direction.UP, -90);
+		pairOne.primary.placeOn(new BlockPos(21, 0, 1), Direction.UP, -90);
+		pairTwo.primary.placeOn(new BlockPos(21, 0, 3), Direction.UP, -90);
+		pairThree.primary.placeOn(new BlockPos(21, 0, 5), Direction.UP, -90);
+		pairFour.primary.placeOn(new BlockPos(21, 0, 7), Direction.UP, -90);
+		pairFive.primary.placeOn(new BlockPos(21, 0, 9), Direction.UP, -90);
+		pairSix.primary.placeOn(new BlockPos(21, 0, 11), Direction.UP, -90);
 
 		pairOne.secondary.placeOn(new BlockPos(18, 6, 1), Direction.WEST);
 		pairTwo.secondary.placeOn(new BlockPos(18, 6, 3), Direction.WEST);
@@ -93,8 +93,8 @@ public class PortalGameTests implements FabricGameTest {
 		PortalHelper infiniteFall = new PortalHelper(helper, "infinite_fall");
 
 		helper.setBlock(3, 5, 2, Blocks.AIR);
-		infiniteFall.primary.placeOn(new BlockPos(2, 3, 2), Direction.UP, 90);
-		infiniteFall.secondary.placeOn(new BlockPos(2, 9, 2), Direction.DOWN, 90);
+		infiniteFall.primary.placeOn(new BlockPos(3, 3, 2), Direction.UP, 90);
+		infiniteFall.secondary.placeOn(new BlockPos(3, 9, 2), Direction.DOWN, 90);
 
 		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> {
 				helper.assertEntityPresent(EntityType.ARMOR_STAND);
@@ -109,8 +109,8 @@ public class PortalGameTests implements FabricGameTest {
 
 		PortalHelper infiniteFallCollision = new PortalHelper(helper, "infinite_fall_collision");
 
-		infiniteFallCollision.primary.placeOn(new BlockPos(1, 6, 4), Direction.UP, 90);
-		infiniteFallCollision.secondary.placeOn(new BlockPos(1, 10, 4), Direction.DOWN, 90);
+		infiniteFallCollision.primary.shootFrom(new Vec3(2.5, 8, 4.5), Direction.UP, 90);
+		infiniteFallCollision.secondary.shootFrom(new Vec3(2.5, 8, 4.5), Direction.DOWN, 90);
 		spawnProp(helper, PropType.PORTAL_1_COMPANION_CUBE, new BlockPos(2, 8, 4));
 
 		helper.runAfterDelay(99, () -> helper.succeedWhen(() -> helper.assertBlockProperty(new BlockPos(2, 1, 0), RedstoneLampBlock.LIT, false)));
@@ -245,7 +245,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 	//Tests the "create" portion of the portal command
-	@GameTest(template = GROUP + "portal_command_create", required = false)  //TODO: For now, mark this as not required since the test needs to be rewritten and the command is changing
+	@GameTest(template = GROUP + "portal_command_create")
 	public void portalCommandCreate(GameTestHelper helper) {
 
 		PortalHelper placeOn1 = new PortalHelper(helper, "placeOn1");
@@ -258,30 +258,28 @@ public class PortalGameTests implements FabricGameTest {
 			placeOn1.primary.assertPresent(1.5, 2, 5.5, Direction.NORTH);
 			placeOn1.secondary.assertNotPresent();
 			placeAt1.primary.assertPresent(2.5, 2, 5.5, Direction.NORTH);
-			placeAt1.secondary.assertNotPresent(); //this needs to be assertPresent eventually I think
+			placeAt1.secondary.assertNotPresent();
 			shotFrom1.primary.assertPresent(3.5, 2, 5.5, Direction.NORTH);
 			shotFrom1.secondary.assertNotPresent();
-			//Revisit this after the command is rewritten
 		});
 	}
 
 	//Tests the "remove" portion of the portal command
-	@GameTest(template = GROUP + "portal_command_remove", required = false)  //TODO: For now, mark this as not required since the test needs to be rewritten and the command is changing
+	@GameTest(template = GROUP + "portal_command_remove")
 	public void portalCommandRemove(GameTestHelper helper) {
 		PortalHelper removeSingle = new PortalHelper(helper, "removesingle");
 		PortalHelper removePair = new PortalHelper(helper, "removepair");
 
-		removeSingle.primary.placeOn(new BlockPos(0, 2, 4), Direction.NORTH);
-		removePair.primary.placeOn(new BlockPos(2, 2, 4), Direction.NORTH);
-		removePair.secondary.placeOn(new BlockPos(4, 2, 4), Direction.NORTH);
-
 		helper.runAfterDelay(20, () -> helper.pullLever(2, 1, 0));
-		helper.succeedWhen(() -> {
-			removeSingle.primary.assertNotPresent();
-			removePair.primary.assertNotPresent();
-			removePair.secondary.assertNotPresent();
-			//Figure out what to do with this now that position is appended to portal helper pair IDs
-		});
+		helper.runAfterDelay(40, () -> helper.pullLever(2, 1, 1));
+
+		helper.runAfterDelay(60, () ->
+			helper.succeedWhen(() -> {
+				removeSingle.primary.assertNotPresent();
+				removePair.primary.assertNotPresent();
+				removePair.secondary.assertNotPresent();
+			}) //Right now this passes, but it's checking for the version with the test origin attached, so it would pass even if the test goes wrong.
+		);
 	}
 
 	//Tests projectiles traveling through portals

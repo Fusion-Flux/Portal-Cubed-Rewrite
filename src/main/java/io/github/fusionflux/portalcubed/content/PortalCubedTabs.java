@@ -744,12 +744,11 @@ public class PortalCubedTabs {
 		output.accept(stack);
 	}
 
+	// to-be-replaced with the proper prefabs system once added
 	private static void addPortalGunSkin(CreativeModeTab.Output output, String lang, String skin, String crosshairType,
 										 String primaryType, Integer primaryColor, String secondaryType, Integer secondaryColor) {
 		addPortalGunSkin(output, lang, skin, crosshairType, primaryType, primaryColor, secondaryType, secondaryColor, true);
 	}
-
-	// to-be-replaced with the proper prefabs system once added
 	private static void addPortalGunSkin(CreativeModeTab.Output output, String lang, String skin, String crosshairType, String primaryType,
 										 Integer primaryColor, String secondaryType, Integer secondaryColor, boolean hasTracer) {
 		ItemStack stack = new ItemStack(PortalCubedItems.PORTAL_GUN);
