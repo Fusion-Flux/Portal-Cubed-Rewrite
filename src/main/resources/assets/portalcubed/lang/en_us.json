@@ -346,6 +346,7 @@
   "commands.portalcubed.portal.create.failure.place_on.invalid": "A portal cannot be placed on that surface",
   "commands.portalcubed.portal.create.failure.shot_from.miss": "Portal shot must not travel for more than %s blocks",
   "commands.portalcubed.portal.create.failure.shot_from.invalid": "A portal cannot be placed when shot from that position.",
+  "commands.portalcubed.portal.failure.placement.invalid": "A portal is not valid at that location.",
 
   "commands.portalcubed.portal.remove.success": "Portal removed",
   "commands.portalcubed.portal.remove.success.multiple": "Portals removed",

@@ -28,6 +28,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.PortalCubedSuggestionProviders;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
@@ -88,6 +89,7 @@ public class PortalCommand {
 			range -> lang("create.failure.shot_from.miss", range)
 	);
 	public static final SimpleCommandExceptionType SHOT_FROM_INVALID = new SimpleCommandExceptionType(lang("create.failure.shot_from.invalid"));
+	public static final SimpleCommandExceptionType PLACEMENT_INVALID = new SimpleCommandExceptionType(lang("failure.placement.invalid"));
 
 	public static Holder.Reference<PortalType> getType(CommandContext<CommandSourceStack> ctx, String name) throws CommandSyntaxException {
 		return ResourceArgument.getResource(ctx, name, PortalCubedRegistries.PORTAL_TYPE);
@@ -157,6 +159,7 @@ public class PortalCommand {
 				placement.pos(), placement.rotation(), defaultColor, true, true
 		));
 
+		checkValid(ctx, id, data);
 		manager.createPortal(id, data);
 		source.sendSuccess(() -> lang("create.success"), true);
 		return Command.SINGLE_SUCCESS;
@@ -167,7 +170,8 @@ public class PortalCommand {
 		Polarity polarity = PolarityArgumentType.getPolarity(ctx, "polarity");
 		PortalId id = new PortalId(key, polarity);
 
-		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
+		ServerLevel level = ctx.getSource().getLevel();
+		ServerPortalManager manager = level.portalManager();
 		PortalReference portal = manager.getPortal(id);
 
 		if (portal == null) {
@@ -180,6 +184,7 @@ public class PortalCommand {
 			return 0;
 		}
 
+		checkValid(ctx, portal.id, newData);
 		manager.setPortal(id, newData);
 		ctx.getSource().sendSuccess(() -> MODIFY_SUCCESS, true);
 		return Command.SINGLE_SUCCESS;
@@ -239,6 +244,13 @@ public class PortalCommand {
 
 	private static Component lang(String key, Object... args) {
 		return Component.translatableEscape(LANG_PREFIX + key, args);
+	}
+
+	private static void checkValid(CommandContext<CommandSourceStack> context, PortalId portal, PortalData data) throws CommandSyntaxException {
+		ServerLevel level = context.getSource().getLevel();
+		if (!data.validator().isValid(level, portal, new Portal(data))) {
+			throw PLACEMENT_INVALID.create();
+		}
 	}
 
 	public static Quaternionf getRotation(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {

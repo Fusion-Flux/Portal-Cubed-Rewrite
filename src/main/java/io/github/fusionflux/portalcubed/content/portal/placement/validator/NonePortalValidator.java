@@ -2,7 +2,8 @@ package io.github.fusionflux.portalcubed.content.portal.placement.validator;
 
 import com.mojang.serialization.MapCodec;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 
@@ -12,7 +13,7 @@ public enum NonePortalValidator implements PortalValidator {
 	public static final PortalValidator.Type<?> TYPE = new Type<>(MapCodec.unit(INSTANCE), StreamCodec.unit(INSTANCE), reader -> ctx -> INSTANCE);
 
 	@Override
-	public boolean isValid(ServerLevel level, PortalReference portal) {
+	public boolean isValid(ServerLevel level, PortalId id, Portal portal) {
 		return true;
 	}
 
