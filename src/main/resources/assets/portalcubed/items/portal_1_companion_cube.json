@@ -52,8 +52,24 @@
       },
       {
         "model": {
-          "type": "minecraft:model",
-          "model": "portalcubed:prop/christmas_portal_1_companion_cube"
+          "type": "minecraft:range_dispatch",
+          "property": "portalcubed:prop_variant",
+          "entries": [
+            {
+              "threshold": 0,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/christmas_portal_1_companion_cube"
+              }
+            },
+            {
+              "threshold": 1,
+              "model": {
+                "type": "minecraft:model",
+                "model": "portalcubed:prop/christmas_charred_portal_1_companion_cube"
+              }
+            }
+          ]
         },
         "when": [
           "12-24",
