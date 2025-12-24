@@ -8,6 +8,7 @@ import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 
@@ -19,10 +20,12 @@ public enum Polarity implements StringRepresentable {
 	public static final StreamCodec<ByteBuf, Polarity> STREAM_CODEC = PortalCubedStreamCodecs.ofEnum(Polarity.class);
 
 	public final String name;
+	public final Component component;
 	public final int defaultColor;
 
 	Polarity(int defaultColor) {
 		this.name = this.name().toLowerCase(Locale.ROOT);
+		this.component = Component.translatable("misc.portalcubed.polarity." + this.name);
 		this.defaultColor = defaultColor;
 	}
 

@@ -340,28 +340,23 @@
   "commands.portalcubed.fizzle.paint_clearing.failure.multiple": "Could not clear the paint of %s entities",
 
   "commands.portalcubed.portal.create.success": "Portal created",
-  "commands.portalcubed.portal.create.failure": "Failed to create portal: %s",
-  "commands.portalcubed.portal.create.failure.already_exists": "Portal with pair ID %1$s and %2$s polarity already exists",
-  "commands.portalcubed.portal.create.failure.invalid_rendering": "Portal type %s does not support rendering",
-  "commands.portalcubed.portal.create.failure.place_on.invalid": "A portal cannot be placed on that surface",
-  "commands.portalcubed.portal.create.failure.shot_from.miss": "Portal shot must not travel for more than %s blocks",
-  "commands.portalcubed.portal.create.failure.shot_from.invalid": "A portal cannot be placed when shot from that position.",
-  "commands.portalcubed.portal.failure.placement.invalid": "The chosen position is not a valid spot to place a portal.",
-
-  "commands.portalcubed.portal.remove.success": "Portal removed",
-  "commands.portalcubed.portal.remove.success.multiple": "Portal pair removed",
-  "commands.portalcubed.portal.remove.success.all": "%s portal(s) removed",
-  "commands.portalcubed.portal.remove.failure": "Failed to remove portal: %s",
-  "commands.portalcubed.portal.remove.failure.multiple": "Failed to remove portals: %s",
-  "commands.portalcubed.portal.remove.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
-  "commands.portalcubed.portal.remove.failure.nonexistent.multiple": "Portals with pair ID %s do not exist",
-  "commands.portalcubed.portal.remove.failure.no_portals": "No portals were found",
+  "commands.portalcubed.portal.create.failure.already_exists": "%s already exists",
 
   "commands.portalcubed.portal.modify.success": "Portal modified",
-  "commands.portalcubed.portal.modify.failure": "Failed to modify portal: %s",
-  "commands.portalcubed.portal.modify.failure.nonexistent": "Portal with pair ID %1$s and %2$s polarity does not exist",
+  "commands.portalcubed.portal.modify.failure.nonexistent": "%s does not exist",
   "commands.portalcubed.portal.modify.failure.invalid_rendering": "Portal type %s does not support rendering",
   "commands.portalcubed.portal.modify.failure.unchanged": "Nothing changed. The specified property already has that value.",
+
+  "commands.portalcubed.portal.remove.success.single": "Portal removed",
+  "commands.portalcubed.portal.remove.success.multiple": "%s portals removed",
+  "commands.portalcubed.portal.remove.failure.nonexistent": "%s does not exist",
+  "commands.portalcubed.portal.remove.failure.nonexistent.pair": "Portal pair '%s' does not exist",
+  "commands.portalcubed.portal.remove.failure.no_portals": "No portals were found",
+
+  "commands.portalcubed.portal.failure.place_on.invalid": "A portal cannot be placed on that surface",
+  "commands.portalcubed.portal.failure.shot_from.miss": "Portal shot must not travel for more than %s blocks",
+  "commands.portalcubed.portal.failure.shot_from.invalid": "A portal cannot be placed when shot from that position.",
+  "commands.portalcubed.portal.failure.placement.invalid": "The chosen position is not a valid spot to place a portal.",
 
   "commands.data.portalcubed.portal.modified": "Modified portal data of %s",
   "commands.data.portalcubed.portal.query": "%1$s has the following portal data: %2$s",
@@ -1311,6 +1306,11 @@
   "entity.portalcubed.schrodinger_cube": "Schrödinger Cube",
   "entity.portalcubed.old_ap_cube": "Old Aperture Weighted Storage Cube",
 
-  "entity.portalcubed.lemonade": "Lemonade"
+  "entity.portalcubed.lemonade": "Lemonade",
+
+
+  "misc.portalcubed.portal_id": "%2$s portal of pair '%1$s'",
+  "misc.portalcubed.polarity.primary": "Primary",
+  "misc.portalcubed.polarity.secondart": "Secondary"
 
   }

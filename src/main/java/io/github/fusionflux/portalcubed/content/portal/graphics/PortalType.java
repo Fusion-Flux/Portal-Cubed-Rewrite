@@ -52,6 +52,10 @@ public record PortalType(
 		return polarity == Polarity.PRIMARY ? this.defaultPrimaryColor : this.defaultSecondaryColor;
 	}
 
+	public boolean supportsRendering() {
+		return this.stencil.isPresent();
+	}
+
 	public record Textures(
 			List<Layer> open,
 			List<Layer> closed,

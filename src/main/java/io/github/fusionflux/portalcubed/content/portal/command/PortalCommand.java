@@ -49,6 +49,7 @@ import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgu
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalValidatorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.QuaternionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.TriStateArgumentType;
+import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -59,6 +60,8 @@ import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
@@ -67,29 +70,28 @@ import net.minecraft.world.phys.Vec3;
 public class PortalCommand {
 	public static final String LANG_PREFIX = "commands.portalcubed.portal.";
 
-	public static final String CREATE_FAILURE = "create.failure";
+	// create subcommand
+	public static final Component CREATE_SUCCESS = lang("create.success");
+	public static final DynamicCommandExceptionType CREATE_FAIL_ALREADY_EXISTS = dynamicException("create.failure.already_exists");
 
+	// modify subcommand
 	public static final Component MODIFY_SUCCESS = lang("modify.success");
-	public static final String MODIFY_FAILURE = "modify.failure";
-	public static final String MODIFY_NONEXISTENT = MODIFY_FAILURE + ".nonexistent";
-	public static final Component MODIFY_UNCHANGED = lang(MODIFY_FAILURE + ".unchanged");
+	public static final DynamicCommandExceptionType MODIFY_FAIL_NONEXISTENT = dynamicException("modify.failure.nonexistent");
+	public static final DynamicCommandExceptionType MODIFY_FAIL_INVALID_RENDERING = dynamicException("modify.failure.invalid_rendering");
+	public static final SimpleCommandExceptionType MODIFY_FAIL_UNCHANGED = exception("modify.failure.unchanged");
 
-	public static final Component REMOVE_SINGLE = lang("remove.success");
-	public static final Component REMOVE_MULTI = lang("remove.success.multiple");
-	public static final Component REMOVE_ALL = lang("remove.success.all");
+	// remove subcommand
+	public static final Component REMOVE_SINGLE = lang("remove.success.single");
+	public static final Int2ObjectFunction<Component> REMOVE_MULTI = i -> lang("remove.success.multiple", i);
+	public static final DynamicCommandExceptionType REMOVE_FAIL_NONEXISTENT = dynamicException("remove.failure.nonexistent");
+	public static final DynamicCommandExceptionType REMOVE_FAIL_NONEXISTENT_PAIR = dynamicException("remove.failure.nonexistent.pair");
+	public static final SimpleCommandExceptionType REMOVE_FAIL_NO_PORTALS = exception("remove.failure.no_portals");
 
-	public static final String REMOVE_FAIL = "remove.failure";
-	public static final String REMOVE_FAIL_MULTI = REMOVE_FAIL + ".multiple";
-	public static final String REMOVE_NONEXISTENT = REMOVE_FAIL + ".nonexistent";
-	public static final String REMOVE_NONEXISTENT_MULTI = REMOVE_NONEXISTENT + ".multiple";
-	public static final Component NO_PORTALS = lang(REMOVE_FAIL + ".no_portals");
-
-	public static final SimpleCommandExceptionType PLACE_ON_INVALID = new SimpleCommandExceptionType(lang("create.failure.place_on.invalid"));
-	public static final DynamicCommandExceptionType SHOT_FROM_MISSED = new DynamicCommandExceptionType(
-			range -> lang("create.failure.shot_from.miss", range)
-	);
-	public static final SimpleCommandExceptionType SHOT_FROM_INVALID = new SimpleCommandExceptionType(lang("create.failure.shot_from.invalid"));
-	public static final SimpleCommandExceptionType PLACEMENT_INVALID = new SimpleCommandExceptionType(lang("failure.placement.invalid"));
+	// PlacementStrategy exceptions
+	public static final SimpleCommandExceptionType PLACE_ON_INVALID = exception("failure.place_on.invalid");
+	public static final DynamicCommandExceptionType SHOT_FROM_MISSED = dynamicException("failure.shot_from.miss");
+	public static final SimpleCommandExceptionType SHOT_FROM_INVALID = exception("failure.shot_from.invalid");
+	public static final SimpleCommandExceptionType PLACEMENT_INVALID = exception("failure.placement.invalid");
 
 	public static Holder.Reference<PortalType> getType(CommandContext<CommandSourceStack> ctx, String name) throws CommandSyntaxException {
 		return ResourceArgument.getResource(ctx, name, PortalCubedRegistries.PORTAL_TYPE);
@@ -149,7 +151,7 @@ public class PortalCommand {
 
 		ServerPortalManager manager = level.portalManager();
 		if (manager.getPortal(id) != null) {
-			return fail(ctx, CREATE_FAILURE, lang("create.failure.already_exists", key, polarity));
+			throw CREATE_FAIL_ALREADY_EXISTS.create(id.component());
 		}
 
 		PortalColor defaultColor = new ConstantPortalColor(input.type().value().defaultColorOf(polarity));
@@ -161,11 +163,11 @@ public class PortalCommand {
 
 		checkValid(ctx, id, data);
 		manager.createPortal(id, data);
-		source.sendSuccess(() -> lang("create.success"), true);
+		source.sendSuccess(() -> CREATE_SUCCESS, true);
 		return Command.SINGLE_SUCCESS;
 	}
 
-	private static int modify(CommandContext<CommandSourceStack> ctx, PortalModifier attribute) throws CommandSyntaxException {
+	private static int modify(CommandContext<CommandSourceStack> ctx, PortalModifier modifier) throws CommandSyntaxException {
 		String key = PortalKeyArgumentType.getKey(ctx, "key");
 		Polarity polarity = PolarityArgumentType.getPolarity(ctx, "polarity");
 		PortalId id = new PortalId(key, polarity);
@@ -175,13 +177,12 @@ public class PortalCommand {
 		PortalReference portal = manager.getPortal(id);
 
 		if (portal == null) {
-			return fail(ctx, MODIFY_FAILURE, lang(MODIFY_NONEXISTENT, key, polarity));
+			throw MODIFY_FAIL_NONEXISTENT.create(id.component());
 		}
 
-		PortalData newData = attribute.modify(ctx, id, portal.get().data);
+		PortalData newData = modifier.modify(ctx, id, portal.get().data);
 		if (portal.get().data.equals(newData)) {
-			ctx.getSource().sendFailure(MODIFY_UNCHANGED);
-			return 0;
+			throw MODIFY_FAIL_UNCHANGED.create();
 		}
 
 		checkValid(ctx, portal.id, newData);
@@ -201,16 +202,17 @@ public class PortalCommand {
 		if (maybePolarity.isEmpty()) {
 			// remove both
 			if (pair == null || pair.isEmpty()) {
-				return fail(ctx, REMOVE_FAIL_MULTI, lang(REMOVE_NONEXISTENT_MULTI, key));
+				throw REMOVE_FAIL_NONEXISTENT_PAIR.create(key);
 			}
 
 			manager.setPair(key, null);
-			source.sendSuccess(() -> REMOVE_MULTI, true);
-			return pair.size();
+			int removed = pair.size();
+			source.sendSuccess(() -> REMOVE_MULTI.apply(removed), true);
+			return removed;
 		} else {
 			Polarity polarity = maybePolarity.get();
 			if (pair == null || pair.get(polarity).isEmpty()) {
-				return fail(ctx, REMOVE_FAIL, lang(REMOVE_NONEXISTENT, key));
+				throw REMOVE_FAIL_NONEXISTENT.create(new PortalId(key, polarity).component());
 			}
 
 			manager.setPair(key, pair.without(polarity));
@@ -219,23 +221,18 @@ public class PortalCommand {
 		}
 	}
 
-	private static int removeAll(CommandContext<CommandSourceStack> ctx) {
+	private static int removeAll(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		ServerPortalManager manager = ctx.getSource().getLevel().portalManager();
 		Set<String> keys = manager.pairs().keySet();
 		if (keys.isEmpty()) {
-			return fail(ctx, REMOVE_FAIL, NO_PORTALS);
+			throw REMOVE_FAIL_NO_PORTALS.create();
 		}
 
 		int portals = manager.portals().size();
 		// copy to avoid a CME, since the backing collection will be modified with each call
 		Set.copyOf(keys).forEach(key -> manager.setPair(key, null));
-		ctx.getSource().sendSuccess(() -> REMOVE_ALL, true);
+		ctx.getSource().sendSuccess(() -> REMOVE_MULTI.apply(portals), true);
 		return portals;
-	}
-
-	private static int fail(CommandContext<CommandSourceStack> ctx, String key, Component argument) {
-		ctx.getSource().sendFailure(lang(key, argument));
-		return 0;
 	}
 
 	private static Component lang(String key) {
@@ -244,6 +241,14 @@ public class PortalCommand {
 
 	private static Component lang(String key, Object... args) {
 		return Component.translatableEscape(LANG_PREFIX + key, args);
+	}
+
+	private static SimpleCommandExceptionType exception(String key) {
+		return new SimpleCommandExceptionType(lang(key));
+	}
+
+	private static DynamicCommandExceptionType dynamicException(String key) {
+		return new DynamicCommandExceptionType(arg -> lang(key, arg));
 	}
 
 	private static void checkValid(CommandContext<CommandSourceStack> context, PortalId portal, PortalData data) throws CommandSyntaxException {
@@ -372,8 +377,17 @@ public class PortalCommand {
 			}
 
 			@Override
-			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) {
+			protected PortalData modify(CommandContext<CommandSourceStack> ctx, PortalId id, PortalData portal) throws CommandSyntaxException {
 				TriState render = TriStateArgumentType.getTriState(ctx, "render");
+				if (render == TriState.TRUE && !portal.type().value().supportsRendering()) {
+					String typeName = portal.type().unwrapKey()
+							.map(ResourceKey::location)
+							.map(ResourceLocation::toString)
+							.orElse("<unregistered>");
+
+					throw MODIFY_FAIL_INVALID_RENDERING.create(typeName);
+				}
+
 				boolean shouldRender = render.orElse(true);
 				return portal.withRender(shouldRender);
 			}

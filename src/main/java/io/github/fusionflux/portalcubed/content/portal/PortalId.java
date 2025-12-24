@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.framework.util.DualIterator;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
@@ -18,10 +18,8 @@ public record PortalId(String key, Polarity polarity) {
 		return new PortalId(this.key, this.polarity.opposite());
 	}
 
-	@NotNull
-	@Override
-	public String toString() {
-		return this.key + ' ' + this.polarity;
+	public MutableComponent component() {
+		return Component.translatableEscape("misc.portalcubed.portal_id", this.key, this.polarity.component);
 	}
 
 	public static Iterable<PortalId> forPair(String key) {
