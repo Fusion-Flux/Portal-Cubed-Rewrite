@@ -4,11 +4,5 @@
 	"textures": {
 	  "cannon": "portalcubed:item/construction_cannon",
 	  "screen": "portalcubed:item/construction_cannon_screen_idle"
-	},
-	"display": {
-		"ground": {
-			"translation": [0, 2.5, 4.5],
-			"scale": [0.5, 0.5, 0.5]
-		}
 	}
 }

@@ -3,11 +3,11 @@
 	"parent": "portalcubed:item/template_construction_cannon",
 	"textures": {
 	  "cannon": "portalcubed:item/construction_cannon",
-	  "screen": "portalcubed:item/construction_cannon_screen_idle"
+	  "screen": "portalcubed:item/construction_cannon_screen_configure"
 	},
 	"display": {
 		"ground": {
-			"translation": [0, 2.5, 4.5],
+			"translation": [0, 3.75, 3],
 			"scale": [0.5, 0.5, 0.5]
 		}
 	}

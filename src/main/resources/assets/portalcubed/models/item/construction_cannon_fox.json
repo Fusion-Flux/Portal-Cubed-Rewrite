@@ -1,10 +1,14 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
-	"parent": "portalcubed:item/construction_cannon",
+	"parent": "portalcubed:item/template_construction_cannon",
+	"textures": {
+	  "cannon": "portalcubed:item/construction_cannon",
+	  "screen": "portalcubed:item/construction_cannon_screen_fox"
+	},
 	"display": {
 		"ground": {
 			"rotation": [-87, 180, -180],
-			"translation": [0, -5.5, 3.5],
+			"translation": [0, -7.25, 3.5],
 			"scale": [0.58984, 0.58984, 0.58984]
 		}
 	}

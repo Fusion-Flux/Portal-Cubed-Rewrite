@@ -6,8 +6,8 @@
       {
         "when": "minecraft:fox",
         "model": {
- 	   "type": "minecraft:model",
- 	   "model": "portalcubed:item/construction_cannon_fox"
+          "type": "minecraft:model",
+          "model": "portalcubed:item/construction_cannon_fox"
         }
       },
       {
@@ -17,14 +17,48 @@
           "minecraft:wandering_trader"
         ],
         "model": {
- 	   "type": "minecraft:model",
- 	   "model": "portalcubed:item/construction_cannon_villager"
+          "type": "minecraft:model",
+          "model": "portalcubed:item/construction_cannon_villager"
         }
       }
     ],
     "fallback": {
-      "type": "minecraft:model",
-      "model": "portalcubed:item/construction_cannon"
+      "type": "minecraft:select",
+      "property": "minecraft:display_context",
+      "cases": [
+        {
+          "when": [
+            "firstperson_righthand",
+            "firstperson_lefthand"
+          ],
+          "model": {
+            "type": "minecraft:condition",
+            "property": "minecraft:keybind_down",
+            "keybind": "key.sneak",
+            "on_true": {
+              "type": "minecraft:model",
+              "model": "portalcubed:item/construction_cannon_configure"
+            },
+            "on_false": {
+              "type": "minecraft:condition",
+              "property": "minecraft:keybind_down",
+              "keybind": "key.use",
+              "on_true": {
+                "type": "minecraft:model",
+                "model": "portalcubed:item/construction_cannon_place"
+              },
+              "on_false": {
+                "type": "minecraft:model",
+                "model": "portalcubed:item/construction_cannon_idle"
+              }
+            }
+          }
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "portalcubed:item/construction_cannon_idle"
+      }
     }
   }
 }
