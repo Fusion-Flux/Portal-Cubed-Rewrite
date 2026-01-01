@@ -171,9 +171,11 @@
   "prop/spooky_lil_pineapple_proud": "prop/spooky_lil_pineapple_face",
   "prop/spooky_lil_pineapple_trans": "prop/spooky_lil_pineapple_face",
 
-  "item/construction_cannon": "item/construction_cannon_screen",
-  "item/construction_cannon_fox": "item/construction_cannon_screen",
-  "item/construction_cannon_villager": "item/construction_cannon_screen",
+  "item/construction_cannon_place": "item/construction_cannon_screen_place",
+  "item/construction_cannon_idle": "item/construction_cannon_screen_idle",
+  "item/construction_cannon_configure": "item/construction_cannon_screen_configure",
+  "item/construction_cannon_fox": "item/construction_cannon_screen_fox",
+  "item/construction_cannon_villager": "item/construction_cannon_screen_idle",
 
   "block/error": "block/error",
 
