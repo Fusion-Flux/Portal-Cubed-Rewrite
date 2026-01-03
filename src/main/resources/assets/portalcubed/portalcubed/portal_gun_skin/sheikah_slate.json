@@ -4,8 +4,7 @@
   },
   "item_model": "portalcubed:portal_guns/sheikah_slate",
   "sounds": {
-    "primary_shoot": "portalcubed:portal_gun.default.primary_shoot",
-    "secondary_shoot": "portalcubed:portal_gun.default.secondary_shoot",
-    "fizzle": "portalcubed:portal_gun.default.fizzle"
+    "primary_shoot": "portalcubed:portal_gun.sheikah_slate.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.sheikah_slate.shoot"
   }
 }

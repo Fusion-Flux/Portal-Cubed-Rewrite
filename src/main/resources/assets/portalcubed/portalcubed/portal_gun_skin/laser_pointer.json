@@ -4,7 +4,7 @@
   },
   "item_model": "portalcubed:portal_guns/laser_pointer",
   "sounds": {
-    "primary_shoot": "minecraft:ui.button.click",
-    "secondary_shoot": "minecraft:ui.button.click"
+    "primary_shoot": "portalcubed:portal_gun.laser_pointer.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.laser_pointer.shoot"
   }
 }

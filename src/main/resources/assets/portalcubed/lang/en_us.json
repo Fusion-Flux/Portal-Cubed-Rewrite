@@ -528,6 +528,22 @@
   "subtitles.portalcubed.portal_gun.peashooter.shoot": "Peashooter fires",
   "subtitles.portalcubed.portal_gun.peashooter.fizzle": "Peashooter reloads",
 
+  "subtitles.portalcubed.portal_gun.construction_pda.shoot": "Teleporter constructed",
+  "subtitles.portalcubed.portal_gun.construction_pda.fizzle": "Teleporter demolished",
+
+  "subtitles.portalcubed.portal_gun.laser_pointer.shoot": "Laser pointer clicks",
+
+  "subtitles.portalcubed.portal_gun.sheikah_slate.shoot": "Sheikah slate activates",
+
+  "subtitles.portalcubed.portal_gun.mr_thingy.shoot": "Mr. Thingy activates",
+  "subtitles.portalcubed.portal_gun.mr_thingy.fizzle": "Mr. Thingy deactivates",
+
+  "subtitles.portalcubed.portal_gun.magic_brush.shoot": "Magic brush splotches",
+  "subtitles.portalcubed.portal_gun.magic_brush.fizzle": "Magic brush is cleaned",
+
+  "subtitles.portalcubed.portal_gun.blowtorch.shoot": "Blowtorch ignites",
+  "subtitles.portalcubed.portal_gun.blowtorch.fizzle": "Blowtorch extinguishes",
+
   "subtitles.portalcubed.portal_gun.wand.shoot": "Portal is summoned",
   "subtitles.portalcubed.portal_gun.wand.fizzle": "Wand recharges",
   "subtitles.portalcubed.portal_gun.wand.grab": "Wand lifts object",

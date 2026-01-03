@@ -4,8 +4,8 @@
   },
   "item_model": "portalcubed:portal_guns/mr_thingy",
   "sounds": {
-    "primary_shoot": "minecraft:entity.fishing_bobber.throw",
-    "secondary_shoot": "minecraft:entity.fishing_bobber.throw",
-    "fizzle": "minecraft:entity.fishing_bobber.retrieve"
+    "primary_shoot": "portalcubed:portal_gun.mr_thingy.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.mr_thingy.shoot",
+    "fizzle": "portalcubed:portal_gun.mr_thingy.fizzle"
   }
 }

@@ -4,8 +4,8 @@
   },
   "item_model": "portalcubed:portal_guns/magic_brush",
   "sounds": {
-    "primary_shoot": "minecraft:item.glow_ink_sac.use",
-    "secondary_shoot": "minecraft:item.glow_ink_sac.use",
-    "fizzle": "minecraft:entity.player.splash"
+    "primary_shoot": "portalcubed:portal_gun.magic_brush.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.magic_brush.shoot",
+    "fizzle": "portalcubed:portal_gun.magic_brush.fizzle"
   }
 }

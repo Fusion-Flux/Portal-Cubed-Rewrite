@@ -14,31 +14,36 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 
 public class PortalCubedSounds {
+	//Generic Blocks
+	public static final SoundEvent SEWAGE_STEP = register("block.sewage.step");
+
+	//Doors
 	public static final SoundEvent CHAMBER_DOOR_OPEN = register("chamber_door.portal_2.open");
 	public static final SoundEvent CHAMBER_DOOR_UNLOCK = register("chamber_door.portal_2.unlock");
 	public static final SoundEvent CHAMBER_DOOR_CLOSE = register("chamber_door.portal_2.close");
 	public static final SoundEvent CHAMBER_DOOR_LOCK = register("chamber_door.portal_2.lock");
-	public static final SoundEvent PEDESTAL_BUTTON_PRESS = register("pedestal_button.portal_2.press");
-	public static final SoundEvent PEDESTAL_BUTTON_RELEASE = register("pedestal_button.portal_2.release");
-	public static final SoundEvent FLOOR_BUTTON_PRESS = register("floor_button.portal_2.press");
-	public static final SoundEvent FLOOR_BUTTON_RELEASE = register("floor_button.portal_2.release");
+
 	public static final SoundEvent OLD_AP_CHAMBER_DOOR_OPEN = register("chamber_door.old_ap.open");
 	public static final SoundEvent OLD_AP_CHAMBER_DOOR_CLOSE = register("chamber_door.old_ap.close");
-	public static final SoundEvent OLD_AP_PEDESTAL_BUTTON_PRESS = register("pedestal_button.old_ap.press");
-	public static final SoundEvent OLD_AP_PEDESTAL_BUTTON_RELEASE = register("pedestal_button.old_ap.release");
-	public static final SoundEvent OLD_AP_FLOOR_BUTTON_PRESS = register("floor_button.old_ap.press");
-	public static final SoundEvent OLD_AP_FLOOR_BUTTON_RELEASE = register("floor_button.old_ap.release");
+
 	public static final SoundEvent PORTAL_1_CHAMBER_DOOR_OPEN = register("chamber_door.portal_1.open");
 	public static final SoundEvent PORTAL_1_CHAMBER_DOOR_CLOSE = register("chamber_door.portal_1.close");
+
+
+	//Buttons
+	public static final SoundEvent PEDESTAL_BUTTON_PRESS = register("pedestal_button.portal_2.press");
+	public static final SoundEvent PEDESTAL_BUTTON_RELEASE = register("pedestal_button.portal_2.release");
+	public static final SoundEvent OLD_AP_PEDESTAL_BUTTON_PRESS = register("pedestal_button.old_ap.press");
+	public static final SoundEvent OLD_AP_PEDESTAL_BUTTON_RELEASE = register("pedestal_button.old_ap.release");
+
+	public static final SoundEvent FLOOR_BUTTON_PRESS = register("floor_button.portal_2.press");
+	public static final SoundEvent FLOOR_BUTTON_RELEASE = register("floor_button.portal_2.release");
 	public static final SoundEvent PORTAL_1_FLOOR_BUTTON_PRESS = register("floor_button.portal_1.press");
 	public static final SoundEvent PORTAL_1_FLOOR_BUTTON_RELEASE = register("floor_button.portal_1.release");
+	public static final SoundEvent OLD_AP_FLOOR_BUTTON_PRESS = register("floor_button.old_ap.press");
+	public static final SoundEvent OLD_AP_FLOOR_BUTTON_RELEASE = register("floor_button.old_ap.release");
 
-	public static final SoundEvent OLD_AP_TIMER = register("old_ap_timer");
-	public static final SoundEvent TIMER_DING = register("timer_ding");
-
-	public static final SoundEvent RADIO_SONG = register("prop.radio.ambient");
-	public static final SoundEvent COMPANION_CUBE_AMBIANCE = register("prop.companion_cube.ambient");
-
+	//Portal Guns
 	public static final SoundEvent DEFAULT_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.default.primary_shoot");
 	public static final SoundEvent DEFAULT_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.default.secondary_shoot");
 	public static final SoundEvent DEFAULT_PORTAL_GUN_FIZZLE = register("portal_gun.default.fizzle");
@@ -78,11 +83,24 @@ public class PortalCubedSounds {
 	public static final SoundEvent PEASHOOTER_PORTAL_GUN_SHOOT = register("portal_gun.peashooter.shoot");
 	public static final SoundEvent PEASHOOTER_PORTAL_GUN_FIZZLE = register("portal_gun.peashooter.fizzle");
 
-	public static final Holder<SoundEvent> LONG_FALL_BOOTS_LAND = registerForHolder("item.armor.long_fall_boots.land");
-	public static final Holder<SoundEvent> LONG_FALL_BOOTS_EQUIP = registerForHolder("item.armor.long_fall_boots.equip");
-	public static final Holder<SoundEvent> ADVANCED_KNEE_REPLACEMENTS_LAND = registerForHolder("item.armor.advanced_knee_replacements.land");
-	public static final Holder<SoundEvent> ADVANCED_KNEE_REPLACEMENTS_EQUIP = registerForHolder("item.armor.advanced_knee_replacements.equip");
+	public static final SoundEvent SHEIKAH_SLATE_PORTAL_GUN_SHOOT = register("portal_gun.sheikah_slate.shoot");
 
+	public static final SoundEvent LASER_POINTER_PORTAL_GUN_SHOOT = register("portal_gun.laser_pointer.shoot");
+
+	public static final SoundEvent MR_THINGY_PORTAL_GUN_SHOOT = register("portal_gun.mr_thingy.shoot");
+	public static final SoundEvent MR_THINGY_PORTAL_GUN_FIZZLE = register("portal_gun.mr_thingy.fizzle");
+
+	public static final SoundEvent CONSTRUCTION_PDA_PORTAL_GUN_SHOOT = register("portal_gun.construction_pda.shoot");
+	public static final SoundEvent CONSTRUCTION_PDA_PORTAL_GUN_FIZZLE = register("portal_gun.construction_pda.fizzle");
+
+	public static final SoundEvent MAGIC_BRUSH_PORTAL_GUN_SHOOT = register("portal_gun.magic_brush.shoot");
+	public static final SoundEvent MAGIC_BRUSH_PORTAL_GUN_FIZZLE = register("portal_gun.magic_brush.fizzle");
+
+	public static final SoundEvent BLOWTORCH_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.blowtorch.primary_shoot");
+	public static final SoundEvent BLOWTORCH_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.blowtorch.secondary_shoot");
+	public static final SoundEvent BLOWTORCH_PORTAL_GUN_FIZZLE = register("portal_gun.blowtorch.fizzle");
+
+	//Portals
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_PRIMARY = register("portal_type.default.open.primary");
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_SECONDARY = register("portal_type.default.open.secondary");
 	public static final SoundEvent DEFAULT_PORTAL_CLOSE_PRIMARY = register("portal_type.default.close.primary");
@@ -101,14 +119,31 @@ public class PortalCubedSounds {
 
 	public static final SoundEvent DIMENSION_PORTAL_TRAVEL = register("portal_type.dimension_portal.travel");
 
+	//Boots
+	public static final Holder<SoundEvent> LONG_FALL_BOOTS_LAND = registerForHolder("item.armor.long_fall_boots.land");
+	public static final Holder<SoundEvent> LONG_FALL_BOOTS_EQUIP = registerForHolder("item.armor.long_fall_boots.equip");
+	public static final Holder<SoundEvent> ADVANCED_KNEE_REPLACEMENTS_LAND = registerForHolder("item.armor.advanced_knee_replacements.land");
+	public static final Holder<SoundEvent> ADVANCED_KNEE_REPLACEMENTS_EQUIP = registerForHolder("item.armor.advanced_knee_replacements.equip");
+
+	//Construction Cannon
 	public static final SoundEvent CONSTRUCTION_CANNON_OBSTRUCTED = register("construction_cannon.obstructed");
 	public static final SoundEvent CONSTRUCTION_CANNON_MISSING_MATERIALS = register("construction_cannon.missing_materials");
 
+	//Crowbar
 	public static final SoundEvent CROWBAR_SWING = register("crowbar.swing");
 
 	public static final SoundEvent CONCRETE_SURFACE_IMPACT = register("surface_impact.concrete");
 	public static final SoundEvent GLASS_SURFACE_IMPACT = register("surface_impact.glass");
 	public static final SoundEvent METAL_SURFACE_IMPACT = register("surface_impact.metal");
+
+	//Lemonades
+	public static final SoundEvent OLD_AP_TIMER = register("old_ap_timer");
+	public static final SoundEvent TIMER_DING = register("timer_ding");
+	public static final SoundEvent SURPRISE = register("surprise");
+
+	//Props
+	public static final SoundEvent RADIO_SONG = register("prop.radio.ambient");
+	public static final SoundEvent COMPANION_CUBE_AMBIANCE = register("prop.companion_cube.ambient");
 
 	public static final Map<ImpactSoundType, SoundEvent> IMPACTS = Util.make(new EnumMap<>(ImpactSoundType.class), map -> {
 		for (ImpactSoundType type : ImpactSoundType.values()) {
@@ -119,9 +154,6 @@ public class PortalCubedSounds {
 	public static final SoundEvent GENERIC_DISINTEGRATION = register("prop.generic.disintegration");
 	public static final SoundEvent RADIO_DISINTEGRATION = register("prop.radio.disintegration");
 
-	public static final SoundEvent SURPRISE = register("surprise");
-
-	public static final SoundEvent SEWAGE_STEP = register("block.sewage.step");
 
 	public static SoundEvent register(String name) {
 		ResourceLocation id = PortalCubed.id(name);

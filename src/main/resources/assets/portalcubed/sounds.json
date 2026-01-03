@@ -732,6 +732,114 @@
     ],
     "subtitle": "subtitles.portalcubed.portal_gun.peashooter.fizzle"
   },
+
+  "portal_gun.sheikah_slate.shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:block.bell.resonate",
+        "pitch": 2,
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.sheikah_slate.shoot"
+  },
+
+  "portal_gun.laser_pointer.shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:ui.button.click",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.laser_pointer.shoot"
+  },
+
+  "portal_gun.mr_thingy.shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.fishing_bobber.throw",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.mr_thingy.shoot"
+  },
+  "portal_gun.mr_thingy.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.fishing_bobber.retrieve",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.mr_thingy.fizzle"
+  },
+
+  "portal_gun.construction_pda.shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:block.smithing_table.use",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.construction_pda.shoot"
+  },
+  "portal_gun.construction_pda.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.firework_rocket.blast",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.construction_pda.fizzle"
+  },
+
+  "portal_gun.magic_brush.shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:item.glow_ink_sac.use",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.magic_brush.shoot"
+  },
+  "portal_gun.magic_brush.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:item.glow_ink_sac.use",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.magic_brush.fizzle"
+  },
+
+  "portal_gun.blowtorch.primary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:item.flintandsteel.use",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.blowtorch.shoot"
+  },
+  "portal_gun.blowtorch.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:item.firecharge.use",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.blowtorch.shoot"
+  },
+  "portal_gun.blowtorch.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:block.fire.extinguish",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.blowtorch.fizzle"
+  },
+
+
   "item.armor.long_fall_boots.land": {
     "sounds": [
       {

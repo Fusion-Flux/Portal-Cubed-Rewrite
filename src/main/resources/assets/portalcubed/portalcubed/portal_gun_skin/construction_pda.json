@@ -4,8 +4,8 @@
   },
   "item_model": "portalcubed:portal_guns/construction_pda",
   "sounds": {
-    "primary_shoot": "minecraft:block.smithing_table.use",
-    "secondary_shoot": "minecraft:block.smithing_table.use",
-    "fizzle": "minecraft:entity.firework_rocket.blast"
+    "primary_shoot": "portalcubed:portal_gun.construction_pda.shoot",
+    "secondary_shoot": "portalcubed:portal_gun.construction_pda.shoot",
+    "fizzle": "portalcubed:portal_gun.construction_pda.fizzle"
   }
 }
