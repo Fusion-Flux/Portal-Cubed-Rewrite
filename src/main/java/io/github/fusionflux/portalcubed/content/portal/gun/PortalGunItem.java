@@ -43,7 +43,7 @@ public class PortalGunItem extends Item implements DirectClickItem {
 
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hit) {
-		if (player.getCooldowns().isOnCooldown(stack))
+		if (player.isSpectator() || player.getCooldowns().isOnCooldown(stack))
 			return TriState.FALSE;
 
 		this.playerShoot(player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY);
