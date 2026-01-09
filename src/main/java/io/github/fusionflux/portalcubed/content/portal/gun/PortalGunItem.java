@@ -19,6 +19,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -80,6 +81,7 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		} else {
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(serverPlayer), new ShootPortalGunPacket(player, polarity));
 			player.setItemInHand(hand, shoot(serverPlayer, stack, polarity));
+			player.awardStat(Stats.ITEM_USED.get(this));
 		}
 	}
 
