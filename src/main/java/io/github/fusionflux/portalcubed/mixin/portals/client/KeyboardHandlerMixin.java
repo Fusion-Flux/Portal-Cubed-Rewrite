@@ -82,8 +82,8 @@ public abstract class KeyboardHandlerMixin {
 				PortalGunSettings settings = stack.get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
 				if (settings != null) {
 					float ticks = ClientTicks.get();
-					int primary = settings.primary().color().getOpaque(ticks);
-					int secondary = settings.effectiveSecondary().color().getOpaque(ticks);
+					int primary = settings.primaryOrSecondary().color().getOpaque(ticks);
+					int secondary = settings.secondaryOrPrimary().color().getOpaque(ticks);
 					return IntIntPair.of(primary, secondary);
 				}
 			}

@@ -37,7 +37,7 @@ public record PortalGunTintSource(Selection selection, int defaultColor) impleme
 		};
 
 		float ticks = ClientTicks.get();
-		return settings.portalSettingsOf(polarity).color().getOpaque(ticks);
+		return settings.portalSettingsPreferring(polarity).color().getOpaque(ticks);
 	}
 
 	@Override

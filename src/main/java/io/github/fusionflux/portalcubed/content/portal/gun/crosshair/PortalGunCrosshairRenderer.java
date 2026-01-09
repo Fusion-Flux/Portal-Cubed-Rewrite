@@ -6,6 +6,7 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
+import io.github.fusionflux.portalcubed.framework.util.Or;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
@@ -51,15 +52,17 @@ public final class PortalGunCrosshairRenderer {
 
 		String pairKey = settings.pair().orElse(player.getGameProfile().getName());
 		PortalPair pair = player.level().portalManager().getPairOrEmpty(pairKey);
-		Polarity shotPolarity = settings.shot().orElse(null);
+		Polarity shotPolarity = settings.lastShot().orElse(null);
 
-		boolean hasSecondary = settings.secondary().isPresent();
-		boolean enableLastPlaced = crosshair.enableLastPlaced() && hasSecondary;
+		boolean hasBoth = settings.portals() instanceof Or.Both;
+		boolean enableLastPlaced = hasBoth && crosshair.enableLastPlaced();
 
 		float ticks = ClientTicks.get();
 		for (Polarity polarity : Polarity.values()) {
-			int color = settings.portalSettingsOf(polarity).color().getOpaque(ticks);
-			renderIndicator(graphics, type.indicatorOf(polarity), pair.get(hasSecondary ? polarity : Polarity.PRIMARY).isPresent(), enableLastPlaced && (shotPolarity == polarity), color);
+			int color = settings.portalSettingsPreferring(polarity).color().getOpaque(ticks);
+			boolean placed = pair.has(polarity);
+			boolean lastPlaced = enableLastPlaced && (shotPolarity == polarity);
+			renderIndicator(graphics, type.indicatorOf(polarity), placed, lastPlaced, color);
 		}
 
 		return type.removeVanillaCrosshair();

@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.gun;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
@@ -78,44 +80,41 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		return getGunSettings(oldStack) == getGunSettings(newStack);
 	}
 
-	public void playerShoot(Player player, ItemStack stack, InteractionHand hand, Polarity polarity) {
-		if (!(player instanceof ServerPlayer serverPlayer)) {
-			this.doClientShootEffects(player, stack, polarity);
-		} else {
-			PortalCubedPackets.sendToClients(PlayerLookup.tracking(serverPlayer), new ShootPortalGunPacket(player, polarity));
-			player.setItemInHand(hand, shoot(serverPlayer, stack, polarity));
+	private void playerShoot(Player player, ItemStack stack, InteractionHand hand, Polarity polarity) {
+		PortalGunSettings gunSettings = PortalGunSettings.getOrDefault(stack);
+		Optional<PortalSettings> portalSettings = gunSettings.portalSettingsOf(polarity);
+		if (portalSettings.isEmpty())
+			return;
+
+		if (player instanceof ServerPlayer serverPlayer) {
+			shoot(serverPlayer, polarity, portalSettings.get());
+			setGunSettings(stack, gunSettings.shoot(polarity));
+			player.setItemInHand(hand, stack);
 			player.awardStat(Stats.ITEM_USED.get(this));
+			PortalCubedPackets.sendToClients(PlayerLookup.tracking(serverPlayer), new ShootPortalGunPacket(player, polarity));
+		} else {
+			this.doClientShootEffects(player, polarity, gunSettings);
 		}
 	}
 
 	@Environment(EnvType.CLIENT)
-	public void doClientShootEffects(Player player, ItemStack stack, Polarity polarity) {
-		PortalGunSettings settings = getGunSettings(stack);
-		if (settings == null)
-			return;
-
+	public void doClientShootEffects(Player player, Polarity polarity, PortalGunSettings settings) {
 		PortalGunSkin skin = settings.skin();
 		if (skin != null) {
-			skin.sounds().shootOf(polarity)
-					.ifPresent(sound -> player.playSound(sound.value()));
+			skin.sounds().shootOf(polarity).ifPresent(
+					sound -> player.playSound(sound.value())
+			);
 		}
 	}
 
-	public static ItemStack shoot(ServerPlayer player, ItemStack stack, Polarity polarity) {
-		PortalGunSettings gunSettings = stack.getOrDefault(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT);
-		Polarity effectivePolarity = gunSettings.secondary().isEmpty() ? Polarity.PRIMARY : polarity;
-
-		PortalId shooting = new PortalId(player.getName().getString(), effectivePolarity);
-		PortalSettings settings = gunSettings.portalSettingsOf(effectivePolarity);
-
+	private static void shoot(ServerPlayer player, Polarity polarity, PortalSettings settings) {
+		PortalId shooting = new PortalId(player.getName().getString(), polarity);
 		Vec3 source = player.getEyePosition();
 		Vec3 direction = player.getLookAngle();
 
 		if (PortalShot.perform(shooting, player.serverLevel(), source, direction, player.getYRot()) instanceof PortalShot.Success success) {
 			success.place(settings);
 		}
-
-		return setGunSettings(stack, gunSettings.shoot(effectivePolarity));
 	}
 
 	@Nullable

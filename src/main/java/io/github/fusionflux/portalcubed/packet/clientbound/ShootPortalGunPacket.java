@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunItem;
+import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
@@ -38,8 +39,10 @@ public record ShootPortalGunPacket(UUID player, Polarity polarity) implements Cl
 		Player player = ctx.player().clientLevel.getPlayerByUUID(this.player);
 		if (player != null) {
 			ItemStack heldItemStack = player.getMainHandItem();
-			if (heldItemStack.getItem() instanceof PortalGunItem portalGun)
-				portalGun.doClientShootEffects(player, heldItemStack, this.polarity);
+			if (heldItemStack.getItem() instanceof PortalGunItem portalGun) {
+				PortalGunSettings settings = PortalGunSettings.getOrDefault(heldItemStack);
+				portalGun.doClientShootEffects(player, this.polarity, settings);
+			}
 		}
 	}
 }
