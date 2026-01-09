@@ -1,11 +1,8 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
-
-import net.minecraft.world.level.gameevent.GameEvent.Context;
-
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
@@ -27,6 +24,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -37,6 +35,9 @@ public class CrowbarItem extends Item implements DirectClickItem {
 	}
 
 	public void onSwing(Player player, @Nullable HitResult hit, boolean didSwingAnim) {
+		if (player.isSpectator())
+			return;
+
 		player.playSound(PortalCubedSounds.CROWBAR_SWING);
 		Level world = player.level();
 		if (!didSwingAnim) {
