@@ -33,14 +33,15 @@ public class GuiMixin {
 	)
 	private void renderPortalGunCrossHair(GuiGraphics graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
 		LocalPlayer player = this.minecraft.player;
-		if (player == null)
+		if (player == null || player.isSpectator())
 			return;
 
 		PortalGunSettings settings = PortalGunItem.getGunSettings(player.getMainHandItem());
 		if (settings == null)
 			return;
 
-		if (PortalGunCrosshairRenderer.render(graphics, player, settings, settings.crosshair()))
+		if (PortalGunCrosshairRenderer.render(graphics, player, settings, settings.crosshair())) {
 			ci.cancel();
+		}
 	}
 }
