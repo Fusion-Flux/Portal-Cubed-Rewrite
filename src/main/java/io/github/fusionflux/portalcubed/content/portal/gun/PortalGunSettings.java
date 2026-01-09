@@ -124,6 +124,17 @@ public record PortalGunSettings(
 	}
 
 	/**
+	 * If these settings only have one portal, returns its polarity. Otherwise, returns empty.
+	 */
+	public Optional<Polarity> polarityOfSinglePortal() {
+		return switch (this.portals) {
+			case Or.Left(PortalSettings ignored) -> Optional.of(Polarity.PRIMARY);
+			case Or.Right(PortalSettings ignored) -> Optional.of(Polarity.SECONDARY);
+			case Or.Both<PortalSettings, PortalSettings> ignored -> Optional.empty();
+		};
+	}
+
+	/**
 	 * Create a copy of these settings, but update the polarity of the last shot portal.
 	 */
 	public PortalGunSettings shoot(Polarity polarity) {

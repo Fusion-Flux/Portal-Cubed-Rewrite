@@ -9,6 +9,7 @@ import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import io.github.fusionflux.portalcubed.framework.util.Or;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
@@ -57,10 +58,15 @@ public final class PortalGunCrosshairRenderer {
 		boolean hasBoth = settings.portals() instanceof Or.Both;
 		boolean enableLastPlaced = hasBoth && crosshair.enableLastPlaced();
 
+		// if the gun only has one portal, we want both indicators to have the same state
+		TriState placedOverride = settings.polarityOfSinglePortal()
+				.map(polarity -> TriState.of(pair.has(polarity)))
+				.orElse(TriState.DEFAULT);
+
 		float ticks = ClientTicks.get();
 		for (Polarity polarity : Polarity.values()) {
 			int color = settings.portalSettingsPreferring(polarity).color().getOpaque(ticks);
-			boolean placed = pair.has(polarity);
+			boolean placed = placedOverride.orElse(pair.has(polarity));
 			boolean lastPlaced = enableLastPlaced && (shotPolarity == polarity);
 			renderIndicator(graphics, type.indicatorOf(polarity), placed, lastPlaced, color);
 		}
