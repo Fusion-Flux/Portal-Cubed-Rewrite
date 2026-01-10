@@ -4,17 +4,17 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"7": "portalcubed:block/old_ap_floor_button",
-		"8": "portalcubed:block/button_emissives",
+		"8": "portalcubed:block/old_ap_floor_button_emissive",
 		"particle": "portalcubed:block/old_ap_blue_panel"
 	},
 	"elements": [
 		{
 			"name": "translucent",
-			"from": [-12, 2.025, 4],
-			"to": [12, 2.025, 28],
+			"from": [-10, 2.025, 6],
+			"to": [10, 2.025, 26],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0.425, 16]},
 			"faces": {
-				"up": {"uv": [6, 16, 0, 10], "texture": "#8"}
+				"up": {"uv": [10, 10, 0, 0], "texture": "#8"}
 			}
 		},
 		{
