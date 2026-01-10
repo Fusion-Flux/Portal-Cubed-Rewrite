@@ -9,7 +9,8 @@
   "key.portalcubed.clear_portals": "Clear Portals",
   "key.portalcubed.clear_portals.success": "Removed portals of held portal gun",
   "key.portalcubed.clear_portals.fail": "No portals removed; you are not holding a portal gun",
-  "key.portalcubed.clear_portals.disabled": "Manual portal removal is currently disabled",
+  "key.portalcubed.clear_portals.disabled": "No portals removed; manual portal removal is currently disabled",
+  "key.portalcubed.clear_portals.none": "No portals removed; no placed portals matching held portal gun",
 
 
   "stat.portalcubed.times_disintegrated": "Times Disintegrated",
