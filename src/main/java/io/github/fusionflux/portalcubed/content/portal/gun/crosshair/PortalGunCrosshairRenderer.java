@@ -51,7 +51,7 @@ public final class PortalGunCrosshairRenderer {
 			graphics.flush();
 		});
 
-		String pairKey = settings.pair().orElse(player.getGameProfile().getName());
+		String pairKey = settings.pairFor(player);
 		PortalPair pair = player.level().portalManager().getPairOrEmpty(pairKey);
 		Polarity shotPolarity = settings.lastShot().orElse(null);
 

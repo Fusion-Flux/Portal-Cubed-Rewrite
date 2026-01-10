@@ -87,7 +87,8 @@ public class PortalGunItem extends Item implements DirectClickItem {
 			return;
 
 		if (player instanceof ServerPlayer serverPlayer) {
-			shoot(serverPlayer, polarity, portalSettings.get());
+			PortalId id = new PortalId(gunSettings.pairFor(player), polarity);
+			shoot(serverPlayer, id, portalSettings.get());
 			setGunSettings(stack, gunSettings.shoot(polarity));
 			player.setItemInHand(hand, stack);
 			player.awardStat(Stats.ITEM_USED.get(this));
@@ -107,12 +108,11 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		}
 	}
 
-	private static void shoot(ServerPlayer player, Polarity polarity, PortalSettings settings) {
-		PortalId shooting = new PortalId(player.getName().getString(), polarity);
+	private static void shoot(ServerPlayer player, PortalId id, PortalSettings settings) {
 		Vec3 source = player.getEyePosition();
 		Vec3 direction = player.getLookAngle();
 
-		if (PortalShot.perform(shooting, player.serverLevel(), source, direction, player.getYRot()) instanceof PortalShot.Success success) {
+		if (PortalShot.perform(id, player.serverLevel(), source, direction, player.getYRot()) instanceof PortalShot.Success success) {
 			success.place(settings);
 		}
 	}

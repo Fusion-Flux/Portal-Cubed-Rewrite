@@ -6,6 +6,7 @@ import java.util.List;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
 
+import io.github.fusionflux.portalcubed.content.portal.clear.ClearPortalsKeyMappingAction;
 import io.github.fusionflux.portalcubed.framework.key.GrabKeyMappingAction;
 import io.github.fusionflux.portalcubed.framework.key.KeyMappingAction;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -19,6 +20,7 @@ public class PortalCubedKeyMappings {
 
 	public static void init() {
 		register("grab", InputConstants.KEY_R, new GrabKeyMappingAction());
+		register("clear_portals", InputConstants.UNKNOWN.getValue(), new ClearPortalsKeyMappingAction());
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			for (Pair<KeyMapping, KeyMappingAction> pair : actions) {

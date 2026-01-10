@@ -28,6 +28,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -132,6 +133,10 @@ public record PortalGunSettings(
 			case Or.Right(PortalSettings ignored) -> Optional.of(Polarity.SECONDARY);
 			case Or.Both<PortalSettings, PortalSettings> ignored -> Optional.empty();
 		};
+	}
+
+	public String pairFor(Player user) {
+		return this.pair.orElse(user.getGameProfile().getName());
 	}
 
 	/**
