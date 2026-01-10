@@ -28,7 +28,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -37,7 +36,6 @@ import net.minecraft.world.item.component.TooltipProvider;
 public record PortalGunSettings(
 		Or<PortalSettings, PortalSettings> portals,
 		Polarity active,
-		Optional<String> pair,
 		Optional<Polarity> lastShot,
 		PortalGunCrosshair crosshair,
 		ResourceKey<PortalGunSkin> skinId
@@ -49,7 +47,6 @@ public record PortalGunSettings(
 	public static final Codec<PortalGunSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			portalsCodec.fieldOf("portals").forGetter(PortalGunSettings::portals),
 			Polarity.CODEC.fieldOf("active").forGetter(PortalGunSettings::active),
-			Codec.STRING.optionalFieldOf("pair").forGetter(PortalGunSettings::pair),
 			Polarity.CODEC.optionalFieldOf("last_shot").forGetter(PortalGunSettings::lastShot),
 			PortalGunCrosshair.CODEC.fieldOf("crosshair").forGetter(PortalGunSettings::crosshair),
 			ResourceKey.codec(PortalGunSkin.REGISTRY_KEY).fieldOf("skin").forGetter(PortalGunSettings::skinId)
@@ -58,7 +55,6 @@ public record PortalGunSettings(
 	public static final StreamCodec<RegistryFriendlyByteBuf, PortalGunSettings> STREAM_CODEC = StreamCodec.composite(
 			Or.streamCodec(PortalSettings.STREAM_CODEC, PortalSettings.STREAM_CODEC), PortalGunSettings::portals,
 			Polarity.STREAM_CODEC, PortalGunSettings::active,
-			ByteBufCodecs.optional(ByteBufCodecs.STRING_UTF8), PortalGunSettings::pair,
 			ByteBufCodecs.optional(Polarity.STREAM_CODEC), PortalGunSettings::lastShot,
 			PortalGunCrosshair.STREAM_CODEC, PortalGunSettings::crosshair,
 			ResourceKey.streamCodec(PortalGunSkin.REGISTRY_KEY), PortalGunSettings::skinId,
@@ -125,7 +121,7 @@ public record PortalGunSettings(
 	}
 
 	/**
-	 * If these settings only have one portal, returns its polarity. Otherwise, returns empty.
+	 * If this settings object only has one portal, returns its polarity. Otherwise, returns empty.
 	 */
 	public Optional<Polarity> polarityOfSinglePortal() {
 		return switch (this.portals) {
@@ -135,15 +131,11 @@ public record PortalGunSettings(
 		};
 	}
 
-	public String pairFor(Player user) {
-		return this.pair.orElse(user.getGameProfile().getName());
-	}
-
 	/**
 	 * Create a copy of these settings, but update the polarity of the last shot portal.
 	 */
 	public PortalGunSettings shoot(Polarity polarity) {
-		return new PortalGunSettings(this.portals, polarity, this.pair, Optional.of(polarity), this.crosshair, this.skinId);
+		return new PortalGunSettings(this.portals, polarity, Optional.of(polarity), this.crosshair, this.skinId);
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -185,7 +177,6 @@ public record PortalGunSettings(
 		private PortalSettings primary = PortalSettings.DEFAULT_PRIMARY;
 		private PortalSettings secondary = PortalSettings.DEFAULT_SECONDARY;
 		private Polarity active = Polarity.PRIMARY;
-		private Optional<String> pair = Optional.empty();
 		private Optional<Polarity> shot = Optional.empty();
 		private PortalGunCrosshair crosshair = PortalGunCrosshair.DEFAULT;
 		private ResourceKey<PortalGunSkin> skinId = PortalGunSkin.DEFAULT;
@@ -208,11 +199,6 @@ public record PortalGunSettings(
 			return this;
 		}
 
-		public PortalGunSettings.Builder setPair(String key) {
-			this.pair = Optional.of(key);
-			return this;
-		}
-
 		public PortalGunSettings.Builder setShot(Polarity polarity) {
 			this.shot = Optional.of(polarity);
 			return this;
@@ -230,7 +216,7 @@ public record PortalGunSettings(
 
 		public PortalGunSettings build() {
 			Or.Both<PortalSettings, PortalSettings> portals = Or.both(this.primary, this.secondary);
-			return new PortalGunSettings(portals, this.active, this.pair, this.shot, this.crosshair, this.skinId);
+			return new PortalGunSettings(portals, this.active, this.shot, this.crosshair, this.skinId);
 		}
 	}
 }

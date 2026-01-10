@@ -86,9 +86,11 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		if (portalSettings.isEmpty())
 			return;
 
+		PortalSettings settings = portalSettings.get();
+
 		if (player instanceof ServerPlayer serverPlayer) {
-			PortalId id = new PortalId(gunSettings.pairFor(player), polarity);
-			shoot(serverPlayer, id, portalSettings.get());
+			PortalId id = new PortalId(settings.pairFor(player), polarity);
+			shoot(serverPlayer, id, settings);
 			setGunSettings(stack, gunSettings.shoot(polarity));
 			player.setItemInHand(hand, stack);
 			player.awardStat(Stats.ITEM_USED.get(this));

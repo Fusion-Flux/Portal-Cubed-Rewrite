@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import com.google.common.collect.Iterators;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -81,6 +82,18 @@ public sealed interface Or<L, R> {
 	 */
 	static <L, R> Both<L, R> both(L left, R right) {
 		return new Both<>(left, right);
+	}
+
+	/**
+	 * Helper for iterating over the values of an Or when both sides have the same type.
+	 * The returned Iterator will always have a size of either 1 or 2.
+	 */
+	static <T> Iterable<T> iterate(Or<T, T> or) {
+		return switch (or) {
+			case Left(T value) -> () -> Iterators.singletonIterator(value);
+			case Right(T value) -> () -> Iterators.singletonIterator(value);
+			case Both(T left, T right) -> () -> new DualIterator<>(left, right);
+		};
 	}
 
 	static <L, R> MapCodec<Or<L, R>> codec(String leftKey, Codec<L> leftCodec, String rightKey, Codec<R> rightCodec) {

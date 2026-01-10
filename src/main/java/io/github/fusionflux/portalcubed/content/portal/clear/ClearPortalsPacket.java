@@ -1,8 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal.clear;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
+import io.github.fusionflux.portalcubed.framework.util.Or;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
 import io.netty.buffer.ByteBuf;
@@ -30,19 +34,34 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		ServerPlayer player = ctx.player();
-		ServerPortalManager manager = player.serverLevel().portalManager();
 
 		boolean removed = false;
 
 		for (InteractionHand hand : InteractionHand.values()) {
 			ItemStack held = player.getItemInHand(hand);
-			PortalGunSettings settings = held.get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
-			if (settings != null) {
-				manager.setPair(settings.pairFor(player), null);
-				removed = true;
+			PortalGunSettings gunSettings = held.get(PortalCubedDataComponents.PORTAL_GUN_SETTINGS);
+			if (gunSettings == null)
+				continue;
+
+			removed = true;
+
+			switch (gunSettings.portals()) {
+				case Or.Left(PortalSettings settings) -> remove(player, settings, Polarity.PRIMARY);
+				case Or.Right(PortalSettings settings) -> remove(player, settings, Polarity.SECONDARY);
+				case Or.Both(PortalSettings primary, PortalSettings secondary) -> {
+					remove(player, primary, Polarity.PRIMARY);
+					remove(player, secondary, Polarity.SECONDARY);
+				}
 			}
 		}
 
 		player.sendSystemMessage(removed ? SUCCESS : FAIL, true);
+	}
+
+	private static void remove(ServerPlayer player, PortalSettings settings, Polarity polarity) {
+		ServerPortalManager manager = player.serverLevel().portalManager();
+		String key = settings.pairFor(player);
+		PortalId id = new PortalId(key, polarity);
+		manager.remove(id);
 	}
 }
