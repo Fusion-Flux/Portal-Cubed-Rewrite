@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.clear.ClearPortalsPacket;
+import io.github.fusionflux.portalcubed.content.portal.clear.PortalsClearedPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ReloadConstructPreview;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
@@ -59,6 +60,7 @@ public class PortalCubedPackets {
 			SIMPLE_PARTICLE = clientbound("simple_particle", SimpleParticlePacket.CODEC),
 			OPEN_LARGE_SIGNAGE_CONFIG = clientbound("open_large_signage_config", OpenSignageConfigPacket.Large.CODEC),
 			OPEN_SMALL_SIGNAGE_CONFIG = clientbound("open_small_signage_config", OpenSignageConfigPacket.Small.CODEC),
+			PORTALS_CLEARED = clientbound("portals_cleared", PortalsClearedPacket.CODEC),
 			// serverbound
 			CONFIGURE_PEDESTAL_BUTTON = serverbound("configure_pedestal_button", ConfigurePedestalButtonPacket.CODEC),
 			CONFIGURE_LARGE_SIGNAGE = serverbound("configure_large_signage", ConfigureSignageConfigPacket.Large.CODEC),

@@ -7,10 +7,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -22,8 +24,11 @@ public record PortalGunSkin(Component name, ResourceLocation itemModel, Sounds s
 			ResourceLocation.CODEC.fieldOf("item_model").forGetter(PortalGunSkin::itemModel),
 			Sounds.CODEC.fieldOf("sounds").forGetter(PortalGunSkin::sounds)
 	).apply(instance, PortalGunSkin::new));
+
 	public static final ResourceKey<Registry<PortalGunSkin>> REGISTRY_KEY = ResourceKey.createRegistryKey(PortalCubed.id("portal_gun_skin"));
 	public static final ResourceKey<PortalGunSkin> DEFAULT = ResourceKey.create(REGISTRY_KEY, PortalCubed.id("default"));
+
+	public static final StreamCodec<ByteBuf, ResourceKey<PortalGunSkin>> RESOURCE_KEY_STREAM_CODEC = ResourceKey.streamCodec(PortalGunSkin.REGISTRY_KEY);
 
 	public record Sounds(
 			Optional<Holder<SoundEvent>> primaryShoot,

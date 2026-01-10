@@ -1,7 +1,10 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
@@ -93,5 +96,9 @@ public interface PortalCubedStreamCodecs {
 				FriendlyByteBuf.writeNullable(buf, value, base);
 			}
 		};
+	}
+
+	static <B extends ByteBuf, V> StreamCodec<B, Set<V>> set(StreamCodec<B, V> base) {
+		return base.apply(ByteBufCodecs.list()).map(HashSet::new, ArrayList::new);
 	}
 }

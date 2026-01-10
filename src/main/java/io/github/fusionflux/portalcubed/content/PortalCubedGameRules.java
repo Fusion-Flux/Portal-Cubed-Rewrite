@@ -42,6 +42,10 @@ public class PortalCubedGameRules {
 			"allowRotatedWallPortals", CATEGORY, GameRuleFactory.createBooleanRule(false)
 	);
 
+	public static final GameRules.Key<GameRules.BooleanValue> MANUAL_PORTAL_CLEARING = GameRuleRegistry.register(
+			"manualPortalClearing", CATEGORY, GameRuleFactory.createBooleanRule(true)
+	);
+
 	public static void init() {
 	}
 }

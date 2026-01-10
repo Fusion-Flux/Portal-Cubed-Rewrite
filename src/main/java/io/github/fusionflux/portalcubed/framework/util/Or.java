@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -57,6 +58,14 @@ public sealed interface Or<L, R> {
 	 * Invoke the given consumers with each held value.
 	 */
 	void forEach(Consumer<? super L> left, Consumer<? super R> right);
+
+	/**
+	 * Unwrap this Or by applying one or more functions to the contained value(s).
+	 * @param left function to convert a possible left value to {@code T}
+	 * @param right function to convert a possible right value to {@code T}
+	 * @param merger function taking a joined {@code left} and {@code right}, merging them into a single value
+	 */
+	<T> T join(Function<L, T> left, Function<R, T> right, BinaryOperator<T> merger);
 
 	/**
 	 * Create a new Or with the sides swapped.
@@ -192,6 +201,11 @@ public sealed interface Or<L, R> {
 		}
 
 		@Override
+		public <T> T join(Function<L, T> left, Function<R, T> right, BinaryOperator<T> merger) {
+			return left.apply(this.value);
+		}
+
+		@Override
 		public Right<R, L> swap() {
 			return Or.right(this.value);
 		}
@@ -240,6 +254,11 @@ public sealed interface Or<L, R> {
 		}
 
 		@Override
+		public <T> T join(Function<L, T> left, Function<R, T> right, BinaryOperator<T> merger) {
+			return right.apply(this.value);
+		}
+
+		@Override
 		public Left<R, L> swap() {
 			return Or.left(this.value);
 		}
@@ -285,6 +304,11 @@ public sealed interface Or<L, R> {
 		public void forEach(Consumer<? super L> left, Consumer<? super R> right) {
 			left.accept(this.left);
 			right.accept(this.right);
+		}
+
+		@Override
+		public <T> T join(Function<L, T> left, Function<R, T> right, BinaryOperator<T> merger) {
+			return merger.apply(left.apply(this.left), right.apply(this.right));
 		}
 
 		@Override
