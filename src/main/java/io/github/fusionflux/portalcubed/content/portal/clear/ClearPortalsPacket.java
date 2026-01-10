@@ -7,7 +7,6 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -21,7 +20,7 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, ClearPortalsPacket> CODEC = StreamCodec.unit(INSTANCE);
 
 	public static final Component SUCCESS = Component.translatable("key.portalcubed.clear_portals.success");
-	public static final Component FAIL = Component.translatable("key.portalcubed.clear_portals.fail").withStyle(ChatFormatting.RED);
+	public static final Component FAIL = Component.translatable("key.portalcubed.clear_portals.fail");
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
