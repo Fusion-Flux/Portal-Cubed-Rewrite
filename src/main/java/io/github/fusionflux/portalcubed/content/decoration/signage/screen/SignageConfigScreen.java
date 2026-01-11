@@ -104,7 +104,7 @@ public abstract class SignageConfigScreen extends Screen {
 
 		for (Holder.Reference<Signage> image : signage) {
 			if (i >= 0) {
-				SignageSlotWidget slot = new SignageSlotWidget(image.value(), small, aged, () -> {
+				SignageSlotWidget slot = new SignageSlotWidget(image, small, aged, () -> {
 					slots.visitWidgets(widget -> ((TexturedStickyButton) widget).deselect());
 					this.configure(image);
 				});

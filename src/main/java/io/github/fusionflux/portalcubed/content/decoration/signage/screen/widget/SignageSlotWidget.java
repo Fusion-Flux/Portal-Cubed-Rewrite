@@ -4,9 +4,13 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class SignageSlotWidget extends TexturedStickyButton {
@@ -28,15 +32,22 @@ public class SignageSlotWidget extends TexturedStickyButton {
 	private final boolean small;
 	private final AdvancedTooltip tooltip;
 
-	public SignageSlotWidget(Signage image, boolean small, boolean aged, Runnable onSelect) {
+	public SignageSlotWidget(Holder.Reference<Signage> image, boolean small, boolean aged, Runnable onSelect) {
 		this(image, small, aged, 0, 0, onSelect);
 	}
 
-	public SignageSlotWidget(Signage image, boolean small, boolean aged, int x, int y, Runnable onSelect) {
-		super(x, y, SIZE, SIZE, image.name(), DISABLED_TEXTURES, TEXTURES, onSelect);
-		this.imageTexture = image.selectTexture(aged).orElse(MissingTextureAtlasSprite.getLocation());
+	public SignageSlotWidget(Holder.Reference<Signage> image, boolean small, boolean aged, int x, int y, Runnable onSelect) {
+		super(x, y, SIZE, SIZE, image.value().name(), DISABLED_TEXTURES, TEXTURES, onSelect);
+		this.imageTexture = image.value().selectTexture(aged).orElse(MissingTextureAtlasSprite.getLocation());
 		this.small = small;
-		this.tooltip = new AdvancedTooltip(builder -> builder.add(image.name()));
+		this.tooltip = new AdvancedTooltip(builder -> {
+			builder.add(image.value().name());
+			if (builder.advanced) {
+				MutableComponent id = Component.literal(image.key().location().toString());
+				id.withStyle(ChatFormatting.DARK_GRAY);
+				builder.add(id);
+			}
+		});
 	}
 
 	@Override
