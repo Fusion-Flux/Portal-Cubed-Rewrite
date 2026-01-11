@@ -88,19 +88,12 @@ public record PortalData(
 		return new PortalData(this.creationTick, this.type, this.validator, this.origin, this.rotation, this.color, this.render, tracer);
 	}
 
-	public static PortalData createWithSettings(Level world, Vec3 origin, Quaternionf rotation, PortalValidator validator, PortalSettings settings) {
-		Holder<PortalType> type = world.registryAccess()
-				.get(settings.typeId())
-				.orElseThrow(() -> new IllegalStateException("Missing portal type " + settings.typeId()));
+	public static PortalData createWithSettings(Level level, Vec3 origin, Quaternionf rotation, PortalValidator validator, PortalSettings settings) {
+		Holder<PortalType> type = settings.resolveTypeOrThrow(level.registryAccess());
+
 		return new PortalData(
-				world.getGameTime(),
-				type,
-				validator,
-				origin,
-				rotation,
-				settings.color(),
-				settings.render(),
-				settings.tracer()
+				level.getGameTime(), type, validator, origin, rotation,
+				settings.color(), settings.render(), settings.tracer()
 		);
 	}
 

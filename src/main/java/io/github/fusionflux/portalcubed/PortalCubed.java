@@ -38,6 +38,8 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 public class PortalCubed implements ModInitializer {
@@ -91,5 +93,9 @@ public class PortalCubed implements ModInitializer {
 
 	public static ResourceLocation id(String path) {
 		return ResourceLocation.fromNamespaceAndPath(ID, path);
+	}
+
+	public static <T> ResourceKey<T> key(ResourceKey<? extends Registry<T>> registry, String path) {
+		return ResourceKey.create(registry, id(path));
 	}
 }

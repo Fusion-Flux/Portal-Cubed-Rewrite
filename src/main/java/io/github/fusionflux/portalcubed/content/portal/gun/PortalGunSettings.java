@@ -12,6 +12,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshair;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkinManager;
@@ -21,13 +22,16 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -63,11 +67,10 @@ public record PortalGunSettings(
 
 	public static final Map<Polarity, Component> POLARITY_TOOLTIPS = Util.makeEnumMap(Polarity.class, polarity -> PortalGunItem.translate(polarity.name + "_portal").withStyle(ChatFormatting.GRAY));
 
-	public static final PortalGunSettings DEFAULT = builder().build();
-
-	public static PortalGunSettings.Builder builder() {
-		return new PortalGunSettings.Builder();
-	}
+	public static final PortalGunSettings DEFAULT = new PortalGunSettings(
+			PortalSettings.DEFAULTS, Polarity.PRIMARY, Optional.empty(),
+			PortalGunCrosshair.DEFAULT, PortalGunSkin.DEFAULT
+	);
 
 	public static PortalGunSettings getOrDefault(ItemStack stack) {
 		return stack.getOrDefault(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, DEFAULT);
@@ -145,9 +148,9 @@ public record PortalGunSettings(
 	}
 
 	@Override
-	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
-		HolderLookup.Provider provider = context.registries();
-		if (provider == null)
+	public void addToTooltip(Item.TooltipContext context, Consumer<Component> output, TooltipFlag flag) {
+		HolderLookup.Provider registries = context.registries();
+		if (registries == null)
 			return;
 
 		boolean first = true;
@@ -156,67 +159,36 @@ public record PortalGunSettings(
 			if (maybeSettings.isEmpty())
 				continue;
 
-			PortalSettings settings = maybeSettings.get();
-			Optional<Component> typeName = provider.get(settings.typeId()).map(type -> type.value().name());
-			if (typeName.isEmpty())
-				continue;
-
 			if (first) {
-				tooltipAdder.accept(CommonComponents.EMPTY);
+				output.accept(CommonComponents.EMPTY);
 				first = false;
 			}
 
-			tooltipAdder.accept(POLARITY_TOOLTIPS.get(polarity));
+			PortalSettings settings = maybeSettings.get();
+			MutableComponent line = CommonComponents.space();
 
 			int color = settings.color().getOpaque(ClientTicks.tryGet());
-			tooltipAdder.accept(CommonComponents.space().append(typeName.get()).withColor(color));
+			line.append(getName(settings, registries).withColor(color));
+
+			if (flag.isAdvanced() && settings.pair().isPresent()) {
+				String pair = settings.pair().get();
+				line.append(CommonComponents.space()).append(
+						Component.translatable("misc.portalcubed.parentheses", pair).withStyle(ChatFormatting.DARK_GRAY)
+				);
+			}
+
+			output.accept(POLARITY_TOOLTIPS.get(polarity));
+			output.accept(line);
 		}
 	}
 
-	public static final class Builder {
-		private PortalSettings primary = PortalSettings.DEFAULT_PRIMARY;
-		private PortalSettings secondary = PortalSettings.DEFAULT_SECONDARY;
-		private Polarity active = Polarity.PRIMARY;
-		private Optional<Polarity> shot = Optional.empty();
-		private PortalGunCrosshair crosshair = PortalGunCrosshair.DEFAULT;
-		private ResourceKey<PortalGunSkin> skinId = PortalGunSkin.DEFAULT;
-
-		Builder() {
+	private static MutableComponent getName(PortalSettings settings, HolderLookup.Provider registries) {
+		Optional<Holder.Reference<PortalType>> holder = settings.resolveType(registries);
+		if (holder.isPresent()) {
+			return holder.get().value().name().copy();
 		}
 
-		public PortalGunSettings.Builder setPrimary(PortalSettings portalSettings) {
-			this.primary = portalSettings;
-			return this;
-		}
-
-		public PortalGunSettings.Builder setSecondary(PortalSettings portalSettings) {
-			this.secondary = portalSettings;
-			return this;
-		}
-
-		public PortalGunSettings.Builder setActive(Polarity polarity) {
-			this.active = polarity;
-			return this;
-		}
-
-		public PortalGunSettings.Builder setShot(Polarity polarity) {
-			this.shot = Optional.of(polarity);
-			return this;
-		}
-
-		public PortalGunSettings.Builder setCrosshair(PortalGunCrosshair crosshair) {
-			this.crosshair = crosshair;
-			return this;
-		}
-
-		public PortalGunSettings.Builder setSkinId(ResourceKey<PortalGunSkin> skinId) {
-			this.skinId = skinId;
-			return this;
-		}
-
-		public PortalGunSettings build() {
-			Or.Both<PortalSettings, PortalSettings> portals = Or.both(this.primary, this.secondary);
-			return new PortalGunSettings(portals, this.active, this.shot, this.crosshair, this.skinId);
-		}
+		ResourceLocation id = settings.typeId().location();
+		return Component.translatableEscape("portal_type.portalcubed.invalid", id);
 	}
 }

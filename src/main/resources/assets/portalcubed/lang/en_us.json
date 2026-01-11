@@ -224,6 +224,7 @@
   "portal_gun_skin.portalcubed.laser_pointer": "Laser Pointer",
   "portal_gun_skin.portalcubed.portalizer": "Portalizer",
 
+  "portal_type.portalcubed.invalid": "Unknown portal type: %s",
   "portal_type.portalcubed.round": "Round Portal",
   "portal_type.portalcubed.portal_1_round": "Round Portal (Portal 1 Sounds)",
   "portal_type.portalcubed.legacy_round": "Round Portal (Legacy)",
@@ -1331,6 +1332,7 @@
 
   "misc.portalcubed.portal_id": "%2$s portal of pair '%1$s'",
   "misc.portalcubed.polarity.primary": "Primary",
-  "misc.portalcubed.polarity.secondart": "Secondary"
+  "misc.portalcubed.polarity.secondary": "Secondary",
+  "misc.portalcubed.parentheses": "(%s)"
 
-  }
+}

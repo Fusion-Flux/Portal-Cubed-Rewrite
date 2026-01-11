@@ -1,21 +1,26 @@
 package io.github.fusionflux.portalcubed.content;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.door.ChamberDoorType;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.graphics.color.ConstantPortalColor;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshair;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshairType;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.framework.util.Or;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -257,8 +262,9 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
 
 			// ----- portal guns -----
+			PortalGunTabHelper helper = new PortalGunTabHelper(params, output);
 
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"portal_gun",
 					"default",
 					"round",
@@ -267,7 +273,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"potatos_portal_gun",
 					"potatos",
 					"round",
@@ -276,7 +282,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"portal_gun_atlas",
 					"atlas",
 					"round",
@@ -285,7 +291,7 @@ public class PortalCubedTabs {
 					"round",
 					5243131
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"portal_gun_p_body",
 					"p_body",
 					"round",
@@ -294,7 +300,7 @@ public class PortalCubedTabs {
 					"round",
 					9902619
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"portal_gun_reloaded",
 					"reloaded",
 					"round",
@@ -303,7 +309,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"tiny_potatos_portal_gun",
 					"tiny_potatos",
 					"round",
@@ -312,7 +318,7 @@ public class PortalCubedTabs {
 					"tater_sad",
 					12701688
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"portal_1_portal_gun",
 					"portal_1",
 					"round",
@@ -323,7 +329,7 @@ public class PortalCubedTabs {
 					false
 			);
 
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"legacy_portal_gun",
 					"legacy",
 					"legacy_round",
@@ -332,7 +338,7 @@ public class PortalCubedTabs {
 					"legacy_round",
 					14842148
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"legacy_portal_gun_atlas",
 					"legacy_atlas",
 					"legacy_round",
@@ -341,7 +347,7 @@ public class PortalCubedTabs {
 					"legacy_round",
 					5243131
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"legacy_portal_gun_p_body",
 					"legacy_p_body",
 					"legacy_round",
@@ -350,7 +356,7 @@ public class PortalCubedTabs {
 					"legacy_round",
 					9902619
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"legacy_portal_gun_reloaded",
 					"legacy_reloaded",
 					"legacy_round",
@@ -360,7 +366,7 @@ public class PortalCubedTabs {
 					14842148
 			);
 
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"2d_portal_gun",
 					"2d",
 					"round",
@@ -369,7 +375,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"2d_portal_gun_atlas",
 					"2d_atlas",
 					"round",
@@ -378,7 +384,7 @@ public class PortalCubedTabs {
 					"round",
 					5243131
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"2d_portal_gun_p_body",
 					"2d_p_body",
 					"round",
@@ -387,7 +393,7 @@ public class PortalCubedTabs {
 					"round",
 					9902619
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"2d_portal_gun_reloaded",
 					"2d_reloaded",
 					"round",
@@ -397,7 +403,7 @@ public class PortalCubedTabs {
 					16748062
 			);
 
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"mel_portal_gun",
 					"mel",
 					"round",
@@ -407,7 +413,7 @@ public class PortalCubedTabs {
 					16748062
 			);
 
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"2005_beta_portal_gun",
 					"2005_beta",
 					"beta",
@@ -416,7 +422,7 @@ public class PortalCubedTabs {
 					"round",
 					13649204
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"2006_beta_portal_gun",
 					"2006_beta",
 					"beta",
@@ -426,7 +432,7 @@ public class PortalCubedTabs {
 					12820222
 			);
 
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"damaged_portal_gun",
 					"damaged",
 					"round",
@@ -435,7 +441,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"painted_portal_gun",
 					"painted",
 					"round",
@@ -444,7 +450,7 @@ public class PortalCubedTabs {
 					"round",
 					12786459
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"portalizer",
 					"portalizer",
 					"portalizer",
@@ -453,7 +459,7 @@ public class PortalCubedTabs {
 					"portalizer",
 					16711680
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"lego_portal_gun",
 					"lego",
 					"round",
@@ -462,7 +468,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"bendy_portal_gun",
 					"bendy",
 					"round",
@@ -471,7 +477,7 @@ public class PortalCubedTabs {
 					"bendy_portal",
 					14371913
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"blueprint_portal_gun",
 					"blueprint",
 					"round",
@@ -480,7 +486,7 @@ public class PortalCubedTabs {
 					"round",
 					3565456
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"missing_texture_portal_gun",
 					"missingno",
 					"missingno",
@@ -489,7 +495,7 @@ public class PortalCubedTabs {
 					"missingno",
 					3407871
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"pistol",
 					"pistol",
 					"base",
@@ -498,7 +504,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"blowtorch",
 					"blowtorch",
 					"base",
@@ -507,7 +513,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"construction_pda",
 					"construction_pda",
 					"base",
@@ -516,7 +522,7 @@ public class PortalCubedTabs {
 					"teleporter",
 					13649204
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"briefcase",
 					"briefcase",
 					"base",
@@ -525,7 +531,7 @@ public class PortalCubedTabs {
 					"gman_portal",
 					-1
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"splash_o_matic",
 					"splash_o_matic",
 					"splash_o_matic",
@@ -534,7 +540,7 @@ public class PortalCubedTabs {
 					"ink_splatter",
 					13680136
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"salmon_gun",
 					"salmon_gun",
 					"none",
@@ -543,7 +549,7 @@ public class PortalCubedTabs {
 					"round",
 					9141545
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"wand",
 					"wand",
 					"base",
@@ -552,7 +558,7 @@ public class PortalCubedTabs {
 					"round",
 					4879704
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"black_hole_crossbow",
 					"crossbow",
 					"none",
@@ -561,7 +567,7 @@ public class PortalCubedTabs {
 					"round",
 					16748062
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"mr_thingy",
 					"mr_thingy",
 					"none",
@@ -570,7 +576,7 @@ public class PortalCubedTabs {
 					"printed",
 					5325897
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"smithers_portal_gun",
 					"smithers",
 					"base",
@@ -579,7 +585,7 @@ public class PortalCubedTabs {
 					"round",
 					15331652
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"peashooter",
 					"peashooter",
 					"base",
@@ -588,7 +594,7 @@ public class PortalCubedTabs {
 					"portal_combat_rectangle",
 					16250994
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"paintbrush",
 					"paintbrush",
 					"none",
@@ -597,7 +603,7 @@ public class PortalCubedTabs {
 					"round",
 					14846044
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"magic_brush",
 					"magic_brush",
 					"none",
@@ -606,7 +612,7 @@ public class PortalCubedTabs {
 					"graffiti_portal",
 					7667377
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"polaroid",
 					"polaroid",
 					"base",
@@ -615,7 +621,7 @@ public class PortalCubedTabs {
 					"polaroid",
 					59391
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"pipis_cannon",
 					"pipis_cannon",
 					"base",
@@ -624,7 +630,7 @@ public class PortalCubedTabs {
 					"pipis",
 					16776960
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"portal_gun_rick",
 					"rick",
 					"base",
@@ -633,7 +639,7 @@ public class PortalCubedTabs {
 					"spiral",
 					12672505
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"wiimote",
 					"wiimote",
 					"wiimote",
@@ -642,7 +648,7 @@ public class PortalCubedTabs {
 					"round",
 					16724273
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"sheikah_slate",
 					"sheikah_slate",
 					"sheikah_slate",
@@ -651,7 +657,7 @@ public class PortalCubedTabs {
 					"travel_medallion",
 					15766816
 			);
-			addPortalGunSkin(output,
+			helper.addSkin(
 					"laser_pointer",
 					"laser_pointer",
 					"dot",
@@ -744,26 +750,6 @@ public class PortalCubedTabs {
 		output.accept(stack);
 	}
 
-	// to-be-replaced with the proper prefabs system once added
-	private static void addPortalGunSkin(CreativeModeTab.Output output, String lang, String skin, String crosshairType,
-										 String primaryType, Integer primaryColor, String secondaryType, Integer secondaryColor) {
-		addPortalGunSkin(output, lang, skin, crosshairType, primaryType, primaryColor, secondaryType, secondaryColor, true);
-	}
-	private static void addPortalGunSkin(CreativeModeTab.Output output, String lang, String skin, String crosshairType, String primaryType,
-										 Integer primaryColor, String secondaryType, Integer secondaryColor, boolean hasTracer) {
-		ItemStack stack = new ItemStack(PortalCubedItems.PORTAL_GUN);
-		stack.set(DataComponents.ITEM_NAME, Component.translatable("portal_gun_skin.portalcubed." + lang).withStyle(style -> style.withItalic(false)));
-		stack.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS,
-				PortalGunSettings.builder()
-						.setSkinId(ResourceKey.create(PortalGunSkin.REGISTRY_KEY, PortalCubed.id(skin)))
-						.setCrosshair(new PortalGunCrosshair(ResourceKey.create(PortalGunCrosshairType.REGISTRY_KEY, PortalCubed.id(crosshairType)), true))
-						.setPrimary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(primaryType)), true, new ConstantPortalColor(primaryColor), true, hasTracer))
-						.setSecondary(new PortalSettings(ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, PortalCubed.id(secondaryType)), true, new ConstantPortalColor(secondaryColor), true, hasTracer))
-						.build()
-		);
-		output.accept(stack);
-	}
-
 	private static ResourceKey<CreativeModeTab> create(String name, Consumer<CreativeModeTab.Builder> consumer) {
 		CreativeModeTab.Builder builder = FabricItemGroup.builder().title(
 				Component.translatable("portalcubed.itemGroup." + name)
@@ -848,5 +834,44 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER, PortalCubedBlocks.PORTAL_BARRIER);
 			entries.addAfter(Items.DEBUG_STICK, PortalCubedItems.FIZZLEINATOR);
 		});
+	}
+
+	// to-be-replaced with the proper prefabs system once added
+	private static final class PortalGunTabHelper {
+		private final HolderLookup.RegistryLookup<PortalType> portalTypes;
+		private final CreativeModeTab.Output output;
+
+		private PortalGunTabHelper(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output output) {
+			this.portalTypes = params.holders().lookupOrThrow(PortalCubedRegistries.PORTAL_TYPE);
+			this.output = output;
+		}
+
+		public void addSkin(String lang, String skin, String crosshairTypeName, String primaryTypeName,
+							int primaryColor, String secondaryTypeName, int secondaryColor) {
+			this.addSkin(lang, skin, crosshairTypeName, primaryTypeName, primaryColor, secondaryTypeName, secondaryColor, true);
+		}
+
+		public void addSkin(String lang, String skinName, String crosshairTypeName, String primaryTypeName,
+							int primaryColor, String secondaryTypeName, int secondaryColor, boolean hasTracer) {
+			ItemStack stack = new ItemStack(PortalCubedItems.PORTAL_GUN);
+			stack.set(DataComponents.ITEM_NAME, Component.translatable("portal_gun_skin.portalcubed." + lang).withStyle(style -> style.withItalic(false)));
+
+			ResourceKey<PortalType> primaryType = PortalCubed.key(PortalCubedRegistries.PORTAL_TYPE, primaryTypeName);
+			ResourceKey<PortalType> secondaryType = PortalCubed.key(PortalCubedRegistries.PORTAL_TYPE, secondaryTypeName);
+
+			Or<PortalSettings, PortalSettings> portals = Or.both(
+					new PortalSettings(primaryType, true, new ConstantPortalColor(primaryColor), true, hasTracer),
+					new PortalSettings(secondaryType, true, new ConstantPortalColor(secondaryColor), true, hasTracer)
+			);
+
+			ResourceKey<PortalGunCrosshairType> crosshair = PortalCubed.key(PortalGunCrosshairType.REGISTRY_KEY, crosshairTypeName);
+			ResourceKey<PortalGunSkin> skin = PortalCubed.key(PortalGunSkin.REGISTRY_KEY, skinName);
+
+			stack.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, new PortalGunSettings(
+					portals, Polarity.PRIMARY, Optional.empty(), new PortalGunCrosshair(crosshair, true), skin
+			));
+
+			this.output.accept(stack);
+		}
 	}
 }
