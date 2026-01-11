@@ -53,7 +53,7 @@ public class PortalCubedItems {
 					.stacksTo(1)
 					.fireResistant()
 					.component(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, PortalGunSettings.DEFAULT)
-					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("large_aperture"))
+					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("aperture"))
 					.rarity(Rarity.RARE)
 			)
 			.build();
@@ -94,7 +94,7 @@ public class PortalCubedItems {
 								EquipmentSlotGroup.MAINHAND
 						).build()
 					)
-					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("small_aperture"))
+					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("aperture"))
 			)
 			.build();
 
@@ -127,14 +127,14 @@ public class PortalCubedItems {
 			.properties(s -> s
 					.fireResistant()
 					.component(PortalCubedDataComponents.FALL_SOUND, new FallSound(PortalCubedSounds.LONG_FALL_BOOTS_LAND, 6))
-					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("small_aperture"))
+					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("aperture"))
 			)
 			.build();
 	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(PortalCubedArmorMaterials.ADVANCED_KNEE_REPLACEMENTS, ArmorType.BOOTS, s))
 			.properties(s -> s
 					.fireResistant()
 					.component(PortalCubedDataComponents.FALL_SOUND, new FallSound(PortalCubedSounds.ADVANCED_KNEE_REPLACEMENTS_LAND, 5))
-					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("small_aperture"))
+					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("aperture"))
 			)
 			.build();
 
