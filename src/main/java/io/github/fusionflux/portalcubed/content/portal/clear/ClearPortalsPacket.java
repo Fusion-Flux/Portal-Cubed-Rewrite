@@ -30,9 +30,9 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, ClearPortalsPacket> CODEC = StreamCodec.unit(INSTANCE);
 
 	public static final Component SUCCESS = Component.translatable("key.portalcubed.clear_portals.success");
-	public static final Component FAIL = Component.translatable("key.portalcubed.clear_portals.fail");
 	public static final Component DISABLED = Component.translatable("key.portalcubed.clear_portals.disabled");
-
+	public static final Component NO_GUN = Component.translatable("key.portalcubed.clear_portals.no_gun");
+	public static final Component FAIL = Component.translatable("key.portalcubed.clear_portals.fail");
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
@@ -49,6 +49,7 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 		}
 
 		boolean foundGun = false;
+		boolean removedAny = false;
 		// collect the skins of each portal that gets removed to tell the client what sounds to play
 		Set<ResourceKey<PortalGunSkin>> removedSkins = new HashSet<>();
 
@@ -68,11 +69,18 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 
 			if (removed) {
 				removedSkins.add(gunSettings.skinId());
+				removedAny = true;
 			}
 		}
 
-		ServerPlayNetworking.send(player, new PortalsClearedPacket(removedSkins));
-		player.sendSystemMessage(foundGun ? SUCCESS : FAIL, true);
+		if (!foundGun) {
+			player.sendSystemMessage(NO_GUN, true);
+		} else if (!removedAny) {
+			player.sendSystemMessage(FAIL, true);
+		} else {
+			ServerPlayNetworking.send(player, new PortalsClearedPacket(removedSkins));
+			player.sendSystemMessage(SUCCESS, true);
+		}
 	}
 
 	private static boolean remove(ServerPlayer player, PortalSettings settings, Polarity polarity) {
