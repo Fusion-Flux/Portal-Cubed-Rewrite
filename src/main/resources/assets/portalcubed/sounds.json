@@ -598,7 +598,7 @@
         "type": "event"
       }
     ],
-    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+    "subtitle": "subtitles.portalcubed.portal_gun.pistol.fizzle"
   },
 
   "portal_gun.wand.shoot": {
@@ -742,6 +742,26 @@
       }
     ],
     "subtitle": "subtitles.portalcubed.portal_gun.sheikah_slate.shoot"
+  },
+  "portal_gun.sheikah_slate.hold_loop": {
+    "sounds": [
+      {
+        "name": "minecraft:block.beacon.ambient",
+        "pitch": 2,
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.sheikah_slate.hold_loop"
+  },
+  "portal_gun.sheikah_slate.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:block.end_portal_frame.fill",
+        "pitch": 2,
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.sheikah_slate.fizzle"
   },
 
   "portal_gun.laser_pointer.shoot": {

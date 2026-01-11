@@ -84,6 +84,8 @@ public class PortalCubedSounds {
 	public static final SoundEvent PEASHOOTER_PORTAL_GUN_FIZZLE = register("portal_gun.peashooter.fizzle");
 
 	public static final SoundEvent SHEIKAH_SLATE_PORTAL_GUN_SHOOT = register("portal_gun.sheikah_slate.shoot");
+	public static final SoundEvent SHEIKAH_SLATE_PORTAL_GUN_HOLD_LOOP = register("portal_gun.sheikah_slate.hold_loop");
+	public static final SoundEvent SHEIKAH_SLATE_PORTAL_GUN_FIZZLE = register("portal_gun.sheikah_slate.fizzle");
 
 	public static final SoundEvent LASER_POINTER_PORTAL_GUN_SHOOT = register("portal_gun.laser_pointer.shoot");
 

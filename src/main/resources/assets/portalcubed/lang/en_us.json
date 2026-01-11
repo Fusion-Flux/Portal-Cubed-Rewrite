@@ -518,6 +518,7 @@
   "subtitles.portalcubed.portal_gun.default.cannot_grab": "Portal gun fails to pick up object",
 
   "subtitles.portalcubed.portal_gun.pistol.shoot": "Gun makes hole (not a bullet hole)",
+  "subtitles.portalcubed.portal_gun.pistol.fizzle": "Gun that makes holes (not bullet holes) reloads",
 
   "subtitles.portalcubed.portal_gun.paintbrush": "Brushing",
 
@@ -539,6 +540,8 @@
   "subtitles.portalcubed.portal_gun.laser_pointer.shoot": "Laser pointer clicks",
 
   "subtitles.portalcubed.portal_gun.sheikah_slate.shoot": "Sheikah slate activates",
+  "subtitles.portalcubed.portal_gun.sheikah_slate.hold_loop": "Sheikah slate lifts object",
+  "subtitles.portalcubed.portal_gun.sheikah_slate.fizzle": "Sheikah slate resets",
 
   "subtitles.portalcubed.portal_gun.mr_thingy.shoot": "Mr. Thingy activates",
   "subtitles.portalcubed.portal_gun.mr_thingy.fizzle": "Mr. Thingy deactivates",
