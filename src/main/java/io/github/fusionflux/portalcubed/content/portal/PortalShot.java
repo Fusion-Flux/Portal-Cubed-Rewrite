@@ -36,9 +36,9 @@ public sealed interface PortalShot {
 	 */
 	BlockHitResult hit();
 
-	record Source(Vec3 source, Vec3 direction, float yRot) {
+	record Source(Vec3 source, Vec3 direction, float yRot, double maxRange) {
 		public PortalShot shoot(PortalId shooting, ServerLevel level) {
-			return PortalShot.perform(shooting, level, this.source, this.direction, this.yRot);
+			return PortalShot.perform(shooting, level, this.source, this.direction, this.yRot, this.maxRange);
 		}
 
 		public static Source forPlacingOn(BlockPos pos, Direction facing, float yRot) {
@@ -55,7 +55,7 @@ public sealed interface PortalShot {
 			Vec3 offsetFromWall = facing.getUnitVec3().scale(0.75);
 			Vec3 source = Vec3.atCenterOf(pos).add(offsetFromWall).add(offsetUp.x, offsetUp.y, offsetUp.z);
 			Vec3 direction = facing.getUnitVec3().scale(-1);
-			return new Source(source, direction, yRot);
+			return new Source(source, direction, yRot, 1);
 		}
 	}
 
@@ -119,19 +119,30 @@ public sealed interface PortalShot {
 	}
 
 	/**
+	 * Perform a portal shot with no range limit, besides the gamerule.
+	 * @see #perform(PortalId, ServerLevel, Vec3, Vec3, float, double)
+	 */
+	static PortalShot perform(PortalId shooting, ServerLevel level, Vec3 source, Vec3 direction, float yRot) {
+		return perform(shooting, level, source, direction, yRot, Double.MAX_VALUE);
+	}
+
+	/**
 	 * Perform a portal shot by raycasting from {@code source} along {@code direction}.
 	 * @param shooting the ID of the portal that is being shot
 	 * @param direction a normalized vector pointing in the direction of travel
 	 * @param yRot the Y rotation of the shooter, used for rotating the portal
+	 * @param maxRange the maximum distance the shot can travel before giving up
 	 */
-	static PortalShot perform(PortalId shooting, ServerLevel level, Vec3 source, Vec3 direction, float yRot) {
-		if (direction.lengthSqr() == 0) {
+	static PortalShot perform(PortalId shooting, ServerLevel level, Vec3 source, Vec3 direction, float yRot, double maxRange) {
+		if (maxRange <= 0) {
+			throw new IllegalArgumentException("Maximum range must be >0");
+		} else if (direction.lengthSqr() == 0) {
 			throw new IllegalArgumentException("Direction vector has 0 length");
 		} else {
 			direction = direction.normalize();
 		}
 
-		BlockHitResult hit = clip(level, source, direction);
+		BlockHitResult hit = clip(level, source, direction, maxRange);
 		if (hit.getType() == HitResult.Type.MISS) {
 			return new Missed(hit);
 		} else if (hit.isInside()) {
@@ -158,13 +169,13 @@ public sealed interface PortalShot {
 		return dot > 0 ? Angle.R270 : Angle.R90;
 	}
 
-	private static BlockHitResult clip(ServerLevel level, Vec3 source, Vec3 direction) {
-		int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
+	private static BlockHitResult clip(ServerLevel level, Vec3 source, Vec3 direction, double maxRange) {
+		double range = Math.min(maxRange, level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
 
 		double distance = range;
 		while (distance > 0) {
 			double step = Math.min(distance, MAX_CLIP_STEP);
-			BlockHitResult result = clip(level, source, direction, step);
+			BlockHitResult result = subClip(level, source, direction, step);
 			if (result.getType() == HitResult.Type.BLOCK)
 				return result;
 
@@ -179,7 +190,7 @@ public sealed interface PortalShot {
 		return BlockHitResult.miss(end, nearestDirection, endPos);
 	}
 
-	private static BlockHitResult clip(ServerLevel level, Vec3 source, Vec3 direction, double distance) {
+	private static BlockHitResult subClip(ServerLevel level, Vec3 source, Vec3 direction, double distance) {
 		Vec3 to = source.add(direction.scale(distance));
 
 		ClipContext ctx = new ClipContext(source, to, PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, PortalCollisionContext.INSTANCE);
