@@ -1,210 +1,210 @@
 {
   "variants": {
     "active=false,face=down,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 180,
       "y": 270
     },
     "active=false,face=down,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 180,
       "y": 270
     },
     "active=false,face=down,x=1,y=0": {
-      "model": "portalcubed:block/cube_button",
+      "model": "portalcubed:block/white_cube_button_northeast",
       "x": 180,
       "y": 270
     },
     "active=false,face=down,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 180,
       "y": 270
     },
     "active=false,face=east,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 90,
       "y": 90
     },
     "active=false,face=east,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 90,
       "y": 90
     },
     "active=false,face=east,x=1,y=0": {
-      "model": "portalcubed:block/cube_button",
+      "model": "portalcubed:block/white_cube_button_northeast",
       "x": 90,
       "y": 90
     },
     "active=false,face=east,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 90,
       "y": 90
     },
-    "active=false,face=north,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+    "active=false,face=north,x=0,y=1": {
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 90
     },
-    "active=false,face=north,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+    "active=false,face=north,x=0,y=0": {
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 90
     },
     "active=false,face=north,x=1,y=0": {
-      "model": "portalcubed:block/cube_button",
+      "model": "portalcubed:block/white_cube_button_northeast",
       "x": 90
     },
     "active=false,face=north,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 90
     },
     "active=false,face=south,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 270
     },
     "active=false,face=south,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 270
     },
     "active=false,face=south,x=1,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 270
     },
     "active=false,face=south,x=1,y=1": {
-      "model": "portalcubed:block/cube_button",
+      "model": "portalcubed:block/white_cube_button_northeast",
       "x": 270
     },
     "active=false,face=up,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle"
+      "model": "portalcubed:block/white_cube_button_northwest"
     },
     "active=false,face=up,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle"
+      "model": "portalcubed:block/white_cube_button_southwest"
     },
     "active=false,face=up,x=1,y=0": {
-      "model": "portalcubed:block/cube_button"
+      "model": "portalcubed:block/white_cube_button_northeast"
     },
     "active=false,face=up,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle"
+      "model": "portalcubed:block/white_cube_button_southeast"
     },
     "active=false,face=west,x=0,y=0": {
-      "model": "portalcubed:block/cube_button",
+      "model": "portalcubed:block/white_cube_button_northeast",
       "x": 90,
       "y": 270
     },
     "active=false,face=west,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 90,
       "y": 270
     },
     "active=false,face=west,x=1,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 90,
       "y": 270
     },
     "active=false,face=west,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 90,
       "y": 270
     },
     "active=true,face=down,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 180,
       "y": 270
     },
     "active=true,face=down,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 180,
       "y": 270
     },
     "active=true,face=down,x=1,y=0": {
-      "model": "portalcubed:block/cube_button_active",
+      "model": "portalcubed:block/white_cube_button_northeast_active",
       "x": 180,
       "y": 270
     },
     "active=true,face=down,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 180,
       "y": 270
     },
     "active=true,face=east,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 90,
       "y": 90
     },
     "active=true,face=east,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 90,
       "y": 90
     },
     "active=true,face=east,x=1,y=0": {
-      "model": "portalcubed:block/cube_button_active",
+      "model": "portalcubed:block/white_cube_button_northeast_active",
       "x": 90,
       "y": 90
     },
     "active=true,face=east,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 90,
       "y": 90
     },
-    "active=true,face=north,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+    "active=true,face=north,x=0,y=1": {
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 90
     },
-    "active=true,face=north,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+    "active=true,face=north,x=0,y=0": {
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 90
     },
     "active=true,face=north,x=1,y=0": {
-      "model": "portalcubed:block/cube_button_active",
+      "model": "portalcubed:block/white_cube_button_northeast_active",
       "x": 90
     },
     "active=true,face=north,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 90
     },
     "active=true,face=south,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 270
     },
     "active=true,face=south,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 270
     },
     "active=true,face=south,x=1,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 270
     },
     "active=true,face=south,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_active",
+      "model": "portalcubed:block/white_cube_button_northeast_active",
       "x": 270
     },
     "active=true,face=up,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_particle"
+      "model": "portalcubed:block/white_cube_button_northwest"
     },
     "active=true,face=up,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle"
+      "model": "portalcubed:block/white_cube_button_southwest"
     },
     "active=true,face=up,x=1,y=0": {
-      "model": "portalcubed:block/cube_button_active"
+      "model": "portalcubed:block/white_cube_button_northeast_active"
     },
     "active=true,face=up,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle"
+      "model": "portalcubed:block/white_cube_button_southeast"
     },
     "active=true,face=west,x=0,y=0": {
-      "model": "portalcubed:block/cube_button_active",
+      "model": "portalcubed:block/white_cube_button_northeast_active",
       "x": 90,
       "y": 270
     },
     "active=true,face=west,x=0,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southeast",
       "x": 90,
       "y": 270
     },
     "active=true,face=west,x=1,y=0": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_northwest",
       "x": 90,
       "y": 270
     },
     "active=true,face=west,x=1,y=1": {
-      "model": "portalcubed:block/cube_button_particle",
+      "model": "portalcubed:block/white_cube_button_southwest",
       "x": 90,
       "y": 270
     }

@@ -1,0 +1,6 @@
+{
+  "parent": "portalcubed:block/template_button_base_southeast",
+  "textures": {
+    "panel": "portalcubed:block/portal_1_white_half_panel"
+  }
+}

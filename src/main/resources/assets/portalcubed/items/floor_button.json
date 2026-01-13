@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "portalcubed:block/floor_button"
+    "model": "portalcubed:item/floor_button"
   }
 }
