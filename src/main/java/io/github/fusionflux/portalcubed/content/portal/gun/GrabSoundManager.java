@@ -90,10 +90,10 @@ public class GrabSoundManager {
 	}
 
 	private void startGrab() {
-		this.sounds().grab().ifPresent(grab -> {
+		this.sounds().grab().ifPresentOrElse(grab -> {
 			this.grabSoundPlaying = this.startPlaying(grab.sound().value(), false);
 			this.grabTimer = grab.lengthInTicks();
-		});
+		}, this::startHold);
 	}
 
 	private void stopGrab() {
