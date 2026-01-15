@@ -9,7 +9,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
-import io.github.fusionflux.portalcubed.content.portal.PortalShot;
+import io.github.fusionflux.portalcubed.content.portal.clip.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.graphics.color.ConstantPortalColor;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;

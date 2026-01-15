@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Contract;
 import org.joml.Matrix3d;
 import org.joml.Vector3d;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.core.Direction;

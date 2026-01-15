@@ -1,7 +1,8 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.clip;
 
 import java.util.function.Consumer;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import net.minecraft.world.phys.Vec3;
 
 /**

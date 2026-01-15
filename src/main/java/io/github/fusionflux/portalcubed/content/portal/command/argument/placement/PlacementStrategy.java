@@ -18,7 +18,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.github.fusionflux.portalcubed.content.PortalCubedCommands;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
-import io.github.fusionflux.portalcubed.content.portal.PortalShot;
+import io.github.fusionflux.portalcubed.content.portal.clip.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.command.PortalCommand;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.NonePortalValidator;

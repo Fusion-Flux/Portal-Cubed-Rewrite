@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.clip;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
@@ -6,6 +6,9 @@ import org.joml.Vector3f;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
+import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
