@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.mojang.brigadier.Message;
+import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -80,8 +81,11 @@ public class PortalCubedCommands {
 		return FlagArgumentType.getFlag(ctx, name);
 	}
 
-	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message message) {
-		return SharedSuggestionProvider.suggest(iterable, builder, Function.identity(), $ -> message);
+	/**
+	 * Suggest a set of strings. Each one will be wrapped in quotes if not doing so will cause the command to fail to parse.
+	 */
+	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message tooltip) {
+		return SharedSuggestionProvider.suggest(iterable, builder, PortalCubedCommands::quoteIfNeeded, $ -> tooltip);
 	}
 
 	/**
@@ -94,6 +98,17 @@ public class PortalCubedCommands {
 				consumer.accept(object);
 			}
 		}
+	}
+
+	private static String quoteIfNeeded(String string) {
+		for (int i = 0; i < string.length(); i++) {
+			char c = string.charAt(i);
+			if (!StringReader.isAllowedInUnquotedString(c)) {
+				return '"' + string + '"';
+			}
+		}
+
+		return string;
 	}
 
 	@FunctionalInterface
