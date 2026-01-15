@@ -11,6 +11,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 
 public class PortalCubedEntityTags {
+	public static final TagKey<EntityType<?>> IMMUNE_TO_TOXIC_GOO = create("immune_to_toxic_goo");
+	public static final TagKey<EntityType<?>> BLOCKS_PORTAL_SHOTS = create("blocks_portal_shots");
+
 	// props
 	public static final TagKey<EntityType<?>> CAN_BE_DIRTY = create("can_be_dirty");
 	public static final TagKey<EntityType<?>> CAN_BE_CHARRED = create("can_be_charred");
@@ -27,8 +30,6 @@ public class PortalCubedEntityTags {
 	public static final TagKey<EntityType<?>> PRESSES_CUBE_BUTTONS = create("presses_cube_buttons");
 	public static final TagKey<EntityType<?>> PRESSES_FLOOR_BUTTONS = create("presses_floor_buttons");
 	public static final TagKey<EntityType<?>> PORTAL_BLACKLIST = create("portal_blacklist");
-
-	public static final TagKey<EntityType<?>> IMMUNE_TO_TOXIC_GOO = create("immune_to_toxic_goo");
 
 	// fizzling
 	public static final TagKey<EntityType<?>> DISINTEGRATES_WHEN_FIZZLED = create("disintegrates_when_fizzled");
