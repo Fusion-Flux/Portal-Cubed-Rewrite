@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
-
-import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,26 +19,26 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.manager.listener.ListenerManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
-import io.github.fusionflux.portalcubed.framework.util.WeakCollection;
 import net.minecraft.world.phys.AABB;
 
 public abstract sealed class PortalManager permits ServerPortalManager, ClientPortalManager {
 	private final Map<String, PortalPair> pairs;
 	private final Map<PortalId, PortalReference> references;
-	private final WeakCollection<PortalChangeListener> listeners;
+	private final ListenerManager listeners;
 	private final PortalLookup lookup;
 
 	protected PortalManager() {
 		this.pairs = new HashMap<>();
 		this.references = new HashMap<>();
-		this.listeners = new WeakCollection<>();
+		this.listeners = new ListenerManager();
 
 		SectionPortalLookup lookup = new SectionPortalLookup();
 		this.lookup = lookup;
-		this.registerListener(lookup);
+		this.listeners.registerPersistent(lookup);
 	}
 
 	@Nullable
@@ -98,7 +96,7 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 				if (this.references.put(id, reference) != null) {
 					throw new IllegalStateException("Duplicate reference for portal: " + id);
 				}
-				this.portalCreated(reference);
+				this.listeners.portalCreated(reference);
 			} else if (newPortal == null) {
 				// oldPortal must be non-null, otherwise first case would've been hit.
 				// portal removed, remove reference.
@@ -106,14 +104,14 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 				Objects.requireNonNull(reference, () -> "Missing reference for portal: " + id);
 
 				reference.update(null);
-				this.portalRemoved(reference, oldPortal);
+				this.listeners.portalRemoved(reference, oldPortal);
 			} else {
 				// both non-null, portal modified
 				PortalReference reference = this.getPortal(id);
 				Objects.requireNonNull(reference, () -> "Missing reference for portal: " + id);
 
 				reference.update(newPortal);
-				this.portalModified(oldPortal, reference);
+				this.listeners.portalModified(oldPortal, reference);
 			}
 		}
 
@@ -153,14 +151,10 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 	}
 
 	/**
-	 * Register a new {@link PortalChangeListener}.
-	 * <p>
-	 * These listeners are stored in {@link WeakReference}s, so they will be automatically removed
-	 * once they are garbage collected. Make sure you hold on to a reference to registered listeners,
-	 * or else they might go missing at random.
+	 * @return the {@link ListenerManager}, which allows for registering {@link PortalChangeListener}s
 	 */
-	public void registerListener(PortalChangeListener listener) {
-		this.listeners.add(listener);
+	public ListenerManager listeners() {
+		return this.listeners;
 	}
 
 	public boolean containsActivePortals(AABB box) {
@@ -171,17 +165,5 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 		}
 
 		return false;
-	}
-
-	private void portalCreated(PortalReference reference) {
-		this.listeners.forEach(listener -> listener.portalCreated(reference));
-	}
-
-	private void portalModified(Portal oldPortal, PortalReference reference) {
-		this.listeners.forEach(listener -> listener.portalModified(oldPortal, reference));
-	}
-
-	private void portalRemoved(PortalReference reference, Portal portal) {
-		this.listeners.forEach(listener -> listener.portalRemoved(reference, portal));
 	}
 }

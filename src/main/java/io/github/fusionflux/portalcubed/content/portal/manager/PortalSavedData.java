@@ -32,7 +32,7 @@ public final class PortalSavedData extends SavedData implements PortalChangeList
 	// fresh instance
 	public PortalSavedData(ServerLevel level) {
 		this.manager = new ServerPortalManager(level);
-		this.manager.registerListener(this);
+		this.manager.listeners().registerPersistent(this);
 	}
 
 	// loaded from data

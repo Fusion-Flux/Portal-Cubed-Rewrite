@@ -86,7 +86,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void afterInit(CallbackInfo ci) {
 		// make sure this is done after this.level is set
-		this.level().portalManager().registerListener(this.relevantPortals);
+		this.level().portalManager().listeners().registerTemporary(this.relevantPortals);
 	}
 
 	@WrapOperation(

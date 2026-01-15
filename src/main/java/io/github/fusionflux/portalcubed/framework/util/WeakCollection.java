@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -14,10 +15,7 @@ public final class WeakCollection<T> {
 	private final List<WeakReference<T>> references = new ArrayList<>();
 
 	public void add(T entry) {
-		if (entry == null) {
-			throw new IllegalArgumentException("WeakQueue does not support null entries");
-		}
-
+		Objects.requireNonNull(entry, "entry");
 		this.references.add(new WeakReference<>(entry));
 	}
 
