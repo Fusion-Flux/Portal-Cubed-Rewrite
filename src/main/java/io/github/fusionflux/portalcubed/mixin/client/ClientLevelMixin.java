@@ -44,7 +44,7 @@ public abstract class ClientLevelMixin implements ClientLevelExt {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(CallbackInfo ci) {
-		this.portalManager = new ClientPortalManager();
+		this.portalManager = new ClientPortalManager((ClientLevel) (Object) this);
 	}
 
 	@WrapOperation(method = "tickNonPassenger", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))

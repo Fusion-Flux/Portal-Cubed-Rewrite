@@ -19,10 +19,12 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.collision.RePortaler;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.ListenerManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 public abstract sealed class PortalManager permits ServerPortalManager, ClientPortalManager {
@@ -31,7 +33,7 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 	private final ListenerManager listeners;
 	private final PortalLookup lookup;
 
-	protected PortalManager() {
+	protected PortalManager(Level level) {
 		this.pairs = new HashMap<>();
 		this.references = new HashMap<>();
 		this.listeners = new ListenerManager();
@@ -39,6 +41,7 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 		SectionPortalLookup lookup = new SectionPortalLookup();
 		this.lookup = lookup;
 		this.listeners.registerPersistent(lookup);
+		this.listeners.registerPersistent(new RePortaler(level));
 	}
 
 	@Nullable

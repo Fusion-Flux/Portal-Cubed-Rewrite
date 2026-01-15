@@ -5,8 +5,13 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
+import net.minecraft.client.multiplayer.ClientLevel;
 
 public final class ClientPortalManager extends PortalManager {
+	public ClientPortalManager(ClientLevel level) {
+		super(level);
+	}
+
 	/**
 	 * Only intended to be called from {@link UpdatePortalPairPacket}
 	 */

@@ -22,6 +22,7 @@ public final class ServerPortalManager extends PortalManager {
 	public final ServerLevel level;
 
 	public ServerPortalManager(ServerLevel level) {
+		super(level);
 		this.level = level;
 	}
 
