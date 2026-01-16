@@ -33,6 +33,9 @@
     "portalcubed:orange_office_tile_facade",
 
     "#c:concretes",
+    "#c:end_stones",
+    "#c:stripped_logs",
+    "#c:stripped_woods",
     "#minecraft:planks",
     "#minecraft:wooden_slabs",
     "#minecraft:wooden_stairs",

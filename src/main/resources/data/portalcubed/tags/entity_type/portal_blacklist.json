@@ -1,5 +1,6 @@
 {
   "values": [
+    "#c:teleporting_not_supported",
     "minecraft:block_display",
     "minecraft:end_crystal",
     "minecraft:evoker_fangs",
