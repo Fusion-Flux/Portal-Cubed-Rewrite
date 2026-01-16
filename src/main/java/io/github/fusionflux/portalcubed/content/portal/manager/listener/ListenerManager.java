@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.framework.util.WeakCollection;
 
@@ -28,6 +29,11 @@ public final class ListenerManager implements PortalChangeListener {
 	 */
 	public void registerTemporary(PortalChangeListener listener) {
 		this.temporary.add(listener);
+	}
+
+	@Override
+	public void portalPairChanged(PortalPair oldPair, PortalPair newPair) {
+		this.forEach(listener -> listener.portalPairChanged(oldPair, newPair));
 	}
 
 	@Override

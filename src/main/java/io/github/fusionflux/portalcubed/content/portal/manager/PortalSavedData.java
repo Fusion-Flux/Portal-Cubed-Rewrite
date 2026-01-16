@@ -9,9 +9,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -58,17 +56,7 @@ public final class PortalSavedData extends SavedData implements PortalChangeList
 	}
 
 	@Override
-	public void portalCreated(PortalReference reference) {
-		this.setDirty();
-	}
-
-	@Override
-	public void portalModified(Portal oldPortal, PortalReference reference) {
-		this.setDirty();
-	}
-
-	@Override
-	public void portalRemoved(PortalReference reference, Portal portal) {
+	public void portalPairChanged(PortalPair oldPair, PortalPair newPair) {
 		this.setDirty();
 	}
 

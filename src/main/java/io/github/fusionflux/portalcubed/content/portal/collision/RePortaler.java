@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
@@ -34,13 +34,8 @@ public final class RePortaler implements PortalChangeListener {
 	}
 
 	@Override
-	public void portalModified(Portal oldPortal, PortalReference reference) {
-		this.rePortal(oldPortal);
-	}
-
-	@Override
-	public void portalRemoved(PortalReference reference, Portal portal) {
-		this.rePortal(portal);
+	public void portalPairChanged(PortalPair oldPair, PortalPair newPair) {
+		oldPair.forEach(this::rePortal);
 	}
 
 	private void rePortal(Portal portal) {

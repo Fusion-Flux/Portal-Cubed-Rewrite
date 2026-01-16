@@ -1,9 +1,16 @@
 package io.github.fusionflux.portalcubed.content.portal.manager.listener;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 
 public interface PortalChangeListener {
+	/**
+	 * Invoked when any change is made to a pair of portals, before the other callbacks.
+	 */
+	default void portalPairChanged(PortalPair oldPair, PortalPair newPair) {
+	}
+
 	/**
 	 * Invoked after the given portal has been created.
 	 */

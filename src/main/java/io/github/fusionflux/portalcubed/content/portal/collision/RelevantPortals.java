@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import net.minecraft.world.entity.Entity;
@@ -65,17 +66,7 @@ public final class RelevantPortals implements PortalChangeListener {
 	}
 
 	@Override
-	public void portalCreated(PortalReference reference) {
-		this.invalidate();
-	}
-
-	@Override
-	public void portalModified(Portal oldPortal, PortalReference reference) {
-		this.invalidate();
-	}
-
-	@Override
-	public void portalRemoved(PortalReference reference, Portal portal) {
+	public void portalPairChanged(PortalPair oldPair, PortalPair newPair) {
 		this.invalidate();
 	}
 }

@@ -81,6 +81,8 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 			return;
 		}
 
+		this.listeners.portalPairChanged(oldPair, newPair);
+
 		for (Polarity polarity : Polarity.values()) {
 			Portal oldPortal = oldPair.getNullable(polarity);
 			Portal newPortal = newPair.getNullable(polarity);
