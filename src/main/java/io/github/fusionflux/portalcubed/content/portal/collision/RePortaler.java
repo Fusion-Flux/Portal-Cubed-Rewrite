@@ -14,7 +14,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public final class RePortaler implements PortalChangeListener {
-	public static final double SPEED = 0.5;
+	public static final double SPEED = 0.25;
 
 	public static final Predicate<Entity> REPORTALABLE = EntitySelector.NO_SPECTATORS.and(entity -> {
 		if (entity.noPhysics)
