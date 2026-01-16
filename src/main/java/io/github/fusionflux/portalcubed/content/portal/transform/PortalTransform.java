@@ -70,11 +70,11 @@ public interface PortalTransform {
 	@Contract(mutates = "param1")
 	void apply(Entity entity);
 
-	static PortalTransform of(PortalHitResult.Open result) {
+	static PortalTransform of(PortalHitResult result) {
 		List<PortalTransform> transforms = new ArrayList<>();
 		while (result != null) {
 			transforms.add(new SinglePortalTransform(result));
-			result = result instanceof PortalHitResult.Mid mid && mid.next() instanceof PortalHitResult.Open open ? open : null;
+			result = result instanceof PortalHitResult.Mid mid ? mid.next() : null;
 		}
 
 		return transforms.size() == 1 ? transforms.getFirst() : new MultiPortalTransform(transforms);

@@ -7,51 +7,61 @@ import net.minecraft.world.phys.Vec3;
 
 /**
  * Represents the result of a raycast that only interacts with portals.
+ * <p>
+ * PortalHitResults are chained, since a raycast can pass through multiple portals.
+ * Each entry in the chain will be an {@link Mid intermediate instance},
+ * except for the final one, which will be a {@link Tail tail} instance.
  */
-public sealed interface PortalHitResult permits PortalHitResult.Closed, PortalHitResult.Open {
+public sealed interface PortalHitResult {
 	PortalReference enteredPortal();
 
+	/**
+	 * The position on the entered portal that was hit by the raycast.
+	 */
 	Vec3 hit();
 
-	/**
-	 * The result of a raycast that hit a closed portal.
-	 */
-	record Closed(PortalReference enteredPortal, Vec3 hit) implements PortalHitResult {
+	default PortalReference exitedPortal() {
+		return this.enteredPortal().opposite().orElseThrow();
 	}
 
 	/**
-	 * Sub-interface for raycasts that hit open portals.
+	 * Invoke the given consumer with each entry in the hit chain.
 	 */
-	sealed interface Open extends PortalHitResult {
-		Vec3 exitHit();
+	void forEach(Consumer<PortalHitResult> consumer);
 
-		default PortalReference exitedPortal() {
-			return this.enteredPortal().opposite().orElseThrow();
-		}
-
-		void forEach(Consumer<Open> consumer);
-	}
+	/**
+	 * Find the tail at the end of this hit chain.
+	 */
+	Tail findTail();
 
 	/**
 	 * A single step in a raycast that passed through more than one pair of portals.
 	 */
-	record Mid(PortalReference enteredPortal, Vec3 hit, Vec3 exitHit, PortalHitResult next) implements Open {
+	record Mid(PortalReference enteredPortal, Vec3 hit, Vec3 exitHit, PortalHitResult next) implements PortalHitResult {
 		@Override
-		public void forEach(Consumer<Open> consumer) {
+		public void forEach(Consumer<PortalHitResult> consumer) {
 			consumer.accept(this);
-			if (this.next instanceof Open open) {
-				open.forEach(consumer);
-			}
+			this.next.forEach(consumer);
+		}
+
+		@Override
+		public Tail findTail() {
+			return this.next.findTail();
 		}
 	}
 
 	/**
 	 * Either the result of a raycast that only passed through one pair of portals, or the tail of a chain of teleports.
 	 */
-	record Tail(PortalReference enteredPortal, Vec3 hit, Vec3 exitHit, Vec3 end) implements Open {
+	record Tail(PortalReference enteredPortal, Vec3 hit, Vec3 exitHit, Vec3 end) implements PortalHitResult {
 		@Override
-		public void forEach(Consumer<Open> consumer) {
+		public void forEach(Consumer<PortalHitResult> consumer) {
 			consumer.accept(this);
+		}
+
+		@Override
+		public Tail findTail() {
+			return this;
 		}
 	}
 }

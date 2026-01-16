@@ -32,6 +32,22 @@ public interface PortalLookup {
 	PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth);
 
 	/**
+	 * Perform a raycast with a maximum depth of 1. Will always be a {@link PortalHitResult.Tail} if a hit occurs.
+	 */
+	@Nullable
+	default PortalHitResult.Tail clipOnce(Vec3 from, Vec3 to) {
+		PortalHitResult result = this.clip(from, to, 1);
+
+		if (result == null) {
+			return null;
+		} else if (result instanceof PortalHitResult.Tail tail) {
+			return tail;
+		} else {
+			throw new IllegalStateException("clip(from, to, 1) should always return a PortalHitResult.Tail");
+		}
+	}
+
+	/**
 	 * Find all portals intersecting the given box.
 	 * @return a new, mutable set containing any found portals
 	 */

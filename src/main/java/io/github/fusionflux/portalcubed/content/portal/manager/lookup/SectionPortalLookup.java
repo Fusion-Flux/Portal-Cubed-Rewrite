@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
@@ -47,12 +46,16 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 			for (PortalReference reference : portals) {
 				Portal portal = reference.get();
 
+				// only clip when aiming into the front of the portal
+				if (portal.normal.dot(normal) >= 0)
+					continue;
+
 				Vec3 hit = portal.quad.clip(from, to);
 				if (hit == null)
 					continue;
 
-				// only clip when aiming into the front of the portal
-				if (portal.normal.dot(normal) >= 0)
+				// only hit open portals
+				if (!reference.isLinked())
 					continue;
 
 				double distSqr = hit.distanceToSqr(from);
@@ -68,13 +71,11 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 		if (closest.portal == null)
 			return null;
 
-		Optional<PortalReference> linked = closest.portal.opposite();
+		PortalReference linked = closest.portal.opposite().orElseThrow(
+				() -> new IllegalStateException("Only linked portals should've been found")
+		);
 
-		if (linked.isEmpty()) {
-			return new PortalHitResult.Closed(closest.portal, closest.hit);
-		}
-
-		PortalTransform transform = new SinglePortalTransform(closest.portal.get(), linked.get().get());
+		PortalTransform transform = new SinglePortalTransform(closest.portal.get(), linked.get());
 		Vec3 teleportedHit = transform.applyAbsolute(closest.hit);
 		Vec3 teleportedEnd = transform.applyAbsolute(to);
 		PortalHitResult next = this.clip(teleportedHit, teleportedEnd, maxDepth - 1);

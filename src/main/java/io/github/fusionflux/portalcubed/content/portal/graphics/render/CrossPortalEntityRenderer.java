@@ -78,10 +78,9 @@ public class CrossPortalEntityRenderer {
 				Vec3 end = face.getUnitVec3().multiply(xSize, ySize, zSize)
 						.add(center);
 
-				PortalHitResult hit = portalLookup.clip(start, end, 1);
-				if (hit instanceof PortalHitResult.Tail tail) {
-					this.entities.add(new CrossPortalEntity(entity, tickDelta, position, tail));
-
+				PortalHitResult.Tail hit = portalLookup.clipOnce(start, end);
+				if (hit != null) {
+					this.entities.add(new CrossPortalEntity(entity, tickDelta, position, hit));
 					break;
 				}
 			}

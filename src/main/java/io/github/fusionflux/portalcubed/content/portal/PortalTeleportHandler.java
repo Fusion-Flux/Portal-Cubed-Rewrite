@@ -42,8 +42,8 @@ public class PortalTeleportHandler {
 		Vec3 oldCenter = oldPos.add(posToCenter);
 
 		PortalManager manager = entity.level().portalManager();
-		PortalHitResult maybeResult = manager.lookup().clip(oldCenter, newCenter);
-		if (!(maybeResult instanceof PortalHitResult.Open result))
+		PortalHitResult result = manager.lookup().clip(oldCenter, newCenter);
+		if (result == null)
 			return false;
 
 		PortalTransform transform = PortalTransform.of(result);
@@ -100,7 +100,7 @@ public class PortalTeleportHandler {
 		return entity.oldPosition().add(posToCenter);
 	}
 
-	private static List<TrackedTeleport> buildTeleports(PortalHitResult.Open result) {
+	private static List<TrackedTeleport> buildTeleports(PortalHitResult result) {
 		List<TrackedTeleport> teleports = new ArrayList<>();
 
 		result.forEach(open -> {

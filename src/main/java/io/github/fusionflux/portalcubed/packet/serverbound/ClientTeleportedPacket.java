@@ -117,7 +117,7 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		return distance > expectedDistance;
 	}
 
-	public static ClientTeleportedPacket of(Player player, PortalHitResult.Open result) {
+	public static ClientTeleportedPacket of(Player player, PortalHitResult result) {
 		Teleport first = Teleport.of(result);
 		return new ClientTeleportedPacket(first, player.position(), player.getXRot(), player.getYRot());
 	}
@@ -145,11 +145,10 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 				Teleport::new
 		));
 
-		private static Teleport of(PortalHitResult.Open result) {
+		private static Teleport of(PortalHitResult result) {
 			return new Teleport(
 					result.enteredPortal().id,
-					result instanceof PortalHitResult.Mid mid && mid.next() instanceof PortalHitResult.Open open
-							? Optional.of(Teleport.of(open)) : Optional.empty()
+					result instanceof PortalHitResult.Mid mid ? Optional.of(Teleport.of(mid.next())) : Optional.empty()
 			);
 		}
 	}
