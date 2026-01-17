@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed_gametests.gametests;
 import static io.github.fusionflux.portalcubed_gametests.gametests.PropGameTests.spawnProp;
 
 import io.github.fusionflux.portalcubed.content.prop.PropType;
+import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed_gametests.Batches;
 import io.github.fusionflux.portalcubed_gametests.PortalCubedGameTests;
 import io.github.fusionflux.portalcubed_gametests.PortalHelper;
@@ -545,13 +546,50 @@ public class PortalGameTests implements FabricGameTest {
 
 		helper.pressButton(new BlockPos(4, 1, 0));
 		helper.runAfterDelay(20, () ->
-			helper.succeedWhen(() -> {
-				helper.assertBlockProperty(new BlockPos(5, 1, 4), RedstoneLampBlock.LIT, true);
-				helper.assertBlockProperty(new BlockPos(1, 1, 4), RedstoneLampBlock.LIT, true);
-				helper.assertBlockProperty(new BlockPos(2, 1, 10), RedstoneLampBlock.LIT, false);
-				helper.assertBlockProperty(new BlockPos(3, 1, 10), RedstoneLampBlock.LIT, true);
-				helper.assertBlockProperty(new BlockPos(4, 1, 10), RedstoneLampBlock.LIT, false);
-			})
+				helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(5, 1, 4), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(1, 1, 4), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(2, 1, 10), RedstoneLampBlock.LIT, false);
+					helper.assertBlockProperty(new BlockPos(3, 1, 10), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(4, 1, 10), RedstoneLampBlock.LIT, false);
+				})
+		);
+	}
+
+	//Tests portals being moved while entities are inside of them to make sure they get pushed out properly
+	@GameTest(template = GROUP + "reportaling")
+	public void reportaling(GameTestHelper helper) {
+
+		PortalHelper inPrimary = new PortalHelper(helper, "in_primary");
+		PortalHelper inSecondary = new PortalHelper(helper, "in_secondary");
+		Prop geraldPrime = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 1, 1));
+		Prop geraldTwoTheLongAwaitedSequel = spawnProp(helper, PropType.STORAGE_CUBE, new BlockPos(2, 1, 3));
+		Vec3 primaryInPos = helper.absoluteVec(new Vec3(5.9, 3, 1.5));
+		Vec3 secondaryInPos = helper.absoluteVec(new Vec3(5.9, 3, 3.5));
+
+		inPrimary.primary.placeOn(new BlockPos(6, 3, 1), Direction.WEST);
+		inPrimary.secondary.placeOn(new BlockPos(0, 2, 1), Direction.EAST);
+
+		inSecondary.secondary.placeOn(new BlockPos(6, 3, 3), Direction.WEST);
+		inSecondary.primary.placeOn(new BlockPos(0, 2, 3), Direction.EAST);
+
+		helper.runAfterDelay(20, () -> {
+					geraldPrime.setPos(primaryInPos);
+					geraldTwoTheLongAwaitedSequel.setPos(secondaryInPos);
+ 				}
+		);
+
+		helper.runAfterDelay(40, () -> {
+					inPrimary.secondary.placeOn(new BlockPos(0, 2, 0), Direction.EAST);
+					inSecondary.secondary.placeOn(new BlockPos(0, 2, 4), Direction.EAST);
+				}
+		);
+
+		helper.runAfterDelay(60, () ->
+				helper.succeedWhen(() -> {
+					helper.assertBlockProperty(new BlockPos(4, 0, 1), RedstoneLampBlock.LIT, true);
+					helper.assertBlockProperty(new BlockPos(4, 0, 3), RedstoneLampBlock.LIT, true);
+				})
 		);
 	}
 
