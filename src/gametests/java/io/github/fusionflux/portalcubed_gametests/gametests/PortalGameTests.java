@@ -671,7 +671,7 @@ public class PortalGameTests implements FabricGameTest {
 		pink.primary.shootFrom(5, 1 + yOff, 2, Direction.DOWN, 90);
 		pink.secondary.shootFrom(2, 1 + yOff, 2, Direction.UP, 90);
 		yellow.primary.shootFrom(2, 1 + yOff, 2, Direction.DOWN, 90);
-		yellow.secondary.placeOn(9, 4, 2, Direction.DOWN);
+		yellow.secondary.placeOn(9, 4, 2, Direction.DOWN, 180);
 
 		helper.spawnWithNoFreeWill(EntityType.ENDERMAN, 7.5f, 2, 2);
 
