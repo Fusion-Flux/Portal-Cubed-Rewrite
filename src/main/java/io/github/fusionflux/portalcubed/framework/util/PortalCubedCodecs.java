@@ -40,9 +40,9 @@ public interface PortalCubedCodecs {
 			String path = id;
 			int separator = id.indexOf(ResourceLocation.NAMESPACE_SEPARATOR);
 			if (separator >= 0) {
-				namespace = id.substring(separator + 1);
-				if (separator >= 1) {
-					path = id.substring(0, separator);
+				path = id.substring(separator + 1);
+				if (separator != 0) {
+					namespace = id.substring(0, separator);
 				}
 			}
 			return DataResult.success(ResourceLocation.fromNamespaceAndPath(namespace, path));
