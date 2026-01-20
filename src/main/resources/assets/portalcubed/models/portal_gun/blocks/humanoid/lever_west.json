@@ -1,0 +1,46 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "minecraft:block/lever_on",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-180, 0, -90],
+			"translation": [4, -1.25, -11],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-180, 0, -90],
+			"translation": [4, -1.25, -11],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"firstperson_righthand": {
+			"rotation": [-180, 0, -90],
+			"translation": [4.25, -1, -11.75],
+			"scale": [0.34766, 0.27344, 0.34766]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-180, 0, -90],
+			"translation": [4.25, -1, -11.75],
+			"scale": [0.34766, 0.27344, 0.34766]
+		},
+		"ground": {
+			"translation": [1, 4.25, -2],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [-180, 0, -90],
+			"translation": [4, -1.25, -11],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"head": {
+			"rotation": [-180, 0, -90],
+			"translation": [4, 8.75, -8],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"fixed": {
+			"rotation": [-180, 0, -90],
+			"translation": [4, -1.25, -11],
+			"scale": [0.25, 0.25, 0.25]
+		}
+	}
+}

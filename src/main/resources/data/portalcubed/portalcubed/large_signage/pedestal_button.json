@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_pedestal_button",
+  "aged_texture": "portalcubed:signage/aged_large_signage_pedestal_button",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.pedestal_button"
+  }
+}

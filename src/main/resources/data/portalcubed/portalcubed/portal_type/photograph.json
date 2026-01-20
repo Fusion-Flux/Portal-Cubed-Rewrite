@@ -1,0 +1,39 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.photograph"
+  },
+  "default_primary_color": -1,
+  "default_secondary_color": 11657185,
+  "sounds": {
+    "shared": {
+      "open": "minecraft:ui.loom.select_pattern",
+      "close": "minecraft:item.book.page_turn",
+      "travel": "minecraft:ui.toast.in"
+    }
+  },
+  "textures": {
+    "open": [
+       {
+        "texture": "portalcubed:portal/photograph/photograph_overlay",
+        "tint": true
+       }
+    ],
+    "closed": [
+       {
+        "texture": "portalcubed:portal/photograph/photograph_closed",
+        "tint": false
+       },
+       {
+        "texture": "portalcubed:portal/photograph/photograph_overlay",
+        "tint": true
+       }
+    ],
+    "tracer": "portalcubed:portal/photograph/photograph_tracer"
+  },
+  "stencil": "portalcubed:portal/photograph/photograph_stencil",
+  "place_animation": {
+    "type": "expand_vertical_top",
+    "easing": "out_sine",
+    "duration": 10
+  }
+}

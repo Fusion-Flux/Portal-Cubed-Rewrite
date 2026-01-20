@@ -1,0 +1,15 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.blocks"
+  },
+  "item_model": "portalcubed:portal_guns/blocks_portal_gun",
+  "sounds": {
+    "primary_shoot": "minecraft:block.dispenser.dispense",
+    "secondary_shoot": "minecraft:block.dispenser.launch",
+    "fizzle": "minecraft:block.dispenser.fail",
+    "grab": {
+      "sound": "minecraft:entity.item.pickup",
+      "length": 5
+    }
+  }
+}

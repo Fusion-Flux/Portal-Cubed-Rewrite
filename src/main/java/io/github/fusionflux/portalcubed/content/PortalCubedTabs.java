@@ -577,6 +577,15 @@ public class PortalCubedTabs {
 					5325897
 			);
 			helper.addSkin(
+					"blocks",
+					"blocks",
+					"none",
+					"stained_glass_window",
+					6724056,
+					"stained_glass_window",
+					14188339
+			);
+			helper.addSkin(
 					"smithers_portal_gun",
 					"smithers",
 					"base",
@@ -616,10 +625,10 @@ public class PortalCubedTabs {
 					"polaroid",
 					"polaroid",
 					"base",
-					"polaroid",
+					"photograph",
 					-1,
-					"polaroid",
-					59391
+					"photograph",
+					11657185
 			);
 			helper.addSkin(
 					"pipis_cannon",

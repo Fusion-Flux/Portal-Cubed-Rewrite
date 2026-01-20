@@ -132,6 +132,11 @@
   "portal_gun/rick/humanoid/portal_gun_rick": "portal_gun/portal_gun_emissive",
   "portal_gun/rick/fox/portal_gun_rick": "portal_gun/portal_gun_emissive",
 
+  "portal_gun/blocks/humanoid/frame": [
+    "block/birch_planks",
+    "block/glow_item_frame"
+  ],
+  "portal_gun/blocks/humanoid/pane": "block/white_stained_glass",
 
 
   "prop/storage_cube": "prop/storage_cube_ring",
