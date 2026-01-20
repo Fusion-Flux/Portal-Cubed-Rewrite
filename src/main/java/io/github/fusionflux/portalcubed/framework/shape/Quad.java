@@ -83,6 +83,10 @@ public record Quad(Vector3dc center,
 		);
 	}
 
+	public boolean intersectsSphere(Vec3 center, double radius) {
+		return OBB.extrudeQuad(this, 0).intersectsSphere(center, radius);
+	}
+
 	public AABB containingBox() {
 		double minX = this.bottomLeft.x();
 		double minY = this.bottomLeft.y();

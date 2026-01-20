@@ -54,5 +54,12 @@ public interface PortalLookup {
 	@Contract("_->new")
 	Set<PortalReference> getPortals(AABB bounds);
 
+	/**
+	 * Find all portals intersecting the given sphere.
+	 * @return a new, mutable set containing any found portals
+	 */
+	@Contract("_,_->new")
+	Set<PortalReference> getPortalsAround(Vec3 pos, double radius);
+
 	boolean isEmpty();
 }

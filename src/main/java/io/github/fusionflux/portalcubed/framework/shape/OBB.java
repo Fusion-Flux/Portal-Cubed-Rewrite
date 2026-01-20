@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.shape;
 import java.util.Objects;
 import java.util.function.Function;
 
+import org.joml.Intersectiond;
 import org.joml.Matrix3d;
 import org.joml.Matrix3dc;
 import org.joml.Vector3d;
@@ -145,6 +146,20 @@ public final class OBB {
 
 	public boolean intersects(AABB aabb) {
 		return this.collide(aabb, ZERO) == DynamicSat3d.COLLIDING;
+	}
+
+	public boolean intersectsSphere(Vec3 center, double radius) {
+		Vector3d transformedCenter = new Vector3d(center.asJoml()).sub(this.center);
+		this.inverseRotation.transform(transformedCenter);
+		transformedCenter.add(this.center);
+
+		AABB aabb = this.localAabb;
+		return Intersectiond.testAabSphere(
+				aabb.minX, aabb.minY, aabb.minZ,
+				aabb.maxX, aabb.maxY, aabb.maxZ,
+				transformedCenter.x, transformedCenter.y, transformedCenter.z,
+				radius * radius
+		);
 	}
 
 	/**

@@ -25,6 +25,11 @@ public sealed interface PortalHitResult {
 	}
 
 	/**
+	 * The position on the exited portal that corresponds to the hit on the entered portal.
+	 */
+	Vec3 exitHit();
+
+	/**
 	 * Invoke the given consumer with each entry in the hit chain.
 	 */
 	void forEach(Consumer<PortalHitResult> consumer);

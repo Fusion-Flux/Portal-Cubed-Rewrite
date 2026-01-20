@@ -107,6 +107,15 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 	}
 
 	@Override
+	public Set<PortalReference> getPortalsAround(Vec3 pos, double radius) {
+		double diameter = radius * 2;
+		AABB box = AABB.ofSize(pos, diameter, diameter, diameter);
+		Set<PortalReference> set = this.getPortals(box);
+		set.removeIf(portal -> !portal.get().quad.intersectsSphere(pos, radius));
+		return set;
+	}
+
+	@Override
 	public boolean isEmpty() {
 		return this.sectionsToPortals.isEmpty();
 	}
