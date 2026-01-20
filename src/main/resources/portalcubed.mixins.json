@@ -38,6 +38,7 @@
     "lemonade.RangedBowAttackGoalMixin",
     "lemonade.ServerGamePacketListenerImplMixin",
     "misc.BaseFireBlockMixin",
+    "misc.BlockGetterMixin",
     "misc.BlockMixin",
     "misc.EntityMixin",
     "misc.LivingEntityMixin",
