@@ -1,267 +1,267 @@
 {
-  "item/cube_button": "block/cube_button_emissive",
-  "block/white_cube_button_northeast": "block/cube_button_emissive",
-  "block/white_cube_button_northeast_active": "block/cube_button_emissive",
+  "portalcubed:item/cube_button": "portalcubed:block/cube_button_emissive",
+  "portalcubed:block/white_cube_button_northeast": "portalcubed:block/cube_button_emissive",
+  "portalcubed:block/white_cube_button_northeast_active": "portalcubed:block/cube_button_emissive",
 
-  "item/portal_1_floor_button": "block/portal_1_floor_button_emissive",
-  "block/white_portal_1_floor_button_northeast": "block/portal_1_floor_button_emissive",
-  "block/white_portal_1_floor_button_northeast_active": "block/portal_1_floor_button_emissive",
+  "portalcubed:item/portal_1_floor_button": "portalcubed:block/portal_1_floor_button_emissive",
+  "portalcubed:block/white_portal_1_floor_button_northeast": "portalcubed:block/portal_1_floor_button_emissive",
+  "portalcubed:block/white_portal_1_floor_button_northeast_active": "portalcubed:block/portal_1_floor_button_emissive",
 
-  "block/old_ap_floor_button": "block/old_ap_floor_button_emissive",
-  "block/old_ap_floor_button_active": "block/old_ap_floor_button_emissive",
+  "portalcubed:block/old_ap_floor_button": "portalcubed:block/old_ap_floor_button_emissive",
+  "portalcubed:block/old_ap_floor_button_active": "portalcubed:block/old_ap_floor_button_emissive",
 
-  "block/pedestal_button": "block/pedestal_button_emissive",
-  "block/pedestal_button_active": "block/pedestal_button_emissive",
-  "block/pedestal_button_base_center": "block/pedestal_button_emissive",
-  "block/pedestal_button_base_center_active": "block/pedestal_button_emissive",
-  "block/pedestal_button_base_left": "block/pedestal_button_emissive",
-  "block/pedestal_button_base_left_active": "block/pedestal_button_emissive",
-  "block/pedestal_button_base_right": "block/pedestal_button_emissive",
-  "block/pedestal_button_base_right_active": "block/pedestal_button_emissive",
+  "portalcubed:block/pedestal_button": "portalcubed:block/pedestal_button_emissive",
+  "portalcubed:block/pedestal_button_active": "portalcubed:block/pedestal_button_emissive",
+  "portalcubed:block/pedestal_button_base_center": "portalcubed:block/pedestal_button_emissive",
+  "portalcubed:block/pedestal_button_base_center_active": "portalcubed:block/pedestal_button_emissive",
+  "portalcubed:block/pedestal_button_base_left": "portalcubed:block/pedestal_button_emissive",
+  "portalcubed:block/pedestal_button_base_left_active": "portalcubed:block/pedestal_button_emissive",
+  "portalcubed:block/pedestal_button_base_right": "portalcubed:block/pedestal_button_emissive",
+  "portalcubed:block/pedestal_button_base_right_active": "portalcubed:block/pedestal_button_emissive",
 
-  "block/portal_gun_workstation": "block/portal_gun_workstation_emissive",
+  "portalcubed:block/portal_gun_workstation": "portalcubed:block/portal_gun_workstation_emissive",
 
-  "item/white_octopus_chamber_door": "item/octopus_chamber_door_emissive",
-  "block/white_octopus_chamber_door_top_right_open": "block/chamber_door_emissive",
-  "block/white_octopus_chamber_door_top_right_unlocked": "block/chamber_door_emissive",
-  "block/white_octopus_chamber_door_top_right": "block/chamber_door_emissive",
-  "block/white_octopus_chamber_door_bottom_right_open": "block/chamber_door_emissive",
-  "block/white_octopus_chamber_door_bottom_right_unlocked": "block/chamber_door_emissive",
-  "block/white_octopus_chamber_door_bottom_right": "block/chamber_door_emissive",
-  "block/white_octopus_chamber_door_bottom_left_open": "block/chamber_door_emissive",
-  "block/white_octopus_chamber_door_bottom_left_unlocked": "block/chamber_door_emissive",
-  "item/gray_octopus_chamber_door": "item/octopus_chamber_door_emissive",
-  "block/gray_octopus_chamber_door_top_right_open": "block/chamber_door_emissive",
-  "block/gray_octopus_chamber_door_top_right_unlocked": "block/chamber_door_emissive",
-  "block/gray_octopus_chamber_door_top_right": "block/chamber_door_emissive",
-  "block/gray_octopus_chamber_door_bottom_right_open": "block/chamber_door_emissive",
-  "block/gray_octopus_chamber_door_bottom_right_unlocked": "block/chamber_door_emissive",
-  "block/gray_octopus_chamber_door_bottom_right": "block/chamber_door_emissive",
-  "block/gray_octopus_chamber_door_bottom_left_open": "block/chamber_door_emissive",
-  "block/gray_octopus_chamber_door_bottom_left_unlocked": "block/chamber_door_emissive",
+  "portalcubed:item/white_octopus_chamber_door": "portalcubed:item/octopus_chamber_door_emissive",
+  "portalcubed:block/white_octopus_chamber_door_top_right_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_octopus_chamber_door_top_right_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_octopus_chamber_door_top_right": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_octopus_chamber_door_bottom_right_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_octopus_chamber_door_bottom_right_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_octopus_chamber_door_bottom_right": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_octopus_chamber_door_bottom_left_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_octopus_chamber_door_bottom_left_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:item/gray_octopus_chamber_door": "portalcubed:item/octopus_chamber_door_emissive",
+  "portalcubed:block/gray_octopus_chamber_door_top_right_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_octopus_chamber_door_top_right_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_octopus_chamber_door_top_right": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_octopus_chamber_door_bottom_right_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_octopus_chamber_door_bottom_right_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_octopus_chamber_door_bottom_right": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_octopus_chamber_door_bottom_left_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_octopus_chamber_door_bottom_left_unlocked": "portalcubed:block/chamber_door_emissive",
 
-  "item/white_portal_1_chamber_door": "item/portal_1_chamber_door_emissive",
-  "block/white_portal_1_chamber_door_bottom_right_open": "block/portal_1_chamber_door_emissive",
-  "block/white_portal_1_chamber_door_bottom_right": "block/portal_1_chamber_door_emissive",
-  "block/white_portal_1_chamber_door_bottom_left_open": "block/portal_1_chamber_door_emissive",
-  "block/white_portal_1_chamber_door_bottom_left": "block/portal_1_chamber_door_emissive",
-  "item/metal_portal_1_chamber_door": "item/portal_1_chamber_door_emissive",
-  "block/metal_portal_1_chamber_door_bottom_right_open": "block/portal_1_chamber_door_emissive",
-  "block/metal_portal_1_chamber_door_bottom_right": "block/portal_1_chamber_door_emissive",
-  "block/metal_portal_1_chamber_door_bottom_left_open": "block/portal_1_chamber_door_emissive",
-  "block/metal_portal_1_chamber_door_bottom_left": "block/portal_1_chamber_door_emissive",
+  "portalcubed:item/white_portal_1_chamber_door": "portalcubed:item/portal_1_chamber_door_emissive",
+  "portalcubed:block/white_portal_1_chamber_door_bottom_right_open": "portalcubed:block/portal_1_chamber_door_emissive",
+  "portalcubed:block/white_portal_1_chamber_door_bottom_right": "portalcubed:block/portal_1_chamber_door_emissive",
+  "portalcubed:block/white_portal_1_chamber_door_bottom_left_open": "portalcubed:block/portal_1_chamber_door_emissive",
+  "portalcubed:block/white_portal_1_chamber_door_bottom_left": "portalcubed:block/portal_1_chamber_door_emissive",
+  "portalcubed:item/metal_portal_1_chamber_door": "portalcubed:item/portal_1_chamber_door_emissive",
+  "portalcubed:block/metal_portal_1_chamber_door_bottom_right_open": "portalcubed:block/portal_1_chamber_door_emissive",
+  "portalcubed:block/metal_portal_1_chamber_door_bottom_right": "portalcubed:block/portal_1_chamber_door_emissive",
+  "portalcubed:block/metal_portal_1_chamber_door_bottom_left_open": "portalcubed:block/portal_1_chamber_door_emissive",
+  "portalcubed:block/metal_portal_1_chamber_door_bottom_left": "portalcubed:block/portal_1_chamber_door_emissive",
 
-  "block/white_chamber_door_top_right_open": "block/chamber_door_emissive",
-  "block/white_chamber_door_top_right_unlocked": "block/chamber_door_emissive",
-  "block/white_chamber_door_top_right": "block/chamber_door_emissive",
-  "block/white_chamber_door_bottom_right_open": "block/chamber_door_emissive",
-  "block/white_chamber_door_bottom_right_unlocked": "block/chamber_door_emissive",
-  "block/white_chamber_door_bottom_right": "block/chamber_door_emissive",
-  "block/white_chamber_door_bottom_left_open": "block/chamber_door_emissive",
-  "block/white_chamber_door_bottom_left_unlocked": "block/chamber_door_emissive",
-  "block/gray_chamber_door_top_right_open": "block/chamber_door_emissive",
-  "block/gray_chamber_door_top_right_unlocked": "block/chamber_door_emissive",
-  "block/gray_chamber_door_top_right": "block/chamber_door_emissive",
-  "block/gray_chamber_door_bottom_right_open": "block/chamber_door_emissive",
-  "block/gray_chamber_door_bottom_right_unlocked": "block/chamber_door_emissive",
-  "block/gray_chamber_door_bottom_right": "block/chamber_door_emissive",
-  "block/gray_chamber_door_bottom_left_open": "block/chamber_door_emissive",
-  "block/gray_chamber_door_bottom_left_unlocked": "block/chamber_door_emissive",
+  "portalcubed:block/white_chamber_door_top_right_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_chamber_door_top_right_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_chamber_door_top_right": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_chamber_door_bottom_right_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_chamber_door_bottom_right_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_chamber_door_bottom_right": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_chamber_door_bottom_left_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/white_chamber_door_bottom_left_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_chamber_door_top_right_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_chamber_door_top_right_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_chamber_door_top_right": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_chamber_door_bottom_right_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_chamber_door_bottom_right_unlocked": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_chamber_door_bottom_right": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_chamber_door_bottom_left_open": "portalcubed:block/chamber_door_emissive",
+  "portalcubed:block/gray_chamber_door_bottom_left_unlocked": "portalcubed:block/chamber_door_emissive",
 
 
-  "portal_gun/default/humanoid/portal_gun": "portal_gun/default_portal_gun_emissive",
-  "portal_gun/default/fox/portal_gun": "portal_gun/default_portal_gun_emissive",
+  "portalcubed:portal_gun/default/humanoid/portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
+  "portalcubed:portal_gun/default/fox/portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
 
-  "portal_gun/default_special/humanoid/damaged_portal_gun": "portal_gun/default_portal_gun_emissive",
-  "portal_gun/default_special/fox/damaged_portal_gun": "portal_gun/default_portal_gun_emissive",
-  "portal_gun/default_special/humanoid/painted_portal_gun": "portal_gun/default_portal_gun_emissive",
-  "portal_gun/default_special/fox/painted_portal_gun": "portal_gun/default_portal_gun_emissive",
-  "portal_gun/default_special/humanoid/blueprint_portal_gun": "portal_gun/blueprint_portal_gun_outline",
-  "portal_gun/default_special/fox/blueprint_portal_gun": "portal_gun/blueprint_portal_gun_outline",
+  "portalcubed:portal_gun/default_special/humanoid/damaged_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
+  "portalcubed:portal_gun/default_special/fox/damaged_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
+  "portalcubed:portal_gun/default_special/humanoid/painted_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
+  "portalcubed:portal_gun/default_special/fox/painted_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
+  "portalcubed:portal_gun/default_special/humanoid/blueprint_portal_gun": "portalcubed:portal_gun/blueprint_portal_gun_outline",
+  "portalcubed:portal_gun/default_special/fox/blueprint_portal_gun": "portalcubed:portal_gun/blueprint_portal_gun_outline",
 
-  "portal_gun/legacy/humanoid/legacy_portal_gun": "portal_gun/portal_gun_emissive",
-  "portal_gun/legacy/fox/legacy_portal_gun": "portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/legacy/humanoid/legacy_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/legacy/fox/legacy_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
 
-  "portal_gun/2d/2d_portal_gun": "portal_gun/2d_portal_gun_emissive",
-  "portal_gun/2d/2d_portal_gun_atlas": "portal_gun/2d_portal_gun_emissive",
-  "portal_gun/2d/2d_portal_gun_p_body": "portal_gun/2d_portal_gun_emissive",
-  "portal_gun/2d/2d_portal_gun_reloaded": "portal_gun/2d_portal_gun_emissive",
+  "portalcubed:portal_gun/2d/2d_portal_gun": "portalcubed:portal_gun/2d_portal_gun_emissive",
+  "portalcubed:portal_gun/2d/2d_portal_gun_atlas": "portalcubed:portal_gun/2d_portal_gun_emissive",
+  "portalcubed:portal_gun/2d/2d_portal_gun_p_body": "portalcubed:portal_gun/2d_portal_gun_emissive",
+  "portalcubed:portal_gun/2d/2d_portal_gun_reloaded": "portalcubed:portal_gun/2d_portal_gun_emissive",
 
-  "portal_gun/beta/humanoid/2005_beta_portal_gun": "portal_gun/portal_gun_emissive",
-  "portal_gun/beta/fox/2005_beta_portal_gun": "portal_gun/portal_gun_emissive",
-  "portal_gun/beta/humanoid/2006_beta_portal_gun": "portal_gun/portal_gun_emissive",
-  "portal_gun/beta/fox/2006_beta_portal_gun": "portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/beta/humanoid/2005_beta_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/beta/fox/2005_beta_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/beta/humanoid/2006_beta_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/beta/fox/2006_beta_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
 
-  "portal_gun/mel/humanoid/mel_portal_gun": "portal_gun/default_portal_gun_emissive",
-  "portal_gun/mel/fox/mel_portal_gun": "portal_gun/default_portal_gun_emissive",
+  "portalcubed:portal_gun/mel/humanoid/mel_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
+  "portalcubed:portal_gun/mel/fox/mel_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
 
-  "portal_gun/lego/humanoid/lego_portal_gun": "portal_gun/portal_gun_emissive",
-  "portal_gun/lego/fox/lego_portal_gun": "portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/lego/humanoid/lego_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/lego/fox/lego_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
 
-  "portal_gun/blowtorch/humanoid/blowtorch": "portal_gun/portal_gun_emissive",
-  "portal_gun/blowtorch/fox/blowtorch": "portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/blowtorch/humanoid/blowtorch": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/blowtorch/fox/blowtorch": "portalcubed:portal_gun/portal_gun_emissive",
 
-  "portal_gun/wand/humanoid/wand": "portal_gun/mini_black_hole",
-  "portal_gun/wand/fox/wand": "portal_gun/mini_black_hole",
-  "portal_gun/wand/villager/wand": "portal_gun/mini_black_hole",
-  "portal_gun/wand/allay/wand": "portal_gun/mini_black_hole",
+  "portalcubed:portal_gun/wand/humanoid/wand": "portalcubed:portal_gun/mini_black_hole",
+  "portalcubed:portal_gun/wand/fox/wand": "portalcubed:portal_gun/mini_black_hole",
+  "portalcubed:portal_gun/wand/villager/wand": "portalcubed:portal_gun/mini_black_hole",
+  "portalcubed:portal_gun/wand/allay/wand": "portalcubed:portal_gun/mini_black_hole",
 
-  "portal_gun/crossbow/humanoid/black_hole_model_part": "portal_gun/mini_black_hole",
+  "portalcubed:portal_gun/crossbow/humanoid/black_hole_model_part": "portalcubed:portal_gun/mini_black_hole",
 
-  "portal_gun/sheikah_slate/humanoid/sheikah_slate": "portal_gun/sheikah_slate_emissive",
-  "portal_gun/sheikah_slate/fox/sheikah_slate": "portal_gun/sheikah_slate_emissive",
-  "portal_gun/sheikah_slate/villager/sheikah_slate": "portal_gun/sheikah_slate_emissive",
+  "portalcubed:portal_gun/sheikah_slate/humanoid/sheikah_slate": "portalcubed:portal_gun/sheikah_slate_emissive",
+  "portalcubed:portal_gun/sheikah_slate/fox/sheikah_slate": "portalcubed:portal_gun/sheikah_slate_emissive",
+  "portalcubed:portal_gun/sheikah_slate/villager/sheikah_slate": "portalcubed:portal_gun/sheikah_slate_emissive",
 
-  "portal_gun/magic_brush/humanoid/magic_brush": "portal_gun/magic_brush_emissive",
-  "portal_gun/magic_brush/villager/magic_brush": "portal_gun/magic_brush_emissive",
+  "portalcubed:portal_gun/magic_brush/humanoid/magic_brush": "portalcubed:portal_gun/magic_brush_emissive",
+  "portalcubed:portal_gun/magic_brush/villager/magic_brush": "portalcubed:portal_gun/magic_brush_emissive",
 
-  "portal_gun/wiimote/humanoid/wiimote": "portal_gun/portal_gun_emissive",
-  "portal_gun/wiimote/humanoid/wiimote_3rd_person": "portal_gun/portal_gun_emissive",
-  "portal_gun/wiimote/fox/wiimote": "portal_gun/portal_gun_emissive",
-  "portal_gun/wiimote/villager/wiimote": "portal_gun/portal_gun_emissive",
-  "portal_gun/wiimote/allay/wiimote": "portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/wiimote/humanoid/wiimote": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/wiimote/humanoid/wiimote_3rd_person": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/wiimote/fox/wiimote": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/wiimote/villager/wiimote": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/wiimote/allay/wiimote": "portalcubed:portal_gun/portal_gun_emissive",
 
-  "portal_gun/laser_pointer/humanoid/laser_pointer": "portal_gun/portal_gun_emissive",
-  "portal_gun/laser_pointer/fox/laser_pointer": "portal_gun/portal_gun_emissive",
-  "portal_gun/laser_pointer/villager/laser_pointer": "portal_gun/portal_gun_emissive",
-  "portal_gun/laser_pointer/allay/laser_pointer": "portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/laser_pointer/humanoid/laser_pointer": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/laser_pointer/fox/laser_pointer": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/laser_pointer/villager/laser_pointer": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/laser_pointer/allay/laser_pointer": "portalcubed:portal_gun/portal_gun_emissive",
 
-  "portal_gun/smithers/humanoid/smithers_portal_gun": "portal_gun/portal_gun_emissive",
-  "portal_gun/smithers/fox/smithers_portal_gun": "portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/smithers/humanoid/smithers_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/smithers/fox/smithers_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
 
-  "portal_gun/rick/humanoid/portal_gun_rick": "portal_gun/portal_gun_emissive",
-  "portal_gun/rick/fox/portal_gun_rick": "portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/rick/humanoid/portal_gun_rick": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/rick/fox/portal_gun_rick": "portalcubed:portal_gun/portal_gun_emissive",
 
-  "portal_gun/blocks/humanoid/frame": [
+  "portalcubed:portal_gun/blocks/humanoid/frame": [
     "minecraft:block/birch_planks",
     "minecraft:block/glow_item_frame"
   ],
-  "portal_gun/blocks/humanoid/pane": "minecraft:block/white_stained_glass",
+  "portalcubed:portal_gun/blocks/humanoid/pane": "minecraft:block/white_stained_glass",
 
 
-  "prop/storage_cube": "prop/storage_cube_ring",
-  "prop/storage_cube_lit": "prop/storage_cube_ring",
-  "prop/dirty_storage_cube": "prop/dirty_storage_cube_ring",
-  "prop/dirty_storage_cube_lit": "prop/dirty_storage_cube_ring",
-  "prop/christmas_storage_cube": "prop/christmas_storage_cube_bow",
-  "prop/christmas_storage_cube_lit": "prop/christmas_storage_cube_bow_lit",
-  "prop/companion_cube": "prop/companion_cube_ring",
-  "prop/companion_cube_lit": "prop/companion_cube_ring",
-  "prop/dirty_companion_cube": "prop/dirty_companion_cube_ring",
-  "prop/dirty_companion_cube_lit": "prop/dirty_companion_cube_ring",
-  "prop/christmas_companion_cube": "prop/christmas_companion_cube_bow",
-  "prop/christmas_companion_cube_lit": "prop/christmas_companion_cube_bow_lit",
-  "prop/redirection_cube_lit": "prop/redirection_cube_center_lit",
-  "prop/dirty_redirection_cube_lit": "prop/dirty_redirection_cube_center_lit",
-  "prop/schrodinger_cube_lit": "prop/schrodinger_cube_center_lit",
-  "prop/dirty_schrodinger_cube_lit": "prop/dirty_schrodinger_cube_center_lit",
+  "portalcubed:prop/storage_cube": "portalcubed:prop/storage_cube_ring",
+  "portalcubed:prop/storage_cube_lit": "portalcubed:prop/storage_cube_ring",
+  "portalcubed:prop/dirty_storage_cube": "portalcubed:prop/dirty_storage_cube_ring",
+  "portalcubed:prop/dirty_storage_cube_lit": "portalcubed:prop/dirty_storage_cube_ring",
+  "portalcubed:prop/christmas_storage_cube": "portalcubed:prop/christmas_storage_cube_bow",
+  "portalcubed:prop/christmas_storage_cube_lit": "portalcubed:prop/christmas_storage_cube_bow_lit",
+  "portalcubed:prop/companion_cube": "portalcubed:prop/companion_cube_ring",
+  "portalcubed:prop/companion_cube_lit": "portalcubed:prop/companion_cube_ring",
+  "portalcubed:prop/dirty_companion_cube": "portalcubed:prop/dirty_companion_cube_ring",
+  "portalcubed:prop/dirty_companion_cube_lit": "portalcubed:prop/dirty_companion_cube_ring",
+  "portalcubed:prop/christmas_companion_cube": "portalcubed:prop/christmas_companion_cube_bow",
+  "portalcubed:prop/christmas_companion_cube_lit": "portalcubed:prop/christmas_companion_cube_bow_lit",
+  "portalcubed:prop/redirection_cube_lit": "portalcubed:prop/redirection_cube_center_lit",
+  "portalcubed:prop/dirty_redirection_cube_lit": "portalcubed:prop/dirty_redirection_cube_center_lit",
+  "portalcubed:prop/schrodinger_cube_lit": "portalcubed:prop/schrodinger_cube_center_lit",
+  "portalcubed:prop/dirty_schrodinger_cube_lit": "portalcubed:prop/dirty_schrodinger_cube_center_lit",
 
-  "item/prop_barrier": "item/prop_barrier_emissive",
-  "item/advanced_knee_replacements": "item/advanced_knee_replacements_emissive",
+  "portalcubed:item/prop_barrier": "portalcubed:item/prop_barrier_emissive",
+  "portalcubed:item/advanced_knee_replacements": "portalcubed:item/advanced_knee_replacements_emissive",
 
-  "prop/radio": "prop/radio_emissive",
-  "prop/radio_transmission_received": "prop/radio_emissive",
-  "prop/radio_awaiting_transmission": "prop/radio_emissive",
-  "prop/dirty_radio": "prop/radio_emissive",
+  "portalcubed:prop/radio": "portalcubed:prop/radio_emissive",
+  "portalcubed:prop/radio_transmission_received": "portalcubed:prop/radio_emissive",
+  "portalcubed:prop/radio_awaiting_transmission": "portalcubed:prop/radio_emissive",
+  "portalcubed:prop/dirty_radio": "portalcubed:prop/radio_emissive",
 
-  "prop/taco_with_way_too_much_ranch_on_it_holy_shit_why_is_there_so_much": "prop/the_taco",
+  "portalcubed:prop/taco_with_way_too_much_ranch_on_it_holy_shit_why_is_there_so_much": "portalcubed:prop/the_taco",
 
-  "prop/spooky_lil_pineapple": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_ace": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_agender": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_aro": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_bi": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_genderfluid": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_lesbian": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_nonbinary": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_pan": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_proud": "prop/spooky_lil_pineapple_face",
-  "prop/spooky_lil_pineapple_trans": "prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_ace": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_agender": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_aro": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_bi": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_genderfluid": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_lesbian": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_nonbinary": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_pan": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_proud": "portalcubed:prop/spooky_lil_pineapple_face",
+  "portalcubed:prop/spooky_lil_pineapple_trans": "portalcubed:prop/spooky_lil_pineapple_face",
 
-  "item/construction_cannon_place": "item/construction_cannon_screen_place",
-  "item/construction_cannon_idle": "item/construction_cannon_screen_idle",
-  "item/construction_cannon_configure": "item/construction_cannon_screen_configure",
-  "item/construction_cannon_fox": "item/construction_cannon_screen_fox",
-  "item/construction_cannon_villager": "item/construction_cannon_screen_idle",
+  "portalcubed:item/construction_cannon_place": "portalcubed:item/construction_cannon_screen_place",
+  "portalcubed:item/construction_cannon_idle": "portalcubed:item/construction_cannon_screen_idle",
+  "portalcubed:item/construction_cannon_configure": "portalcubed:item/construction_cannon_screen_configure",
+  "portalcubed:item/construction_cannon_fox": "portalcubed:item/construction_cannon_screen_fox",
+  "portalcubed:item/construction_cannon_villager": "portalcubed:item/construction_cannon_screen_idle",
 
-  "block/error": "block/error",
+  "portalcubed:block/error": "portalcubed:block/error",
 
-  "item/small_signage": "signage/small_signage_blank",
-  "item/aged_small_signage": "signage/aged_small_signage_blank",
-  "item/large_signage": "signage/large_signage_blank",
-  "item/aged_large_signage": "signage/aged_large_signage_blank",
+  "portalcubed:item/small_signage": "portalcubed:signage/small_signage_blank",
+  "portalcubed:item/aged_small_signage": "portalcubed:signage/aged_small_signage_blank",
+  "portalcubed:item/large_signage": "portalcubed:signage/large_signage_blank",
+  "portalcubed:item/aged_large_signage": "portalcubed:signage/aged_large_signage_blank",
 
-  "block/large_signage": [
+  "portalcubed:block/large_signage": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/aged_large_signage": [
+  "portalcubed:block/aged_large_signage": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/small_signage_top_left": [
+  "portalcubed:block/small_signage_top_left": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/small_signage_top_right": [
+  "portalcubed:block/small_signage_top_right": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/small_signage_bottom_left": [
+  "portalcubed:block/small_signage_bottom_left": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/small_signage_bottom_right": [
+  "portalcubed:block/small_signage_bottom_right": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/aged_small_signage_top_left": [
+  "portalcubed:block/aged_small_signage_top_left": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/aged_small_signage_top_right": [
+  "portalcubed:block/aged_small_signage_top_right": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/aged_small_signage_bottom_left": [
+  "portalcubed:block/aged_small_signage_bottom_left": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
-  "block/aged_small_signage_bottom_right": [
+  "portalcubed:block/aged_small_signage_bottom_right": [
     {
       "type": "folder",
       "folder": "signage"
     }
   ],
 
-  "block/elevator_wall_top": [
-    "block/elevator_wall_upper_emissive",
-    "block/elevator_wall_middle_top_emissive"
+  "portalcubed:block/elevator_wall_top": [
+    "portalcubed:block/elevator_wall_upper_emissive",
+    "portalcubed:block/elevator_wall_middle_top_emissive"
   ],
-  "block/elevator_wall_middle": [
-    "block/elevator_wall_middle_emissive",
-    "block/elevator_wall_middle_top_emissive"
+  "portalcubed:block/elevator_wall_middle": [
+    "portalcubed:block/elevator_wall_middle_emissive",
+    "portalcubed:block/elevator_wall_middle_top_emissive"
   ],
-  "block/elevator_wall_bottom": [
-    "block/elevator_wall_lower_emissive",
-    "block/elevator_wall_middle_top_emissive"
+  "portalcubed:block/elevator_wall_bottom": [
+    "portalcubed:block/elevator_wall_lower_emissive",
+    "portalcubed:block/elevator_wall_middle_top_emissive"
   ]
 }

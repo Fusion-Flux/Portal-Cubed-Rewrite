@@ -2,11 +2,6 @@
 	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
 	"parent": "minecraft:block/dispenser_vertical",
-	"textures": {
-		"0": "block/dispenser_front_vertical",
-		"1": "block/furnace_top",
-		"particle": "block/dispenser_front_vertical"
-	},
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [-90, 0, 0],
