@@ -105,6 +105,10 @@ public sealed interface Or<L, R> {
 		};
 	}
 
+	static <T> MapCodec<Or<T, T>> codec(String leftKey, String rightKey, Codec<T> codec) {
+		return codec(leftKey, codec, rightKey, codec);
+	}
+
 	static <L, R> MapCodec<Or<L, R>> codec(String leftKey, Codec<L> leftCodec, String rightKey, Codec<R> rightCodec) {
 		// an intermediate state where both sides can be empty makes this easiest
 		record Intermediate<L, R>(Optional<L> left, Optional<R> right) {}
@@ -125,6 +129,10 @@ public sealed interface Or<L, R> {
 				return DataResult.error(() -> "Both values are missing");
 			}
 		}, or -> DataResult.success(new Intermediate<>(or.maybeLeft(), or.maybeRight())));
+	}
+
+	static <T, B extends ByteBuf> StreamCodec<B, Or<T, T>> streamCodec(StreamCodec<? super B, T> codec) {
+		return streamCodec(codec, codec);
 	}
 
 	static <L, R, B extends ByteBuf> StreamCodec<B, Or<L, R>> streamCodec(StreamCodec<? super B, L> leftCodec, StreamCodec<? super B, R> rightCodec) {

@@ -44,9 +44,7 @@ public record PortalGunSettings(
 		PortalGunCrosshair crosshair,
 		ResourceKey<PortalGunSkin> skinId
 ) implements TooltipProvider {
-	private static final Codec<Or<PortalSettings, PortalSettings>> portalsCodec = Or.codec(
-			"primary", PortalSettings.CODEC, "secondary", PortalSettings.CODEC
-	).codec();
+	private static final Codec<Or<PortalSettings, PortalSettings>> portalsCodec = Or.codec("primary", "secondary", PortalSettings.CODEC).codec();
 
 	public static final Codec<PortalGunSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			portalsCodec.fieldOf("portals").forGetter(PortalGunSettings::portals),
@@ -57,7 +55,7 @@ public record PortalGunSettings(
 	).apply(instance, PortalGunSettings::new));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, PortalGunSettings> STREAM_CODEC = StreamCodec.composite(
-			Or.streamCodec(PortalSettings.STREAM_CODEC, PortalSettings.STREAM_CODEC), PortalGunSettings::portals,
+			Or.streamCodec(PortalSettings.STREAM_CODEC), PortalGunSettings::portals,
 			Polarity.STREAM_CODEC, PortalGunSettings::active,
 			ByteBufCodecs.optional(Polarity.STREAM_CODEC), PortalGunSettings::lastShot,
 			PortalGunCrosshair.STREAM_CODEC, PortalGunSettings::crosshair,
