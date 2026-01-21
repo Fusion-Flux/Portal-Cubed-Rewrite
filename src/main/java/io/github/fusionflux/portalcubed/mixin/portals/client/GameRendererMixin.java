@@ -16,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -61,7 +60,7 @@ public class GameRendererMixin {
 		while (true) {
 			Vec3 start = result.exitHit();
 			Vec3 end = switch (result) {
-				case PortalHitResult.Mid mid -> mid.hit();
+				case PortalHitResult.Mid mid -> mid.next().hit();
 				case PortalHitResult.Tail tail -> tail.end();
 			};
 
@@ -127,9 +126,7 @@ public class GameRendererMixin {
 		}
 
 		AABB searchArea = new AABB(from, to);
-		return ProjectileUtil.getEntityHitResult(
-				entity, from, to, searchArea, EntitySelector.CAN_BE_PICKED, Mth.square(reach)
-		);
+		return ProjectileUtil.getEntityHitResult(entity.level(), null, from, to, searchArea, EntitySelector.CAN_BE_PICKED, 0);
 	}
 
 }

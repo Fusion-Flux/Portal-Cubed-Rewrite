@@ -37,7 +37,7 @@ public class ItemMixin {
 		while (true) {
 			Vec3 start = portalHit.exitHit();
 			Vec3 end = switch (portalHit) {
-				case PortalHitResult.Mid mid -> mid.hit();
+				case PortalHitResult.Mid mid -> mid.next().hit();
 				case PortalHitResult.Tail tail -> tail.end();
 			};
 

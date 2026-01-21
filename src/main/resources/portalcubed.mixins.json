@@ -57,6 +57,7 @@
     "portals.LivingEntityMixin",
     "portals.PlayerMixin",
     "portals.ServerEntityMixin",
+    "portals.ServerGamePacketListenerInteractHandlerMixin",
     "portals.ServerLevelMixin",
     "portals.StructureUtilsMixin",
     "props.ThrowPotionMixin",
