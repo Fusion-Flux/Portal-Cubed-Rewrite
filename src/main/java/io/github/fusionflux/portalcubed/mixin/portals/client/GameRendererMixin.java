@@ -51,7 +51,7 @@ public class GameRendererMixin {
 
 		PortalLookup lookup = this.minecraft.level.portalManager().lookup();
 		PortalHitResult result = lookup.clip(eyePos, idealEnd);
-		if (result == null || original.getLocation().distanceToSqr(eyePos) < result.hit().distanceToSqr(eyePos)) {
+		if (result == null || result.isFartherThan(original, eyePos)) {
 			return original;
 		}
 
@@ -128,5 +128,4 @@ public class GameRendererMixin {
 		AABB searchArea = new AABB(from, to);
 		return ProjectileUtil.getEntityHitResult(entity.level(), null, from, to, searchArea, EntitySelector.CAN_BE_PICKED, 0);
 	}
-
 }

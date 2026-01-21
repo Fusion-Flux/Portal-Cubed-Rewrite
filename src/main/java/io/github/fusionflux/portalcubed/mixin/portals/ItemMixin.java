@@ -30,7 +30,7 @@ public class ItemMixin {
 		BlockHitResult originalResult = original.call(level, context);
 		Vec3 from = context.getFrom();
 		PortalHitResult portalHit = level.portalManager().lookup().clip(from, context.getTo());
-		if (portalHit == null || originalResult.getLocation().distanceToSqr(from) < portalHit.hit().distanceToSqr(from)) {
+		if (portalHit == null || portalHit.isFartherThan(originalResult, from)) {
 			return originalResult;
 		}
 
