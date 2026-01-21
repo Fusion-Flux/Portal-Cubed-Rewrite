@@ -1,0 +1,51 @@
+{
+  "parent": "portalcubed:achievements/portal_gun",
+  "criteria": {
+    "why_are_you_hitting_yourself": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {}
+          }
+        ],
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "portalcubed:self_attack",
+                "expected": true
+              }
+            ]
+          }
+        },
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {}
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.self_attack.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:glass_pane"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.self_attack.title"
+    },
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

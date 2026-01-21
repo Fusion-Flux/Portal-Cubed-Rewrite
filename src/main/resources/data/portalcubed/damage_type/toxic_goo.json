@@ -1,6 +1,6 @@
 {
   "effects": "drowning",
   "exhaustion": 0,
-  "message_id": "toxic_goo",
+  "message_id": "portalcubed.toxic_goo",
   "scaling": "when_caused_by_living_non_player"
 }
