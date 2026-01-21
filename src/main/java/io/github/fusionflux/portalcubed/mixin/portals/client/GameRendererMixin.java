@@ -52,7 +52,7 @@ public class GameRendererMixin {
 
 		PortalLookup lookup = this.minecraft.level.portalManager().lookup();
 		PortalHitResult result = lookup.clip(eyePos, idealEnd);
-		if (result == null) {
+		if (result == null || original.getLocation().distanceToSqr(eyePos) < result.hit().distanceToSqr(eyePos)) {
 			return original;
 		}
 
@@ -73,23 +73,21 @@ public class GameRendererMixin {
 			if (hit != null)
 				return hit;
 
-			if (result instanceof PortalHitResult.Mid mid) {
-				result = mid.next();
-			} else {
+			if (!(result instanceof PortalHitResult.Mid mid)) {
 				// end reached, whole raycast missed
-				return BlockHitResult.miss(
-						idealEnd,
-						Direction.getApproximateNearest(idealEnd),
-						BlockPos.containing(idealEnd)
-				);
+				Direction nearestFacing = Direction.getApproximateNearest(idealEnd);
+				BlockPos blockPos = BlockPos.containing(idealEnd);
+				return BlockHitResult.miss(idealEnd, nearestFacing, blockPos);
 			}
+
+			result = mid.next();
 		}
 	}
 
 	@Unique
 	@Nullable
 	private static HitResult pick(Entity entity, Vec3 from, Vec3 to, double blockReach, double entityReach) {
-		HitResult blockHit = pickBlock(entity, from, to, blockReach);
+		BlockHitResult blockHit = pickBlock(entity, from, to, blockReach);
 		if (blockHit != null) {
 			to = blockHit.getLocation();
 		}
@@ -111,7 +109,7 @@ public class GameRendererMixin {
 
 	@Unique
 	@Nullable
-	private static HitResult pickBlock(Entity entity, Vec3 from, Vec3 to, double reach) {
+	private static BlockHitResult pickBlock(Entity entity, Vec3 from, Vec3 to, double reach) {
 		if (reach <= 0) {
 			return null;
 		}
