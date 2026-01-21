@@ -125,7 +125,10 @@ public class GameRendererMixin {
 			return null;
 		}
 
-		AABB searchArea = new AABB(from, to);
-		return ProjectileUtil.getEntityHitResult(entity.level(), null, from, to, searchArea, EntitySelector.CAN_BE_PICKED, 0);
+		// step back very slightly, since we need to make sure the raycast starts outside of entity hitboxes.
+		// entities right up against the portal could be missed otherwise.
+		Vec3 actualStart = from.lerp(to, -1e-5);
+		AABB searchArea = new AABB(actualStart, to);
+		return ProjectileUtil.getEntityHitResult(entity.level(), null, actualStart, to, searchArea, EntitySelector.CAN_BE_PICKED, 0);
 	}
 }
