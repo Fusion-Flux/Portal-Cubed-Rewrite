@@ -1309,6 +1309,9 @@
   "death.attack.submerged_the_operational_end_of_the_device.player":  "%1$s submerged the operational end of the device trying to escape %2$s",
   "death.attack.lemonade": "%s combusted",
   "death.attack.lemonade.player":  "%1$s combusted due to %2$s's lemonade",
+  "death.attack.self.link": "Mirror Test",
+  "death.attack.self.hover": "Click!",
+  "death.attack.self.message": "%1$s didn't pass the %2$s",
 
 
   "entity.portalcubed.beans": "Bean Can",
