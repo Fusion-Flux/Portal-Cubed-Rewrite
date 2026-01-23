@@ -577,6 +577,15 @@ public class PortalCubedTabs {
 					5325897
 			);
 			helper.addSkin(
+					"copper_portal_gun",
+					"copper",
+					"none",
+					"door_copper",
+					14910060,
+					"door_copper_oxidized",
+					7259551
+			);
+			helper.addSkin(
 					"blocks",
 					"blocks",
 					"none",

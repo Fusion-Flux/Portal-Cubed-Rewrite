@@ -102,6 +102,10 @@ public class PortalCubedSounds {
 	public static final SoundEvent BLOWTORCH_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.blowtorch.secondary_shoot");
 	public static final SoundEvent BLOWTORCH_PORTAL_GUN_FIZZLE = register("portal_gun.blowtorch.fizzle");
 
+	public static final SoundEvent COPPER_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.copper.primary_shoot");
+	public static final SoundEvent COPPER_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.copper.secondary_shoot");
+	public static final SoundEvent COPPER_PORTAL_GUN_FIZZLE = register("portal_gun.copper.fizzle");
+
 	//Portals
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_PRIMARY = register("portal_type.default.open.primary");
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_SECONDARY = register("portal_type.default.open.secondary");

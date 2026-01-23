@@ -138,6 +138,10 @@
   ],
   "portalcubed:portal_gun/blocks/humanoid/pane": "minecraft:block/white_stained_glass",
 
+  "portalcubed:portal_gun/copper/humanoid/copper_portal_gun": "portalcubed:portal_gun/copper_portal_gun_emissive",
+  "portalcubed:portal_gun/copper/fox/copper_portal_gun": "portalcubed:portal_gun/copper_portal_gun_emissive",
+
+
 
   "portalcubed:prop/storage_cube": "portalcubed:prop/storage_cube_ring",
   "portalcubed:prop/storage_cube_lit": "portalcubed:prop/storage_cube_ring",
