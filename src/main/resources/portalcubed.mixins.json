@@ -62,6 +62,10 @@
     "portals.ServerGamePacketListenerInteractHandlerMixin",
     "portals.ServerLevelMixin",
     "portals.StructureUtilsMixin",
+    "portals.interaction.ContainerOpenersCounterMixin",
+    "portals.interaction.EnchantingTableBlockEntityMixin",
+    "portals.interaction.PlayerMixin",
+    "portals.interaction.ServerPlayerMixin",
     "props.ThrowPotionMixin",
     "utils.AABBMixin",
     "utils.BlockBehaviour$PropertiesMixin",
@@ -74,6 +78,7 @@
     "utils.PlayerMixin",
     "utils.Vec3Mixin",
     "utils.accessors.AbstractBoatAccessor",
+    "utils.accessors.ClipContext$BlockAccessor",
     "utils.accessors.ClipContextAccessor",
     "utils.accessors.CubeVoxelShapeAccessor",
     "utils.accessors.EntityAccessor",
@@ -133,7 +138,6 @@
     "misc.MouseHandlerMixin",
     "portals.client.CameraMixin",
     "portals.client.EntityRendererMixin",
-    "portals.client.GameRendererMixin",
     "portals.client.GuiMixin",
     "portals.client.ItemInHandRendererMixin",
     "portals.client.KeyboardHandlerMixin",
@@ -142,7 +146,8 @@
     "portals.client.MinecraftMixin",
     "portals.client.RenderRegionMixin",
     "portals.client.RenderSectionManagerMixin",
-    "portals.client.RenderTargetMixin"
+    "portals.client.RenderTargetMixin",
+    "portals.interaction.GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

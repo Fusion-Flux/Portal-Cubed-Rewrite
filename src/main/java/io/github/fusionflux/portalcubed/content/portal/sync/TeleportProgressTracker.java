@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.transform.MultiPortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
 import net.minecraft.world.entity.Entity;
@@ -26,7 +27,7 @@ public class TeleportProgressTracker {
 
 	private final Entity entity;
 	private final LinkedList<TrackedTeleport> teleports;
-	private final List<PortalTransform> reverseTransforms;
+	private final List<SinglePortalTransform> reverseTransforms;
 	private final MultiPortalTransform reverseTransform;
 
 	private final List<TeleportStep> currentSteps;
@@ -95,7 +96,7 @@ public class TeleportProgressTracker {
 	public void addTeleports(List<TrackedTeleport> teleports) {
 		for (TrackedTeleport teleport : teleports) {
 			this.teleports.add(teleport);
-			this.reverseTransforms.addFirst(teleport.transform.inverse);
+			this.reverseTransforms.addFirst(teleport.transform.inverse());
 		}
 	}
 

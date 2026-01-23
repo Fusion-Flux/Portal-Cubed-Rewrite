@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.transform;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Contract;
 import org.joml.Matrix3d;
@@ -16,7 +17,28 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public interface PortalTransform {
+/**
+ * Defines a transformation that teleports objects between one or more pairs of portals.
+ */
+public sealed interface PortalTransform permits SinglePortalTransform, MultiPortalTransform {
+	/**
+	 * @return a PortalTransform that reverses transformations made by this one
+	 */
+	PortalTransform inverse();
+
+	/**
+	 * Create a new PortalTransform that applies the given transform after this one.
+	 */
+	MultiPortalTransform andThen(PortalTransform next);
+
+	/**
+	 * Invoke the given consumer on each step of this transform.
+	 * <p>
+	 * For a {@link SinglePortalTransform}, that only includes itself.
+	 * For a {@link MultiPortalTransform}, that includes each step it contains.
+	 */
+	void forEachStep(Consumer<SinglePortalTransform> consumer);
+
 	@Contract(value = "_->param1", mutates = "param1")
 	Vector3d applyRelative(Vector3d pos);
 
@@ -71,7 +93,7 @@ public interface PortalTransform {
 	void apply(Entity entity);
 
 	static PortalTransform of(PortalHitResult result) {
-		List<PortalTransform> transforms = new ArrayList<>();
+		List<SinglePortalTransform> transforms = new ArrayList<>();
 		while (result != null) {
 			transforms.add(new SinglePortalTransform(result));
 			result = result instanceof PortalHitResult.Mid mid ? mid.next() : null;

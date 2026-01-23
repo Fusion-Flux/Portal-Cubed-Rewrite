@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.jetbrains.annotations.ApiStatus;
 
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 
 /**
  * A live reference to a {@link Portal}.
@@ -44,6 +45,13 @@ public final class PortalReference {
 	 */
 	public Optional<PortalReference> opposite() {
 		return Optional.ofNullable(this.manager.getPortal(this.id.opposite()));
+	}
+
+	/**
+	 * @return a {@link SinglePortalTransform} from this portal to its opposite, if it exists
+	 */
+	public Optional<SinglePortalTransform> transform() {
+		return this.opposite().map(opposite -> new SinglePortalTransform(this.get(), opposite.get()));
 	}
 
 	public boolean isLinked() {

@@ -1,5 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.transform;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3d;
 import org.joml.Quaternionf;
@@ -38,7 +42,7 @@ public final class SinglePortalTransform implements PortalTransform {
 	public final Quaternionfc outRot;
 	public final Quaternionfc outRot180;
 
-	public final PortalTransform inverse;
+	private final SinglePortalTransform inverse;
 
 	public SinglePortalTransform(PortalHitResult hitResult) {
 		this(hitResult.enteredPortal().get(), hitResult.exitedPortal().get());
@@ -52,7 +56,7 @@ public final class SinglePortalTransform implements PortalTransform {
 		this(inOrigin, inRot, outOrigin, outRot, null);
 	}
 
-	private SinglePortalTransform(Vec3 inOrigin, Quaternionfc inRot, Vec3 outOrigin, Quaternionfc outRot, @Nullable PortalTransform inverse) {
+	private SinglePortalTransform(Vec3 inOrigin, Quaternionfc inRot, Vec3 outOrigin, Quaternionfc outRot, @Nullable SinglePortalTransform inverse) {
 		this.inOrigin = inOrigin;
 		this.inRot = new Quaternionf(inRot);
 		this.inRotInverse = inRot.invert(new Quaternionf());
@@ -61,6 +65,24 @@ public final class SinglePortalTransform implements PortalTransform {
 		this.outRot = new Quaternionf(outRot);
 		this.outRot180 = rotate180(outRot);
 		this.inverse = inverse != null ? inverse : new SinglePortalTransform(outOrigin, outRot, inOrigin, inRot, this);
+	}
+
+	@Override
+	public SinglePortalTransform inverse() {
+		return this.inverse;
+	}
+
+	@Override
+	public MultiPortalTransform andThen(PortalTransform next) {
+		List<SinglePortalTransform> steps = new ArrayList<>();
+		steps.add(this);
+		next.forEachStep(steps::add);
+		return new MultiPortalTransform(steps);
+	}
+
+	@Override
+	public void forEachStep(Consumer<SinglePortalTransform> consumer) {
+		consumer.accept(this);
 	}
 
 	@Override

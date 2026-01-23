@@ -1,4 +1,4 @@
-package io.github.fusionflux.portalcubed.mixin.portals.client;
+package io.github.fusionflux.portalcubed.mixin.portals.interaction;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -11,8 +11,11 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.interaction.OutlineWithIgnoreClipContextMode;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,6 +23,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -49,9 +54,10 @@ public class GameRendererMixin {
 		Vec3 direction = eyePos.vectorTo(original.getLocation()).normalize();
 		Vec3 idealEnd = eyePos.add(direction.scale(maxRange));
 
-		PortalLookup lookup = this.minecraft.level.portalManager().lookup();
+		ClientLevel level = this.minecraft.level;
+		PortalLookup lookup = level.portalManager().lookup();
 		PortalHitResult result = lookup.clip(eyePos, idealEnd);
-		if (result == null || result.isFartherThan(original, eyePos)) {
+		if (result == null || isOriginalBetter(original, result, eyePos, level)) {
 			return original;
 		}
 
@@ -84,6 +90,26 @@ public class GameRendererMixin {
 	}
 
 	@Unique
+	private static boolean isOriginalBetter(HitResult original, PortalHitResult portalHit, Vec3 start, Level level) {
+		boolean farther = portalHit.isFartherThan(original, start);
+		boolean ignore = ignoreHitBlock(original, portalHit.hit(), level);
+		return farther && !ignore;
+	}
+
+	@Unique
+	private static boolean ignoreHitBlock(HitResult hit, Vec3 portalHitPos, Level level) {
+		if (!(hit instanceof BlockHitResult blockHit) || hit.getType() == HitResult.Type.MISS)
+			return false;
+
+		BlockState state = level.getBlockState(blockHit.getBlockPos());
+		if (!state.is(PortalCubedBlockTags.PORTAL_INTERACTION_PASSTHROUGH))
+			return false;
+
+		// make sure this is the block that was actually hit
+		return portalHitPos.distanceToSqr(hit.getLocation()) < 0.1;
+	}
+
+	@Unique
 	@Nullable
 	private static HitResult pick(Entity entity, Vec3 from, Vec3 to, double blockReach, double entityReach) {
 		BlockHitResult blockHit = pickBlock(entity, from, to, blockReach);
@@ -113,9 +139,19 @@ public class GameRendererMixin {
 			return null;
 		}
 
+		Level level = entity.level();
 		ClipContext context = new ClipContext(from, to, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, entity);
-		BlockHitResult result = entity.level().clip(context);
-		return result.getType() == HitResult.Type.MISS ? null : result;
+		BlockHitResult result = level.clip(context);
+		if (result.getType() == HitResult.Type.MISS)
+			return null;
+
+		if (!ignoreHitBlock(result, from, level))
+			return result;
+
+		ClipContext.Block blockMode = OutlineWithIgnoreClipContextMode.create(result.getBlockPos());
+		ClipContext newContext = new ClipContext(from, to, blockMode, ClipContext.Fluid.NONE, entity);
+		BlockHitResult newResult = level.clip(newContext);
+		return newResult.getType() == HitResult.Type.MISS ? null : newResult;
 	}
 
 	@Unique

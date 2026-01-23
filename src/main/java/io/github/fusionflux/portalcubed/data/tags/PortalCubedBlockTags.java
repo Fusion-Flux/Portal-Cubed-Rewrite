@@ -25,6 +25,7 @@ public class PortalCubedBlockTags {
 	public static final TagKey<Block> OVERRIDES_PORTALABILITY = create("overrides_portalability");
 
 	public static final TagKey<Block> PORTALS_USE_BASE_SHAPE = create("portals_use_base_shape");
+	public static final TagKey<Block> PORTAL_INTERACTION_PASSTHROUGH = create("portal_interaction_passthrough");
 
 	private static TagKey<Block> create(String name) {
 		return TagKey.create(Registries.BLOCK, PortalCubed.id(name));

@@ -34,7 +34,7 @@ public final class PortalCollisionUtils {
 				if (linked.get().hides(box))
 					continue;
 
-				OBB transformed = transform.inverse.apply(box);
+				OBB transformed = transform.inverse().apply(box);
 				if (!consumer.test(transformed)) {
 					return;
 				}
