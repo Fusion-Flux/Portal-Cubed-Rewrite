@@ -1,6 +1,6 @@
 {
 	"credit": "Made by Cart3r using Blockbench.",
- 	"parent": "portalcubed:portal_gun/default_special/humanoid/paint_model_part",
+ 	"parent": "portalcubed:portal_gun/default_special/humanoid/painted_portal_gun",
 	"display": {
 		"ground": {
 			"rotation": [-87, 0, -180],

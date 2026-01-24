@@ -1,6 +1,7 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
-	"texture_size": [32, 32],
+	"texture_size": [32, 16],
 	"textures": {
 		"0": "portalcubed:portal_gun/bendy_portal_gun",
 		"particle": "portalcubed:portal_gun/bendy_portal_gun"
@@ -10,9 +11,10 @@
 			"name": "cutout",
 			"from": [8, 0, -3],
 			"to": [8, 8, 19],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
 			"faces": {
-				"east": {"uv": [11.5, 0.5, 0.5, 4.5], "texture": "#0", "tintindex": 1},
-				"west": {"uv": [0.5, 0.5, 11.5, 4.5], "texture": "#0", "tintindex": 1}
+				"east": {"uv": [11, 0, 0, 8], "texture": "#0", "tintindex": 1},
+				"west": {"uv": [0, 0, 11, 8], "texture": "#0", "tintindex": 1}
 			}
 		}
 	],
@@ -28,12 +30,12 @@
 			"scale": [0.83789, 0.83789, 0.83789]
 		},
 		"firstperson_righthand": {
-			"rotation": [-178.5, -0.25, 180],
+			"rotation": [-178.5, -0.25, -180],
 			"translation": [1.25, 5.5, -5],
 			"scale": [0.83789, 0.83789, 0.61719]
 		},
 		"firstperson_lefthand": {
-			"rotation": [-178.5, -0.25, 180],
+			"rotation": [-178.5, -0.25, -180],
 			"translation": [1.25, 5.5, -5],
 			"scale": [0.83789, 0.83789, 0.61719]
 		},

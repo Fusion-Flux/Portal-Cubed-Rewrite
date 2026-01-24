@@ -6,78 +6,48 @@
       {
         "when": "minecraft:fox",
         "model": {
-          "type": "minecraft:composite",
-          "models": [
-            {
-              "type": "minecraft:model",
-              "model": "portalcubed:portal_gun/default/fox/portal_gun",
-              "tints": [
-                {
-                  "type": "portalcubed:portal_gun",
-                  "polarity": "active"
-                },
-                {
-                  "type": "minecraft:dye",
-                  "default": -1
-                },
-                {
-                  "type": "portalcubed:portal_gun",
-                  "polarity": "primary"
-                },
-                {
-                  "type": "portalcubed:portal_gun",
-                  "polarity": "secondary"
-                }
-              ]
-            },
-            {
-              "type": "minecraft:model",
-              "model": "portalcubed:portal_gun/default_special/fox/paint_model_part",
-              "tints": [
-                {
-                  "type": "portalcubed:portal_gun",
-                  "polarity": "secondary"
-                }
-              ]
-            }
-          ]
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/default_special/fox/painted_portal_gun",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "active"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
         }
       }
     ],
     "fallback": {
-      "type": "minecraft:composite",
-      "models": [
+      "type": "minecraft:model",
+      "model": "portalcubed:portal_gun/default_special/humanoid/painted_portal_gun",
+      "tints": [
         {
-          "type": "minecraft:model",
-          "model": "portalcubed:portal_gun/default/humanoid/portal_gun",
-          "tints": [
-            {
-              "type": "portalcubed:portal_gun",
-              "polarity": "active"
-            },
-            {
-              "type": "minecraft:dye",
-              "default": -1
-            },
-            {
-              "type": "portalcubed:portal_gun",
-              "polarity": "primary"
-            },
-            {
-              "type": "portalcubed:portal_gun",
-              "polarity": "secondary"
-            }
-          ]
+          "type": "portalcubed:portal_gun",
+          "polarity": "active"
         },
         {
-          "type": "minecraft:model",
-          "model": "portalcubed:portal_gun/default_special/humanoid/paint_model_part",
-            "tints": [
-            {
-              "type": "portalcubed:portal_gun",
-              "polarity": "secondary"
-            }
-          ]
+          "type": "minecraft:dye",
+          "default": -1
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "primary"
+        },
+        {
+          "type": "portalcubed:portal_gun",
+          "polarity": "secondary"
         }
       ]
     }
