@@ -58,6 +58,7 @@
     "minecraft:beacon",
     "minecraft:moving_piston",
     "minecraft:end_portal",
+    "minecraft:end_gateway",
     "minecraft:nether_portal",
     "minecraft:sea_lantern",
     "minecraft:repeater",

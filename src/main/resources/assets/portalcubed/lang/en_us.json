@@ -508,18 +508,18 @@
   "attribute.name.fall_damage_absorption": "Fall Damage Absorption",
 
 
-  "subtitles.portalcubed.surprise": "Party Horn Blows",
+  "subtitles.portalcubed.surprise": "Party Horn blows",
 
-  "subtitles.portalcubed.construction_cannon.obstructed": "Construction cannon beeps",
-  "subtitles.portalcubed.construction_cannon.missing_materials": "Construction cannon clicks",
+  "subtitles.portalcubed.construction_cannon.obstructed": "Construction Cannon beeps",
+  "subtitles.portalcubed.construction_cannon.missing_materials": "Construction Cannon clicks",
 
-  "subtitles.portalcubed.portal_gun.default.primary_shoot": "Portal gun shoots primary portal",
-  "subtitles.portalcubed.portal_gun.default.secondary_shoot": "Portal gun shoots secondary portal",
-  "subtitles.portalcubed.portal_gun.default.fizzle": "Portal gun resets",
-  "subtitles.portalcubed.portal_gun.default.grab": "Portal gun picks up object",
-  "subtitles.portalcubed.portal_gun.default.hold_loop": "Portal gun holds object",
-  "subtitles.portalcubed.portal_gun.default.release": "Portal gun releases object",
-  "subtitles.portalcubed.portal_gun.default.cannot_grab": "Portal gun fails to pick up object",
+  "subtitles.portalcubed.portal_gun.default.primary_shoot": "Portal Gun shoots Primary Portal",
+  "subtitles.portalcubed.portal_gun.default.secondary_shoot": "Portal Gun shoots Secondary Portal",
+  "subtitles.portalcubed.portal_gun.default.fizzle": "Portal Gun resets",
+  "subtitles.portalcubed.portal_gun.default.grab": "Portal Gun picks up object",
+  "subtitles.portalcubed.portal_gun.default.hold_loop": "Portal Gun holds object",
+  "subtitles.portalcubed.portal_gun.default.release": "Portal Gun releases object",
+  "subtitles.portalcubed.portal_gun.default.cannot_grab": "Portal Gun fails to pick up object",
 
   "subtitles.portalcubed.portal_gun.pistol.shoot": "Gun makes hole (not a bullet hole)",
   "subtitles.portalcubed.portal_gun.pistol.fizzle": "Gun that makes holes (not bullet holes) reloads",
@@ -532,8 +532,8 @@
   "subtitles.portalcubed.portal_gun.splash_o_matic.shoot": "Splash-o-Matic shoots",
   "subtitles.portalcubed.portal_gun.splash_o_matic.fizzle": "Splash-o-Matic refills",
 
-  "subtitles.portalcubed.portal_gun.pipis_cannon.shoot": "Pipis cannon shoots",
-  "subtitles.portalcubed.portal_gun.pipis_cannon.fizzle": "Pipis cannon reloads",
+  "subtitles.portalcubed.portal_gun.pipis_cannon.shoot": "Pipis Cannon shoots",
+  "subtitles.portalcubed.portal_gun.pipis_cannon.fizzle": "Pipis Cannon reloads",
 
   "subtitles.portalcubed.portal_gun.peashooter.shoot": "Peashooter fires",
   "subtitles.portalcubed.portal_gun.peashooter.fizzle": "Peashooter reloads",
@@ -541,17 +541,17 @@
   "subtitles.portalcubed.portal_gun.construction_pda.shoot": "Teleporter constructed",
   "subtitles.portalcubed.portal_gun.construction_pda.fizzle": "Teleporter demolished",
 
-  "subtitles.portalcubed.portal_gun.laser_pointer.shoot": "Laser pointer clicks",
+  "subtitles.portalcubed.portal_gun.laser_pointer.shoot": "Laser Pointer clicks",
 
-  "subtitles.portalcubed.portal_gun.sheikah_slate.shoot": "Sheikah slate activates",
-  "subtitles.portalcubed.portal_gun.sheikah_slate.hold_loop": "Sheikah slate lifts object",
-  "subtitles.portalcubed.portal_gun.sheikah_slate.fizzle": "Sheikah slate resets",
+  "subtitles.portalcubed.portal_gun.sheikah_slate.shoot": "Sheikah Slate activates",
+  "subtitles.portalcubed.portal_gun.sheikah_slate.hold_loop": "Sheikah Slate lifts object",
+  "subtitles.portalcubed.portal_gun.sheikah_slate.fizzle": "Sheikah Slate resets",
 
   "subtitles.portalcubed.portal_gun.mr_thingy.shoot": "Mr. Thingy activates",
   "subtitles.portalcubed.portal_gun.mr_thingy.fizzle": "Mr. Thingy deactivates",
 
-  "subtitles.portalcubed.portal_gun.magic_brush.shoot": "Magic brush splotches",
-  "subtitles.portalcubed.portal_gun.magic_brush.fizzle": "Magic brush is cleaned",
+  "subtitles.portalcubed.portal_gun.magic_brush.shoot": "Magic Brush splotches",
+  "subtitles.portalcubed.portal_gun.magic_brush.fizzle": "Magic Brush is cleaned",
 
   "subtitles.portalcubed.portal_gun.blowtorch.shoot": "Blowtorch ignites",
   "subtitles.portalcubed.portal_gun.blowtorch.fizzle": "Blowtorch extinguishes",
@@ -560,19 +560,19 @@
   "subtitles.portalcubed.portal_gun.wand.fizzle": "Wand recharges",
   "subtitles.portalcubed.portal_gun.wand.grab": "Wand lifts object",
 
-  "subtitles.portalcubed.armor.boots_land": "Long fall boots brace fall",
-  "subtitles.portalcubed.armor.boots_equip": "Long fall boots rustle",
-  "subtitles.portalcubed.armor.knee_replacements_land": "Advanced knee replacements brace fall",
-  "subtitles.portalcubed.armor.knee_replacements_equip": "Advanced knee replacements clank",
+  "subtitles.portalcubed.armor.boots_land": "Long Fall Boots brace fall",
+  "subtitles.portalcubed.armor.boots_equip": "Long Fall Boots rustle",
+  "subtitles.portalcubed.armor.knee_replacements_land": "Advanced Knee Replacements brace fall",
+  "subtitles.portalcubed.armor.knee_replacements_equip": "Advanced Knee Replacements clank",
 
   "subtitles.portalcubed.portal.default.open": "Portal opens",
-  "subtitles.portalcubed.portal.default.open.primary": "Primary portal opens",
-  "subtitles.portalcubed.portal.default.open.secondary": "Secondary portal opens",
+  "subtitles.portalcubed.portal.default.open.primary": "Primary Portal opens",
+  "subtitles.portalcubed.portal.default.open.secondary": "Secondary Portal opens",
   "subtitles.portalcubed.portal.default.close": "Portal closes",
-  "subtitles.portalcubed.portal.default.close.primary": "Primary portal closes",
-  "subtitles.portalcubed.portal.default.close.secondary": "Secondary portal closes",
+  "subtitles.portalcubed.portal.default.close.primary": "Primary Portal closes",
+  "subtitles.portalcubed.portal.default.close.secondary": "Secondary Portal closes",
   "subtitles.portalcubed.portal.default.cant_open": "Portal fails to open",
-  "subtitles.portalcubed.portal.default.travel": "Something travels through portal",
+  "subtitles.portalcubed.portal.default.travel": "Something travels through Portal",
 
   "subtitles.portalcubed.prop.generic.disintegration": "Something disintegrates",
   "subtitles.portalcubed.prop.radio.disintegration": "Radio disintegrates",
@@ -583,10 +583,10 @@
   "subtitles.portalcubed.floor_button.press": "Button activates",
   "subtitles.portalcubed.floor_button.release": "Button deactivates",
 
-  "subtitles.portalcubed.chamber_door.unlock": "Chamber door unlocks",
-  "subtitles.portalcubed.chamber_door.lock": "Chamber door locks",
-  "subtitles.portalcubed.chamber_door.open": "Chamber door opens",
-  "subtitles.portalcubed.chamber_door.close": "Chamber door closes",
+  "subtitles.portalcubed.chamber_door.unlock": "Chamber Door unlocks",
+  "subtitles.portalcubed.chamber_door.lock": "Chamber Door locks",
+  "subtitles.portalcubed.chamber_door.open": "Chamber Door opens",
+  "subtitles.portalcubed.chamber_door.close": "Chamber Door closes",
 
   "subtitles.portalcubed.old_ap_timer": "Timer ticks",
   "subtitles.portalcubed.timer_ding": "Timer dings",
