@@ -64,6 +64,7 @@
     "portals.StructureUtilsMixin",
     "portals.interaction.ContainerOpenersCounterMixin",
     "portals.interaction.EnchantingTableBlockEntityMixin",
+    "portals.interaction.PlayerListMixin",
     "portals.interaction.PlayerMixin",
     "portals.interaction.ServerPlayerMixin",
     "props.ThrowPotionMixin",
@@ -147,7 +148,10 @@
     "portals.client.RenderRegionMixin",
     "portals.client.RenderSectionManagerMixin",
     "portals.client.RenderTargetMixin",
-    "portals.interaction.GameRendererMixin"
+    "portals.interaction.ClientLevelMixin",
+    "portals.interaction.GameRendererMixin",
+    "portals.sound.ChannelAccess$ChannelHandleMixin",
+    "portals.sound.SoundEngineMixin"
   ],
   "injectors": {
     "defaultRequire": 1

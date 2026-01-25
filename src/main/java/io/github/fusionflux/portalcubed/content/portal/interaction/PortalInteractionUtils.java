@@ -63,6 +63,51 @@ public final class PortalInteractionUtils {
 		return shortestDistSqr == Double.MAX_VALUE ? OptionalDouble.empty() : OptionalDouble.of(shortestDistSqr);
 	}
 
+	@Nullable
+	public static PortalAware<Void> findPathThroughPortals(Level level, Vec3 start, Vec3 end, double range) {
+		return findPathThroughPortalsRecursive(level, start, end, range, new HashSet<>());
+	}
+
+	@Nullable
+	public static PortalAware<Void> findPathThroughPortalsRecursive(Level level, Vec3 start, Vec3 end, double range, Set<PortalReference> entered) {
+		PortalAware<Void> shortest = null;
+		double shortestDistSqr = Double.MAX_VALUE;
+
+		for (PortalReference portal : level.portalManager().lookup().getPortalsAround(start, range)) {
+			Optional<PortalReference> maybeOpposite = portal.opposite();
+			if (maybeOpposite.isEmpty())
+				continue;
+
+			double distanceToPortal = start.distanceTo(portal.get().data.origin());
+			// this prevents backtracking
+			if (distanceToPortal == 0)
+				continue;
+
+			if (!entered.add(portal))
+				continue;
+
+			double remainingRange = range - distanceToPortal;
+			if (remainingRange > 0) {
+				Vec3 newPos = maybeOpposite.get().get().data.origin();
+				double directDistSqr = newPos.distanceToSqr(end);
+				PortalAware<Void> path = findPathThroughPortalsRecursive(level, newPos, end, remainingRange, entered);
+				double distSqrThroughPortals = path == null ? Double.MAX_VALUE : path.calculateDistanceThroughCenters(newPos, $ -> end);
+				if (directDistSqr < shortestDistSqr) {
+					shortest = new PortalAware.Tail<>(portal, null);
+					shortestDistSqr = Mth.square(distanceToPortal) + directDistSqr;
+				}
+				if (distSqrThroughPortals < shortestDistSqr) {
+					shortest = new PortalAware.Mid<>(portal, path);
+					shortestDistSqr = Mth.square(distanceToPortal) + distSqrThroughPortals;
+				}
+			}
+
+			entered.remove(portal);
+		}
+
+		return shortest;
+	}
+
 	/**
 	 * Portal-aware variant of {@link Level#getEntities(EntityTypeTest, AABB, Predicate) getEntities}.
 	 * Does not find entities that <strong>aren't</strong> through portals; both methods must be used.

@@ -1,15 +1,18 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
+import java.util.Iterator;
 import java.util.function.Function;
 
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
+import io.github.fusionflux.portalcubed.framework.util.RecursiveIterator;
 import net.minecraft.world.phys.Vec3;
 
 /**
  * Some object that was acquired by passing through one or more portals.
+ * @param <T> the type of value held by the tail of the chain. Null values are safe to use.
  */
-public sealed interface PortalAware<T> {
+public sealed interface PortalAware<T> extends Iterable<PortalAware<T>> {
 	PortalReference enteredPortal();
 
 	default PortalReference exitedPortal() {
@@ -55,6 +58,14 @@ public sealed interface PortalAware<T> {
 				}
 			}
 		}
+	}
+
+	@Override
+	default Iterator<PortalAware<T>> iterator() {
+		return new RecursiveIterator<>(this, aware -> switch (aware) {
+			case Mid<T> mid -> mid.next();
+			case Tail<T> ignored -> null;
+		});
 	}
 
 	record Mid<T>(PortalReference enteredPortal, PortalAware<T> next) implements PortalAware<T> {
