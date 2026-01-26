@@ -10,10 +10,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalAware;
 import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInteractionUtils;
-import io.github.fusionflux.portalcubed.framework.extension.ChannelHandleExt;
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
-import io.github.fusionflux.portalcubed.framework.shape.Line;
-import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.ChannelAccess;
@@ -36,12 +32,13 @@ public class SoundEngineMixin {
 		}
 
 		boolean teleported = teleportSound(sound, handle);
-		if (((ChannelHandleExt) handle).pc$teleportedLastTick() && !teleported) {
+		if (handle.pc$teleportedLastTick() && !teleported) {
+			// reset to original position
 			Vec3 pos = new Vec3(sound.getX(), sound.getY(), sound.getZ());
 			handle.execute(channel -> channel.setSelfPosition(pos));
 		}
 
-		((ChannelHandleExt) handle).pc$setTeleportedLastTick(teleported);
+		handle.pc$setTeleportedLastTick(teleported);
 
 		return false;
 	}
@@ -71,8 +68,6 @@ public class SoundEngineMixin {
 		Portal enteredPortal = path.enteredPortal().get();
 		Vec3 direction = cameraPos.vectorTo(enteredPortal.data.origin()).normalize();
 		Vec3 newPos = cameraPos.add(direction.scale(distanceThroughPortals));
-		DebugRendering.addPos(10, newPos, Color.PURPLE);
-		DebugRendering.addLine(10, new Line(cameraPos, newPos), Color.PURPLE);
 		handle.execute(channel -> channel.setSelfPosition(newPos));
 		return true;
 	}
