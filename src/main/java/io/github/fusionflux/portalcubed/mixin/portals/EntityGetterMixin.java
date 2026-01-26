@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.EntityGetter;
 import net.minecraft.world.phys.AABB;

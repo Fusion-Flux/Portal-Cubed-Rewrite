@@ -12,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalAware;
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.util.Mth;

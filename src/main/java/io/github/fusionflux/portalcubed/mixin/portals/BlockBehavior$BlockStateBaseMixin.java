@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;

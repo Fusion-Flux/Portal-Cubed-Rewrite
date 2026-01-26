@@ -18,12 +18,12 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.collision.RePortaler;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.ListenerManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.SectionPortalLookup;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 

@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 import java.util.Iterator;
 import java.util.function.Function;
 
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.util.RecursiveIterator;

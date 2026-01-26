@@ -8,7 +8,7 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;

@@ -32,7 +32,6 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.command.argument.placement.Placement;
 import io.github.fusionflux.portalcubed.content.portal.command.argument.placement.PlacementStrategy;
 import io.github.fusionflux.portalcubed.content.portal.command.argument.portal.PortalArgument;
@@ -42,6 +41,7 @@ import io.github.fusionflux.portalcubed.content.portal.graphics.color.ConstantPo
 import io.github.fusionflux.portalcubed.content.portal.graphics.color.PortalColor;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalColorArgumentType;

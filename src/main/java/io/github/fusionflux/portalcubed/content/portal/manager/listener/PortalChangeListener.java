@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.manager.listener;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 
 public interface PortalChangeListener {
 	/**

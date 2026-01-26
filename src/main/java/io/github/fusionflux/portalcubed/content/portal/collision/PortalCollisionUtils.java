@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.collision;
 
 import java.util.function.Predicate;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;

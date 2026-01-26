@@ -1,9 +1,11 @@
-package io.github.fusionflux.portalcubed.content.portal;
+package io.github.fusionflux.portalcubed.content.portal.ref;
 
 import java.util.Optional;
 
 import org.jetbrains.annotations.ApiStatus;
 
+import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 

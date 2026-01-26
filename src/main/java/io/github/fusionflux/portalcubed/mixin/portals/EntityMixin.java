@@ -22,11 +22,11 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.collision.EntityCollisionState;
 import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollisionUtils;
 import io.github.fusionflux.portalcubed.content.portal.collision.RelevantPortals;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;

@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollisionUtils;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.CollisionGetter;
