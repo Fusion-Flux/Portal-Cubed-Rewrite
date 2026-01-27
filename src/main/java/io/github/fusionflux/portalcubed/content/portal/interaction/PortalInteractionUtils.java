@@ -11,13 +11,11 @@ import java.util.function.ToDoubleFunction;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
-import io.github.fusionflux.portalcubed.content.portal.PortalAware;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -29,80 +27,75 @@ public final class PortalInteractionUtils {
 	private PortalInteractionUtils() {}
 
 	/**
-	 * Find the path through nearby portals that results in the shortest path to a goal.
-	 * @param start the position to start the search from
-	 * @param distanceFunction function returning the squared distance between the goal and the given point
-	 * @param range the radius around each point where portals can be found
-	 * @return the shortest squared distance, or empty if no path was found
+	 * @see #findPathLengthSqrThroughPortals(Level, Vec3, ToDoubleFunction, double)
 	 */
-	public static OptionalDouble findPathThroughPortals(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
-		double shortestDistSqr = Double.MAX_VALUE;
+	public static OptionalDouble findPathLengthSqrThroughPortals(Level level, Vec3 start, Vec3 end, double range) {
+		return findPathLengthSqrThroughPortals(level, start, end::distanceTo, range);
+	}
 
-		PortalLookup lookup = level.portalManager().lookup();
-		for (PortalReference portal : lookup.getPortalsAround(start, range)) {
-			Optional<PortalReference> maybeOpposite = portal.opposite();
-			if (maybeOpposite.isEmpty())
-				continue;
+	/**
+	 * {@link #findPathThroughPortals(Level, Vec3, ToDoubleFunction, double) find a path through portals}, and then get its length if found.
+	 */
+	public static OptionalDouble findPathLengthSqrThroughPortals(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
+		PortalPath path = findPathThroughPortals(level, start, distanceFunction, range);
+		return path == null ? OptionalDouble.empty() : OptionalDouble.of(path.lengthSqr(start, distanceFunction));
+	}
 
-			double distanceToPortal = start.distanceTo(portal.get().data.origin());
-			// this prevents backtracking
-			if (distanceToPortal == 0)
-				continue;
+	/**
+	 * @see #findPathThroughPortals(Level, Vec3, ToDoubleFunction, double)
+	 */
+	@Nullable
+	public static PortalPath findPathThroughPortals(Level level, Vec3 start, Vec3 end, double range) {
+		return findPathThroughPortals(level, start, end::distanceTo, range);
+	}
 
-			double remainingRange = range - distanceToPortal;
-			if (remainingRange <= 0)
-				continue;
-
-			PortalReference linked = maybeOpposite.get();
-			Vec3 newPos = linked.get().data.origin();
-			double directDistSqr = distanceFunction.applyAsDouble(newPos);
-			double distSqrThroughPortals = findPathThroughPortals(level, newPos, distanceFunction, remainingRange).orElse(Double.MAX_VALUE);
-			shortestDistSqr = Math.min(shortestDistSqr, Math.min(directDistSqr, distSqrThroughPortals)) + Mth.square(distanceToPortal);
-		}
-
-		return shortestDistSqr == Double.MAX_VALUE ? OptionalDouble.empty() : OptionalDouble.of(shortestDistSqr);
+	/**
+	 * Find a path from a start point to a target that passes through portals.
+	 * @param distanceFunction a function providing the distance from a given point to the target
+	 * @param range the maximum length of a found path
+	 */
+	@Nullable
+	public static PortalPath findPathThroughPortals(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
+		return findPathThroughPortalsRecursive(level, start, distanceFunction, range, new HashSet<>(), new HashSet<>());
 	}
 
 	@Nullable
-	public static PortalAware<Void> findPathThroughPortals(Level level, Vec3 start, Vec3 end, double range) {
-		return findPathThroughPortalsRecursive(level, start, end, range, new HashSet<>());
-	}
-
-	@Nullable
-	public static PortalAware<Void> findPathThroughPortalsRecursive(Level level, Vec3 start, Vec3 end, double range, Set<PortalReference> entered) {
-		PortalAware<Void> shortest = null;
-		double shortestDistSqr = Double.MAX_VALUE;
+	public static PortalPath findPathThroughPortalsRecursive(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range, Set<String> seenPairs, Set<PortalReference> noPath) {
+		PortalPath shortest = null;
+		double shortestDistance = Double.MAX_VALUE;
 
 		for (PortalReference portal : level.portalManager().lookup().getPortalsAround(start, range)) {
+			if (portal.get().plane.isBehind(start) || noPath.contains(portal))
+				continue;
+
 			Optional<PortalReference> maybeOpposite = portal.opposite();
-			if (maybeOpposite.isEmpty())
+			if (maybeOpposite.isEmpty() || !seenPairs.add(portal.id.key()))
 				continue;
 
 			double distanceToPortal = start.distanceTo(portal.get().data.origin());
-			// this prevents backtracking
-			if (distanceToPortal == 0)
-				continue;
-
-			if (!entered.add(portal))
-				continue;
-
 			double remainingRange = range - distanceToPortal;
 			if (remainingRange > 0) {
-				Vec3 newPos = maybeOpposite.get().get().data.origin();
-				double directDistSqr = newPos.distanceToSqr(end);
-				PortalAware<Void> path = findPathThroughPortalsRecursive(level, newPos, end, remainingRange, entered);
-				double distSqrThroughPortals = path == null ? Double.MAX_VALUE : path.calculateDistanceThroughCenters(newPos, $ -> end);
-				if (directDistSqr < shortestDistSqr) {
-					shortest = new PortalAware.Tail<>(portal, null);
-					shortestDistSqr = Mth.square(distanceToPortal) + directDistSqr;
+				PortalReference linked = maybeOpposite.get();
+				Vec3 newPos = linked.get().data.origin();
+				double directDistance = distanceToPortal + distanceFunction.applyAsDouble(newPos);
+
+				PortalPath throughPortals = findPathThroughPortalsRecursive(level, newPos, distanceFunction, remainingRange, seenPairs, noPath);
+				double distThroughPortals = throughPortals == null ? Double.MAX_VALUE : throughPortals.length(newPos, distanceFunction);
+				if (throughPortals == null)
+					noPath.add(portal);
+
+				if (directDistance < shortestDistance) {
+					shortest = PortalPath.of(portal, linked);
+					shortestDistance = directDistance;
 				}
-				if (distSqrThroughPortals < shortestDistSqr) {
-					shortest = new PortalAware.Mid<>(portal, path);
-					shortestDistSqr = Mth.square(distanceToPortal) + distSqrThroughPortals;
+
+				if (distThroughPortals < shortestDistance) {
+					shortest = throughPortals.prepend(portal, linked);
+					shortestDistance = distThroughPortals;
 				}
 			}
 
-			entered.remove(portal);
+			seenPairs.remove(portal.id.key());
 		}
 
 		return shortest;
@@ -111,11 +104,12 @@ public final class PortalInteractionUtils {
 	/**
 	 * Portal-aware variant of {@link Level#getEntities(EntityTypeTest, AABB, Predicate) getEntities}.
 	 * Does not find entities that <strong>aren't</strong> through portals; both methods must be used.
+	 * @return a new, mutable Set of found entities
 	 */
 	public static <T extends Entity> Set<T> getEntitiesThroughPortals(Level level, EntityTypeTest<Entity, T> test, AABB area, Predicate<? super T> predicate) {
-		Set<T> set = new HashSet<>();
-		getEntitiesThroughPortalsRecursive(level, test, area, predicate, set::add, new HashSet<>());
-		return set;
+		Set<T> found = new HashSet<>();
+		getEntitiesThroughPortalsRecursive(level, test, area, predicate, found::add, new HashSet<>());
+		return found;
 	}
 
 	private static <T extends Entity> void getEntitiesThroughPortalsRecursive(Level level, EntityTypeTest<Entity, T> test, AABB area, Predicate<? super T> predicate, Consumer<T> output, Set<PortalReference> entered) {
@@ -144,16 +138,19 @@ public final class PortalInteractionUtils {
 	 * Does not find players that <strong>aren't</strong> through portals; both methods must be used.
 	 */
 	@Nullable
-	public static PortalAware<Player> getNearestPlayer(Level level, Vec3 start, double radius, boolean creative) {
-		return getNearestPlayerRecursive(level, start, radius, creative, new HashSet<>());
+	public static PortalPath.With<Player> getNearestPlayer(Level level, Vec3 start, double radius, boolean creative) {
+		return getNearestPlayerRecursive(level, start, radius, creative, new HashSet<>(), new HashSet<>());
 	}
 
 	@Nullable
-	private static PortalAware<Player> getNearestPlayerRecursive(Level level, Vec3 start, double radius, boolean creative, Set<PortalReference> entered) {
-		PortalAware<Player> nearest = null;
+	private static PortalPath.With<Player> getNearestPlayerRecursive(Level level, Vec3 start, double radius, boolean creative, Set<PortalReference> entered, Set<PortalReference> noPath) {
+		PortalPath.With<Player> nearest = null;
 		double nearestDistance = Double.MAX_VALUE;
 
 		for (PortalReference portal : level.portalManager().lookup().getPortalsAround(start, radius)) {
+			if (portal.get().plane.isBehind(start) || noPath.contains(portal))
+				continue;
+
 			// empty when not linked
 			Optional<SinglePortalTransform> maybeTransform = portal.transform();
 			if (maybeTransform.isEmpty() || !entered.add(portal))
@@ -161,9 +158,9 @@ public final class PortalInteractionUtils {
 
 			SinglePortalTransform transform = maybeTransform.get();
 			Vec3 transformedStart = transform.applyAbsolute(start);
-			PortalAware<Player> found = choosePlayerCandidate(portal, level, transformedStart, radius, creative, entered);
+			PortalPath.With<Player> found = choosePlayerCandidate(portal, level, transformedStart, radius, creative, entered, noPath);
 			if (found != null) {
-				double distance = found.calculateDistanceThroughCenters(start, Player::position);
+				double distance = found.path().length(start, found.value().position());
 				if (nearest == null || distance < nearestDistance) {
 					nearest = found;
 					nearestDistance = distance;
@@ -177,7 +174,7 @@ public final class PortalInteractionUtils {
 	}
 
 	@Nullable
-	private static PortalAware<Player> choosePlayerCandidate(PortalReference portal, Level level, Vec3 pos, double radius, boolean creative, Set<PortalReference> entered) {
+	private static PortalPath.With<Player> choosePlayerCandidate(PortalReference portal, Level level, Vec3 pos, double radius, boolean creative, Set<PortalReference> entered, Set<PortalReference> noPath) {
 		Player player = level.getNearestPlayer(pos.x, pos.y, pos.z, radius, creative);
 		if (player != null) {
 			Vec3 center = PortalTeleportHandler.centerOf(player);
@@ -188,10 +185,12 @@ public final class PortalInteractionUtils {
 			}
 		}
 
-		PortalAware<Player> throughPortals = getNearestPlayerRecursive(level, pos, radius, creative, entered);
-		if (throughPortals != null) {
+		PortalPath.With<Player> throughPortals = getNearestPlayerRecursive(level, pos, radius, creative, entered, noPath);
+		if (throughPortals == null) {
+			noPath.add(portal);
+		} else {
 			Portal exitedPortal = portal.opposite().orElseThrow().get();
-			Portal enteredPortal = throughPortals.enteredPortal().get();
+			Portal enteredPortal = throughPortals.path().entries.getFirst().entered().get();
 			if (exitedPortal.plane.isBehind(enteredPortal.data.origin())) {
 				// also ignore if behind the portal
 				throughPortals = null;
@@ -199,17 +198,17 @@ public final class PortalInteractionUtils {
 		}
 
 		if (player == null) {
-			return throughPortals == null ? null : new PortalAware.Mid<>(portal, throughPortals);
+			return throughPortals == null ? null : throughPortals.prepend(portal, portal.opposite().orElseThrow());
 		} else if (throughPortals == null) {
-			return new PortalAware.Tail<>(portal, player);
+			return PortalPath.of(portal).with(player);
 		}
 
 		double playerDistance = player.position().distanceTo(pos);
-		double distanceThroughPortals = throughPortals.calculateDistanceThroughCenters(pos, Player::position);
+		double distanceThroughPortals = throughPortals.path().length(pos, player.position());
 		if (playerDistance <= distanceThroughPortals) {
-			return new PortalAware.Tail<>(portal, player);
+			return PortalPath.of(portal).with(player);
 		} else {
-			return new PortalAware.Mid<>(portal, throughPortals);
+			return throughPortals.prepend(portal);
 		}
 	}
 }

@@ -33,10 +33,10 @@ public class PlayerListMixin {
 		Vec3 playerPos = player.position();
 		Vec3 eventPos = new Vec3(x, y, z);
 
-		OptionalDouble distance = PortalInteractionUtils.findPathThroughPortals(player.level(), eventPos, playerPos::distanceToSqr, radius);
-		if (distance.isEmpty())
+		OptionalDouble distanceSqr = PortalInteractionUtils.findPathLengthSqrThroughPortals(player.level(), eventPos, playerPos, radius);
+		if (distanceSqr.isEmpty())
 			return false;
 
-		return distance.getAsDouble() < Mth.square(radius);
+		return distanceSqr.getAsDouble() < Mth.square(radius);
 	}
 }

@@ -9,9 +9,9 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
-import io.github.fusionflux.portalcubed.content.portal.PortalAware;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInteractionUtils;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -31,13 +31,13 @@ public class EnchantingTableBlockEntityMixin {
 													@Share("pos") LocalRef<Vec3> transformedPos) {
 		Player nearest = original.call(level, x, y, z, radius, creative);
 		Vec3 pos = new Vec3(x, y, z);
-		PortalAware<Player> throughPortals = PortalInteractionUtils.getNearestPlayer(level, pos, radius, creative);
+		PortalPath.With<Player> throughPortals = PortalInteractionUtils.getNearestPlayer(level, pos, radius, creative);
 		if (throughPortals == null)
 			return nearest;
 
-		if (nearest == null || throughPortals.calculateDistanceThroughCenters(pos, Player::position) < nearest.position().distanceTo(pos)) {
-			Player player = throughPortals.findTail().value();
-			PortalTransform transform = throughPortals.createFullTransform();
+		Player player = throughPortals.value();
+		if (nearest == null || throughPortals.path().length(pos, player.position()) < nearest.position().distanceTo(pos)) {
+			PortalTransform transform = throughPortals.path().createTransform();
 			// use the center since it has better results with non-upright-wall portals
 			Vec3 center = PortalTeleportHandler.centerOf(player);
 			transformedPos.set(transform.inverse().applyAbsolute(center));

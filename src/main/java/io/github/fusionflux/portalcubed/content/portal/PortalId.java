@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import io.github.fusionflux.portalcubed.framework.util.DualIterator;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -22,10 +21,7 @@ public record PortalId(String key, Polarity polarity) {
 		return Component.translatableEscape("misc.portalcubed.portal_id", this.key, this.polarity.component);
 	}
 
-	public static Iterable<PortalId> forPair(String key) {
-		return () -> new DualIterator<>(
-				new PortalId(key, Polarity.PRIMARY),
-				new PortalId(key, Polarity.SECONDARY)
-		);
+	public boolean isOppositeOf(PortalId that) {
+		return this.key.equals(that.key) && this.polarity != that.polarity;
 	}
 }

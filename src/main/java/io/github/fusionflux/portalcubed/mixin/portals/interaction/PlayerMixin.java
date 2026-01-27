@@ -38,11 +38,11 @@ public abstract class PlayerMixin extends LivingEntity {
 										  @Local(ordinal = 1) double range) {
 		double originalDistSqr = original.call(box, pos);
 		ToDoubleFunction<Vec3> distanceFunction = p -> original.call(box, p);
-		OptionalDouble distance = PortalInteractionUtils.findPathThroughPortals(this.level(), pos, distanceFunction, range);
-		if (distance.isEmpty()) {
+		OptionalDouble distanceSqr = PortalInteractionUtils.findPathLengthSqrThroughPortals(this.level(), pos, distanceFunction, range);
+		if (distanceSqr.isEmpty()) {
 			return originalDistSqr;
 		}
 
-		return Math.min(originalDistSqr, distance.getAsDouble());
+		return Math.min(originalDistSqr, distanceSqr.getAsDouble());
 	}
 }

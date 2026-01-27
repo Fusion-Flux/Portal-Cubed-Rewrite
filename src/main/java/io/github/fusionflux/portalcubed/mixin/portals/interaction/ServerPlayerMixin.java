@@ -31,7 +31,7 @@ public abstract class ServerPlayerMixin extends Player {
 
 		Vec3 bedPos = Vec3.atBottomCenterOf(blockPos);
 		Vec3 center = PortalTeleportHandler.centerOf(this);
-		OptionalDouble distanceSqr = PortalInteractionUtils.findPathThroughPortals(this.level(), bedPos, center::distanceToSqr, 3);
+		OptionalDouble distanceSqr = PortalInteractionUtils.findPathLengthSqrThroughPortals(this.level(), bedPos, center, 3);
 		if (distanceSqr.isEmpty())
 			return false;
 

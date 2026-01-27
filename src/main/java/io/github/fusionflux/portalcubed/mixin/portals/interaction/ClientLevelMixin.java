@@ -39,11 +39,11 @@ public class ClientLevelMixin {
 		ClientLevel level = Objects.requireNonNull(this.minecraft.level);
 		float range = sound.getRange(volume);
 
-		OptionalDouble distance = PortalInteractionUtils.findPathThroughPortals(level, soundPos, cameraPos::distanceToSqr, range);
-		if (distance.isEmpty()) {
+		OptionalDouble distanceSqr = PortalInteractionUtils.findPathLengthSqrThroughPortals(level, soundPos, cameraPos, range);
+		if (distanceSqr.isEmpty()) {
 			return originalDistanceSqr;
 		}
 
-		return Math.min(originalDistanceSqr, distance.getAsDouble());
+		return Math.min(originalDistanceSqr, distanceSqr.getAsDouble());
 	}
 }
