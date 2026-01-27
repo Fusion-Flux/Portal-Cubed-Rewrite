@@ -14,7 +14,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "portalcubed:achievements/hoopy",
+  "parent": "portalcubed:portalcubed/hoopy",
   "criteria": {
     "hoopy": {
       "trigger": "minecraft:inventory_changed",

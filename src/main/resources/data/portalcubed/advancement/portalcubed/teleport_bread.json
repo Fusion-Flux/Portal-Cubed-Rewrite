@@ -14,7 +14,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "portalcubed:achievements/speedy_thing_go_in",
+  "parent": "portalcubed:portalcubed/speedy_thing_go_in",
   "criteria": {
     "teleport_bread": {
       "trigger": "portalcubed:thrown_item_entered_portal",

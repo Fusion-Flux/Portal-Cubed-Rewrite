@@ -14,7 +14,7 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/radio",
+  "parent": "portalcubed:portalcubed/radio",
   "criteria": {
     "p1_storage": {
       "trigger": "minecraft:inventory_changed",

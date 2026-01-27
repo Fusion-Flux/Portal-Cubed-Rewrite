@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:achievements/chamber_portal_surface",
+  "parent": "portalcubed:portalcubed/chamber_portal_surface",
   "criteria": {
     "dye": {
       "trigger": "minecraft:inventory_changed",

@@ -1,20 +1,20 @@
 {
   "display": {
     "icon": {
-      "id": "portalcubed:lemon"
+      "id": "portalcubed:portal_gun"
     },
     "title": {
-      "translate": "advancement.portalcubed.lemon.title"
+      "translate": "advancement.portalcubed.portal_gun.title"
     },
     "description": {
-      "translate": "advancement.portalcubed.lemon.description"
+      "translate": "advancement.portalcubed.portal_gun.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/root",
+  "parent": "portalcubed:portalcubed/root",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",
@@ -22,7 +22,7 @@
         "items": [
           {
             "items": [
-              "portalcubed:lemon"
+              "portalcubed:portal_gun"
             ]
           }
         ]

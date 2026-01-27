@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:achievements/hammer",
+  "parent": "portalcubed:portalcubed/hammer",
   "criteria": {
     "configure": {
       "trigger": "portalcubed:configure_test_element",

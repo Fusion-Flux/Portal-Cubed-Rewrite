@@ -61,6 +61,7 @@ public class PortalCubedSounds {
 
 	public static final SoundEvent WAND_PORTAL_GUN_SHOOT = register("portal_gun.wand.shoot");
 	public static final SoundEvent WAND_PORTAL_GUN_GRAB = register("portal_gun.wand.grab");
+	public static final SoundEvent WAND_PORTAL_GUN_RELEASE = register("portal_gun.wand.release");
 	public static final SoundEvent WAND_PORTAL_GUN_FIZZLE = register("portal_gun.wand.fizzle");
 
 	public static final SoundEvent PAINTBRUSH_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.paintbrush.primary_shoot");

@@ -14,7 +14,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "portalcubed:achievements/portal_gun",
+  "parent": "portalcubed:portalcubed/portal_gun",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:thrown_item_picked_up_by_entity",

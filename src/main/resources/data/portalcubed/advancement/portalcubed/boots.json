@@ -14,7 +14,7 @@
     "announce_to_chat": false,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/root",
+  "parent": "portalcubed:portalcubed/root",
   "criteria": {
     "boots": {
       "trigger": "minecraft:fall_from_height",

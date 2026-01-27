@@ -1,20 +1,20 @@
 {
   "display": {
     "icon": {
-      "id": "portalcubed:portal_gun"
+      "id": "portalcubed:radio"
     },
     "title": {
-      "translate": "advancement.portalcubed.portal_gun.title"
+      "translate": "advancement.portalcubed.radio.title"
     },
     "description": {
-      "translate": "advancement.portalcubed.portal_gun.description"
+      "translate": "advancement.portalcubed.radio.description"
     },
-    "frame": "goal",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/root",
+  "parent": "portalcubed:portalcubed/root",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",
@@ -22,7 +22,7 @@
         "items": [
           {
             "items": [
-              "portalcubed:portal_gun"
+              "portalcubed:radio"
             ]
           }
         ]

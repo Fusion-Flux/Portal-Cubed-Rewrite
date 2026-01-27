@@ -1,20 +1,20 @@
 {
   "display": {
     "icon": {
-      "id": "portalcubed:radio"
+      "id": "portalcubed:lemon"
     },
     "title": {
-      "translate": "advancement.portalcubed.radio.title"
+      "translate": "advancement.portalcubed.lemon.title"
     },
     "description": {
-      "translate": "advancement.portalcubed.radio.description"
+      "translate": "advancement.portalcubed.lemon.description"
     },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/root",
+  "parent": "portalcubed:portalcubed/root",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",
@@ -22,7 +22,7 @@
         "items": [
           {
             "items": [
-              "portalcubed:radio"
+              "portalcubed:lemon"
             ]
           }
         ]

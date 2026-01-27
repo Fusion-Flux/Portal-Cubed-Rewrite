@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:achievements/portal_gun",
+  "parent": "portalcubed:portalcubed/portal_gun",
   "criteria": {
     "why_are_you_hitting_yourself": {
       "trigger": "minecraft:player_hurt_entity",

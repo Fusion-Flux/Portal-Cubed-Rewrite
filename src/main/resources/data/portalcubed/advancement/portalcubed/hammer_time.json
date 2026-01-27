@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:achievements/stalemate_associate",
+  "parent": "portalcubed:portalcubed/stalemate_associate",
   "criteria": {
     "button": {
       "trigger": "portalcubed:configure_test_element",

@@ -1,5 +1,5 @@
 {
-  "parent": "portalcubed:achievements/root",
+  "parent": "portalcubed:portalcubed/root",
   "criteria": {
     "dye": {
       "trigger": "minecraft:inventory_changed",

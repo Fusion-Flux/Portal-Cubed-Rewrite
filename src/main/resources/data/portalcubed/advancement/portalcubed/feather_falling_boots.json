@@ -21,7 +21,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "portalcubed:achievements/boots",
+  "parent": "portalcubed:portalcubed/boots",
   "criteria": {
     "feather_falling": {
       "trigger": "minecraft:inventory_changed",

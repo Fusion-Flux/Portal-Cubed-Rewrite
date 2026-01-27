@@ -628,6 +628,15 @@
     ],
     "subtitle": "subtitles.portalcubed.portal_gun.wand.grab"
   },
+  "portal_gun.wand.release": {
+    "sounds": [
+      {
+        "name": "minecraft:block.trial_spawner.spawn_item_begin",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.wand.release"
+  },
 
   "portal_gun.paintbrush.primary_shoot": {
     "sounds": [

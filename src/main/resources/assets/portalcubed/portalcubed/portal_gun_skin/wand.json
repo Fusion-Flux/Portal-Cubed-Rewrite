@@ -7,6 +7,7 @@
     "primary_shoot": "portalcubed:portal_gun.wand.shoot",
     "secondary_shoot": "portalcubed:portal_gun.wand.shoot",
     "fizzle": "portalcubed:portal_gun.wand.fizzle",
+    "release": "portalcubed:portal_gun.wand.release",
     "grab": {
       "sound": "portalcubed:portal_gun.wand.grab",
       "length": 10

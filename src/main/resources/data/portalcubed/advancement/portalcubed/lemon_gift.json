@@ -14,7 +14,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "portalcubed:achievements/lemon",
+  "parent": "portalcubed:portalcubed/lemon",
   "criteria": {
     "lemon": {
       "trigger": "minecraft:thrown_item_picked_up_by_entity",

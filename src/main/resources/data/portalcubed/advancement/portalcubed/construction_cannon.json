@@ -14,12 +14,18 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "portalcubed:achievements/portal_gun",
+  "parent": "portalcubed:portalcubed/portal_gun",
   "criteria": {
     "mainhand": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
         "player": {
+          "type_specific": {
+            "type": "minecraft:player",
+            "input": {
+              "sneak": false
+            }
+          },
           "equipment": {
             "mainhand": {
               "items": [
@@ -34,6 +40,12 @@
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
         "player": {
+          "type_specific": {
+            "type": "minecraft:player",
+            "input": {
+              "sneak": false
+            }
+          },
           "equipment": {
             "offhand": {
               "items": [

@@ -20,7 +20,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "portalcubed:achievements/boots",
+  "parent": "portalcubed:portalcubed/boots",
   "criteria": {
     "armor_trimmed_minecraft:coast_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",

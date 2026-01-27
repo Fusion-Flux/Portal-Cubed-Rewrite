@@ -559,6 +559,7 @@
   "subtitles.portalcubed.portal_gun.wand.shoot": "Portal is summoned",
   "subtitles.portalcubed.portal_gun.wand.fizzle": "Wand recharges",
   "subtitles.portalcubed.portal_gun.wand.grab": "Wand lifts object",
+  "subtitles.portalcubed.portal_gun.wand.release": "Wand releases object",
 
   "subtitles.portalcubed.armor.boots_land": "Long Fall Boots brace fall",
   "subtitles.portalcubed.armor.boots_equip": "Long Fall Boots rustle",
@@ -650,6 +651,8 @@
   "advancement.portalcubed.hammer_time.description": "Change the timer length of a test element",
   "advancement.portalcubed.sign_here.title": "Sign Here",
   "advancement.portalcubed.sign_here.description": "Place and configure a Signage block",
+  "advancement.portalcubed.autoportal.title": "That Portal Was Framed",
+  "advancement.portalcubed.autoportal.description": "Place and configure an Autoportal",
 
   "advancement.portalcubed.crossover_episode.title": "Crossover Episode",
   "advancement.portalcubed.crossover_episode.description": "Obtain a Crowbar",
@@ -675,9 +678,6 @@
   "advancement.portalcubed.feather_falling_boots.title": "Pointless Precaution",
   "advancement.portalcubed.feather_falling_boots.description": "Enchant a pair of Long Fall Boots or Advanced Knee Replacements with Feather Falling",
 
-  "advancement.portalcubed.autoportal.title": "That Portal Was Framed",
-  "advancement.portalcubed.autoportal.description": "Place an Autoportal",
-
   "advancement.portalcubed.fizzler.title": "Fizzle Me This",
   "advancement.portalcubed.fizzler.description": "Have your portals removed by a Material Emancipation Grid",
   "advancement.portalcubed.heartbreaker.title": "Heartbreaker",
@@ -686,7 +686,7 @@
   "advancement.portalcubed.pellet.title": "Handle With Care",
   "advancement.portalcubed.pellet.description": "Obtain a High Energy Pellet",
   "advancement.portalcubed.pellet_bounce.title": "Volleyball World Champion",
-  "advancement.portalcubed.pellet_bounce.description": "Launch a High Energy Pellet that bounces at least 35 times before it expires",
+  "advancement.portalcubed.pellet_bounce.description": "Toss a High Energy Pellet that bounces at least 35 times before it expires",
   "advancement.portalcubed.pellet_spyglass.title": "Pondering the Orb",
   "advancement.portalcubed.pellet_spyglass.description": "Observe a High Energy Pellet through a spyglass",
 
