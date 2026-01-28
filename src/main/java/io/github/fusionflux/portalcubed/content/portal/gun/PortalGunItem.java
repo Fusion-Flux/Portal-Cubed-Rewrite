@@ -20,6 +20,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.TriState;
@@ -111,10 +112,13 @@ public class PortalGunItem extends Item implements DirectClickItem {
 	}
 
 	private static void shoot(ServerPlayer player, PortalId id, PortalSettings settings) {
+		ServerLevel level = player.serverLevel();
 		Vec3 source = player.getEyePosition();
 		Vec3 direction = player.getLookAngle();
 
-		if (PortalShot.perform(id, player.serverLevel(), source, direction, player.getYRot()) instanceof PortalShot.Success success) {
+		PortalShot shot = PortalShot.perform(id, level, source, direction, player.getYRot());
+		shot.createTrail(level, source, settings);
+		if (shot instanceof PortalShot.Success success) {
 			success.place(settings);
 		}
 	}

@@ -35,7 +35,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * An attempt to place a portal in the world by shooting it.
+ * An attempt to place a portal in the world by shooting it. May or may not have succeeded.
  */
 public sealed interface PortalShot {
 	// we need to break the raycast into steps, since at large distances
@@ -50,6 +50,17 @@ public sealed interface PortalShot {
 	 * @return the hit result of the raycast performed by this shot
 	 */
 	HitResult hit();
+
+	/**
+	 * Create the particle trail left by this shot.
+	 */
+	default void createTrail(ServerLevel level, Vec3 source, PortalSettings settings) {
+		int color = settings.color().getOpaque(level.getGameTime());
+		level.sendParticles(
+				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, this.hit().getLocation(), color, 3),
+				source.x, source.y, source.z, 1, 0, 0, 0, 0
+		);
+	}
 
 	record Source(Vec3 source, Vec3 direction, float yRot, double maxRange) {
 		public PortalShot shoot(PortalId shooting, ServerLevel level) {
@@ -106,17 +117,15 @@ public sealed interface PortalShot {
 
 		private final PortalId id;
 		private final ServerLevel level;
-		private final Vec3 source;
 		private final BlockHitResult hit;
 
-		private Success(PortalId id, ServerLevel level, Vec3 source, PortalPlacement placement, BlockHitResult hit) {
+		private Success(PortalId id, ServerLevel level, PortalPlacement placement, BlockHitResult hit) {
 			if (hit.getType() == HitResult.Type.MISS || hit.isInside()) {
 				throw new IllegalArgumentException("Incorrect HitResult for Success: " + hit);
 			}
 
 			this.id = id;
 			this.level = level;
-			this.source = source;
 			this.placement = placement;
 			this.hit = hit;
 		}
@@ -130,12 +139,6 @@ public sealed interface PortalShot {
 		 * Place a portal with the given settings at the location of this shot.
 		 */
 		public void place(PortalSettings settings) {
-			int color = settings.color().getOpaque(this.level.getGameTime());
-			this.level.sendParticles(
-					new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, this.hit.getLocation(), color, 3),
-					this.source.x, this.source.y, this.source.z, 1, 0, 0, 0, 0
-			);
-
 			PortalValidator validator = settings.validate() ? this.createValidator() : NonePortalValidator.INSTANCE;
 			PortalData data = PortalData.createWithSettings(this.level, this.placement.pos(), this.placement.rotation(), validator, settings);
 			this.level.portalManager().createPortal(this.id, data);
@@ -191,7 +194,7 @@ public sealed interface PortalShot {
 				shooting, level, hit.getLocation(), yRot, blockHit.getBlockPos(), face, bias, null
 		);
 
-		return placement == null ? new Failed(hit) : new Success(shooting, level, source, placement, blockHit);
+		return placement == null ? new Failed(hit) : new Success(shooting, level, placement, blockHit);
 	}
 
 	@Nullable
