@@ -151,6 +151,13 @@ public class Prop extends HoldableEntity {
 		}
 	}
 
+	@Override
+	public void rideTick() {
+		super.rideTick();
+		// avoid infinitely accumulating fall distance when riding something. LivingEntity also does this.
+		this.resetFallDistance();
+	}
+
 	protected void tickState() {
 		Level level = this.level();
 
