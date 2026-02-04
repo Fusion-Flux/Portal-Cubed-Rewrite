@@ -42,6 +42,8 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		ServerPlayer player = ctx.player();
+		if (player.isSpectator())
+			return;
 
 		if (!player.serverLevel().getGameRules().getBoolean(PortalCubedGameRules.MANUAL_PORTAL_CLEARING)) {
 			player.sendSystemMessage(DISABLED, true);
