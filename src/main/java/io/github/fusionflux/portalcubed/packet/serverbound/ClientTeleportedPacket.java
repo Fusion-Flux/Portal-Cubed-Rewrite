@@ -84,7 +84,7 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 			return true;
 
 		Vec3 center = PortalTeleportHandler.centerOf(player);
-		distance += (center.distanceTo(firstEntered.get().data.origin()));
+		distance += (center.distanceTo(firstEntered.get().origin()));
 		if (distance > expectedDistance)
 			return true;
 
@@ -101,7 +101,7 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 			if (opposite.isEmpty())
 				return true;
 
-			distance += (exited.data.origin().distanceTo(entered.get().data.origin()));
+			distance += (exited.origin().distanceTo(entered.get().origin()));
 			if (distance > expectedDistance)
 				return true;
 
@@ -113,7 +113,7 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		// info is now the last one
 		Vec3 posToCenter = player.position().vectorTo(center);
 		Vec3 finalCenter = this.pos.add(posToCenter);
-		distance += (finalCenter.distanceTo(exited.data.origin()));
+		distance += (finalCenter.distanceTo(exited.origin()));
 		return distance > expectedDistance;
 	}
 

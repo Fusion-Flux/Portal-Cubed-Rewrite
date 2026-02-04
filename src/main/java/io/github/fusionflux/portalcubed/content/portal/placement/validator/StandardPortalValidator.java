@@ -35,11 +35,11 @@ public record StandardPortalValidator(Angle rotation) implements PortalValidator
 	@Override
 	public boolean isValid(ServerLevel level, PortalId id, Portal portal) {
 		Direction face = Direction.getApproximateNearest(portal.normal);
-		BlockPos pos = BlockPos.containing(portal.data.origin().relative(face, -1e-3));
+		BlockPos pos = BlockPos.containing(portal.origin().relative(face, -1e-3));
 
-		PortalPlacement placement = PortalBumper.findValidPlacement(id, level, portal.data.origin(), 0, pos, face, null, this.rotation);
+		PortalPlacement placement = PortalBumper.findValidPlacement(id, level, portal.origin(), 0, pos, face, null, this.rotation);
 
-		return placement != null && placement.pos().equals(portal.data.origin()) && Maath.equals(placement.rotation(), portal.rotation(), 1e-5f);
+		return placement != null && placement.pos().equals(portal.origin()) && Maath.equals(placement.rotation(), portal.rotation(), 1e-5f);
 	}
 
 	@Override

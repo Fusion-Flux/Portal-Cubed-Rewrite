@@ -338,7 +338,7 @@ public class PortalBumper {
 				continue;
 
 			Direction.Axis axis = face.getAxis();
-			double posOnAxis = portal.data.origin().get(axis);
+			double posOnAxis = portal.origin().get(axis);
 			if (!Mth.equal(initial.get(axis), posOnAxis))
 				continue;
 

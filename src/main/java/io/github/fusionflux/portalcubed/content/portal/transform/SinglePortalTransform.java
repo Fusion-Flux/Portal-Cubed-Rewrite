@@ -49,7 +49,7 @@ public final class SinglePortalTransform implements PortalTransform {
 	}
 
 	public SinglePortalTransform(Portal in, Portal out) {
-		this(in.data.origin(), in.data.rotation(), out.data.origin(), out.data.rotation());
+		this(in.origin(), in.data.rotation(), out.origin(), out.data.rotation());
 	}
 
 	public SinglePortalTransform(Vec3 inOrigin, Quaternionfc inRot, Vec3 outOrigin, Quaternionfc outRot) {

@@ -72,11 +72,11 @@ public final class PortalInteractionUtils {
 			if (maybeOpposite.isEmpty() || !seenPairs.add(portal.id.key()))
 				continue;
 
-			double distanceToPortal = start.distanceTo(portal.get().data.origin());
+			double distanceToPortal = start.distanceTo(portal.get().origin());
 			double remainingRange = range - distanceToPortal;
 			if (remainingRange > 0) {
 				PortalReference linked = maybeOpposite.get();
-				Vec3 newPos = linked.get().data.origin();
+				Vec3 newPos = linked.get().origin();
 				double directDistance = distanceToPortal + distanceFunction.applyAsDouble(newPos);
 
 				PortalPath throughPortals = findPathThroughPortalsRecursive(level, newPos, distanceFunction, remainingRange, seenPairs, noPath);
@@ -191,7 +191,7 @@ public final class PortalInteractionUtils {
 		} else {
 			Portal exitedPortal = portal.opposite().orElseThrow().get();
 			Portal enteredPortal = throughPortals.path().entries.getFirst().entered().get();
-			if (exitedPortal.plane.isBehind(enteredPortal.data.origin())) {
+			if (exitedPortal.plane.isBehind(enteredPortal.origin())) {
 				// also ignore if behind the portal
 				throughPortals = null;
 			}

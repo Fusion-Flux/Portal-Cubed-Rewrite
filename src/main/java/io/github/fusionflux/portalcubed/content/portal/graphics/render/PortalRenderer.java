@@ -209,7 +209,7 @@ public class PortalRenderer {
 		Portal portal = visiblePortal.portal;
 
 		// translate to portal pos
-		matrices.translate(portal.data.origin());
+		matrices.translate(portal.origin());
 		// apply rotations
 		matrices.mulPose(portal.rotation()); // rotate towards facing direction
 		// animate placement
@@ -306,7 +306,7 @@ public class PortalRenderer {
 
 			GameRenderer gameRenderer = context.gameRenderer();
 			LevelRenderer levelRenderer = context.worldRenderer();
-			((LevelRendererAccessor) levelRenderer).callPrepareCullFrustum(linked.data.origin(), viewMatrix, context.projectionMatrix());
+			((LevelRendererAccessor) levelRenderer).callPrepareCullFrustum(linked.origin(), viewMatrix, context.projectionMatrix());
 
 			RenderingUtils.setupStencilToRenderIfValue(recursion());
 			RenderSystem.stencilMask(0x00);
