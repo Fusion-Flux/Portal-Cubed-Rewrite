@@ -1,0 +1,16 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.sculk_portal_gun"
+  },
+  "item_model": "portalcubed:portal_guns/sculk_portal_gun",
+  "sounds": {
+    "primary_shoot": "portalcubed:portal_gun.sculk.primary_shoot",
+    "secondary_shoot": "portalcubed:portal_gun.sculk.secondary_shoot",
+    "fizzle": "portalcubed:portal_gun.sculk.fizzle",
+    "release": "portalcubed:portal_gun.sculk.release",
+    "grab": {
+      "sound": "portalcubed:portal_gun.sculk.grab",
+      "length": 40
+    }
+  }
+}

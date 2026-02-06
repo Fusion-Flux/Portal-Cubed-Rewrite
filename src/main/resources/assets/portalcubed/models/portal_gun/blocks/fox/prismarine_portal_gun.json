@@ -1,0 +1,11 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+ 	"parent": "portalcubed:portal_gun/blocks/humanoid/prismarine_portal_gun",
+	"display": {
+		"ground": {
+			"rotation": [-87, 0, -180],
+			"translation": [0, -4.5, 4],
+			"scale": [0.58984, 0.58984, 0.58984]
+		}
+	}
+}

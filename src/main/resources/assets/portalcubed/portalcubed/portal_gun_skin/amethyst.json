@@ -1,0 +1,11 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.amethyst_portal_gun"
+  },
+  "item_model": "portalcubed:portal_guns/amethyst_portal_gun",
+  "sounds": {
+    "primary_shoot": "portalcubed:portal_gun.amethyst.primary_shoot",
+    "secondary_shoot": "portalcubed:portal_gun.amethyst.secondary_shoot",
+    "fizzle": "portalcubed:portal_gun.amethyst.fizzle"
+  }
+}

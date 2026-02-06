@@ -1,8 +1,8 @@
 {
   "name": {
-    "translate": "portal_gun_skin.portalcubed.portal_gun_atlas"
+    "translate": "portal_gun_skin.portalcubed.atlas_portal_gun"
   },
-  "item_model": "portalcubed:portal_guns/portal_gun_atlas",
+  "item_model": "portalcubed:portal_guns/atlas_portal_gun",
   "sounds": {
     "primary_shoot": "portalcubed:portal_gun.default.primary_shoot",
     "secondary_shoot": "portalcubed:portal_gun.default.secondary_shoot",

@@ -1,10 +1,10 @@
 {
   "values": [
-    "painting",
-    "shulker",
-    "item_frame",
-    "falling_block",
-    "ghast",
+    "minecraft:painting",
+    "minecraft:shulker",
+    "minecraft:item_frame",
+    "minecraft:falling_block",
+    "minecraft:ghast",
     "#c:boats",
     "#c:minecarts"
   ]

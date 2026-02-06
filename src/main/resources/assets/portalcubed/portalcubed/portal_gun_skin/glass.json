@@ -1,0 +1,11 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.glass_portal_gun"
+  },
+  "item_model": "portalcubed:portal_guns/glass_portal_gun",
+  "sounds": {
+    "primary_shoot": "portalcubed:portal_gun.glass.primary_shoot",
+    "secondary_shoot": "portalcubed:portal_gun.glass.secondary_shoot",
+    "fizzle": "portalcubed:portal_gun.glass.fizzle"
+  }
+}

@@ -3,7 +3,6 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:portal_gun/wiimote",
-		"1": "portalcubed:portal_gun/portal_gun_emissive",
 		"particle": "portalcubed:portal_gun/wiimote"
 	},
 	"elements": [
@@ -34,9 +33,10 @@
 			"name": "cutout",
 			"from": [6, 3, 14],
 			"to": [7, 3, 15],
+			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [9, 0, 14]},
 			"faces": {
-				"up": {"uv": [5.5, 3.5, 6, 4], "texture": "#1"}
+				"up": {"uv": [12, 15, 13, 16], "texture": "#0"}
 			}
 		},
 		{

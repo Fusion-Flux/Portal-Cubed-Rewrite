@@ -3,7 +3,7 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:portal_gun/laser_pointer",
-		"1": "portalcubed:portal_gun/portal_gun_emissive",
+		"1": "portalcubed:portal_gun/laser_pointer_emissive",
 		"particle": "portalcubed:portal_gun/laser_pointer"
 	},
 	"elements": [
@@ -69,10 +69,10 @@
 			"to": [8.5, 32, 8.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7, 7.5]},
 			"faces": {
-				"north": {"uv": [12.5, 16, 0, 15.5], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"east": {"uv": [12.5, 16, 0, 15.5], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"south": {"uv": [12.5, 16, 0, 15.5], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"west": {"uv": [12.5, 16, 0, 15.5], "rotation": 90, "texture": "#1", "tintindex": 0}
+				"north": {"uv": [12.5, 1, 0, 0], "rotation": 90, "texture": "#1", "tintindex": 0},
+				"east": {"uv": [12.5, 1, 0, 0], "rotation": 90, "texture": "#1", "tintindex": 0},
+				"south": {"uv": [12.5, 1, 0, 0], "rotation": 90, "texture": "#1", "tintindex": 0},
+				"west": {"uv": [12.5, 1, 0, 0], "rotation": 90, "texture": "#1", "tintindex": 0}
 			}
 		}
 	],

@@ -283,7 +283,7 @@ public class PortalCubedTabs {
 					16748062
 			);
 			helper.addSkin(
-					"portal_gun_atlas",
+					"atlas_portal_gun",
 					"atlas",
 					"round",
 					"round",
@@ -292,7 +292,7 @@ public class PortalCubedTabs {
 					5243131
 			);
 			helper.addSkin(
-					"portal_gun_p_body",
+					"p_body_portal_gun",
 					"p_body",
 					"round",
 					"round",
@@ -301,7 +301,7 @@ public class PortalCubedTabs {
 					9902619
 			);
 			helper.addSkin(
-					"portal_gun_reloaded",
+					"reloaded_portal_gun",
 					"reloaded",
 					"round",
 					"round",
@@ -339,7 +339,7 @@ public class PortalCubedTabs {
 					14842148
 			);
 			helper.addSkin(
-					"legacy_portal_gun_atlas",
+					"legacy_atlas_portal_gun",
 					"legacy_atlas",
 					"legacy_round",
 					"legacy_round",
@@ -348,7 +348,7 @@ public class PortalCubedTabs {
 					5243131
 			);
 			helper.addSkin(
-					"legacy_portal_gun_p_body",
+					"legacy_p_body_portal_gun",
 					"legacy_p_body",
 					"legacy_round",
 					"legacy_round",
@@ -357,7 +357,7 @@ public class PortalCubedTabs {
 					9902619
 			);
 			helper.addSkin(
-					"legacy_portal_gun_reloaded",
+					"legacy_reloaded_portal_gun",
 					"legacy_reloaded",
 					"legacy_round",
 					"legacy_round",
@@ -376,7 +376,7 @@ public class PortalCubedTabs {
 					16748062
 			);
 			helper.addSkin(
-					"2d_portal_gun_atlas",
+					"2d_atlas_portal_gun",
 					"2d_atlas",
 					"round",
 					"round",
@@ -385,7 +385,7 @@ public class PortalCubedTabs {
 					5243131
 			);
 			helper.addSkin(
-					"2d_portal_gun_p_body",
+					"2d_p_body_portal_gun",
 					"2d_p_body",
 					"round",
 					"round",
@@ -394,7 +394,7 @@ public class PortalCubedTabs {
 					9902619
 			);
 			helper.addSkin(
-					"2d_portal_gun_reloaded",
+					"2d_reloaded_portal_gun",
 					"2d_reloaded",
 					"round",
 					"round",
@@ -580,14 +580,50 @@ public class PortalCubedTabs {
 					"copper_portal_gun",
 					"copper",
 					"none",
-					"door_copper",
+					"round",
 					14910060,
-					"door_copper_oxidized",
+					"round",
 					7259551
 			);
 			helper.addSkin(
-					"blocks",
-					"blocks",
+					"prismarine_portal_gun",
+					"prismarine",
+					"none",
+					"round",
+					13956331,
+					"round",
+					16767178
+			);
+			helper.addSkin(
+					"sculk_portal_gun",
+					"sculk",
+					"none",
+					"round",
+					3832967,
+					"round",
+					9771034
+			);
+			helper.addSkin(
+					"amethyst_portal_gun",
+					"amethyst",
+					"none",
+					"round",
+					13144304,
+					"round",
+					16698342
+			);
+			helper.addSkin(
+					"glass_portal_gun",
+					"glass",
+					"none",
+					"round",
+					6724056,
+					"round",
+					14188339
+			);
+			helper.addSkin(
+					"block_built_portal_gun",
+					"block_built",
 					"none",
 					"stained_glass_window",
 					6724056,
@@ -649,7 +685,7 @@ public class PortalCubedTabs {
 					16776960
 			);
 			helper.addSkin(
-					"portal_gun_rick",
+					"rick_portal_gun",
 					"rick",
 					"base",
 					"spiral",

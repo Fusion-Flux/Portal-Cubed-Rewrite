@@ -1,9 +1,10 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "portalcubed:portal_gun/2005_beta_portal_gun",
-		"1": "portalcubed:portal_gun/portal_gun_emissive",
+		"1": "portalcubed:portal_gun/beta_portal_gun_emissive",
 		"particle": "portalcubed:portal_gun/2005_beta_portal_gun"
 	},
 	"elements": [
@@ -418,10 +419,10 @@
 			"rotation": {"angle": -45, "axis": "x", "origin": [8, -1.19316, -2.26123]},
 			"faces": {
 				"north": {"uv": [14.5, 9.5, 16, 11], "texture": "#0"},
-				"east": {"uv": [0, 5.5, 1.5, 10.5], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"west": {"uv": [3, 5.5, 4.5, 10.5], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"up": {"uv": [1.5, 5.5, 3, 10.5], "texture": "#1", "tintindex": 0},
-				"down": {"uv": [4.5, 5.5, 6, 10.5], "texture": "#1", "tintindex": 0}
+				"east": {"uv": [0, 14, 3, 4], "rotation": 90, "texture": "#1", "tintindex": 0},
+				"west": {"uv": [6, 4, 9, 14], "rotation": 90, "texture": "#1", "tintindex": 0},
+				"up": {"uv": [3, 14, 6, 4], "texture": "#1", "tintindex": 0},
+				"down": {"uv": [9, 4, 12, 14], "texture": "#1", "tintindex": 0}
 			}
 		}
 	],

@@ -1,0 +1,49 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "block/white_stained_glass"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 1, -7],
+			"scale": [0.12, 0.12, 0.12]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 1, -7],
+			"scale": [0.12, 0.12, 0.12]
+		},
+		"firstperson_righthand": {
+			"rotation": [90, 0, 0],
+			"translation": [0.75, 0.5, -7.75],
+			"scale": [0.18, 0.15, 0.22]
+		},
+		"firstperson_lefthand": {
+			"rotation": [90, 0, 0],
+			"translation": [0.75, 0.5, -7.75],
+			"scale": [0.18, 0.15, 0.22]
+		},
+		"ground": {
+			"translation": [-1, 2.5, -0.5],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 1, -7],
+			"scale": [0.12, 0.12, 0.12]
+		},
+		"head": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 11, -4],
+			"scale": [0.12, 0.12, 0.12]
+		},
+		"fixed": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 1, -7],
+			"scale": [0.12, 0.12, 0.12]
+		}
+	}
+}

@@ -79,27 +79,24 @@
   "portalcubed:portal_gun/default_special/humanoid/blueprint_portal_gun": "portalcubed:portal_gun/blueprint_portal_gun_outline",
   "portalcubed:portal_gun/default_special/fox/blueprint_portal_gun": "portalcubed:portal_gun/blueprint_portal_gun_outline",
 
-  "portalcubed:portal_gun/legacy/humanoid/legacy_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/legacy/fox/legacy_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/legacy/humanoid/legacy_portal_gun": "portalcubed:portal_gun/legacy_portal_gun_emissive",
+  "portalcubed:portal_gun/legacy/fox/legacy_portal_gun": "portalcubed:portal_gun/legacy_portal_gun_emissive",
 
   "portalcubed:portal_gun/2d/2d_portal_gun": "portalcubed:portal_gun/2d_portal_gun_emissive",
-  "portalcubed:portal_gun/2d/2d_portal_gun_atlas": "portalcubed:portal_gun/2d_portal_gun_emissive",
-  "portalcubed:portal_gun/2d/2d_portal_gun_p_body": "portalcubed:portal_gun/2d_portal_gun_emissive",
-  "portalcubed:portal_gun/2d/2d_portal_gun_reloaded": "portalcubed:portal_gun/2d_portal_gun_emissive",
+  "portalcubed:portal_gun/2d/2d_atlas_portal_gun": "portalcubed:portal_gun/2d_portal_gun_emissive",
+  "portalcubed:portal_gun/2d/2d_p_body_portal_gun": "portalcubed:portal_gun/2d_portal_gun_emissive",
+  "portalcubed:portal_gun/2d/2d_reloaded_portal_gun": "portalcubed:portal_gun/2d_portal_gun_emissive",
 
-  "portalcubed:portal_gun/beta/humanoid/2005_beta_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/beta/fox/2005_beta_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/beta/humanoid/2006_beta_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/beta/fox/2006_beta_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/beta/humanoid/2005_beta_portal_gun": "portalcubed:portal_gun/beta_portal_gun_emissive",
+  "portalcubed:portal_gun/beta/fox/2005_beta_portal_gun": "portalcubed:portal_gun/beta_portal_gun_emissive",
+  "portalcubed:portal_gun/beta/humanoid/2006_beta_portal_gun": "portalcubed:portal_gun/beta_portal_gun_emissive",
+  "portalcubed:portal_gun/beta/fox/2006_beta_portal_gun": "portalcubed:portal_gun/beta_portal_gun_emissive",
 
   "portalcubed:portal_gun/mel/humanoid/mel_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
   "portalcubed:portal_gun/mel/fox/mel_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
 
-  "portalcubed:portal_gun/lego/humanoid/lego_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/lego/fox/lego_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
-
-  "portalcubed:portal_gun/blowtorch/humanoid/blowtorch": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/blowtorch/fox/blowtorch": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/lego/humanoid/lego_portal_gun": "portalcubed:portal_gun/lego_portal_gun_emissive",
+  "portalcubed:portal_gun/lego/fox/lego_portal_gun": "portalcubed:portal_gun/lego_portal_gun_emissive",
 
   "portalcubed:portal_gun/wand/humanoid/wand": "portalcubed:portal_gun/mini_black_hole",
   "portalcubed:portal_gun/wand/fox/wand": "portalcubed:portal_gun/mini_black_hole",
@@ -115,32 +112,31 @@
   "portalcubed:portal_gun/magic_brush/humanoid/magic_brush": "portalcubed:portal_gun/magic_brush_emissive",
   "portalcubed:portal_gun/magic_brush/villager/magic_brush": "portalcubed:portal_gun/magic_brush_emissive",
 
-  "portalcubed:portal_gun/wiimote/humanoid/wiimote": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/wiimote/humanoid/wiimote_3rd_person": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/wiimote/fox/wiimote": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/wiimote/villager/wiimote": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/wiimote/allay/wiimote": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/laser_pointer/humanoid/laser_pointer": "portalcubed:portal_gun/laser_pointer_emissive",
+  "portalcubed:portal_gun/laser_pointer/fox/laser_pointer": "portalcubed:portal_gun/laser_pointer_emissive",
+  "portalcubed:portal_gun/laser_pointer/villager/laser_pointer": "portalcubed:portal_gun/laser_pointer_emissive",
+  "portalcubed:portal_gun/laser_pointer/allay/laser_pointer": "portalcubed:portal_gun/laser_pointer_emissive",
 
-  "portalcubed:portal_gun/laser_pointer/humanoid/laser_pointer": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/laser_pointer/fox/laser_pointer": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/laser_pointer/villager/laser_pointer": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/laser_pointer/allay/laser_pointer": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/smithers/humanoid/smithers_portal_gun": "portalcubed:portal_gun/smithers_portal_gun_emissive",
+  "portalcubed:portal_gun/smithers/fox/smithers_portal_gun": "portalcubed:portal_gun/smithers_portal_gun_emissive",
 
-  "portalcubed:portal_gun/smithers/humanoid/smithers_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/smithers/fox/smithers_portal_gun": "portalcubed:portal_gun/portal_gun_emissive",
-
-  "portalcubed:portal_gun/rick/humanoid/portal_gun_rick": "portalcubed:portal_gun/portal_gun_emissive",
-  "portalcubed:portal_gun/rick/fox/portal_gun_rick": "portalcubed:portal_gun/portal_gun_emissive",
+  "portalcubed:portal_gun/rick/humanoid/rick_portal_gun": "portalcubed:portal_gun/rick_portal_gun_emissive",
+  "portalcubed:portal_gun/rick/fox/rick_portal_gun": "portalcubed:portal_gun/rick_portal_gun_emissive",
 
   "portalcubed:portal_gun/blocks/humanoid/frame": [
     "minecraft:block/birch_planks",
     "minecraft:block/glow_item_frame"
   ],
-  "portalcubed:portal_gun/blocks/humanoid/pane": "minecraft:block/white_stained_glass",
+  "portalcubed:portal_gun/block_built/humanoid/pane": "minecraft:block/white_stained_glass",
 
-  "portalcubed:portal_gun/copper/humanoid/copper_portal_gun": "portalcubed:portal_gun/copper_portal_gun_emissive",
-  "portalcubed:portal_gun/copper/fox/copper_portal_gun": "portalcubed:portal_gun/copper_portal_gun_emissive",
-
+  "portalcubed:portal_gun/blocks/humanoid/copper_portal_gun": "portalcubed:portal_gun/copper_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/humanoid/prismarine_portal_gun": "portalcubed:portal_gun/prismarine_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/humanoid/sculk_portal_gun": "portalcubed:portal_gun/sculk_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/humanoid/glass_portal_gun": "portalcubed:portal_gun/mini_black_hole",
+  "portalcubed:portal_gun/blocks/fox/copper_portal_gun": "portalcubed:portal_gun/copper_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/fox/prismarine_portal_gun": "portalcubed:portal_gun/prismarine_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/fox/sculk_portal_gun": "portalcubed:portal_gun/sculk_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/fox/glass_portal_gun": "portalcubed:portal_gun/mini_black_hole",
 
 
   "portalcubed:prop/storage_cube": "portalcubed:prop/storage_cube_ring",

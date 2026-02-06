@@ -107,6 +107,26 @@ public class PortalCubedSounds {
 	public static final SoundEvent COPPER_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.copper.secondary_shoot");
 	public static final SoundEvent COPPER_PORTAL_GUN_FIZZLE = register("portal_gun.copper.fizzle");
 
+	public static final SoundEvent PRISMARINE_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.prismarine.primary_shoot");
+	public static final SoundEvent PRISMARINE_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.prismarine.secondary_shoot");
+	public static final SoundEvent PRISMARINE_PORTAL_GUN_FIZZLE = register("portal_gun.prismarine.fizzle");
+	public static final SoundEvent PRISMARINE_PORTAL_GUN_GRAB = register("portal_gun.prismarine.grab");
+	public static final SoundEvent PRISMARINE_PORTAL_GUN_RELEASE = register("portal_gun.prismarine.release");
+
+	public static final SoundEvent SCULK_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.sculk.primary_shoot");
+	public static final SoundEvent SCULK_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.sculk.secondary_shoot");
+	public static final SoundEvent SCULK_PORTAL_GUN_FIZZLE = register("portal_gun.sculk.fizzle");
+	public static final SoundEvent SCULK_PORTAL_GUN_GRAB = register("portal_gun.sculk.grab");
+	public static final SoundEvent SCULK_PORTAL_GUN_RELEASE = register("portal_gun.sculk.release");
+
+	public static final SoundEvent AMETHYST_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.amethyst.primary_shoot");
+	public static final SoundEvent AMETHYST_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.amethyst.secondary_shoot");
+	public static final SoundEvent AMETHYST_PORTAL_GUN_FIZZLE = register("portal_gun.amethyst.fizzle");
+
+	public static final SoundEvent GLASS_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.glass.primary_shoot");
+	public static final SoundEvent GLASS_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.glass.secondary_shoot");
+	public static final SoundEvent GLASS_PORTAL_GUN_FIZZLE = register("portal_gun.glass.fizzle");
+
 	//Portals
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_PRIMARY = register("portal_type.default.open.primary");
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_SECONDARY = register("portal_type.default.open.secondary");

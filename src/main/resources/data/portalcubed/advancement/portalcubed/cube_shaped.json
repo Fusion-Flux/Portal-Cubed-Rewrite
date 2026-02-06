@@ -8,7 +8,7 @@
           "blocks": "portalcubed:cube_button"
         },
         "entity": {
-          "type": "#portalcubed:cube_shaped_entity"
+          "type": "#portalcubed:cube_shaped"
         }
       }
     }

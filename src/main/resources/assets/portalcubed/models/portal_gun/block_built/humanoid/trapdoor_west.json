@@ -1,0 +1,64 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Cart3r using Blockbench.",
+	"textures": {
+		"0": "block/pale_oak_trapdoor",
+		"particle": "block/pale_oak_trapdoor"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 13],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#0", "tintindex": 0},
+				"east": {"uv": [0, 0, 16, 3], "rotation": 90, "texture": "#0", "cullface": "west", "tintindex": 0},
+				"south": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#0", "cullface": "south", "tintindex": 0},
+				"west": {"uv": [0, 3, 16, 0], "rotation": 90, "texture": "#0", "cullface": "west", "tintindex": 0},
+				"up": {"uv": [0, 0, 16, 3], "texture": "#0", "cullface": "up", "tintindex": 0},
+				"down": {"uv": [0, 3, 16, 0], "texture": "#0", "cullface": "down", "tintindex": 0}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-90, 90, 0],
+			"translation": [0.75, -1.25, -3],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-90, 90, 0],
+			"translation": [0.75, -1.25, -3],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"firstperson_righthand": {
+			"rotation": [-90, 90, 0],
+			"translation": [1.75, -1, -3.75],
+			"scale": [0.34766, 0.27344, 0.34766]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-90, 90, 0],
+			"translation": [1.75, -1, -3.75],
+			"scale": [0.34766, 0.27344, 0.34766]
+		},
+		"ground": {
+			"rotation": [-90, 0, 0],
+			"translation": [-1.75, 0.5, 0.75],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [-90, 90, 0],
+			"translation": [0.75, -1.25, -3],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"head": {
+			"rotation": [-90, 90, 0],
+			"translation": [0.75, 8.75, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"fixed": {
+			"rotation": [-90, 90, 0],
+			"translation": [0.75, -1.25, -3],
+			"scale": [0.25, 0.25, 0.25]
+		}
+	}
+}

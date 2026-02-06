@@ -7,7 +7,7 @@
         "when": "minecraft:fox",
         "model": {
  	   "type": "minecraft:model",
- 	   "model": "portalcubed:portal_gun/copper/fox/copper_portal_gun",
+ 	   "model": "portalcubed:portal_gun/blocks/fox/copper_portal_gun",
  	   "tints": [
   	    {
   	      "type": "portalcubed:portal_gun",
@@ -31,7 +31,7 @@
     ],
     "fallback": {
       "type": "minecraft:model",
-      "model": "portalcubed:portal_gun/copper/humanoid/copper_portal_gun",
+      "model": "portalcubed:portal_gun/blocks/humanoid/copper_portal_gun",
       "tints": [
         {
           "type": "portalcubed:portal_gun",

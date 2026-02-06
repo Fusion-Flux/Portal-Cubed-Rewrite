@@ -1,9 +1,10 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "portalcubed:portal_gun/2006_beta_portal_gun",
-		"1": "portalcubed:portal_gun/portal_gun_emissive",
+		"1": "portalcubed:portal_gun/beta_portal_gun_emissive",
 		"particle": "portalcubed:portal_gun/2006_beta_portal_gun"
 	},
 	"elements": [
@@ -427,10 +428,10 @@
 			"to": [6.5, 5, 2.925],
 			"rotation": {"angle": 0, "axis": "z", "origin": [7.94194, 6.47595, 8]},
 			"faces": {
-				"east": {"uv": [5, 3.5, 0, 5], "rotation": 180, "texture": "#1", "tintindex": 0},
-				"west": {"uv": [0, 5, 5, 3.5], "rotation": 180, "texture": "#1", "tintindex": 0},
-				"up": {"uv": [5, 3.5, 0, 5], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"down": {"uv": [0, 5, 5, 3.5], "rotation": 90, "texture": "#1", "tintindex": 0}
+				"east": {"uv": [10, 0, 0, 3], "rotation": 180, "texture": "#1", "tintindex": 0},
+				"west": {"uv": [0, 3, 10, 0], "rotation": 180, "texture": "#1", "tintindex": 0},
+				"up": {"uv": [10, 0, 0, 3], "rotation": 90, "texture": "#1", "tintindex": 0},
+				"down": {"uv": [0, 3, 10, 0], "rotation": 90, "texture": "#1", "tintindex": 0}
 			}
 		},
 		{
@@ -439,10 +440,10 @@
 			"to": [9.51, 8.01, 13.01],
 			"rotation": {"angle": 0, "axis": "z", "origin": [7.94194, 6.47595, 8]},
 			"faces": {
-				"east": {"uv": [0, 3.5, 5, 5], "rotation": 180, "texture": "#1", "tintindex": 0},
-				"west": {"uv": [5, 5, 0, 3.5], "rotation": 180, "texture": "#1", "tintindex": 0},
-				"up": {"uv": [0, 3.5, 5, 5], "rotation": 90, "texture": "#1", "tintindex": 0},
-				"down": {"uv": [5, 5, 0, 3.5], "rotation": 90, "texture": "#1", "tintindex": 0}
+				"east": {"uv": [0, 0, 10, 3], "rotation": 180, "texture": "#1", "tintindex": 0},
+				"west": {"uv": [10, 3, 0, 0], "rotation": 180, "texture": "#1", "tintindex": 0},
+				"up": {"uv": [0, 0, 10, 3], "rotation": 90, "texture": "#1", "tintindex": 0},
+				"down": {"uv": [10, 3, 0, 0], "rotation": 90, "texture": "#1", "tintindex": 0}
 			}
 		}
 	],

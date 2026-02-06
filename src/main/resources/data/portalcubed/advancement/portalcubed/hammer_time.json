@@ -12,7 +12,7 @@
     "description": {
       "translate": "advancement.portalcubed.hammer_time.description"
     },
-    "frame": "challenge",
+    "frame": "task",
     "icon": {
       "count": 1,
       "id": "minecraft:clock"

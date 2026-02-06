@@ -897,6 +897,161 @@
     "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
   },
 
+  "portal_gun.prismarine.primary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.guardian.hurt",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
+  },
+  "portal_gun.prismarine.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.guardian.hurt",
+        "type": "event",
+        "pitch": 1.5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
+  },
+  "portal_gun.prismarine.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.guardian.attack",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+  "portal_gun.prismarine.grab": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.elder_guardian.death",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.grab"
+  },
+  "portal_gun.prismarine.release": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.elder_guardian.hurt",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.release"
+  },
+
+  "portal_gun.sculk.primary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.warden.heartbeat",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
+  },
+  "portal_gun.sculk.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.warden.heartbeat",
+        "type": "event",
+        "pitch": 2
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
+  },
+  "portal_gun.sculk.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:block.sculk.charge",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+  "portal_gun.sculk.grab": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.warden.tendril_clicks",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.grab"
+  },
+  "portal_gun.sculk.release": {
+    "sounds": [
+      {
+        "name": "minecraft:block.sculk_sensor.clicking_stop",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.release"
+  },
+
+  "portal_gun.amethyst.primary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:block.amethyst_block.resonate",
+        "type": "event",
+        "pitch": 1.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
+  },
+  "portal_gun.amethyst.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:block.amethyst_block.resonate",
+        "type": "event",
+        "pitch": 0.75
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
+  },
+  "portal_gun.amethyst.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:block.amethyst_block.chime",
+        "type": "event",
+        "volume": 5
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+
+  "portal_gun.glass.primary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:block.glass.break",
+        "type": "event",
+        "pitch": 1.25
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
+  },
+  "portal_gun.glass.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:block.glass.break",
+        "type": "event",
+        "pitch": 0.75
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
+  },
+  "portal_gun.glass.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:item.ominous_bottle.dispose",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+
   "item.armor.long_fall_boots.land": {
     "sounds": [
       {

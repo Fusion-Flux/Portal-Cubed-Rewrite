@@ -3,7 +3,6 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:portal_gun/blowtorch",
-		"1": "portalcubed:portal_gun/portal_gun_emissive",
 		"particle": "portalcubed:portal_gun/blowtorch"
 	},
 	"elements": [
@@ -136,40 +135,44 @@
 			"name": "translucent",
 			"from": [9.49267, 19.50418, 8],
 			"to": [9.99267, 23.50418, 8],
+			"light_emission": 15,
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [9.49267, 19.50418, 8]},
 			"faces": {
-				"north": {"uv": [0, 13, 0.5, 15], "texture": "#1", "tintindex": 0},
-				"south": {"uv": [0, 13, 0.5, 15], "texture": "#1", "tintindex": 0}
+				"north": {"uv": [14, 3, 15, 7], "texture": "#0", "tintindex": 0},
+				"south": {"uv": [14, 3, 15, 7], "texture": "#0", "tintindex": 0}
 			}
 		},
 		{
 			"name": "translucent",
 			"from": [8.99267, 19.50418, 8],
 			"to": [9.49267, 23.50418, 8],
+			"light_emission": 15,
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [9.49267, 19.50418, 8]},
 			"faces": {
-				"north": {"uv": [0, 13, 0.5, 15], "texture": "#1", "tintindex": 0},
-				"south": {"uv": [0, 13, 0.5, 15], "texture": "#1", "tintindex": 0}
+				"north": {"uv": [14, 3, 15, 7], "texture": "#0", "tintindex": 0},
+				"south": {"uv": [14, 3, 15, 7], "texture": "#0", "tintindex": 0}
 			}
 		},
 		{
 			"name": "translucent",
 			"from": [10.25804, 19.35194, 7.5],
 			"to": [10.25804, 23.35194, 8],
+			"light_emission": 15,
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [10.25804, 21.35194, 8]},
 			"faces": {
-				"east": {"uv": [0, 13, 0.5, 15], "texture": "#1", "tintindex": 0},
-				"west": {"uv": [0, 13, 0.5, 15], "texture": "#1", "tintindex": 0}
+				"east": {"uv": [14, 3, 15, 7], "texture": "#0", "tintindex": 0},
+				"west": {"uv": [14, 3, 15, 7], "texture": "#0", "tintindex": 0}
 			}
 		},
 		{
 			"name": "translucent",
 			"from": [10.25804, 19.35194, 8],
 			"to": [10.25804, 23.35194, 8.5],
+			"light_emission": 15,
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [10.25804, 21.35194, 8]},
 			"faces": {
-				"east": {"uv": [0, 13, 0.5, 15], "texture": "#1", "tintindex": 0},
-				"west": {"uv": [0, 13, 0.5, 15], "texture": "#1", "tintindex": 0}
+				"east": {"uv": [14, 3, 15, 7], "texture": "#0", "tintindex": 0},
+				"west": {"uv": [14, 3, 15, 7], "texture": "#0", "tintindex": 0}
 			}
 		}
 	],

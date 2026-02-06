@@ -1,0 +1,97 @@
+{
+  "model": {
+      "type": "minecraft:composite",
+      "models": [
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/pane",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "active"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/candle_north"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/lever_north"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/trapdoor_north",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/candle_east"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/lever_east"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/trapdoor_east",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/candle_west"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/lever_west"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/trapdoor_west",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/wall"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/gate"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/dispenser"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/wood",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/block_built/humanoid/frame"
+        }
+      ]
+  }
+}
