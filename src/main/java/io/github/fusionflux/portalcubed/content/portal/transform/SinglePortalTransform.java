@@ -44,8 +44,8 @@ public final class SinglePortalTransform implements PortalTransform {
 
 	private final SinglePortalTransform inverse;
 
-	public SinglePortalTransform(PortalHitResult hitResult) {
-		this(hitResult.enteredPortal().get(), hitResult.exitedPortal().get());
+	public SinglePortalTransform(PortalHitResult.Open hitResult) {
+		this(hitResult.hitPortal().get(), hitResult.exitedPortal().get());
 	}
 
 	public SinglePortalTransform(Portal in, Portal out) {

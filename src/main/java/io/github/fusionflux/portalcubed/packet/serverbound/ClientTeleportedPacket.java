@@ -147,7 +147,7 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 
 		private static Teleport of(PortalHitResult result) {
 			return new Teleport(
-					result.enteredPortal().id,
+					result.hitPortal().id,
 					result instanceof PortalHitResult.Mid mid ? Optional.of(Teleport.of(mid.next())) : Optional.empty()
 			);
 		}

@@ -79,10 +79,15 @@ public class CrossPortalEntityRenderer {
 						.add(center);
 
 				PortalHitResult.Tail hit = portalLookup.clipOnce(start, end);
-				if (hit != null) {
-					this.entities.add(new CrossPortalEntity(entity, tickDelta, position, hit));
-					break;
+				if (hit == null)
+					continue;
+
+				if (!(hit instanceof PortalHitResult.Tail.Open open)) {
+					throw new IllegalStateException("Shouldn't've hit a closed portal");
 				}
+
+				this.entities.add(new CrossPortalEntity(entity, tickDelta, position, open));
+				break;
 			}
 		}
 	}
@@ -137,8 +142,8 @@ public class CrossPortalEntityRenderer {
 	}
 
 	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalReference inPortal, Portal outPortal, PortalTransform transform) {
-		public CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalHitResult.Tail hit) {
-			this(entity, tickDelta, position, hit.enteredPortal(), hit.exitedPortal().get(), PortalTransform.of(hit));
+		public CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalHitResult.Tail.Open hit) {
+			this(entity, tickDelta, position, hit.hitPortal(), hit.exitedPortal().get(), PortalTransform.of(hit));
 		}
 
 		public boolean shouldBeSkipped() {

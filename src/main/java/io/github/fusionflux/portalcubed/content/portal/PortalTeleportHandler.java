@@ -42,7 +42,7 @@ public class PortalTeleportHandler {
 		Vec3 oldCenter = oldPos.add(posToCenter);
 
 		PortalManager manager = entity.level().portalManager();
-		PortalHitResult result = manager.lookup().clip(oldCenter, newCenter);
+		PortalHitResult.Open result = (PortalHitResult.Open) manager.lookup().clip(oldCenter, newCenter);
 		if (result == null)
 			return false;
 
@@ -53,8 +53,10 @@ public class PortalTeleportHandler {
 			ItemStack stack = item.getItem();
 
 			result.forEach(hit -> {
-				PortalCubedCriteriaTriggers.THROWN_ITEM_ENTERED_PORTAL.trigger(player, hit.enteredPortal(), stack);
-				PortalCubedCriteriaTriggers.THROWN_ITEM_EXITED_PORTAL.trigger(player, hit.exitedPortal(), stack);
+				// should always be open, ALLOW_CLOSED is not set
+				PortalHitResult.Open open = (PortalHitResult.Open) hit;
+				PortalCubedCriteriaTriggers.THROWN_ITEM_ENTERED_PORTAL.trigger(player, open.hitPortal(), stack);
+				PortalCubedCriteriaTriggers.THROWN_ITEM_EXITED_PORTAL.trigger(player, open.exitedPortal(), stack);
 			});
 		}
 
@@ -104,8 +106,8 @@ public class PortalTeleportHandler {
 		List<TrackedTeleport> teleports = new ArrayList<>();
 
 		result.forEach(open -> {
-			SinglePortalTransform transform = new SinglePortalTransform(open);
-			teleports.add(new TrackedTeleport(open.enteredPortal().get().plane, transform));
+			SinglePortalTransform transform = new SinglePortalTransform((PortalHitResult.Open) open);
+			teleports.add(new TrackedTeleport(open.hitPortal().get().plane, transform));
 		});
 
 		return teleports;

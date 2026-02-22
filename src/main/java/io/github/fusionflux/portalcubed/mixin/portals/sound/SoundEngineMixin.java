@@ -65,7 +65,7 @@ public class SoundEngineMixin {
 		if (directDistanceSqr <= Mth.square(distanceThroughPortals))
 			return false;
 
-		Portal enteredPortal = path.entries.getFirst().entered().get();
+		Portal enteredPortal = path.entries.getFirst().entered().reference().get();
 		Vec3 direction = cameraPos.vectorTo(enteredPortal.origin()).normalize();
 		Vec3 newPos = cameraPos.add(direction.scale(distanceThroughPortals));
 		handle.execute(channel -> channel.setSelfPosition(newPos));

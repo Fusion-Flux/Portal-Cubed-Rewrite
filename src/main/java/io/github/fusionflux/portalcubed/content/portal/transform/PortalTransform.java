@@ -92,11 +92,13 @@ public sealed interface PortalTransform permits SinglePortalTransform, MultiPort
 	@Contract(mutates = "param1")
 	void apply(Entity entity);
 
-	static PortalTransform of(PortalHitResult result) {
+	static PortalTransform of(PortalHitResult.Open result) {
 		List<SinglePortalTransform> transforms = new ArrayList<>();
-		while (result != null) {
-			transforms.add(new SinglePortalTransform(result));
-			result = result instanceof PortalHitResult.Mid mid ? mid.next() : null;
+
+		PortalHitResult current = result;
+		while (current instanceof PortalHitResult.Open open) {
+			transforms.add(new SinglePortalTransform(open));
+			current = current instanceof PortalHitResult.Mid mid ? mid.next() : null;
 		}
 
 		return transforms.size() == 1 ? transforms.getFirst() : new MultiPortalTransform(transforms);

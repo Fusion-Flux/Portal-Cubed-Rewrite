@@ -14,21 +14,12 @@ import net.minecraft.world.phys.Vec3;
  * except for the final one, which will be a {@link Tail tail} instance.
  */
 public sealed interface PortalHitResult {
-	PortalReference enteredPortal();
+	PortalReference hitPortal();
 
 	/**
 	 * The position on the entered portal that was hit by the raycast.
 	 */
 	Vec3 hit();
-
-	default PortalReference exitedPortal() {
-		return this.enteredPortal().opposite().orElseThrow();
-	}
-
-	/**
-	 * The position on the exited portal that corresponds to the hit on the entered portal.
-	 */
-	Vec3 exitHit();
 
 	/**
 	 * Invoke the given consumer with each entry in the hit chain.
@@ -51,9 +42,23 @@ public sealed interface PortalHitResult {
 	}
 
 	/**
+	 * A PortalHitResult that hit an open portal, passing through it.
+	 */
+	sealed interface Open extends PortalHitResult permits Mid, Tail.Open {
+		default PortalReference exitedPortal() {
+			return this.hitPortal().opposite().orElseThrow();
+		}
+
+		/**
+		 * The position on the exited portal that corresponds to the hit on the entered portal.
+		 */
+		Vec3 exitHit();
+	}
+
+	/**
 	 * A single step in a raycast that passed through more than one pair of portals.
 	 */
-	record Mid(PortalReference enteredPortal, Vec3 hit, Vec3 exitHit, PortalHitResult next) implements PortalHitResult {
+	record Mid(PortalReference hitPortal, Vec3 hit, Vec3 exitHit, PortalHitResult next) implements Open {
 		@Override
 		public void forEach(Consumer<PortalHitResult> consumer) {
 			consumer.accept(this);
@@ -67,17 +72,20 @@ public sealed interface PortalHitResult {
 	}
 
 	/**
-	 * Either the result of a raycast that only passed through one pair of portals, or the tail of a chain of teleports.
+	 * The end of a chain of portal hits. may be either open or closed.
 	 */
-	record Tail(PortalReference enteredPortal, Vec3 hit, Vec3 exitHit, Vec3 end) implements PortalHitResult {
+	sealed interface Tail extends PortalHitResult {
 		@Override
-		public void forEach(Consumer<PortalHitResult> consumer) {
+		default void forEach(Consumer<PortalHitResult> consumer) {
 			consumer.accept(this);
 		}
 
 		@Override
-		public Tail findTail() {
+		default Tail findTail() {
 			return this;
 		}
+
+		record Open(PortalReference hitPortal, Vec3 hit, Vec3 exitHit, Vec3 end) implements Tail, PortalHitResult.Open {}
+		record Closed(PortalReference hitPortal, Vec3 hit) implements Tail {}
 	}
 }

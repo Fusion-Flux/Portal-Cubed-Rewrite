@@ -87,7 +87,7 @@ public final class Portal {
 	}
 
 	public Vec3 origin() {
-		return this.origin();
+		return this.data.origin();
 	}
 
 	public Quaternionf rotation() {

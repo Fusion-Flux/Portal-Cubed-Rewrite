@@ -75,4 +75,9 @@ public final class PortalReference {
 
 		this.portal = portal;
 	}
+
+	@Override
+	public String toString() {
+		return this.id.toString();
+	}
 }

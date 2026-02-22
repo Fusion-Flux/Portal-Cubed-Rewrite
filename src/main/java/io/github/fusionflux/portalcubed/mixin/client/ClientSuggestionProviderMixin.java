@@ -37,7 +37,7 @@ public class ClientSuggestionProviderMixin implements ClientSuggestionProviderEx
 
 		ClientPortalManager manager = level.portalManager();
 		PortalHitResult hit = manager.lookup().clip(from, to);
-		return hit == null ? null : hit.enteredPortal().id.key();
+		return hit == null ? null : hit.hitPortal().id.key();
 	}
 
 	@Override

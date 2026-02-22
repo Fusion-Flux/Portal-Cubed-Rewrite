@@ -3,8 +3,10 @@ package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
@@ -25,7 +27,7 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 
 	@Override
 	@Nullable
-	public PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth) {
+	public PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth, PortalLookup.Flag... flags) {
 		if (this.isEmpty() || maxDepth == 0)
 			return null;
 
@@ -37,6 +39,7 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 
 		Closest closest = new Closest();
 		Vec3 normal = from.vectorTo(to).normalize();
+		boolean allowClosed = ArrayUtils.contains(flags, PortalLookup.Flag.ALLOW_CLOSED);
 
 		forEachSectionInBox(from, to, section -> {
 			List<PortalReference> portals = this.sectionsToPortals.get(section);
@@ -54,8 +57,7 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 				if (hit == null)
 					continue;
 
-				// only hit open portals
-				if (!reference.isLinked())
+				if (!allowClosed && !reference.isLinked())
 					continue;
 
 				double distSqr = hit.distanceToSqr(from);
@@ -71,17 +73,18 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 		if (closest.portal == null)
 			return null;
 
-		PortalReference linked = closest.portal.opposite().orElseThrow(
-				() -> new IllegalStateException("Only linked portals should've been found")
-		);
+		Optional<PortalReference> linked = closest.portal.opposite();
+		if (linked.isEmpty()) {
+			return new PortalHitResult.Tail.Closed(closest.portal, closest.hit);
+		}
 
-		PortalTransform transform = new SinglePortalTransform(closest.portal.get(), linked.get());
+		PortalTransform transform = new SinglePortalTransform(closest.portal.get(), linked.get().get());
 		Vec3 teleportedHit = transform.applyAbsolute(closest.hit);
 		Vec3 teleportedEnd = transform.applyAbsolute(to);
 		PortalHitResult next = this.clip(teleportedHit, teleportedEnd, maxDepth - 1);
 
 		if (next == null) {
-			return new PortalHitResult.Tail(closest.portal, closest.hit, teleportedHit, teleportedEnd);
+			return new PortalHitResult.Tail.Open(closest.portal, closest.hit, teleportedHit, teleportedEnd);
 		} else {
 			return new PortalHitResult.Mid(closest.portal, closest.hit, teleportedHit, next);
 		}

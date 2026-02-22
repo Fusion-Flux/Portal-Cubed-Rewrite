@@ -16,11 +16,11 @@ import net.minecraft.world.phys.Vec3;
 public interface PortalLookup {
 	/**
 	 * Perform a raycast with no recursion limit.
-	 * @see #clip(Vec3, Vec3, int)
+	 * @see #clip(Vec3, Vec3, int, Flag...)
 	 */
 	@Nullable
-	default PortalHitResult clip(Vec3 from, Vec3 to) {
-		return this.clip(from, to, Integer.MAX_VALUE);
+	default PortalHitResult clip(Vec3 from, Vec3 to, Flag... flags) {
+		return this.clip(from, to, Integer.MAX_VALUE, flags);
 	}
 
 	/**
@@ -29,14 +29,14 @@ public interface PortalLookup {
 	 * @return null if no portals were hit
 	 */
 	@Nullable
-	PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth);
+	PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth, Flag... flags);
 
 	/**
 	 * Perform a raycast with a maximum depth of 1. Will always be a {@link PortalHitResult.Tail} if a hit occurs.
 	 */
 	@Nullable
-	default PortalHitResult.Tail clipOnce(Vec3 from, Vec3 to) {
-		PortalHitResult result = this.clip(from, to, 1);
+	default PortalHitResult.Tail clipOnce(Vec3 from, Vec3 to, Flag... flags) {
+		PortalHitResult result = this.clip(from, to, 1, flags);
 
 		if (result == null) {
 			return null;
@@ -62,4 +62,17 @@ public interface PortalLookup {
 	Set<PortalReference> getPortalsAround(Vec3 pos, double radius);
 
 	boolean isEmpty();
+
+	enum Flag {
+		/**
+		 * By default, all lookup operations ignore closed portals. Provide this flag to allow them.
+		 */
+		ALLOW_CLOSED;
+
+		public static final Flag[] NONE = new Flag[0];
+
+		public static Flag[] allowingClosedIf(boolean allow) {
+			return allow ? new Flag[] { ALLOW_CLOSED } : NONE;
+		}
+	}
 }

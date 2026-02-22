@@ -20,36 +20,36 @@ import io.github.fusionflux.portalcubed.content.portal.placement.validator.Porta
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
+import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
+import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 /**
  * An attempt to place a portal in the world by shooting it. May or may not have succeeded.
  */
 public sealed interface PortalShot {
-	// we need to break the raycast into steps, since at large distances
-	// it becomes noticeably imprecise, hitting things when it shouldn't
-	int MAX_CLIP_STEP = 32;
-
 	Predicate<Entity> BLOCKS_PORTAL_SHOTS = EntitySelector.NO_SPECTATORS.and(
 			entity -> entity.getType().is(PortalCubedEntityTags.BLOCKS_PORTAL_SHOTS)
 	);
 
+	RaycastOptions RAYCAST_OPTIONS = RaycastOptions.DEFAULT.edit()
+			.blocks(PortalShotClipContextMode.get())
+			.entities(BLOCKS_PORTAL_SHOTS)
+			.portals(RaycastOptions.PortalMode.IGNORE)
+			.collisionContext(PortalCollisionContext.INSTANCE)
+			.ignoreInteractionOverride(true)
+			.build();
+
 	/**
-	 * @return the hit result of the raycast performed by this shot
+	 * @return the {@link RaycastResult} of the raycast this shot performed
 	 */
-	HitResult hit();
+	RaycastResult result();
 
 	/**
 	 * Create the particle trail left by this shot.
@@ -57,7 +57,7 @@ public sealed interface PortalShot {
 	default void createTrail(ServerLevel level, Vec3 source, PortalSettings settings) {
 		int color = settings.color().getOpaque(level.getGameTime());
 		level.sendParticles(
-				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, this.hit().getLocation(), color, 3),
+				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, this.result().pos, color, 3),
 				source.x, source.y, source.z, 1, 0, 0, 0, 0
 		);
 	}
@@ -87,24 +87,17 @@ public sealed interface PortalShot {
 
 	/**
 	 * A portal shot that completely missed, hitting no blocks.
-	 * @param hit a hit result with the {@link HitResult.Type#MISS miss} type
 	 */
-	record Missed(BlockHitResult hit) implements PortalShot {
-		public Missed {
-			if (hit.getType() != HitResult.Type.MISS) {
-				throw new IllegalArgumentException("Non-miss HitResult: " + hit);
-			}
-		}
-	}
+	record Missed(RaycastResult.Missed result) implements PortalShot {}
 
 	/**
 	 * A portal shot that hit something, but failed to find a valid placement.
-	 * @param hit a hit result with either the BLOCK or ENTITY type.
+	 * @param result either a {@link RaycastResult.Block}, a {@link RaycastResult.Entity}, or a {@link RaycastResult.WorldBorder}
 	 */
-	record Failed(HitResult hit) implements PortalShot {
+	record Failed(RaycastResult result) implements PortalShot {
 		public Failed {
-			if (hit.getType() == HitResult.Type.MISS) {
-				throw new IllegalArgumentException("A MISS result should be Missed, not Failed: " + hit);
+			if (!(result instanceof RaycastResult.Block || result instanceof RaycastResult.Entity || result instanceof RaycastResult.WorldBorder)) {
+				throw new IllegalArgumentException("Result should be a Block, Entity, or WorldBorder: " + result);
 			}
 		}
 	}
@@ -117,22 +110,22 @@ public sealed interface PortalShot {
 
 		private final PortalId id;
 		private final ServerLevel level;
-		private final BlockHitResult hit;
+		private final RaycastResult.Block result;
 
-		private Success(PortalId id, ServerLevel level, PortalPlacement placement, BlockHitResult hit) {
-			if (hit.getType() == HitResult.Type.MISS || hit.isInside()) {
-				throw new IllegalArgumentException("Incorrect HitResult for Success: " + hit);
+		private Success(PortalId id, ServerLevel level, PortalPlacement placement, RaycastResult.Block result) {
+			if (result.isInside) {
+				throw new IllegalArgumentException("Incorrect RaycastResult for Success: " + result);
 			}
 
 			this.id = id;
 			this.level = level;
 			this.placement = placement;
-			this.hit = hit;
+			this.result = result;
 		}
 
 		@Override
-		public BlockHitResult hit() {
-			return this.hit;
+		public RaycastResult.Block result() {
+			return this.result;
 		}
 
 		/**
@@ -173,28 +166,25 @@ public sealed interface PortalShot {
 			direction = direction.normalize();
 		}
 
-		HitResult hit = clip(level, source, direction, maxRange);
-		if (hit instanceof EntityHitResult)
-			return new Failed(hit);
+		double range = Math.min(maxRange, level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
+		RaycastResult result = RAYCAST_OPTIONS.raycast(level, source, direction, range);
 
-		if (!(hit instanceof BlockHitResult blockHit)) {
-			throw new IllegalStateException("Weird HitResult: " + hit);
-		}
+		return switch (result) {
+			case RaycastResult.Missed missed -> new Missed(missed);
+			case RaycastResult.Entity entity -> new Failed(entity);
+			case RaycastResult.WorldBorder worldBorder -> new Failed(worldBorder);
+			case RaycastResult.Portal ignored -> throw new IllegalStateException("PortalShot shouldn't've hit a portal");
+			case RaycastResult.Block block -> {
+				if (block.isInside) {
+					yield new Failed(block);
+				}
 
-		if (hit.getType() == HitResult.Type.MISS) {
-			return new Missed(blockHit);
-		} else if (blockHit.isInside()) {
-			return new Failed(hit);
-		}
+				Angle bias = getBias(direction, block.face);
 
-		Direction face = blockHit.getDirection();
-		Angle bias = getBias(direction, face);
-
-		PortalPlacement placement = PortalBumper.findValidPlacement(
-				shooting, level, hit.getLocation(), yRot, blockHit.getBlockPos(), face, bias, null
-		);
-
-		return placement == null ? new Failed(hit) : new Success(shooting, level, placement, blockHit);
+				PortalPlacement placement = PortalBumper.findValidPlacement(shooting, level, block.pos, yRot, block.blockPos, block.face, bias, null);
+				yield placement == null ? new Failed(block) : new Success(shooting, level, placement, block);
+			}
+		};
 	}
 
 	@Nullable
@@ -205,47 +195,5 @@ public sealed interface PortalShot {
 		Direction left = face.getClockWise();
 		double dot = direction.dot(left.getUnitVec3());
 		return dot > 0 ? Angle.R270 : Angle.R90;
-	}
-
-	private static HitResult clip(ServerLevel level, Vec3 source, Vec3 direction, double maxRange) {
-		double range = Math.min(maxRange, level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
-
-		double distance = range;
-		while (distance > 0) {
-			double step = Math.min(distance, MAX_CLIP_STEP);
-			HitResult result = subClip(level, source, direction, step);
-			if (result.getType() != HitResult.Type.MISS)
-				return result;
-
-			distance -= step;
-			source = result.getLocation();
-		}
-
-		// no hit. create a miss result at the maximum distance
-		Vec3 end = source.add(direction.scale(range));
-		Direction nearestDirection = Direction.getApproximateNearest(direction);
-		BlockPos endPos = BlockPos.containing(end);
-		return BlockHitResult.miss(end, nearestDirection, endPos);
-	}
-
-	private static HitResult subClip(ServerLevel level, Vec3 source, Vec3 direction, double distance) {
-		Vec3 to = source.add(direction.scale(distance));
-
-		ClipContext ctx = new ClipContext(source, to, PortalShotClipContextMode.get(), ClipContext.Fluid.NONE, PortalCollisionContext.INSTANCE);
-		ctx.pc$setIgnoreInteractionOverride(true);
-
-		BlockHitResult blockHit = level.clip(ctx);
-
-		AABB area = new AABB(source, to);
-		EntityHitResult entityHit = ProjectileUtil.getEntityHitResult(level, null, source, to, area, BLOCKS_PORTAL_SHOTS, 0);
-		if (entityHit == null)
-			return blockHit;
-
-		if (blockHit.getType() == HitResult.Type.MISS)
-			return entityHit;
-
-		double blockHitDistance = blockHit.getLocation().distanceTo(source);
-		double entityHitDistance = entityHit.getLocation().distanceTo(source);
-		return blockHitDistance <= entityHitDistance ? blockHit : entityHit;
 	}
 }

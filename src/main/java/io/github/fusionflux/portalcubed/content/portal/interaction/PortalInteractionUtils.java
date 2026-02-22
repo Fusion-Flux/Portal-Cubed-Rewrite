@@ -190,7 +190,7 @@ public final class PortalInteractionUtils {
 			noPath.add(portal);
 		} else {
 			Portal exitedPortal = portal.opposite().orElseThrow().get();
-			Portal enteredPortal = throughPortals.path().entries.getFirst().entered().get();
+			Portal enteredPortal = throughPortals.path().entries.getFirst().entered().reference().get();
 			if (exitedPortal.plane.isBehind(enteredPortal.origin())) {
 				// also ignore if behind the portal
 				throughPortals = null;

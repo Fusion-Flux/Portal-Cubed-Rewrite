@@ -8,6 +8,7 @@ import java.util.function.ToDoubleFunction;
 
 import org.jetbrains.annotations.Unmodifiable;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.transform.MultiPortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
@@ -64,8 +65,8 @@ public final class PortalPath {
 
 	public double lengthSqr(Vec3 start, ToDoubleFunction<Vec3> endDistanceSqrFunction) {
 		return Mth.square(this.internalLength)
-				+ this.altEntries.start.entered.get().data.origin().distanceToSqr(start)
-				+ endDistanceSqrFunction.applyAsDouble(this.altEntries.end.exited.get().data.origin());
+				+ this.altEntries.start.entered.reference().get().origin().distanceToSqr(start)
+				+ endDistanceSqrFunction.applyAsDouble(this.altEntries.end.exited.reference().get().origin());
 	}
 
 	/**
@@ -75,37 +76,40 @@ public final class PortalPath {
 		List<SinglePortalTransform> transforms = new ArrayList<>();
 
 		for (Entry entry : this.entries) {
-			transforms.add(new SinglePortalTransform(entry.entered.get(), entry.exited.get()));
+			transforms.add(new SinglePortalTransform(entry.entered.reference().get(), entry.exited.reference().get()));
 		}
 
 		return transforms.size() == 1 ? transforms.getFirst() : new MultiPortalTransform(transforms);
 	}
 
 	/**
-	 * Create a new PortalPath that passes through the given portal, and then all portals in this path.
+	 * Create a new PortalPath that passes through the given portals at their centers, and then all portals in this path.
 	 * @throws NoSuchElementException if the given portal is not linked
 	 */
-	public PortalPath prepend(PortalReference entered) {
-		return this.prepend(entered, entered.opposite().orElseThrow());
+	public PortalPath prepend(PortalReference entered, PortalReference exited) {
+		return this.prepend(HitPortal.ofCenter(entered), HitPortal.ofCenter(exited));
 	}
 
 	/**
 	 * Create a new PortalPath that passes through the given portals, and then all portals in this path.
 	 * @throws IllegalArgumentException if the given portals are not linked
 	 */
-	public PortalPath prepend(PortalReference entered, PortalReference exited) {
+	public PortalPath prepend(HitPortal entered, HitPortal exited) {
 		List<Entry> entries = new ArrayList<>();
 		entries.add(new Entry(entered, exited));
 		entries.addAll(this.entries);
 		return new PortalPath(Collections.unmodifiableList(entries));
 	}
 
+	/**
+	 * Associate this path with a value.
+	 */
 	public <T> With<T> with(T value) {
 		return new With<>(this, value);
 	}
 
 	/**
-	 * Create a new PortalPath that passes through the given portal.
+	 * Create a new PortalPath that passes through the given portal at its center.
 	 * @throws NoSuchElementException if the given portal is not linked
 	 */
 	public static PortalPath of(PortalReference entered) {
@@ -113,24 +117,41 @@ public final class PortalPath {
 	}
 
 	/**
-	 * Create a new PortalPath that passes through the given portals.
+	 * Create a new PortalPath that passes through the given portals at their centers.
 	 * @throws IllegalArgumentException if the given portals are not linked
 	 */
 	public static PortalPath of(PortalReference entered, PortalReference exited) {
+		return of(HitPortal.ofCenter(entered), HitPortal.ofCenter(exited));
+	}
+
+	/**
+	 * Create a new PortalPath that passes through the given portals.
+	 * @throws IllegalArgumentException if the given portals are not linked
+	 */
+	public static PortalPath of(HitPortal entered, HitPortal exited) {
 		Entry entry = new Entry(entered, exited);
 		return new PortalPath(List.of(entry));
 	}
 
 	/**
+	 * Create a new PortalPath from the given list of {@link Entry entries}.
+	 */
+	public static PortalPath of(List<Entry> entries) {
+		return new PortalPath(List.copyOf(entries));
+	}
+
+	/**
 	 * An entry in a path, containing one linked pair of portals.
 	 */
-	public record Entry(PortalReference entered, PortalReference exited) {
+	public record Entry(HitPortal entered, HitPortal exited) {
 		/**
 		 * @throws IllegalArgumentException if the two portals are not linked
 		 */
 		public Entry {
-			if (!entered.id.isOppositeOf(exited.id)) {
-				throw new IllegalArgumentException("Entered and exited portals must be linked");
+			PortalId enteredId = entered.reference().id;
+			PortalId exitedId = exited.reference().id;
+			if (!enteredId.isOppositeOf(exitedId)) {
+				throw new IllegalArgumentException("Portals must be linked: " + enteredId + " & " + exitedId);
 			}
 		}
 	}
@@ -139,12 +160,12 @@ public final class PortalPath {
 	 * An alternate view of a path's entries, allowing for easier use in some cases.
 	 */
 	public record AltEntries(Start start, @Unmodifiable List<Intermediate> intermediates, End end) {
-		record Start(PortalReference entered) {}
-		record End(PortalReference exited) {}
+		record Start(HitPortal entered) {}
+		record End(HitPortal exited) {}
 
-		record Intermediate(PortalReference exited, PortalReference entered) {
+		record Intermediate(HitPortal exited, HitPortal entered) {
 			public double distance() {
-				return this.exited.get().data.origin().distanceTo(this.entered.get().data.origin());
+				return this.exited.reference().get().origin().distanceTo(this.entered.reference().get().origin());
 			}
 		}
 	}
