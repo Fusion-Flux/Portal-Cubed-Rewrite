@@ -52,7 +52,7 @@ public interface BlockGetterMixin {
 			if (bigBlockResult != null && bigBlockResult.getType() != HitResult.Type.MISS) {
 				double distanceSqr = bigBlockResult.getLocation().distanceToSqr(from);
 				if (distanceSqr < closestDistSqr) {
-					closestHit = bigBlockResult;
+					closestHit = ensureImmutable(bigBlockResult);
 					closestDistSqr = distanceSqr;
 				}
 			}
@@ -82,5 +82,12 @@ public interface BlockGetterMixin {
 
 			return original.apply(context, pos);
 		};
+	}
+
+	@Unique
+	private static BlockHitResult ensureImmutable(BlockHitResult result) {
+		// we use a MutableBlockPos cursor, which the result does not call immutable() on.
+		// make an immutable copy whenever we want to hold on to the result
+		return result.withPosition(result.getBlockPos().immutable());
 	}
 }
