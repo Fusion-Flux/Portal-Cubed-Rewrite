@@ -150,6 +150,7 @@
     "portals.client.RenderSectionManagerMixin",
     "portals.client.RenderTargetMixin",
     "portals.interaction.ClientLevelMixin",
+    "portals.interaction.DebugScreenOverlayMixin",
     "portals.interaction.GameRendererMixin",
     "portals.interaction.LevelRendererMixin",
     "portals.interaction.MinecraftMixin",
