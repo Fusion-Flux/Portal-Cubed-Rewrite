@@ -1,0 +1,12 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Cart3r using Blockbench.",
+ 	"parent": "portalcubed:portal_gun/fenestrifle/humanoid/fenestrifle",
+	"display": {
+		"gui": {
+			"rotation": [-90, 60, 90],
+			"translation": [-0.45, 1.25, 0],
+			"scale": [0.30, 0.30, 0.30]
+		}
+	}
+}

@@ -1,0 +1,135 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "minecraft:carried",
+    "on_true": {
+      "type": "minecraft:composite",
+      "models": [
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/fenestrifle/humanoid/captchalogue_card",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "active"
+            },
+            {
+              "type": "minecraft:dye",
+              "default": -720896
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "primary"
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "secondary"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/fenestrifle/humanoid/fenestrifle_carried",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "active"
+            },
+            {
+              "type": "minecraft:dye",
+              "default": -720896
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "primary"
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "secondary"
+            }
+          ]
+        }
+      ]
+    },
+    "on_false": {
+      "type": "minecraft:select",
+      "property": "minecraft:display_context",
+      "cases": [
+        {
+          "when": "ground",
+          "model": {
+            "type": "minecraft:composite",
+            "models": [
+              {
+                "type": "minecraft:model",
+                "model": "portalcubed:portal_gun/fenestrifle/humanoid/captchalogue_card",
+                "tints": [
+                  {
+                    "type": "portalcubed:portal_gun",
+                    "polarity": "active"
+                  },
+                  {
+                    "type": "minecraft:dye",
+                    "default": -720896
+                  },
+                  {
+                    "type": "portalcubed:portal_gun",
+                    "polarity": "primary"
+                  },
+                  {
+                    "type": "portalcubed:portal_gun",
+                    "polarity": "secondary"
+                  }
+                ]
+              },
+              {
+                "type": "minecraft:model",
+                "model": "portalcubed:portal_gun/fenestrifle/humanoid/fenestrifle",
+                "tints": [
+                  {
+                    "type": "portalcubed:portal_gun",
+                    "polarity": "active"
+                  },
+                  {
+                    "type": "minecraft:dye",
+                    "default": -720896
+                  },
+                  {
+                    "type": "portalcubed:portal_gun",
+                    "polarity": "primary"
+                  },
+                  {
+                    "type": "portalcubed:portal_gun",
+                    "polarity": "secondary"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "portalcubed:portal_gun/fenestrifle/humanoid/fenestrifle",
+        "tints": [
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "active"
+          },
+          {
+            "type": "minecraft:dye",
+            "default": -720896
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "primary"
+          },
+          {
+            "type": "portalcubed:portal_gun",
+            "polarity": "secondary"
+          }
+        ]
+      }
+    }
+  }
+}

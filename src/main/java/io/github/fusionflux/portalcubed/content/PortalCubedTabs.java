@@ -98,15 +98,11 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.LEMON_SAPLING);
 			output.accept(PortalCubedBlocks.LEMON_SIGN);
 			output.accept(PortalCubedBlocks.LEMON_HANGING_SIGN);
-			for (PanelMaterial material : PanelMaterial.values()) {
-				Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
-				for (PanelPart part : PanelPart.values()) {
-					if (blocks.containsKey(part)) {
-						Block block = blocks.get(part);
-						output.accept(block);
-					}
-				}
-			}
+
+			addPanels(output, PanelMaterial.PORTAL_1_WHITE);
+			addPanels(output, PanelMaterial.PORTAL_1_METAL);
+			addPanels(output, PanelMaterial.DIRTY_PORTAL_1_WHITE);
+			addPanels(output, PanelMaterial.DIRTY_PORTAL_1_METAL);
 			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILES);
 			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILE_SLAB);
 			output.accept(PortalCubedBlocks.PORTAL_1_METAL_TILE_STAIRS);
@@ -127,66 +123,25 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_SLAB);
 			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_STAIRS);
 			output.accept(PortalCubedBlocks.BROWN_OFFICE_TILE_FACADE);
-			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILES);
-			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_SLAB);
-			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_STAIRS);
-			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_FACADE);
-			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILES);
-			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_SLAB);
-			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_STAIRS);
-			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_FACADE);
-
-			output.accept(PortalCubedBlocks.OFFICE_CONCRETE);
-			output.accept(PortalCubedBlocks.OFFICE_CONCRETE_SLAB);
-			output.accept(PortalCubedBlocks.OFFICE_CONCRETE_FACADE);
-
-			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE);
-			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE_SLAB);
-			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE_FACADE);
-
-			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE);
-			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE_SLAB);
-			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE_FACADE);
-
 			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE);
 			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE_SLAB);
 			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE_STAIRS);
 			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE_WALL);
 			output.accept(PortalCubedBlocks.WHITE_OFFICE_CONCRETE_FACADE);
-
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE);
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE_SLAB);
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE_STAIRS);
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE_WALL);
 			output.accept(PortalCubedBlocks.LIGHT_GRAY_OFFICE_CONCRETE_FACADE);
-
 			output.accept(PortalCubedBlocks.VERTICAL_OFFICE_CONCRETE);
-
 			output.accept(PortalCubedBlocks.ELEVATOR_WALL_END);
 			output.accept(PortalCubedBlocks.ELEVATOR_WALL_MIDDLE);
-
-			output.accept(PortalCubedBlocks.PLYWOOD);
-			output.accept(PortalCubedBlocks.PLYWOOD_SLAB);
-			output.accept(PortalCubedBlocks.PLYWOOD_STAIRS);
-			output.accept(PortalCubedBlocks.PLYWOOD_WALL);
-			output.accept(PortalCubedBlocks.PLYWOOD_FACADE);
-
-			output.accept(PortalCubedBlocks.INSULATION);
-			output.accept(PortalCubedBlocks.INSULATION_FACADE);
-
-			output.accept(PortalCubedBlocks.METAL_GRATE);
-			output.accept(PortalCubedBlocks.METAL_GRATE_SLAB);
-			output.accept(PortalCubedBlocks.METAL_GRATE_FACADE);
 			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE);
 			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE_SLAB);
 			output.accept(PortalCubedBlocks.PORTAL_1_METAL_GRATE_FACADE);
-			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE);
-			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE_SLAB);
-			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE_FACADE);
 			output.accept(PortalCubedBlocks.MESH_GRATE);
 			output.accept(PortalCubedBlocks.MESH_GRATE_SLAB);
 			output.accept(PortalCubedBlocks.MESH_GRATE_FACADE);
-
 			output.accept(PortalCubedBlocks.METAL_PLATING);
 			output.accept(PortalCubedBlocks.METAL_PLATING_SLAB);
 			output.accept(PortalCubedBlocks.METAL_PLATING_STAIRS);
@@ -205,7 +160,23 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE);
 			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_SLAB);
 			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_FACADE);
+			output.accept(PortalCubedBlocks.SEWAGE);
 
+			addPanels(output, PanelMaterial.WHITE);
+			addPanels(output, PanelMaterial.PADDED_GRAY);
+			addPanels(output, PanelMaterial.SMOOTH_GRAY);
+			addPanels(output, PanelMaterial.AGED_WHITE);
+			addPanels(output, PanelMaterial.AGED_PADDED_GRAY);
+			addPanels(output, PanelMaterial.AGED_SMOOTH_GRAY);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.GRAY_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.INSULATION);
+			output.accept(PortalCubedBlocks.INSULATION_FACADE);
+			output.accept(PortalCubedBlocks.METAL_GRATE);
+			output.accept(PortalCubedBlocks.METAL_GRATE_SLAB);
+			output.accept(PortalCubedBlocks.METAL_GRATE_FACADE);
 			output.accept(PortalCubedBlocks.GRAY_CHAMBER_EXTERIOR);
 			output.accept(PortalCubedBlocks.GRAY_CHAMBER_EXTERIOR_FACADE);
 			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_A_BOTTOM_LEFT);
@@ -216,7 +187,6 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_B_BOTTOM_RIGHT);
 			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_B_TOP_LEFT);
 			output.accept(PortalCubedBlocks.GRAY_2x2_CHAMBER_EXTERIOR_B_TOP_RIGHT);
-
 			output.accept(PortalCubedBlocks.YELLOW_CHAMBER_EXTERIOR);
 			output.accept(PortalCubedBlocks.YELLOW_CHAMBER_EXTERIOR_FACADE);
 			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_A_BOTTOM_LEFT);
@@ -228,6 +198,30 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_B_TOP_LEFT);
 			output.accept(PortalCubedBlocks.YELLOW_2x2_CHAMBER_EXTERIOR_B_TOP_RIGHT);
 
+			addPanels(output, PanelMaterial.OLD_AP_WHITE);
+			addPanels(output, PanelMaterial.OLD_AP_BLUE);
+			addPanels(output, PanelMaterial.OLD_AP_GREEN);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILES);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_SLAB);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_STAIRS);
+			output.accept(PortalCubedBlocks.ORANGE_OFFICE_TILE_FACADE);
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.OFFICE_CONCRETE_FACADE);
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.BLUE_OFFICE_CONCRETE_FACADE);
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE);
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE_SLAB);
+			output.accept(PortalCubedBlocks.STRIPED_OFFICE_CONCRETE_FACADE);
+			output.accept(PortalCubedBlocks.PLYWOOD);
+			output.accept(PortalCubedBlocks.PLYWOOD_SLAB);
+			output.accept(PortalCubedBlocks.PLYWOOD_STAIRS);
+			output.accept(PortalCubedBlocks.PLYWOOD_WALL);
+			output.accept(PortalCubedBlocks.PLYWOOD_FACADE);
+			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE);
+			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE_SLAB);
+			output.accept(PortalCubedBlocks.OLD_AP_METAL_GRATE_FACADE);
 			output.accept(PortalCubedBlocks.CROSSBAR_PILLAR);
 			output.accept(PortalCubedBlocks.SINGLE_2x2_CROSSBAR_BOTTOM_LEFT);
 			output.accept(PortalCubedBlocks.SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT);
@@ -237,8 +231,6 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT);
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_LEFT);
 			output.accept(PortalCubedBlocks.DOUBLE_2x2_CROSSBAR_TOP_RIGHT);
-
-			output.accept(PortalCubedBlocks.SEWAGE);
 		});
 	 });
 
@@ -401,6 +393,16 @@ public class PortalCubedTabs {
 					2396924,
 					"round",
 					16748062
+			);
+
+			helper.addSkin(
+					"aperture_innovations_portal_gun",
+					"aperture_innovations",
+					"aperture_innovations",
+					"aperture_innovations",
+					5083391,
+					"aperture_innovations",
+					16743455
 			);
 
 			helper.addSkin(
@@ -622,6 +624,33 @@ public class PortalCubedTabs {
 					14188339
 			);
 			helper.addSkin(
+					"grass_portal_gun",
+					"grass",
+					"none",
+					"round",
+					16580607,
+					"round",
+					16762423
+			);
+			helper.addSkin(
+					"nylium_portal_gun",
+					"nylium",
+					"none",
+					"round",
+					1356950,
+					"round",
+					12398641
+			);
+			helper.addSkin(
+					"mushroom_portal_gun",
+					"mushroom",
+					"none",
+					"round",
+					13183785,
+					"round",
+					9925201
+			);
+			helper.addSkin(
 					"block_built_portal_gun",
 					"block_built",
 					"none",
@@ -638,6 +667,15 @@ public class PortalCubedTabs {
 					11945201,
 					"round",
 					15331652
+			);
+			helper.addSkin(
+					"fenestrifle",
+					"fenestrifle",
+					"sburb",
+					"fenestrated_panel",
+					125697,
+					"fenestrated_panel",
+					16740337
 			);
 			helper.addSkin(
 					"peashooter",
@@ -794,15 +832,6 @@ public class PortalCubedTabs {
 		});
 	});
 
-	private static void addProp(CreativeModeTab.Output output, PropType type) {
-		output.accept(type.item());
-	}
-
-	private static void addPropVariant(CreativeModeTab.Output output, PropType item, int variant) {
-		ItemStack stack = new ItemStack(item.item());
-		stack.set(PortalCubedDataComponents.PROP_VARIANT, variant);
-		output.accept(stack);
-	}
 
 	private static ResourceKey<CreativeModeTab> create(String name, Consumer<CreativeModeTab.Builder> consumer) {
 		CreativeModeTab.Builder builder = FabricItemGroup.builder().title(
@@ -890,7 +919,26 @@ public class PortalCubedTabs {
 		});
 	}
 
-	// to-be-replaced with the proper prefabs system once added
+	private static void addProp(CreativeModeTab.Output output, PropType type) {
+		output.accept(type.item());
+	}
+
+	private static void addPropVariant(CreativeModeTab.Output output, PropType item, int variant) {
+		ItemStack stack = new ItemStack(item.item());
+		stack.set(PortalCubedDataComponents.PROP_VARIANT, variant);
+		output.accept(stack);
+	}
+
+	private static void addPanels(CreativeModeTab.Output output, PanelMaterial material) {
+		Map<PanelPart, Block> blocks = PortalCubedBlocks.PANELS.get(material);
+		for (PanelPart part : PanelPart.values()) {
+			if (blocks.containsKey(part)) {
+				Block block = blocks.get(part);
+				output.accept(block);
+			}
+		}
+	}
+
 	private static final class PortalGunTabHelper {
 		private final HolderLookup.RegistryLookup<PortalType> portalTypes;
 		private final CreativeModeTab.Output output;
@@ -900,11 +948,11 @@ public class PortalCubedTabs {
 			this.output = output;
 		}
 
+		// to-be-replaced with the proper prefabs system once added
 		public void addSkin(String lang, String skin, String crosshairTypeName, String primaryTypeName,
 							int primaryColor, String secondaryTypeName, int secondaryColor) {
 			this.addSkin(lang, skin, crosshairTypeName, primaryTypeName, primaryColor, secondaryTypeName, secondaryColor, true);
 		}
-
 		public void addSkin(String lang, String skinName, String crosshairTypeName, String primaryTypeName,
 							int primaryColor, String secondaryTypeName, int secondaryColor, boolean hasTracer) {
 			ItemStack stack = new ItemStack(PortalCubedItems.PORTAL_GUN);

@@ -1,0 +1,17 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.sburb"
+  },
+  "remove_vanilla_crosshair": true,
+  "base": "portalcubed:portal_gun_crosshair/sburb/sburb_cursor",
+  "primary": {
+      "empty": "portalcubed:portal_gun_crosshair/blank",
+      "placed": "portalcubed:portal_gun_crosshair/blank",
+      "last_placed": "portalcubed:portal_gun_crosshair/sburb/sburb_cursor"
+  },
+  "secondary": {
+      "empty": "portalcubed:portal_gun_crosshair/blank",
+      "placed": "portalcubed:portal_gun_crosshair/blank",
+      "last_placed": "portalcubed:portal_gun_crosshair/sburb/sburb_cursor"
+  }
+}

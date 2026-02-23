@@ -1,0 +1,13 @@
+{
+  "name": {
+    "translate": "portal_gun_crosshair.portalcubed.aperture_innovations"
+  },
+  "primary": {
+      "empty": "portalcubed:portal_gun_crosshair/aperture_innovations/aperture_innovations_left",
+      "placed": "portalcubed:portal_gun_crosshair/aperture_innovations/aperture_innovations_left_placed"
+  },
+  "secondary": {
+      "empty": "portalcubed:portal_gun_crosshair/aperture_innovations/aperture_innovations_right",
+      "placed": "portalcubed:portal_gun_crosshair/aperture_innovations/aperture_innovations_right_placed"
+  }
+}

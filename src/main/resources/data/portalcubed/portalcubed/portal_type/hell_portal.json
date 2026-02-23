@@ -1,0 +1,209 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.hell_portal"
+  },
+  "default_primary_color": 16725044,
+  "default_secondary_color": 8609426,
+  "sounds": {},
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_open",
+        "tint": true,
+        "offset": 0.0
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_open_overlay",
+        "tint": false,
+        "offset": 0.0
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_open_overlay_transparent",
+        "tint": true,
+        "offset": 0.00390625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_shadow",
+        "tint": true,
+        "offset": 0.0078125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.0
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.00390625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.0078125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.01171875
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.015625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.01953125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.0234375
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.02734375
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.03125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.03515625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.0390625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.04296875
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.046875
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.05078125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.05078125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_2",
+        "tint": false,
+        "offset": 0.0546875
+      }
+    ],
+    "closed": [
+{
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.0
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.00390625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.0078125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.01171875
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.015625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.01953125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.0234375
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.02734375
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.03125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.03515625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.0390625
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.04296875
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.046875
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.05078125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_1",
+        "tint": false,
+        "offset": 0.05078125
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_ring_layer_2",
+        "tint": false,
+        "offset": 0.0546875
+      }
+    ],
+    "tracer": [
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_tracer",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portal/hell_portal/hell_portal_tracer_overlay",
+        "tint": false
+      }
+    ]
+  },
+  "place_animation": {
+    "type": "pop_in",
+    "easing": "linear",
+    "duration": 1
+  }
+}

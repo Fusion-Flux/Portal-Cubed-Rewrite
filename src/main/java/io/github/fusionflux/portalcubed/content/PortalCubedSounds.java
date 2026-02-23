@@ -127,6 +127,18 @@ public class PortalCubedSounds {
 	public static final SoundEvent GLASS_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.glass.secondary_shoot");
 	public static final SoundEvent GLASS_PORTAL_GUN_FIZZLE = register("portal_gun.glass.fizzle");
 
+	public static final SoundEvent GRASS_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.grass.primary_shoot");
+	public static final SoundEvent GRASS_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.grass.secondary_shoot");
+	public static final SoundEvent GRASS_PORTAL_GUN_FIZZLE = register("portal_gun.grass.fizzle");
+
+	public static final SoundEvent NYLIUM_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.nylium.primary_shoot");
+	public static final SoundEvent NYLIUM_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.nylium.secondary_shoot");
+	public static final SoundEvent NYLIUM_PORTAL_GUN_FIZZLE = register("portal_gun.nylium.fizzle");
+
+	public static final SoundEvent MUSHROOM_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.mushroom.primary_shoot");
+	public static final SoundEvent MUSHROOM_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.mushroom.secondary_shoot");
+	public static final SoundEvent MUSHROOM_PORTAL_GUN_FIZZLE = register("portal_gun.mushroom.fizzle");
+
 	//Portals
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_PRIMARY = register("portal_type.default.open.primary");
 	public static final SoundEvent DEFAULT_PORTAL_OPEN_SECONDARY = register("portal_type.default.open.secondary");

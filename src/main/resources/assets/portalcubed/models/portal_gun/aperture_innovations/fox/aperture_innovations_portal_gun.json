@@ -1,0 +1,10 @@
+{
+ 	"parent": "portalcubed:portal_gun/aperture_innovations/humanoid/aperture_innovations_portal_gun",
+	"display": {
+		"ground": {
+			"rotation": [-90, 0, -180],
+			"translation": [0, -4, 3.25],
+			"scale": [0.3, 0.3, 0.3]
+		}
+	}
+}

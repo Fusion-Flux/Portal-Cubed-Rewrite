@@ -1,0 +1,36 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.aperture_innovations"
+  },
+  "default_primary_color": 5083391,
+  "default_secondary_color": 16743455,
+  "sounds": {
+    "shared": {
+      "cant_open": "portalcubed:portal_type.default.cant_open",
+      "travel": "portalcubed:portal_type.default.travel",
+      "ambient": "portalcubed:portal_type.default.ambient"
+    },
+    "primary": {
+      "open": "portalcubed:portal_type.default.open.primary",
+      "close": "portalcubed:portal_type.default.close.primary"
+    },
+    "secondary": {
+      "open": "portalcubed:portal_type.default.open.secondary",
+      "close": "portalcubed:portal_type.default.close.secondary"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+      "texture": "portalcubed:portal/aperture_innovations/aperture_innovations_portal_open",
+      "tint": true
+      },
+      {
+      "texture": "portalcubed:portal/aperture_innovations/aperture_innovations_portal_open_overlay",
+      "tint": false
+      }
+    ],
+    "closed": "portalcubed:portal/aperture_innovations/aperture_innovations_portal_closed",
+    "tracer": "portalcubed:portal/aperture_innovations/aperture_innovations_portal_tracer"
+  }
+}
