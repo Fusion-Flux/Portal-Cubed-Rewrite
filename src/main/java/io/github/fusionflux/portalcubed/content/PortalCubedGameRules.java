@@ -46,6 +46,10 @@ public class PortalCubedGameRules {
 			"manualPortalClearing", CATEGORY, GameRuleFactory.createBooleanRule(true)
 	);
 
+	public static final GameRules.Key<GameRules.BooleanValue> SHOOT_PORTALS_THROUGH_PORTALS = GameRuleRegistry.register(
+			"shootPortalsThroughPortals", CATEGORY, GameRuleFactory.createBooleanRule(false)
+	);
+
 	public static void init() {
 	}
 }

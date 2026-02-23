@@ -21,6 +21,7 @@ import io.github.fusionflux.portalcubed.content.portal.placement.validator.Stand
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.particle.CustomTrailParticleOption;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
+import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions.PortalMode;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.BlockPos;
@@ -28,6 +29,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -41,7 +43,7 @@ public sealed interface PortalShot {
 	RaycastOptions RAYCAST_OPTIONS = RaycastOptions.DEFAULT.edit()
 			.blocks(PortalShotClipContextMode.get())
 			.entities(BLOCKS_PORTAL_SHOTS)
-			.portals(RaycastOptions.PortalMode.IGNORE)
+			.portals(PortalMode.IGNORE)
 			.collisionContext(PortalCollisionContext.INSTANCE)
 			.ignoreInteractionOverride(true)
 			.build();
@@ -56,8 +58,11 @@ public sealed interface PortalShot {
 	 */
 	default void createTrail(ServerLevel level, Vec3 source, PortalSettings settings) {
 		int color = settings.color().getOpaque(level.getGameTime());
+		// if a portal was shot through, target that portal's surface, not the actual end pos
+		Vec3 target = this.result().path.map(path -> path.entries.getFirst().entered().pos()).orElse(this.result().pos);
+
 		level.sendParticles(
-				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, this.result().pos, color, 3),
+				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, target, color, 3),
 				source.x, source.y, source.z, 1, 0, 0, 0, 0
 		);
 	}
@@ -166,8 +171,12 @@ public sealed interface PortalShot {
 			direction = direction.normalize();
 		}
 
-		double range = Math.min(maxRange, level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
-		RaycastResult.VanillaConvertible result = RAYCAST_OPTIONS.raycast(level, source, direction, range).assertNotPortal();
+		GameRules gameRules = level.getGameRules();
+		boolean shootThroughPortals = gameRules.getBoolean(PortalCubedGameRules.SHOOT_PORTALS_THROUGH_PORTALS);
+		RaycastOptions options = shootThroughPortals ? RAYCAST_OPTIONS.edit().portals(PortalMode.PASS_THROUGH).build() : RAYCAST_OPTIONS;
+		double range = Math.min(maxRange, gameRules.getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
+
+		RaycastResult.VanillaConvertible result = options.raycast(level, source, direction, range).assertNotPortal();
 
 		return switch (result) {
 			case RaycastResult.Missed missed -> new Missed(missed);

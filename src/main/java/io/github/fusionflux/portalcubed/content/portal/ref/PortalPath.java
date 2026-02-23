@@ -165,10 +165,10 @@ public final class PortalPath {
 	 * An alternate view of a path's entries, allowing for easier use in some cases.
 	 */
 	public record AltEntries(Start start, @Unmodifiable List<Intermediate> intermediates, End end) {
-		record Start(HitPortal entered) {}
-		record End(HitPortal exited) {}
+		public record Start(HitPortal entered) {}
+		public record End(HitPortal exited) {}
 
-		record Intermediate(HitPortal exited, HitPortal entered) {
+		public record Intermediate(HitPortal exited, HitPortal entered) {
 			public double distance() {
 				return this.exited.reference().get().origin().distanceTo(this.entered.reference().get().origin());
 			}
