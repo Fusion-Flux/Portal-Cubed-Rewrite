@@ -54,9 +54,11 @@ public class ButtonActivatedProp extends Prop implements ButtonActivated {
 	@Override
 	public void tick() {
 		super.tick();
-		this.activatedTimer--;
-		if (this.activatedTimer == 0) {
-			this.setActivated(false);
+		if (this.activatedTimer > 0) {
+			this.activatedTimer--;
+			if (this.activatedTimer == 0) {
+				this.setActivated(false);
+			}
 		}
 	}
 
