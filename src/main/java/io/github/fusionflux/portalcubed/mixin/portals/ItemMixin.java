@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.mixin.portals;
 import java.util.Optional;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -22,9 +21,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 
 @Mixin(Item.class)
 public class ItemMixin {
-	@Unique
-	private static final RaycastOptions RAYCAST_OPTIONS = RaycastOptions.DEFAULT.edit().entities(Optional.empty()).build();
-
 	@WrapOperation(
 			method = "getPlayerPOVHitResult",
 			at = @At(
@@ -40,7 +36,8 @@ public class ItemMixin {
 		ClipContext.Fluid fluidMode = ((ClipContextAccessor) context).getFluid();
 		CollisionContext collisionContext = ((ClipContextAccessor) context).getCollisionContext();
 
-		RaycastOptions options = RAYCAST_OPTIONS.edit()
+		RaycastOptions options = RaycastOptions.DEFAULT.edit()
+				.entities(Optional.empty())
 				.blocks(blockMode)
 				.fluids(fluidMode)
 				.forPlayer(player)

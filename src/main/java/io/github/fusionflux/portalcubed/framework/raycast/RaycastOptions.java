@@ -27,7 +27,7 @@ public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid flui
 	public static final RaycastOptions DEFAULT = new RaycastOptions(
 			ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, Optional.of(EntitySelector.CAN_BE_PICKED),
 			PortalMode.PASS_THROUGH, CollisionContext.empty(), Double.MAX_VALUE, Double.MAX_VALUE,
-			true, false
+			false, false
 	);
 
 	public RaycastOptions {

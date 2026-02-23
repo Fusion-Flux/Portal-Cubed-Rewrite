@@ -45,6 +45,7 @@ public sealed interface PortalShot {
 			.entities(BLOCKS_PORTAL_SHOTS)
 			.portals(PortalMode.IGNORE)
 			.collisionContext(PortalCollisionContext.INSTANCE)
+			.hitWorldBorder(true)
 			.ignoreInteractionOverride(true)
 			.build();
 
