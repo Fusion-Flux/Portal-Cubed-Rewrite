@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.util;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector3d;
 import org.joml.Vector3dc;
 import org.lwjgl.opengl.GL11;
 
@@ -113,16 +114,30 @@ public class RenderingUtils {
 		renderLine(matrices, buffers, line.from(), line.to(), color);
 	}
 
-	public static void renderLine(PoseStack matrices, MultiBufferSource vertexConsumers, Vec3 from, Vec3 to, Color color) {
-		VertexConsumer vertices = vertexConsumers.getBuffer(RenderType.lines());
+	public static void renderLine(PoseStack matrices, MultiBufferSource buffers, Vec3 from, Vec3 to, Color color) {
+		renderLine(matrices, buffers.getBuffer(RenderType.lines()), from, to, color);
+	}
+
+	public static void renderLine(PoseStack matrices, VertexConsumer buffer, Vec3 from, Vec3 to, Color color) {
 		PoseStack.Pose pose = matrices.last();
 		Vec3 normal = to.subtract(from).normalize();
-		vertices.addVertex(pose, (float) from.x, (float) from.y, (float) from.z)
+		buffer.addVertex(pose, (float) from.x, (float) from.y, (float) from.z)
 				.setColor(color.r(), color.g(), color.b(), color.a())
 				.setNormal(pose, (float) normal.x, (float) normal.y, (float) normal.z);
-		vertices.addVertex(pose, (float) to.x, (float) to.y, (float) to.z)
+		buffer.addVertex(pose, (float) to.x, (float) to.y, (float) to.z)
 				.setColor(color.r(), color.g(), color.b(), color.a())
 				.setNormal(pose, (float) normal.x, (float) normal.y, (float) normal.z);
+	}
+
+	public static void renderLine(PoseStack matrices, VertexConsumer buffer, Vector3dc from, Vector3dc to, int color) {
+		PoseStack.Pose pose = matrices.last();
+		Vector3dc normal = new Vector3d(to).sub(from).normalize();
+		buffer.addVertex(pose, (float) from.x(), (float) from.y(), (float) from.z())
+				.setColor(color)
+				.setNormal(pose, (float) normal.x(), (float) normal.y(), (float) normal.z());
+		buffer.addVertex(pose, (float) to.x(), (float) to.y(), (float) to.z())
+				.setColor(color)
+				.setNormal(pose, (float) normal.x(), (float) normal.y(), (float) normal.z());
 	}
 
 	public static void drawGuiManaged(Runnable runnable) {

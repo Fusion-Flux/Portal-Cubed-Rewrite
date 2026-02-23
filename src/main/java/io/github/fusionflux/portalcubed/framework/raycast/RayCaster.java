@@ -52,7 +52,7 @@ final class RayCaster {
 		this.currentIdealEnd = end;
 		this.currentLimitedEnd = end;
 		this.options = options;
-		this.hitPortals = options.portalMode() == PortalMode.PASS_THROUGH ? new ArrayList<>() : List.of();
+		this.hitPortals = this.passThroughPortals() ? new ArrayList<>() : List.of();
 	}
 
 	public RaycastResult raycast() {
@@ -64,7 +64,7 @@ final class RayCaster {
 			this.handleResult(this.performSimpleEntityHit());
 			this.handleResult(this.performSimplePortalHit());
 
-			if (this.closestResult instanceof RaycastResult.Portal portal) {
+			if (this.passThroughPortals() && this.closestResult instanceof RaycastResult.Portal portal) {
 				Optional<PortalReference> maybeLinked = portal.portal.opposite();
 				if (maybeLinked.isPresent()) {
 					// linked pair, teleport and loop
@@ -110,6 +110,10 @@ final class RayCaster {
 			this.closestResult = result;
 			this.currentLimitedEnd = result.pos;
 		}
+	}
+
+	private boolean passThroughPortals() {
+		return this.options.portalMode() == PortalMode.PASS_THROUGH;
 	}
 
 	/**

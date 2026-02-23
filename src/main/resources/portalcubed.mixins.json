@@ -151,6 +151,8 @@
     "portals.client.RenderTargetMixin",
     "portals.interaction.ClientLevelMixin",
     "portals.interaction.GameRendererMixin",
+    "portals.interaction.LevelRendererMixin",
+    "portals.interaction.MinecraftMixin",
     "portals.sound.ChannelAccess$ChannelHandleMixin",
     "portals.sound.SoundEngineMixin"
   ],
