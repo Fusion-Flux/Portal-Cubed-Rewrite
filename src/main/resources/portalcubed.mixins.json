@@ -64,6 +64,7 @@
     "portals.ServerGamePacketListenerInteractHandlerMixin",
     "portals.ServerLevelMixin",
     "portals.StructureUtilsMixin",
+    "portals.interaction.BrushItemMixin",
     "portals.interaction.ContainerOpenersCounterMixin",
     "portals.interaction.EnchantingTableBlockEntityMixin",
     "portals.interaction.PlayerListMixin",

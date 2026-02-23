@@ -216,10 +216,11 @@ final class RayCaster {
 		// a raycast that starts inside a hitbox will not count as hitting it.
 		AABB point = AABB.ofSize(this.currentStart, 0.01, 0.01, 0.01);
 		List<Entity> intersecting = this.level.getEntities(context, point, predicate);
-		if (!intersecting.isEmpty()) {
-			// it's possible there's multiple, but we'll just go with the first one
-			Entity entity = intersecting.getFirst();
-			return new RaycastResult.Entity(this.currentStart, entity);
+		for (Entity entity : intersecting) {
+			// it's possible there's multiple, but we'll just go with the first one (that isn't the context entity)
+			if (entity != this.options.contextEntity()) {
+				return new RaycastResult.Entity(this.currentStart, entity);
+			}
 		}
 
 		EntityHitResult result = ProjectileUtil.getEntityHitResult(this.level, context, this.currentStart, this.currentLimitedEnd, area, predicate, 0);
