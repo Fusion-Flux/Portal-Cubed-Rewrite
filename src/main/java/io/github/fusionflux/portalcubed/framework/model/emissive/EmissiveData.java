@@ -9,7 +9,7 @@ import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
 import net.minecraft.resources.ResourceLocation;
 
 public record EmissiveData(Multimap<ResourceLocation, EmissiveTexturePredicate> map) {
-	public static final Codec<EmissiveData> CODEC = PortalCubedCodecs.unboundedMultimap(PortalCubedCodecs.MOD_ID, EmissiveTexturePredicate.CODEC)
+	public static final Codec<EmissiveData> CODEC = PortalCubedCodecs.unboundedMultimap(ResourceLocation.CODEC, EmissiveTexturePredicate.CODEC)
 			.xmap(EmissiveData::new, EmissiveData::map);
 
 	public Collection<EmissiveTexturePredicate> predicatesForModel(ResourceLocation id) {

@@ -19,38 +19,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface PortalCubedCodecs {
-	/**
-	 * {@link ResourceLocation#CODEC} but the default namespace is {@value PortalCubed#ID}
-	 */
-	Codec<ResourceLocation> MOD_ID = Codec.STRING.comapFlatMap(id -> {
-		try {
-			String namespace = PortalCubed.ID;
-			String path = id;
-			int separator = id.indexOf(ResourceLocation.NAMESPACE_SEPARATOR);
-			if (separator >= 0) {
-				path = id.substring(separator + 1);
-				if (separator != 0) {
-					namespace = id.substring(0, separator);
-				}
-			}
-			return DataResult.success(ResourceLocation.fromNamespaceAndPath(namespace, path));
-		} catch (ResourceLocationException e) {
-			return DataResult.error(() -> "Not a valid resource location: " + id + " " + e.getMessage());
-		}
-	}, ResourceLocation::toString).stable();
-
 	/**
 	 * serializes positions as "x,y,z", allows use as map keys
 	 */
