@@ -1,11 +1,12 @@
 package io.github.fusionflux.portalcubed.content.portal.manager.lookup;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.ref.HitPortal;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -14,37 +15,55 @@ import net.minecraft.world.phys.Vec3;
  * Interface for various spatial portal lookups.
  */
 public interface PortalLookup {
+	int DEFAULT_RECURSION_LIMIT = 64;
+
 	/**
-	 * Perform a raycast with no recursion limit.
-	 * @see #clip(Vec3, Vec3, int, Flag...)
+	 * @return true if this lookup contains no portals
 	 */
-	@Nullable
-	default PortalHitResult clip(Vec3 from, Vec3 to, Flag... flags) {
-		return this.clip(from, to, Integer.MAX_VALUE, flags);
+	boolean isEmpty();
+
+	/**
+	 * Perform a raycast with a reasonable default recursion limit, ignoring closed portals.
+	 * @see #clip(Vec3, Vec3, int)
+	 */
+	default PortalHitResult clip(Vec3 from, Vec3 to) {
+		return this.clip(from, to, DEFAULT_RECURSION_LIMIT);
+	}
+
+	/**
+	 * Perform a raycast that ignores closed portals.
+	 * @see #clip(Vec3, Vec3, int, boolean)
+	 */
+	default PortalHitResult clip(Vec3 from, Vec3 to, int recursionLimit) {
+		return this.clip(from, to, recursionLimit, false);
 	}
 
 	/**
 	 * Raycast between two points, hitting portals in between.
-	 * @param maxDepth the maximum number of portal pairs to pass through before giving up
-	 * @return null if no portals were hit
+	 * @param recursionLimit the maximum number of portal pairs to pass through before giving up
+	 * @param hitClosed if true, closed portals may be hit, ending the raycast early
+	 * @return a {@link PortalHitResult}. If {@code allowClosed} is false, the result's closed portal should always be empty.
 	 */
-	@Nullable
-	PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth, Flag... flags);
+	PortalHitResult clip(Vec3 from, Vec3 to, int recursionLimit, boolean hitClosed);
 
 	/**
-	 * Perform a raycast with a maximum depth of 1. Will always be a {@link PortalHitResult.Tail} if a hit occurs.
+	 * Perform a raycast without recursing, ignoring closed portals.
 	 */
-	@Nullable
-	default PortalHitResult.Tail clipOnce(Vec3 from, Vec3 to, Flag... flags) {
-		PortalHitResult result = this.clip(from, to, 1, flags);
+	default Optional<HitPortal> clipOnce(Vec3 from, Vec3 to) {
+		return this.clipOnce(from, to, false);
+	}
 
-		if (result == null) {
-			return null;
-		} else if (result instanceof PortalHitResult.Tail tail) {
-			return tail;
-		} else {
-			throw new IllegalStateException("clip(from, to, 1) should always return a PortalHitResult.Tail");
+	/**
+	 * Perform a raycast without recursing.
+	 * @param hitClosed if true, closed portals may be hit, ending the raycast early
+	 */
+	default Optional<HitPortal> clipOnce(Vec3 from, Vec3 to, boolean hitClosed) {
+		PortalHitResult result = this.clip(from, to, 0, hitClosed);
+		if (result.path().isPresent()) {
+			throw new IllegalStateException("Recursion limit is 0, no portals should've been passed through");
 		}
+
+		return result.finalPortal();
 	}
 
 	/**
@@ -60,19 +79,4 @@ public interface PortalLookup {
 	 */
 	@Contract("_,_->new")
 	Set<PortalReference> getPortalsAround(Vec3 pos, double radius);
-
-	boolean isEmpty();
-
-	enum Flag {
-		/**
-		 * By default, all lookup operations ignore closed portals. Provide this flag to allow them.
-		 */
-		ALLOW_CLOSED;
-
-		public static final Flag[] NONE = new Flag[0];
-
-		public static Flag[] allowingClosedIf(boolean allow) {
-			return allow ? new Flag[] { ALLOW_CLOSED } : NONE;
-		}
-	}
 }

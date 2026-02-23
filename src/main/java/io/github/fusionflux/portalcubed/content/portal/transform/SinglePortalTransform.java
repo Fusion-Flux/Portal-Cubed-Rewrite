@@ -12,7 +12,7 @@ import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
@@ -44,8 +44,8 @@ public final class SinglePortalTransform implements PortalTransform {
 
 	private final SinglePortalTransform inverse;
 
-	public SinglePortalTransform(PortalHitResult.Open hitResult) {
-		this(hitResult.hitPortal().get(), hitResult.exitedPortal().get());
+	public SinglePortalTransform(PortalPath.Entry entry) {
+		this(entry.entered().reference().get(), entry.exited().reference().get());
 	}
 
 	public SinglePortalTransform(Portal in, Portal out) {

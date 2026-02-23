@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
@@ -38,6 +39,18 @@ public sealed interface Or<L, R> {
 	 * @return an {@link Optional} holding the right value, if present.
 	 */
 	Optional<R> maybeRight();
+
+	/**
+	 * @return the left value, if present
+	 * @throws NoSuchElementException if no left value is present
+	 */
+	L leftOrThrow() throws NoSuchElementException;
+
+	/**
+	 * @return the right value, if present
+	 * @throws NoSuchElementException if no right value is present
+	 */
+	R rightOrThrow() throws NoSuchElementException;
 
 	/**
 	 * Apply a pair of functions to the possible values of this Or.
@@ -188,6 +201,16 @@ public sealed interface Or<L, R> {
 		}
 
 		@Override
+		public L leftOrThrow() throws NoSuchElementException {
+			return this.value;
+		}
+
+		@Override
+		public R rightOrThrow() throws NoSuchElementException {
+			throw new NoSuchElementException();
+		}
+
+		@Override
 		public <L2, R2> Left<L2, R2> map(Function<? super L, ? extends L2> left, Function<? super R, ? extends R2> right) {
 			return Or.left(left.apply(this.value));
 		}
@@ -241,6 +264,16 @@ public sealed interface Or<L, R> {
 		}
 
 		@Override
+		public L leftOrThrow() throws NoSuchElementException {
+			throw new NoSuchElementException();
+		}
+
+		@Override
+		public R rightOrThrow() throws NoSuchElementException {
+			return this.value;
+		}
+
+		@Override
 		public <L2, R2> Right<L2, R2> map(Function<? super L, ? extends L2> left, Function<? super R, ? extends R2> right) {
 			return Or.right(right.apply(this.value));
 		}
@@ -291,6 +324,16 @@ public sealed interface Or<L, R> {
 		@Override
 		public Optional<R> maybeRight() {
 			return Optional.of(this.right);
+		}
+
+		@Override
+		public L leftOrThrow() throws NoSuchElementException {
+			return this.left;
+		}
+
+		@Override
+		public R rightOrThrow() throws NoSuchElementException {
+			return this.right;
 		}
 
 		@Override

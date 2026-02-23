@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal.graphics.render;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
@@ -11,11 +12,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
+import io.github.fusionflux.portalcubed.content.portal.ref.HitPortal;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
-import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
+import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.SimpleBufferSource;
 import io.github.fusionflux.portalcubed.framework.util.ShaderPatcher;
@@ -78,15 +79,18 @@ public class CrossPortalEntityRenderer {
 				Vec3 end = face.getUnitVec3().multiply(xSize, ySize, zSize)
 						.add(center);
 
-				PortalHitResult.Tail hit = portalLookup.clipOnce(start, end);
-				if (hit == null)
+				Optional<HitPortal> maybeHit = portalLookup.clipOnce(start, end);
+				if (maybeHit.isEmpty())
 					continue;
 
-				if (!(hit instanceof PortalHitResult.Tail.Open open)) {
-					throw new IllegalStateException("Shouldn't've hit a closed portal");
-				}
+				HitPortal hit = maybeHit.get();
+				PortalReference linked = hit.reference().oppositeOrThrow();
 
-				this.entities.add(new CrossPortalEntity(entity, tickDelta, position, open));
+				PortalReference inPortal = hit.reference();
+				Portal outPortal = linked.get();
+				SinglePortalTransform transform = new SinglePortalTransform(inPortal.get(), outPortal);
+
+				this.entities.add(new CrossPortalEntity(entity, tickDelta, position, inPortal, outPortal, transform));
 				break;
 			}
 		}
@@ -141,11 +145,7 @@ public class CrossPortalEntityRenderer {
 		return null;
 	}
 
-	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalReference inPortal, Portal outPortal, PortalTransform transform) {
-		public CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalHitResult.Tail.Open hit) {
-			this(entity, tickDelta, position, hit.hitPortal(), hit.exitedPortal().get(), PortalTransform.of(hit));
-		}
-
+	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalReference inPortal, Portal outPortal, SinglePortalTransform transform) {
 		public boolean shouldBeSkipped() {
 			Minecraft mc = Minecraft.getInstance();
 			if (this.entity != mc.player || !mc.options.getCameraType().isFirstPerson())

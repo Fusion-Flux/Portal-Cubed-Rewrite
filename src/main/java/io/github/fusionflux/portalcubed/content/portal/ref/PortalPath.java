@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.ToDoubleFunction;
 
 import org.jetbrains.annotations.Unmodifiable;
@@ -113,7 +114,7 @@ public final class PortalPath {
 	 * @throws NoSuchElementException if the given portal is not linked
 	 */
 	public static PortalPath of(PortalReference entered) {
-		return of(entered, entered.opposite().orElseThrow());
+		return of(entered, entered.oppositeOrThrow());
 	}
 
 	/**
@@ -138,6 +139,10 @@ public final class PortalPath {
 	 */
 	public static PortalPath of(List<Entry> entries) {
 		return new PortalPath(List.copyOf(entries));
+	}
+
+	public static Optional<PortalPath> ofOptional(List<Entry> entries) {
+		return entries.isEmpty() ? Optional.empty() : Optional.of(of(entries));
 	}
 
 	/**
@@ -175,7 +180,7 @@ public final class PortalPath {
 	 */
 	public record With<T>(PortalPath path, T value) {
 		public With<T> prepend(PortalReference entered) {
-			return this.prepend(entered, entered.opposite().orElseThrow());
+			return this.prepend(entered, entered.oppositeOrThrow());
 		}
 
 		public With<T> prepend(PortalReference entered, PortalReference exited) {

@@ -167,13 +167,12 @@ public sealed interface PortalShot {
 		}
 
 		double range = Math.min(maxRange, level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
-		RaycastResult result = RAYCAST_OPTIONS.raycast(level, source, direction, range);
+		RaycastResult.VanillaConvertible result = RAYCAST_OPTIONS.raycast(level, source, direction, range).assertNotPortal();
 
 		return switch (result) {
 			case RaycastResult.Missed missed -> new Missed(missed);
 			case RaycastResult.Entity entity -> new Failed(entity);
 			case RaycastResult.WorldBorder worldBorder -> new Failed(worldBorder);
-			case RaycastResult.Portal ignored -> throw new IllegalStateException("PortalShot shouldn't've hit a portal");
 			case RaycastResult.Block block -> {
 				if (block.isInside) {
 					yield new Failed(block);

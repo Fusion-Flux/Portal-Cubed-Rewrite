@@ -34,7 +34,7 @@ public class GameRendererMixin {
 				.entityRange(entityReach)
 				.build();
 
-		RaycastResult.VanillaConvertible result = options.raycast(entity.level(), eyePos, direction, maxRange).assertVanillaConvertible();
+		RaycastResult.VanillaConvertible result = options.raycast(entity.level(), eyePos, direction, maxRange).assertNotPortal();
 		return result.passedThroughPortals() ? result.toVanilla() : original;
 	}
 }

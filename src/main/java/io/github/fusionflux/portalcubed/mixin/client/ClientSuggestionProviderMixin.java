@@ -8,8 +8,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
-import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;
 import io.github.fusionflux.portalcubed.framework.extension.ClientSuggestionProviderExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -35,9 +33,9 @@ public class ClientSuggestionProviderMixin implements ClientSuggestionProviderEx
 		Vec3 normal = player.getLookAngle().normalize();
 		Vec3 to = from.add(normal.scale(16));
 
-		ClientPortalManager manager = level.portalManager();
-		PortalHitResult hit = manager.lookup().clip(from, to);
-		return hit == null ? null : hit.hitPortal().id.key();
+		return level.portalManager().lookup().clipOnce(from, to, true)
+				.map(hit -> hit.reference().id.key())
+				.orElse(null);
 	}
 
 	@Override

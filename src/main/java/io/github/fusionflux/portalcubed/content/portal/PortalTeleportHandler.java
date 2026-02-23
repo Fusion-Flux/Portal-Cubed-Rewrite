@@ -2,12 +2,13 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
-import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
@@ -42,22 +43,21 @@ public class PortalTeleportHandler {
 		Vec3 oldCenter = oldPos.add(posToCenter);
 
 		PortalManager manager = entity.level().portalManager();
-		PortalHitResult.Open result = (PortalHitResult.Open) manager.lookup().clip(oldCenter, newCenter);
-		if (result == null)
+		Optional<PortalPath> maybePath = manager.lookup().clip(oldCenter, newCenter).path();
+		if (maybePath.isEmpty())
 			return false;
 
-		PortalTransform transform = PortalTransform.of(result);
+		PortalPath path = maybePath.get();
+		PortalTransform transform = PortalTransform.of(path);
 		transform.apply(entity);
 
 		if (entity instanceof ItemEntity item && item.getOwner() instanceof ServerPlayer player) {
 			ItemStack stack = item.getItem();
 
-			result.forEach(hit -> {
-				// should always be open, ALLOW_CLOSED is not set
-				PortalHitResult.Open open = (PortalHitResult.Open) hit;
-				PortalCubedCriteriaTriggers.THROWN_ITEM_ENTERED_PORTAL.trigger(player, open.hitPortal(), stack);
-				PortalCubedCriteriaTriggers.THROWN_ITEM_EXITED_PORTAL.trigger(player, open.exitedPortal(), stack);
-			});
+			for (PortalPath.Entry entry : path.entries) {
+				PortalCubedCriteriaTriggers.THROWN_ITEM_ENTERED_PORTAL.trigger(player, entry.entered().reference(), stack);
+				PortalCubedCriteriaTriggers.THROWN_ITEM_EXITED_PORTAL.trigger(player, entry.exited().reference(), stack);
+			}
 		}
 
 		// wakey wakey
@@ -79,13 +79,13 @@ public class PortalTeleportHandler {
 		if (entity instanceof Player player && player.isLocalPlayer()) {
 			// players are handled specially. All the logic is client side and the server is notified.
 			// server does some verification and tells the client if the teleport was invalid.
-			PortalCubedPackets.sendToServer(ClientTeleportedPacket.of(player, result));
+			PortalCubedPackets.sendToServer(ClientTeleportedPacket.of(player, path));
 			return true;
 		}
 
 		if (!entity.level().isClientSide) {
 			// sync to clients
-			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), buildTeleports(result));
+			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), buildTeleports(path));
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);
 		}
 
@@ -102,13 +102,14 @@ public class PortalTeleportHandler {
 		return entity.oldPosition().add(posToCenter);
 	}
 
-	private static List<TrackedTeleport> buildTeleports(PortalHitResult result) {
+	private static List<TrackedTeleport> buildTeleports(PortalPath path) {
 		List<TrackedTeleport> teleports = new ArrayList<>();
 
-		result.forEach(open -> {
-			SinglePortalTransform transform = new SinglePortalTransform((PortalHitResult.Open) open);
-			teleports.add(new TrackedTeleport(open.hitPortal().get().plane, transform));
-		});
+		for (PortalPath.Entry entry : path.entries) {
+			SinglePortalTransform transform = new SinglePortalTransform(entry);
+			Portal entered = entry.entered().reference().get();
+			teleports.add(new TrackedTeleport(entered.plane, transform));
+		}
 
 		return teleports;
 	}

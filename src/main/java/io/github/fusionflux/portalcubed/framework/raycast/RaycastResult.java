@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.framework.raycast;
 
 import java.util.Optional;
 
+import io.github.fusionflux.portalcubed.content.portal.ref.HitPortal;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import net.minecraft.core.BlockPos;
@@ -45,7 +46,7 @@ public sealed abstract class RaycastResult {
 
 	public abstract RaycastResult withPath(PortalPath path);
 
-	public abstract VanillaConvertible assertVanillaConvertible();
+	public abstract VanillaConvertible assertNotPortal();
 
 	public static BlockLike of(BlockHitResult blockHit) {
 		Vec3 pos = blockHit.getLocation();
@@ -74,7 +75,7 @@ public sealed abstract class RaycastResult {
 		public abstract HitResult toVanilla();
 
 		@Override
-		public VanillaConvertible assertVanillaConvertible() {
+		public VanillaConvertible assertNotPortal() {
 			return this;
 		}
 	}
@@ -197,8 +198,12 @@ public sealed abstract class RaycastResult {
 		}
 
 		@Override
-		public VanillaConvertible assertVanillaConvertible() {
+		public VanillaConvertible assertNotPortal() {
 			throw new IllegalStateException("Raycast shouldn't've hit a portal, but it did: " + this.portal);
+		}
+
+		public HitPortal asHitPortal() {
+			return new HitPortal(this.portal, this.pos);
 		}
 	}
 }

@@ -1,91 +1,28 @@
 package io.github.fusionflux.portalcubed.content.portal.clip;
 
-import java.util.function.Consumer;
+import java.util.List;
+import java.util.Optional;
 
-import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.content.portal.ref.HitPortal;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 
 /**
  * Represents the result of a raycast that only interacts with portals.
  * <p>
- * PortalHitResults are chained, since a raycast can pass through multiple portals.
- * Each entry in the chain will be an {@link Mid intermediate instance},
- * except for the final one, which will be a {@link Tail tail} instance.
+ * A PortalHitResult has two components: a path, and a final portal that was hit. Both component are optional.
+ * @param path the path through open portals the raycast followed
+ * @param finalPortal a final closed portal that the raycast hit
  */
-public sealed interface PortalHitResult {
-	PortalReference hitPortal();
+public record PortalHitResult(Optional<PortalPath> path, Optional<HitPortal> finalPortal) {
+	public static final PortalHitResult EMPTY = new PortalHitResult(Optional.empty(), Optional.empty());
 
-	/**
-	 * The position on the entered portal that was hit by the raycast.
-	 */
-	Vec3 hit();
-
-	/**
-	 * Invoke the given consumer with each entry in the hit chain.
-	 */
-	void forEach(Consumer<PortalHitResult> consumer);
-
-	/**
-	 * Find the tail at the end of this hit chain.
-	 */
-	Tail findTail();
-
-	/**
-	 * @return true if this result's location is farther away from {@code pos} than the given {@link HitResult}
-	 */
-	default boolean isFartherThan(HitResult hit, Vec3 pos) {
-		double vanillaDist = hit.getLocation().distanceToSqr(pos);
-		double thisDist = this.hit().distanceToSqr(pos);
-		// bias away from vanilla slightly, since raycast logic differs slightly between blocks and portals
-		return vanillaDist + 1e-5 < thisDist;
+	public PortalHitResult(List<PortalPath.Entry> entries, @Nullable HitPortal finalPortal) {
+		this(PortalPath.ofOptional(entries), Optional.ofNullable(finalPortal));
 	}
 
-	/**
-	 * A PortalHitResult that hit an open portal, passing through it.
-	 */
-	sealed interface Open extends PortalHitResult permits Mid, Tail.Open {
-		default PortalReference exitedPortal() {
-			return this.hitPortal().opposite().orElseThrow();
-		}
-
-		/**
-		 * The position on the exited portal that corresponds to the hit on the entered portal.
-		 */
-		Vec3 exitHit();
-	}
-
-	/**
-	 * A single step in a raycast that passed through more than one pair of portals.
-	 */
-	record Mid(PortalReference hitPortal, Vec3 hit, Vec3 exitHit, PortalHitResult next) implements Open {
-		@Override
-		public void forEach(Consumer<PortalHitResult> consumer) {
-			consumer.accept(this);
-			this.next.forEach(consumer);
-		}
-
-		@Override
-		public Tail findTail() {
-			return this.next.findTail();
-		}
-	}
-
-	/**
-	 * The end of a chain of portal hits. may be either open or closed.
-	 */
-	sealed interface Tail extends PortalHitResult {
-		@Override
-		default void forEach(Consumer<PortalHitResult> consumer) {
-			consumer.accept(this);
-		}
-
-		@Override
-		default Tail findTail() {
-			return this;
-		}
-
-		record Open(PortalReference hitPortal, Vec3 hit, Vec3 exitHit, Vec3 end) implements Tail, PortalHitResult.Open {}
-		record Closed(PortalReference hitPortal, Vec3 hit) implements Tail {}
+	public boolean isEmpty() {
+		return this.path.isEmpty() && this.finalPortal.isEmpty();
 	}
 }

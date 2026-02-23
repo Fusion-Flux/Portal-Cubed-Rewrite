@@ -1,17 +1,20 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Iterators;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
@@ -60,7 +63,7 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		while (teleport != null) {
 			// these are guaranteed to exist by isTeleportInvalid
 			PortalReference entered = manager.getPortalOrThrow(teleport.entered);
-			PortalReference exited = entered.opposite().orElseThrow();
+			PortalReference exited = entered.oppositeOrThrow();
 
 			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, entered);
 			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, exited);
@@ -117,8 +120,8 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		return distance > expectedDistance;
 	}
 
-	public static ClientTeleportedPacket of(Player player, PortalHitResult result) {
-		Teleport first = Teleport.of(result);
+	public static ClientTeleportedPacket of(Player player, PortalPath path) {
+		Teleport first = Teleport.of(path);
 		return new ClientTeleportedPacket(first, player.position(), player.getXRot(), player.getYRot());
 	}
 
@@ -145,11 +148,14 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 				Teleport::new
 		));
 
-		private static Teleport of(PortalHitResult result) {
-			return new Teleport(
-					result.hitPortal().id,
-					result instanceof PortalHitResult.Mid mid ? Optional.of(Teleport.of(mid.next())) : Optional.empty()
-			);
+		private static Teleport of(PortalPath path) {
+			Iterator<PortalId> enteredIds = Iterators.transform(path.entries.iterator(), entry -> entry.entered().reference().id);
+			// first one should always be present
+			return of(enteredIds).orElseThrow();
+		}
+
+		private static Optional<Teleport> of(Iterator<PortalId> enteredIds) {
+			return enteredIds.hasNext() ? Optional.of(new Teleport(enteredIds.next(), of(enteredIds))) : Optional.empty();
 		}
 	}
 }

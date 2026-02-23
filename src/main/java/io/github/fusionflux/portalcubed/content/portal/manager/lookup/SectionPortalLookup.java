@@ -6,14 +6,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
+import io.github.fusionflux.portalcubed.content.portal.ref.HitPortal;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
-import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
@@ -26,68 +27,47 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 	private final Long2ObjectMap<List<PortalReference>> sectionsToPortals = new Long2ObjectOpenHashMap<>();
 
 	@Override
-	@Nullable
-	public PortalHitResult clip(Vec3 from, Vec3 to, int maxDepth, PortalLookup.Flag... flags) {
-		if (this.isEmpty() || maxDepth == 0)
-			return null;
-
-		class Closest {
-			PortalReference portal = null;
-			Vec3 hit = null;
-			double distSqr = Double.MIN_VALUE;
+	public PortalHitResult clip(Vec3 from, Vec3 to, int recursionLimit, boolean hitClosed) {
+		if (recursionLimit < 0) {
+			throw new IllegalArgumentException("Recursion limit must be >=0: " + recursionLimit);
+		} else if (this.isEmpty()) {
+			return PortalHitResult.EMPTY;
 		}
 
-		Closest closest = new Closest();
-		Vec3 normal = from.vectorTo(to).normalize();
-		boolean allowClosed = ArrayUtils.contains(flags, PortalLookup.Flag.ALLOW_CLOSED);
+		List<PortalPath.Entry> enteredPortals = new ArrayList<>();
+		Vec3 currentStart = from;
+		Vec3 currentEnd = to;
+		int i = 0;
 
-		forEachSectionInBox(from, to, section -> {
-			List<PortalReference> portals = this.sectionsToPortals.get(section);
-			if (portals == null)
-				return;
+		while (true) {
+			HitPortal hit = this.clip(currentStart, currentEnd, hitClosed);
+			if (hit == null)
+				break;
 
-			for (PortalReference reference : portals) {
-				Portal portal = reference.get();
-
-				// only clip when aiming into the front of the portal
-				if (portal.normal.dot(normal) >= 0)
-					continue;
-
-				Vec3 hit = portal.quad.clip(from, to);
-				if (hit == null)
-					continue;
-
-				if (!allowClosed && !reference.isLinked())
-					continue;
-
-				double distSqr = hit.distanceToSqr(from);
-				// if first portal, or this hit is closer than prev. closest
-				if (closest.portal == null || closest.distSqr > distSqr) {
-					closest.portal = reference;
-					closest.hit = hit;
-					closest.distSqr = distSqr;
-				}
+			Optional<PortalReference> maybeLinked = hit.reference().opposite();
+			if (maybeLinked.isEmpty()) {
+				// hit a closed portal
+				Validate.isTrue(hitClosed, "Hit a closed portal, hitClosed must be true");
+				return new PortalHitResult(enteredPortals, hit);
 			}
-		});
 
-		if (closest.portal == null)
-			return null;
+			if (i >= recursionLimit) {
+				// too many loops, early exit
+				return new PortalHitResult(enteredPortals, hit);
+			}
 
-		Optional<PortalReference> linked = closest.portal.opposite();
-		if (linked.isEmpty()) {
-			return new PortalHitResult.Tail.Closed(closest.portal, closest.hit);
+			PortalReference linked = maybeLinked.get();
+			SinglePortalTransform transform = new SinglePortalTransform(hit.reference().get(), linked.get());
+
+			currentStart = transform.applyAbsolute(hit.pos());
+			currentEnd = transform.applyAbsolute(currentEnd);
+
+			enteredPortals.add(new PortalPath.Entry(hit, new HitPortal(linked, currentStart)));
+			i++;
 		}
 
-		PortalTransform transform = new SinglePortalTransform(closest.portal.get(), linked.get().get());
-		Vec3 teleportedHit = transform.applyAbsolute(closest.hit);
-		Vec3 teleportedEnd = transform.applyAbsolute(to);
-		PortalHitResult next = this.clip(teleportedHit, teleportedEnd, maxDepth - 1);
-
-		if (next == null) {
-			return new PortalHitResult.Tail.Open(closest.portal, closest.hit, teleportedHit, teleportedEnd);
-		} else {
-			return new PortalHitResult.Mid(closest.portal, closest.hit, teleportedHit, next);
-		}
+		// finished looping with no trailing portal
+		return new PortalHitResult(enteredPortals, null);
 	}
 
 	@Override
@@ -121,6 +101,38 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 	@Override
 	public boolean isEmpty() {
 		return this.sectionsToPortals.isEmpty();
+	}
+
+	@Nullable
+	private HitPortal clip(Vec3 start, Vec3 end, boolean hitClosed) {
+		ClosestPortal candidate = new ClosestPortal();
+		Vec3 direction = start.vectorTo(end).normalize();
+
+		forEachSectionInBox(start, end, section -> {
+			List<PortalReference> portals = this.sectionsToPortals.get(section);
+			if (portals == null)
+				return;
+
+			for (PortalReference reference : portals) {
+				Portal portal = reference.get();
+
+				// only clip when aiming into the front of the portal
+				if (portal.normal.dot(direction) >= 0)
+					continue;
+
+				Vec3 hit = portal.quad.clip(start, end);
+				if (hit == null)
+					continue;
+
+				if (!hitClosed && !reference.isLinked())
+					continue;
+
+				double distSqr = hit.distanceToSqr(start);
+				candidate.consider(reference, hit, distSqr);
+			}
+		});
+
+		return candidate.finish();
 	}
 
 	@Override
@@ -189,6 +201,43 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 					consumer.accept(SectionPos.asLong(x, y, z));
 				}
 			}
+		}
+	}
+
+	private static final class ClosestPortal {
+		private PortalReference portal;
+		private Vec3 hit;
+		private double distSqr;
+
+		private ClosestPortal() {
+			this.reset();
+		}
+
+		private void consider(PortalReference portal, Vec3 hit, double distSqr) {
+			if (this.portal == null || distSqr < this.distSqr) {
+				this.portal = portal;
+				this.hit = hit;
+				this.distSqr = distSqr;
+			}
+		}
+
+		private void reset() {
+			this.portal = null;
+			this.hit = null;
+			this.distSqr = Double.MAX_VALUE;
+		}
+
+		@Nullable
+		private HitPortal finish() {
+			if (this.portal == null) {
+				Validate.isTrue(this.hit == null, "No portal found, hit should be null");
+				Validate.isTrue(this.distSqr == Double.MAX_VALUE, "No portal found, distance should be default");
+			} else {
+				Validate.isTrue(this.hit != null, "Portal found, hit should be present");
+				Validate.isTrue(this.distSqr != Double.MAX_VALUE, "Portal found, distance should be set");
+			}
+
+			return this.portal == null ? null : new HitPortal(this.portal, this.hit);
 		}
 	}
 }

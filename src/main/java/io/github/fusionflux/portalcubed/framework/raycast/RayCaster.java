@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 
-import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.ref.HitPortal;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
@@ -208,12 +207,13 @@ final class RayCaster {
 		// if we don't do this, whether it'll be hit or not depends on float imprecision.
 		Vec3 actualEnd = Mth.lerp(1.01, this.currentStart, this.currentLimitedEnd);
 
-		PortalLookup.Flag[] flags = PortalLookup.Flag.allowingClosedIf(mode == PortalMode.HIT);
+		boolean hitClosed = mode == PortalMode.HIT;
 		PortalLookup lookup = this.level.portalManager().lookup();
-		PortalHitResult.Tail result = lookup.clipOnce(this.currentStart, actualEnd, flags);
-		if (result == null)
+		Optional<HitPortal> maybeHit = lookup.clipOnce(this.currentStart, actualEnd, hitClosed);
+		if (maybeHit.isEmpty())
 			return null;
 
-		return new RaycastResult.Portal(result.hit(), result.hitPortal());
+		HitPortal hit = maybeHit.get();
+		return new RaycastResult.Portal(hit.pos(), hit.reference());
 	}
 }

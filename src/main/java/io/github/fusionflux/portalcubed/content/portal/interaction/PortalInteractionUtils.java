@@ -178,7 +178,7 @@ public final class PortalInteractionUtils {
 		Player player = level.getNearestPlayer(pos.x, pos.y, pos.z, radius, creative);
 		if (player != null) {
 			Vec3 center = PortalTeleportHandler.centerOf(player);
-			Portal exitedPortal = portal.opposite().orElseThrow().get();
+			Portal exitedPortal = portal.oppositeOrThrow().get();
 			if (exitedPortal.plane.isBehind(center)) {
 				// ignore if behind the portal
 				player = null;
@@ -189,7 +189,7 @@ public final class PortalInteractionUtils {
 		if (throughPortals == null) {
 			noPath.add(portal);
 		} else {
-			Portal exitedPortal = portal.opposite().orElseThrow().get();
+			Portal exitedPortal = portal.oppositeOrThrow().get();
 			Portal enteredPortal = throughPortals.path().entries.getFirst().entered().reference().get();
 			if (exitedPortal.plane.isBehind(enteredPortal.origin())) {
 				// also ignore if behind the portal
@@ -198,7 +198,7 @@ public final class PortalInteractionUtils {
 		}
 
 		if (player == null) {
-			return throughPortals == null ? null : throughPortals.prepend(portal, portal.opposite().orElseThrow());
+			return throughPortals == null ? null : throughPortals.prepend(portal, portal.oppositeOrThrow());
 		} else if (throughPortals == null) {
 			return PortalPath.of(portal).with(player);
 		}

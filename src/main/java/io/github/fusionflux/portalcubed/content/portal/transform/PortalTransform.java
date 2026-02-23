@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Contract;
 import org.joml.Matrix3d;
 import org.joml.Vector3d;
 
-import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.core.Direction;
@@ -92,13 +92,11 @@ public sealed interface PortalTransform permits SinglePortalTransform, MultiPort
 	@Contract(mutates = "param1")
 	void apply(Entity entity);
 
-	static PortalTransform of(PortalHitResult.Open result) {
+	static PortalTransform of(PortalPath path) {
 		List<SinglePortalTransform> transforms = new ArrayList<>();
 
-		PortalHitResult current = result;
-		while (current instanceof PortalHitResult.Open open) {
-			transforms.add(new SinglePortalTransform(open));
-			current = current instanceof PortalHitResult.Mid mid ? mid.next() : null;
+		for (PortalPath.Entry entry : path.entries) {
+			transforms.add(new SinglePortalTransform(entry));
 		}
 
 		return transforms.size() == 1 ? transforms.getFirst() : new MultiPortalTransform(transforms);

@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.ref;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.jetbrains.annotations.ApiStatus;
@@ -47,6 +48,14 @@ public final class PortalReference {
 	 */
 	public Optional<PortalReference> opposite() {
 		return Optional.ofNullable(this.manager.getPortal(this.id.opposite()));
+	}
+
+	/**
+	 * @return a reference to the opposite linked portal
+	 * @throws NoSuchElementException if this portal is not linked
+	 */
+	public PortalReference oppositeOrThrow() throws NoSuchElementException {
+		return this.opposite().orElseThrow(() -> new NoSuchElementException("Portal is not linked: " + this.id));
 	}
 
 	/**

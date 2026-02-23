@@ -23,7 +23,7 @@ public final class PortalCollisionUtils {
 	 * @throws IllegalArgumentException if the given portal is not linked
 	 */
 	public static void forEachBoxOnOtherSide(Entity entity, PortalReference portal, AABB area, Predicate<OBB> consumer) {
-		PortalReference linked = portal.opposite().orElseThrow(() -> new IllegalArgumentException("Portal is not linked"));
+		PortalReference linked = portal.oppositeOrThrow();
 		SinglePortalTransform transform = new SinglePortalTransform(portal.get(), linked.get());
 		AABB transformedArea = transform.apply(area).encompassingAabb;
 
