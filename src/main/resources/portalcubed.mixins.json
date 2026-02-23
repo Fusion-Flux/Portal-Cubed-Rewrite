@@ -37,11 +37,13 @@
     "lemonade.PlayerMixin",
     "lemonade.RangedBowAttackGoalMixin",
     "lemonade.ServerGamePacketListenerImplMixin",
+    "misc.ArmadilloMixin",
     "misc.BaseFireBlockMixin",
     "misc.BlockGetterMixin",
     "misc.BlockMixin",
     "misc.EntityMixin",
     "misc.LivingEntityMixin",
+    "misc.PufferfishMixin",
     "misc.SlabBlockMixin",
     "portals.BlockBehavior$BlockStateBaseMixin",
     "portals.BlockMixin",
@@ -85,7 +87,6 @@
     "utils.accessors.EntityAccessor",
     "utils.accessors.LivingEntityAccessor",
     "utils.accessors.OldMinecartBehaviorAccessor",
-    "utils.accessors.PufferfishAccessor",
     "utils.accessors.UseOnContextAccessor"
   ],
   "client": [
