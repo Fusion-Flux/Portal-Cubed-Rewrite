@@ -226,8 +226,13 @@ public abstract class EntityMixin implements DisintegrationExt {
 	}
 
 	@ModifyReturnValue(method = "canCollideWith", at = @At("RETURN"))
-	private boolean dontCollideIfDisintegrating(boolean original, @Local(ordinal = 1, argsOnly = true) Entity other) {
+	private boolean dontCollideIfDisintegrating(boolean original, @Local(argsOnly = true) Entity other) {
 		return original && !(this.pc$disintegrating() || other.pc$disintegrating());
+	}
+
+	@ModifyReturnValue(method = "isIgnoringBlockTriggers", at = @At("RETURN"))
+	private boolean ignoreBlockTriggersIfDisintegrating(boolean original) {
+		return original || this.pc$disintegrating();
 	}
 
 	@ModifyReturnValue(method = "isNoGravity", at = @At("RETURN"))
