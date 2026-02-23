@@ -36,6 +36,7 @@ final class RayCaster {
 	private static final int maxBlockStepDistance = 32;
 
 	private final Level level;
+	private final Vec3 originalStart;
 	private final RaycastOptions options;
 	private final List<PortalPath.Entry> hitPortals;
 
@@ -48,6 +49,7 @@ final class RayCaster {
 
 	RayCaster(Level level, Vec3 start, Vec3 end, RaycastOptions options) {
 		this.level = level;
+		this.originalStart = start;
 		this.currentStart = start;
 		this.currentIdealEnd = end;
 		this.currentLimitedEnd = end;
@@ -87,29 +89,52 @@ final class RayCaster {
 
 		if (this.closestResult == null) {
 			// hit nothing, fall back to a miss
-			Vec3 reverseDirection = this.currentIdealEnd.vectorTo(this.currentStart);
+			Vec3 reverseDirection = this.currentLimitedEnd.vectorTo(this.currentStart);
 			Direction face = Direction.getApproximateNearest(reverseDirection);
-			this.closestResult = new RaycastResult.Missed(this.currentIdealEnd, face);
+			this.closestResult = new RaycastResult.Missed(this.currentLimitedEnd, face);
 		}
 
 		if (this.hitPortals.isEmpty()) {
 			// passed through no portals, leave result as-is
-			return this.closestResult;
+			return this.filterResult(this.closestResult);
 		}
 
 		// passed through portals, build a path
 		PortalPath path = PortalPath.of(this.hitPortals);
-		return this.closestResult.withPath(path);
+		return this.filterResult(this.closestResult.withPath(path));
 	}
 
 	private void handleResult(@Nullable RaycastResult result) {
 		if (result == null)
 			return;
 
-		if (this.closestResult == null || result.isCloserToPosThan(this.currentLimitedEnd, this.closestResult)) {
+		if (this.closestResult == null || result.isCloserToPosThan(this.currentStart, this.closestResult)) {
 			this.closestResult = result;
 			this.currentLimitedEnd = result.pos;
 		}
+	}
+
+	private RaycastResult filterResult(RaycastResult result) {
+		if (result instanceof RaycastResult.Block block) {
+			double distance = this.distanceTravelled(block);
+			if (distance > this.options.blockRange()) {
+				return new RaycastResult.Missed(block.path, block.pos, block.face);
+			}
+		} else if (result instanceof RaycastResult.Entity entity) {
+			double distance = this.distanceTravelled(entity);
+			if (distance > this.options.entityRange()) {
+				Vec3 reverseDirection = this.currentLimitedEnd.vectorTo(this.currentStart).normalize();
+				Direction face = Direction.getApproximateNearest(reverseDirection);
+				return new RaycastResult.Missed(entity.path, entity.pos, face);
+			}
+		}
+
+		return result;
+	}
+
+	private double distanceTravelled(RaycastResult result) {
+		return result.path.map(path -> path.length(this.originalStart, result.pos))
+				.orElseGet(() -> this.originalStart.distanceTo(result.pos));
 	}
 
 	private boolean passThroughPortals() {
