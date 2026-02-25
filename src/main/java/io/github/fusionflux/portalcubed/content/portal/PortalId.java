@@ -18,7 +18,7 @@ public record PortalId(String key, Polarity polarity) {
 	}
 
 	public MutableComponent component() {
-		return Component.translatableEscape("misc.portalcubed.portal_id", this.key, this.polarity.component);
+		return Component.translatable("misc.portalcubed.portal_id", this.key, this.polarity.component);
 	}
 
 	public boolean isOppositeOf(PortalId that) {

@@ -18,6 +18,8 @@ import net.minecraft.world.phys.Vec3;
 
 @Mixin(PlayerList.class)
 public class PlayerListMixin {
+	// we could target @(?) here to theoretically improve compatibility, but if we start with the result of
+	// the whole expression we can early-exit if the pos is already close enough without even considering portals.
 	@Definition(id = "radius", local = @Local(type = double.class, ordinal = 3, argsOnly = true))
 	@Expression("? < radius * radius")
 	@ModifyExpressionValue(method = "broadcast", at = @At("MIXINEXTRAS:EXPRESSION"))
@@ -33,7 +35,7 @@ public class PlayerListMixin {
 		Vec3 playerPos = player.position();
 		Vec3 eventPos = new Vec3(x, y, z);
 
-		OptionalDouble distanceSqr = PortalInteractionUtils.findPathLengthSqrThroughPortals(player.level(), eventPos, playerPos, radius);
+		OptionalDouble distanceSqr = PortalInteractionUtils.findPathLengthSqr(player.level(), eventPos, playerPos, radius);
 		if (distanceSqr.isEmpty())
 			return false;
 

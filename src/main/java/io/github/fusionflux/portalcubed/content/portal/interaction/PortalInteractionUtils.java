@@ -26,46 +26,39 @@ import net.minecraft.world.phys.Vec3;
 public final class PortalInteractionUtils {
 	private PortalInteractionUtils() {}
 
-	/**
-	 * @see #findPathLengthSqrThroughPortals(Level, Vec3, ToDoubleFunction, double)
-	 */
-	public static OptionalDouble findPathLengthSqrThroughPortals(Level level, Vec3 start, Vec3 end, double range) {
-		return findPathLengthSqrThroughPortals(level, start, end::distanceTo, range);
+	/// @see #findPathLengthSqr(Level, Vec3, ToDoubleFunction, double)
+	public static OptionalDouble findPathLengthSqr(Level level, Vec3 start, Vec3 end, double range) {
+		return findPathLengthSqr(level, start, end::distanceTo, range);
 	}
 
-	/**
-	 * {@link #findPathThroughPortals(Level, Vec3, ToDoubleFunction, double) find a path through portals}, and then get its length if found.
-	 */
-	public static OptionalDouble findPathLengthSqrThroughPortals(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
-		PortalPath path = findPathThroughPortals(level, start, distanceFunction, range);
+	/// [find a path through portals][#findPathThroughPortals(Level, Vec3, ToDoubleFunction, double)], and then get its length if found.
+	public static OptionalDouble findPathLengthSqr(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
+		PortalPath path = findPath(level, start, distanceFunction, range, true);
 		return path == null ? OptionalDouble.empty() : OptionalDouble.of(path.distanceThroughSqr(start, distanceFunction));
 	}
 
-	/**
-	 * @see #findPathThroughPortals(Level, Vec3, ToDoubleFunction, double)
-	 */
+	/// @see #findPath(Level, Vec3, ToDoubleFunction, double, boolean)
 	@Nullable
-	public static PortalPath findPathThroughPortals(Level level, Vec3 start, Vec3 end, double range) {
-		return findPathThroughPortals(level, start, end::distanceTo, range);
+	public static PortalPath findPath(Level level, Vec3 start, Vec3 end, double range, boolean lineOfSight) {
+		return findPath(level, start, end::distanceTo, range, lineOfSight);
 	}
 
-	/**
-	 * Find a path from a start point to a target that passes through portals.
-	 * @param distanceFunction a function providing the distance from a given point to the target
-	 * @param range the maximum length of a found path
-	 */
+	/// Find a path from a start point to a target that passes through portals.
+	/// @param distanceFunction a function providing the distance from a given point to the target
+	/// @param range the maximum length of a found path
+	/// @param lineOfSight if true, portals must be facing each other for a path to be found between them
 	@Nullable
-	public static PortalPath findPathThroughPortals(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
-		return findPathThroughPortalsRecursive(level, start, distanceFunction, range, new HashSet<>(), new HashSet<>());
+	public static PortalPath findPath(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range, boolean lineOfSight) {
+		return findPathRecursive(level, start, distanceFunction, range, lineOfSight, new HashSet<>(), new HashSet<>());
 	}
 
 	@Nullable
-	public static PortalPath findPathThroughPortalsRecursive(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range, Set<String> seenPairs, Set<PortalReference> noPath) {
+	public static PortalPath findPathRecursive(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range, boolean lineOfSight, Set<String> seenPairs, Set<PortalReference> noPath) {
 		PortalPath shortest = null;
 		double shortestDistance = Double.MAX_VALUE;
 
 		for (PortalReference portal : level.portalManager().lookup().getPortalsAround(start, range)) {
-			if (portal.get().plane.isBehind(start) || noPath.contains(portal))
+			if ((lineOfSight && portal.get().plane.isBehind(start)) || noPath.contains(portal))
 				continue;
 
 			Optional<PortalReference> maybeOpposite = portal.opposite();
@@ -79,7 +72,7 @@ public final class PortalInteractionUtils {
 				Vec3 newPos = linked.get().origin();
 				double directDistance = distanceToPortal + distanceFunction.applyAsDouble(newPos);
 
-				PortalPath throughPortals = findPathThroughPortalsRecursive(level, newPos, distanceFunction, remainingRange, seenPairs, noPath);
+				PortalPath throughPortals = findPathRecursive(level, newPos, distanceFunction, remainingRange, lineOfSight, seenPairs, noPath);
 				double distThroughPortals = throughPortals == null ? Double.MAX_VALUE : throughPortals.distanceThrough(newPos, distanceFunction);
 				if (throughPortals == null)
 					noPath.add(portal);
@@ -101,18 +94,16 @@ public final class PortalInteractionUtils {
 		return shortest;
 	}
 
-	/**
-	 * Portal-aware variant of {@link Level#getEntities(EntityTypeTest, AABB, Predicate) getEntities}.
-	 * Does not find entities that <strong>aren't</strong> through portals; both methods must be used.
-	 * @return a new, mutable Set of found entities
-	 */
-	public static <T extends Entity> Set<T> getEntitiesThroughPortals(Level level, EntityTypeTest<Entity, T> test, AABB area, Predicate<? super T> predicate) {
+	/// Portal-aware variant of [getEntities][Level#getEntities(EntityTypeTest, AABB, Predicate)].
+	/// Does not find entities that **aren't** through portals; both methods must be used.
+	/// @return a new, mutable Set of found entities
+	public static <T extends Entity> Set<T> getEntities(Level level, EntityTypeTest<Entity, T> test, AABB area, Predicate<? super T> predicate) {
 		Set<T> found = new HashSet<>();
-		getEntitiesThroughPortalsRecursive(level, test, area, predicate, found::add, new HashSet<>());
+		getEntitiesRecursive(level, test, area, predicate, found::add, new HashSet<>());
 		return found;
 	}
 
-	private static <T extends Entity> void getEntitiesThroughPortalsRecursive(Level level, EntityTypeTest<Entity, T> test, AABB area, Predicate<? super T> predicate, Consumer<T> output, Set<PortalReference> entered) {
+	private static <T extends Entity> void getEntitiesRecursive(Level level, EntityTypeTest<Entity, T> test, AABB area, Predicate<? super T> predicate, Consumer<T> output, Set<PortalReference> entered) {
 		for (PortalReference portal : level.portalManager().lookup().getPortals(area)) {
 			// empty when not linked
 			portal.transform().ifPresent(transform -> {
@@ -127,16 +118,14 @@ public final class PortalInteractionUtils {
 					}
 				}
 
-				getEntitiesThroughPortalsRecursive(level, test, transformedArea.encompassingAabb, predicate, output, entered);
+				getEntitiesRecursive(level, test, transformedArea.encompassingAabb, predicate, output, entered);
 				entered.remove(portal);
 			});
 		}
 	}
 
-	/**
-	 * Portal-aware variant of {@link Level#getNearestPlayer(double, double, double, double, boolean) getNearestPlayer}.
-	 * Does not find players that <strong>aren't</strong> through portals; both methods must be used.
-	 */
+	/// Portal-aware variant of [getNearestPlayer][Level#getNearestPlayer(double, double, double, double, boolean)].
+	/// Does not find players that **aren't** through portals; both methods must be used.
 	@Nullable
 	public static PortalPath.With<Player> getNearestPlayer(Level level, Vec3 start, double radius, boolean creative) {
 		return getNearestPlayerRecursive(level, start, radius, creative, new HashSet<>(), new HashSet<>());

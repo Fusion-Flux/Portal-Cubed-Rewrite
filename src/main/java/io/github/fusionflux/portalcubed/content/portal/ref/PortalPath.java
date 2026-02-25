@@ -9,6 +9,7 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -35,11 +36,12 @@ public sealed interface PortalPath permits PortalPathImpl {
 	double distanceThroughSqr(Vec3 start, ToDoubleFunction<Vec3> endDistanceSqrFunction);
 
 	default double distanceThrough(Vec3 start, Vec3 end) {
-		return Math.sqrt(this.distanceThroughSqr(start, end));
+		return this.distanceThrough(start, end::distanceTo);
 	}
 
 	default double distanceThrough(Vec3 start, ToDoubleFunction<Vec3> endDistanceFunction) {
-		return Math.sqrt(this.distanceThroughSqr(start, endDistanceFunction));
+		ToDoubleFunction<Vec3> endDistanceSqrFunction = pos -> Mth.square(endDistanceFunction.applyAsDouble(pos));
+		return Math.sqrt(this.distanceThroughSqr(start, endDistanceSqrFunction));
 	}
 
 	/// @return a new [PortalTransform] that transforms across all portals in this path.

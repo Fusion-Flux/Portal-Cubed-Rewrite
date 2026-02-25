@@ -86,6 +86,16 @@ public final class PortalReference {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof PortalReference that && this.id.equals(that.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return this.id.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return this.id.toString();
 	}

@@ -14,7 +14,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.ChannelAccess;
 import net.minecraft.client.sounds.SoundEngine;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 @Mixin(SoundEngine.class)
@@ -45,28 +44,28 @@ public class SoundEngineMixin {
 
 	@Unique
 	private static boolean teleportSound(SoundInstance sound, ChannelAccess.ChannelHandle handle) {
-		float range = determineRange(sound);
-		if (!Float.isFinite(range))
-			return false;
-
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.level == null)
 			return false;
 
+		float range = determineRange(sound);
+		if (!Float.isFinite(range))
+			return false;
+
 		Vec3 cameraPos = mc.gameRenderer.getMainCamera().getPosition();
 		Vec3 soundPos = new Vec3(sound.getX(), sound.getY(), sound.getZ());
-		// camera -> sound avoids getting the tail later
-		PortalPath path = PortalInteractionUtils.findPathThroughPortals(mc.level, cameraPos, soundPos, range);
+		PortalPath path = PortalInteractionUtils.findPath(mc.level, cameraPos, soundPos, range, false);
 		if (path == null)
 			return false;
 
-		double directDistanceSqr = soundPos.distanceToSqr(cameraPos);
-		double distanceThroughPortals = path.distanceThrough(cameraPos, soundPos);
-		if (directDistanceSqr <= Mth.square(distanceThroughPortals))
+		double directDistanceSqr = cameraPos.distanceToSqr(soundPos);
+		double distanceThroughPortalsSqr = path.distanceThroughSqr(cameraPos, soundPos);
+		if (directDistanceSqr <= distanceThroughPortalsSqr)
 			return false;
 
 		Portal enteredPortal = path.first().reference().get();
 		Vec3 direction = cameraPos.vectorTo(enteredPortal.origin()).normalize();
+		double distanceThroughPortals = Math.sqrt(distanceThroughPortalsSqr);
 		Vec3 newPos = cameraPos.add(direction.scale(distanceThroughPortals));
 		handle.execute(channel -> channel.setSelfPosition(newPos));
 		return true;

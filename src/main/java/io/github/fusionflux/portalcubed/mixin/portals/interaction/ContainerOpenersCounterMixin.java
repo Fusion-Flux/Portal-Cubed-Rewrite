@@ -28,7 +28,7 @@ public class ContainerOpenersCounterMixin {
 			)
 	)
 	private <T extends Entity> List<T> getOpenersThroughPortals(Level level, EntityTypeTest<Entity, T> test, AABB area, Predicate<? super T> predicate, Operation<List<T>> original) {
-		Set<T> throughPortals = PortalInteractionUtils.getEntitiesThroughPortals(level, test, area, predicate);
+		Set<T> throughPortals = PortalInteractionUtils.getEntities(level, test, area, predicate);
 		throughPortals.addAll(original.call(level, test, area, predicate));
 		return new ArrayList<>(throughPortals);
 	}
