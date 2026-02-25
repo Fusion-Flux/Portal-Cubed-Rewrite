@@ -48,13 +48,13 @@ public class PortalTeleportHandler {
 			return false;
 
 		PortalPath path = maybePath.get();
-		PortalTransform transform = PortalTransform.of(path);
+		PortalTransform transform = path.createTransform();
 		transform.apply(entity);
 
 		if (entity instanceof ItemEntity item && item.getOwner() instanceof ServerPlayer player) {
 			ItemStack stack = item.getItem();
 
-			for (PortalPath.Entry entry : path.entries) {
+			for (PortalPath.Entry entry : path.entries()) {
 				PortalCubedCriteriaTriggers.THROWN_ITEM_ENTERED_PORTAL.trigger(player, entry.entered().reference(), stack);
 				PortalCubedCriteriaTriggers.THROWN_ITEM_EXITED_PORTAL.trigger(player, entry.exited().reference(), stack);
 			}
@@ -105,8 +105,8 @@ public class PortalTeleportHandler {
 	private static List<TrackedTeleport> buildTeleports(PortalPath path) {
 		List<TrackedTeleport> teleports = new ArrayList<>();
 
-		for (PortalPath.Entry entry : path.entries) {
-			SinglePortalTransform transform = new SinglePortalTransform(entry);
+		for (PortalPath.Entry entry : path.entries()) {
+			SinglePortalTransform transform = entry.createTransform();
 			Portal entered = entry.entered().reference().get();
 			teleports.add(new TrackedTeleport(entered.plane, transform));
 		}

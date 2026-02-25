@@ -15,7 +15,7 @@ public final class MultiPortalTransform implements PortalTransform {
 	private final MultiPortalTransform inverse;
 
 	public MultiPortalTransform(List<SinglePortalTransform> steps) {
-		this.steps = steps;
+		this.steps = List.copyOf(steps);
 		this.inverse = new MultiPortalTransform(this);
 	}
 

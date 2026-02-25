@@ -149,7 +149,7 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 		));
 
 		private static Teleport of(PortalPath path) {
-			Iterator<PortalId> enteredIds = Iterators.transform(path.entries.iterator(), entry -> entry.entered().reference().id);
+			Iterator<PortalId> enteredIds = Iterators.transform(path.entries().iterator(), entry -> entry.entered().reference().id);
 			// first one should always be present
 			return of(enteredIds).orElseThrow();
 		}

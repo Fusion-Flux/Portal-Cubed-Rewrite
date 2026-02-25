@@ -38,7 +38,7 @@ public final class PortalInteractionUtils {
 	 */
 	public static OptionalDouble findPathLengthSqrThroughPortals(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
 		PortalPath path = findPathThroughPortals(level, start, distanceFunction, range);
-		return path == null ? OptionalDouble.empty() : OptionalDouble.of(path.lengthSqr(start, distanceFunction));
+		return path == null ? OptionalDouble.empty() : OptionalDouble.of(path.distanceThroughSqr(start, distanceFunction));
 	}
 
 	/**
@@ -80,7 +80,7 @@ public final class PortalInteractionUtils {
 				double directDistance = distanceToPortal + distanceFunction.applyAsDouble(newPos);
 
 				PortalPath throughPortals = findPathThroughPortalsRecursive(level, newPos, distanceFunction, remainingRange, seenPairs, noPath);
-				double distThroughPortals = throughPortals == null ? Double.MAX_VALUE : throughPortals.length(newPos, distanceFunction);
+				double distThroughPortals = throughPortals == null ? Double.MAX_VALUE : throughPortals.distanceThrough(newPos, distanceFunction);
 				if (throughPortals == null)
 					noPath.add(portal);
 
@@ -160,7 +160,7 @@ public final class PortalInteractionUtils {
 			Vec3 transformedStart = transform.applyAbsolute(start);
 			PortalPath.With<Player> found = choosePlayerCandidate(portal, level, transformedStart, radius, creative, entered, noPath);
 			if (found != null) {
-				double distance = found.path().length(start, found.value().position());
+				double distance = found.path().distanceThrough(start, found.value().position());
 				if (nearest == null || distance < nearestDistance) {
 					nearest = found;
 					nearestDistance = distance;
@@ -190,7 +190,7 @@ public final class PortalInteractionUtils {
 			noPath.add(portal);
 		} else {
 			Portal exitedPortal = portal.oppositeOrThrow().get();
-			Portal enteredPortal = throughPortals.path().entries.getFirst().entered().reference().get();
+			Portal enteredPortal = throughPortals.path().first().reference().get();
 			if (exitedPortal.plane.isBehind(enteredPortal.origin())) {
 				// also ignore if behind the portal
 				throughPortals = null;
@@ -204,7 +204,7 @@ public final class PortalInteractionUtils {
 		}
 
 		double playerDistance = player.position().distanceTo(pos);
-		double distanceThroughPortals = throughPortals.path().length(pos, player.position());
+		double distanceThroughPortals = throughPortals.path().distanceThrough(pos, player.position());
 		if (playerDistance <= distanceThroughPortals) {
 			return PortalPath.of(portal).with(player);
 		} else {

@@ -60,7 +60,7 @@ public sealed interface PortalShot {
 	default void createTrail(ServerLevel level, Vec3 source, PortalSettings settings) {
 		int color = settings.color().getOpaque(level.getGameTime());
 		// if a portal was shot through, target that portal's surface, not the actual end pos
-		Vec3 target = this.result().path.map(path -> path.entries.getFirst().entered().pos()).orElse(this.result().pos);
+		Vec3 target = this.result().path.map(path -> path.first().pos()).orElse(this.result().pos);
 
 		level.sendParticles(
 				new CustomTrailParticleOption(PortalCubedParticles.PORTAL_PROJECTILE, target, color, 3),

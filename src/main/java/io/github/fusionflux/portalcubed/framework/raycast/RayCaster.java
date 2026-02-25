@@ -133,7 +133,7 @@ final class RayCaster {
 	}
 
 	private double distanceTravelled(RaycastResult result) {
-		return result.path.map(path -> path.length(this.originalStart, result.pos))
+		return result.path.map(path -> path.distanceThrough(this.originalStart, result.pos))
 				.orElseGet(() -> this.originalStart.distanceTo(result.pos));
 	}
 

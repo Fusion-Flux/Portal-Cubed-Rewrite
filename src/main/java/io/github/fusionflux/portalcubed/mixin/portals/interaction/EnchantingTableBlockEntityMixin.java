@@ -36,7 +36,7 @@ public class EnchantingTableBlockEntityMixin {
 			return nearest;
 
 		Player player = throughPortals.value();
-		if (nearest == null || throughPortals.path().length(pos, player.position()) < nearest.position().distanceTo(pos)) {
+		if (nearest == null || throughPortals.path().distanceThrough(pos, player.position()) < nearest.position().distanceTo(pos)) {
 			PortalTransform transform = throughPortals.path().createTransform();
 			// use the center since it has better results with non-upright-wall portals
 			Vec3 center = PortalTeleportHandler.centerOf(player);

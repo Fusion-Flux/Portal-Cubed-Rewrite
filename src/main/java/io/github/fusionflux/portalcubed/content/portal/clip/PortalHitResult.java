@@ -19,7 +19,7 @@ public record PortalHitResult(Optional<PortalPath> path, Optional<HitPortal> fin
 	public static final PortalHitResult EMPTY = new PortalHitResult(Optional.empty(), Optional.empty());
 
 	public PortalHitResult(List<PortalPath.Entry> entries, @Nullable HitPortal finalPortal) {
-		this(PortalPath.ofOptional(entries), Optional.ofNullable(finalPortal));
+		this(PortalPath.optionalOf(entries), Optional.ofNullable(finalPortal));
 	}
 
 	public boolean isEmpty() {
