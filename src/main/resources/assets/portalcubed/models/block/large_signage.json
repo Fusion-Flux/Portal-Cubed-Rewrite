@@ -10,6 +10,8 @@
 		{
 			"from": [0, 0, 0],
 			"to": [16, 0.01, 16],
+			"shade": false,
+			"light_emission": 15,
 			"faces": {
 				"north": {"uv": [0, 15, 16, 16], "rotation": 180, "texture": "#0", "cullface": "north"},
 				"east": {"uv": [0, 15, 16, 16], "rotation": 180, "texture": "#0", "cullface": "east"},
@@ -21,6 +23,8 @@
 		{
 			"from": [0, -0.1, 0],
 			"to": [16, -0.1, 16],
+			"shade": false,
+			"light_emission": 15,
 			"faces": {
 				"down": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "down"}
 			}

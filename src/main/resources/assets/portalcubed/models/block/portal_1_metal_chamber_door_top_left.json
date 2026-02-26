@@ -1,0 +1,9 @@
+{
+  "parent": "portalcubed:block/template_symmetric_chamber_door_top_left",
+  "textures": {
+    "door": "portalcubed:block/portal_1_chamber_door",
+    "frame": "portalcubed:block/portal_1_metal_chamber_door_frame",
+    "edges": "portalcubed:block/portal_1_chamber_door_edges",
+    "particle": "portalcubed:block/portal_1_metal_panel"
+  }
+}

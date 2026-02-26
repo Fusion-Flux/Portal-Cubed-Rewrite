@@ -1,37 +1,45 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
-	"texture_size": [128, 64],
+	"texture_size": [32, 32],
 	"textures": {
-		"0": "portalcubed:block/old_ap_chamber_door",
+		"1": "portalcubed:block/old_ap_chamber_door_front",
+		"2": "portalcubed:block/old_ap_chamber_door_back",
+		"3": "portalcubed:block/old_ap_chamber_door_edges",
+		"4": "portalcubed:block/old_ap_chamber_door_frame_back",
+		"5": "portalcubed:block/old_ap_chamber_door_frame_front_open",
 		"particle": "portalcubed:block/plywood"
 	},
 	"elements": [
 		{
-			"from": [0.99, -0.01, 7.99],
-			"to": [5.01, 16.01, 24.01],
+			"from": [0.95, 0, 8],
+			"to": [4.95, 16, 24],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 8]},
 			"faces": {
-				"north": {"uv": [10, 12, 10.5, 16], "texture": "#0"},
-				"east": {"uv": [0, 12, 2, 16], "texture": "#0"},
-				"south": {"uv": [10, 12, 10.5, 16], "texture": "#0"},
-				"west": {"uv": [6, 12, 8, 16], "texture": "#0"},
-				"down": {"uv": [10.5, 12, 10, 16], "rotation": 180, "texture": "#0"}
+				"north": {"uv": [0, 8, 4, 16], "texture": "#3"},
+				"east": {"uv": [0, 8, 8, 16], "texture": "#2"},
+				"south": {"uv": [0, 8, 4, 16], "texture": "#3"},
+				"west": {"uv": [8, 8, 16, 16], "texture": "#1"},
+				"down": {"uv": [0, 16, 4, 8], "rotation": 180, "texture": "#3", "cullface": "down"}
 			}
 		},
 		{
-			"from": [-0.01, -0.01, -0.01],
-			"to": [6.01, 16.01, 16.01],
+			"from": [0, 0, 0],
+			"to": [0, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 16]},
 			"faces": {
-				"east": {"uv": [8, 4, 10, 8], "texture": "#0"},
-				"west": {"uv": [6, 4, 8, 8], "texture": "#0"}
+				"east": {"uv": [0, 7.99, 8.01, 16], "texture": "#4"},
+				"west": {"uv": [7.99, 7.99, 16, 16], "texture": "#5", "cullface": "west"}
 			}
 		},
 		{
 			"name": "cube inverted",
-			"from": [6, 16, 16],
-			"to": [0, 0, 0],
+			"from": [6, 0, 0],
+			"to": [6, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -16, 0]},
 			"faces": {
-				"east": {"uv": [10, 8, 8, 4], "texture": "#0"},
-				"west": {"uv": [12, 8, 10, 4], "texture": "#0"}
+				"east": {"uv": [0, 8, 8, 16], "texture": "#4"},
+				"west": {"uv": [8, 8, 16, 16], "texture": "#4"}
 			}
 		}
 	]

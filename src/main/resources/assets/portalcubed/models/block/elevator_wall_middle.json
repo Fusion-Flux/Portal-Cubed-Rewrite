@@ -1,4 +1,5 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"2": "portalcubed:block/elevator_wall_middle_top_emissive",
@@ -23,6 +24,8 @@
 		{
 			"from": [0, 0, 0],
 			"to": [16, 16, 16],
+			"shade": false,
+			"light_emission": 15,
 			"faces": {
 				"north": {"uv": [0, 0, 16, 16], "texture": "#3", "cullface": "north"},
 				"east": {"uv": [0, 0, 16, 16], "texture": "#3", "cullface": "east"},

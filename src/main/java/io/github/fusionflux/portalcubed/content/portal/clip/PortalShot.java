@@ -173,7 +173,7 @@ public sealed interface PortalShot {
 		}
 
 		GameRules gameRules = level.getGameRules();
-		boolean shootThroughPortals = gameRules.getBoolean(PortalCubedGameRules.SHOOT_PORTALS_THROUGH_PORTALS);
+		boolean shootThroughPortals = gameRules.getBoolean(PortalCubedGameRules.ALLOW_SHOOTING_PORTALS_THROUGH_PORTALS);
 		RaycastOptions options = shootThroughPortals ? RAYCAST_OPTIONS.edit().portals(PortalMode.PASS_THROUGH).build() : RAYCAST_OPTIONS;
 		double range = Math.min(maxRange, gameRules.getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
 

@@ -1,0 +1,56 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Cart3r using Blockbench.",
+	"texture_size": [16, 32],
+	"textures": {
+		"door_closed": "#door_closed",
+		"door": "#door",
+		"door_emissive": "#door_emissive",
+		"edges": "#edges",
+		"edges_emissive": "#edges_emissive",
+		"frame": "#frame",
+		"particle": "#particle"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [0, 16, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 8, 8], "texture": "#frame"},
+				"west": {"uv": [8, 0, 16, 8], "texture": "#frame", "cullface": "west"}
+			}
+		},
+		{
+			"from": [6, 0, 0],
+			"to": [6, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [6, 0, 0]},
+			"faces": {
+				"east": {"uv": [0, 0, 8, 8], "texture": "#frame"},
+				"west": {"uv": [8, 0, 16, 8], "texture": "#frame"}
+			}
+		},
+		{
+			"from": [1, 0, 0],
+			"to": [5, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 0]},
+			"faces": {
+				"north": {"uv": [4, 0, 8, 8], "texture": "#edges", "cullface": "north"},
+				"east": {"uv": [0, 0, 8, 8], "texture": "#door"},
+				"south": {"uv": [12, 0, 16, 8], "texture": "#edges", "cullface": "south"},
+				"west": {"uv": [8, 0, 16, 8], "texture": "#door"},
+				"up": {"uv": [12, 8, 16, 16], "texture": "#edges", "cullface": "up"}
+			}
+		},
+		{
+			"from": [1, 0, 0],
+			"to": [2, 16, 16],
+			"shade": false,
+			"light_emission": 8,
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 0]},
+			"faces": {
+				"north": {"uv": [7, 0, 8, 8], "texture": "#edges_emissive", "cullface": "north"},
+				"west": {"uv": [8, 0, 16, 8], "texture": "#door_emissive"}
+			}
+		}
+	]
+}

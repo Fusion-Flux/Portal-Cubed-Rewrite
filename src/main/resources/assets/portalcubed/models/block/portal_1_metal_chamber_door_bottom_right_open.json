@@ -1,0 +1,11 @@
+{
+  "parent": "portalcubed:block/template_symmetric_chamber_door_bottom_right_open",
+  "textures": {
+    "door": "portalcubed:block/portal_1_chamber_door",
+    "door_emissive": "portalcubed:block/portal_1_chamber_door_emissive",
+    "edges": "portalcubed:block/portal_1_chamber_door_edges",
+    "edges_emissive": "portalcubed:block/portal_1_chamber_door_edges_emissive",
+    "frame": "portalcubed:block/portal_1_metal_chamber_door_frame",
+    "particle": "portalcubed:block/portal_1_metal_panel"
+  }
+}

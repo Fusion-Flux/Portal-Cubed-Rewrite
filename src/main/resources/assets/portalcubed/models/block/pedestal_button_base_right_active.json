@@ -56,6 +56,8 @@
 			"name": "emission",
 			"from": [11, 3.025, 5.5],
 			"to": [12, 19.025, 10.5],
+			"shade": false,
+			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [11.5, 11.025, 8]},
 			"faces": {
 				"north": {"uv": [6, 0, 7, 16], "texture": "#2"},
@@ -66,6 +68,8 @@
 			"name": "emission",
 			"from": [9, 3.025, 7.5],
 			"to": [14, 18.525, 8.5],
+			"shade": false,
+			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [11.5, 11.025, 8]},
 			"faces": {
 				"east": {"uv": [8, 0.5, 9, 16], "texture": "#2"},

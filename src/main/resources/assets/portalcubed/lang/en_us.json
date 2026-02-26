@@ -45,6 +45,8 @@
   "gamerule.manualPortalClearing.description": "Controls whether or not players can clear the portals of held portal guns using a keybind. Intended for use in custom maps.",
   "gamerule.portalValidation": "Portal validation",
   "gamerule.portalValidation.description": "Controls whether or not there are placement checks when shooting portals. Intended mainly as a debug option and is likely to cause unexpected behavior - please do not report issues about portals placed without validation.",
+  "gamerule.allowShootingPortalsThroughPortals": "Allow shooting Portals through Portals",
+  "gamerule.allowShootingPortalsThroughPortals.description": "Allows Portal shots to pass through existing Portal pairs.",
 
   "gamerule.allowCrouchFlyGlitch": "Allow crouch fly glitch",
   "gamerule.allowCrouchFlyGlitch.description": "Enables the Excursion Funnel Crouch Fly Glitch from Portal 2.",
