@@ -31,17 +31,15 @@ public class GameRendererMixin {
 
 	@ModifyReturnValue(
 			method = "pick(Lnet/minecraft/world/entity/Entity;DDF)Lnet/minecraft/world/phys/HitResult;",
-			at = @At("RETURN")
+			at = @At("RETURN"), require = 2 // ternary generates 2 separate returns
 	)
-	private HitResult raycastThroughPortals(HitResult original,
-											@Local(argsOnly = true) Entity entity,
-											@Local(argsOnly = true, ordinal = 0) double blockReach,
-											@Local(argsOnly = true, ordinal = 1) double entityReach,
-											@Local(ordinal = 0) Vec3 eyePos) {
-
+	private HitResult raycastThroughPortals(HitResult original, Entity entity, double blockReach, double entityReach,
+											float partialTicks, @Local(ordinal = 0) Vec3 eyePos) {
 		double maxRange = Math.max(blockReach, entityReach);
-		Vec3 direction = eyePos.vectorTo(original.getLocation()).normalize();
 		PortalMode portalMode = shouldSelectPortals(entity) ? PortalMode.HIT : PortalMode.PASS_THROUGH;
+
+		// we have to recalculate this instead of grabbing it with @Local since it's technically out of scope at the second return
+		Vec3 direction = entity.getViewVector(partialTicks);
 
 		RaycastOptions options = RaycastOptions.DEFAULT.edit()
 				.portals(portalMode)
