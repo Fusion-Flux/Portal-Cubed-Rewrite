@@ -43,8 +43,7 @@
 		{
 			"from": [1.05, 0, -12],
 			"to": [5.05, 16, 4],
-			"shade": false,
-			"light_emission": 8,
+			"light_emission": 10,
 			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, -12]},
 			"faces": {
 				"east": {"uv": [8, 0, 16, 16], "texture": "#door_emissive"},

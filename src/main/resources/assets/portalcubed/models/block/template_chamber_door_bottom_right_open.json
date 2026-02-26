@@ -44,8 +44,7 @@
 		{
 			"from": [0.95, 0, 12],
 			"to": [1.95, 16, 28],
-			"shade": false,
-			"light_emission": 8,
+			"light_emission": 10,
 			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 12]},
 			"faces": {
 				"north": {"uv": [3, 8, 4, 16], "texture": "#edges_emissive"},
