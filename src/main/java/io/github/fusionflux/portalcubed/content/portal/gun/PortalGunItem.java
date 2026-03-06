@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
@@ -120,6 +121,9 @@ public class PortalGunItem extends Item implements DirectClickItem {
 		shot.createTrail(level, source, settings);
 		if (shot instanceof PortalShot.Success success) {
 			success.place(settings);
+			player.awardStat(PortalCubedStats.PORTAL_SHOTS_HIT);
+		} else {
+			player.awardStat(PortalCubedStats.PORTAL_SHOTS_MISSED);
 		}
 	}
 

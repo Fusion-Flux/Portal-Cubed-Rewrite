@@ -71,6 +71,7 @@
     "portals.interaction.PlayerMixin",
     "portals.interaction.ServerPlayerMixin",
     "props.ThrowPotionMixin",
+    "stat.ServerStatsCounterMixin",
     "utils.AABBMixin",
     "utils.BlockBehaviour$PropertiesMixin",
     "utils.BlockGetterMixin",
@@ -156,7 +157,8 @@
     "portals.interaction.LevelRendererMixin",
     "portals.interaction.MinecraftMixin",
     "portals.sound.ChannelAccess$ChannelHandleMixin",
-    "portals.sound.SoundEngineMixin"
+    "portals.sound.SoundEngineMixin",
+    "stat.StatsScreen$GeneralStatisticsListMixin"
   ],
   "injectors": {
     "defaultRequire": 1

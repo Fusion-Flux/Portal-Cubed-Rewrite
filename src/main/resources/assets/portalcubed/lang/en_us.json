@@ -14,6 +14,13 @@
 
 
   "stat.portalcubed.times_disintegrated": "Times Disintegrated",
+  "stat.portalcubed.portal_shots_hit": "Portal Shots Hit",
+  "stat.portalcubed.portal_shots_missed": "Portal Shots Missed",
+  "stat.portalcubed.portals_traveled_through": "Portals Traveled Through",
+  "stat.portalcubed.primary_portals_entered": "Portals Entered (Primary)",
+  "stat.portalcubed.secondary_portals_entered": "Portals Entered (Secondary)",
+  "stat.portalcubed.science_collaboration_points": "Science Collaboration Points",
+  "stat.portalcubed.opportunity_advisement_points": "Opportunity Advisement Points",
 
 
   "gamerule.category.portalcubed": "Portal Cubed",

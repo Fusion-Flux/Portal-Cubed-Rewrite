@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Iterators;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
+import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
@@ -67,6 +68,12 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 
 			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, entered);
 			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, exited);
+
+			player.awardStat(PortalCubedStats.PORTALS_TRAVELED_THROUGH);
+			player.awardStat(switch (entered.id.polarity()) {
+				case PRIMARY -> PortalCubedStats.PRIMARY_PORTALS_ENTERED;
+				case SECONDARY -> PortalCubedStats.SECONDARY_PORTALS_ENTERED;
+			});
 
 			teleport = teleport.next.orElse(null);
 		}
