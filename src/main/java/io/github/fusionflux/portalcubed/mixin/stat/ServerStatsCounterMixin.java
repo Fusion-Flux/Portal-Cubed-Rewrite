@@ -10,8 +10,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.ServerStatsCounter;
-import net.minecraft.stats.Stat;
-import net.minecraft.stats.Stats;
 import net.minecraft.stats.StatsCounter;
 
 @Mixin(ServerStatsCounter.class)
@@ -23,10 +21,9 @@ public abstract class ServerStatsCounterMixin extends StatsCounter {
 	}
 
 	@Unique
-	private void randomizePoints(ResourceLocation id, ServerPlayer player) {
-		Stat<ResourceLocation> stat = Stats.CUSTOM.get(id);
-		int current = this.getValue(stat);
+	private void randomizePoints(ResourceLocation stat, ServerPlayer player) {
 		int change = player.getRandom().nextIntBetweenInclusive(-75, 75);
-		this.setValue(player, stat, current + change);
+		// use awardStat instead of setValue so we also update scoreboards
+		player.awardStat(stat, change);
 	}
 }
