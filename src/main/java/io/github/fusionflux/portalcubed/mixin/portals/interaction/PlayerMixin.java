@@ -1,16 +1,23 @@
 package io.github.fusionflux.portalcubed.mixin.portals.interaction;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.function.ToDoubleFunction;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInteractionUtils;
+import io.github.fusionflux.portalcubed.content.portal.interaction.packet.PortalAwareInteractPacket;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
+import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
+import net.minecraft.core.Direction;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -44,5 +51,47 @@ public abstract class PlayerMixin extends LivingEntity {
 		}
 
 		return Math.min(originalDistSqr, distanceSqr.getAsDouble());
+	}
+
+	@ModifyExpressionValue(
+			method = "attack",
+			at = @At(
+					value = "INVOKE",
+					target = "Ljava/util/Optional;orElse(Ljava/lang/Object;)Ljava/lang/Object;"
+			)
+	)
+	private Object teleportDamageSource(Object original) {
+		if (!(original instanceof DamageSource source))
+			return original;
+
+		Vec3 sourcePos = source.getSourcePosition();
+		if (sourcePos == null)
+			return source;
+
+		Optional<PortalPath> path = PortalAwareInteractPacket.currentPath();
+		if (path.isEmpty())
+			return source;
+
+		PortalTransform transform = path.get().transform();
+		Vec3 teleportedPos = transform.applyAbsolute(sourcePos);
+		return new DamageSource(source.typeHolder(), source.getDirectEntity(), source.getEntity(), teleportedPos);
+	}
+
+	@ModifyExpressionValue(
+			method = "attack",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/player/Player;getYRot()F"
+			)
+	)
+	private float teleportRotation(float original) {
+		Optional<PortalPath> path = PortalAwareInteractPacket.currentPath();
+
+		if (path.isPresent()) {
+			PortalTransform transform = path.get().transform();
+			return transform.apply(original, Direction.Axis.Y);
+		}
+
+		return original;
 	}
 }
