@@ -86,6 +86,11 @@ public sealed interface PortalTransform permits SinglePortalTransform, MultiPort
 		return this.apply(new OBB(box));
 	}
 
+	default Direction apply(Direction direction) {
+		Vec3 normal = this.applyRelative(direction.getUnitVec3());
+		return Direction.getApproximateNearest(normal);
+	}
+
 	@Contract(mutates = "param1")
 	void apply(Entity entity);
 }

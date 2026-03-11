@@ -7,6 +7,7 @@ import java.util.List;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.clear.ClearPortalsPacket;
 import io.github.fusionflux.portalcubed.content.portal.clear.PortalsClearedPacket;
+import io.github.fusionflux.portalcubed.content.portal.interaction.PortalAwareUseItemOnPacket;
 import io.github.fusionflux.portalcubed.content.portal.interaction.UseItemOnPortalPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ReloadConstructPreview;
@@ -74,7 +75,8 @@ public class PortalCubedPackets {
 			REQUEST_ENTITY_SYNC = serverbound("request_entity_sync", RequestEntitySyncPacket.CODEC),
 			CLIENT_TELEPORTED = serverbound("client_teleported", ClientTeleportedPacket.CODEC),
 			CLEAR_PORTALS = serverbound("clear_portals", ClearPortalsPacket.CODEC),
-			USE_ITEM_ON_PORTAL = serverbound("use_item_on_portal", UseItemOnPortalPacket.CODEC);
+			USE_ITEM_ON_PORTAL = serverbound("use_item_on_portal", UseItemOnPortalPacket.CODEC),
+			PORTAL_AWARE_USE_ITEM_ON = serverbound("portal_aware_use_item_on", PortalAwareUseItemOnPacket.CODEC);
 
 	public static void init() {
 	}

@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.raycast;
 import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPathHolder;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,6 +48,11 @@ public sealed abstract class RaycastResult {
 
 	public abstract VanillaConvertible assertNotPortal();
 
+	protected <T extends HitResult> T addPortalContext(T result) {
+		result.setPortalPath(PortalPathHolder.of(this.path));
+		return result;
+	}
+
 	public static BlockLike of(BlockHitResult blockHit) {
 		Vec3 pos = blockHit.getLocation();
 		Direction face = blockHit.getDirection();
@@ -74,7 +80,7 @@ public sealed abstract class RaycastResult {
 		public abstract HitResult toVanilla();
 
 		@Override
-		public VanillaConvertible assertNotPortal() {
+		public final VanillaConvertible assertNotPortal() {
 			return this;
 		}
 	}
@@ -109,7 +115,7 @@ public sealed abstract class RaycastResult {
 
 		@Override
 		public BlockHitResult toVanilla() {
-			return BlockHitResult.miss(this.pos, this.face, this.blockPos);
+			return this.addPortalContext(BlockHitResult.miss(this.pos, this.face, this.blockPos));
 		}
 	}
 
@@ -132,7 +138,7 @@ public sealed abstract class RaycastResult {
 
 		@Override
 		public BlockHitResult toVanilla() {
-			return new BlockHitResult(this.pos, this.face, this.blockPos, this.isInside);
+			return this.addPortalContext(new BlockHitResult(this.pos, this.face, this.blockPos, this.isInside));
 		}
 	}
 
@@ -152,7 +158,7 @@ public sealed abstract class RaycastResult {
 
 		@Override
 		public BlockHitResult toVanilla() {
-			return new BlockHitResult(this.pos, this.face, this.blockPos, false, true);
+			return this.addPortalContext(new BlockHitResult(this.pos, this.face, this.blockPos, false, true));
 		}
 	}
 
@@ -175,7 +181,7 @@ public sealed abstract class RaycastResult {
 
 		@Override
 		public EntityHitResult toVanilla() {
-			return new EntityHitResult(this.entity, this.pos);
+			return this.addPortalContext(new EntityHitResult(this.entity, this.pos));
 		}
 	}
 

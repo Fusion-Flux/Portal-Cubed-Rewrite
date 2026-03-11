@@ -48,7 +48,7 @@ public class PortalTeleportHandler {
 			return false;
 
 		PortalPath path = maybePath.get();
-		PortalTransform transform = path.createTransform();
+		PortalTransform transform = path.transform();
 		transform.apply(entity);
 
 		if (entity instanceof ItemEntity item && item.getOwner() instanceof ServerPlayer player) {

@@ -5,10 +5,15 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.ToDoubleFunction;
 
+import com.mojang.serialization.DataResult;
+
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
+import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -44,8 +49,8 @@ public sealed interface PortalPath permits PortalPathImpl {
 		return Math.sqrt(this.distanceThroughSqr(start, endDistanceSqrFunction));
 	}
 
-	/// @return a new [PortalTransform] that transforms across all portals in this path.
-	PortalTransform createTransform();
+	/// @return a [PortalTransform] that transforms across all portals in this path.
+	PortalTransform transform();
 
 	/// Create a new PortalPath that passes through the given portals at their centers, and then all portals in this path.
 	/// @throws NoSuchElementException if the given portal is not linked
@@ -57,6 +62,9 @@ public sealed interface PortalPath permits PortalPathImpl {
 
 	/// Associate this path with a value.
 	<T> With<T> with(T value);
+
+	/// Convert this path into a serializable format.
+	Serialized serialize();
 
 	/// Create a new PortalPath that passes through the given portal at its center.
 	/// @throws NoSuchElementException if the given portal is not linked
@@ -126,6 +134,16 @@ public sealed interface PortalPath permits PortalPathImpl {
 		public With<T> prepend(PortalReference entered, PortalReference exited) {
 			return new With<>(this.path.prepend(entered, exited), this.value);
 		}
+	}
+
+	/// A [PortalPath] that is ready for serialization.
+	/// Must be resolved against a [PortalManager] to be used.
+	sealed interface Serialized permits SerializedPortalPathImpl {
+		StreamCodec<ByteBuf, Serialized> STREAM_CODEC = SerializedPortalPathImpl.STREAM_CODEC;
+
+		/// Attempt to resolve this into a full [PortalPath].
+		/// May fail if any referenced portals are missing.
+		DataResult<PortalPath> resolve(PortalManager manager);
 	}
 
 	private static void assertLinked(HitPortal first, HitPortal second) {

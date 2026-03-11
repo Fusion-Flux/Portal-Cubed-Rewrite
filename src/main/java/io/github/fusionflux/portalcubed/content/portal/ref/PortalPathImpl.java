@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.ToDoubleFunction;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.content.portal.transform.MultiPortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
@@ -15,6 +17,9 @@ final class PortalPathImpl implements PortalPath {
 	private final List<Entry> entries;
 	private final List<OffsetEntry> offsetEntries;
 	private final double internalLength;
+
+	@Nullable
+	private PortalTransform transform;
 
 	// assumes entries is immutable
 	private PortalPathImpl(List<Entry> entries) {
@@ -67,7 +72,15 @@ final class PortalPathImpl implements PortalPath {
 	}
 
 	@Override
-	public PortalTransform createTransform() {
+	public PortalTransform transform() {
+		if (this.transform == null) {
+			this.transform = this.createTransform();
+		}
+
+		return this.transform;
+	}
+
+	private PortalTransform createTransform() {
 		if (this.entries.size() == 1) {
 			return this.entries.getFirst().createTransform();
 		}
@@ -93,6 +106,11 @@ final class PortalPathImpl implements PortalPath {
 	@Override
 	public <T> With<T> with(T value) {
 		return new With<>(this, value);
+	}
+
+	@Override
+	public Serialized serialize() {
+		return SerializedPortalPathImpl.of(this);
 	}
 
 	static PortalPath ofTrusted(List<Entry> entries) {
