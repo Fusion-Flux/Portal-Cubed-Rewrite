@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
-import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
+import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
@@ -24,6 +24,8 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 
 public class PortalTeleportHandler {
@@ -42,14 +44,15 @@ public class PortalTeleportHandler {
 		Vec3 posToCenter = newPos.vectorTo(newCenter);
 		Vec3 oldCenter = oldPos.add(posToCenter);
 
-		PortalManager manager = entity.level().portalManager();
-		Optional<PortalPath> maybePath = manager.lookup().clip(oldCenter, newCenter).path();
+		Level level = entity.level();
+		Optional<PortalPath> maybePath = level.portalManager().lookup().clip(oldCenter, newCenter).path();
 		if (maybePath.isEmpty())
 			return false;
 
 		PortalPath path = maybePath.get();
 		PortalTransform transform = path.transform();
 		transform.apply(entity);
+		dispatchGameEvents(entity, path);
 
 		if (entity instanceof ItemEntity item && item.getOwner() instanceof ServerPlayer player) {
 			ItemStack stack = item.getItem();
@@ -83,7 +86,7 @@ public class PortalTeleportHandler {
 			return true;
 		}
 
-		if (!entity.level().isClientSide) {
+		if (!level.isClientSide) {
 			// sync to clients
 			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), buildTeleports(path));
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);
@@ -100,6 +103,16 @@ public class PortalTeleportHandler {
 		Vec3 centerNow = centerOf(entity);
 		Vec3 posToCenter = entity.position().vectorTo(centerNow);
 		return entity.oldPosition().add(posToCenter);
+	}
+
+	private static void dispatchGameEvents(Entity entity, PortalPath path) {
+		Level level = entity.level();
+		GameEvent.Context context = GameEvent.Context.of(entity);
+
+		for (PortalPath.Entry entry : path.entries()) {
+			level.gameEvent(PortalCubedGameEvents.PORTAL_TELEPORT_ENTER, entry.entered().pos(), context);
+			level.gameEvent(PortalCubedGameEvents.PORTAL_TELEPORT_EXIT, entry.exited().pos(), context);
+		}
 	}
 
 	private static List<TrackedTeleport> buildTeleports(PortalPath path) {

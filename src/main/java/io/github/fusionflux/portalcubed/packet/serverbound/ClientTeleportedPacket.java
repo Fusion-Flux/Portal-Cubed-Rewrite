@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Iterators;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
+import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
@@ -24,8 +25,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 
 public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, float yRot) implements ServerboundPacket {
@@ -56,15 +59,21 @@ public record ClientTeleportedPacket(Teleport teleport, Vec3 pos, float xRot, fl
 			return;
 		}
 
-		player.absMoveTo(this.pos.x, this.pos.y, this.pos.z, this.yRot, this.xRot);
-		player.serverLevel().getChunkSource().move(player);
+		ServerLevel level = player.serverLevel();
+		ServerPortalManager manager = level.portalManager();
+		GameEvent.Context context = GameEvent.Context.of(player);
 
-		ServerPortalManager manager = player.serverLevel().portalManager();
+		player.absMoveTo(this.pos.x, this.pos.y, this.pos.z, this.yRot, this.xRot);
+		level.getChunkSource().move(player);
+
 		Teleport teleport = this.teleport;
 		while (teleport != null) {
 			// these are guaranteed to exist by isTeleportInvalid
 			PortalReference entered = manager.getPortalOrThrow(teleport.entered);
 			PortalReference exited = entered.oppositeOrThrow();
+
+			level.gameEvent(PortalCubedGameEvents.PORTAL_TELEPORT_ENTER, entered.get().origin(), context);
+			level.gameEvent(PortalCubedGameEvents.PORTAL_TELEPORT_EXIT, exited.get().origin(), context);
 
 			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, entered);
 			PortalCubedCriteriaTriggers.ENTER_PORTAL.trigger(player, exited);

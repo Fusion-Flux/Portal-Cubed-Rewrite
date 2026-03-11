@@ -19,6 +19,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.collision.RePortaler;
+import io.github.fusionflux.portalcubed.content.portal.interaction.PortalGameEventDispatcher;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.ListenerManager;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
@@ -42,6 +43,7 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 		this.lookup = lookup;
 		this.listeners.registerPersistent(lookup);
 		this.listeners.registerPersistent(new RePortaler(level));
+		this.listeners.registerPersistent(new PortalGameEventDispatcher(level));
 	}
 
 	@Nullable

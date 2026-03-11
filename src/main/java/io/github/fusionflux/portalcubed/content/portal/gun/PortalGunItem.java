@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
+import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
@@ -12,6 +13,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
+import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootPortalGunPacket;
 import net.fabricmc.api.EnvType;
@@ -124,6 +126,10 @@ public class PortalGunItem extends Item implements DirectClickItem {
 			player.awardStat(PortalCubedStats.PORTAL_SHOTS_HIT);
 		} else {
 			player.awardStat(PortalCubedStats.PORTAL_SHOTS_MISSED);
+
+			if (shot instanceof PortalShot.Failed(RaycastResult result)) {
+				level.gameEvent(player, PortalCubedGameEvents.PORTAL_SHOT_FAIL, result.pos);
+			}
 		}
 	}
 

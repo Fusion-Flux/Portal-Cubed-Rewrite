@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
-    "portalcubed:crowbar_hit"
+    "portalcubed:crowbar_hit",
+    "portalcubed:portal_place",
+    "portalcubed:portal_remove",
+    "portalcubed:portal_shot_fail",
+    "portalcubed:portal_teleport_enter",
+    "portalcubed:portal_teleport_exit"
   ]
 }
