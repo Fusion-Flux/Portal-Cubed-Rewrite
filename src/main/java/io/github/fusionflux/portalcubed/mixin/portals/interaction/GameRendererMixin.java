@@ -9,17 +9,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 
+import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInteractionUtils;
 import io.github.fusionflux.portalcubed.content.portal.interaction.UsableOnPortals;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions.PortalMode;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -57,7 +55,7 @@ public class GameRendererMixin {
 			case RaycastResult.VanillaConvertible vanillaConvertible -> vanillaConvertible.toVanilla();
 			case RaycastResult.Portal portal -> {
 				this.minecraft.setSelectedPortal(portal);
-				yield convertToMiss(original, direction);
+				yield PortalInteractionUtils.convertToMiss(original, direction);
 			}
 		};
 	}
@@ -68,12 +66,5 @@ public class GameRendererMixin {
 			return false;
 
 		return living.isHolding(stack -> stack.getItem() instanceof UsableOnPortals);
-	}
-
-	@Unique
-	private static HitResult convertToMiss(HitResult original, Vec3 direction) {
-		Vec3 pos = original.getLocation();
-		Direction face = Direction.getApproximateNearest(direction).getOpposite();
-		return BlockHitResult.miss(pos, face, BlockPos.containing(pos));
 	}
 }

@@ -223,7 +223,11 @@ final class RayCaster {
 			}
 		}
 
-		EntityHitResult result = ProjectileUtil.getEntityHitResult(this.level, null, this.currentStart, this.currentLimitedEnd, area, predicate, 0);
+		EntityHitResult result = ProjectileUtil.getEntityHitResult(
+				this.level, null, this.currentStart, this.currentLimitedEnd,
+				area, predicate, this.options.entityExpansion()
+		);
+
 		return result == null ? null : new RaycastResult.Entity(result.getLocation(), result.getEntity());
 	}
 

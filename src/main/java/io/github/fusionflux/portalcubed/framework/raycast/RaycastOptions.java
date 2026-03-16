@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.interaction.IgnoringClipContextMode;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.ClipContextAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
@@ -22,12 +23,12 @@ import net.minecraft.world.phys.shapes.EntityCollisionContext;
  */
 public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid fluidMode, Optional<Predicate<Entity>> entityPredicate,
 							 PortalMode portalMode, CollisionContext collisionContext, double blockRange, double entityRange,
-							 boolean hitWorldBorder, boolean ignoreInteractionOverride) {
+							 boolean hitWorldBorder, boolean ignoreInteractionOverride, float entityExpansion) {
 
 	public static final RaycastOptions DEFAULT = new RaycastOptions(
 			ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, Optional.of(EntitySelector.CAN_BE_PICKED),
 			PortalMode.PASS_THROUGH, CollisionContext.empty(), Double.MAX_VALUE, Double.MAX_VALUE,
-			false, false
+			false, false, 0
 	);
 
 	public RaycastOptions {
@@ -77,6 +78,24 @@ public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid flui
 		return new Builder(this);
 	}
 
+	public static Builder of(ClipContext context) {
+		ClipContextAccessor accessor = (ClipContextAccessor) context;
+
+		return DEFAULT.edit()
+				.blocks(accessor.getBlock())
+				.fluids(accessor.getFluid())
+				.entities(Optional.empty())
+				.collisionContext(accessor.getCollisionContext());
+	}
+
+	public static Builder forEntitiesOnly(@Nullable Entity context, Predicate<Entity> predicate, float expansion) {
+		return DEFAULT.edit()
+				.blocks(NoneClipContextMode.get())
+				.entities(predicate)
+				.entityExpansion(expansion)
+				.collisionContext(context);
+	}
+
 	public enum PortalMode {
 		HIT, PASS_THROUGH, IGNORE
 	}
@@ -91,6 +110,7 @@ public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid flui
 		private double entityRange;
 		private boolean hitWorldBorder;
 		private boolean ignoreInteractionOverride;
+		private float entityExpansion;
 
 		private Builder(RaycastOptions options) {
 			this.blockMode = options.blockMode;
@@ -133,8 +153,8 @@ public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid flui
 			return this;
 		}
 
-		public Builder collisionContext(Entity entity) {
-			return this.collisionContext(CollisionContext.of(entity));
+		public Builder collisionContext(@Nullable Entity entity) {
+			return this.collisionContext(entity == null ? CollisionContext.empty() : CollisionContext.of(entity));
 		}
 
 		public Builder blockRange(double range) {
@@ -165,6 +185,11 @@ public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid flui
 			return this;
 		}
 
+		public Builder entityExpansion(float expansion) {
+			this.entityExpansion = expansion;
+			return this;
+		}
+
 		public Builder forPlayer(Player player) {
 			this.collisionContext(player);
 			this.blockRange(player.blockInteractionRange());
@@ -176,7 +201,7 @@ public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid flui
 			return new RaycastOptions(
 					this.blockMode, this.fluidMode, this.entityPredicate,
 					this.portalMode, this.collisionContext, this.blockRange, this.entityRange,
-					this.hitWorldBorder, this.ignoreInteractionOverride
+					this.hitWorldBorder, this.ignoreInteractionOverride, this.entityExpansion
 			);
 		}
 	}

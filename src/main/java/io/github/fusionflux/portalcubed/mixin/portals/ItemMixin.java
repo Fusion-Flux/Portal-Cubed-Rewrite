@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
-import java.util.Optional;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -11,13 +9,11 @@ import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
-import io.github.fusionflux.portalcubed.mixin.utils.accessors.ClipContextAccessor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
 
 @Mixin(Item.class)
 public class ItemMixin {
@@ -32,19 +28,9 @@ public class ItemMixin {
 														@Local(argsOnly = true) Player player) {
 		BlockHitResult originalResult = original.call(level, context);
 
-		ClipContext.Block blockMode = ((ClipContextAccessor) context).getBlock();
-		ClipContext.Fluid fluidMode = ((ClipContextAccessor) context).getFluid();
-		CollisionContext collisionContext = ((ClipContextAccessor) context).getCollisionContext();
-
-		RaycastOptions options = RaycastOptions.DEFAULT.edit()
-				.entities(Optional.empty())
-				.blocks(blockMode)
-				.fluids(fluidMode)
-				.forPlayer(player)
-				.collisionContext(collisionContext)
-				.build();
-
+		RaycastOptions options = RaycastOptions.of(context).forPlayer(player).build();
 		RaycastResult result = options.raycast(level, context.getFrom(), context.getTo());
+
 		if (!(result instanceof RaycastResult.BlockLike blockLike)) {
 			throw new IllegalStateException("RaycastResult should be a BlockLike, was " + result);
 		}

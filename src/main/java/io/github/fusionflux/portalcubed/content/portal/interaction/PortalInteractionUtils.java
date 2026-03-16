@@ -16,11 +16,15 @@ import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public final class PortalInteractionUtils {
@@ -199,5 +203,13 @@ public final class PortalInteractionUtils {
 		} else {
 			return throughPortals.prepend(portal);
 		}
+	}
+
+	/// Convert the given [HitResult] int an equivalent [miss][HitResult.Type#MISS].
+	/// @param direction the direction of the raycast that produced the result, does not need to be normalized
+	public static BlockHitResult convertToMiss(HitResult original, Vec3 direction) {
+		Vec3 pos = original.getLocation();
+		Direction face = Direction.getApproximateNearest(direction).getOpposite();
+		return BlockHitResult.miss(pos, face, BlockPos.containing(pos));
 	}
 }
