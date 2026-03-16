@@ -19,6 +19,7 @@ import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityTypeTest;
@@ -39,6 +40,12 @@ public final class PortalInteractionUtils {
 	public static OptionalDouble findPathLengthSqr(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
 		PortalPath path = findPath(level, start, distanceFunction, range, true);
 		return path == null ? OptionalDouble.empty() : OptionalDouble.of(path.distanceThroughSqr(start, distanceFunction));
+	}
+
+	/// @see #findPath(Level, Vec3, ToDoubleFunction, double, boolean)
+	@Nullable
+	public static PortalPath findPath(Level level, Vec3 start, Vec3 end, double range) {
+		return findPath(level, start, end::distanceTo, range, false);
 	}
 
 	/// @see #findPath(Level, Vec3, ToDoubleFunction, double, boolean)
@@ -95,7 +102,7 @@ public final class PortalInteractionUtils {
 			seenPairs.remove(portal.id.key());
 		}
 
-		return shortest;
+		return shortestDistance <= range ? shortest : null;
 	}
 
 	/// Portal-aware variant of [getEntities][Level#getEntities(EntityTypeTest, AABB, Predicate)].
@@ -105,6 +112,12 @@ public final class PortalInteractionUtils {
 		Set<T> found = new HashSet<>();
 		getEntitiesRecursive(level, test, area, predicate, found::add, new HashSet<>());
 		return found;
+	}
+
+	/// Portal-aware variant of [Level#getEntitiesOfClass(Class,AABB)].
+	/// @see #getEntities(Level, EntityTypeTest, AABB, Predicate)
+	public static <T extends Entity> Set<T> getEntitiesOfClass(Level level, Class<T> clazz, AABB area) {
+		return getEntities(level, EntityTypeTest.forClass(clazz), area, EntitySelector.NO_SPECTATORS);
 	}
 
 	private static <T extends Entity> void getEntitiesRecursive(Level level, EntityTypeTest<Entity, T> test, AABB area, Predicate<? super T> predicate, Consumer<T> output, Set<PortalReference> entered) {
