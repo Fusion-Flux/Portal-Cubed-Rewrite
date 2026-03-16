@@ -215,10 +215,10 @@ final class RayCaster {
 		// before we raycast, see if there's an entity intersecting the start point.
 		// a raycast that starts inside a hitbox will not count as hitting it.
 		AABB point = AABB.ofSize(this.currentStart, 0.01, 0.01, 0.01);
-		List<Entity> intersecting = this.level.getEntities(context, point, predicate);
+		List<Entity> intersecting = this.level.getEntities((Entity) null, point, predicate);
 		for (Entity entity : intersecting) {
-			// it's possible there's multiple, but we'll just go with the first one (that isn't the context entity)
-			if (entity != this.options.contextEntity()) {
+			// it's possible there's multiple, but we'll just go with the first hittable one
+			if (this.canHitIntersectingEntity(entity, context, predicate)) {
 				return new RaycastResult.Entity(this.currentStart, entity);
 			}
 		}
@@ -229,6 +229,15 @@ final class RayCaster {
 		);
 
 		return result == null ? null : new RaycastResult.Entity(result.getLocation(), result.getEntity());
+	}
+
+	private boolean canHitIntersectingEntity(Entity entity, @Nullable Entity context, Predicate<Entity> predicate) {
+		if (entity == context && this.hitPortals.isEmpty()) {
+			// we can't hit the context entity on the first portal step or else we'll stop instantly
+			return false;
+		}
+
+		return predicate.test(entity);
 	}
 
 	@Nullable
