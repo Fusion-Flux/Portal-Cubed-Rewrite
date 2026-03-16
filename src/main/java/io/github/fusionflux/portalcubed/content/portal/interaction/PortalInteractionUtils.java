@@ -114,7 +114,7 @@ public final class PortalInteractionUtils {
 		return found;
 	}
 
-	/// Portal-aware variant of [Level#getEntitiesOfClass(Class,AABB)].
+	/// Portal-aware variant of [Level#getEntitiesOfClass(Class, AABB)].
 	/// @see #getEntities(Level, EntityTypeTest, AABB, Predicate)
 	public static <T extends Entity> Set<T> getEntitiesOfClass(Level level, Class<T> clazz, AABB area) {
 		return getEntities(level, EntityTypeTest.forClass(clazz), area, EntitySelector.NO_SPECTATORS);
