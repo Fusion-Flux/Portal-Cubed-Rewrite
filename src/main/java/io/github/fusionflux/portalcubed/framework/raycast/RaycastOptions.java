@@ -88,14 +88,6 @@ public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid flui
 				.collisionContext(accessor.getCollisionContext());
 	}
 
-	public static Builder forEntitiesOnly(@Nullable Entity context, Predicate<Entity> predicate, float expansion) {
-		return DEFAULT.edit()
-				.blocks(NoneClipContextMode.get())
-				.entities(predicate)
-				.entityExpansion(expansion)
-				.collisionContext(context);
-	}
-
 	public enum PortalMode {
 		HIT, PASS_THROUGH, IGNORE
 	}
