@@ -37,7 +37,7 @@
 				"east": {"uv": [0, 8, 8, 16], "texture": "#door"},
 				"south": {"uv": [12, 8, 16, 16], "texture": "#edges"},
 				"west": {"uv": [8, 8, 16, 16], "texture": "#door"},
-				"down": {"uv": [12, 0, 16, 8], "texture": "#edges", "cullface": "down"}
+				"down": {"uv": [12, 0, 16, 8], "texture": "#edges"}
 			}
 		},
 		{
