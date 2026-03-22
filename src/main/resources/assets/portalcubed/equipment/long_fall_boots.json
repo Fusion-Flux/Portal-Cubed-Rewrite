@@ -10,6 +10,17 @@
       {
         "texture": "portalcubed:long_fall_boots_overlay"
       }
+    ],
+    "horse_body": [
+      {
+        "dyeable": {
+          "color_when_undyed": -1
+        },
+        "texture": "portalcubed:long_fall_boots"
+      },
+      {
+        "texture": "portalcubed:long_fall_boots_overlay"
+      }
     ]
   }
 }

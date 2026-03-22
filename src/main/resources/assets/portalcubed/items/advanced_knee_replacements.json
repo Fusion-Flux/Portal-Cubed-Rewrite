@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "portalcubed:item/advanced_knee_replacements"
+    "model": "portalcubed:item/advanced_knee_replacements",
+    "tints": [
+      {
+        "type": "minecraft:dye",
+        "default": -3945782
+      }
+    ]
   }
 }

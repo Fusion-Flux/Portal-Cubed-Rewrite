@@ -159,6 +159,7 @@ public class PortalCubedItems {
 		// grab it through leather boots since the method is private
 		CauldronInteraction dyedItem = map.get(Items.LEATHER_BOOTS);
 		map.put(LONG_FALL_BOOTS, dyedItem);
+		map.put(ADVANCED_KNEE_REPLACEMENTS, dyedItem);
 		map.put(PORTAL_GUN, new PortalGunCauldronInteraction(dyedItem));
 
 		DispenserBlock.registerBehavior(LEMONADE, LemonadeDispenseBehavior.INSTANCE);

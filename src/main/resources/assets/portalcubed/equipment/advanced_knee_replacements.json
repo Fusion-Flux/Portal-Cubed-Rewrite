@@ -2,7 +2,24 @@
   "layers": {
     "humanoid": [
       {
+        "dyeable": {
+          "color_when_undyed": -3945782
+        },
         "texture": "portalcubed:advanced_knee_replacements"
+      },
+      {
+        "texture": "portalcubed:advanced_knee_replacements_overlay"
+      }
+    ],
+    "horse_body": [
+      {
+        "dyeable": {
+          "color_when_undyed": -3945782
+        },
+        "texture": "portalcubed:advanced_knee_replacements"
+      },
+      {
+        "texture": "portalcubed:advanced_knee_replacements_overlay"
       }
     ]
   }
