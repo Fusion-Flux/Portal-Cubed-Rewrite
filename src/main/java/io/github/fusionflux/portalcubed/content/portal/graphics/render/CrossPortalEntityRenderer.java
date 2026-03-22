@@ -36,6 +36,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class CrossPortalEntityRenderer {
+	private static final double DETECTION_PADDING = 4 / 16d;
+
 	private final RenderBuffers renderBuffers;
 	private final EntityRenderDispatcher entityRenderDispatcher;
 
@@ -69,7 +71,7 @@ public class CrossPortalEntityRenderer {
 			);
 			Vec3 center = position.add(entity.position().vectorTo(PortalTeleportHandler.centerOf(entity)));
 
-		    AABB boundingBox = entity.getBoundingBox();
+		    AABB boundingBox = entity.getBoundingBox().inflate(DETECTION_PADDING);
 			double xSize = boundingBox.getXsize() / 2;
 			double ySize = boundingBox.getYsize() / 2;
 			double zSize = boundingBox.getZsize() / 2;
