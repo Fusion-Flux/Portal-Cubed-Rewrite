@@ -1,12 +1,12 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "portalcubed:block/cube_2x2_inside_vertical_faces_mirrored",
   "textures": {
     "particle": "portalcubed:block/2x2_crossbar_bottom_right",
     "north": "portalcubed:block/2x2_crossbar_bottom_left",
     "south": "portalcubed:block/2x2_crossbar_bottom_right",
     "east": "portalcubed:block/2x2_crossbar_bottom_left",
     "west": "portalcubed:block/2x2_crossbar_bottom_left",
-    "up": "portalcubed:block/2x2_crossbar_bottom_right",
-    "down": "portalcubed:block/2x2_crossbar_top_right"
+    "up": "portalcubed:block/2x2_crossbar_top_left",
+    "down": "portalcubed:block/2x2_crossbar_bottom_left"
   }
 }
