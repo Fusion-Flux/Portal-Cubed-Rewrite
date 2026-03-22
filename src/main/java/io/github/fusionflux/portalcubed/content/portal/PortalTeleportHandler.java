@@ -99,6 +99,10 @@ public class PortalTeleportHandler {
 		return entity.getBoundingBox().getCenter();
 	}
 
+	public static Vec3 uncenter(Entity entity, Vec3 centeredPos) {
+		return centeredPos.subtract(0, entity.getBbHeight() / 2, 0);
+	}
+
 	public static Vec3 oldCenterOf(Entity entity) {
 		Vec3 centerNow = centerOf(entity);
 		Vec3 posToCenter = entity.position().vectorTo(centerNow);
@@ -128,15 +132,7 @@ public class PortalTeleportHandler {
 	}
 
 	public static boolean cannotTeleport(Entity entity) {
-		if (ignoresPortalModifiedCollision(entity))
-			return true;
-
-		// player teleportation is handled client-side
-		if (entity instanceof Player player)
-			return !player.isLocalPlayer();
-
-		// all other entities teleport server-side
-		return entity.level().isClientSide;
+		return ignoresPortalModifiedCollision(entity) || !entity.isEffectiveAi();
 	}
 
 	public static boolean ignoresPortalModifiedCollision(@Nullable Entity entity) {

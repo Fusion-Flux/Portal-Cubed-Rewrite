@@ -28,15 +28,12 @@ public class TeleportProgressTracker {
 	private final Entity entity;
 	private final LinkedList<TrackedTeleport> teleports;
 	private final List<SinglePortalTransform> reverseTransforms;
-	private final MultiPortalTransform reverseTransform;
-
 	private final List<TeleportStep> currentSteps;
 
 	public TeleportProgressTracker(Entity entity) {
 		this.entity = entity;
 		this.teleports = new LinkedList<>();
 		this.reverseTransforms = new ArrayList<>();
-		this.reverseTransform = new MultiPortalTransform(this.reverseTransforms);
 		this.currentSteps = new LinkedList<>();
 	}
 
@@ -108,8 +105,9 @@ public class TeleportProgressTracker {
 	/**
 	 * Transform encompassing transforms of all teleports, inverted, in reverse order.
 	 */
+	@Nullable
 	public PortalTransform reverseTransform() {
-		return this.reverseTransform;
+		return this.reverseTransforms.isEmpty() ? null : new MultiPortalTransform(this.reverseTransforms);
 	}
 
 	@Nullable

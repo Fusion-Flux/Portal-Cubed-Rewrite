@@ -1,16 +1,14 @@
 package io.github.fusionflux.portalcubed.framework.key;
 
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
+import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
+import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.DropPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.GrabPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.ClipContext;
 
 public class GrabKeyMappingAction implements KeyMappingAction {
 	@Override
@@ -20,20 +18,24 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 			return;
 
 		HoldableEntity held = player.getHeldEntity();
-		if (held == null) { // not holding, grab
-			HitResult hit = ProjectileUtil.getHitResultOnViewVector(
-					player,
-					EntitySelector.NO_SPECTATORS.and(Entity::isPickable),
-					player.entityInteractionRange()
-			);
-
-			if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof HoldableEntity holdable) {
-				PortalCubedPackets.sendToServer(new GrabPacket(holdable));
-			} else {
-				player.grabSoundManager().onFailedGrab();
-			}
-		} else { // currently holding, drop
+		if (held != null) {
+			// currently holding, drop
 			PortalCubedPackets.sendToServer(DropPacket.INSTANCE);
+			return;
+		}
+
+		// not holding, grab
+		RaycastOptions options = RaycastOptions.DEFAULT.edit()
+				.blocks(ClipContext.Block.COLLIDER)
+				.collisionContext(player)
+				.build();
+
+		RaycastResult result = options.raycast(player.level(), player.getEyePosition(), player.getLookAngle(), player.entityInteractionRange());
+
+		if (result instanceof RaycastResult.Entity entityResult && entityResult.entity instanceof HoldableEntity holdable) {
+			PortalCubedPackets.sendToServer(new GrabPacket(holdable));
+		} else {
+			player.grabSoundManager().onFailedGrab();
 		}
 	}
 }

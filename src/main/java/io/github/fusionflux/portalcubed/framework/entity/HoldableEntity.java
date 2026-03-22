@@ -1,10 +1,15 @@
 package io.github.fusionflux.portalcubed.framework.entity;
 
+import java.util.List;
 import java.util.OptionalInt;
 
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
+import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
+import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
+import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -13,6 +18,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +36,7 @@ import net.minecraft.world.phys.Vec3;
 // - HoldStatusPackets sent, clients update
 // - For existing holds, additional HoldStatusPackets are sent in AFTER_START_TRACKING.
 public abstract class HoldableEntity extends LerpableEntity {
+	public static final double HOLD_DISTANCE = 2;
 	public static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 
 	@Nullable
@@ -61,9 +68,12 @@ public abstract class HoldableEntity extends LerpableEntity {
 	}
 
 	@Override
-	public boolean isControlledByLocalInstance() {
+	public boolean isEffectiveAi() {
+		if (super.isEffectiveAi())
+			return true;
+
 		Player holder = this.getHolder();
-		return super.isControlledByLocalInstance() || (holder != null && holder.isLocalPlayer());
+		return holder != null && holder.isLocalPlayer();
 	}
 
 	@Override
@@ -74,15 +84,24 @@ public abstract class HoldableEntity extends LerpableEntity {
 			return;
 
 		// move in front of player
-		Vec3 holdPoint = holder.getLookAngle().scale(2)
-				.add(holder.getEyePosition())
-				.subtract(0, this.getBbHeight() / 2, 0);
-		Vec3 toPoint = this.position().vectorTo(holdPoint);
-		this.setDeltaMovement(toPoint);
+		Vec3 trueTarget = this.determineMotionTarget(holder);
+		if (trueTarget.distanceTo(this.position()) > 5) {
+			// too far away, give up
+			if (!this.level().isClientSide()) {
+				this.drop();
+			}
+
+			return;
+		}
+
+		Vec3 motion = this.position().vectorTo(trueTarget);
+		this.setDeltaMovement(motion);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
-		this.applyEffectsFromBlocks();
-		if (toPoint.y == 0)
+
+		if (motion.y == 0) {
+			// reset fall distance to not accumulate it while held
 			this.resetFallDistance();
+		}
 
 		// rotate to face player
 		if (this.facesHolder()) {
@@ -90,8 +109,37 @@ public abstract class HoldableEntity extends LerpableEntity {
 		}
 
 		// drop when holder is no longer valid or when we are no longer able to be held
-		if (!this.level().isClientSide && !this.canHold(holder))
+		if (!this.level().isClientSide() && !this.canHold(holder)) {
 			this.drop();
+		}
+	}
+
+	private Vec3 determineMotionTarget(Player holder) {
+		Vec3 eyePos = holder.getEyePosition();
+		Vec3 lookVec = holder.getLookAngle();
+		Vec3 target = eyePos.add(lookVec.scale(HOLD_DISTANCE));
+
+		RaycastOptions options = RaycastOptions.DEFAULT.edit()
+				.entities(EntitySelector.NO_SPECTATORS.and(this::canCollideWith))
+				.collisionContext(this)
+				.build();
+
+		RaycastResult result = options.raycast(this.level(), eyePos, lookVec, HOLD_DISTANCE * 2);
+		Iterable<PortalPath.Entry> entries = result.path.map(PortalPath::entries).orElse(List.of());
+
+		// this isn't correct, but it should generally be good enough.
+		// find the relative hold point that is closest.
+		Vec3 center = PortalTeleportHandler.centerOf(this);
+		Vec3 closestTarget = target;
+		Vec3 currentTarget = target;
+		for (PortalPath.Entry entry : entries) {
+			currentTarget = entry.createTransform().applyAbsolute(currentTarget);
+			if (center.distanceToSqr(currentTarget) < center.distanceToSqr(closestTarget)) {
+				closestTarget = currentTarget;
+			}
+		}
+
+		return PortalTeleportHandler.uncenter(this, closestTarget);
 	}
 
 	@Override
