@@ -124,6 +124,10 @@ public abstract class HoldableEntity extends LerpableEntity {
 				.collisionContext(this)
 				.build();
 
+		// this raycast is really just used to figure out which portals are relevant for the grab.
+		// we give it some extra distance to account for portals that are barely too far away.
+		// for example, walking backwards through a portal while holding something would drop it
+		// right before it crosses the threshold, since the hold point would now be on the other side.
 		RaycastResult result = options.raycast(this.level(), eyePos, lookVec, HOLD_DISTANCE * 2);
 		Iterable<PortalPath.Entry> entries = result.path.map(PortalPath::entries).orElse(List.of());
 
