@@ -97,6 +97,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 		Vec3 motion = this.position().vectorTo(trueTarget);
 		this.setDeltaMovement(motion);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
+		this.applyEffectsFromBlocks();
 
 		if (motion.y == 0) {
 			// reset fall distance to not accumulate it while held
