@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.framework.entity;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalInt;
 
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +13,7 @@ import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
+import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -84,8 +86,8 @@ public abstract class HoldableEntity extends LerpableEntity {
 			return;
 
 		// move in front of player
-		Vec3 trueTarget = this.determineMotionTarget(holder);
-		if (trueTarget.distanceTo(this.position()) > 5) {
+		HoldState state = this.determineHoldState(holder);
+		if (state.target.distanceTo(this.position()) > 5) {
 			// too far away, give up
 			if (!this.level().isClientSide()) {
 				this.drop();
@@ -94,19 +96,15 @@ public abstract class HoldableEntity extends LerpableEntity {
 			return;
 		}
 
-		Vec3 motion = this.position().vectorTo(trueTarget);
+		Vec3 motion = this.position().vectorTo(state.target);
 		this.setDeltaMovement(motion);
 		this.move(MoverType.PLAYER, this.getDeltaMovement());
 		this.applyEffectsFromBlocks();
+		state.yRot.ifPresent(this::setYRot);
 
 		if (motion.y == 0) {
 			// reset fall distance to not accumulate it while held
 			this.resetFallDistance();
-		}
-
-		// rotate to face player
-		if (this.facesHolder()) {
-			this.setYRot((holder.getYRot() + 180) % 360);
 		}
 
 		// drop when holder is no longer valid or when we are no longer able to be held
@@ -115,7 +113,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 		}
 	}
 
-	private Vec3 determineMotionTarget(Player holder) {
+	private HoldState determineHoldState(Player holder) {
 		Vec3 eyePos = holder.getEyePosition();
 		Vec3 lookVec = holder.getLookAngle();
 		Vec3 target = eyePos.add(lookVec.scale(HOLD_DISTANCE));
@@ -125,7 +123,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 				.collisionContext(this)
 				.build();
 
-		// this raycast is really just used to figure out which portals are relevant for the grab.
+		// this raycast is just used to figure out which portals are relevant for the grab.
 		// we give it some extra distance to account for portals that are barely too far away.
 		// for example, walking backwards through a portal while holding something would drop it
 		// right before it crosses the threshold, since the hold point would now be on the other side.
@@ -144,7 +142,19 @@ public abstract class HoldableEntity extends LerpableEntity {
 			}
 		}
 
-		return PortalTeleportHandler.uncenter(this, closestTarget);
+		Vec3 actualTarget = PortalTeleportHandler.uncenter(this, closestTarget);
+		Optional<Float> rotation = this.determineRotation(options, eyePos, lookVec, holder.getYHeadRot());
+		return new HoldState(actualTarget, rotation);
+	}
+
+	private Optional<Float> determineRotation(RaycastOptions options, Vec3 eyePos, Vec3 lookVec, float holderRotation) {
+		if (!this.facesHolder()) {
+			return Optional.empty();
+		}
+
+		float yRot = (holderRotation + 180) % 360;
+		RaycastResult result = options.raycast(this.level(), eyePos, lookVec, HOLD_DISTANCE);
+		return result.path.map(path -> path.transform().apply(yRot, Direction.Axis.Y)).or(() -> Optional.of(yRot));
 	}
 
 	@Override
@@ -228,4 +238,6 @@ public abstract class HoldableEntity extends LerpableEntity {
 			PortalCubedPackets.sendToClient(player, new HoldStatusPacket(holder, this));
 		}
 	}
+
+	private record HoldState(Vec3 target, Optional<Float> yRot) {}
 }
