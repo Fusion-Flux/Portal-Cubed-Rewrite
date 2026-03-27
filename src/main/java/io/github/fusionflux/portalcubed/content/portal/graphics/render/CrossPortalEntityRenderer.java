@@ -150,7 +150,7 @@ public class CrossPortalEntityRenderer {
 	public record CrossPortalEntity(Entity entity, float tickDelta, Vec3 position, PortalReference inPortal, Portal outPortal, SinglePortalTransform transform) {
 		public boolean shouldBeSkipped() {
 			Minecraft mc = Minecraft.getInstance();
-			if (this.entity != mc.player || !mc.options.getCameraType().isFirstPerson())
+			if (this.entity != mc.getCameraEntity() || !mc.options.getCameraType().isFirstPerson())
 				return false;
 
 			return PortalRenderer.recursion() == 1 && this.inPortal.id.equals(PortalRenderer.getRenderingPortal());

@@ -4,10 +4,12 @@ import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
@@ -18,6 +20,7 @@ import io.github.fusionflux.portalcubed.framework.extension.LevelExt;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import net.minecraft.client.Camera;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -36,6 +39,39 @@ public abstract class CameraMixin {
 	@Shadow
 	@Final
 	private Quaternionf rotation;
+
+	@Shadow
+	private float eyeHeight;
+
+	@Shadow
+	private float eyeHeightOld;
+
+	@WrapOperation(
+			method = "setup",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/phys/Vec3;add(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"
+			)
+	)
+	private Vec3 teleportWhenPositioningInNewMinecart(Vec3 pos, Vec3 offset, Operation<Vec3> original) {
+		Vec3 target = original.call(pos, offset);
+		return this.teleportAndRotate(pos, target);
+	}
+
+	@WrapOperation(
+			method = "setup",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/Camera;setPosition(DDD)V"
+			)
+	)
+	private void teleportWhenPositioningNormally(Camera self, double x, double y, double z, Operation<Void> original, @Local(argsOnly = true) float partialTick) {
+		Vec3 target = new Vec3(x, y, z);
+		// I don't like recalculating this, but I think it's the best way
+		Vec3 base = target.subtract(0, Mth.lerp(partialTick, this.eyeHeightOld, this.eyeHeight), 0);
+		Vec3 newTarget = this.teleportAndRotate(base, target);
+		original.call(self, newTarget.x, newTarget.y, newTarget.z);
+	}
 
 	@WrapOperation(
 			method = "getMaxZoom",
@@ -82,21 +118,23 @@ public abstract class CameraMixin {
 			)
 	)
 	private void moveThroughPortals(Camera self, Vec3 target, Operation<Void> original) {
-		if (this.level instanceof LevelExt level) {
-			PortalManager manager = level.portalManager();
-			PortalHitResult result = manager.lookup().clip(this.getPosition(), target);
-			if (result.path().isPresent()) {
-				PortalPath path = result.path().get();
-				PortalTransform transform = path.transform();
+		original.call(self, this.teleportAndRotate(this.getPosition(), target));
+	}
 
-				Vec3 transformedTarget = transform.applyAbsolute(target);
-				original.call(self, transformedTarget);
-				transform.apply(this.rotation);
+	@Unique
+	private Vec3 teleportAndRotate(Vec3 base, Vec3 target) {
+		if (!(this.level instanceof LevelExt level))
+			return target;
 
-				return;
-			}
-		}
+		PortalManager manager = level.portalManager();
+		PortalHitResult result = manager.lookup().clip(base, target);
+		if (result.path().isEmpty())
+			return target;
 
-		original.call(self, target);
+		PortalPath path = result.path().get();
+		PortalTransform transform = path.transform();
+
+		transform.apply(this.rotation);
+		return transform.applyAbsolute(target);
 	}
 }
