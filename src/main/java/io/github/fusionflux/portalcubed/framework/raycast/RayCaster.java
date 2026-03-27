@@ -2,12 +2,15 @@ package io.github.fusionflux.portalcubed.framework.raycast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInteractionUtils;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
 import io.github.fusionflux.portalcubed.content.portal.ref.HitPortal;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
@@ -15,6 +18,8 @@ import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions.PortalMode;
+import io.github.fusionflux.portalcubed.framework.shape.OBB;
+import io.github.fusionflux.portalcubed.mixin.portals.EntityGetterMixin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -223,12 +228,75 @@ final class RayCaster {
 			}
 		}
 
-		EntityHitResult result = ProjectileUtil.getEntityHitResult(
-				this.level, null, this.currentStart, this.currentLimitedEnd,
-				area, predicate, this.options.entityExpansion()
-		);
+		float expansion = this.options.entityExpansion();
+		EntityHitResult directResult = ProjectileUtil.getEntityHitResult(this.level, null, this.currentStart, this.currentLimitedEnd, area, predicate, expansion);
+		RaycastResult.Entity proxyResult = this.clipEntityProxyHitboxes(area, predicate, expansion);
 
-		return result == null ? null : new RaycastResult.Entity(result.getLocation(), result.getEntity());
+		if (directResult == null) {
+			return proxyResult;
+		} else if (proxyResult == null) {
+			return new RaycastResult.Entity(directResult);
+		} else {
+			double directDistance = directResult.getLocation().distanceTo(this.currentStart);
+			double proxyDistance = proxyResult.pos.distanceTo(this.currentStart);
+			return proxyDistance < directDistance ? proxyResult : new RaycastResult.Entity(directResult);
+		}
+	}
+
+	/// [EntityGetterMixin#addProxyHitboxes]
+	@Nullable
+	@SuppressWarnings("JavadocReference")
+	private RaycastResult.Entity clipEntityProxyHitboxes(AABB area, Predicate<Entity> predicate, float expansion) {
+		AABB portalArea = area.inflate(1);
+		Set<PortalReference> portals = this.level.portalManager().lookup().getPortals(portalArea);
+		if (portals.isEmpty())
+			return null;
+
+		Vec3 closestHitPos = null;
+		Vec3 relativeClosestHitPos = null;
+		double closestDistanceSqr = Double.MAX_VALUE;
+		Entity closestHitEntity = null;
+
+		for (PortalReference portal : portals) {
+			Optional<PortalReference> maybeOpposite = portal.opposite();
+			if (maybeOpposite.isEmpty())
+				continue;
+
+			PortalReference linked = maybeOpposite.get();
+			SinglePortalTransform transform = new SinglePortalTransform(portal.get(), linked.get());
+			OBB transformedArea = transform.apply(area);
+			List<Entity> entities = PortalInteractionUtils.getEntitiesIntersectingPortal(this.level, null, transformedArea, linked.get(), predicate);
+			if (entities.isEmpty())
+				continue;
+
+			Vec3 transformedStart = transform.applyAbsolute(this.currentStart);
+			Vec3 transformedEnd = transform.applyAbsolute(this.currentLimitedEnd);
+
+			for (Entity entity : entities) {
+				// based on ProjectileUtil.getEntityHitResult
+				AABB bounds = inflate(entity.getBoundingBox(), expansion);
+				Optional<Vec3> hit = bounds.clip(transformedStart, transformedEnd);
+				if (hit.isEmpty())
+					continue;
+
+				Vec3 hitPos = hit.get();
+				double distSqr = transformedStart.distanceToSqr(hitPos);
+
+				if (distSqr < closestDistanceSqr) {
+					closestHitPos = transform.inverse().applyAbsolute(hitPos);
+					relativeClosestHitPos = hitPos;
+					closestDistanceSqr = distSqr;
+					closestHitEntity = entity;
+				}
+			}
+		}
+
+		if (closestHitPos == null)
+			return null;
+
+		Objects.requireNonNull(closestHitEntity, "entity");
+		Objects.requireNonNull(relativeClosestHitPos, "relative pos");
+		return new RaycastResult.Entity(closestHitPos, closestHitEntity, relativeClosestHitPos);
 	}
 
 	private boolean canHitIntersectingEntity(Entity entity, @Nullable Entity context, Predicate<Entity> predicate) {
@@ -258,5 +326,9 @@ final class RayCaster {
 
 		HitPortal hit = maybeHit.get();
 		return new RaycastResult.Portal(hit.pos(), hit.reference());
+	}
+
+	private static AABB inflate(AABB bounds, double amount) {
+		return amount == 0 ? bounds : bounds.inflate(amount);
 	}
 }

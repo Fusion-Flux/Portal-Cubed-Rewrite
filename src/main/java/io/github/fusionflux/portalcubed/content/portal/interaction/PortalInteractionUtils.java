@@ -1,6 +1,8 @@
 package io.github.fusionflux.portalcubed.content.portal.interaction;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.Set;
@@ -21,6 +23,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.EntityGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
@@ -36,7 +39,7 @@ public final class PortalInteractionUtils {
 		return findPathLengthSqr(level, start, end::distanceTo, range);
 	}
 
-	/// [find a path through portals][#findPathThroughPortals(Level, Vec3, ToDoubleFunction, double)], and then get its length if found.
+	/// [find a path through portals][#findPath(Level, Vec3, ToDoubleFunction, double, boolean)], and then get its length if found.
 	public static OptionalDouble findPathLengthSqr(Level level, Vec3 start, ToDoubleFunction<Vec3> distanceFunction, double range) {
 		PortalPath path = findPath(level, start, distanceFunction, range, true);
 		return path == null ? OptionalDouble.empty() : OptionalDouble.of(path.distanceThroughSqr(start, distanceFunction));
@@ -224,5 +227,23 @@ public final class PortalInteractionUtils {
 		Vec3 pos = original.getLocation();
 		Direction face = Direction.getApproximateNearest(direction).getOpposite();
 		return BlockHitResult.miss(pos, face, BlockPos.containing(pos));
+	}
+
+	/// Get all entities that are intersecting the given portal.
+	public static List<Entity> getEntitiesIntersectingPortal(EntityGetter level, @Nullable Entity except, OBB area, Portal portal, Predicate<Entity> filter) {
+		List<Entity> entities = level.getEntities(except, area.encompassingAabb, filter);
+		if (entities.isEmpty())
+			return entities;
+
+		List<Entity> intersecting = new ArrayList<>();
+
+		for (Entity entity : entities) {
+			AABB bounds = entity.getBoundingBox();
+			if (area.intersects(bounds) && portal.quad.intersects(bounds)) {
+				intersecting.add(entity);
+			}
+		}
+
+		return intersecting;
 	}
 }

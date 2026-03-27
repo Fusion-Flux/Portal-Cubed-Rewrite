@@ -48,7 +48,7 @@ public class GameRendererMixin {
 
 		this.minecraft.setSelectedPortal(null);
 		RaycastResult result = options.raycast(entity.level(), eyePos, direction, maxRange);
-		if (!result.passedThroughPortals() && !(result instanceof RaycastResult.Portal))
+		if (!preferOverOriginal(result))
 			return original;
 
 		return switch (result) {
@@ -58,6 +58,18 @@ public class GameRendererMixin {
 				yield PortalInteractionUtils.convertToMiss(original, direction);
 			}
 		};
+	}
+
+	@Unique
+	private static boolean preferOverOriginal(RaycastResult result) {
+		if (result.passedThroughPortals() || result instanceof RaycastResult.Portal)
+			return true;
+
+		if (result instanceof RaycastResult.Entity entity) {
+			return entity.isProxy();
+		}
+
+		return false;
 	}
 
 	@Unique

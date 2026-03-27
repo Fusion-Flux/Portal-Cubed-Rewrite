@@ -16,9 +16,9 @@ import net.minecraft.world.phys.Vec3;
  * The result of a raycast performed with {@link RaycastOptions}.
  */
 public sealed abstract class RaycastResult {
-	/**
-	 * The {@link PortalPath} the raycast passed through, if it passed through any portals.
-	 */
+	/// The [PortalPath] the raycast passed through, if it passed through any portals.
+	///
+	/// [#passedThroughPortals()] should be preferred over `isPresent` and `isEmpty`.
 	public final Optional<PortalPath> path;
 
 	public final Vec3 pos;
@@ -164,24 +164,41 @@ public sealed abstract class RaycastResult {
 
 	public static final class Entity extends VanillaConvertible {
 		public final net.minecraft.world.entity.Entity entity;
+		public final Vec3 entityRelativePos;
 
-		public Entity(Optional<PortalPath> path, Vec3 pos, net.minecraft.world.entity.Entity entity) {
+		public Entity(Optional<PortalPath> path, Vec3 pos, net.minecraft.world.entity.Entity entity, Vec3 entityRelativePos) {
 			super(path, pos);
 			this.entity = entity;
+			this.entityRelativePos = entityRelativePos;
 		}
 
 		public Entity(Vec3 pos, net.minecraft.world.entity.Entity entity) {
-			this(Optional.empty(), pos, entity);
+			this(Optional.empty(), pos, entity, pos);
+		}
+
+		public Entity(Vec3 pos, net.minecraft.world.entity.Entity entity, Vec3 entityRelativePos) {
+			this(Optional.empty(), pos, entity, entityRelativePos);
+		}
+
+		public Entity(EntityHitResult vanilla) {
+			this(vanilla.getLocation(), vanilla.getEntity());
 		}
 
 		@Override
 		public Entity withPath(PortalPath path) {
-			return new Entity(Optional.of(path), this.pos, this.entity);
+			return new Entity(Optional.of(path), this.pos, this.entity, this.entityRelativePos);
 		}
 
 		@Override
 		public EntityHitResult toVanilla() {
-			return this.addPortalContext(new EntityHitResult(this.entity, this.pos));
+			return this.addPortalContext(new EntityHitResult(this.entity, this.entityRelativePos));
+		}
+
+		/// If true, the raycast hit a "proxy" hitbox, meaning the hit entity was sticking through a portal,
+		/// and the part of its hitbox that was sticking through is what got hit. This means the pos that was hit
+		/// will differ from the position on the entity's hitbox corresponding to where it was hit.
+		public boolean isProxy() {
+			return !this.pos.equals(this.entityRelativePos);
 		}
 	}
 

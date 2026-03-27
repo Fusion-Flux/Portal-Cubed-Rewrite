@@ -8,8 +8,6 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
@@ -17,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInteractionUtils;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
@@ -31,9 +29,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 @Mixin(EntityGetter.class)
 public interface EntityGetterMixin {
-	@Shadow
-	List<Entity> getEntities(@Nullable Entity entity, AABB area, Predicate<? super Entity> predicate);
-
 	@ModifyArg(
 			method = "getEntityCollisions",
 			at = @At(
@@ -98,7 +93,7 @@ public interface EntityGetterMixin {
 			OBB transformedArea = transform.apply(area);
 
 			// find all entities intersecting the portal
-			List<Entity> entities = this.getIntersectingEntities(except, transformedArea, linked.get(), filter);
+			List<Entity> entities = PortalInteractionUtils.getEntitiesIntersectingPortal((EntityGetter) this, except, transformedArea, linked.get(), filter);
 			if (entities.isEmpty())
 				continue;
 
@@ -118,23 +113,5 @@ public interface EntityGetterMixin {
 		List<VoxelShape> merged = new ArrayList<>(original);
 		merged.addAll(additionalShapes);
 		return merged;
-	}
-
-	@Unique
-	private List<Entity> getIntersectingEntities(@Nullable Entity except, OBB area, Portal portal, Predicate<Entity> filter) {
-		List<Entity> entities = this.getEntities(except, area.encompassingAabb, filter);
-		if (entities.isEmpty())
-			return entities;
-
-		List<Entity> intersecting = new ArrayList<>();
-
-		for (Entity entity : entities) {
-			AABB bounds = entity.getBoundingBox();
-			if (area.intersects(bounds) && portal.quad.intersects(bounds)) {
-				intersecting.add(entity);
-			}
-		}
-
-		return intersecting;
 	}
 }
