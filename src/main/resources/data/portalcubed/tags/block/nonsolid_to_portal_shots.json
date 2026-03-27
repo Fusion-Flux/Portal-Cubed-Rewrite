@@ -3,6 +3,7 @@
     "#portalcubed:nonsolid_to_portals",
     "#portalcubed:all_facades",
     "#minecraft:fences",
+    "#minecraft:fence_gates",
     "minecraft:iron_bars",
     "minecraft:chain",
     "minecraft:moving_piston",

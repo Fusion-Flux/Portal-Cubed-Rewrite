@@ -1,4 +1,5 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 16],
 	"textures": {
@@ -73,12 +74,12 @@
 			}
 		},
 		{
-			"from": [4.71997, 0.74792, 5],
-			"to": [10.71997, 10.84792, 11],
-			"rotation": {"angle": -45, "axis": "y", "origin": [7.71997, 5.79792, 8]},
+			"from": [5.08202, 0.7, 5.03435],
+			"to": [11.08202, 10.8, 11.03435],
+			"rotation": {"angle": -45, "axis": "y", "origin": [7.80199, 5.79792, 8.03435]},
 			"faces": {
-				"up": {"uv": [13.5, 0, 10.5, 6], "rotation": 270, "texture": "#cube"},
-				"down": {"uv": [10.5, 6, 13.5, 0], "rotation": 180, "texture": "#cube"}
+				"up": {"uv": [13.5, 0, 10.5, 6], "rotation": 180, "texture": "#cube"},
+				"down": {"uv": [10.5, 6, 13.5, 0], "rotation": 270, "texture": "#cube"}
 			}
 		}
 	],
@@ -108,7 +109,7 @@
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {
-			"rotation": [30, 225, 0],
+			"rotation": [30, -135, 0],
 			"translation": [0, 1.25, 0],
 			"scale": [0.73633, 0.73633, 0.73633]
 		},
