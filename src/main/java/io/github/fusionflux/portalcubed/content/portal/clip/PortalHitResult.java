@@ -11,7 +11,7 @@ import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 /**
  * Represents the result of a raycast that only interacts with portals.
  * <p>
- * A PortalHitResult has two components: a path, and a final portal that was hit. Both component are optional.
+ * A PortalHitResult has two components: a path, and a final portal that was hit. Both components are optional.
  * @param path the path through open portals the raycast followed
  * @param finalPortal a final closed portal that the raycast hit
  */

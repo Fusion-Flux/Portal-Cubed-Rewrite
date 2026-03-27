@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Contract;
 import org.joml.Matrix3d;
+import org.joml.Quaternionf;
 import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
@@ -56,6 +57,9 @@ public sealed interface PortalTransform permits SinglePortalTransform, MultiPort
 
 	@Contract(value = "_->param1", mutates = "param1")
 	Matrix3d apply(Matrix3d rotation);
+
+	@Contract(value = "_->param1", mutates = "param1")
+	Quaternionf apply(Quaternionf rotation);
 
 	Rotations apply(Rotations rotations);
 

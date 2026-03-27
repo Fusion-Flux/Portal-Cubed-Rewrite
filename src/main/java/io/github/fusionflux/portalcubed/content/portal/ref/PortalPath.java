@@ -35,7 +35,7 @@ public sealed interface PortalPath permits PortalPathImpl {
 		return this.distanceThroughSqr(start, end::distanceToSqr);
 	}
 
-	/// A variant of [#length(Vec3, Vec3)] that allows for providing a function as the end goal instead of a single point.
+	/// A variant of [#distanceThroughSqr(Vec3, Vec3)] that allows for providing a function as the end goal instead of a single point.
 	///
 	/// This allows for finding the distance to other objects, such as the distance between a point and an [AABB].
 	double distanceThroughSqr(Vec3 start, ToDoubleFunction<Vec3> endDistanceSqrFunction);

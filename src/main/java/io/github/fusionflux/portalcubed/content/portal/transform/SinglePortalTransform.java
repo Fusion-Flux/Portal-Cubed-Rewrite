@@ -96,9 +96,12 @@ public final class SinglePortalTransform implements PortalTransform {
 
 	@Override
 	public Matrix3d apply(Matrix3d rotation) {
-		return rotation
-				.rotateLocal(this.inRotInverse)
-				.rotateLocal(this.outRot180);
+		return rotation.rotateLocal(this.inRotInverse).rotateLocal(this.outRot180);
+	}
+
+	@Override
+	public Quaternionf apply(Quaternionf rotation) {
+		return rotation.premul(this.inRotInverse).premul(this.outRot180);
 	}
 
 	@Override

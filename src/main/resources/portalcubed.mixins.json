@@ -146,6 +146,7 @@
     "client.Variant_DeserializerMixin",
     "client.VariantMixin",
     "misc.MouseHandlerMixin",
+    "portals.CameraMixin",
     "portals.client.CameraMixin",
     "portals.client.EntityRendererMixin",
     "portals.client.GuiMixin",
