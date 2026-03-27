@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector3d;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
@@ -149,6 +151,18 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	)
 	private VoxelShape provideEntityContext(BlockState instance, BlockGetter blockGetter, BlockPos blockPos) {
 		return instance.getCollisionShape(blockGetter, blockPos, CollisionContext.of((Entity) (Object) this));
+	}
+
+	@ModifyExpressionValue(
+			method = "isInWall",
+			at = @At(
+					value = "FIELD",
+					target = "Lnet/minecraft/world/entity/Entity;noPhysics:Z",
+					opcode = Opcodes.GETFIELD
+			)
+	)
+	private boolean doNotSuffocateInPortals(boolean original) {
+		return original || !this.relevantPortals().get().isEmpty();
 	}
 
 	@Override
