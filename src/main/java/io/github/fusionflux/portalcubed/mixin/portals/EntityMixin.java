@@ -23,11 +23,12 @@ import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;
 import io.github.fusionflux.portalcubed.content.portal.collision.EntityCollisionState;
 import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollisionUtils;
 import io.github.fusionflux.portalcubed.content.portal.collision.RelevantPortals;
+import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
-import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
@@ -54,9 +55,6 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	@Shadow
 	public abstract int getId();
-
-	@Shadow
-	public abstract float getEyeHeight();
 
 	@Shadow
 	public abstract Vec3 getDeltaMovement();
@@ -198,12 +196,11 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 		this.pc$setNextTeleportNonLocal(true);
 	}
 
-	@Inject(method = "getLightProbePosition", at = @At("HEAD"), cancellable = true)
-	private void probeCorrectLightWhileTeleporting(float partialTicks, CallbackInfoReturnable<Vec3> cir) {
-		EntityState override = this.teleportProgressTracker.getEntityStateOverride(partialTicks);
-		if (override != null) {
-			cir.setReturnValue(override.pos().add(0, this.getEyeHeight(), 0));
-		}
+	@ModifyReturnValue(method = "getEyePosition*", at = @At("RETURN"))
+	private Vec3 teleportEyePosition(Vec3 original) {
+		PortalManager manager = this.level().portalManager();
+		PortalHitResult result = manager.lookup().clip(this.position(), original);
+		return result.path().isEmpty() ? original : result.path().get().transform().applyAbsolute(original);
 	}
 
 	@WrapMethod(method = "collide")
