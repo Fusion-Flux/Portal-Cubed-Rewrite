@@ -228,8 +228,11 @@ final class RayCaster {
 			}
 		}
 
+		// we only provide the context entity on the first step, since we want to avoid hitting it there, but hit it on further steps
+		Entity hitContext = this.isOnFirstStep() ? context : null;
 		float expansion = this.options.entityExpansion();
-		EntityHitResult directResult = ProjectileUtil.getEntityHitResult(this.level, null, this.currentStart, this.currentLimitedEnd, area, predicate, expansion);
+
+		EntityHitResult directResult = ProjectileUtil.getEntityHitResult(this.level, hitContext, this.currentStart, this.currentLimitedEnd, area, predicate, expansion);
 		RaycastResult.Entity proxyResult = this.clipEntityProxyHitboxes(area, predicate, expansion);
 
 		if (directResult == null) {
@@ -300,7 +303,7 @@ final class RayCaster {
 	}
 
 	private boolean canHitIntersectingEntity(Entity entity, @Nullable Entity context, Predicate<Entity> predicate) {
-		if (entity == context && this.hitPortals.isEmpty()) {
+		if (entity == context && this.isOnFirstStep()) {
 			// we can't hit the context entity on the first portal step or else we'll stop instantly
 			return false;
 		}
@@ -326,6 +329,10 @@ final class RayCaster {
 
 		HitPortal hit = maybeHit.get();
 		return new RaycastResult.Portal(hit.pos(), hit.reference());
+	}
+
+	private boolean isOnFirstStep() {
+		return this.hitPortals.isEmpty();
 	}
 
 	private static AABB inflate(AABB bounds, double amount) {
