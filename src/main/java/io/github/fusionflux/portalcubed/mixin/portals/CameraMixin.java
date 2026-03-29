@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
+import java.util.Optional;
+
 import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -86,12 +88,29 @@ public abstract class CameraMixin {
 		if (!(blockGetter instanceof Level level))
 			return originalResult;
 
-		RaycastResult result = RaycastOptions.of(context).build().raycast(level, context.getFrom(), context.getTo());
+		// Minecraft determines the maximum zoom level by effectively moving a small box surrounding the camera as far back
+		// as possible without hitting any blocks. this is done by performing 8 raycasts, one for each corner of the box.
+		//
+		// if this box is partially inside a portal, with the corners split across the sides,
+		// some corners of the box might be inside the wall the portal is sitting on. if so,
+		// we need to teleport the start and end positions to the other side of the portal.
+
+		Vec3 originalStart = context.getFrom();
+		Vec3 originalEnd = context.getTo();
+
+		Optional<PortalTransform> transform = level.portalManager().lookup()
+				.clip(this.getPosition(), originalStart).path()
+				.map(PortalPath::transform);
+
+		Vec3 start = transform.isEmpty() ? originalStart : transform.get().applyAbsolute(originalStart);
+		Vec3 end = transform.isEmpty() ? originalEnd : transform.get().applyAbsolute(originalEnd);
+
+		RaycastResult result = RaycastOptions.of(context).build().raycast(level, start, end);
 		if (!(result instanceof RaycastResult.BlockLike blockLike)) {
 			throw new IllegalStateException("Unexpected result: " + result);
 		}
 
-		return blockLike.passedThroughPortals() ? blockLike.toVanilla() : originalResult;
+		return blockLike.passedThroughPortals() || transform.isPresent() ? blockLike.toVanilla() : originalResult;
 	}
 
 	@WrapOperation(
