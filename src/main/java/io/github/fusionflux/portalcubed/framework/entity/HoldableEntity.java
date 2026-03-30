@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
+import io.github.fusionflux.portalcubed.content.prop.GrabClipContextMode;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -119,6 +120,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 		Vec3 target = eyePos.add(lookVec.scale(HOLD_DISTANCE));
 
 		RaycastOptions options = RaycastOptions.DEFAULT.edit()
+				.blocks(GrabClipContextMode.get())
 				.entities(EntitySelector.NO_SPECTATORS.and(this::canCollideWith))
 				.collisionContext(this)
 				.build();

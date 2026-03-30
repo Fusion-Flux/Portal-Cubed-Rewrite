@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalShotClipContextMode;
+import io.github.fusionflux.portalcubed.content.prop.GrabClipContextMode;
 import io.github.fusionflux.portalcubed.framework.raycast.NoneClipContextMode;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.ClipContext$BlockAccessor;
 import net.minecraft.world.level.ClipContext;
@@ -20,6 +21,7 @@ public class ClipContext$BlockMixin {
 		List<ClipContext.Block> list = new ArrayList<>(List.of(original));
 		list.add(ClipContext$BlockAccessor.pc$create(PortalShotClipContextMode.NAME, list.size(), PortalShotClipContextMode::getPortalShotVisibleShape));
 		list.add(ClipContext$BlockAccessor.pc$create(NoneClipContextMode.NAME, list.size(), NoneClipContextMode::getShape));
+		list.add(ClipContext$BlockAccessor.pc$create(GrabClipContextMode.NAME, list.size(), GrabClipContextMode::getShape));
 		return list.toArray(ClipContext.Block[]::new);
 	}
 }
