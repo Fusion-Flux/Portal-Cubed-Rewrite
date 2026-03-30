@@ -225,6 +225,7 @@
   "portal_gun_skin.portalcubed.splash_o_matic": "Splash-o-Matic",
   "portal_gun_skin.portalcubed.tiny_potatos_portal_gun": "Tiny PotatOS Portal Gun",
   "portal_gun_skin.portalcubed.salmon_gun": "Salmon Gun",
+  "portal_gun_skin.portalcubed.caines_staff": "Caine's Staff",
   "portal_gun_skin.portalcubed.wand": "Wand",
   "portal_gun_skin.portalcubed.black_hole_crossbow": "Crossbow",
   "portal_gun_skin.portalcubed.mr_thingy": "Mr. Thingy",
@@ -296,7 +297,8 @@
   "portal_type.portalcubed.tunnel": "Inconspicuous Tunnel",
   "portal_type.portalcubed.ultimate_chicken_horse_teleporter": "Ultimate Chicken Horse Teleporter",
   "portal_type.portalcubed.spiral": "Spiral",
-  "portal_type.portalcubed.noise": "Noise",
+  "portal_type.portalcubed.fold_noise": "Fold Noise",
+  "portal_type.portalcubed.fractal_noise": "Fractal Noise",
   "portal_type.portalcubed.hell_portal": "Portal to Hell",
   "portal_type.portalcubed.unpleasant_gradient": "Unpleasant Gradient",
   "portal_type.portalcubed.portal_combat_round": "Round Portal (Plants vs. Zombies)",
@@ -756,6 +758,8 @@
 
   "item.portalcubed.hammer": "Hammer",
   "item.portalcubed.crowbar": "Crowbar",
+
+  "item.portalcubed.screen_assembly": "Screen Assembly",
 
   "item.portalcubed.construction_cannon": "Construction Cannon",
   "item.portalcubed.construction_cannon.material": "Material:",

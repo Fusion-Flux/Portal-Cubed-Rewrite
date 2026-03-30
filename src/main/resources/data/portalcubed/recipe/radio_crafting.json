@@ -1,14 +1,12 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        " Z ",
-        "ZYZ",
-        "XAX"
+        "ZAZ",
+        "ZYZ"
     ],
     "key": {
         "Y": "minecraft:jukebox",
-        "X": "minecraft:black_dye",
-        "A": "minecraft:light_blue_dye",
+        "A": "portalcubed:screen_assembly",
         "Z": "portalcubed:magnesium_ingot"
     },
     "result": {

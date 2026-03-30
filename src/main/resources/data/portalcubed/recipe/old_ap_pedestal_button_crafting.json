@@ -2,13 +2,14 @@
     "type": "minecraft:crafting_shaped",
     "category": "redstone",
     "pattern": [
-        "Y",
-        "X",
-        "X"
+        " Y ",
+        " X ",
+        "ZXZ"
     ],
     "key": {
         "X": "#minecraft:planks",
-        "Y":"#minecraft:wooden_buttons"
+        "Y": "#minecraft:wooden_buttons",
+        "Z": "portalcubed:magnesium_nugget"
     },
     "result": {
         "id": "portalcubed:old_ap_pedestal_button",

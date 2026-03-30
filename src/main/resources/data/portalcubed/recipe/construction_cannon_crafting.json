@@ -7,7 +7,7 @@
         "S  "
     ],
     "key": {
-        "G": "minecraft:light_blue_stained_glass_pane",
+        "G": "portalcubed:screen_assembly",
         "S": "minecraft:stick",
         "M": "portalcubed:magnesium_ingot",
         "C": "minecraft:compass",

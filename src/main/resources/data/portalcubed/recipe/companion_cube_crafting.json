@@ -7,8 +7,8 @@
     ],
     "key": {
         "Z": "portalcubed:magnesium_ingot",
-        "X": "minecraft:redstone_lamp",
-        "Y": "minecraft:pink_dye"
+        "Y": "portalcubed:screen_assembly",
+        "X": "#c:dyes/pink"
     },
     "result": {
         "id": "portalcubed:companion_cube",

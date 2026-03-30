@@ -2,12 +2,13 @@
     "type": "minecraft:crafting_shaped",
     "pattern": [
         "YXY",
-        "XXX",
+        "XZX",
         "YXY"
     ],
     "key": {
+        "X": "#minecraft:planks",
         "Y": "minecraft:dried_kelp",
-        "X": "#minecraft:planks"
+        "Z": "portalcubed:magnesium_ingot"
     },
     "result": {
         "id": "portalcubed:old_ap_cube",

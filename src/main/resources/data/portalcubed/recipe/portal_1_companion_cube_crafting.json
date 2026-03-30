@@ -1,13 +1,14 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "YYY",
-        "YXY",
-        "YYY"
+        "YZY",
+        "ZXZ",
+        "YZY"
     ],
     "key": {
         "Y": "portalcubed:magnesium_ingot",
-        "X": "minecraft:pink_dye"
+        "Z": "portalcubed:magnesium_nugget",
+        "X": "#c:dyes/pink"
     },
     "result": {
         "id": "portalcubed:portal_1_companion_cube",

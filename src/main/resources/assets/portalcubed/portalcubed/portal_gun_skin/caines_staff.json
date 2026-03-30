@@ -1,0 +1,7 @@
+{
+  "name": {
+    "translate": "portal_gun_skin.portalcubed.caines_staff"
+  },
+  "item_model": "portalcubed:portal_guns/caines_staff",
+  "sounds": {}
+}

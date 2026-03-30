@@ -1,6 +1,6 @@
 {
   "name": {
-    "translate": "portal_type.portalcubed.noise"
+    "translate": "portal_type.portalcubed.fold_noise"
   },
   "default_primary_color": 2396924,
   "default_secondary_color": 16748062,
@@ -22,19 +22,19 @@
   "textures": {
     "open": [
       {
-        "texture": "portalcubed:portal/noise/noise_open",
+        "texture": "portalcubed:portal/fold_noise/fold_noise_open",
         "tint": true,
         "offset": 0.01
       }
     ],
     "closed": [
       {
-        "texture": "portalcubed:portal/noise/noise",
+        "texture": "portalcubed:portal/fold_noise/fold_noise",
         "tint": true,
         "offset": 0.01
       }
     ],
-    "tracer": "portalcubed:portal/noise/noise_tracer"
+    "tracer": "portalcubed:portal/fold_noise/fold_noise_tracer"
   },
-  "stencil": "portalcubed:portal/noise/noise_stencil"
+  "stencil": "portalcubed:portal/fold_noise/fold_noise_stencil"
 }

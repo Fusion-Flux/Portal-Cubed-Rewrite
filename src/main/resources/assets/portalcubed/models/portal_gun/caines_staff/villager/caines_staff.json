@@ -1,0 +1,12 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Cart3r using Blockbench.",
+ 	"parent": "portalcubed:portal_gun/caines_staff/humanoid/caines_staff",
+	"display": {
+		"ground": {
+			"rotation": [0, 0, 0],
+			"translation": [2, -1, 0],
+			"scale": [0.58984, 0.58984, 0.58984]
+		}
+	}
+}

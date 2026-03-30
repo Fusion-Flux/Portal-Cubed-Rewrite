@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "group": "signage",
+    "ingredients": [
+        "portalcubed:large_signage"
+    ],
+    "result": {
+        "id": "portalcubed:small_signage",
+        "count": 1
+    }
+}

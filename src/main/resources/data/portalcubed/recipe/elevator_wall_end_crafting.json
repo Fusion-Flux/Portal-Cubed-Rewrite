@@ -8,7 +8,7 @@
     ],
     "key": {
         "X": "portalcubed:magnesium_ingot",
-        "Y": "minecraft:cyan_wool",
+        "Y": "#minecraft:wool",
         "Z": "minecraft:note_block"
     },
     "result": {

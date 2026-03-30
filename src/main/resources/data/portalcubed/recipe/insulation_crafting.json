@@ -7,7 +7,7 @@
         "YXY"
     ],
     "key": {
-        "X": "minecraft:yellow_wool",
+        "X": "#minecraft:wool",
         "Y": "portalcubed:magnesium_ingot"
     },
     "result": {

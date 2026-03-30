@@ -1339,6 +1339,26 @@
     "subtitle": "subtitles.portalcubed.portal.default.travel"
   },
 
+  "portal_type.fractal_noise.open": {
+    "sounds": [
+      {
+        "name": "block.beacon.activate",
+        "type": "event",
+        "pitch": 2
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.open"
+  },
+  "portal_type.fractal_noise.close": {
+    "sounds": [
+      {
+        "name": "block.beacon.deactivate",
+        "type": "event",
+        "pitch": 2
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal.default.close"
+  },
 
   "construction_cannon.obstructed": {
     "sounds": [

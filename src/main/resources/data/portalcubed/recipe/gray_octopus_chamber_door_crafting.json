@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "redstone",
+    "group": "chamber_doors",
+    "ingredients": [
+        "portalcubed:gray_chamber_door",
+        "minecraft:ink_sac"
+    ],
+    "result": {
+        "id": "portalcubed:gray_octopus_chamber_door",
+        "count": 1
+    }
+}

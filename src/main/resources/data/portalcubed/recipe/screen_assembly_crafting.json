@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        " A ",
+        "XYX",
+        " Z "
+    ],
+    "key": {
+        "A": "#c:glass_panes",
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "minecraft:redstone_lamp",
+        "Z": "minecraft:copper_ingot"
+    },
+    "result": {
+        "id": "portalcubed:screen_assembly",
+        "count": 4
+    }
+}

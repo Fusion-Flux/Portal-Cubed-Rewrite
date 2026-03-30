@@ -1,0 +1,51 @@
+{
+  "name": {
+    "translate": "portal_type.portalcubed.fractal_noise"
+  },
+  "default_primary_color": 16200351,
+  "default_secondary_color": 6663407,
+  "sounds": {
+    "shared": {
+      "open": "portalcubed:portal_type.fractal_noise.open",
+      "close": "portalcubed:portal_type.fractal_noise.close"
+    }
+  },
+  "textures": {
+    "open": [
+      {
+        "texture": "portalcubed:portal/fractal_noise/fractal_noise_open",
+        "tint": false,
+        "offset": 0.01
+      },
+      {
+        "texture": "portalcubed:portal/fractal_noise/fractal_noise_base",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portal/fractal_noise/fractal_noise_ring",
+        "tint": false
+      },
+      {
+        "texture": "portalcubed:portal/fractal_noise/fractal_noise_ring",
+        "tint": false,
+        "offset": 0.01
+      }
+    ],
+    "closed": [
+      {
+        "texture": "portalcubed:portal/fractal_noise/fractal_noise_base",
+        "tint": true
+      },
+      {
+        "texture": "portalcubed:portal/fractal_noise/fractal_noise_ring",
+        "tint": false
+      },
+      {
+        "texture": "portalcubed:portal/fractal_noise/fractal_noise_ring",
+        "tint": false,
+        "offset": 0.01
+      }
+    ],
+    "tracer": "portalcubed:portal/fractal_noise/fractal_noise_tracer"
+  }
+}

@@ -3,13 +3,14 @@
     "pattern": [
         " X ",
         "ZYA",
-        " X "
+        " B "
     ],
     "key": {
         "X": "minecraft:wheat",
         "Y": "portalcubed:magnesium_block",
+        "Z": "minecraft:milk_bucket",
         "A": "minecraft:kelp",
-        "Z": "minecraft:milk_bucket"
+        "B": "#c:foods/cooked_meat"
     },
     "result": {
         "id": "portalcubed:the_taco",

@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "redstone",
+    "group": "chamber_doors",
+    "pattern": [
+        "XX",
+        "XZ",
+        "XZ"
+    ],
+    "key": {
+        "X": "#portalcubed:white_panel_materials",
+        "Z": "portalcubed:magnesium_ingot"
+    },
+    "result": {
+        "id": "portalcubed:white_chamber_door",
+        "count": 4
+    }
+}

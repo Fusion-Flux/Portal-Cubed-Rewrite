@@ -3,14 +3,16 @@
     "category": "redstone",
     "pattern": [
         "XYX",
-        "CCC",
-        "CBC"
+        "ABA",
+        "CCC"
     ],
     "key": {
         "X": "portalcubed:magnesium_ingot",
-        "Y": "#minecraft:wooden_pressure_plates",
+        "Y": "minecraft:heavy_weighted_pressure_plate",
         "C": "#portalcubed:white_panel_materials",
+        "A": "portalcubed:screen_assembly",
         "B": "minecraft:redstone"
+
     },
     "result": {
         "id": "portalcubed:cube_button",

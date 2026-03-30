@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "group": "aged_signage",
+    "ingredients": [
+        "portalcubed:large_signage",
+        "#portalcubed:aged_crafting_materials"
+    ],
+    "result": {
+        "id": "portalcubed:aged_large_signage",
+        "count": 1
+    }
+}

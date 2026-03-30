@@ -7,8 +7,8 @@
     ],
     "key": {
         "Z": "portalcubed:magnesium_ingot",
-        "X": "minecraft:redstone_lamp",
-        "Y": "minecraft:light_blue_dye"
+        "Y": "portalcubed:screen_assembly",
+        "X": "#c:dyes/light_blue"
     },
     "result": {
         "id": "portalcubed:storage_cube",

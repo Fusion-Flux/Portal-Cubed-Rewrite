@@ -6,7 +6,7 @@
     ],
     "key": {
         "X": "portalcubed:magnesium_ingot",
-        "Y": "minecraft:orange_dye"
+        "Y": "#c:dyes/orange"
     },
     "result": {
         "id": "portalcubed:computer",

@@ -158,6 +158,9 @@ public class PortalCubedSounds {
 
 	public static final SoundEvent DIMENSION_PORTAL_TRAVEL = register("portal_type.dimension_portal.travel");
 
+	public static final SoundEvent FRACTAL_NOISE_PORTAL_OPEN = register("portal_type.fractal_noise.open");
+	public static final SoundEvent FRACTAL_NOISE_PORTAL_CLOSE = register("portal_type.fractal_noise.close");
+
 	//Boots
 	public static final Holder<SoundEvent> LONG_FALL_BOOTS_LAND = registerForHolder("item.armor.long_fall_boots.land");
 	public static final Holder<SoundEvent> LONG_FALL_BOOTS_EQUIP = registerForHolder("item.armor.long_fall_boots.equip");

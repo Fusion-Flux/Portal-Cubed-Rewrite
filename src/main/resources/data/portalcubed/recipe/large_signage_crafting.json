@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "building",
+    "group": "signage",
+    "ingredients": [
+        "portalcubed:screen_assembly",
+        "#c:glass_panes"
+    ],
+    "result": {
+        "id": "portalcubed:large_signage",
+        "count": 1
+    }
+}

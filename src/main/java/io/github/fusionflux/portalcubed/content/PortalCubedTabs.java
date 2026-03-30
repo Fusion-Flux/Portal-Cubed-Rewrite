@@ -243,6 +243,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.RAW_MAGNESIUM);
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
+			output.accept(PortalCubedItems.SCREEN_ASSEMBLY);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getBase());
 			output.accept(PortalCubedItems.LEMON);
 			output.accept(PortalCubedItems.LEMONADE);
@@ -550,6 +551,15 @@ public class PortalCubedTabs {
 					11220275,
 					"round",
 					9141545
+			);
+			helper.addSkin(
+					"caines_staff",
+					"caines_staff",
+					"none",
+					"fractal_noise",
+					16200351,
+					"fractal_noise",
+					6663407
 			);
 			helper.addSkin(
 					"wand",
@@ -880,6 +890,7 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.RAW_IRON, PortalCubedItems.RAW_MAGNESIUM);
 			entries.addAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
 			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
+			entries.addAfter(Items.HEAVY_CORE, PortalCubedItems.SCREEN_ASSEMBLY);
 			entries.addAfter(Items.GUSTER_BANNER_PATTERN, PortalCubedItems.APERTURE_BANNER_PATTERN);
 		});
 
