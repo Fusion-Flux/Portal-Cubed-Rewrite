@@ -21,7 +21,8 @@ public enum DropPacket implements ServerboundPacket {
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		HoldableEntity held = ctx.player().getHeldEntity();
-		if (held != null)
+		if (held != null) {
 			held.drop();
+		}
 	}
 }

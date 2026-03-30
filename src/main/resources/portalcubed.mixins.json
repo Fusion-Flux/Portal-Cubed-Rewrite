@@ -145,6 +145,7 @@
     "client.TextureSlots_ResolverMixin",
     "client.Variant_DeserializerMixin",
     "client.VariantMixin",
+    "holdable.MinecraftMixin",
     "misc.MouseHandlerMixin",
     "portals.CameraMixin",
     "portals.client.CameraMixin",
