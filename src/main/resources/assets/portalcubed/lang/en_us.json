@@ -453,71 +453,90 @@
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_half_panel": "Aged Padded Gray Half Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_2x1_panel": "Aged Padded Gray 2x1 Panel",
   "construct_set.portalcubed.panels.aged_padded_gray.aged_padded_gray_2x2_panel": "Aged Padded Gray 2x2 Panel",
+
   "construct_set.portalcubed.panels.aged_smooth_gray.aged_smooth_gray_panel": "Aged Smooth Gray Panel",
   "construct_set.portalcubed.panels.aged_smooth_gray.aged_smooth_gray_half_panel": "Aged Smooth Gray Half Panel",
   "construct_set.portalcubed.panels.aged_smooth_gray.aged_smooth_gray_2x1_panel": "Aged Smooth Gray 2x1 Panel",
   "construct_set.portalcubed.panels.aged_smooth_gray.aged_smooth_gray_2x2_panel": "Aged Smooth Gray 2x2 Panel",
+
   "construct_set.portalcubed.panels.aged_white.aged_white_panel": "Aged White Panel",
   "construct_set.portalcubed.panels.aged_white.aged_white_half_panel": "Aged White Half Panel",
   "construct_set.portalcubed.panels.aged_white.aged_white_checkered_panel": "Aged White Checkered Panel",
   "construct_set.portalcubed.panels.aged_white.aged_white_2x1_panel": "Aged White 2x1 Panel",
   "construct_set.portalcubed.panels.aged_white.aged_white_2x2_panel": "Aged White 2x2 Panel",
+
   "construct_set.portalcubed.panels.dirty_portal_1_metal.dirty_portal_1_metal_panel": "Dirty Portal 1 Metal Panel",
   "construct_set.portalcubed.panels.dirty_portal_1_metal.dirty_portal_1_metal_half_panel": "Dirty Portal 1 Metal Half Panel",
   "construct_set.portalcubed.panels.dirty_portal_1_metal.dirty_portal_1_metal_2x1_panel": "Dirty Portal 1 Metal 2x1 Panel",
   "construct_set.portalcubed.panels.dirty_portal_1_metal.dirty_portal_1_metal_3x1_panel": "Dirty Portal 1 Metal 3x1 Panel",
   "construct_set.portalcubed.panels.dirty_portal_1_metal.dirty_portal_1_metal_2x2_panel": "Dirty Portal 1 Metal 2x2 Panel",
+
   "construct_set.portalcubed.panels.dirty_portal_1_white.dirty_portal_1_white_panel": "Dirty Portal 1 White Panel",
   "construct_set.portalcubed.panels.dirty_portal_1_white.dirty_portal_1_white_half_panel": "Dirty Portal 1 White Half Panel",
   "construct_set.portalcubed.panels.dirty_portal_1_white.dirty_portal_1_white_checkered_panel": "Dirty Portal 1 White Checkered Panel",
   "construct_set.portalcubed.panels.dirty_portal_1_white.dirty_portal_1_white_2x1_panel": "Dirty Portal 1 White 2x1 Panel",
   "construct_set.portalcubed.panels.dirty_portal_1_white.dirty_portal_1_white_2x2_panel": "Dirty Portal 1 White 2x2 Panel",
+
   "construct_set.portalcubed.panels.old_ap_blue.old_ap_blue_panel": "Old Aperture Blue Panel",
   "construct_set.portalcubed.panels.old_ap_blue.old_ap_blue_2x1_panel": "Old Aperture Blue 2x1 Panel",
   "construct_set.portalcubed.panels.old_ap_blue.old_ap_blue_2x2_panel": "Old Aperture Blue 2x2 Panel",
+
   "construct_set.portalcubed.panels.old_ap_green.old_ap_green_panel": "Old Aperture Green Panel",
   "construct_set.portalcubed.panels.old_ap_green.old_ap_green_2x1_panel": "Old Aperture Green 2x1 Panel",
   "construct_set.portalcubed.panels.old_ap_green.old_ap_green_2x2_panel": "Old Aperture Green 2x2 Panel",
+
   "construct_set.portalcubed.panels.old_ap_white.old_ap_white_panel": "Old Aperture White Panel",
   "construct_set.portalcubed.panels.old_ap_white.old_ap_white_2x2_panel": "Old Aperture White 2x2 Panel",
   "construct_set.portalcubed.panels.old_ap_white.old_ap_white_checkered_panel": "Old Aperture White Checkered Panel",
+
   "construct_set.portalcubed.panels.padded_gray.padded_gray_panel": "Padded Gray Panel",
   "construct_set.portalcubed.panels.padded_gray.padded_gray_half_panel": "Padded Gray Half Panel",
   "construct_set.portalcubed.panels.padded_gray.padded_gray_2x1_panel": "Padded Gray 2x1 Panel",
   "construct_set.portalcubed.panels.padded_gray.padded_gray_2x2_panel": "Padded Gray 2x2 Panel",
+
   "construct_set.portalcubed.panels.portal_1_metal.portal_1_metal_panel": "Portal 1 Metal Panel",
   "construct_set.portalcubed.panels.portal_1_metal.portal_1_metal_half_panel": "Portal 1 Metal Half Panel",
   "construct_set.portalcubed.panels.portal_1_metal.portal_1_metal_2x1_panel": "Portal 1 Metal 2x1 Panel",
   "construct_set.portalcubed.panels.portal_1_metal.portal_1_metal_3x1_panel": "Portal 1 Metal 3x1 Panel",
   "construct_set.portalcubed.panels.portal_1_metal.portal_1_metal_2x2_panel": "Portal 1 Metal 2x2 Panel",
+
   "construct_set.portalcubed.panels.portal_1_white.portal_1_white_panel": "Portal 1 White Panel",
   "construct_set.portalcubed.panels.portal_1_white.portal_1_white_half_panel": "Portal 1 White Half Panel",
   "construct_set.portalcubed.panels.portal_1_white.portal_1_white_2x1_panel": "Portal 1 White 2x1 Panel",
   "construct_set.portalcubed.panels.portal_1_white.portal_1_white_checkered_panel": "Portal 1 White Checkered Panel",
+
   "construct_set.portalcubed.panels.smooth_gray.smooth_gray_panel": "Smooth Gray Panel",
   "construct_set.portalcubed.panels.smooth_gray.smooth_gray_half_panel": "Smooth Gray Half Panel",
   "construct_set.portalcubed.panels.smooth_gray.smooth_gray_2x1_panel": "Smooth Gray 2x1 Panel",
   "construct_set.portalcubed.panels.smooth_gray.smooth_gray_2x2_panel": "Smooth Gray 2x2 Panel",
+
   "construct_set.portalcubed.panels.white.white_panel": "White Panel",
   "construct_set.portalcubed.panels.white.white_half_panel": "White Half Panel",
   "construct_set.portalcubed.panels.white.white_2x1_panel": "White 2x1 Panel",
   "construct_set.portalcubed.panels.white.white_2x2_panel": "White 2x2 Panel",
   "construct_set.portalcubed.panels.white.white_checkered_panel": "White Checkered Panel",
+
   "construct_set.portalcubed.crossbars.2x2_crossbar": "2x2 Crossbar",
   "construct_set.portalcubed.crossbars.double_2x2_crossbar": "Double 2x2 Crossbar",
   "construct_set.portalcubed.crossbars.crossbar_pillar": "Crossbar Pillar",
+
   "construct_set.portalcubed.metal_plating.metal_plating": "Metal Plating",
   "construct_set.portalcubed.metal_plating.cut_metal_plating": "Cut Metal Plating",
   "construct_set.portalcubed.metal_plating.tread_plate": "Tread Plate",
+  "construct_set.portalcubed.metal_plating.exposed_2x2_panel": "Exposed 2x2 Panel",
+
   "construct_set.portalcubed.dirty_metal_plating.dirty_metal_plating": "Dirty Metal Plating",
   "construct_set.portalcubed.dirty_metal_plating.dirty_cut_metal_plating": "Dirty Cut Metal Plating",
   "construct_set.portalcubed.dirty_metal_plating.dirty_tread_plate": "Dirty Tread Plate",
+  "construct_set.portalcubed.dirty_metal_plating.exposed_2x2_panel": "Exposed 2x2 Panel",
+
   "construct_set.portalcubed.office_concrete.office_concrete": "Office Concrete",
   "construct_set.portalcubed.office_concrete.blue_office_concrete": "Blue Office Concrete",
   "construct_set.portalcubed.office_concrete.striped_office_concrete": "Striped Office Concrete",
   "construct_set.portalcubed.office_concrete.white_office_concrete": "White Office Concrete",
   "construct_set.portalcubed.office_concrete.light_gray_office_concrete": "Light Gray Office Concrete",
   "construct_set.portalcubed.office_concrete.vertical_office_concrete": "Vertical Office Concrete",
+
   "construct_set.portalcubed.gray_chamber_exterior.gray_chamber_exterior": "Gray Chamber Exterior",
   "construct_set.portalcubed.gray_chamber_exterior.gray_2x2_chamber_exterior_a": "Gray 2x2 Chamber Exterior A",
   "construct_set.portalcubed.gray_chamber_exterior.gray_2x2_chamber_exterior_b": "Gray 2x2 Chamber Exterior B",
@@ -760,6 +779,8 @@
   "item.portalcubed.crowbar": "Crowbar",
 
   "item.portalcubed.screen_assembly": "Screen Assembly",
+  "item.portalcubed.kinetic_assembly": "Kinetic Assembly",
+  "item.portalcubed.emitter_assembly": "Emitter Assembly",
 
   "item.portalcubed.construction_cannon": "Construction Cannon",
   "item.portalcubed.construction_cannon.material": "Material:",
@@ -1182,6 +1203,10 @@
   "block.portalcubed.tread_plate": "Tread Plate",
   "block.portalcubed.tread_plate_slab": "Tread Plate Slab",
   "block.portalcubed.tread_plate_facade": "Tread Plate Facade",
+  "block.portalcubed.exposed_2x2_panel_top_left": "Exposed 2x2 Panel Top Left",
+  "block.portalcubed.exposed_2x2_panel_top_right": "Exposed 2x2 Panel Top Right",
+  "block.portalcubed.exposed_2x2_panel_bottom_left": "Exposed 2x2 Panel Bottom Left",
+  "block.portalcubed.exposed_2x2_panel_bottom_right": "Exposed 2x2 Panel Bottom Right",
 
   "block.portalcubed.dirty_metal_plating": "Dirty Metal Plating",
   "block.portalcubed.dirty_metal_plating_slab": "Dirty Metal Plating Slab",

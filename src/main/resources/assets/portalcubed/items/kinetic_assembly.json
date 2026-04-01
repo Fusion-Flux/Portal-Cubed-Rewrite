@@ -15,26 +15,26 @@
           "property": "minecraft:selected",
           "on_true": {
             "type": "minecraft:model",
-            "model": "portalcubed:item/screen_assembly_active"
+            "model": "portalcubed:item/kinetic_assembly_compressed"
           },
           "on_false": {
             "type": "minecraft:model",
-            "model": "portalcubed:item/screen_assembly"
+            "model": "portalcubed:item/kinetic_assembly"
           }
         },
         "on_false": {
           "type": "minecraft:model",
-          "model": "portalcubed:item/screen_assembly"
+          "model": "portalcubed:item/kinetic_assembly"
         }
       },
       "on_false": {
         "type": "minecraft:model",
-        "model": "portalcubed:item/screen_assembly"
+        "model": "portalcubed:item/kinetic_assembly"
       }
     },
     "on_false": {
       "type": "minecraft:model",
-      "model": "portalcubed:item/screen_assembly"
+      "model": "portalcubed:item/kinetic_assembly"
     }
   }
 }

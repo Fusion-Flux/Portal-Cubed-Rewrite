@@ -160,6 +160,10 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE);
 			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_SLAB);
 			output.accept(PortalCubedBlocks.DIRTY_TREAD_PLATE_FACADE);
+			output.accept(PortalCubedBlocks.EXPOSED_2x2_PANEL_BOTTOM_LEFT);
+			output.accept(PortalCubedBlocks.EXPOSED_2x2_PANEL_BOTTOM_RIGHT);
+			output.accept(PortalCubedBlocks.EXPOSED_2x2_PANEL_TOP_LEFT);
+			output.accept(PortalCubedBlocks.EXPOSED_2x2_PANEL_TOP_RIGHT);
 			output.accept(PortalCubedBlocks.SEWAGE);
 
 			addPanels(output, PanelMaterial.WHITE);
@@ -244,6 +248,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.MAGNESIUM_NUGGET);
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
 			output.accept(PortalCubedItems.SCREEN_ASSEMBLY);
+			output.accept(PortalCubedItems.KINETIC_ASSEMBLY);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getBase());
 			output.accept(PortalCubedItems.LEMON);
 			output.accept(PortalCubedItems.LEMONADE);
@@ -890,7 +895,10 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.RAW_IRON, PortalCubedItems.RAW_MAGNESIUM);
 			entries.addAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
 			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
-			entries.addAfter(Items.HEAVY_CORE, PortalCubedItems.SCREEN_ASSEMBLY);
+			entries.addAfter(Items.HEAVY_CORE,
+					PortalCubedItems.SCREEN_ASSEMBLY,
+					PortalCubedItems.KINETIC_ASSEMBLY
+			);
 			entries.addAfter(Items.GUSTER_BANNER_PATTERN, PortalCubedItems.APERTURE_BANNER_PATTERN);
 		});
 

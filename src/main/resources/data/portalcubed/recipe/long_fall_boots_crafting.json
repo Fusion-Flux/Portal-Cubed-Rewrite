@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "pattern": [
+        "X X",
+        "Z Z",
+        "Y Y"
+    ],
+    "key": {
+        "X": "portalcubed:magnesium_ingot",
+        "Z": "minecraft:iron_ingot",
+        "Y": "portalcubed:kinetic_assembly"
+    },
+    "result": {
+        "id": "portalcubed:long_fall_boots",
+        "count": 1
+    }
+}

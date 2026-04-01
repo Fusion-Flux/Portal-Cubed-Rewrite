@@ -27,6 +27,10 @@
     "portalcubed:portal_1_metal_grate_slab",
     "portalcubed:metal_grate_slab",
     "portalcubed:mesh_grate_slab",
+    "portalcubed:exposed_2x2_panel_top_left",
+    "portalcubed:exposed_2x2_panel_top_right",
+    "portalcubed:exposed_2x2_panel_bottom_left",
+    "portalcubed:exposed_2x2_panel_bottom_right",
 
     "portalcubed:large_blue_office_tiles",
     "portalcubed:large_blue_office_tile_slab",

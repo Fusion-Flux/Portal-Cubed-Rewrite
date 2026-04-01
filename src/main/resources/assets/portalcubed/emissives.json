@@ -123,6 +123,8 @@
   "portalcubed:item/construction_cannon_fox": "portalcubed:item/construction_cannon_screen_fox",
   "portalcubed:item/construction_cannon_villager": "portalcubed:item/construction_cannon_screen_idle",
 
+  "portalcubed:item/screen_assembly_active": "portalcubed:item/screen_assembly_active_emissive",
+
   "portalcubed:block/error": "portalcubed:block/error",
 
   "portalcubed:item/small_signage": "portalcubed:signage/small_signage_blank",

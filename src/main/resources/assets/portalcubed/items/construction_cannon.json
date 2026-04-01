@@ -23,39 +23,31 @@
       }
     ],
     "fallback": {
-      "type": "minecraft:select",
-      "property": "minecraft:display_context",
-      "cases": [
-        {
-          "when": [
-            "firstperson_righthand",
-            "firstperson_lefthand"
-          ],
-          "model": {
-            "type": "minecraft:condition",
-            "property": "minecraft:keybind_down",
-            "keybind": "key.sneak",
-            "on_true": {
-              "type": "minecraft:model",
-              "model": "portalcubed:item/construction_cannon_configure"
-            },
-            "on_false": {
-              "type": "minecraft:condition",
-              "property": "minecraft:keybind_down",
-              "keybind": "key.use",
-              "on_true": {
-                "type": "minecraft:model",
-                "model": "portalcubed:item/construction_cannon_place"
-              },
-              "on_false": {
-                "type": "minecraft:model",
-                "model": "portalcubed:item/construction_cannon_idle"
-              }
-            }
+      "type": "minecraft:condition",
+      "property": "minecraft:view_entity",
+      "on_true": {
+        "type": "minecraft:condition",
+        "property": "minecraft:keybind_down",
+        "keybind": "key.sneak",
+        "on_true": {
+          "type": "minecraft:model",
+          "model": "portalcubed:item/construction_cannon_configure"
+        },
+        "on_false": {
+          "type": "minecraft:condition",
+          "property": "minecraft:keybind_down",
+          "keybind": "key.use",
+          "on_true": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/construction_cannon_place"
+          },
+          "on_false": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/construction_cannon_idle"
           }
         }
-      ],
-      "fallback": {
+      },
+      "on_false": {
         "type": "minecraft:model",
         "model": "portalcubed:item/construction_cannon_idle"
       }

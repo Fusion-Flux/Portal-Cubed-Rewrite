@@ -24,6 +24,10 @@
     "portalcubed:old_ap_metal_grate_facade",
     "portalcubed:portal_1_metal_grate_facade",
     "portalcubed:metal_grate_facade",
+    "portalcubed:exposed_2x2_panel_top_left",
+    "portalcubed:exposed_2x2_panel_top_right",
+    "portalcubed:exposed_2x2_panel_bottom_left",
+    "portalcubed:exposed_2x2_panel_bottom_right",
 
     "minecraft:iron_block",
     "minecraft:raw_iron_block",

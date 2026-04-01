@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        " Z ",
+        "XYX",
+        " Z "
+    ],
+    "key": {
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "minecraft:piston",
+        "Z": "minecraft:iron_ingot"
+    },
+    "result": {
+        "id": "portalcubed:kinetic_assembly",
+        "count": 4
+    }
+}

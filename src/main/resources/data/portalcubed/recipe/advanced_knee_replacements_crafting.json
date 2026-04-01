@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "pattern": [
+        "X X",
+        "X X",
+        "Y Y"
+    ],
+    "key": {
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "portalcubed:kinetic_assembly"
+    },
+    "result": {
+        "id": "portalcubed:advanced_knee_replacements",
+        "count": 1
+    }
+}

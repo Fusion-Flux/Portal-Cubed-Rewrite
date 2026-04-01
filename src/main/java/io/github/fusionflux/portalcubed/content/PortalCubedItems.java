@@ -84,6 +84,8 @@ public class PortalCubedItems {
 
 	public static final Item SCREEN_ASSEMBLY = REGISTRAR.items.create("screen_assembly", Item::new)
 			.build();
+	public static final Item KINETIC_ASSEMBLY = REGISTRAR.items.create("kinetic_assembly", Item::new)
+			.build();
 
 	public static final ConstructionCannonItem CONSTRUCTION_CANNON = REGISTRAR.items.create("construction_cannon", ConstructionCannonItem::new)
 			.properties(s -> s

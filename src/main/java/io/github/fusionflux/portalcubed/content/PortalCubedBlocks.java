@@ -820,6 +820,34 @@ public class PortalCubedBlocks {
 					.sound(SoundType.NETHERITE_BLOCK)
 			)
 			.build();
+	public static final GlazedTerracottaBlock EXPOSED_2x2_PANEL_TOP_LEFT = REGISTRAR.blocks.create("exposed_2x2_panel_top_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.properties(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sound(SoundType.LANTERN)
+			)
+			.build();
+	public static final GlazedTerracottaBlock EXPOSED_2x2_PANEL_TOP_RIGHT = REGISTRAR.blocks.create("exposed_2x2_panel_top_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.properties(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sound(SoundType.LANTERN)
+			)
+			.build();
+	public static final GlazedTerracottaBlock EXPOSED_2x2_PANEL_BOTTOM_LEFT = REGISTRAR.blocks.create("exposed_2x2_panel_bottom_left", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.properties(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sound(SoundType.LANTERN)
+			)
+			.build();
+	public static final GlazedTerracottaBlock EXPOSED_2x2_PANEL_BOTTOM_RIGHT = REGISTRAR.blocks.create("exposed_2x2_panel_bottom_right", GlazedTerracottaBlock::new)
+			.copyFrom(Blocks.COPPER_BLOCK)
+			.properties(settings -> settings
+					.mapColor(MapColor.TERRACOTTA_BROWN)
+					.sound(SoundType.LANTERN)
+			)
+			.build();
 	// ----- misc blocks - chamber exteriors -----
 	public static final Block GRAY_CHAMBER_EXTERIOR = REGISTRAR.blocks.create("gray_chamber_exterior", Block::new)
 			.copyFrom(Blocks.GRAY_CONCRETE)
