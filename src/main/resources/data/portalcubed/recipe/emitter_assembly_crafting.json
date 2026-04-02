@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        " Z ",
+        "XYX",
+        " A "
+    ],
+    "key": {
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "minecraft:dispenser",
+        "Z": "minecraft:end_rod",
+        "A": "minecraft:iron_ingot"
+    },
+    "result": {
+        "id": "portalcubed:emitter_assembly",
+        "count": 4
+    }
+}

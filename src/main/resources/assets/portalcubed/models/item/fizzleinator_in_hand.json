@@ -1,4 +1,5 @@
 {
+	"format_version": "1.9.0",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:item/fizzleinator_model",
@@ -127,23 +128,23 @@
 	],
 	"display": {
 		"thirdperson_righthand": {
-			"rotation": [-14.25, -87, 0],
-			"translation": [0, 11, -1.75],
+			"rotation": [-15, -90, 0],
+			"translation": [0, 8, -1],
 			"scale": [0.66406, 0.66406, 0.66406]
 		},
 		"thirdperson_lefthand": {
-			"rotation": [-14.25, 86, 0],
-			"translation": [0, 11, -1.75],
+			"rotation": [-15, 90, 0],
+			"translation": [0, 8, -1],
 			"scale": [0.66406, 0.66406, 0.66406]
 		},
 		"firstperson_righthand": {
-			"rotation": [-80.5, -87, 0],
-			"translation": [-3, 3.75, 5],
+			"rotation": [-80, -90, 0],
+			"translation": [-3, 3.75, 7],
 			"scale": [0.42187, 0.42187, 0.42187]
 		},
 		"firstperson_lefthand": {
-			"rotation": [-80.5, 86, 0],
-			"translation": [-3, 3.75, 5],
+			"rotation": [-20, 90, -60],
+			"translation": [-3, 3.75, 7],
 			"scale": [0.42187, 0.42187, 0.42187]
 		},
 		"ground": {

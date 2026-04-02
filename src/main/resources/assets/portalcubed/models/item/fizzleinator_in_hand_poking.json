@@ -1,0 +1,27 @@
+{
+	"format_version": "1.9.0",
+        "parent": "portalcubed:item/fizzleinator_in_hand",
+	"credit": "Made by Cart3r using Blockbench.",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-15, -90, 0],
+			"translation": [0, 14.5, -2.75],
+			"scale": [0.66406, 0.66406, 0.66406]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-15, 90, 0],
+			"translation": [0, 14.5, -2.75],
+			"scale": [0.66406, 0.66406, 0.66406]
+		},
+		"firstperson_righthand": {
+			"rotation": [-80, -90, 0],
+			"translation": [-2.75, 3.75, 2.5],
+			"scale": [0.42187, 0.42187, 0.42187]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-20, 90, -60],
+			"translation": [-2.75, 3.75, 2.5],
+			"scale": [0.42187, 0.42187, 0.42187]
+		}
+	}
+}

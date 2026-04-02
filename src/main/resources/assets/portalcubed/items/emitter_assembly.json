@@ -1,0 +1,40 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "minecraft:keybind_down",
+    "keybind": "key.sneak",
+    "on_true": {
+      "type": "minecraft:condition",
+      "property": "minecraft:keybind_down",
+      "keybind": "key.use",
+      "on_true": {
+        "type": "minecraft:condition",
+        "property": "minecraft:view_entity",
+        "on_true": {
+          "type": "minecraft:condition",
+          "property": "minecraft:selected",
+          "on_true": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/emitter_assembly_active"
+          },
+          "on_false": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/emitter_assembly"
+          }
+        },
+        "on_false": {
+          "type": "minecraft:model",
+          "model": "portalcubed:item/emitter_assembly"
+        }
+      },
+      "on_false": {
+        "type": "minecraft:model",
+        "model": "portalcubed:item/emitter_assembly"
+      }
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "portalcubed:item/emitter_assembly"
+    }
+  }
+}

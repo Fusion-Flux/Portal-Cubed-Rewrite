@@ -38,8 +38,25 @@
         }
       ],
       "fallback": {
-        "type": "minecraft:model",
-        "model": "portalcubed:item/fizzleinator_in_hand"
+        "type": "minecraft:condition",
+        "property": "minecraft:view_entity",
+        "on_true": {
+          "type": "minecraft:condition",
+          "property": "minecraft:keybind_down",
+          "keybind": "key.use",
+          "on_true": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/fizzleinator_in_hand_poking"
+          },
+          "on_false": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/fizzleinator_in_hand"
+          }
+        },
+        "on_false": {
+          "type": "minecraft:model",
+          "model": "portalcubed:item/fizzleinator_in_hand"
+        }
       },
       "property": "minecraft:display_context"
     }

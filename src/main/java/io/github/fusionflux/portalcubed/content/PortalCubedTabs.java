@@ -249,6 +249,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.MAGNESIUM_INGOT);
 			output.accept(PortalCubedItems.SCREEN_ASSEMBLY);
 			output.accept(PortalCubedItems.KINETIC_ASSEMBLY);
+			output.accept(PortalCubedItems.EMITTER_ASSEMBLY);
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getBase());
 			output.accept(PortalCubedItems.LEMON);
 			output.accept(PortalCubedItems.LEMONADE);
@@ -897,7 +898,8 @@ public class PortalCubedTabs {
 			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
 			entries.addAfter(Items.HEAVY_CORE,
 					PortalCubedItems.SCREEN_ASSEMBLY,
-					PortalCubedItems.KINETIC_ASSEMBLY
+					PortalCubedItems.KINETIC_ASSEMBLY,
+					PortalCubedItems.EMITTER_ASSEMBLY
 			);
 			entries.addAfter(Items.GUSTER_BANNER_PATTERN, PortalCubedItems.APERTURE_BANNER_PATTERN);
 		});

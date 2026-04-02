@@ -124,6 +124,7 @@
   "portalcubed:item/construction_cannon_villager": "portalcubed:item/construction_cannon_screen_idle",
 
   "portalcubed:item/screen_assembly_active": "portalcubed:item/screen_assembly_active_emissive",
+  "portalcubed:item/emitter_assembly_active": "portalcubed:item/emitter_assembly_active_emissive",
 
   "portalcubed:block/error": "portalcubed:block/error",
 
