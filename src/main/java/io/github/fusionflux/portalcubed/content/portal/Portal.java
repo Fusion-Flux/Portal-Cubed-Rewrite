@@ -110,6 +110,10 @@ public final class Portal {
 		return obj instanceof Portal that && this.data.equals(that.data);
 	}
 
+	public boolean collisionEquals(Portal that) {
+		return this.origin().equals(that.origin()) && this.rotation().equals(that.rotation());
+	}
+
 	@Override
 	public int hashCode() {
 		return this.data.hashCode();

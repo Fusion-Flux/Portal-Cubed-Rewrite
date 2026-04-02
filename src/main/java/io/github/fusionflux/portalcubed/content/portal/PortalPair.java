@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
@@ -58,7 +59,7 @@ public record PortalPair(Optional<Portal> primary, Optional<Portal> secondary) i
 	}
 
 	public Portal getOrThrow(Polarity polarity) {
-		return this.get(polarity).orElseThrow();
+		return this.get(polarity).orElseThrow(() -> new NoSuchElementException(polarity.name));
 	}
 
 	public boolean has(Polarity polarity) {
