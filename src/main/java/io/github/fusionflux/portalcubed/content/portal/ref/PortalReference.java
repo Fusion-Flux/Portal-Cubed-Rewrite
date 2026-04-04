@@ -1,9 +1,11 @@
 package io.github.fusionflux.portalcubed.content.portal.ref;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
@@ -19,16 +21,21 @@ import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTra
  * Once a reference has been removed, it will never be un-removed.
  */
 public final class PortalReference {
+	public static final boolean TRACK_REMOVAL = true;
+
 	public final PortalId id;
 
 	private final PortalManager manager;
 
+	@Nullable
 	private Portal portal;
+	@Nullable
+	private Throwable removalStacktrace;
 
 	public PortalReference(PortalId id, PortalManager manager, Portal initialPortal) {
 		this.id = id;
 		this.manager = manager;
-		this.portal = initialPortal;
+		this.portal = Objects.requireNonNull(initialPortal);
 	}
 
 	/**
@@ -37,7 +44,7 @@ public final class PortalReference {
 	 */
 	public Portal get() throws IllegalStateException {
 		if (this.portal == null) {
-			throw new IllegalStateException("Portal " + this.id + " has been removed");
+			throw new IllegalStateException("Portal " + this.id + " has been removed", this.removalStacktrace);
 		}
 
 		return this.portal;
@@ -79,10 +86,14 @@ public final class PortalReference {
 	@ApiStatus.Internal
 	public void update(Portal portal) {
 		if (this.portal == null && portal != null) {
-			throw new IllegalStateException("A PortalReference cannot be un-removed");
+			throw new IllegalStateException("A PortalReference cannot be un-removed", this.removalStacktrace);
 		}
 
 		this.portal = portal;
+
+		if (TRACK_REMOVAL && this.portal == null) {
+			this.removalStacktrace = new Throwable("Removed from...");
+		}
 	}
 
 	@Override
