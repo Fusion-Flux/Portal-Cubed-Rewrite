@@ -1,6 +1,9 @@
 package io.github.fusionflux.portalcubed.content.portal.collision;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.google.common.collect.ImmutableList;
@@ -60,25 +63,33 @@ public final class RePortaler implements PortalChangeListener {
 	}
 
 	private void snap(Portal portal) {
-		entities: for (Entity entity : this.findEntities(portal)) {
+		for (Entity entity : this.findEntities(portal)) {
 			if (entity.isPassenger())
 				continue;
 
 			AABB area = getSnapArea(portal);
-			// based on dismount code from several places (mostly Striders)
-			for (BlockPos pos : BlockPos.betweenClosed(area)) {
-				double height = this.level.getBlockFloorHeight(pos);
-				if (!DismountHelper.isBlockFloorValid(height))
-					continue;
+			List<SnapTarget> targets = new ArrayList<>();
+			this.findSnapTargets(entity, area, targets::add);
+			if (targets.isEmpty())
+				continue;
 
-				Vec3 teleportPos = Vec3.upFromBottomCenterOf(pos, height);
-				for (Pose pose : getDismountPoses(entity)) {
-					AABB bounds = getLocalBoundsForPose(entity, pose);
-					if (canDismountTo(this.level, entity, bounds.move(teleportPos))) {
-						entity.setPose(pose);
-						entity.teleportTo(teleportPos.x, teleportPos.y, teleportPos.z);
-						continue entities;
-					}
+			targets.sort(SnapTarget.comparator(entity.position()));
+			targets.getFirst().apply(entity);
+		}
+	}
+
+	private void findSnapTargets(Entity entity, AABB area, Consumer<SnapTarget> output) {
+		// based on dismount code from several places
+		for (BlockPos pos : BlockPos.betweenClosed(area)) {
+			double height = this.level.getBlockFloorHeight(pos);
+			if (!DismountHelper.isBlockFloorValid(height))
+				continue;
+
+			Vec3 teleportPos = Vec3.upFromBottomCenterOf(pos, height);
+			for (Pose pose : getDismountPoses(entity)) {
+				AABB bounds = getLocalBoundsForPose(entity, pose);
+				if (canDismountTo(this.level, entity, bounds.move(teleportPos))) {
+					output.accept(new SnapTarget(teleportPos, pose));
 				}
 			}
 		}
@@ -114,7 +125,8 @@ public final class RePortaler implements PortalChangeListener {
 
 	/// @return the area within which to check each block to see if an entity can snap there
 	private static AABB getSnapArea(Portal portal) {
-		return AABB.ofSize(portal.origin(), 0, 0, 0).expandTowards(portal.normal);
+		Vec3 center = portal.origin().add(portal.normal);
+		return AABB.ofSize(center, 1, 1, 1);
 	}
 
 	// some LivingEntity-exclusive stuff that has no reason to be that way
@@ -150,5 +162,29 @@ public final class RePortaler implements PortalChangeListener {
 		}
 
 		return level.getWorldBorder().isWithinBounds(bounds);
+	}
+
+	private record SnapTarget(Vec3 pos, Pose pose) {
+		private static final Comparator<Pose> poseComparator = Comparator.comparingInt(pose -> switch (pose) {
+			case STANDING -> -30;
+			case CROUCHING -> -20;
+			case SWIMMING -> -10;
+			default -> pose.id();
+		});
+
+		private static final Comparator<SnapTarget> byPose = Comparator.comparing(SnapTarget::pose, poseComparator);
+
+		public void apply(Entity entity) {
+			entity.setPose(this.pose);
+			entity.teleportTo(this.pos.x, this.pos.y, this.pos.z);
+		}
+
+		private static Comparator<SnapTarget> nearestTo(Vec3 pos) {
+			return Comparator.comparingDouble(target -> target.pos.distanceToSqr(pos));
+		}
+
+		private static Comparator<SnapTarget> comparator(Vec3 pos) {
+			return nearestTo(pos).thenComparing(byPose);
+		}
 	}
 }
