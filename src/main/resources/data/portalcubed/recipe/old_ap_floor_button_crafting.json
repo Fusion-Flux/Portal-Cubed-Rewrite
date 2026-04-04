@@ -9,7 +9,7 @@
     "key": {
         "X": "portalcubed:magnesium_ingot",
         "Y": "#minecraft:wooden_pressure_plates",
-        "Z": "#minecraft:planks",
+        "Z": "portalcubed:kinetic_assembly",
         "B": "minecraft:redstone"
     },
     "result": {

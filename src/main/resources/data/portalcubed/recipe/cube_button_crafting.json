@@ -4,14 +4,15 @@
     "pattern": [
         "XYX",
         "ABA",
-        "CCC"
+        "CDC"
     ],
     "key": {
         "X": "portalcubed:magnesium_ingot",
         "Y": "minecraft:heavy_weighted_pressure_plate",
         "C": "#portalcubed:white_panel_materials",
         "A": "portalcubed:screen_assembly",
-        "B": "minecraft:redstone"
+        "B": "portalcubed:kinetic_assembly",
+        "D": "minecraft:redstone"
 
     },
     "result": {
