@@ -36,8 +36,10 @@ public class PortalTeleportHandler {
 	/// @param move a runnable that, when invoked, performs the move operation
 	/// @return true if one or more portals were teleported through
 	public static boolean handle(Entity entity, Runnable move) {
-		if (cannotTeleport(entity))
+		if (cannotTeleport(entity)) {
+			move.run();
 			return false;
+		}
 
 		Vec3 oldCenter = centerOf(entity);
 		move.run();
