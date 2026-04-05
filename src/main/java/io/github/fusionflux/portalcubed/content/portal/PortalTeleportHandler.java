@@ -31,18 +31,17 @@ import net.minecraft.world.phys.Vec3;
 public class PortalTeleportHandler {
 	public static final double MIN_OUTPUT_VELOCITY = 0.25;
 
-	/**
-	 * Called by mixins after an entity moves relatively.
-	 * Responsible for finding and teleporting through portals.
-	 */
-	public static boolean handle(Entity entity, Vec3 oldPos) {
+	/// Called by mixins when an entity is about to move relatively.
+	/// Responsible for finding and teleporting through portals.
+	/// @param move a runnable that, when invoked, performs the move operation
+	/// @return true if one or more portals were teleported through
+	public static boolean handle(Entity entity, Runnable move) {
 		if (cannotTeleport(entity))
 			return false;
 
-		Vec3 newPos = entity.position();
+		Vec3 oldCenter = centerOf(entity);
+		move.run();
 		Vec3 newCenter = centerOf(entity);
-		Vec3 posToCenter = newPos.vectorTo(newCenter);
-		Vec3 oldCenter = oldPos.add(posToCenter);
 
 		Level level = entity.level();
 		Optional<PortalPath> maybePath = level.portalManager().lookup().clip(oldCenter, newCenter).path();

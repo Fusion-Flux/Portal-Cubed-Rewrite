@@ -42,6 +42,7 @@ import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -73,6 +74,9 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@Shadow
 	public abstract Level level();
 
+	@Shadow
+	public abstract Pose getPose();
+
 	@Unique
 	private final TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
 	@Unique
@@ -99,9 +103,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	)
 	private void moveThroughPortalsNoPhysics(Entity self, double x, double y, double z, Operation<Void> original,
 											 @Local(argsOnly = true) LocalRef<Vec3> movement) {
-		Vec3 oldPos = self.position();
-		original.call(self, x, y, z);
-		if (PortalTeleportHandler.handle(self, oldPos)) {
+		if (PortalTeleportHandler.handle(self, () -> original.call(self, x, y, z))) {
 			// need to update the values that were used to move to this new pos
 			Vec3 newVel = this.getDeltaMovement();
 			movement.set(newVel);
@@ -119,9 +121,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	private void moveThroughPortalsNormally(Entity self, double x, double y, double z, Operation<Void> original,
 											@Local(argsOnly = true) LocalRef<Vec3> movement,
 											@Local(ordinal = 1) LocalRef<Vec3> collide) {
-		Vec3 oldPos = self.position();
-		original.call(self, x, y, z);
-		if (PortalTeleportHandler.handle(self, oldPos)) {
+		if (PortalTeleportHandler.handle(self, () -> original.call(self, x, y, z))) {
 			// need to update the values that were used to move to this new pos
 			Vec3 newVel = this.getDeltaMovement();
 			movement.set(newVel);
@@ -136,10 +136,13 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 					target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V"
 			)
 	)
-	private void lerpThroughPortals(Entity self, double x, double y, double z, Operation<Void> original) {
-		Vec3 oldPos = self.position();
-		original.call(self, x, y, z);
-		PortalTeleportHandler.handle(self, oldPos);
+	private void teleportWhenLerping(Entity self, double x, double y, double z, Operation<Void> original) {
+		PortalTeleportHandler.handle(self, () -> original.call(self, x, y, z));
+	}
+
+	@WrapMethod(method = "setPose")
+	private void teleportOnPoseChange(Pose pose, Operation<Void> original) {
+		PortalTeleportHandler.handle((Entity) (Object) this, () -> original.call(pose));
 	}
 
 	@Redirect(
