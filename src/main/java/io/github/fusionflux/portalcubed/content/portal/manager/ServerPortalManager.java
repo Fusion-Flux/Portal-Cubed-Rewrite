@@ -69,6 +69,17 @@ public final class ServerPortalManager extends PortalManager {
 		super.modifyPair(key, op);
 	}
 
+	/// Validate all portals intersecting the given area, removing them if they're no longer valid.
+	public void validatePortals(AABB area) {
+		for (PortalReference reference : this.lookup().getPortals(area)) {
+			Portal portal = reference.get();
+			if (!portal.data.validator().isValid(this.level, reference)) {
+				// krill
+				this.remove(reference);
+			}
+		}
+	}
+
 	public static void registerEventListeners() {
 		ServerPlayConnectionEvents.JOIN.register(
 				(handler, sender, server) -> handler.player.serverLevel().portalManager().syncToPlayer(handler.player)

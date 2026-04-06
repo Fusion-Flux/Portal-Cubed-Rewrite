@@ -64,6 +64,7 @@
     "portals.ServerEntityMixin",
     "portals.ServerGamePacketListenerInteractHandlerMixin",
     "portals.ServerLevelMixin",
+    "portals.ShulkerBoxBlockEntityMixin",
     "portals.StructureUtilsMixin",
     "portals.interaction.BlockPlaceContextMixin",
     "portals.interaction.BrushItemMixin",
