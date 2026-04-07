@@ -401,11 +401,7 @@
   "commands.data.portalcubed.portal.error.decode": "Invalid portal: %s",
   "commands.data.portalcubed.portal.error.missing": "That portal does not exist",
 
-  "commands.portalcubed.client.portal_recursions.query": "Number of portal recursions is currently set to %s",
-  "commands.portalcubed.client.portal_recursions.success": "Set number of portal recursions to %s",
-  "commands.portalcubed.client.portal_recursions.failure": "Could not set number of portal recursions to %1$s: %2$s",
-  "commands.portalcubed.client.portal_recursions.failure.out_of_range": "Must be between 1 and 16",
-  "commands.portalcubed.client.portal_recursions.failure.unchanged": "Nothing changed. The number of Portal Recursions is already set to that amount",
+  "commands.portalcubed.client.config.updated": "Config updated.",
 
   "commands.portalcubed.client.portal_rendering.query": "Portal rendering is currently %s",
   "commands.portalcubed.client.portal_rendering.toggle": "Portal rendering is now %s",

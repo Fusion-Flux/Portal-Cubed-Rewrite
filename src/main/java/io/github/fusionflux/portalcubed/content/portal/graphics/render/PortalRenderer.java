@@ -34,6 +34,7 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManag
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
+import io.github.fusionflux.portalcubed.framework.config.PortalCubedClientConfig;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
@@ -77,6 +78,10 @@ public class PortalRenderer {
 	public static final double TRACER_FADEOUT_START_DISTANCE = 3.5;
 	public static final double TRACER_FADEOUT_END_DISTANCE = 1.5;
 
+	/// With too many recursions we max out [RenderSystem#modelViewStack]
+	@SuppressWarnings("JavadocReference")
+	public static final int MAX_LEVELS = 6;
+
 	private static final RecursionAttachedResource<RenderBuffers> RENDER_BUFFERS = RecursionAttachedResource.create(() -> new RenderBuffers(1));
 
 	private static VertexBuffer stencilQuadBuffer;
@@ -86,7 +91,6 @@ public class PortalRenderer {
 	private static FogParameters skyFog;
 
 	private static final List<PortalId> renderingPortals = new ObjectArrayList<>();
-	private static int maxRecursions = 3;
 
 	@Nullable
 	public static PortalId getRenderingPortal() {
@@ -99,13 +103,12 @@ public class PortalRenderer {
 		return renderingPortals.size();
 	}
 
-	public static boolean isRenderingView() {
-		return recursion() > 0;
+	public static int level() {
+		return recursion() + 1;
 	}
 
-	public static void setMaxRecursions(int maxRecursions) {
-		PortalRenderer.maxRecursions = maxRecursions;
-		RecursionAttachedResource.cleanup();
+	public static boolean isRenderingView() {
+		return recursion() > 0;
 	}
 
 	public static boolean isPortalVisible(Frustum frustum, Portal portal) {
@@ -195,7 +198,7 @@ public class PortalRenderer {
 		if (portal.type().stencil().isEmpty())
 			return true;
 
-		return portal.data.render() && recursion() < maxRecursions;
+		return portal.data.render() && level() <= maxLevels();
 	}
 
 	private static float getPortalTracerAlpha(Plane portalPlane, Vec3 camPos) {
@@ -378,6 +381,10 @@ public class PortalRenderer {
 		}
 	}
 
+	private static int maxLevels() {
+		return PortalCubedClientConfig.get().portalRenderingLevels();
+	}
+
 	private record VisiblePortal(PortalId id, Portal portal, @Nullable Portal linked, boolean open) {
 	}
 
@@ -453,6 +460,7 @@ public class PortalRenderer {
 	public static void init() {
 		WorldRenderEvents.BEFORE_DEBUG_RENDER.register(PortalRenderer::render);
 		WorldRenderEvents.AFTER_ENTITIES.register(PortalDebugRenderer::render);
+		PortalCubedClientConfig.onChange(ignored -> RecursionAttachedResource.cleanup());
 	}
 
 	@Nullable

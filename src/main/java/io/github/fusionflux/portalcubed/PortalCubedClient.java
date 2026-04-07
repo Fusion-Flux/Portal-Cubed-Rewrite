@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed;
 
 import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedClientCommands;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
@@ -41,6 +42,7 @@ public class PortalCubedClient implements ClientModInitializer {
 		DebugRendering.init();
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
+		PortalCubedClientCommands.init();
 
 		FluidRenderHandlerRegistry.INSTANCE.register(
 				PortalCubedFluids.GOO,
