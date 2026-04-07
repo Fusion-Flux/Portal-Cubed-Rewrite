@@ -135,6 +135,12 @@ public record PortalGunSettings(
 		return new PortalGunSettings(this.portals, Optional.of(polarity), this.crosshair, this.skinId);
 	}
 
+	/// Clear the [last shot][#lastShot()] portal.
+	/// @return a new settings instance
+	public PortalGunSettings clearShot() {
+		return new PortalGunSettings(this.portals, Optional.empty(), this.crosshair, this.skinId);
+	}
+
 	@Environment(EnvType.CLIENT)
 	@Nullable
 	public PortalGunSkin skin() {

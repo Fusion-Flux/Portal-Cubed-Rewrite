@@ -72,6 +72,7 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 			if (removed) {
 				removedSkins.add(gunSettings.skinId());
 				removedAny = true;
+				held.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, gunSettings.clearShot());
 			}
 		}
 
