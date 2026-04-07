@@ -14,6 +14,7 @@ import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.shape.Quad;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.Entity;
@@ -88,6 +89,10 @@ public final class Portal {
 
 	public Vec3 origin() {
 		return this.data.origin();
+	}
+
+	public BlockPos blockPos() {
+		return BlockPos.containing(this.origin());
 	}
 
 	public Quaternionf rotation() {

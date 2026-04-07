@@ -8,6 +8,7 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
+import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChunkTicketManager;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
@@ -24,6 +25,7 @@ public final class ServerPortalManager extends PortalManager {
 	public ServerPortalManager(ServerLevel level) {
 		super(level);
 		this.level = level;
+		this.listeners().registerPersistent(new PortalChunkTicketManager(level));
 	}
 
 	public void syncToPlayer(ServerPlayer player) {
