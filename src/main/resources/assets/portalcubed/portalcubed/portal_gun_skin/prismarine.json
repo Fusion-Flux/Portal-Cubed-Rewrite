@@ -2,6 +2,7 @@
   "name": {
     "translate": "portal_gun_skin.portalcubed.prismarine_portal_gun"
   },
+  "inactive_color": 13956331,
   "item_model": "portalcubed:portal_guns/prismarine_portal_gun",
   "sounds": {
     "primary_shoot": "portalcubed:portal_gun.prismarine.primary_shoot",

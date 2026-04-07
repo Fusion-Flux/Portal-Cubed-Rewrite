@@ -3,6 +3,7 @@
     "translate": "portal_gun_skin.portalcubed.pipis_cannon"
   },
   "item_model": "portalcubed:portal_guns/pipis_cannon",
+  "inactive_color": -16777216,
   "sounds": {
     "primary_shoot": "portalcubed:portal_gun.pipis_cannon.shoot",
     "secondary_shoot": "portalcubed:portal_gun.pipis_cannon.shoot",
