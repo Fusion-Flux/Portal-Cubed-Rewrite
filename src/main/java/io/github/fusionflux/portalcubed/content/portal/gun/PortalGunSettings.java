@@ -39,7 +39,6 @@ import net.minecraft.world.item.component.TooltipProvider;
 
 public record PortalGunSettings(
 		Or<PortalSettings, PortalSettings> portals,
-		Polarity active,
 		Optional<Polarity> lastShot,
 		PortalGunCrosshair crosshair,
 		ResourceKey<PortalGunSkin> skinId
@@ -48,7 +47,6 @@ public record PortalGunSettings(
 
 	public static final Codec<PortalGunSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			portalsCodec.fieldOf("portals").forGetter(PortalGunSettings::portals),
-			Polarity.CODEC.fieldOf("active").forGetter(PortalGunSettings::active),
 			Polarity.CODEC.optionalFieldOf("last_shot").forGetter(PortalGunSettings::lastShot),
 			PortalGunCrosshair.CODEC.fieldOf("crosshair").forGetter(PortalGunSettings::crosshair),
 			ResourceKey.codec(PortalGunSkin.REGISTRY_KEY).fieldOf("skin").forGetter(PortalGunSettings::skinId)
@@ -56,7 +54,6 @@ public record PortalGunSettings(
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, PortalGunSettings> STREAM_CODEC = StreamCodec.composite(
 			Or.streamCodec(PortalSettings.STREAM_CODEC), PortalGunSettings::portals,
-			Polarity.STREAM_CODEC, PortalGunSettings::active,
 			ByteBufCodecs.optional(Polarity.STREAM_CODEC), PortalGunSettings::lastShot,
 			PortalGunCrosshair.STREAM_CODEC, PortalGunSettings::crosshair,
 			ResourceKey.streamCodec(PortalGunSkin.REGISTRY_KEY), PortalGunSettings::skinId,
@@ -66,8 +63,7 @@ public record PortalGunSettings(
 	public static final Map<Polarity, Component> POLARITY_TOOLTIPS = Util.makeEnumMap(Polarity.class, polarity -> PortalGunItem.translate(polarity.name + "_portal").withStyle(ChatFormatting.GRAY));
 
 	public static final PortalGunSettings DEFAULT = new PortalGunSettings(
-			PortalSettings.DEFAULTS, Polarity.PRIMARY, Optional.empty(),
-			PortalGunCrosshair.DEFAULT, PortalGunSkin.DEFAULT
+			PortalSettings.DEFAULTS, Optional.empty(), PortalGunCrosshair.DEFAULT, PortalGunSkin.DEFAULT
 	);
 
 	public static PortalGunSettings getOrDefault(ItemStack stack) {
@@ -136,7 +132,7 @@ public record PortalGunSettings(
 	 * Create a copy of these settings, but update the polarity of the last shot portal.
 	 */
 	public PortalGunSettings shoot(Polarity polarity) {
-		return new PortalGunSettings(this.portals, polarity, Optional.of(polarity), this.crosshair, this.skinId);
+		return new PortalGunSettings(this.portals, Optional.of(polarity), this.crosshair, this.skinId);
 	}
 
 	@Environment(EnvType.CLIENT)

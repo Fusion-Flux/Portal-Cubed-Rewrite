@@ -14,7 +14,7 @@
               "tints": [
                 {
                   "type": "portalcubed:portal_gun",
-                  "polarity": "active"
+                  "polarity": "last_shot"
                 },
                 {
                   "type": "minecraft:dye",
@@ -53,7 +53,7 @@
           "tints": [
             {
               "type": "portalcubed:portal_gun",
-              "polarity": "active"
+              "polarity": "last_shot"
             },
             {
               "type": "minecraft:dye",

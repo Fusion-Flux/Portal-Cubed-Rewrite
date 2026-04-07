@@ -18,10 +18,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.ExtraCodecs;
 
-public record PortalGunSkin(Component name, ResourceLocation itemModel, Sounds sounds) {
+public record PortalGunSkin(Component name, ResourceLocation itemModel, Optional<Integer> inactiveColor, Sounds sounds) {
 	public static final Codec<PortalGunSkin> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			ComponentSerialization.CODEC.fieldOf("name").forGetter(PortalGunSkin::name),
 			ResourceLocation.CODEC.fieldOf("item_model").forGetter(PortalGunSkin::itemModel),
+			ExtraCodecs.RGB_COLOR_CODEC.optionalFieldOf("inactive_color").forGetter(PortalGunSkin::inactiveColor),
 			Sounds.CODEC.fieldOf("sounds").forGetter(PortalGunSkin::sounds)
 	).apply(instance, PortalGunSkin::new));
 

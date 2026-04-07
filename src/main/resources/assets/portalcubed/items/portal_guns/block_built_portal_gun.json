@@ -8,7 +8,7 @@
           "tints": [
             {
               "type": "portalcubed:portal_gun",
-              "polarity": "active"
+              "polarity": "last_shot"
             }
           ]
         },

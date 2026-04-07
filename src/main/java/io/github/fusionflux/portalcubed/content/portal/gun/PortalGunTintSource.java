@@ -9,6 +9,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
+import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -31,10 +32,16 @@ public record PortalGunTintSource(Selection selection, int defaultColor) impleme
 		}
 
 		Polarity polarity = switch (this.selection) {
-			case ACTIVE -> settings.active();
 			case PRIMARY -> Polarity.PRIMARY;
 			case SECONDARY -> Polarity.SECONDARY;
+			case LAST_SHOT -> settings.lastShot().orElse(null);
 		};
+
+		if (polarity == null) {
+			// gun hasn't been shot yet
+			PortalGunSkin skin = settings.skin();
+			return skin == null ? this.defaultColor : skin.inactiveColor().orElse(this.defaultColor);
+		}
 
 		float ticks = ClientTicks.get();
 		return settings.portalSettingsPreferring(polarity).color().getOpaque(ticks);
@@ -46,7 +53,7 @@ public record PortalGunTintSource(Selection selection, int defaultColor) impleme
 	}
 
 	public enum Selection implements StringRepresentable {
-		ACTIVE, PRIMARY, SECONDARY;
+		PRIMARY, SECONDARY, LAST_SHOT;
 
 		private final String serialized = this.name().toLowerCase(Locale.ROOT);
 

@@ -8,7 +8,6 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.door.ChamberDoorType;
 import io.github.fusionflux.portalcubed.content.panel.PanelMaterial;
 import io.github.fusionflux.portalcubed.content.panel.PanelPart;
-import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.graphics.color.ConstantPortalColor;
@@ -991,7 +990,7 @@ public class PortalCubedTabs {
 			ResourceKey<PortalGunSkin> skin = PortalCubed.key(PortalGunSkin.REGISTRY_KEY, skinName);
 
 			stack.set(PortalCubedDataComponents.PORTAL_GUN_SETTINGS, new PortalGunSettings(
-					portals, Polarity.PRIMARY, Optional.empty(), new PortalGunCrosshair(crosshair, true), skin
+					portals, Optional.empty(), new PortalGunCrosshair(crosshair, true), skin
 			));
 
 			this.output.accept(stack);
