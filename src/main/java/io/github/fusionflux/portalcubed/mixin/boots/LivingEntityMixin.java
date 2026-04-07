@@ -3,8 +3,6 @@ package io.github.fusionflux.portalcubed.mixin.boots;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -47,12 +45,6 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Shadow
 	public abstract void remove(RemovalReason reason);
-
-	@Inject(method = "dismountVehicle", at = @At("TAIL"))
-	private void onDismount(CallbackInfo ci) {
-		// calls teleportTo, which sets non-local to true
-		this.pc$setNextTeleportNonLocal(false);
-	}
 
 	@ModifyReturnValue(method = "createLivingAttributes", at = @At("RETURN"))
 	private static AttributeSupplier.Builder addFallDamageAbsorptionAttribute(AttributeSupplier.Builder builder) {

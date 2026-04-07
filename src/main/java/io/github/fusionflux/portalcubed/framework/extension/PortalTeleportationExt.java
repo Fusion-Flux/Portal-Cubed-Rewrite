@@ -13,14 +13,6 @@ public interface PortalTeleportationExt {
 		throw new AbstractMethodError();
 	}
 
-	default void pc$setNextTeleportNonLocal(boolean value) {
-		throw new AbstractMethodError();
-	}
-
-	default boolean pc$isNextTeleportNonLocal() {
-		throw new AbstractMethodError();
-	}
-
 	// no prefix needed, unique descriptors
 
 	default TeleportProgressTracker getTeleportProgressTracker() {

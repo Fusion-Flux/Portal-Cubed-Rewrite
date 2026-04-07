@@ -14,7 +14,6 @@ import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ReloadConstructPreview;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
-import io.github.fusionflux.portalcubed.packet.clientbound.LocalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
@@ -50,7 +49,6 @@ public class PortalCubedPackets {
 			// clientbound
 			UPDATE_PORTAL_PAIR = clientbound("update_portal_pair", UpdatePortalPairPacket.CODEC),
 			PORTAL_TELEPORT = clientbound("portal_teleport", PortalTeleportPacket.CODEC),
-			LOCAL_TELEPORT = clientbound("local_teleport", LocalTeleportPacket.CODEC),
 			OPEN_PEDESTAL_BUTTON_CONFIG = clientbound("open_pedestal_button_config", OpenPedestalButtonConfigPacket.CODEC),
 			SYNC_CONSTRUCTS = clientbound("sync_constructs", ConstructSyncPacket.CODEC),
 			RELOAD_CONSTRUCT_PREVIEW = clientbound("reload_construct_preview", ReloadConstructPreview.CODEC),

@@ -84,8 +84,6 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	@Unique
 	private int portalCollisionRecursionDepth;
-	@Unique
-	private boolean isNextTeleportNonLocal;
 
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void afterInit(CallbackInfo ci) {
@@ -179,16 +177,6 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	}
 
 	@Override
-	public void pc$setNextTeleportNonLocal(boolean value) {
-		this.isNextTeleportNonLocal = value;
-	}
-
-	@Override
-	public boolean pc$isNextTeleportNonLocal() {
-		return this.isNextTeleportNonLocal;
-	}
-
-	@Override
 	public TeleportProgressTracker getTeleportProgressTracker() {
 		return this.teleportProgressTracker;
 	}
@@ -196,21 +184,6 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@Override
 	public RelevantPortals relevantPortals() {
 		return this.relevantPortals;
-	}
-
-	@WrapOperation(
-			method = {
-					"teleportTo(DDD)V",
-					"teleportTo(Lnet/minecraft/server/level/ServerLevel;DDDLjava/util/Set;FFZ)Z"
-			},
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/Entity;teleportPassengers()V"
-			)
-	)
-	private void onTeleport(Entity instance, Operation<Void> original) {
-		original.call(instance);
-		this.pc$setNextTeleportNonLocal(true);
 	}
 
 	@ModifyReturnValue(method = "getEyePosition*", at = @At("RETURN"))
