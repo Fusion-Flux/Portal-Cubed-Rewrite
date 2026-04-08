@@ -93,6 +93,7 @@ public record PortalCubedClientConfig(int portalRenderingLevels) {
 	private static void save(PortalCubedClientConfig config) throws IOException {
 		JsonElement json = CODEC.encodeStart(JsonOps.INSTANCE, config).getOrThrow();
 		String jsonString = gson.toJson(json);
+		Files.deleteIfExists(PATH);
 		Files.writeString(PATH, jsonString, StandardOpenOption.CREATE);
 	}
 }
