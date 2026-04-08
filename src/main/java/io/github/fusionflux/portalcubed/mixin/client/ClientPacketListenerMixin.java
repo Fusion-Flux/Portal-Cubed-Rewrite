@@ -20,8 +20,10 @@ import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket;
+import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
@@ -64,37 +66,46 @@ public class ClientPacketListenerMixin {
 		pos.set(newPos);
 
 		Rotations rotations = transform.apply(xRot.get(), yRot.get());
-		xRot.set(rotations.getWrappedX());
-		yRot.set(rotations.getWrappedY());
+		xRot.set(rotations.getX());
+		yRot.set(rotations.getY());
 	}
 
 	@ModifyArgs(
 			method = "handleMoveEntity",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/Entity;lerpTo(DDDFFI)V",
-					ordinal = 0
+					target = "Lnet/minecraft/world/entity/Entity;lerpTo(DDDFFI)V"
 			)
 	)
-	private void reinterpretMovePos(Args args, @Local Entity entity) {
+	private void reinterpretMove(Args args, @Local Entity entity, @Local(argsOnly = true) ClientboundMoveEntityPacket packet) {
 		PortalTransform transform = getTransform(entity);
 		if (transform == null)
 			return;
 
-		Vec3 center = PortalTeleportHandler.centerOf(entity);
-		Vec3 posToCenter = entity.position().vectorTo(center);
+		if (packet.hasPosition()) {
+			Vec3 center = PortalTeleportHandler.centerOf(entity);
+			Vec3 posToCenter = entity.position().vectorTo(center);
 
-		Vec3 newPos = new Vec3(args.get(0), args.get(1), args.get(2));
-		Vec3 newCenter = newPos.add(posToCenter);
+			Vec3 newPos = new Vec3(args.get(0), args.get(1), args.get(2));
+			Vec3 newCenter = newPos.add(posToCenter);
 
-		Vec3 transformedCenter = transform.applyAbsolute(newCenter);
-		Vec3 newTeleportedPos = transformedCenter.subtract(posToCenter);
-		args.set(0, newTeleportedPos.x);
-		args.set(1, newTeleportedPos.y);
-		args.set(2, newTeleportedPos.z);
+			Vec3 transformedCenter = transform.applyAbsolute(newCenter);
+			Vec3 newTeleportedPos = transformedCenter.subtract(posToCenter);
+			args.set(0, newTeleportedPos.x);
+			args.set(1, newTeleportedPos.y);
+			args.set(2, newTeleportedPos.z);
 
-		DebugRendering.addPos(10, newCenter, Color.GREEN);
-		DebugRendering.addPos(10, transformedCenter, Color.BLUE);
+			DebugRendering.addPos(10, newCenter, Color.GREEN);
+			DebugRendering.addPos(10, transformedCenter, Color.BLUE);
+		}
+
+		if (packet.hasRotation()) {
+			// why is it yx here instead of xy
+			Rotations rotations = new Rotations(args.get(4), args.get(3), 0);
+			Rotations transformedRotations = transform.apply(rotations);
+			args.set(4, transformedRotations.getX());
+			args.set(3, transformedRotations.getY());
+		}
 	}
 
 	@ModifyArgs(
@@ -123,8 +134,12 @@ public class ClientPacketListenerMixin {
 					target = "Lnet/minecraft/world/entity/Entity;lerpHeadTo(FI)V"
 			)
 	)
-	private float reinterpretHeadRot(float yaw) {
-		return yaw;
+	private float reinterpretHeadRot(float original, @Local Entity entity) {
+		PortalTransform transform = getTransform(entity);
+		if (transform == null)
+			return original;
+
+		return transform.apply(original, Direction.Axis.Y);
 	}
 
 	@Unique

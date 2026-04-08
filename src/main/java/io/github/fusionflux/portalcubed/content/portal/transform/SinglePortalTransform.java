@@ -14,6 +14,7 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.github.fusionflux.portalcubed.mixin.utils.accessors.LivingEntityAccessor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
@@ -124,42 +125,59 @@ public final class SinglePortalTransform implements PortalTransform {
 		Vec3 posToCenter = pos.vectorTo(center);
 		Vec3 centerToPos = center.vectorTo(pos);
 
-		boolean wasGrounded = entity.onGround(); // grab this before teleporting
+		// grab these before doing anything
+		boolean wasGrounded = entity.onGround();
+		Vec3 oldPos = entity.oldPosition();
 
 		// teleport
-		entity.setPos(this.applyAbsolute(center).add(centerToPos));
+		Vec3 newPos = this.applyAbsolute(center).add(centerToPos);
+		entity.setPos(newPos);
 
 		// rotate
 		Rotations newRotations = this.apply(entity.getXRot(), entity.getYRot());
-		entity.setXRot(newRotations.getWrappedX());
-		entity.setYRot(newRotations.getWrappedY());
-
-		// old values
-		Vec3 oldPosTeleported = this.applyAbsolute(entity.oldPosition().add(posToCenter)).add(centerToPos);
-		Rotations rotationsO = this.apply(entity.xRotO, entity.yRotO);
-		entity.setOldPosAndRot(oldPosTeleported, rotationsO.getWrappedY(), rotationsO.getWrappedX());
-
-		entity.setYHeadRot(this.apply(entity.getYHeadRot(), Direction.Axis.Y));
+		entity.setXRot(newRotations.getX());
+		entity.setYRot(newRotations.getY());
 
 		if (entity instanceof LivingEntity living) {
-			living.setYBodyRot(this.apply(living.yBodyRot, Direction.Axis.Y));
+			// we explicitly do not want to call setters here even when they're available, because side effects can ruin our day.
+			// for example, armor stands try to keep a bunch of rotation fields in sync, which will overwrite stuff.
+			living.yHeadRot = this.apply(living.yHeadRot, Direction.Axis.Y);
+			living.yBodyRot = this.apply(living.yBodyRot, Direction.Axis.Y);
 			living.yHeadRotO = this.apply(living.yHeadRotO, Direction.Axis.Y);
 			living.yBodyRotO = this.apply(living.yBodyRotO, Direction.Axis.Y);
+
+			LivingEntityAccessor accessor = (LivingEntityAccessor) living;
+			int headLerpSteps = accessor.getLerpHeadSteps();
+			if (headLerpSteps > 0) {
+				// why is this a double??
+				float target = (float) accessor.getLerpYHeadRot();
+				float newTarget = this.apply(target, Direction.Axis.Y);
+				living.lerpHeadTo(newTarget, headLerpSteps);
+			}
 		}
 
-		entity.applyAdditionalTransforms(this);
+		// teleport the current lerp targets if needed
+		int lerpSteps = LerpableEntity.getLerpSteps(entity);
+		if (lerpSteps > 0) {
+			Vec3 currentPosTarget = new Vec3(entity.lerpTargetX(), entity.lerpTargetY(), entity.lerpTargetZ());
+			Rotations currentRotTarget = new Rotations(entity.lerpTargetXRot(), entity.lerpTargetYRot(), 0);
 
-		// teleport the current lerp target
-		Vec3 oldTarget = new Vec3(entity.lerpTargetX(), entity.lerpTargetY(), entity.lerpTargetZ());
-		// target is current pos when no lerp, only teleport if it's different
-		if (!oldTarget.equals(entity.position())) {
-			Vec3 newTarget = this.applyAbsolute(oldTarget.add(posToCenter)).add(centerToPos);
-			Rotations newLerpRotations = this.apply(entity.lerpTargetXRot(), entity.lerpTargetYRot());
-			int lerpSteps = LerpableEntity.getLerpSteps(entity);
-			entity.lerpTo(newTarget.x, newTarget.y, newTarget.z, newLerpRotations.getWrappedY(), newLerpRotations.getWrappedX(), lerpSteps);
+			// only set each one if there's actually a difference, otherwise we might double-transform something
+			Vec3 newPosTarget = currentPosTarget.equals(newPos) ? newPos : this.applyAbsolute(currentPosTarget.add(posToCenter)).add(centerToPos);
+			Rotations newRotTarget = currentRotTarget.equals(newRotations) ? newRotations : this.apply(currentRotTarget);
+
+			entity.lerpTo(newPosTarget.x, newPosTarget.y, newPosTarget.z, newRotTarget.getY(), newRotTarget.getX(), lerpSteps);
 			// some entities will modify the lerpSteps, try setting it manually
 			LerpableEntity.setLerpSteps(entity, lerpSteps);
 		}
+
+		// set old values. do this last, since setting non-old values above may have set them prematurely
+		Vec3 oldPosTeleported = this.applyAbsolute(oldPos.add(posToCenter)).add(centerToPos);
+		Rotations rotationsO = this.apply(entity.xRotO, entity.yRotO);
+		entity.setOldPosAndRot(oldPosTeleported, rotationsO.getY(), rotationsO.getX());
+
+		// anything more specific can be done by overriding this method
+		entity.applyAdditionalTransforms(this);
 
 		// reorient velocity
 		Vec3 newVel = this.applyRelative(entity.getDeltaMovement());
@@ -168,6 +186,7 @@ public final class SinglePortalTransform implements PortalTransform {
 		if (!wasGrounded && newVel.y > 0 && newVel.length() < PortalTeleportHandler.MIN_OUTPUT_VELOCITY) {
 			newVel = newVel.normalize().scale(PortalTeleportHandler.MIN_OUTPUT_VELOCITY);
 		}
+
 		entity.setDeltaMovement(newVel);
 		entity.hasImpulse = true;
 	}

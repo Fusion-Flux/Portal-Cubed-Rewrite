@@ -402,6 +402,8 @@
   "commands.data.portalcubed.portal.error.missing": "That portal does not exist",
 
   "commands.portalcubed.client.config.updated": "Config updated.",
+  "commands.portalcubed.client.debug.entity_resync.single": "Resynced one entity.",
+  "commands.portalcubed.client.debug.entity_resync.multi": "Resynced %s entities.",
 
   "commands.portalcubed.client.portal_rendering.query": "Portal rendering is currently %s",
   "commands.portalcubed.client.portal_rendering.toggle": "Portal rendering is now %s",

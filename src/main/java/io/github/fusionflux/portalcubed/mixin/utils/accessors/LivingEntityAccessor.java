@@ -16,4 +16,10 @@ public interface LivingEntityAccessor {
 
 	@Accessor
 	void setLerpSteps(int steps);
+
+	@Accessor
+	int getLerpHeadSteps();
+
+	@Accessor
+	double getLerpYHeadRot();
 }
