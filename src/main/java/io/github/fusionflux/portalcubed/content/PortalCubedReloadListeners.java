@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content;
 
 import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalTextureManager;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.stencil.PortalStencilRenderer;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshairTypeManager;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkinManager;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropModelCache;
@@ -20,5 +21,6 @@ public class PortalCubedReloadListeners {
 		helper.registerReloadListener(PortalGunCrosshairTypeManager.INSTANCE);
 		helper.registerReloadListener(PortalGunSkinManager.INSTANCE);
 		helper.registerReloadListener(PortalTextureManager.INSTANCE);
+		helper.registerReloadListener(PortalStencilRenderer.INSTANCE);
 	}
 }

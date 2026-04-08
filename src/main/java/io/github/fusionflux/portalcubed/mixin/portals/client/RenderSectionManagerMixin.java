@@ -14,7 +14,7 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalViewRenderer;
 import io.github.fusionflux.portalcubed.content.portal.graphics.render.RecursionAttachedResource;
 import net.caffeinemc.mods.sodium.client.render.chunk.ChunkUpdateType;
 import net.caffeinemc.mods.sodium.client.render.chunk.RenderSection;
@@ -44,7 +44,7 @@ public class RenderSectionManagerMixin {
 			)
 	)
 	private void graphStillNeedsUpdating(RenderSectionManager instance, boolean value, Operation<Void> original) {
-		original.call(instance, PortalRenderer.isRenderingView());
+		original.call(instance, PortalViewRenderer.isPortalView());
 	}
 
 	@WrapOperation(
@@ -55,7 +55,7 @@ public class RenderSectionManagerMixin {
 			)
 	)
 	private void setPortalRenderLists(RenderSectionManager instance, SortedRenderLists value, Operation<Void> original) {
-		if (PortalRenderer.isRenderingView()) {
+		if (PortalViewRenderer.isPortalView()) {
 			this.portalRenderLists.set(value);
 		} else {
 			original.call(instance, value);
@@ -70,7 +70,7 @@ public class RenderSectionManagerMixin {
 			)
 	)
 	private SortedRenderLists usePortalRenderLists(SortedRenderLists original) {
-		return PortalRenderer.isRenderingView() ? this.portalRenderLists.get() : original;
+		return PortalViewRenderer.isPortalView() ? this.portalRenderLists.get() : original;
 	}
 
 	@WrapOperation(
@@ -81,7 +81,7 @@ public class RenderSectionManagerMixin {
 			)
 	)
 	private void setPortalTaskLists(RenderSectionManager instance, Map<ChunkUpdateType, ArrayDeque<RenderSection>> value, Operation<Void> original) {
-		if (PortalRenderer.isRenderingView()) {
+		if (PortalViewRenderer.isPortalView()) {
 			this.portalTaskLists.set(value);
 		} else {
 			original.call(instance, value);
@@ -99,12 +99,12 @@ public class RenderSectionManagerMixin {
 			)
 	)
 	private Map<ChunkUpdateType, ArrayDeque<RenderSection>> usePortalTaskLists(Map<ChunkUpdateType, ArrayDeque<RenderSection>> original) {
-		return PortalRenderer.isRenderingView() ? this.portalTaskLists.get() : original;
+		return PortalViewRenderer.isPortalView() ? this.portalTaskLists.get() : original;
 	}
 
 	@WrapMethod(method = "processGFNIMovement")
 	private void dontProcessGFNIMovementForPortalCamera(CameraMovement movement, Operation<Void> original) {
-		if (!PortalRenderer.isRenderingView())
+		if (!PortalViewRenderer.isPortalView())
 			original.call(movement);
 	}
 }

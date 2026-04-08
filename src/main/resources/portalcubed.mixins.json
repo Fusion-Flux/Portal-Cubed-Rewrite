@@ -132,6 +132,7 @@
     "client.RenderBuffersMixin",
     "client.RenderSectionManagerAccessor",
     "client.RenderSystemAccessor",
+    "client.RenderSystemMixin",
     "client.ScreenEffectRendererMixin",
     "client.ScreenMixin",
     "client.SelectorAccessor",

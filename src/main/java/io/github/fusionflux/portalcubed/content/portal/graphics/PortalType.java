@@ -30,7 +30,7 @@ public record PortalType(
 		int defaultPrimaryColor,
 		int defaultSecondaryColor,
 		Textures textures,
-		Optional<ResourceLocation> stencil,
+		Optional<Stencil> stencil,
 		PlaceAnimation placeAnimation
 ) {
 	public static final Codec<PortalType> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -38,7 +38,7 @@ public record PortalType(
 			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("default_primary_color").forGetter(PortalType::defaultPrimaryColor),
 			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("default_secondary_color").forGetter(PortalType::defaultSecondaryColor),
 			Textures.CODEC.fieldOf("textures").forGetter(PortalType::textures),
-			ResourceLocation.CODEC.optionalFieldOf("stencil").forGetter(PortalType::stencil),
+			Stencil.CODEC.optionalFieldOf("stencil").forGetter(PortalType::stencil),
 			PlaceAnimation.CODEC.optionalFieldOf("place_animation", PlaceAnimation.DEFAULT).forGetter(PortalType::placeAnimation)
 	).apply(instance, PortalType::new));
 	public static final Codec<ResourceKey<PortalType>> KEY_CODEC = ResourceKey.codec(PortalCubedRegistries.PORTAL_TYPE);
@@ -105,6 +105,23 @@ public record PortalType(
 			int ageInTicks = (int) (level.getGameTime() - portal.data.creationTick());
 			double progress = Math.min((ageInTicks + tickDelta) / this.duration, 1);
 			return (float) this.easing.apply(progress);
+		}
+	}
+
+	// TODO: this should use ClientAsset when it exists
+	public record Stencil(ResourceLocation front, ResourceLocation frontTexturePath, ResourceLocation back, ResourceLocation backTexturePath) {
+		public static final Codec<Stencil> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+				ResourceLocation.CODEC.fieldOf("front").forGetter(Stencil::front),
+				ResourceLocation.CODEC.fieldOf("back").forGetter(Stencil::back)
+		).apply(instance, Stencil::new));
+		public static final Codec<Stencil> CODEC = Codec.withAlternative(DIRECT_CODEC, ResourceLocation.CODEC.xmap(Stencil::new, Stencil::front));
+
+		public Stencil(ResourceLocation front, ResourceLocation back) {
+			this(front, front.withPath(path -> "textures/" + path + ".png"), back, back.withPath(path -> "textures/" + path + ".png"));
+		}
+
+		public Stencil(ResourceLocation front) {
+			this(front, front);
 		}
 	}
 }

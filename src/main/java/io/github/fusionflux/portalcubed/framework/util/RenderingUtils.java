@@ -200,4 +200,15 @@ public class RenderingUtils {
 		}
 		renderType.draw(mesh);
 	}
+
+	public static VertexBuffer uploadStaticMesh(BufferBuilder builder) {
+		VertexBuffer buffer;
+		try (MeshData mesh = builder.buildOrThrow()) {
+			buffer = new VertexBuffer(BufferUsage.STATIC_WRITE);
+			buffer.bind();
+			buffer.upload(mesh);
+			VertexBuffer.unbind();
+		}
+		return buffer;
+	}
 }

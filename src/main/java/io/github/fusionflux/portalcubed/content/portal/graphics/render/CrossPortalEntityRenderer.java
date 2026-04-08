@@ -153,7 +153,7 @@ public class CrossPortalEntityRenderer {
 			if (this.entity != mc.getCameraEntity() || !mc.options.getCameraType().isFirstPerson())
 				return false;
 
-			return PortalRenderer.recursion() == 1 && this.inPortal.id.equals(PortalRenderer.getRenderingPortal());
+			return PortalViewRenderer.recursion() == 1 && this.inPortal.id.equals(PortalViewRenderer.getViewPortal());
 		}
 
 		public Vec3 transformedPos() {

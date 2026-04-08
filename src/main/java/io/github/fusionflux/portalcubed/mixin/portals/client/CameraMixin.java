@@ -12,7 +12,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalViewRenderer;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.framework.render.debug.CameraRotator;
 import net.minecraft.client.Camera;
@@ -55,7 +55,7 @@ public abstract class CameraMixin {
 
 	@ModifyReturnValue(method = "isDetached", at = @At("RETURN"))
 	private boolean detachedIfRenderingPortal(boolean original) {
-		return original || PortalRenderer.isRenderingView();
+		return original || PortalViewRenderer.isPortalView();
 	}
 
 	@Definition(id = "detached", local = @Local(type = boolean.class, ordinal = 0, argsOnly = true))

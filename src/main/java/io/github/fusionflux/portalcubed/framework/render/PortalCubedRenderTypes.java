@@ -17,8 +17,8 @@ import net.minecraft.util.TriState;
 
 @SuppressWarnings("deprecation")
 public interface PortalCubedRenderTypes {
-	BiFunction<RenderStateShard.DepthTestStateShard, ResourceLocation, RenderType> DEPTH_CUTOUT = Util.memoize((depthTest, texture) -> RenderType.create(
-			"portalcubed:depth_cutout",
+	BiFunction<RenderStateShard.DepthTestStateShard, ResourceLocation, RenderType> PORTAL_STENCIL = Util.memoize((depthTest, texture) -> RenderType.create(
+			"portalcubed:portal_stencil",
 			DefaultVertexFormat.POSITION_TEX,
 			VertexFormat.Mode.QUADS,
 			RenderType.TRANSIENT_BUFFER_SIZE,
@@ -106,8 +106,8 @@ public interface PortalCubedRenderTypes {
 					.createCompositeState(false)
 	);
 
-	static RenderType depthCutout(RenderStateShard.DepthTestStateShard depthTest, ResourceLocation texture) {
-		return DEPTH_CUTOUT.apply(depthTest, texture);
+	static RenderType portalStencil(RenderStateShard.DepthTestStateShard depthTest, ResourceLocation texture) {
+		return PORTAL_STENCIL.apply(depthTest, texture);
 	}
 
 	static RenderType emissive(ResourceLocation texture) {

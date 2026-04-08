@@ -19,13 +19,13 @@ public record RecursionAttachedResource<T>(Supplier<T> factory, ObjectArrayList<
 	}
 
 	public T get() {
-		int recursionIndex = PortalRenderer.recursion() - 1;
+		int recursionIndex = PortalViewRenderer.recursion() - 1;
 		this.ensure(recursionIndex);
 		return this.recursions.get(recursionIndex);
 	}
 
 	public void set(@NotNull T value) {
-		int recursionIndex = PortalRenderer.recursion() - 1;
+		int recursionIndex = PortalViewRenderer.recursion() - 1;
 		this.ensure(recursionIndex);
 		this.recursions.set(recursionIndex, value);
 	}

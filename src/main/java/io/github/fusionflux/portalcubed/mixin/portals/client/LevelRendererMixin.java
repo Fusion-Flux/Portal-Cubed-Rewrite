@@ -21,7 +21,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.fusionflux.portalcubed.content.portal.graphics.render.CrossPortalEntityRenderer;
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalViewRenderer;
 import io.github.fusionflux.portalcubed.content.portal.sync.EntityState;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
 import io.github.fusionflux.portalcubed.framework.render.SimpleBufferSource;
@@ -58,7 +58,7 @@ public class LevelRendererMixin {
 			)
 	)
 	private static void replaceClearingIfRenderingPortal(int mask, Operation<Void> original, @Local(argsOnly = true) Vector4f clearColor) {
-		if (PortalRenderer.isRenderingView()) {
+		if (PortalViewRenderer.isPortalView()) {
 			// Setup state
 			GL11.glDepthRange(1, 1);
 			GL11.glDisable(GL11.GL_CLIP_PLANE0);
@@ -75,7 +75,7 @@ public class LevelRendererMixin {
 
 	@ModifyReturnValue(method = "shouldShowEntityOutlines", at = @At("RETURN"))
 	private boolean dontShowEntityOutlinesIfRenderingPortal(boolean original) {
-		return original && !PortalRenderer.isRenderingView();
+		return original && !PortalViewRenderer.isPortalView();
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
@@ -161,7 +161,7 @@ public class LevelRendererMixin {
 			)
 	)
 	private Vector4f updateFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Operation<Vector4f> original) {
-		return PortalRenderer.updateFogColor(() -> original.call(camera, partialTick, level, renderDistance, darkenWorldAmount));
+		return PortalViewRenderer.updateFogColor(() -> original.call(camera, partialTick, level, renderDistance, darkenWorldAmount));
 	}
 
 	// this needs to be a wrap-op that applies before sodium so it captures our modified fog
@@ -174,7 +174,7 @@ public class LevelRendererMixin {
 			)
 	)
 	private FogParameters updateTerrainFog(Camera camera, FogRenderer.FogMode fogMode, Vector4f fogColor, float renderDistance, boolean isFoggy, float partialTick, Operation<FogParameters> original) {
-		return PortalRenderer.updateTerrainFog(original.call(camera, fogMode, fogColor, renderDistance, isFoggy, partialTick));
+		return PortalViewRenderer.updateTerrainFog(original.call(camera, fogMode, fogColor, renderDistance, isFoggy, partialTick));
 	}
 
 	@ModifyExpressionValue(
@@ -186,6 +186,6 @@ public class LevelRendererMixin {
 			)
 	)
 	private FogParameters updateSkyFog(FogParameters original) {
-		return PortalRenderer.updateSkyFog(original);
+		return PortalViewRenderer.updateSkyFog(original);
 	}
 }

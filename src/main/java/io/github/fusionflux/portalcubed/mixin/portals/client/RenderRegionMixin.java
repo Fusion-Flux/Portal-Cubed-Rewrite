@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
+import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalViewRenderer;
 import io.github.fusionflux.portalcubed.content.portal.graphics.render.RecursionAttachedResource;
 import net.caffeinemc.mods.sodium.client.render.chunk.lists.ChunkRenderList;
 import net.caffeinemc.mods.sodium.client.render.chunk.region.RenderRegion;
@@ -18,6 +18,6 @@ public class RenderRegionMixin {
 
 	@ModifyReturnValue(method = "getRenderList", at = @At("RETURN"))
 	private ChunkRenderList usePortalRenderList(ChunkRenderList original) {
-		return PortalRenderer.isRenderingView() ? this.portalRenderList.get() : original;
+		return PortalViewRenderer.isPortalView() ? this.portalRenderList.get() : original;
 	}
 }
