@@ -24,7 +24,10 @@
     "closed": "portalcubed:portal/tater_sad/tater_sad_closed",
     "tracer": "portalcubed:portal/tater_sad/tater_sad_tracer"
   },
-  "stencil": "portalcubed:portal/tater_sad/tater_sad_stencil",
+  "stencil": {
+    "front": "portalcubed:portal/tater_sad/tater_sad_stencil_front",
+    "back": "portalcubed:portal/tater_sad/tater_sad_stencil_back"
+  },
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

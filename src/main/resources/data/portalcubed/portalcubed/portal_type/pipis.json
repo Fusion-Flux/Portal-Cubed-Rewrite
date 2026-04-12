@@ -26,5 +26,8 @@
       }
     ]
   },
-  "stencil": "portalcubed:portal/pipis/pipis_stencil"
+  "stencil": {
+    "front": "portalcubed:portal/pipis/pipis_stencil_front",
+    "back": "portalcubed:portal/pipis/pipis_stencil_back"
+  }
 }

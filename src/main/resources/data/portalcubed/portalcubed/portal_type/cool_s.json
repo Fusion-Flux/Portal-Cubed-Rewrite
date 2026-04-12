@@ -24,5 +24,8 @@
     "closed": "portalcubed:portal/cool_s/cool_s_closed",
     "tracer": "portalcubed:portal/cool_s/cool_s_tracer"
   },
-  "stencil": "portalcubed:portal/cool_s/cool_s_stencil"
+  "stencil": {
+    "front": "portalcubed:portal/cool_s/cool_s_stencil_front",
+    "back": "portalcubed:portal/cool_s/cool_s_stencil_back"
+  }
 }

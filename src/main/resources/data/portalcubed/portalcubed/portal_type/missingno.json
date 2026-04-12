@@ -41,7 +41,10 @@
       }
     ]
   },
-  "stencil": "portalcubed:portal/missingno/missing_texture_portal_stencil",
+  "stencil": {
+    "front": "portalcubed:portal/missingno/missing_texture_portal_stencil_front",
+    "back": "portalcubed:portal/missingno/missing_texture_portal_stencil_back"
+  },
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

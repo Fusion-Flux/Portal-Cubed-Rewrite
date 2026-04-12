@@ -24,5 +24,8 @@
     "closed": "portalcubed:portal/logo_portal/logo_portal_closed",
     "tracer": "portalcubed:portal/logo_portal/logo_portal_tracer"
   },
-  "stencil": "portalcubed:portal/logo_portal/logo_portal_stencil"
+  "stencil": {
+    "front": "portalcubed:portal/logo_portal/logo_portal_stencil_front",
+    "back": "portalcubed:portal/logo_portal/logo_portal_stencil_back"
+  }
 }

@@ -337,7 +337,10 @@
     ],
     "tracer": "portalcubed:portal/fenestrated_panel/fenestrated_panel_tracer"
   },
-  "stencil": "portalcubed:portal/fenestrated_panel/fenestrated_panel_stencil",
+  "stencil": {
+    "front": "portalcubed:portal/fenestrated_panel/fenestrated_panel_stencil_front",
+    "back": "portalcubed:portal/fenestrated_panel/fenestrated_panel_stencil_back"
+  },
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",

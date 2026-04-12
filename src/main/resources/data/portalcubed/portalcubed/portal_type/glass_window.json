@@ -36,7 +36,10 @@
       }
     ]
   },
-  "stencil": "portalcubed:portal/glass_window/glass_window_portal_stencil",
+  "stencil": {
+    "front": "portalcubed:portal/glass_window/glass_window_stencil_front",
+    "back": "portalcubed:portal/glass_window/glass_window_stencil_back"
+  },
   "place_animation": {
     "type": "pop_in",
     "easing": "linear",
