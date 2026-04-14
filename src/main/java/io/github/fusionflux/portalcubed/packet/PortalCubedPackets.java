@@ -28,7 +28,7 @@ import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureSignageConfigPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
-import io.github.fusionflux.portalcubed.packet.serverbound.DirectClickItemPacket;
+import io.github.fusionflux.portalcubed.packet.serverbound.CustomAttackPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.DropPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.GrabPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.RequestEntitySyncPacket;
@@ -66,7 +66,7 @@ public class PortalCubedPackets {
 			CONFIGURE_PEDESTAL_BUTTON = serverbound("configure_pedestal_button", ConfigurePedestalButtonPacket.CODEC),
 			CONFIGURE_LARGE_SIGNAGE = serverbound("configure_large_signage", ConfigureSignageConfigPacket.Large.CODEC),
 			CONFIGURE_SMALL_SIGNAGE = serverbound("configure_small_signage", ConfigureSignageConfigPacket.Small.CODEC),
-			DIRECT_CLICK_ITEM = serverbound("direct_click_item", DirectClickItemPacket.CODEC),
+			CUSTOM_ATTACK = serverbound("custom_attack", CustomAttackPacket.CODEC),
 			CONFIGURE_CANNON = serverbound("configure_cannon", ConfigureCannonPacket.CODEC),
 			GRAB = serverbound("grab", GrabPacket.CODEC),
 			DROP = serverbound("drop", DropPacket.CODEC),

@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
-import io.github.fusionflux.portalcubed.framework.item.DirectClickItem;
+import io.github.fusionflux.portalcubed.framework.item.AttackListeningItem;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootPortalGunPacket;
@@ -38,7 +38,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class PortalGunItem extends Item implements DirectClickItem {
+public class PortalGunItem extends Item implements AttackListeningItem {
 	public PortalGunItem(Properties settings) {
 		super(settings);
 	}
