@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
@@ -117,6 +118,16 @@ public class PortalTeleportHandler {
 		for (PortalPath.Entry entry : path.entries()) {
 			level.gameEvent(PortalCubedGameEvents.PORTAL_TELEPORT_ENTER, entry.entered().pos(), context);
 			level.gameEvent(PortalCubedGameEvents.PORTAL_TELEPORT_EXIT, entry.exited().pos(), context);
+		}
+	}
+
+	private static void playTeleportSound(Entity entity, PortalPath path) {
+		for (PortalPath.Entry entry : path.entries()) {
+			// only the entered portal plays its travel sound
+			PortalReference portal = entry.entered().reference();
+			portal.get().type().sounds().forPolarity(portal.id.polarity()).travel().ifPresent(
+					sound -> entity.playSound(sound.value())
+			);
 		}
 	}
 

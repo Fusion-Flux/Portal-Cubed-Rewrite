@@ -10,6 +10,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInteractionUtils;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
+import io.github.fusionflux.portalcubed.content.portal.sound.NonTeleportableSoundInstance;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.ChannelAccess;
@@ -44,6 +45,9 @@ public class SoundEngineMixin {
 
 	@Unique
 	private static boolean teleportSound(SoundInstance sound, ChannelAccess.ChannelHandle handle) {
+		if (sound instanceof NonTeleportableSoundInstance)
+			return false;
+
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.level == null)
 			return false;

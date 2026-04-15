@@ -13,7 +13,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.framework.item.AttackListeningItem;
-import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootPortalGunPacket;
 import net.fabricmc.api.EnvType;
@@ -120,15 +119,15 @@ public class PortalGunItem extends Item implements AttackListeningItem {
 		Vec3 direction = player.getLookAngle();
 
 		PortalShot shot = PortalShot.perform(id, level, source, direction, player.getYRot());
-		shot.createTrail(level, source, settings);
+		shot.createEffects(level, source, settings);
 		if (shot instanceof PortalShot.Success success) {
 			success.place(settings);
 			player.awardStat(PortalCubedStats.PORTAL_SHOTS_HIT);
 		} else {
 			player.awardStat(PortalCubedStats.PORTAL_SHOTS_MISSED);
 
-			if (shot instanceof PortalShot.Failed(RaycastResult result)) {
-				level.gameEvent(player, PortalCubedGameEvents.PORTAL_SHOT_FAIL, result.pos);
+			if (shot instanceof PortalShot.Failed failed) {
+				level.gameEvent(player, PortalCubedGameEvents.PORTAL_SHOT_FAIL, failed.result().pos);
 			}
 		}
 	}

@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
+import io.github.fusionflux.portalcubed.content.portal.sound.PortalSounds;
 import io.github.fusionflux.portalcubed.framework.util.EasingFunction;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;
@@ -29,6 +30,7 @@ public record PortalType(
 		Component name,
 		int defaultPrimaryColor,
 		int defaultSecondaryColor,
+		PortalSounds sounds,
 		Textures textures,
 		Optional<Stencil> stencil,
 		PlaceAnimation placeAnimation
@@ -37,6 +39,7 @@ public record PortalType(
 			ComponentSerialization.CODEC.fieldOf("name").forGetter(PortalType::name),
 			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("default_primary_color").forGetter(PortalType::defaultPrimaryColor),
 			ExtraCodecs.RGB_COLOR_CODEC.fieldOf("default_secondary_color").forGetter(PortalType::defaultSecondaryColor),
+			PortalSounds.CODEC.optionalFieldOf("sounds", PortalSounds.EMPTY).forGetter(PortalType::sounds),
 			Textures.CODEC.fieldOf("textures").forGetter(PortalType::textures),
 			Stencil.CODEC.optionalFieldOf("stencil").forGetter(PortalType::stencil),
 			PlaceAnimation.CODEC.optionalFieldOf("place_animation", PlaceAnimation.DEFAULT).forGetter(PortalType::placeAnimation)
@@ -56,11 +59,7 @@ public record PortalType(
 		return this.stencil.isPresent();
 	}
 
-	public record Textures(
-			List<Layer> open,
-			List<Layer> closed,
-			List<Layer> tracer
-	) {
+	public record Textures(List<Layer> open, List<Layer> closed, List<Layer> tracer) {
 		public static final Codec<Textures> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 				Layer.LIST_CODEC.fieldOf("open").forGetter(Textures::open),
 				Layer.LIST_CODEC.fieldOf("closed").forGetter(Textures::closed),
@@ -82,11 +81,7 @@ public record PortalType(
 		}
 	}
 
-	public record PlaceAnimation(
-			PortalPlaceAnimationType type,
-			EasingFunction easing,
-			int duration
-	) {
+	public record PlaceAnimation(PortalPlaceAnimationType type, EasingFunction easing, int duration) {
 		public static final int DEFAULT_DURATION = 3;
 		public static final PlaceAnimation DEFAULT = new PlaceAnimation(PortalPlaceAnimationType.EXPAND_ALL_CENTER);
 

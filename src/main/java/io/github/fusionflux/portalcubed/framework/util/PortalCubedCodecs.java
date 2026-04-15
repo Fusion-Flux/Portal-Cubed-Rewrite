@@ -160,6 +160,7 @@ public interface PortalCubedCodecs {
 	static <T> Codec<T> validate(Codec<T> codec, Function<T, DataResult<T>> verifier) {
 		return codec.validate(verifier);
 	}
+
 	static <T> MapCodec<T> validate(MapCodec<T> codec, Function<T, DataResult<T>> verifier) {
 		return codec.validate(verifier);
 	}

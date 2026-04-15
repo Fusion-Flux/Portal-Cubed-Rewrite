@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.clip;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +12,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
+import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
@@ -26,7 +28,10 @@ import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.level.GameRules;
@@ -54,10 +59,8 @@ public sealed interface PortalShot {
 	 */
 	RaycastResult result();
 
-	/**
-	 * Create the particle trail left by this shot.
-	 */
-	default void createTrail(ServerLevel level, Vec3 source, PortalSettings settings) {
+	/// Create the effects made by this portal shot. This includes the particle trail and any sounds.
+	default void createEffects(ServerLevel level, Vec3 source, PortalSettings settings) {
 		int color = settings.color().getOpaque(level.getGameTime());
 		// if a portal was shot through, target that portal's surface, not the actual end pos
 		Vec3 target = this.result().path.map(path -> path.first().pos()).orElse(this.result().pos);
@@ -100,11 +103,25 @@ public sealed interface PortalShot {
 	 * A portal shot that hit something, but failed to find a valid placement.
 	 * @param result either a {@link RaycastResult.Block}, a {@link RaycastResult.Entity}, or a {@link RaycastResult.WorldBorder}
 	 */
-	record Failed(RaycastResult result) implements PortalShot {
+	record Failed(PortalId id, RaycastResult result) implements PortalShot {
 		public Failed {
 			if (!(result instanceof RaycastResult.Block || result instanceof RaycastResult.Entity || result instanceof RaycastResult.WorldBorder)) {
 				throw new IllegalArgumentException("Result should be a Block, Entity, or WorldBorder: " + result);
 			}
+		}
+
+		@Override
+		public void createEffects(ServerLevel level, Vec3 source, PortalSettings settings) {
+			PortalShot.super.createEffects(level, source, settings);
+
+			settings.resolveType(level.registryAccess()).flatMap(this::getSound).ifPresent(sound -> {
+				Vec3 pos = this.result.pos;
+				level.playSound(null, pos.x, pos.y, pos.z, sound.value(), SoundSource.PLAYERS);
+			});
+		}
+
+		private Optional<Holder<SoundEvent>> getSound(Holder.Reference<PortalType> type) {
+			return type.value().sounds().forPolarity(this.id.polarity()).cantOpen();
 		}
 	}
 
@@ -181,17 +198,17 @@ public sealed interface PortalShot {
 
 		return switch (result) {
 			case RaycastResult.Missed missed -> new Missed(missed);
-			case RaycastResult.Entity entity -> new Failed(entity);
-			case RaycastResult.WorldBorder worldBorder -> new Failed(worldBorder);
+			case RaycastResult.Entity entity -> new Failed(shooting, entity);
+			case RaycastResult.WorldBorder worldBorder -> new Failed(shooting, worldBorder);
 			case RaycastResult.Block block -> {
 				if (block.isInside) {
-					yield new Failed(block);
+					yield new Failed(shooting, block);
 				}
 
 				Angle bias = getBias(direction, block.face);
 
 				PortalPlacement placement = PortalBumper.findValidPlacement(shooting, level, block.pos, yRot, block.blockPos, block.face, bias, null);
-				yield placement == null ? new Failed(block) : new Success(shooting, level, placement, block);
+				yield placement == null ? new Failed(shooting, block) : new Success(shooting, level, placement, block);
 			}
 		};
 	}

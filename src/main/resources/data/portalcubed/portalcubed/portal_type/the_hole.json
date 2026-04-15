@@ -6,9 +6,9 @@
   "default_secondary_color": 16748062,
   "sounds": {
     "shared": {
-      "open": "minecraft:block.generic.place",
-      "close": "minecraft:block.generic.break",
-      "travel": "minecraft:block.generic.step"
+      "open": "minecraft:block.stone.place",
+      "close": "minecraft:block.stone.break",
+      "travel": "minecraft:block.stone.step"
     }
   },
   "textures": {

@@ -8,7 +8,7 @@
     "shared": {
       "open": "minecraft:item.brush.brushing.generic",
       "close": "minecraft:item.brush.brushing.gravel",
-      "travel": "minecraft:block.generic.step"
+      "travel": "minecraft:block.stone.step"
     }
   },
   "textures": {
