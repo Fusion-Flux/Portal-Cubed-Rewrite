@@ -37,11 +37,8 @@ public interface PortalCubedCodecs {
 				if (components.length != 3) {
 					return DataResult.error(() -> "3 components required");
 				}
-				return DataResult.success(new BlockPos(
-								Integer.parseInt(components[0]),
-								Integer.parseInt(components[1]),
-								Integer.parseInt(components[2])
-				));
+
+				return parseInt(components[0]).flatMap(x -> parseInt(components[1]).flatMap(y -> parseInt(components[2]).map(z -> new BlockPos(x, y, z))));
 			},
 			pos -> pos.getX() + "," + pos.getY() + "," + pos.getZ()
 	);
@@ -163,5 +160,13 @@ public interface PortalCubedCodecs {
 
 	static <T> MapCodec<T> validate(MapCodec<T> codec, Function<T, DataResult<T>> verifier) {
 		return codec.validate(verifier);
+	}
+
+	private static DataResult<Integer> parseInt(String s) {
+		try {
+			return DataResult.success(Integer.parseInt(s));
+		} catch (NumberFormatException e) {
+			return DataResult.error(() -> "Not an integer: " + s);
+		}
 	}
 }
