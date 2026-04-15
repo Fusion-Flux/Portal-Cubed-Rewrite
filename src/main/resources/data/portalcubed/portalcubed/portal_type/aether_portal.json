@@ -10,7 +10,15 @@
       "open": "minecraft:item.flintandsteel.use",
       "cant_open": "minecraft:entity.item.break",
       "close": "minecraft:block.glass.break",
-      "travel": "portalcubed:portal_type.dimension_portal.travel"
+      "travel": "portalcubed:portal_type.dimension_portal.travel",
+      "ambient": {
+        "sound": "minecraft:block.portal.ambient",
+        "delay": {
+          "type": "uniform",
+          "min_inclusive": 100,
+          "max_inclusive": 500
+        }
+      }
     }
   },
   "textures": {

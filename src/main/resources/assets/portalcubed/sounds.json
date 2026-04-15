@@ -1238,7 +1238,7 @@
     "sounds": [
       {
         "name": "portalcubed:portals/default/close_primary",
-        "volume": 0.25
+        "volume": 0.15
       }
     ],
     "subtitle": "subtitles.portalcubed.portal.default.close.primary"
@@ -1247,7 +1247,7 @@
     "sounds": [
       {
         "name": "portalcubed:portals/default/close_secondary",
-        "volume": 0.25
+        "volume": 0.15
       }
     ],
     "subtitle": "subtitles.portalcubed.portal.default.close.secondary"
@@ -1320,11 +1320,11 @@
     "sounds": [
       {
         "name": "portalcubed:portals/portal_1/close_1",
-        "volume": 0.5
+        "volume": 0.15
       },
       {
         "name": "portalcubed:portals/portal_1/close_2",
-        "volume": 0.5
+        "volume": 0.15
       }
     ],
     "subtitle": "subtitles.portalcubed.portal.default.close"
