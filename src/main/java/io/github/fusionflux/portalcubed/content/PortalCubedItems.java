@@ -109,8 +109,11 @@ public class PortalCubedItems {
 			.build();
 
 	public static final FizzleinatorItem FIZZLEINATOR = REGISTRAR.items.create("fizzleinator", FizzleinatorItem::new)
-			.properties(p -> p.rarity(Rarity.EPIC))
-			.properties(p -> p.stacksTo(1))
+			.properties(s -> s
+					.stacksTo(1)
+					.rarity(Rarity.EPIC)
+					.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+			)
 			.build();
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
