@@ -1,5 +1,27 @@
 {
-  "textures": {
-    "particle": "portalcubed:block/portal_barrier"
-  }
+	"format_version": "1.9.0",
+	"credit": "Made by Cart3r using Blockbench.",
+	"textures": {
+		"particle": "portalcubed:block/portal_barrier",
+		"facade": "portalcubed:block/portal_barrier_block"
+	},
+	"elements": [
+		{
+			"name": "translucent",
+			"from": [0, 0, 0],
+			"to": [16, 16, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#facade", "cullface": "north"},
+				"east": {"uv": [15, 15, 16, 16], "texture": "#facade", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#facade"},
+				"west": {"uv": [15, 15, 16, 16], "texture": "#facade", "cullface": "west"},
+				"up": {"uv": [15, 15, 16, 16], "texture": "#facade", "cullface": "up"},
+				"down": {"uv": [15, 15, 16, 16], "texture": "#facade", "cullface": "down"}
+			}
+		}
+	],
+	"display": {},
+	"portalcubed:render_types": {
+		"translucent": ["translucent"]
+	}
 }
