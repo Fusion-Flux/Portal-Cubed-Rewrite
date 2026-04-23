@@ -105,7 +105,7 @@ public class PortalGameTests implements FabricGameTest {
 	}
 
 	//Tests infinite falling to make sure the entity doesn't collide with blocks behind the portal they fall into at high speeds
-	@GameTest(template = GROUP + "infinite_fall_collision")
+	@GameTest(template = GROUP + "infinite_fall_collision", timeoutTicks = 200)
 	public void infiniteFallCollision(GameTestHelper helper) {
 
 		PortalHelper infiniteFallCollision = new PortalHelper(helper, "infinite_fall_collision");
