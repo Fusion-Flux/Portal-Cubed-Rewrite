@@ -1191,7 +1191,8 @@
     "sounds": [
       {
         "name": "portalcubed:portals/default/ambient",
-        "volume": 0.1
+        "volume": 0.2,
+        "attenuation_distance": 6
       }
     ]
   },
@@ -1290,7 +1291,8 @@
     "sounds": [
       {
         "name": "portalcubed:portals/portal_1/ambient",
-        "volume": 0.2
+        "volume": 0.3,
+        "attenuation_distance": 6
       }
     ]
   },
