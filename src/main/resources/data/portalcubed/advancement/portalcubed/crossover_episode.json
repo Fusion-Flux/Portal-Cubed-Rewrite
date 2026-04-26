@@ -10,7 +10,7 @@
       "translate": "advancement.portalcubed.crossover_episode.description"
     },
     "show_toast": true,
-    "announce_to_chat": false,
+    "announce_to_chat": true,
     "hidden": false
   },
   "parent": "portalcubed:portalcubed/hammer",

@@ -12,7 +12,7 @@
     "background": "portalcubed:textures/block/white_half_panel.png",
     "frame": "task",
     "show_toast": true,
-    "announce_to_chat": false,
+    "announce_to_chat": true,
     "hidden": false
   },
   "criteria": {
