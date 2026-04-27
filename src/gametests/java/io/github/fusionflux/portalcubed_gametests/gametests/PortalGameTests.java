@@ -191,6 +191,26 @@ public class PortalGameTests implements FabricGameTest {
 		});
 	}
 
+	//Tests a few known weird edge cases for portal shots, mainly regarding combinations of blocks in the nonsolid tags
+	@GameTest(template = GROUP + "weird_shot_cases")
+	public void weirdShotCases(GameTestHelper helper) {
+
+		PortalHelper chainOnAWall = new PortalHelper(helper, "chain_wall");
+		PortalHelper trapdoorOnAnAzalea = new PortalHelper(helper, "azalea_trapdoor");
+
+		chainOnAWall.primary.shootFrom(new Vec3(6.5, 3, 2.5), Direction.DOWN, 45);
+		trapdoorOnAnAzalea.primary.shootFrom(new Vec3(2.5, 2.85, 0.5), Direction.SOUTH);
+
+		helper.runAfterDelay(20, () ->
+				helper.succeedWhen(() -> {
+					chainOnAWall.primary.assertNotPresent();
+					trapdoorOnAnAzalea.primary.assertNotPresent();
+					//Somehow, this behaves differently between the player/gametest helper and the command.
+					//The command correctly blocks the invalid shots, but the player/gametest helper shooting the same shot does not.
+				})
+		);
+	}
+
 
 	//Tests portals against solid surfaces to make sure the entity traveling through doesn't clip when it shouldn't.  Currently only tests full blocks, could be expanded in the future
 	@GameTest(template = GROUP + "portal_against_solid_blocks")
