@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -15,6 +17,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
+import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
@@ -145,6 +148,7 @@ public class ClientPacketListenerMixin {
 	@Unique
 	@Nullable
 	private static PortalTransform getTransform(Entity entity) {
-		return entity.getTeleportProgressTracker().reverseTransform();
+		Optional<TeleportTracker> tracker = TeleportTracker.of(entity);
+		return tracker.isEmpty() ? null : tracker.get().reverseTransform();
 	}
 }

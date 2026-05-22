@@ -5,8 +5,7 @@ import java.util.Objects;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.github.fusionflux.portalcubed.PortalCubedClient;
-import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
-import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
+import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
@@ -50,11 +49,7 @@ public class EntityDebugRendering {
 					RenderingUtils.renderVec(matrices, vertices, serverEntity.getViewVector(1), serverEntity.getEyePosition(1), Color.RED);
 				}
 
-				TeleportProgressTracker tracker = entity.getTeleportProgressTracker();
-				TrackedTeleport teleport = tracker.currentTeleport();
-				if (teleport != null) {
-					RenderingUtils.renderPlane(matrices, vertices, teleport.threshold, 3f, Color.CYAN);
-				}
+
 			}
 		}
 
@@ -62,8 +57,11 @@ public class EntityDebugRendering {
 	}
 
 	private static void render(Entity entity, PoseStack matrices, MultiBufferSource vertices, Color bounds, Color vel) {
-		RenderingUtils.renderBox(matrices, vertices, entity.getBoundingBox(), bounds);
+		RenderingUtils.renderBox(matrices, vertices, entity.getBoundingBox(), bounds.withAlpha(0.75f));
 		RenderingUtils.renderVec(matrices, vertices, entity.getDeltaMovement(), entity.position(), vel);
+		TeleportTracker.of(entity).map(TeleportTracker::currentTeleport).ifPresent(
+				teleport -> RenderingUtils.renderPlane(matrices, vertices, teleport.threshold, 3f, Color.CYAN)
+		);
 	}
 
 	private static boolean shouldRender(Entity entity, Minecraft mc) {

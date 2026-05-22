@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.mixin.portals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.joml.Vector3d;
 import org.objectweb.asm.Opcodes;
@@ -31,7 +32,7 @@ import io.github.fusionflux.portalcubed.content.portal.collision.PortalCollision
 import io.github.fusionflux.portalcubed.content.portal.collision.RelevantPortals;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
-import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
 import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.AabbObbCollider;
@@ -78,9 +79,11 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	public abstract Pose getPose();
 
 	@Unique
-	private final TeleportProgressTracker teleportProgressTracker = new TeleportProgressTracker((Entity) (Object) this);
-	@Unique
 	private final RelevantPortals relevantPortals = new RelevantPortals((Entity) (Object) this);
+
+	// unfortunately cannot be final, we need to set this after setting this.level.
+	@Unique
+	private Optional<TeleportTracker> teleportTracker;
 
 	@Unique
 	private int portalCollisionRecursionDepth;
@@ -88,6 +91,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void afterInit(CallbackInfo ci) {
 		// make sure this is done after this.level is set
+		this.teleportTracker = TeleportTracker.tryCreate((Entity) (Object) this);
 		this.level().portalManager().listeners().registerTemporary(this.relevantPortals);
 	}
 
@@ -177,8 +181,8 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	}
 
 	@Override
-	public TeleportProgressTracker getTeleportProgressTracker() {
-		return this.teleportProgressTracker;
+	public Optional<TeleportTracker> pc$teleportTracker() {
+		return this.teleportTracker;
 	}
 
 	@Override

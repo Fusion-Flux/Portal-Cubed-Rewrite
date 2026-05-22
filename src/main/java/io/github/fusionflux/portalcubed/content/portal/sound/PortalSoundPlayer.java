@@ -88,7 +88,7 @@ public final class PortalSoundPlayer implements PortalChangeListener {
 		private final PortalSounds.Ambient ambient;
 
 		private AmbientSoundInstance(PortalSounds.Ambient ambient, RandomSource random, Vec3 initialPos) {
-			super(ambient.sound().value(), SoundSource.PLAYERS, random);
+			super(ambient.sound().value(), SoundSource.AMBIENT, random);
 			this.ambient = ambient;
 			this.looping = true;
 			this.setPos(initialPos);

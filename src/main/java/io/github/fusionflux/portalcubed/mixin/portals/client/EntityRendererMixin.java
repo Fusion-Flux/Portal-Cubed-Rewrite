@@ -28,7 +28,7 @@ public class EntityRendererMixin {
 		if (entity.level() instanceof ClientLevel level) {
 			TickRateManager tickRateManager = level.tickRateManager();
 			float tickDelta = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(!tickRateManager.isEntityFrozen(entity));
-			EntityState override = entity.getTeleportProgressTracker().getEntityStateOverride(tickDelta);
+			EntityState override = EntityState.getOverride(entity, tickDelta);
 			Vec3 position = entity.position();
 			Vec3 interpolatedPosition = override != null ? override.pos() : new Vec3(
 					Mth.lerp(tickDelta, entity.xOld, position.x),
@@ -53,7 +53,7 @@ public class EntityRendererMixin {
 			at = @At("RETURN")
 	)
 	private EntityRenderState applyMidTeleportSubTickMotion(EntityRenderState state, Entity entity, float partialTicks) {
-		EntityState override = entity.getTeleportProgressTracker().getEntityStateOverride(partialTicks);
+		EntityState override = EntityState.getOverride(entity, partialTicks);
 		if (override != null) {
 			override.apply(state);
 		}

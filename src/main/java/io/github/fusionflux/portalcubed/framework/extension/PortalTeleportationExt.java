@@ -1,7 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
+import java.util.Optional;
+
 import io.github.fusionflux.portalcubed.content.portal.collision.RelevantPortals;
-import io.github.fusionflux.portalcubed.content.portal.sync.TeleportProgressTracker;
+import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 
 public interface PortalTeleportationExt {
@@ -13,11 +15,11 @@ public interface PortalTeleportationExt {
 		throw new AbstractMethodError();
 	}
 
-	// no prefix needed, unique descriptors
-
-	default TeleportProgressTracker getTeleportProgressTracker() {
+	default Optional<TeleportTracker> pc$teleportTracker() {
 		throw new AbstractMethodError();
 	}
+
+	// no prefix needed, unique descriptors
 
 	default RelevantPortals relevantPortals() {
 		throw new AbstractMethodError();

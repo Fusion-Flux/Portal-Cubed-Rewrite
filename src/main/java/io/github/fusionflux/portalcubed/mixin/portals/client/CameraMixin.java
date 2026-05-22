@@ -44,7 +44,7 @@ public abstract class CameraMixin {
 			)
 	)
 	private void applyMidTeleportSubTickMotion(Camera instance, double x, double y, double z, Operation<Void> original, @Local(argsOnly = true) Entity entity, @Local(argsOnly = true) float tickDelta) {
-		EntityState override = entity.getTeleportProgressTracker().getEntityStateOverride(tickDelta);
+		EntityState override = EntityState.getOverride(entity, tickDelta);
 		if (override != null) {
 			x = override.pos().x;
 			y = override.pos().y + Mth.lerp(tickDelta, this.eyeHeightOld, this.eyeHeight);

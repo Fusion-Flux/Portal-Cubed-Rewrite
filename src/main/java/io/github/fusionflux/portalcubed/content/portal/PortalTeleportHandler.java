@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
@@ -10,9 +8,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
-import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
-import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
@@ -84,13 +80,10 @@ public class PortalTeleportHandler {
 		if (entity instanceof Player player && player.isLocalPlayer()) {
 			// players are handled specially. All the logic is client side and the server is notified.
 			// server does some verification and tells the client if the teleport was invalid.
-			PortalCubedPackets.sendToServer(ClientTeleportedPacket.of(player, path));
-			return true;
-		}
-
-		if (!level.isClientSide) {
+			PortalCubedPackets.sendToServer(ClientTeleportedPacket.of(path));
+		} else if (!level.isClientSide) {
 			// sync to clients
-			PortalTeleportPacket packet = new PortalTeleportPacket(entity.getId(), buildTeleports(path));
+			PortalTeleportPacket packet = PortalTeleportPacket.of(entity, path);
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);
 		}
 
@@ -111,7 +104,7 @@ public class PortalTeleportHandler {
 		return entity.oldPosition().add(posToCenter);
 	}
 
-	private static void dispatchGameEvents(Entity entity, PortalPath path) {
+	public static void dispatchGameEvents(Entity entity, PortalPath path) {
 		Level level = entity.level();
 		GameEvent.Context context = GameEvent.Context.of(entity);
 
@@ -131,20 +124,8 @@ public class PortalTeleportHandler {
 		}
 	}
 
-	private static List<TrackedTeleport> buildTeleports(PortalPath path) {
-		List<TrackedTeleport> teleports = new ArrayList<>();
-
-		for (PortalPath.Entry entry : path.entries()) {
-			SinglePortalTransform transform = entry.createTransform();
-			Portal entered = entry.entered().reference().get();
-			teleports.add(new TrackedTeleport(entered.plane, transform));
-		}
-
-		return teleports;
-	}
-
 	public static boolean cannotTeleport(Entity entity) {
-		return ignoresPortalModifiedCollision(entity) || !entity.isEffectiveAi();
+		return ignoresPortalModifiedCollision(entity) || !entity.isEffectiveAi() || entity instanceof ServerPlayer;
 	}
 
 	public static boolean ignoresPortalModifiedCollision(@Nullable Entity entity) {

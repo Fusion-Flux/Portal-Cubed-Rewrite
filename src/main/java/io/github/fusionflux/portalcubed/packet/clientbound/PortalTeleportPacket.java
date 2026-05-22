@@ -1,27 +1,31 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
-import java.util.List;
+import org.slf4j.Logger;
 
-import io.github.fusionflux.portalcubed.PortalCubed;
-import io.github.fusionflux.portalcubed.content.portal.sync.TrackedTeleport;
+import com.mojang.logging.LogUtils;
+
+import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
+import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
-public record PortalTeleportPacket(int entityId, List<TrackedTeleport> teleports) implements ClientboundPacket {
+public record PortalTeleportPacket(int entityId, PortalPath.Serialized path) implements ClientboundPacket {
 	public static final StreamCodec<ByteBuf, PortalTeleportPacket> CODEC = StreamCodec.composite(
 			ByteBufCodecs.VAR_INT, PortalTeleportPacket::entityId,
-			TrackedTeleport.CODEC.apply(ByteBufCodecs.list()), PortalTeleportPacket::teleports,
+			PortalPath.Serialized.STREAM_CODEC, PortalTeleportPacket::path,
 			PortalTeleportPacket::new
 	);
+
+	private static final Logger logger = LogUtils.getLogger();
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
@@ -31,12 +35,21 @@ public record PortalTeleportPacket(int entityId, List<TrackedTeleport> teleports
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayNetworking.Context ctx) {
-		AbstractClientPlayer player = ctx.player();
-		Entity entity = player.clientLevel.getEntity(this.entityId);
-		if (entity != null) {
-			entity.getTeleportProgressTracker().addTeleports(this.teleports);
-		} else {
-			PortalCubed.LOGGER.warn("Received portal teleport for unknown entity: {}", this.entityId);
+		Entity entity = ctx.player().clientLevel.getEntity(this.entityId);
+		if (entity == null) {
+			logger.warn("Ignoring portal teleport for unknown entity: {}", this.entityId);
+			return;
 		}
+
+		if (entity instanceof Player player && player.isLocalPlayer()) {
+			logger.warn("Ignoring portal teleport for local player");
+			return;
+		}
+
+		TeleportTracker.getOrThrow(entity).addTeleports(this.path);
+	}
+
+	public static PortalTeleportPacket of(Entity entity, PortalPath path) {
+		return new PortalTeleportPacket(entity.getId(), path.serialize());
 	}
 }

@@ -63,7 +63,7 @@ public class CrossPortalEntityRenderer {
 			TickRateManager tickRateManager = this.world.tickRateManager();
 			float tickDelta = deltaTracker.getGameTimeDeltaPartialTick(!tickRateManager.isEntityFrozen(entity));
 
-			EntityState override = entity.getTeleportProgressTracker().getEntityStateOverride(tickDelta);
+			EntityState override = EntityState.getOverride(entity, tickDelta);
 			Vec3 position = override != null ? override.pos() : new Vec3(
 					Mth.lerp(tickDelta, entity.xOld, entity.getX()),
 					Mth.lerp(tickDelta, entity.yOld, entity.getY()),

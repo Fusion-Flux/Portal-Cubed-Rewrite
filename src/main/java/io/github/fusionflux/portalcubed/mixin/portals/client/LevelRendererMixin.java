@@ -145,7 +145,7 @@ public class LevelRendererMixin {
 											   PoseStack poseStack, MultiBufferSource bufferSource, CallbackInfo ci,
 											   @Local(ordinal = 3) LocalDoubleRef x, @Local(ordinal = 4) LocalDoubleRef y,
 											   @Local(ordinal = 5) LocalDoubleRef z) {
-		EntityState override = entity.getTeleportProgressTracker().getEntityStateOverride(partialTicks);
+		EntityState override = EntityState.getOverride(entity, partialTicks);
 		if (override != null) {
 			x.set(override.pos().x);
 			y.set(override.pos().y);

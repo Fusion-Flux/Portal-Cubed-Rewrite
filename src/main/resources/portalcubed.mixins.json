@@ -59,6 +59,7 @@
     "portals.ItemMixin",
     "portals.LivingEntityMixin",
     "portals.PlayerMixin",
+    "portals.ServerGamePacketListenerImplMixin",
     "portals.ServerGamePacketListenerInteractHandlerMixin",
     "portals.ServerLevelMixin",
     "portals.ShulkerBoxBlockEntityMixin",

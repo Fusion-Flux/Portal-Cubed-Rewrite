@@ -1,5 +1,10 @@
 package io.github.fusionflux.portalcubed.content.portal.sync;
 
+import java.util.Optional;
+
+import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -33,5 +38,11 @@ public record EntityState(Vec3 pos, Rotations rotations) {
 
 	public static EntityState captureOld(Entity entity) {
 		return new EntityState(entity.oldPosition(), new Rotations(entity.xRotO, entity.yRotO, 0));
+	}
+
+	@Nullable
+	public static EntityState getOverride(Entity entity, float partialTicks) {
+		Optional<TeleportTracker> tracker = TeleportTracker.of(entity);
+		return tracker.isEmpty() ? null : tracker.get().getEntityStateOverride(partialTicks);
 	}
 }

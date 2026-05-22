@@ -1,8 +1,10 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import com.mojang.logging.LogUtils;
+
+import io.github.fusionflux.portalcubed.content.portal.sync.ForceEntitySyncPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
 import io.netty.buffer.ByteBuf;
@@ -10,7 +12,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -21,7 +22,7 @@ public record RequestEntitySyncPacket(int entityId) implements ServerboundPacket
 			RequestEntitySyncPacket::new
 	);
 
-	private static final Logger logger = LoggerFactory.getLogger(RequestEntitySyncPacket.class);
+	private static final Logger logger = LogUtils.getLogger();
 
 	public RequestEntitySyncPacket(Entity entity) {
 		this(entity.getId());
@@ -42,6 +43,6 @@ public record RequestEntitySyncPacket(int entityId) implements ServerboundPacket
 			return;
 		}
 
-		player.connection.send(ClientboundEntityPositionSyncPacket.of(entity));
+		PortalCubedPackets.sendToClient(player, ForceEntitySyncPacket.of(entity));
 	}
 }

@@ -19,6 +19,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -132,6 +133,13 @@ public final class SinglePortalTransform implements PortalTransform {
 		// teleport
 		Vec3 newPos = this.applyAbsolute(center).add(centerToPos);
 		entity.setPos(newPos);
+
+		if (entity instanceof ServerPlayer player) {
+			// this needs to be done manually for some reason.
+			// vanilla calls this in places where the player normally moves, instead of just doing it automatically.
+			// this might cause chunk tracking to be incorrect in some cases, but I don't care enough to investigate, not my bug.
+			player.serverLevel().getChunkSource().move(player);
+		}
 
 		// rotate
 		Rotations newRotations = this.apply(entity.getXRot(), entity.getYRot());
