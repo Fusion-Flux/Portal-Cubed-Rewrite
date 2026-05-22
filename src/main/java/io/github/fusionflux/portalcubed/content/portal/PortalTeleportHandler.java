@@ -26,7 +26,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 
 public class PortalTeleportHandler {
-	public static final double MIN_OUTPUT_VELOCITY = 0.25;
+	public static final double MIN_OUTPUT_VELOCITY = 0.4;
 
 	/// Called by mixins when an entity is about to move relatively.
 	/// Responsible for finding and teleporting through portals.

@@ -34,6 +34,8 @@ public final class SinglePortalTransform implements PortalTransform {
 			SinglePortalTransform::new
 	);
 
+	public static final Vec3 UP = new Vec3(0, 1, 0);
+
 	public final Vec3 inOrigin;
 	public final Quaternionfc inRot;
 	public final Quaternionfc inRotInverse;
@@ -188,15 +190,30 @@ public final class SinglePortalTransform implements PortalTransform {
 		entity.applyAdditionalTransforms(this);
 
 		// reorient velocity
-		Vec3 newVel = this.applyRelative(entity.getDeltaMovement());
-		// have a minimum exit velocity, for fun
-		// only apply when new vel is facing upwards
-		if (!wasGrounded && newVel.y > 0 && newVel.length() < PortalTeleportHandler.MIN_OUTPUT_VELOCITY) {
-			newVel = newVel.normalize().scale(PortalTeleportHandler.MIN_OUTPUT_VELOCITY);
+		Vec3 velocity = entity.getDeltaMovement();
+		Vec3 newVel = this.reorientVelocity(velocity, wasGrounded);
+		entity.setDeltaMovement(newVel);
+
+		// force a sync
+		entity.hasImpulse = true;
+	}
+
+	private Vec3 reorientVelocity(Vec3 velocity, boolean wasGrounded) {
+		Vec3 reoriented = this.applyRelative(velocity);
+
+		// have a minimum exit velocity, for fun.
+		// this makes entities that fall into a pair of upwards-facing portals bounce up to a minimum height.
+		if (!wasGrounded && reoriented.length() < PortalTeleportHandler.MIN_OUTPUT_VELOCITY) {
+			// only apply when new velocity is facing mostly upwards
+			Vec3 normalized = reoriented.normalize();
+			double dot = normalized.dot(UP);
+
+			if (dot > 0.9) {
+				return normalized.scale(PortalTeleportHandler.MIN_OUTPUT_VELOCITY);
+			}
 		}
 
-		entity.setDeltaMovement(newVel);
-		entity.hasImpulse = true;
+		return reoriented;
 	}
 
 	public static Quaternionf rotate180(Quaternionfc rotation) {
