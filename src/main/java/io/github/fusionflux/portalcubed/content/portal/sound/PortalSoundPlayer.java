@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.portal.sound;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
@@ -21,11 +19,9 @@ import net.minecraft.world.phys.Vec3;
 
 public final class PortalSoundPlayer implements PortalChangeListener {
 	private final ClientLevel level;
-	private final Map<PortalReference, AmbientSoundInstance> ambientSounds;
 
 	public PortalSoundPlayer(ClientLevel level) {
 		this.level = level;
-		this.ambientSounds = new HashMap<>();
 	}
 
 	@Override
@@ -35,9 +31,8 @@ public final class PortalSoundPlayer implements PortalChangeListener {
 
 		getSound(reference.id, portal, PortalSounds.SoundSet::ambient).ifPresent(sound -> {
 			RandomSource random = RandomSource.create(this.level.random.nextLong());
-			AmbientSoundInstance instance = new AmbientSoundInstance(sound, random, portal.origin());
+			AmbientSoundInstance instance = new AmbientSoundInstance(reference, sound, random);
 			Minecraft.getInstance().getSoundManager().play(instance);
-			this.ambientSounds.put(reference, instance);
 		});
 	}
 
@@ -51,21 +46,11 @@ public final class PortalSoundPlayer implements PortalChangeListener {
 
 		this.tryPlay(reference.id, oldPortal, PortalSounds.SoundSet::close);
 		this.tryPlay(reference.id, reference.get(), PortalSounds.SoundSet::open);
-
-		AmbientSoundInstance ambientSound = this.ambientSounds.get(reference);
-		if (ambientSound != null) {
-			ambientSound.setPos(newPos);
-		}
 	}
 
 	@Override
 	public void portalRemoved(PortalReference reference, Portal portal) {
 		this.tryPlay(reference.id, portal, PortalSounds.SoundSet::close);
-
-		AmbientSoundInstance ambientSound = this.ambientSounds.remove(reference);
-		if (ambientSound != null) {
-			Minecraft.getInstance().getSoundManager().stop(ambientSound);
-		}
 	}
 
 	private void tryPlay(PortalId id, Portal portal, SoundGetter<Holder<SoundEvent>> getter) {
@@ -85,22 +70,28 @@ public final class PortalSoundPlayer implements PortalChangeListener {
 	}
 
 	private static final class AmbientSoundInstance extends AbstractTickableSoundInstance implements NonTeleportableSoundInstance {
+		private final PortalReference portal;
 		private final PortalSounds.Ambient ambient;
 
-		private AmbientSoundInstance(PortalSounds.Ambient ambient, RandomSource random, Vec3 initialPos) {
+		private AmbientSoundInstance(PortalReference portal, PortalSounds.Ambient ambient, RandomSource random) {
 			super(ambient.sound().value(), SoundSource.AMBIENT, random);
+			this.portal	= portal;
 			this.ambient = ambient;
 			this.looping = true;
-			this.setPos(initialPos);
+			this.updatePos();
 		}
 
 		@Override
 		public void tick() {
-			// we need to implement TickableSoundInstance for the sound engine to notice
-			// when the position updates, but we don't actually need to do anything here.
+			if (this.portal.isRemoved()) {
+				this.stop();
+			} else {
+				this.updatePos();
+			}
 		}
 
-		private void setPos(Vec3 pos) {
+		private void updatePos() {
+			Vec3 pos = this.portal.get().origin();
 			this.x = pos.x;
 			this.y = pos.y;
 			this.z = pos.z;
