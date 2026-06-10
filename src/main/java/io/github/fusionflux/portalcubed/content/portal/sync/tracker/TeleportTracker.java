@@ -148,6 +148,11 @@ public abstract sealed class TeleportTracker permits ClientTeleportTracker, Serv
 		return this.teleports.peek();
 	}
 
+	/// @return true if a teleport is currently being tracked
+	public boolean isTracking() {
+		return this.currentTeleport() != null;
+	}
+
 	/**
 	 * Transform encompassing transforms of all teleports, inverted, in reverse order.
 	 */

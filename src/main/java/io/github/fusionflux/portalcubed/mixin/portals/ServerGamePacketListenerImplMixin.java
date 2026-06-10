@@ -1,11 +1,13 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
@@ -53,5 +55,22 @@ public class ServerGamePacketListenerImplMixin {
 		Rotations transformedRotations = transform.apply(rotations);
 		yRot.set(transformedRotations.getWrappedY());
 		xRot.set(transformedRotations.getWrappedX());
+	}
+
+	@ModifyExpressionValue(
+			method = "handleMovePlayer",
+			at = @At(
+					value = "FIELD",
+					target = "Lnet/minecraft/server/level/ServerPlayer;noPhysics:Z",
+					opcode = Opcodes.GETFIELD
+			)
+	)
+	private boolean disableChecksWhenTrackingTeleports(boolean noPhysics) {
+		// under normal conditions, if the player tries to move into collision, they're teleported back to a known valid spot.
+		// teleport tracking works by allowing the server player to move into the blocks behind the portal, where they will then be
+		// teleported to the correct location by the tracker at the end of the tick. these two things can conflict in some cases,
+		// causing the player to get snapped back to the portal entrance upon teleporting.
+		// we deal with this by just disabling the check when currently tracking a teleport.
+		return noPhysics || TeleportTracker.getOrThrow(this.player).isTracking();
 	}
 }
