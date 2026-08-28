@@ -22,7 +22,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.TriState;
 import net.minecraft.world.level.Level;
@@ -88,7 +88,7 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 		public void configure(ServerPlayer player, @Nullable BlockEntity blockEntity) {
 			if (blockEntity instanceof SmallSignageBlockEntity signageBlock) {
 				Level world = signageBlock.getLevel();
-				Set<ResourceLocation> changedSettings = new HashSet<>();
+				Set<Identifier> changedSettings = new HashSet<>();
 
 				if (this.enabled != TriState.DEFAULT && world != null) {
 					SmallSignageBlock.setQuadrant(world, this.signagePos, this.quadrant, this.enabled.toBoolean(true));

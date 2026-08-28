@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +31,7 @@ public class PortalGunModel implements ItemModel {
 			int seed
 	) {
 		PortalGunSettings portalGun = PortalGunItem.getGunSettings(stack);
-		Optional<ResourceLocation> skinModel = Optional.ofNullable(portalGun)
+		Optional<Identifier> skinModel = Optional.ofNullable(portalGun)
 				.map(PortalGunSettings::skin)
 				.flatMap(skin -> Optional.ofNullable(skin.itemModel()));
 		if (skinModel.isPresent()) {

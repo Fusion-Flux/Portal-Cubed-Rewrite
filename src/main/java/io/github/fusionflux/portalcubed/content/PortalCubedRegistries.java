@@ -9,12 +9,12 @@ import io.github.fusionflux.portalcubed.content.portal.placement.validator.Porta
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 
 public class PortalCubedRegistries {
 	// static
-	public static final Registry<ResourceLocation> TEST_ELEMENT_SETTINGS = simple("test_element_settings");
+	public static final Registry<Identifier> TEST_ELEMENT_SETTINGS = simple("test_element_settings");
 	public static final Registry<DisintegrateEffect> DISINTEGRATE_EFFECT = simple("disintegrate_effect");
 	public static final Registry<PortalValidator.Type<?>> PORTAL_VALIDATOR_TYPE = simple("portal_validator_type");
 	// dynamic

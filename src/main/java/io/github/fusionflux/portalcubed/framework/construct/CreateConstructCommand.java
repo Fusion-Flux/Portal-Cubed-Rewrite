@@ -21,7 +21,7 @@ import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -39,7 +39,7 @@ public class CreateConstructCommand {
 										argument("id", ResourceLocationArgument.id()).executes(ctx -> {
 											BlockPos from = BlockPosArgument.getLoadedBlockPos(ctx, "from");
 											BlockPos to = BlockPosArgument.getLoadedBlockPos(ctx, "to");
-											ResourceLocation id = ResourceLocationArgument.getId(ctx, "id");
+											Identifier id = ResourceLocationArgument.getId(ctx, "id");
 
 											BlockPos origin = new BlockPos(
 													Math.min(from.getX(), to.getX()),

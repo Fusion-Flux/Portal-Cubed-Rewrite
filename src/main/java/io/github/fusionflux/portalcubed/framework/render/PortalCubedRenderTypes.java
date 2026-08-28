@@ -12,12 +12,12 @@ import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.TriState;
 
 @SuppressWarnings("deprecation")
 public interface PortalCubedRenderTypes {
-	BiFunction<RenderStateShard.DepthTestStateShard, ResourceLocation, RenderType> PORTAL_STENCIL = Util.memoize((depthTest, texture) -> RenderType.create(
+	BiFunction<RenderStateShard.DepthTestStateShard, Identifier, RenderType> PORTAL_STENCIL = Util.memoize((depthTest, texture) -> RenderType.create(
 			"portalcubed:portal_stencil",
 			DefaultVertexFormat.POSITION_TEX,
 			VertexFormat.Mode.QUADS,
@@ -32,7 +32,7 @@ public interface PortalCubedRenderTypes {
 					.createCompositeState(false)
 	));
 
-	Function<ResourceLocation, RenderType> EMISSIVE = Util.memoize(texture -> RenderType.create(
+	Function<Identifier, RenderType> EMISSIVE = Util.memoize(texture -> RenderType.create(
 			"portalcubed:emissive",
 			DefaultVertexFormat.BLOCK,
 			VertexFormat.Mode.QUADS,
@@ -47,7 +47,7 @@ public interface PortalCubedRenderTypes {
 					.createCompositeState(false)
 	));
 
-	Function<ResourceLocation, RenderType> TRACER = Util.memoize(texture -> RenderType.create(
+	Function<Identifier, RenderType> TRACER = Util.memoize(texture -> RenderType.create(
 			"portalcubed:tracer",
 			DefaultVertexFormat.BLOCK,
 			VertexFormat.Mode.QUADS,
@@ -106,15 +106,15 @@ public interface PortalCubedRenderTypes {
 					.createCompositeState(false)
 	);
 
-	static RenderType portalStencil(RenderStateShard.DepthTestStateShard depthTest, ResourceLocation texture) {
+	static RenderType portalStencil(RenderStateShard.DepthTestStateShard depthTest, Identifier texture) {
 		return PORTAL_STENCIL.apply(depthTest, texture);
 	}
 
-	static RenderType emissive(ResourceLocation texture) {
+	static RenderType emissive(Identifier texture) {
 		return EMISSIVE.apply(texture);
 	}
 
-	static RenderType tracer(ResourceLocation texture) {
+	static RenderType tracer(Identifier texture) {
 		return TRACER.apply(texture);
 	}
 }

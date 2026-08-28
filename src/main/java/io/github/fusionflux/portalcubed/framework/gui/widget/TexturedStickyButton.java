@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class TexturedStickyButton extends AbstractWidget {
 	private final Textures textures;
@@ -57,8 +57,8 @@ public class TexturedStickyButton extends AbstractWidget {
 	protected void updateWidgetNarration(NarrationElementOutput builder) {
 	}
 
-	public record Textures(ResourceLocation texture, ResourceLocation hovered, ResourceLocation selected) {
-		public ResourceLocation choose(boolean hovered, boolean selected) {
+	public record Textures(Identifier texture, Identifier hovered, Identifier selected) {
+		public Identifier choose(boolean hovered, boolean selected) {
 			if (selected) {
 				return this.selected;
 			} else if (hovered) {
@@ -68,7 +68,7 @@ public class TexturedStickyButton extends AbstractWidget {
 			}
 		}
 
-		public static Textures noHover(ResourceLocation texture, ResourceLocation selected) {
+		public static Textures noHover(Identifier texture, Identifier selected) {
 			return new Textures(texture, texture, selected);
 		}
 	}

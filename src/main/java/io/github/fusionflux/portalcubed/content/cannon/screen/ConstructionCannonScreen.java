@@ -28,7 +28,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
@@ -186,11 +186,11 @@ public class ConstructionCannonScreen extends Screen {
 
 		public final String name = this.name().toLowerCase(Locale.ROOT);
 		public final Component title = translate("tab." + this.name);
-		public final ResourceLocation background = PortalCubed.id("textures/gui/container/construction_cannon/" + this.name + "_tab.png");
+		public final Identifier background = PortalCubed.id("textures/gui/container/construction_cannon/" + this.name + "_tab.png");
 		public final TexturedStickyButton.Textures textures = TexturedStickyButton.Textures.noHover(
 				PortalCubed.id("construction_cannon/tab_" + this.name + "_unselected"),
 				PortalCubed.id("construction_cannon/tab_" + this.name + "_selected")
 		);
-		public final ResourceLocation scroller = PortalCubed.id("construction_cannon/" + this.name + "_tab/" + "scroller");
+		public final Identifier scroller = PortalCubed.id("construction_cannon/" + this.name + "_tab/" + "scroller");
 	}
 }

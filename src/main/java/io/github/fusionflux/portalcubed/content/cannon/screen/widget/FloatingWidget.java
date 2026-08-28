@@ -4,12 +4,12 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TranslucentSpriteWidget;
 import net.minecraft.client.gui.layouts.LayoutElement;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class FloatingWidget {
 	public static LayoutElement create(String name, LayoutElement element) {
-		ResourceLocation border = PortalCubed.id("construction_cannon/" + name + "/border");
-		ResourceLocation background = PortalCubed.id("construction_cannon/" + name + "/background");
+		Identifier border = PortalCubed.id("construction_cannon/" + name + "/border");
+		Identifier background = PortalCubed.id("construction_cannon/" + name + "/background");
 
 		PanelLayout layout = new PanelLayout();
 

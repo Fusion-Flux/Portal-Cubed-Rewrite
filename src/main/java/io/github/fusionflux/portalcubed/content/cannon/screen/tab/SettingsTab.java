@@ -18,7 +18,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class SettingsTab {
@@ -27,7 +27,7 @@ public class SettingsTab {
 	public static final int SETTING_TOGGLE_SIZE = 13;
 	public static final Component PREVIEW_OPACITY_SLIDER_TITLE = ConstructionCannonScreen.translate("tab.settings.preview_opacity");
 	public static final String PREVIEW_OPACITY_SLIDER_DESCRIPTION = "tab.settings.preview_opacity.description";
-	public static final ResourceLocation PREVIEW_OPACITY_SLIDER_SPRITE = PortalCubed.id("construction_cannon/settings_tab/preview_opacity_slider");
+	public static final Identifier PREVIEW_OPACITY_SLIDER_SPRITE = PortalCubed.id("construction_cannon/settings_tab/preview_opacity_slider");
 	public static final int PREVIEW_OPACITY_SLIDER_WIDTH = 158;
 
 	public static void init(CannonSettingsHolder settings, PanelLayout layout) {
@@ -88,7 +88,7 @@ public class SettingsTab {
 		public final String name = this.name().toLowerCase(Locale.ROOT);
 		public final Component title = ConstructionCannonScreen.translate("tab.settings." + this.name);
 		public final Component description = ConstructionCannonScreen.translate("tab.settings." + this.name + ".description");
-		public final ResourceLocation sprite = PortalCubed.id("construction_cannon/settings_tab/" + this.name + "_toggle");
+		public final Identifier sprite = PortalCubed.id("construction_cannon/settings_tab/" + this.name + "_toggle");
 		public final Predicate<CannonSettings> settingGetter;
 		public final BiFunction<CannonSettings.Builder, Boolean, CannonSettings.Builder> settingSetter;
 

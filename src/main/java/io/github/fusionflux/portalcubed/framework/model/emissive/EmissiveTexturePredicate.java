@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ResourceLocationPattern;
 import net.minecraft.util.StringRepresentable;
 
-public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
+public interface EmissiveTexturePredicate extends Predicate<Identifier> {
 	Codec<EmissiveTexturePredicate> CODEC = Codec.withAlternative(
 			Type.CODEC.dispatch(EmissiveTexturePredicate::type, Type::codec),
 			Single.CODEC
@@ -20,11 +20,11 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 
 	Type type();
 
-	record Single(ResourceLocation id) implements EmissiveTexturePredicate {
-		public static final Codec<Single> CODEC = ResourceLocation.CODEC.xmap(Single::new, Single::id);
+	record Single(Identifier id) implements EmissiveTexturePredicate {
+		public static final Codec<Single> CODEC = Identifier.CODEC.xmap(Single::new, Single::id);
 
 		@Override
-		public boolean test(ResourceLocation resourceLocation) {
+		public boolean test(Identifier resourceLocation) {
 			return resourceLocation.equals(this.id);
 		}
 
@@ -34,11 +34,11 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 		}
 	}
 
-	record Folder(ResourceLocation id) implements EmissiveTexturePredicate {
-		public static final Codec<Folder> CODEC = ResourceLocation.CODEC.xmap(Folder::new, Folder::id);
+	record Folder(Identifier id) implements EmissiveTexturePredicate {
+		public static final Codec<Folder> CODEC = Identifier.CODEC.xmap(Folder::new, Folder::id);
 
 		@Override
-		public boolean test(ResourceLocation resourceLocation) {
+		public boolean test(Identifier resourceLocation) {
 			return resourceLocation.getNamespace().equals(this.id.getNamespace()) && resourceLocation.getPath().startsWith(this.id.getPath() + "/");
 		}
 
@@ -52,7 +52,7 @@ public interface EmissiveTexturePredicate extends Predicate<ResourceLocation> {
 		public static final Codec<Pattern> CODEC = ResourceLocationPattern.CODEC.xmap(Pattern::new, Pattern::pattern);
 
 		@Override
-		public boolean test(ResourceLocation resourceLocation) {
+		public boolean test(Identifier resourceLocation) {
 			return this.pattern.locationPredicate().test(resourceLocation);
 		}
 

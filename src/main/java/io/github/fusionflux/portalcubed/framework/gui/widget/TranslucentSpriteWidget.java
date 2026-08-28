@@ -12,12 +12,12 @@ import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class TranslucentSpriteWidget extends AbstractWidget {
-	private final ResourceLocation sprite;
+	private final Identifier sprite;
 
-	public TranslucentSpriteWidget(int width, int height, ResourceLocation sprite) {
+	public TranslucentSpriteWidget(int width, int height, Identifier sprite) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 		this.sprite = sprite;
 		this.active = false;

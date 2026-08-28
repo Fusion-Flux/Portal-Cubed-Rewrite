@@ -10,7 +10,7 @@ import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringRepresentable;
 
 public class ValueSelectButton<T extends StringRepresentable> extends AbstractWidget {
@@ -34,7 +34,7 @@ public class ValueSelectButton<T extends StringRepresentable> extends AbstractWi
 		if (widgetValue == valueGetter.get()) active = false;
 	}
 
-	public ValueSelectButton(int width, int height, ResourceLocation baseSprite, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectButton<T>> widgetGetter) {
+	public ValueSelectButton(int width, int height, Identifier baseSprite, T widgetValue, Supplier<T> valueGetter, Consumer<T> valueSetter, Function<T, ValueSelectButton<T>> widgetGetter) {
 		this(width, height, new WidgetSprites(
 			getSpriteId(baseSprite, widgetValue, ""),
 			getSpriteId(baseSprite, widgetValue, "pressed"),
@@ -43,7 +43,7 @@ public class ValueSelectButton<T extends StringRepresentable> extends AbstractWi
 		), widgetValue, valueGetter, valueSetter, widgetGetter);
 	}
 
-	private static ResourceLocation getSpriteId(ResourceLocation base, StringRepresentable value, String suffix) {
+	private static Identifier getSpriteId(Identifier base, StringRepresentable value, String suffix) {
 		base = base.withSuffix("_" + value.getSerializedName());
 		return suffix.isEmpty() ? base : base.withSuffix("_" + suffix);
 	}

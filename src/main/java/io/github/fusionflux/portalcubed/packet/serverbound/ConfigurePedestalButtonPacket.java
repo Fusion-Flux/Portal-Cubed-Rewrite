@@ -1,14 +1,13 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
-import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
-import io.github.fusionflux.portalcubed.content.PortalCubedTestElementSettings;
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraft.server.level.ServerPlayer;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
+import io.github.fusionflux.portalcubed.content.PortalCubedTestElementSettings;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlock.Offset;
 import io.github.fusionflux.portalcubed.content.button.pedestal.PedestalButtonBlockEntity;
@@ -21,13 +20,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pressTime, Offset offset, boolean base) implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, ConfigurePedestalButtonPacket> CODEC = StreamCodec.composite(
@@ -56,7 +53,7 @@ public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pres
 		Level world = player.level();
 		if (world.getBlockEntity(this.pedestalButtonPos) instanceof PedestalButtonBlockEntity pedestalButton) {
 			BlockState state = world.getBlockState(this.pedestalButtonPos);
-			Set<ResourceLocation> changedSettings = new HashSet<>();
+			Set<Identifier> changedSettings = new HashSet<>();
 
 			if (this.offset != state.getValue(PedestalButtonBlock.OFFSET)) {
 				state = state.setValue(PedestalButtonBlock.OFFSET, this.offset);

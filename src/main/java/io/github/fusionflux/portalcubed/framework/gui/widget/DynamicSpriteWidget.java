@@ -13,13 +13,13 @@ import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class DynamicSpriteWidget<T> extends AbstractWidget {
 	private final Supplier<T> valueGetter;
-	private final Function<T, ResourceLocation> spriteGetter;
+	private final Function<T, Identifier> spriteGetter;
 
-	public DynamicSpriteWidget(int width, int height, Supplier<T> valueGetter, Function<T, ResourceLocation> spriteGetter) {
+	public DynamicSpriteWidget(int width, int height, Supplier<T> valueGetter, Function<T, Identifier> spriteGetter) {
 		super(0, 0, width, height, CommonComponents.EMPTY);
 		this.valueGetter = valueGetter;
 		this.spriteGetter = spriteGetter;

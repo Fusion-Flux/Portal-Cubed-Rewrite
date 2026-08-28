@@ -19,7 +19,7 @@ import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
@@ -43,8 +43,8 @@ public abstract class ConstructSet {
 			return bySize;
 
 		// use ID as fallback
-		ResourceLocation aId = ConstructManager.INSTANCE.getId(a);
-		ResourceLocation bId = ConstructManager.INSTANCE.getId(b);
+		Identifier aId = ConstructManager.INSTANCE.getId(a);
+		Identifier bId = ConstructManager.INSTANCE.getId(b);
 		// sort nulls before non-nulls, just in case
 		if (aId == null) {
 			return bId == null ? 0 : 1;
@@ -76,7 +76,7 @@ public abstract class ConstructSet {
 	public void appendTooltip(AdvancedTooltip.Builder builder) {
 	}
 
-	public static Component getName(ResourceLocation id) {
+	public static Component getName(Identifier id) {
 		String key = "construct_set." + id.toString().replace(':', '.').replace('/', '.');
 		return Component.translatable(key);
 	}

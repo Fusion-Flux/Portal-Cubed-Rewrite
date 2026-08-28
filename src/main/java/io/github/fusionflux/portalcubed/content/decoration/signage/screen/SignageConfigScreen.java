@@ -26,14 +26,14 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public abstract class SignageConfigScreen extends Screen {
 	public static final int WIDTH = 176;
 	public static final int HEIGHT = 136;
-	public static final ResourceLocation SCROLLER = PortalCubed.id("signage/scroller");
+	public static final Identifier SCROLLER = PortalCubed.id("signage/scroller");
 	public static final int SLOT_ROWS = 4;
 	public static final int SLOT_COLUMNS = 6;
 	public static final int SLOT_GRID_SIZE = SLOT_COLUMNS * SLOT_ROWS;
@@ -54,7 +54,7 @@ public abstract class SignageConfigScreen extends Screen {
 		this.resetScrollBar();
 	}
 
-	protected abstract ResourceLocation background();
+	protected abstract Identifier background();
 
 	protected abstract void addExtraElements(TriConsumer<Integer, Integer, LayoutElement> consumer);
 

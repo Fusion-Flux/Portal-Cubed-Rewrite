@@ -19,7 +19,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
@@ -27,14 +27,14 @@ import net.minecraft.world.item.component.TooltipProvider;
 
 public record CannonSettings(
 		Optional<TagKey<Item>> material,
-		Optional<ResourceLocation> construct,
+		Optional<Identifier> construct,
 		boolean preview,
 		float previewOpacity,
 		boolean replaceMode
 ) implements TooltipProvider {
 	public static final Codec<CannonSettings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			TagKey.codec(Registries.ITEM).optionalFieldOf("material").forGetter(CannonSettings::material),
-			ResourceLocation.CODEC.optionalFieldOf("construct").forGetter(CannonSettings::construct),
+			Identifier.CODEC.optionalFieldOf("construct").forGetter(CannonSettings::construct),
 			Codec.BOOL.fieldOf("preview").forGetter(CannonSettings::preview),
 			Codec.FLOAT.fieldOf("preview_opacity").forGetter(CannonSettings::previewOpacity),
 			Codec.BOOL.fieldOf("replace_mode").forGetter(CannonSettings::replaceMode)
@@ -42,7 +42,7 @@ public record CannonSettings(
 
 	public static final StreamCodec<ByteBuf, CannonSettings> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.optional(TagKey.streamCodec(Registries.ITEM)), CannonSettings::material,
-			ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC), CannonSettings::construct,
+			ByteBufCodecs.optional(Identifier.STREAM_CODEC), CannonSettings::construct,
 			ByteBufCodecs.BOOL, CannonSettings::preview,
 			ByteBufCodecs.FLOAT, CannonSettings::previewOpacity,
 			ByteBufCodecs.BOOL, CannonSettings::replaceMode,
@@ -102,7 +102,7 @@ public record CannonSettings(
 
 	public static final class Builder {
 		private Optional<TagKey<Item>> material = Optional.empty();
-		private Optional<ResourceLocation> construct = Optional.empty();
+		private Optional<Identifier> construct = Optional.empty();
 		private boolean preview = true;
 		private float previewOpacity = .55f;
 		private boolean replaceMode = false;
@@ -123,7 +123,7 @@ public record CannonSettings(
 			return this;
 		}
 
-		public CannonSettings.Builder setConstruct(ResourceLocation construct) {
+		public CannonSettings.Builder setConstruct(Identifier construct) {
 			this.construct = Optional.of(construct);
 			return this;
 		}

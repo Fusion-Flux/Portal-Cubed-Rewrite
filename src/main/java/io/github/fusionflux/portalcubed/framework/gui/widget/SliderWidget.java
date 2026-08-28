@@ -9,21 +9,21 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class SliderWidget extends AbstractWidget {
 	public static final int BACKGROUND_HEIGHT = 14;
 	public static final int HANDLE_WIDTH = 9;
 
-	private final ResourceLocation sprite;
-	private final ResourceLocation disabledSprite;
+	private final Identifier sprite;
+	private final Identifier disabledSprite;
 	private final WidgetSprites handleSprites;
 	private final Consumer<SliderWidget> onSlide;
 	private final int bound;
 	private float handlePos;
 
-	public SliderWidget(ResourceLocation sprite, ResourceLocation disabledSprite, WidgetSprites handleSprites, int width, float defaultHandlePos, Consumer<SliderWidget> onSlide) {
+	public SliderWidget(Identifier sprite, Identifier disabledSprite, WidgetSprites handleSprites, int width, float defaultHandlePos, Consumer<SliderWidget> onSlide) {
 		super(0, 0, width, BACKGROUND_HEIGHT, CommonComponents.EMPTY);
 		this.sprite = sprite;
 		this.disabledSprite = disabledSprite;
@@ -33,7 +33,7 @@ public class SliderWidget extends AbstractWidget {
 		this.handlePos = defaultHandlePos;
 	}
 
-	public SliderWidget(ResourceLocation sprite, int width, float defaultHandlePos, Consumer<SliderWidget> onSlide) {
+	public SliderWidget(Identifier sprite, int width, float defaultHandlePos, Consumer<SliderWidget> onSlide) {
 		this(sprite.withSuffix("_background"), sprite.withSuffix("_background_disabled"), new WidgetSprites(
 				sprite.withSuffix("_handle"),
 				sprite.withSuffix("_handle_disabled"),

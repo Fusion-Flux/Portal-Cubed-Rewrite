@@ -10,7 +10,7 @@ import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ToggleButton extends AbstractWidget {
 	private final WidgetSprites sprites;
@@ -27,7 +27,7 @@ public class ToggleButton extends AbstractWidget {
 		this.valueSetter = valueSetter;
 	}
 
-	public ToggleButton(int width, int height, ResourceLocation baseSprite, BooleanSupplier valueGetter, BooleanConsumer valueSetter) {
+	public ToggleButton(int width, int height, Identifier baseSprite, BooleanSupplier valueGetter, BooleanConsumer valueSetter) {
 		this(width, height, new WidgetSprites(
 			baseSprite.withSuffix("_enabled"),
 			baseSprite.withSuffix("_disabled"),

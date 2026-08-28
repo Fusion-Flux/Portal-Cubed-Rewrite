@@ -31,8 +31,8 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
 /**
@@ -149,7 +149,7 @@ public final class PortalParser {
 
 		private void readPortalType() throws CommandSyntaxException {
 			int cursor = this.reader.getCursor();
-			ResourceLocation id = ResourceLocation.read(this.reader);
+			Identifier id = Identifier.read(this.reader);
 			ResourceKey<PortalType> key = ResourceKey.create(PortalCubedRegistries.PORTAL_TYPE, id);
 
 			this.visitor.visitType(PortalParser.this.portalTypes.get(key).orElseThrow(() -> {

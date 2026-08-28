@@ -18,7 +18,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.DelegateBakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,7 +37,7 @@ public class DynamicTextureBakedModel extends DelegateBakedModel {
 
 	@Override
 	public void emitBlockQuads(QuadEmitter emitter, BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, Predicate<@Nullable Direction> cullTest) {
-		if (blockView.getBlockEntityRenderData(pos) instanceof DynamicTextureRenderData(Map<String, ResourceLocation> map)) {
+		if (blockView.getBlockEntityRenderData(pos) instanceof DynamicTextureRenderData(Map<String, Identifier> map)) {
 			TextureReplacer textureReplacer = TEXTURE_REPLACER.get();
 			textureReplacer.prepare(map::get, emitter);
 			super.emitBlockQuads(textureReplacer, blockView, state, pos, randomSupplier, cullTest);
@@ -53,9 +53,9 @@ public class DynamicTextureBakedModel extends DelegateBakedModel {
 	}
 
 	private static final class TextureReplacer extends DelegatingQuadEmitter {
-		private Function<String, ResourceLocation> mapper;
+		private Function<String, Identifier> mapper;
 
-		private void prepare(Function<String, ResourceLocation> mapper, QuadEmitter delegate) {
+		private void prepare(Function<String, Identifier> mapper, QuadEmitter delegate) {
 			this.delegate = delegate;
 			this.mapper = mapper;
 		}

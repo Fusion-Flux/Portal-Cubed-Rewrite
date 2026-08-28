@@ -4,7 +4,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.fizzler.DisintegrateEffect;
 import io.github.fusionflux.portalcubed.mixin.disintegration.ArmorStandAccessor;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -55,7 +55,7 @@ public class PortalCubedDisintegrateEffects {
 	);
 
 	private static DisintegrateEffect register(String name, DisintegrateEffect disintegrateEffect) {
-		ResourceLocation id = PortalCubed.id(name);
+		Identifier id = PortalCubed.id(name);
 		return Registry.register(PortalCubedRegistries.DISINTEGRATE_EFFECT, id, disintegrateEffect);
 	}
 

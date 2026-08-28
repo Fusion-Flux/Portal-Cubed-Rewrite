@@ -44,7 +44,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Rarity;
@@ -244,7 +244,7 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.OAK_PRESSURE_PLATE)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
-	public static final ResourceLocation LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
+	public static final Identifier LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
 	public static final TerraformSignBlock LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_SIGN)
 			.properties(settings -> settings
@@ -260,8 +260,8 @@ public class PortalCubedBlocks {
 			)
 			.item(BlockItemProvider::noItem)
 			.build();
-	public static final ResourceLocation LEMON_HANGING_SIGN_TEXTURE = PortalCubed.id("entity/signs/hanging/lemon");
-	public static final ResourceLocation LEMON_HANGING_SIGN_GUI_TEXTURE = PortalCubed.id("textures/gui/hanging_signs/lemon");
+	public static final Identifier LEMON_HANGING_SIGN_TEXTURE = PortalCubed.id("entity/signs/hanging/lemon");
+	public static final Identifier LEMON_HANGING_SIGN_GUI_TEXTURE = PortalCubed.id("textures/gui/hanging_signs/lemon");
 	public static final TerraformHangingSignBlock LEMON_HANGING_SIGN = REGISTRAR.blocks.create("lemon_hanging_sign", properties -> new TerraformHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_HANGING_SIGN)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))

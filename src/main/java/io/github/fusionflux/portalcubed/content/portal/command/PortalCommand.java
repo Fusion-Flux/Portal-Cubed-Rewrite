@@ -60,8 +60,8 @@ import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
@@ -386,7 +386,7 @@ public class PortalCommand {
 				if (render == TriState.TRUE && !portal.type().value().supportsRendering()) {
 					String typeName = portal.type().unwrapKey()
 							.map(ResourceKey::location)
-							.map(ResourceLocation::toString)
+							.map(Identifier::toString)
 							.orElse("<unregistered>");
 
 					throw MODIFY_FAIL_INVALID_RENDERING.create(typeName);

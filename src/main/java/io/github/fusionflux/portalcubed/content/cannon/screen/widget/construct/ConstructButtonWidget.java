@@ -12,7 +12,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
@@ -24,7 +24,7 @@ public class ConstructButtonWidget extends ConstructWidget {
 
 	private boolean selected;
 
-	public ConstructButtonWidget(Runnable onSelect, ConstructSet constructSet, ResourceLocation id, TagKey<Item> material, Textures textures, int size) {
+	public ConstructButtonWidget(Runnable onSelect, ConstructSet constructSet, Identifier id, TagKey<Item> material, Textures textures, int size) {
 		super(size, ConstructSet.getName(id));
 		this.construct = constructSet.preview;
 		this.textures = textures;
@@ -45,7 +45,7 @@ public class ConstructButtonWidget extends ConstructWidget {
 			return;
 
 		super.renderWidget(graphics, mouseX, mouseY, delta);
-		ResourceLocation texture = this.textures.choose(this.isHovered(), this.selected);
+		Identifier texture = this.textures.choose(this.isHovered(), this.selected);
 		graphics.blitSprite(RenderType::guiTextured, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 		if (this.isHovered()) {

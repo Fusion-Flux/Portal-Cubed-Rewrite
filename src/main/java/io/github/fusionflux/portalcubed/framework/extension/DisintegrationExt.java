@@ -8,13 +8,13 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 
 public interface DisintegrationExt {
 	int DISINTEGRATE_TICKS = 3 * 20;
 	int TRANSLUCENCY_START_TICKS = 10;
-	ResourceLocation DISINTEGRATION_INTERACTION_PHASE = PortalCubed.id("disintegration");
+	Identifier DISINTEGRATION_INTERACTION_PHASE = PortalCubed.id("disintegration");
 
 	static void registerEventListeners() {
 		AttackBlockCallback.EVENT.addPhaseOrdering(DISINTEGRATION_INTERACTION_PHASE, Event.DEFAULT_PHASE);

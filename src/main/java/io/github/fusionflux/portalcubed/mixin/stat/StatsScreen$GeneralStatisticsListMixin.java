@@ -10,7 +10,7 @@ import com.google.common.collect.Iterators;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedStats;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.stats.Stat;
 import net.minecraft.util.RandomSource;
 
@@ -26,7 +26,7 @@ public class StatsScreen$GeneralStatisticsListMixin {
 					target = "Lnet/minecraft/stats/StatType;iterator()Ljava/util/Iterator;"
 			)
 	)
-	private Iterator<Stat<ResourceLocation>> maybeSkipPoints(Iterator<Stat<ResourceLocation>> original) {
+	private Iterator<Stat<Identifier>> maybeSkipPoints(Iterator<Stat<Identifier>> original) {
 		return Iterators.filter(original, stat -> {
 			if (!stat.getValue().equals(PortalCubedStats.OPPORTUNITY_ADVISEMENT_POINTS))
 				return true;

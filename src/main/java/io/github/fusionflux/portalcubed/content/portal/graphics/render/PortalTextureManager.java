@@ -5,11 +5,11 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.TextureAtlasHolder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class PortalTextureManager extends TextureAtlasHolder implements IdentifiableResourceReloadListener {
-	public static final ResourceLocation ID = PortalCubed.id("portals");
-	public static final ResourceLocation ATLAS_LOCATION = PortalCubed.id("textures/atlas/portals.png");
+	public static final Identifier ID = PortalCubed.id("portals");
+	public static final Identifier ATLAS_LOCATION = PortalCubed.id("textures/atlas/portals.png");
 
 	public static final PortalTextureManager INSTANCE = new PortalTextureManager();
 
@@ -18,12 +18,12 @@ public final class PortalTextureManager extends TextureAtlasHolder implements Id
 	}
 
 	@Override
-	public ResourceLocation getFabricId() {
+	public Identifier getFabricId() {
 		return ID;
 	}
 
 	@Override
-	public TextureAtlasSprite getSprite(ResourceLocation location) {
+	public TextureAtlasSprite getSprite(Identifier location) {
 		return super.getSprite(location);
 	}
 }

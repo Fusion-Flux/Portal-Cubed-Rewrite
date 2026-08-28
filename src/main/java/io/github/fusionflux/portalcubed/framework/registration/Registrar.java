@@ -5,7 +5,7 @@ import io.github.fusionflux.portalcubed.framework.registration.block.BlockHelper
 import io.github.fusionflux.portalcubed.framework.registration.entity.EntityHelper;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemHelper;
 import io.github.fusionflux.portalcubed.framework.registration.particle.ParticleHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class Registrar {
 	public final String modId;
@@ -24,7 +24,7 @@ public class Registrar {
 		this.particles = new ParticleHelper(this);
 	}
 
-	public ResourceLocation id(String path) {
-		return ResourceLocation.fromNamespaceAndPath(this.modId, path);
+	public Identifier id(String path) {
+		return Identifier.fromNamespaceAndPath(this.modId, path);
 	}
 }

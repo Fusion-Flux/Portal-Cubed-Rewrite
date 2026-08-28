@@ -9,7 +9,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class ValueCounterButton extends AbstractWidget implements TickableWidget {
@@ -43,7 +43,7 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 		tick();
 	}
 
-	public ValueCounterButton(int width, int height, ResourceLocation baseSprite, int changeBy, int min, int max, IntSupplier valueGetter, IntConsumer valueSetter, Runnable onClickingStopped) {
+	public ValueCounterButton(int width, int height, Identifier baseSprite, int changeBy, int min, int max, IntSupplier valueGetter, IntConsumer valueSetter, Runnable onClickingStopped) {
 		this(width, height, new Sprites(
 			baseSprite, baseSprite.withSuffix("_hover"),
 			baseSprite.withSuffix("_pressed"), baseSprite.withSuffix("_pressed_hover"),
@@ -121,11 +121,11 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 	}
 
 	public record Sprites(
-		ResourceLocation sprite, ResourceLocation hovered,
-		ResourceLocation pressed, ResourceLocation pressedHovered,
-		ResourceLocation disabled, ResourceLocation disabledHovered
+            Identifier sprite, Identifier hovered,
+            Identifier pressed, Identifier pressedHovered,
+            Identifier disabled, Identifier disabledHovered
 	) {
-		public Sprites(ResourceLocation sprite) {
+		public Sprites(Identifier sprite) {
 			this(
 				sprite, sprite.withSuffix("_hover"),
 				sprite.withSuffix("_pressed"), sprite.withSuffix("_pressed_hover"),
@@ -133,7 +133,7 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 			);
 		}
 
-		public ResourceLocation choose(boolean hovered, boolean pressed, boolean disabled) {
+		public Identifier choose(boolean hovered, boolean pressed, boolean disabled) {
 			if (pressed) {
 				return hovered ? this.pressedHovered : this.pressed;
 			} else if (disabled) {

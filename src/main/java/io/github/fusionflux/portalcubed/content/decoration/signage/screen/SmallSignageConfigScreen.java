@@ -21,16 +21,16 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.TriState;
 
 public class SmallSignageConfigScreen extends SignageConfigScreen {
 	public static final int TAB_WIDTH = 44;
 	public static final int Y_OFFSET = TabWidget.HEIGHT - 4; // tabs are supposed to slightly overlap the top
-	public static final ResourceLocation BACKGROUND = PortalCubed.id("textures/gui/container/signage/small_signage.png");
+	public static final Identifier BACKGROUND = PortalCubed.id("textures/gui/container/signage/small_signage.png");
 	public static final int TOGGLE_SIZE = 13;
-	public static final ResourceLocation TOGGLE_SPRITE = PortalCubed.id("signage/small_signage");
+	public static final Identifier TOGGLE_SPRITE = PortalCubed.id("signage/small_signage");
 	public static final Component TOGGLE_TITLE = Component.translatable("container.portalcubed.small_signage.quadrant_toggle");
 
 	public static final Component TITLE = Component.translatable("container.portalcubed.small_signage");
@@ -64,7 +64,7 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 	}
 
 	@Override
-	protected ResourceLocation background() {
+	protected Identifier background() {
 		return BACKGROUND;
 	}
 

@@ -2,23 +2,22 @@ package io.github.fusionflux.portalcubed.framework.construct;
 
 import java.util.Map;
 
+import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
+import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
+import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.Context;
 import net.minecraft.network.codec.StreamCodec;
-
-import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
-import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
-import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record ConstructSyncPacket(Map<ResourceLocation, ConstructSet> constructs) implements ClientboundPacket {
+public record ConstructSyncPacket(Map<Identifier, ConstructSet> constructs) implements ClientboundPacket {
 	public static final StreamCodec<ByteBuf, ConstructSyncPacket> CODEC = PortalCubedStreamCodecs.map(
-			ResourceLocation.STREAM_CODEC, ConstructSet.STREAM_CODEC
+			Identifier.STREAM_CODEC, ConstructSet.STREAM_CODEC
 	).map(ConstructSyncPacket::new, ConstructSyncPacket::constructs);
 
 	@Override

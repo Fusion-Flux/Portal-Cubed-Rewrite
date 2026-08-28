@@ -20,7 +20,7 @@ import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -29,8 +29,8 @@ import net.minecraft.world.item.ItemStack;
 public enum PropModelCache implements SimpleSynchronousReloadListener {
 	INSTANCE;
 
-	public static final ResourceLocation ID = PortalCubed.id("prop_models");
-	public static final Collection<ResourceLocation> DEPENDENCIES = List.of(ResourceReloadListenerKeys.MODELS);
+	public static final Identifier ID = PortalCubed.id("prop_models");
+	public static final Collection<Identifier> DEPENDENCIES = List.of(ResourceReloadListenerKeys.MODELS);
 
 	private final ItemStackRenderState scratchRenderState = new ItemStackRenderState();
 	private final EnumMap<PropType, ModelAndTransform[][]> cache = new EnumMap<>(PropType.class);
@@ -41,12 +41,12 @@ public enum PropModelCache implements SimpleSynchronousReloadListener {
 	}
 
 	@Override
-	public ResourceLocation getFabricId() {
+	public Identifier getFabricId() {
 		return ID;
 	}
 
 	@Override
-	public Collection<ResourceLocation> getFabricDependencies() {
+	public Collection<Identifier> getFabricDependencies() {
 		return DEPENDENCIES;
 	}
 

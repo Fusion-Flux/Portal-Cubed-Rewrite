@@ -9,7 +9,7 @@ import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 
@@ -198,12 +198,12 @@ public class PortalCubedSounds {
 
 
 	public static SoundEvent register(String name) {
-		ResourceLocation id = PortalCubed.id(name);
+		Identifier id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
 	}
 
 	public static Holder.Reference<SoundEvent> registerForHolder(String name) {
-		ResourceLocation id = PortalCubed.id(name);
+		Identifier id = PortalCubed.id(name);
 		return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
 	}
 

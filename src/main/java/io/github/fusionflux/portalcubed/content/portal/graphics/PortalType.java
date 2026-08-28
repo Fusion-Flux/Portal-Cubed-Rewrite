@@ -20,9 +20,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.Level;
 
@@ -66,16 +66,16 @@ public record PortalType(
 				Layer.LIST_CODEC.optionalFieldOf("tracer", Collections.emptyList()).forGetter(Textures::tracer)
 		).apply(instance, Textures::new));
 
-		public record Layer(ResourceLocation texture, boolean tint, float offset) {
+		public record Layer(Identifier texture, boolean tint, float offset) {
 			public static final Codec<Layer> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-					ResourceLocation.CODEC.fieldOf("texture").forGetter(Layer::texture),
+					Identifier.CODEC.fieldOf("texture").forGetter(Layer::texture),
 					Codec.BOOL.fieldOf("tint").forGetter(Layer::tint),
 					Codec.FLOAT.optionalFieldOf("offset", 0f).forGetter(Layer::offset)
 			).apply(instance, Layer::new));
-			public static final Codec<Layer> CODEC = Codec.withAlternative(DIRECT_CODEC, ResourceLocation.CODEC.xmap(Layer::new, Layer::texture));
+			public static final Codec<Layer> CODEC = Codec.withAlternative(DIRECT_CODEC, Identifier.CODEC.xmap(Layer::new, Layer::texture));
 			public static final Codec<List<Layer>> LIST_CODEC = ExtraCodecs.nonEmptyList(ExtraCodecs.compactListCodec(CODEC));
 
-			public Layer(ResourceLocation texture) {
+			public Layer(Identifier texture) {
 				this(texture, true, 0);
 			}
 		}
@@ -104,18 +104,18 @@ public record PortalType(
 	}
 
 	// TODO: this should use ClientAsset when it exists
-	public record Stencil(ResourceLocation front, ResourceLocation frontTexturePath, ResourceLocation back, ResourceLocation backTexturePath) {
+	public record Stencil(Identifier front, Identifier frontTexturePath, Identifier back, Identifier backTexturePath) {
 		public static final Codec<Stencil> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-				ResourceLocation.CODEC.fieldOf("front").forGetter(Stencil::front),
-				ResourceLocation.CODEC.fieldOf("back").forGetter(Stencil::back)
+				Identifier.CODEC.fieldOf("front").forGetter(Stencil::front),
+				Identifier.CODEC.fieldOf("back").forGetter(Stencil::back)
 		).apply(instance, Stencil::new));
-		public static final Codec<Stencil> CODEC = Codec.withAlternative(DIRECT_CODEC, ResourceLocation.CODEC.xmap(Stencil::new, Stencil::front));
+		public static final Codec<Stencil> CODEC = Codec.withAlternative(DIRECT_CODEC, Identifier.CODEC.xmap(Stencil::new, Stencil::front));
 
-		public Stencil(ResourceLocation front, ResourceLocation back) {
+		public Stencil(Identifier front, Identifier back) {
 			this(front, front.withPath(path -> "textures/" + path + ".png"), back, back.withPath(path -> "textures/" + path + ".png"));
 		}
 
-		public Stencil(ResourceLocation front) {
+		public Stencil(Identifier front) {
 			this(front, front);
 		}
 	}

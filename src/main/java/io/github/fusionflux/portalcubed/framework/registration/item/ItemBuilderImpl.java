@@ -11,8 +11,8 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -68,7 +68,7 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 
 	@Override
 	public T build() {
-		ResourceLocation id = this.registrar.id(this.name);
+		Identifier id = this.registrar.id(this.name);
 		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
 		this.properties.setId(key);
 		T item = this.factory.create(this.properties);

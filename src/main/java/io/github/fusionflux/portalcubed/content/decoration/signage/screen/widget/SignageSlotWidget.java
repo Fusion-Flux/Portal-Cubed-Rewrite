@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class SignageSlotWidget extends TexturedStickyButton {
 	public static final int SIZE = 22;
@@ -28,7 +28,7 @@ public class SignageSlotWidget extends TexturedStickyButton {
 			PortalCubed.id("signage/slot_selected")
 	);
 
-	private final ResourceLocation imageTexture;
+	private final Identifier imageTexture;
 	private final boolean small;
 	private final AdvancedTooltip tooltip;
 

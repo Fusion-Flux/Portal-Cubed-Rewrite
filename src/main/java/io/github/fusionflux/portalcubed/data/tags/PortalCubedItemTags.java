@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.data.tags;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
@@ -22,6 +22,6 @@ public class PortalCubedItemTags {
 	}
 
 	private static TagKey<Item> createCommon(String name) {
-		return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name));
+		return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", name));
 	}
 }

@@ -31,7 +31,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPosition
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class PedestalButtonConfigScreen extends Screen {
 	private static final int BACKGROUND_WIDTH = 131;
@@ -39,9 +39,9 @@ public class PedestalButtonConfigScreen extends Screen {
 	private static final int SEGMENT_WIDTH = 13;
 	private static final int SEGMENT_HEIGHT = 23;
 	private static final int OFFSET_SELECT_SIZE = 13;
-	private static final ResourceLocation OFFSET_SELECT_SPRITE = PortalCubed.id("pedestal_button/offset_select");
+	private static final Identifier OFFSET_SELECT_SPRITE = PortalCubed.id("pedestal_button/offset_select");
 	private static final int BASE_TOGGLE_SIZE = 11;
-	private static final ResourceLocation BASE_TOGGLE_SPRITE = PortalCubed.id("pedestal_button/base_toggle");
+	private static final Identifier BASE_TOGGLE_SPRITE = PortalCubed.id("pedestal_button/base_toggle");
 
 	private final PedestalButtonBlockEntity pedestalButton;
 	public int pressTime;
@@ -242,8 +242,8 @@ public class PedestalButtonConfigScreen extends Screen {
 		NORMAL("pedestal_button", "7_segment"),
 		OLD_AP("old_ap_pedestal_button", "neon");
 
-		public final ResourceLocation background;
-		public final List<ResourceLocation> pressTimeDisplaySegments;
+		public final Identifier background;
+		public final List<Identifier> pressTimeDisplaySegments;
 
 		Style(String background, String pressTimeDisplayName) {
 			this.background = PortalCubed.id("textures/gui/container/pedestal_buttons/" + background + ".png");

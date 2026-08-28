@@ -22,7 +22,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
@@ -32,7 +32,7 @@ public class DisintegrationRenderer {
 	public static final float TRANSLUCENCY_START_PROGRESS = (DisintegrationExt.DISINTEGRATE_TICKS - DisintegrationExt.TRANSLUCENCY_START_TICKS) / (float) DisintegrationExt.DISINTEGRATE_TICKS;
 	public static final Set<String> DONT_DARKEN_RENDER_TYPES = ImmutableSet.of("eyes", "entity_translucent_emissive", "beacon_beam", PortalCubed.id("emissive").toString());
 
-	public static final ResourceLocation FLASH_TEXTURE = PortalCubed.id("textures/misc/fizzle_flash.png");
+	public static final Identifier FLASH_TEXTURE = PortalCubed.id("textures/misc/fizzle_flash.png");
 	public static final float FLASH_SIZE = 24f/16f;
 	public static final float FLASH_SPEED = 0.7f;
 	public static final float MIN_FLASH_ALPHA = 0.4f;

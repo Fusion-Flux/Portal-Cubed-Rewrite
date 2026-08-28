@@ -22,7 +22,7 @@ import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.PacketFlow;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -39,7 +39,7 @@ public class ConstructionCannonGameTests implements FabricGameTest {
 	private static final String GROUP = PortalCubedGameTests.ID + ":construction_cannon/";
 
 	private static final CommonListenerCookie MOCK_PLAYER_COOKIE = CommonListenerCookie.createInitial(new GameProfile(UUID.randomUUID(), "test-mock-player"), false);
-	private static final ResourceLocation CONSTRUCT = PortalCubed.id("panels/white/white_2x2_panel");
+	private static final Identifier CONSTRUCT = PortalCubed.id("panels/white/white_2x2_panel");
 	private static final ItemStack MATERIAL_ITEM = new ItemStack(PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.SINGLE), 4);
 	private static final BlockPos ASSERT_POS = new BlockPos(2, 1, 1);
 	private static final Block ASSERT_BLOCK = PortalCubedBlocks.PANELS.get(PanelMaterial.WHITE).get(PanelPart.MULTI_2x2_BOTTOM_LEFT);

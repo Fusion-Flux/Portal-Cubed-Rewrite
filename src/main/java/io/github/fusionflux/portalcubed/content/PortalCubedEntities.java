@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropRenderer;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 
 public class PortalCubedEntities {
@@ -22,7 +22,7 @@ public class PortalCubedEntities {
 			.renderer(() -> () -> ThrownItemRenderer::new)
 			.build();
 
-	public static final ResourceLocation LEMON_BOAT = PortalCubed.id("lemon");
+	public static final Identifier LEMON_BOAT = PortalCubed.id("lemon");
 
 	public static final Map<PropType, EntityType<Prop>> PROPS = Util.make(new EnumMap<>(PropType.class), map -> {
 		for (PropType type : PropType.values()) {

@@ -18,7 +18,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Player;
 
@@ -26,7 +26,7 @@ import net.minecraft.world.entity.player.Player;
 public final class PortalGunCrosshairRenderer {
 	private static final int SPRITE_SIZE = 31;
 
-	private static void blit(GuiGraphics graphics, ResourceLocation sprite) {
+	private static void blit(GuiGraphics graphics, Identifier sprite) {
 		graphics.blitSprite(RenderType::guiTextured, sprite, (graphics.guiWidth() - SPRITE_SIZE) / 2, (graphics.guiHeight() - SPRITE_SIZE) / 2, SPRITE_SIZE, SPRITE_SIZE);
 	}
 

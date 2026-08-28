@@ -4,20 +4,20 @@ import java.util.Map;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record DynamicTextureRenderData(Map<String, ResourceLocation> map) {
+public record DynamicTextureRenderData(Map<String, Identifier> map) {
 	public static DynamicTextureRenderData.Builder builder() {
 		return new DynamicTextureRenderData.Builder();
 	}
 
 	public static class Builder {
-		private final Object2ObjectOpenHashMap<String, ResourceLocation> map = new Object2ObjectOpenHashMap<>();
+		private final Object2ObjectOpenHashMap<String, Identifier> map = new Object2ObjectOpenHashMap<>();
 
 		Builder() {
 		}
 
-		public DynamicTextureRenderData.Builder set(String reference, ResourceLocation texture) {
+		public DynamicTextureRenderData.Builder set(String reference, Identifier texture) {
 			this.map.put(reference, texture);
 			return this;
 		}

@@ -5,8 +5,8 @@ import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
 
@@ -33,7 +33,7 @@ public class PortalCubedGameEvents {
 	}
 
 	private static Holder.Reference<GameEvent> register(String name, int radius, int frequency) {
-		ResourceLocation id = PortalCubed.id(name);
+		Identifier id = PortalCubed.id(name);
 		GameEvent event = new GameEvent(radius);
 		Holder.Reference<GameEvent> holder = Registry.registerForHolder(BuiltInRegistries.GAME_EVENT, id, event);
 		frequencies.put(holder.key(), frequency);

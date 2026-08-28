@@ -9,14 +9,14 @@ import com.mojang.serialization.JsonOps;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import net.fabricmc.fabric.api.client.model.loading.v1.PreparableModelLoadingPlugin.DataLoader;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 
 public enum EmissiveLoader implements DataLoader<EmissiveData> {
 	INSTANCE;
 
-	public static final ResourceLocation EMISSIVES_JSON_LOCATION = PortalCubed.id("emissives.json");
+	public static final Identifier EMISSIVES_JSON_LOCATION = PortalCubed.id("emissives.json");
 
 	@Override
 	public CompletableFuture<EmissiveData> load(ResourceManager manager, Executor executor) {

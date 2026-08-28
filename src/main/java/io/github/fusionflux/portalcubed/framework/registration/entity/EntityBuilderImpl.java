@@ -13,8 +13,8 @@ import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -52,7 +52,7 @@ public class EntityBuilderImpl<T extends Entity> implements EntityBuilder<T> {
 
 	@Override
 	public EntityType<T> build() {
-		ResourceLocation id = this.registrar.id(this.name);
+		Identifier id = this.registrar.id(this.name);
 		ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, id);
 		EntityType<T> type = this.typeBuilder.build(key);
 

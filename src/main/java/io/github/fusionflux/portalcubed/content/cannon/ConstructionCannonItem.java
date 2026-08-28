@@ -26,7 +26,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -45,7 +45,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
-	public static final ResourceLocation REACH_BOOST = PortalCubed.id("construction_cannon_reach_boost");
+	public static final Identifier REACH_BOOST = PortalCubed.id("construction_cannon_reach_boost");
 
 	public ConstructionCannonItem(Properties settings) {
 		super(settings);

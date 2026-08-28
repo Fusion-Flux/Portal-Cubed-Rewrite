@@ -30,8 +30,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -188,7 +188,7 @@ public record PortalGunSettings(
 			return holder.get().value().name().copy();
 		}
 
-		ResourceLocation id = settings.typeId().location();
+		Identifier id = settings.typeId().location();
 		return Component.translatableEscape("portal_type.portalcubed.invalid", id);
 	}
 }

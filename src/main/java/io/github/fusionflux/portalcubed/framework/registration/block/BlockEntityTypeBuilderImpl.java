@@ -2,17 +2,16 @@ package io.github.fusionflux.portalcubed.framework.registration.block;
 
 import java.util.function.Supplier;
 
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -45,7 +44,7 @@ public class BlockEntityTypeBuilderImpl<T extends BlockEntity> implements BlockE
 	@Override
 	public BlockEntityType<T> build() {
 		BlockEntityType<T> type = this.typeBuilder.build();
-		ResourceLocation id = this.registrar.id(this.name);
+		Identifier id = this.registrar.id(this.name);
 		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, id, type);
 
 		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {

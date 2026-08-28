@@ -6,12 +6,12 @@ import io.github.fusionflux.portalcubed.framework.model.RenderMaterials;
 import io.github.fusionflux.portalcubed.framework.model.TransformingBakedModel;
 import io.github.fusionflux.portalcubed.framework.util.ModelUtil;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class EmissiveBakedModel extends TransformingBakedModel {
 	public EmissiveBakedModel(BakedModel delegate, Collection<EmissiveTexturePredicate> predicates) {
 		super(quad -> {
-			ResourceLocation texture = ModelUtil.getSpriteFinder()
+			Identifier texture = ModelUtil.getSpriteFinder()
 					.find(quad)
 					.contents().name();
 			for (EmissiveTexturePredicate predicate : predicates) {

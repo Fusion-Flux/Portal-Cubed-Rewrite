@@ -17,7 +17,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -58,7 +58,7 @@ public class Radio extends Prop implements AmbientSoundEmitter {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void playAmbientSound() {
-		ResourceLocation.read(this.entityData.get(TRACK))
+		Identifier.read(this.entityData.get(TRACK))
 				.resultOrPartial(error -> logger.error("Failed to parse track: '{}'", error))
 				.flatMap(BuiltInRegistries.SOUND_EVENT::get)
 				.ifPresent(this::updateSoundInstance);

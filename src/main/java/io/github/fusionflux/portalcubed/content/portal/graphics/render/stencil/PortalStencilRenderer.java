@@ -31,7 +31,7 @@ import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import io.github.fusionflux.portalcubed.framework.util.SimpleSynchronousReloadListener;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.ARGB;
 
@@ -39,8 +39,8 @@ public final class PortalStencilRenderer implements SimpleSynchronousReloadListe
 	public static final PortalStencilRenderer INSTANCE = new PortalStencilRenderer();
 	public static final float DEPTH = (float) -(0.5 + PortalRenderer.OFFSET_FROM_WALL);
 
-	public static final ResourceLocation ID = PortalCubed.id("portal_stencils");
-	public static final Collection<ResourceLocation> DEPENDENCIES = List.of(PortalTextureManager.ID);
+	public static final Identifier ID = PortalCubed.id("portal_stencils");
+	public static final Collection<Identifier> DEPENDENCIES = List.of(PortalTextureManager.ID);
 
 	private static final Logger logger = LogUtils.getLogger();
 
@@ -49,12 +49,12 @@ public final class PortalStencilRenderer implements SimpleSynchronousReloadListe
 	private PortalStencilRenderer() {}
 
 	@Override
-	public ResourceLocation getFabricId() {
+	public Identifier getFabricId() {
 		return ID;
 	}
 
 	@Override
-	public Collection<ResourceLocation> getFabricDependencies() {
+	public Collection<Identifier> getFabricDependencies() {
 		return DEPENDENCIES;
 	}
 

@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton.Textures;
 import net.minecraft.client.gui.layouts.GridLayout;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
@@ -49,13 +49,13 @@ public class ConstructsTab {
 			scrollBar.scrollRate = 1f / rowCount;
 		for (ConstructSet set : constructs) {
 			if (i >= 0) {
-				ResourceLocation id = ConstructManager.INSTANCE.getId(set);
+				Identifier id = ConstructManager.INSTANCE.getId(set);
 				ConstructButtonWidget button = new ConstructButtonWidget(() -> {
 					buttons.visitWidgets(widget -> ((ConstructButtonWidget) widget).deselect());
 					settings.update(b -> b.setConstruct(id));
 				}, set, id, material, BUTTON_TEXTURES, SLOT_SIZE);
 
-				Optional<ResourceLocation> selected = settings.get().construct();
+				Optional<Identifier> selected = settings.get().construct();
 				if (selected.isPresent() && selected.get().equals(id))
 					button.select();
 

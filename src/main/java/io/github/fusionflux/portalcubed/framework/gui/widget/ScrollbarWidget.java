@@ -6,7 +6,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class ScrollbarWidget extends AbstractWidget {
@@ -15,14 +15,14 @@ public class ScrollbarWidget extends AbstractWidget {
 	public static final int SCROLLER_HEIGHT = 15;
 	public static final int SCROLLER_BOUND = BAR_HEIGHT - SCROLLER_HEIGHT;
 
-	private final ResourceLocation sprite;
-	private final ResourceLocation disabledSprite;
+	private final Identifier sprite;
+	private final Identifier disabledSprite;
 	private final Runnable onScroll;
 	private float scrollPos;
 
 	public float scrollRate;
 
-	public ScrollbarWidget(ResourceLocation sprite, Runnable onScroll) {
+	public ScrollbarWidget(Identifier sprite, Runnable onScroll) {
 		super(0, 0, SCROLLER_WIDTH, BAR_HEIGHT, CommonComponents.EMPTY);
 		this.sprite = sprite;
 		this.disabledSprite = sprite.withSuffix("_disabled");

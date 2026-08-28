@@ -9,7 +9,7 @@ import io.github.fusionflux.portalcubed.content.portal.advancements.ThrownItemPo
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class PortalCubedCriteriaTriggers {
 	public static final SubmergedTheOperationalEndOfTheDeviceTrigger SUBMERGED_THE_OPERATIONAL_END_OF_THE_DEVICE = register(
@@ -27,7 +27,7 @@ public class PortalCubedCriteriaTriggers {
 	public static final ThrownItemPortalTrigger THROWN_ITEM_EXITED_PORTAL = register("thrown_item_exited_portal", new ThrownItemPortalTrigger());
 
 	private static <T extends CriterionTrigger<?>> T register(String name, T trigger) {
-		ResourceLocation id = PortalCubed.id(name);
+		Identifier id = PortalCubed.id(name);
 		return Registry.register(BuiltInRegistries.TRIGGER_TYPES, id, trigger);
 	}
 

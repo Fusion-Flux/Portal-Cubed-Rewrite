@@ -17,8 +17,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -100,7 +100,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 	@Override
 	public T build() {
 		this.checkProperties();
-		ResourceLocation id = this.registrar.id(this.name);
+		Identifier id = this.registrar.id(this.name);
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
 		this.properties.setId(key);
 		T block = this.factory.create(this.properties);

@@ -12,11 +12,11 @@ import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 
 public class LargeSignageConfigScreen extends SignageConfigScreen {
-	public static final ResourceLocation BACKGROUND = PortalCubed.id("textures/gui/container/signage/large_signage.png");
+	public static final Identifier BACKGROUND = PortalCubed.id("textures/gui/container/signage/large_signage.png");
 
 	public static final Component TITLE = Component.translatable("container.portalcubed.large_signage");
 	public static final Component AGED_TITLE = Component.translatable("container.portalcubed.aged_large_signage");
@@ -29,7 +29,7 @@ public class LargeSignageConfigScreen extends SignageConfigScreen {
 	}
 
 	@Override
-	protected ResourceLocation background() {
+	protected Identifier background() {
 		return BACKGROUND;
 	}
 
