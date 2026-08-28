@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.block;
 
-import com.google.common.collect.ImmutableMap;
-import com.mojang.serialization.MapCodec;
+import java.util.function.Function;
 
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
@@ -17,11 +16,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PortalBarrierBlock extends MultifaceBlock {
-	public static final MapCodec<PortalBarrierBlock> CODEC = simpleCodec(PortalBarrierBlock::new);
-
 	private static final VoxelShaper PORTAL_SHAPE = VoxelShaper.forDirectional(Block.box(0, 16, 0, 16, 16 + Math.ulp(16), 16), Direction.UP);
 
-	private final ImmutableMap<BlockState, VoxelShape> portalShapesCache;
+	private final Function<BlockState, VoxelShape> portalShapesCache;
 
 	public PortalBarrierBlock(Properties properties) {
 		super(properties);
@@ -51,7 +48,7 @@ public class PortalBarrierBlock extends MultifaceBlock {
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		if (context instanceof PortalCollisionContext) {
-			return this.portalShapesCache.get(state);
+			return this.portalShapesCache.apply(state);
 		}
 
 		return context.isHoldingItem(this.asItem()) ? super.getShape(state, world, pos, context) : Shapes.empty();

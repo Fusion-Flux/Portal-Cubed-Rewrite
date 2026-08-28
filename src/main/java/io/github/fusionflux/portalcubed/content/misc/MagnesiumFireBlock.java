@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
-import com.mojang.serialization.MapCodec;
-
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,15 +11,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MagnesiumFireBlock extends BaseFireBlock {
-	public static final MapCodec<MagnesiumFireBlock> CODEC = simpleCodec(MagnesiumFireBlock::new);
-
 	public MagnesiumFireBlock(Properties properties) {
 		super(properties, 2);
-	}
-
-	@Override
-	protected MapCodec<MagnesiumFireBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

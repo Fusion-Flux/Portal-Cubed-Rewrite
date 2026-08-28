@@ -2,8 +2,6 @@ package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.mojang.serialization.MapCodec;
-
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlock;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
@@ -19,8 +17,6 @@ import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class LargeSignageBlock extends SignageBlock {
-	public static final MapCodec<LargeSignageBlock> CODEC = simpleCodec(LargeSignageBlock::new);
-
 	public LargeSignageBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
@@ -28,12 +24,6 @@ public class LargeSignageBlock extends SignageBlock {
 				.setValue(FACING, Direction.NORTH)
 				.setValue(WATERLOGGED, false)
 		);
-	}
-
-	@Override
-	@NotNull
-	protected MapCodec<LargeSignageBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

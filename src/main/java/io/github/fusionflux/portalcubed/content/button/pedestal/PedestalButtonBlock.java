@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
@@ -61,8 +60,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PedestalButtonBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, HammerableBlock, BigShapeBlock {
 	public static final double ONE_PIXEL = 1 / 16d;
-
-	public static final MapCodec<PedestalButtonBlock> CODEC = simpleCodec(PedestalButtonBlock::new);
 
 	public static final EnumProperty<Direction> FACE = PortalCubedStateProperties.FACE;
 	public static final EnumProperty<Offset> OFFSET = EnumProperty.create("offset", Offset.class);
@@ -161,12 +158,6 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 			OLD_AP_SHAPES,
 			PortalCubedSounds.OLD_AP_PEDESTAL_BUTTON_PRESS, PortalCubedSounds.OLD_AP_PEDESTAL_BUTTON_RELEASE
 		);
-	}
-
-	@Override
-	@NotNull
-	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

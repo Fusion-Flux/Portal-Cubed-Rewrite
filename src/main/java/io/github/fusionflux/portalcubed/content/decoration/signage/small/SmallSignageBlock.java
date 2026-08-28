@@ -12,7 +12,6 @@ import org.joml.Vector2d;
 import org.joml.Vector2dc;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlock;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
@@ -42,8 +41,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class SmallSignageBlock extends SignageBlock {
-	public static final MapCodec<SmallSignageBlock> CODEC = simpleCodec(SmallSignageBlock::new);
-
 	public static final Map<Quadrant, BooleanProperty> QUADRANT_PROPERTIES = Util.make(new EnumMap<>(Quadrant.class), map -> {
 		for (Quadrant quadrant : Quadrant.values()) {
 			map.put(quadrant, BooleanProperty.create(quadrant.name));
@@ -78,12 +75,6 @@ public class SmallSignageBlock extends SignageBlock {
 		} else {
 			world.setBlock(pos, newState, Block.UPDATE_ALL);
 		}
-	}
-
-	@Override
-	@NotNull
-	protected MapCodec<SmallSignageBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

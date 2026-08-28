@@ -3,10 +3,7 @@ package io.github.fusionflux.portalcubed.framework.block;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.VERTICAL_DIRECTION;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import net.minecraft.core.BlockPos;
@@ -20,16 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 
 public class ConnectiveDirectionalBlock extends DirectionalBlock {
-	public static final MapCodec<ConnectiveDirectionalBlock> CODEC = simpleCodec(ConnectiveDirectionalBlock::new);
-
 	public ConnectiveDirectionalBlock(Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	@NotNull
-	protected MapCodec<? extends DirectionalBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

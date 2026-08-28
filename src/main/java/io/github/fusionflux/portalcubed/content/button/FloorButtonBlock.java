@@ -6,8 +6,6 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.serialization.MapCodec;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
@@ -22,6 +20,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -37,8 +36,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FloorButtonBlock extends AbstractMultiBlock {
-	public static final MapCodec<FloorButtonBlock> CODEC = simpleCodec(FloorButtonBlock::new);
-
 	public static final SizeProperties SIZE_PROPERTIES = SizeProperties.create(2, 2, 1);
 	public static final BooleanProperty ACTIVE = PortalCubedStateProperties.ACTIVE;
 	public static final int PRESSED_TIME = 5;
@@ -98,7 +95,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	public FloorButtonBlock(Properties properties, VoxelShaper[][] shapes, VoxelShape buttonShape, SoundEvent pressSound, SoundEvent releaseSound) {
-		this(properties, shapes, buttonShape, entity -> entity instanceof LivingEntity || entity.getType().is(PortalCubedEntityTags.PRESSES_FLOOR_BUTTONS), pressSound, releaseSound);
+		this(properties, shapes, buttonShape, entity -> entity instanceof LivingEntity || entity.is(PortalCubedEntityTags.PRESSES_FLOOR_BUTTONS), pressSound, releaseSound);
 	}
 
 	public FloorButtonBlock(Properties properties, SoundEvent pressSound, SoundEvent releaseSound) {
@@ -115,11 +112,6 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 
 	public static FloorButtonBlock p1(Properties properties) {
 		return new FloorButtonBlock(properties, PortalCubedSounds.PORTAL_1_FLOOR_BUTTON_PRESS, PortalCubedSounds.PORTAL_1_FLOOR_BUTTON_RELEASE);
-	}
-
-	@Override
-	protected MapCodec<? extends Block> codec() {
-		return CODEC;
 	}
 
 	public AABB getButtonBounds(Direction face) {
@@ -220,7 +212,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
 		if (level instanceof ServerLevel serverLevel) {
 			boolean entityInsideBounds = isEntityPressing(state, pos, entity);
 			if (entityInsideBounds)
