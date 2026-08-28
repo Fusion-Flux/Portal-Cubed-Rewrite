@@ -26,9 +26,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric-api": ">=${fapi_version}",
-    "minecraft": "${minecraft_dependency}",
-    "terraform-wood-api-v1": "${wood_api_version}",
-    "sodium": "${sodium_version}"
+    "minecraft": "=${minecraft_dependency}"
   },
   "custom": {
     "loom:injected_interfaces": {

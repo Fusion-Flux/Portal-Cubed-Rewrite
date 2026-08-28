@@ -1,3 +1,5 @@
+rootProject.name = "portal-cubed"
+
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
