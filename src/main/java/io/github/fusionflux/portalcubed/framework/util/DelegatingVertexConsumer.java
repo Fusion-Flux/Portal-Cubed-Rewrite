@@ -1,14 +1,10 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.system.MemoryStack;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 
-import net.caffeinemc.mods.sodium.api.vertex.buffer.VertexBufferWriter;
-
-public class DelegatingVertexConsumer implements VertexConsumer, VertexBufferWriter {
+public class DelegatingVertexConsumer implements VertexConsumer {
 	protected VertexConsumer delegate;
 
 	@Override
@@ -22,6 +18,12 @@ public class DelegatingVertexConsumer implements VertexConsumer, VertexBufferWri
 	@NotNull
 	public VertexConsumer setColor(int red, int green, int blue, int alpha) {
 		this.delegate.setColor(red, green, blue, alpha);
+		return this;
+	}
+
+	@Override
+	public VertexConsumer setColor(int color) {
+		this.delegate.setColor(color);
 		return this;
 	}
 
@@ -47,6 +49,12 @@ public class DelegatingVertexConsumer implements VertexConsumer, VertexBufferWri
 	}
 
 	@Override
+	public VertexConsumer setUv3(float u, float v) {
+		this.delegate.setUv3(u, v);
+		return this;
+	}
+
+	@Override
 	@NotNull
 	public VertexConsumer setNormal(float normalX, float normalY, float normalZ) {
 		this.delegate.setNormal(normalX, normalY, normalZ);
@@ -54,12 +62,8 @@ public class DelegatingVertexConsumer implements VertexConsumer, VertexBufferWri
 	}
 
 	@Override
-	public void push(MemoryStack stack, long ptr, int count, VertexFormat format) {
-		VertexBufferWriter.of(this.delegate).push(stack, ptr, count, format);
-	}
-
-	@Override
-	public boolean canUseIntrinsics() {
-		return VertexBufferWriter.tryOf(this.delegate) != null;
+	public VertexConsumer setLineWidth(float width) {
+		this.delegate.setLineWidth(width);
+		return this;
 	}
 }

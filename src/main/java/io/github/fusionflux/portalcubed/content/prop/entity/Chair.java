@@ -6,6 +6,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class Chair extends Prop {
 	public Chair(PropType type, EntityType<?> entityType, Level level) {
@@ -13,14 +14,14 @@ public class Chair extends Prop {
 	}
 
 	@Override
-	public InteractionResult interact(Player player, InteractionHand hand) {
+	public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
 		if (!this.isVehicle() && player != this.getHolder()) {
 			Level level = this.level();
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				player.startRiding(this);
 			}
 			return InteractionResult.SUCCESS;
 		}
-		return super.interact(player, hand);
+		return super.interact(player, hand, location);
 	}
 }

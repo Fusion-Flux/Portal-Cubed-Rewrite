@@ -1,33 +1,20 @@
 package io.github.fusionflux.portalcubed.content.prop.renderer;
 
-import java.util.function.Function;
-
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
-import io.github.fusionflux.portalcubed.framework.model.TransformingBakedModel;
-import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;
-import io.github.fusionflux.portalcubed.framework.util.DelegatingVertexConsumer;
-import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
-import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemDisplayContext;
 
 public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
-	private static final ModelEmitter EMITTER = new ModelEmitter();
 	private static final int[] EMPTY_TINT_LAYERS = new int[0];
 	private static final float Y_OFFSET = 2 / 16f;
 
@@ -36,33 +23,31 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 	}
 
 	@Override
-	public void render(PropRenderState renderState, PoseStack matrices, MultiBufferSource bufferSource, int light) {
-		super.render(renderState, matrices, bufferSource, light);
+	public void submit(PropRenderState state, PoseStack matrices, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+		super.submit(state, matrices, submitNodeCollector, camera);
 
 		matrices.pushPose();
-		matrices.mulPose(Axis.YP.rotationDegrees(180 - renderState.yRot));
+		matrices.rotate(Axis.YP.rotationDegrees(180 - state.yRot));
 		matrices.translate(0, Y_OFFSET, 0);
 		matrices.scale(2, 2, 2);
-		PropModelCache.ModelAndTransform[] layers = PropModelCache.INSTANCE.get(renderState);
-		for (PropModelCache.ModelAndTransform layer : layers) {
-			EMITTER.prepare(bufferSource::getBuffer, layer.model());
+		PropModelCache.MeshAndTransform[] layers = PropModelCache.INSTANCE.get(state);
+		for (PropModelCache.MeshAndTransform layer : layers) {
 			matrices.pushPose();
-			layer.applyTransform(matrices);
-			ItemRenderer.renderItem(
-					ItemDisplayContext.GROUND,
+			layer.applyTransform(matrices.last());
+			submitNodeCollector.submitItem(
 					matrices,
-					renderType -> EMITTER,
-					light,
+					ItemDisplayContext.GROUND,
+					state.lightCoords,
 					OverlayTexture.NO_OVERLAY,
+					0,
 					EMPTY_TINT_LAYERS,
-					EMITTER.model,
-					ModelEmitter.DEFAULT_RENDER_TYPE,
+					layer.quads(),
 					ItemStackRenderState.FoilType.NONE
+
 			);
 			matrices.popPose();
 		}
 		matrices.popPose();
-		EMITTER.cleanup();
 	}
 
 	@Override
@@ -77,51 +62,5 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 		reusedState.type = prop.type;
 		reusedState.variant = prop.getVariant();
 		reusedState.yRot = prop.getYRot(tickDelta);
-	}
-
-	private static final class ModelEmitter extends DelegatingVertexConsumer {
-		private static final RenderType EMISSIVE_RENDER_TYPE = PortalCubedRenderTypes.emissive(TextureAtlas.LOCATION_BLOCKS);
-		private static final RenderType DEFAULT_RENDER_TYPE = Sheets.translucentItemSheet();
-		private static final RenderType CUTOUT_RENDER_TYPE = Sheets.cutoutBlockSheet();
-
-		private Function<RenderType, VertexConsumer> bufferMapper;
-		private final DelegateModel model = new DelegateModel();
-
-		private void prepare(Function<RenderType, VertexConsumer> bufferMapper, BakedModel model) {
-			this.model.setDelegate(model);
-			this.bufferMapper = bufferMapper;
-		}
-
-		private void cleanup() {
-			this.model.setDelegate(null);
-			this.bufferMapper = null;
-			this.delegate = null;
-		}
-
-		private void prepareForMaterial(RenderMaterial material) {
-			BlendMode blendMode = material.blendMode();
-			RenderType renderType;
-			if (material.emissive()) {
-				renderType = EMISSIVE_RENDER_TYPE;
-			} else if (blendMode == BlendMode.DEFAULT || blendMode == BlendMode.TRANSLUCENT) {
-				renderType = DEFAULT_RENDER_TYPE;
-			} else {
-				renderType = CUTOUT_RENDER_TYPE;
-			}
-			this.delegate = this.bufferMapper.apply(renderType);
-		}
-
-		private final class DelegateModel extends TransformingBakedModel {
-			private DelegateModel() {
-				super((quad -> {
-					ModelEmitter.this.prepareForMaterial(quad.material());
-					return true;
-				}));
-			}
-
-			private void setDelegate(BakedModel delegate) {
-				this.delegate = delegate;
-			}
-		}
 	}
 }

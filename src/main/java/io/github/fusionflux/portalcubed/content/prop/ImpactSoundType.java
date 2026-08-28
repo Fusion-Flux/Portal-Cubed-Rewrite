@@ -7,6 +7,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
 public enum ImpactSoundType {
@@ -29,9 +30,9 @@ public enum ImpactSoundType {
 		return this.name().toLowerCase(Locale.ROOT);
 	}
 
-	public static Optional<ImpactSoundType> forEntityType(EntityType<?> entityType) {
+	public static Optional<ImpactSoundType> forEntity(Entity entity) {
 		for (ImpactSoundType soundType : values()) {
-			if (entityType.is(soundType.tag())) return Optional.of(soundType);
+			if (entity.is(soundType.tag())) return Optional.of(soundType);
 		}
 		return Optional.empty();
 	}

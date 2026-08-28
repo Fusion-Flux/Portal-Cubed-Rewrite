@@ -5,7 +5,6 @@ import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.util.ColorUtil;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -14,11 +13,12 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -96,35 +96,35 @@ public class Taco extends Prop {
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
-		this.explodeTicks = tag.getInt("explode_ticks");
+	protected void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
+		this.explodeTicks = input.getIntOr("explode_ticks", 0);
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		tag.putInt("explode_ticks", this.explodeTicks);
+	protected void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		output.putInt("explode_ticks", this.explodeTicks);
 	}
 
 	@Override
-	public InteractionResult interact(Player player, InteractionHand hand) {
+	public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
 		ItemStack itemInHand = player.getItemInHand(hand);
-		Level level = level();
-		if (itemInHand.is(ItemTags.CREEPER_IGNITERS) && !isIgnited()) {
+		Level level = this.level();
+		if (itemInHand.is(ItemTags.CREEPER_IGNITERS) && !this.isIgnited()) {
 			SoundEvent soundEvent = itemInHand.is(Items.FIRE_CHARGE) ? SoundEvents.FIRECHARGE_USE : SoundEvents.FLINTANDSTEEL_USE;
 			level.playSound(player, this.getX(), this.getY(), this.getZ(), soundEvent, this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.4F + 0.8F);
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				this.ignite();
 				if (!itemInHand.isDamageableItem()) {
 					itemInHand.shrink(1);
 				} else {
-					itemInHand.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+					itemInHand.hurtAndBreak(1, player, hand.asEquipmentSlot());
 				}
 			}
 			return InteractionResult.SUCCESS;
 		}
-		return super.interact(player, hand);
+		return super.interact(player, hand, location);
 	}
 
 	public boolean isIgnited() {

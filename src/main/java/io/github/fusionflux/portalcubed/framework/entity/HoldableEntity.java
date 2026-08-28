@@ -169,7 +169,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 	@Override
 	public boolean pc$disintegrate() {
-		if (!this.level().isClientSide)
+		if (!this.level().isClientSide())
 			this.drop();
 		return super.pc$disintegrate();
 	}
@@ -197,7 +197,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 	public boolean canHold(Player player) {
 		return (!this.pc$disintegrating() && !this.isPassenger() && !this.hasPassenger(player)) // Self checks
-				&& (!player.isSpectator() && player.canInteractWithEntity(this, 0)); // Holder checks
+				&& (!player.isSpectator() && player.isWithinEntityInteractionRange(this, 0)); // Holder checks
 	}
 
 	public void grab(ServerPlayer player) {
@@ -206,7 +206,7 @@ public abstract class HoldableEntity extends LerpableEntity {
 
 		if (this.holder != null) {
 			// check if the new player can steal it
-			if (!player.serverLevel().getGameRules().getBoolean(PortalCubedGameRules.PROP_SNATCHING))
+			if (!player.level().getGameRules().get(PortalCubedGameRules.PROP_SNATCHING))
 				return; // can't, don't do anything
 
 			// can, drop first, then re-grab

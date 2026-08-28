@@ -16,14 +16,15 @@ import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.content.prop.entity.Radio;
 import io.github.fusionflux.portalcubed.content.prop.entity.Taco;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityType.EntityFactory;
+import net.minecraft.world.entity.PostSpawnProcessor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -104,7 +105,7 @@ public enum PropType {
 	@Nullable
 	public Prop spawn(ServerLevel level, BlockPos pos, @Nullable ItemStack stack, @Nullable Player player,
 					  EntitySpawnReason reason, @Nullable Integer variant, boolean offsetY, boolean offsetYMore) {
-		Consumer<Prop> consumer = prop -> {
+		PostSpawnProcessor<Prop> initialConfig = prop -> {
 			prop.setVariantFromItem(variant != null ? variant : 0);
 			boolean randomize = variant == null;
 			if (randomize && this.randomVariantOnSpawn) {
@@ -124,7 +125,7 @@ public enum PropType {
 
 		return this.entityType().spawn(
 				level,
-				stack != null ? EntityType.appendDefaultStackConfig(consumer, level, stack, player) : consumer,
+				stack != null ? EntityType.appendDefaultStackConfig(initialConfig, level, stack, player) : initialConfig,
 				pos,
 				reason,
 				offsetY,

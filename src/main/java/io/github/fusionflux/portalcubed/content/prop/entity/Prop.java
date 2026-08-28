@@ -3,6 +3,8 @@ package io.github.fusionflux.portalcubed.content.prop.entity;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import org.jspecify.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
@@ -17,7 +19,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -39,7 +40,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -47,6 +48,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -80,7 +83,7 @@ public class Prop extends HoldableEntity {
 		super(entityType, level);
 		this.blocksBuilding = true;
 		this.type = type;
-		this.impactSound = ImpactSoundType.forEntityType(entityType)
+		this.impactSound = ImpactSoundType.forEntity(this)
 				.map(ImpactSoundType::sound)
 				.orElse(PortalCubedSounds.FIDDLE_STICKS);
 	}
@@ -100,7 +103,7 @@ public class Prop extends HoldableEntity {
 
 	public void setVariant(int variant) {
 		if (variant < 0) variant = 0;
-		if (!this.level().isClientSide)
+		if (!this.level().isClientSide())
 			this.entityData.set(VARIANT, variant);
 	}
 
@@ -118,7 +121,7 @@ public class Prop extends HoldableEntity {
 	public void tick() {
 		super.tick();
 		Level level = this.level();
-		if (level.isClientSide)
+		if (level.isClientSide())
 			return;
 
 		this.tickState();
@@ -161,7 +164,7 @@ public class Prop extends HoldableEntity {
 	protected void tickState() {
 		Level level = this.level();
 
-		if (this.getType().is(PortalCubedEntityTags.CAN_BE_WASHED)) {
+		if (this.is(PortalCubedEntityTags.CAN_BE_WASHED)) {
 			boolean dirty = this.isDirty().orElse(false);
 			if (dirty) {
 				AABB checkBox = this.getBoundingBox().deflate(CHECK_BOX_EPSILON);
@@ -187,33 +190,33 @@ public class Prop extends HoldableEntity {
 	}
 
 	@Override
-	public InteractionResult interact(Player player, InteractionHand hand) {
+	public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
 		ItemStack itemInHand = player.getItemInHand(hand);
 		Level world = this.level();
-		if (getType().is(PortalCubedEntityTags.CAN_BE_DIRTY)) {
-			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && isDirty().map(v -> !v).orElse(false)) {
+		if (this.is(PortalCubedEntityTags.CAN_BE_DIRTY)) {
+			if (player.getAbilities().mayBuild && itemInHand.is(PortalCubedItemTags.AGED_CRAFTING_MATERIALS) && this.isDirty().map(v -> !v).orElse(false)) {
 				if (world instanceof ServerLevel serverLevel) {
-					setDirty(true);
+					this.setDirty(true);
 					serverLevel.playSound(null, this, SoundType.VINE.getPlaceSound(), SoundSource.PLAYERS, 1, .5f);
 					BlockParticleOption particleOption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.VINE.defaultBlockState());
 					for (Direction dir : Direction.values()) {
-						double x = getX() + (dir.getStepX() * getBbWidth() / 2);
-						double y = getY() + (dir.getStepY() * getBbHeight() / 2);
-						double z = getZ() + (dir.getStepZ() * getBbWidth() / 2);
-						serverLevel.sendParticles(particleOption, x, y, z, random.nextInt(5, 8), 0, 0, 0, 1);
+						double x = this.getX() + (dir.getStepX() * this.getBbWidth() / 2);
+						double y = this.getY() + (dir.getStepY() * this.getBbHeight() / 2);
+						double z = this.getZ() + (dir.getStepZ() * this.getBbWidth() / 2);
+						serverLevel.sendParticles(particleOption, x, y, z, this.random.nextInt(5, 8), 0, 0, 0, 1);
 					}
 					itemInHand.shrink(1);
 				}
 				return InteractionResult.SUCCESS;
 			}
 		}
-		return super.interact(player, hand);
+		return super.interact(player, hand, location);
 	}
 
 	@Override
 	public void setRemainingFireTicks(int ticks) {
 		super.setRemainingFireTicks(ticks);
-		if (this.getType().is(PortalCubedEntityTags.CAN_BE_CHARRED) && this.getRemainingFireTicks() > 0)
+		if (this.is(PortalCubedEntityTags.CAN_BE_CHARRED) && this.getRemainingFireTicks() > 0)
 			this.setDirty(true);
 	}
 
@@ -256,11 +259,11 @@ public class Prop extends HoldableEntity {
 
 	@Override
 	public boolean canCollideWith(Entity other) {
-		return other != this.getHolder() && Boat.canVehicleCollide(this, other);
+		return other != this.getHolder() && AbstractBoat.canVehicleCollide(this, other);
 	}
 
 	@Override
-	public boolean canBeCollidedWith() {
+	public boolean canBeCollidedWith(@Nullable Entity other) {
 		return true;
 	}
 
@@ -282,7 +285,7 @@ public class Prop extends HoldableEntity {
 	public void move(MoverType type, Vec3 movement) {
 		super.move(type, movement);
 
-		if (!this.level().isClientSide && !this.pc$disintegrating()) {
+		if (!this.level().isClientSide() && !this.pc$disintegrating()) {
 			if (this.horizontalCollision) {
 				if (!this.sideColliding)
 					this.onCollision();
@@ -316,7 +319,7 @@ public class Prop extends HoldableEntity {
 
 	@Override
 	protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
-		if (this.level() instanceof ServerLevel world && !this.pc$disintegrating() && this.getType().is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE)) {
+		if (this.level() instanceof ServerLevel level && !this.pc$disintegrating() && this.is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE)) {
 			int blocksFallen = Mth.ceil(this.fallDistance);
 			if (blocksFallen > 0) {
 				float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);
@@ -325,8 +328,8 @@ public class Prop extends HoldableEntity {
 						.and(this::notHeldBy);
 
 				Player holder = this.getHolder();
-				for (Entity entity : world.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector)) {
-					entity.hurtServer(world, PortalCubedDamageSources.landingDamage(world, this, entity), damage);
+				for (Entity entity : level.getEntities(this, this.getBoundingBox().expandTowards(0, -CHECK_BOX_EPSILON, 0), selector)) {
+					entity.hurtServer(level, PortalCubedDamageSources.landingDamage(level, this, entity), damage);
 					if (entity instanceof NeutralMob neutralMob && holder != null)
 						neutralMob.setTarget(holder);
 				}
@@ -342,26 +345,25 @@ public class Prop extends HoldableEntity {
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag tag) {
-		tag.putInt(VARIANT_KEY, this.getVariant());
-		tag.putInt(VARIANT_FROM_ITEM_KEY, this.variantFromItem);
+	protected void addAdditionalSaveData(ValueOutput output) {
+		output.putInt(VARIANT_KEY, this.getVariant());
+		output.putInt(VARIANT_FROM_ITEM_KEY, this.variantFromItem);
 
-		CompoundTag collisionTag = new CompoundTag();
-		collisionTag.putBoolean("side", this.sideColliding);
-		collisionTag.putBoolean("top", this.topColliding);
-		collisionTag.putBoolean("bottom", this.bottomColliding);
-		tag.put("collision", collisionTag);
+		ValueOutput collision = output.child("collision");
+		collision.putBoolean("side", this.sideColliding);
+		collision.putBoolean("top", this.topColliding);
+		collision.putBoolean("bottom", this.bottomColliding);
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag tag) {
-		this.setVariant(tag.getInt(VARIANT_KEY));
-		this.setVariantFromItem(tag.getInt(VARIANT_FROM_ITEM_KEY));
+	protected void readAdditionalSaveData(ValueInput input) {
+		this.setVariant(input.getIntOr(VARIANT_KEY, 0));
+		this.setVariantFromItem(input.getIntOr(VARIANT_FROM_ITEM_KEY, 0));
 
-		CompoundTag collisionTag = tag.getCompound("collision");
-		this.sideColliding = collisionTag.getBoolean("side");
-		this.topColliding = collisionTag.getBoolean("top");
-		this.bottomColliding = collisionTag.getBoolean("bottom");
+		ValueInput collision = input.childOrEmpty("collision");
+		this.sideColliding = collision.getBooleanOr("side", false);
+		this.topColliding = collision.getBooleanOr("top", false);
+		this.bottomColliding = collision.getBooleanOr("bottom", false);
 	}
 
 	private static boolean shouldDropLoot(DamageSource source) {

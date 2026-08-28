@@ -1,18 +1,21 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
-import org.spongepowered.asm.mixin.gen.Invoker;
 
-import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.cuboid.ItemTransform;
+import net.minecraft.client.resources.model.geometry.ItemQuads;
 
 @Mixin(ItemStackRenderState.LayerRenderState.class)
 public interface LayerRenderStateAccessor {
-	@Invoker
-	ItemTransform callTransform();
+	@Accessor
+	ItemQuads getQuads();
 
 	@Accessor
-	BakedModel getModel();
+	ItemTransform getItemTransform();
+
+	@Accessor
+	Matrix4f getLocalTransform();
 }
