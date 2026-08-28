@@ -15,6 +15,11 @@ val buildNumber: Provider<String> = providers.environmentVariable("GITHUB_RUN_NU
 version = "3.0.0-alpha.2+mc${libs.versions.minecraft.get()}${buildNumber.get()}"
 group = "io.github.fusionflux"
 
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+    withSourcesJar()
+}
+
 dependencies {
     minecraft(libs.minecraft)
     implementation(libs.bundles.fabric)
@@ -77,7 +82,7 @@ loom {
     }
 }
 
-tasks.named<JavaCompile>("compileJava") {
+tasks.compileJava {
     options.compilerArgs.add("-Xmaxerrs")
     options.compilerArgs.add("10000")
 }
