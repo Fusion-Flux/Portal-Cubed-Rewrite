@@ -2,10 +2,11 @@ package io.github.fusionflux.portalcubed.framework.gui.widget;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
@@ -31,14 +32,14 @@ public class TexturedStickyButton extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
 		Textures textures = this.isActive() ? this.textures : this.disabledTextures;
 		if (textures != null)
-			graphics.blitSprite(RenderType::guiTextured, textures.choose(this.isHovered(), this.selected), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, textures.choose(this.isHovered(), this.selected), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
 
 	@Override
-	public void onClick(double mouseX, double mouseY) {
+	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		if (!this.selected) {
 			this.onSelect.run();
 			this.selected = true;

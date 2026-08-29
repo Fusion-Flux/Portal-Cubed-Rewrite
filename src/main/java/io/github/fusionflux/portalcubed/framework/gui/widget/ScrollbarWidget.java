@@ -1,9 +1,10 @@
 package io.github.fusionflux.portalcubed.framework.gui.widget;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.Identifier;
@@ -30,14 +31,14 @@ public class ScrollbarWidget extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
 		int yOffset = Mth.floor(scrollPos * SCROLLER_BOUND);
-		graphics.blitSprite(RenderType::guiTextured, this.isActive() ? this.sprite : this.disabledSprite, this.getX(), this.getY() + yOffset, SCROLLER_WIDTH, SCROLLER_HEIGHT);
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.isActive() ? this.sprite : this.disabledSprite, this.getX(), this.getY() + yOffset, SCROLLER_WIDTH, SCROLLER_HEIGHT);
 	}
 
 	@Override
-	protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-		double scrollerY = mouseY - getY() - ((double) SCROLLER_HEIGHT / 2);
+	protected void onDrag(MouseButtonEvent event, double dx, double dy) {
+		double scrollerY = event.y() - getY() - ((double) SCROLLER_HEIGHT / 2);
 		setScrollPos(Mth.clamp((float) (scrollerY / SCROLLER_BOUND), 0, 1));
 	}
 

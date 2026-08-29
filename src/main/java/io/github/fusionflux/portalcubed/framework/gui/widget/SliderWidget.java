@@ -2,11 +2,12 @@ package io.github.fusionflux.portalcubed.framework.gui.widget;
 
 import java.util.function.Consumer;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.Identifier;
@@ -43,22 +44,22 @@ public class SliderWidget extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
 		boolean active = isActive();
-		graphics.blitSprite(RenderType::guiTextured, active ? sprite : disabledSprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, active ? sprite : disabledSprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 		int handleX = Mth.floor(handlePos * bound);
-		graphics.blitSprite(RenderType::guiTextured, handleSprites.get(active, isHovered()), this.getX() + handleX, this.getY(), HANDLE_WIDTH, BACKGROUND_HEIGHT);
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, handleSprites.get(active, isHovered()), this.getX() + handleX, this.getY(), HANDLE_WIDTH, BACKGROUND_HEIGHT);
 	}
 
 	@Override
-	public void onClick(double mouseX, double mouseY) {
-		onDrag(mouseX, mouseY, 0, 0);
+	public void onClick(MouseButtonEvent event, boolean doubleClick) {
+		onDrag(event, 0, 0);
 	}
 
 	@Override
-	protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-		double handleX = mouseX - getX() - ((double) HANDLE_WIDTH / 2);
+	protected void onDrag(MouseButtonEvent event, double dx, double dy) {
+		double handleX = event.x() - getX() - ((double) HANDLE_WIDTH / 2);
 		setHandlePos(Mth.clamp((float) (handleX / bound), 0, 1));
 	}
 

@@ -110,6 +110,7 @@
     "client.GameRendererAccessor",
     "client.GameRendererMixin",
     "client.GuiGraphicsAccessor",
+    "client.GuiMixin",
     "client.HumanoidArmorLayerMixin",
     "client.ItemInHandRendererMixin",
     "client.ItemStackRenderStateAccessor",

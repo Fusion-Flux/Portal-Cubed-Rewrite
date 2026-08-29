@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import java.util.List;
-
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,14 +12,11 @@ import com.llamalad7.mixinextras.sugar.Local;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedReloadListeners;
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
-import io.github.fusionflux.portalcubed.framework.extension.ScreenExt;
-import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.item.AttackListeningItem;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.LivingEntityAccessor;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.CustomAttackPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.TriState;
@@ -41,10 +36,6 @@ public class MinecraftMixin {
 
 	@Shadow
 	@Nullable
-	public Screen screen;
-
-	@Shadow
-	@Nullable
 	public HitResult hitResult;
 
 	@Inject(
@@ -56,23 +47,6 @@ public class MinecraftMixin {
 	)
 	private void registerAssetReloadListeners(CallbackInfo ci) {
 		PortalCubedReloadListeners.registerAssets();
-	}
-
-	@Inject(
-			method = "tick",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/screens/Screen;tick()V",
-					shift = At.Shift.AFTER
-			)
-	)
-	private void handleScreenTickables(CallbackInfo ci) {
-		// this is done because injecting into screen#tick is unreliable, most don't call super.
-		if (this.screen instanceof ScreenExt ext) {
-			List<TickableWidget> tickables = ext.pc$tickables();
-			if (tickables != null)
-				tickables.forEach(TickableWidget::tick);
-		}
 	}
 
 	@Inject(
@@ -96,7 +70,7 @@ public class MinecraftMixin {
 		}
 	}
 
-	@Inject(method = "continueAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V"))
+	@Inject(method = "continueAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/component/SwingAnimation;Z)Z"))
 	private void onContinueAttack(CallbackInfo ci) {
 		ItemStack stack = this.player.getItemInHand(InteractionHand.MAIN_HAND);
 		int swingDuration = ((LivingEntityAccessor) this.player).callGetCurrentSwingDuration();

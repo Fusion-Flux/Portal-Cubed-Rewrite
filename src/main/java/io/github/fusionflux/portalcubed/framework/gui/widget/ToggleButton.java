@@ -4,11 +4,12 @@ import java.util.function.BooleanSupplier;
 
 import org.apache.commons.lang3.function.BooleanConsumer;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.Identifier;
 
@@ -37,12 +38,12 @@ public class ToggleButton extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		graphics.blitSprite(RenderType::guiTextured, sprites.get(valueGetter.getAsBoolean(), isHovered()), getX(), getY(), getWidth(), getHeight());
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprites.get(valueGetter.getAsBoolean(), isHovered()), getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override
-	public void onClick(double mouseX, double mouseY) {
+	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		valueSetter.accept(!valueGetter.getAsBoolean());
 	}
 

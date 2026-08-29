@@ -2,14 +2,12 @@ package io.github.fusionflux.portalcubed.framework.gui.widget;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.ComponentPath;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.Identifier;
@@ -24,12 +22,9 @@ public class TranslucentSpriteWidget extends AbstractWidget {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		RenderSystem.enableBlend();
-		// z400 is where the advancement screen renders it's translucent textures
-		graphics.pose().translate(0, 0, 400);
-		graphics.blitSprite(RenderType::guiTextured, this.sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		RenderSystem.disableBlend();
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		graphics.nextStratum();
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
 
 	@Override

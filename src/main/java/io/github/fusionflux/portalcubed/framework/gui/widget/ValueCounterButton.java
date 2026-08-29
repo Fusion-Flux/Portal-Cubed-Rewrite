@@ -4,10 +4,11 @@ import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -52,17 +53,17 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		graphics.blitSprite(RenderType::guiTextured, sprites.choose(isHovered(), pressed, !isActive()), getX(), getY(), getWidth(), getHeight());
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprites.choose(isHovered(), pressed, !isActive()), getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override
-	public final void onClick(double mouseX, double mouseY) {
+	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		startClicking();
 	}
 
 	@Override
-	public final void onRelease(double mouseX, double mouseY) {
+	public void onRelease(MouseButtonEvent event) {
 		stopClicking();
 	}
 
