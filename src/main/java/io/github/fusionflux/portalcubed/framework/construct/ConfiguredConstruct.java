@@ -6,7 +6,6 @@ import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;

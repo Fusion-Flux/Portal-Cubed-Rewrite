@@ -3,8 +3,6 @@ package io.github.fusionflux.portalcubed.content.cannon.screen.widget;
 import java.util.List;
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
@@ -13,7 +11,7 @@ import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButto
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet.ListBacked;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -77,17 +75,13 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.renderWidget(graphics, mouseX, mouseY, delta);
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractWidgetRenderState(graphics, mouseX, mouseY, a);
 		if (this.isActive()) {
-			graphics.renderItem(this.getRenderedItem(), this.getX() + OFFSET, this.getY() + OFFSET);
+			graphics.item(this.getRenderedItem(), this.getX() + OFFSET, this.getY() + OFFSET);
 			if (this.isHovered()) {
-				PoseStack matrices = graphics.pose();
-				matrices.pushPose();
-				// extra Z to render on top of the really high side panels
-				matrices.translate(0, 0, 500);
-				this.tooltip.render(graphics, mouseX, mouseY);
-				matrices.popPose();
+				graphics.nextStratum();
+				this.tooltip.extractRenderState(graphics, mouseX, mouseY);
 			}
 		}
 	}

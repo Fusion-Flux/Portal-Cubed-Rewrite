@@ -3,10 +3,8 @@ package io.github.fusionflux.portalcubed.framework.gui.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.fusionflux.portalcubed.mixin.client.GuiGraphicsAccessor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.network.chat.Component;
@@ -37,10 +35,8 @@ public class AdvancedTooltip {
 		return this.components;
 	}
 
-	public void render(GuiGraphics graphics, int mouseX, int mouseY) {
-		GuiGraphicsAccessor access = (GuiGraphicsAccessor) graphics;
-		Font font = Minecraft.getInstance().font;
-		access.callRenderTooltipInternal(font, this.get(), mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+		graphics.tooltip(Minecraft.getInstance().font, this.get(), mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null, false);
 	}
 
 	public interface Factory {

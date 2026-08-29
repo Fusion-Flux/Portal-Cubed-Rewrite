@@ -1,8 +1,6 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -20,16 +18,12 @@ public class CannonDisplayWidget extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		PoseStack matrices = graphics.pose();
-		matrices.pushPose();
-
-		// magic offset to fix it rendering over tooltips
-		matrices.translate(this.getX(), this.getY(), -300);
-		matrices.scale(this.scale, this.scale, this.scale);
-		graphics.renderFakeItem(this.item, 0, 0);
-
-		matrices.popPose();
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		graphics.pose().pushMatrix();
+		graphics.pose().translate(this.getX(), this.getY());
+		graphics.pose().scale(this.scale, this.scale);
+		graphics.fakeItem(this.item, 0, 0);
+		graphics.pose().popMatrix();
 	}
 
 	@Override
