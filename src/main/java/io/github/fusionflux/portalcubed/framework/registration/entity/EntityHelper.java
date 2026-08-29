@@ -4,7 +4,7 @@ import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
-public class EntityHelper {
+public final class EntityHelper {
 	private final Registrar registrar;
 
 	public EntityHelper(Registrar registrar) {

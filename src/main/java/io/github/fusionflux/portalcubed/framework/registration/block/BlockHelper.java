@@ -7,7 +7,7 @@ import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import net.minecraft.world.level.block.Block;
 
-public class BlockHelper {
+public final class BlockHelper {
 	private final Registrar registrar;
 
 	final Map<Block, RenderTypes> renderTypes = new HashMap<>();

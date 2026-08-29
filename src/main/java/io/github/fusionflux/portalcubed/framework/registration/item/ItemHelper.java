@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.framework.registration.item;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.minecraft.world.item.Item;
 
-public class ItemHelper {
+public final class ItemHelper {
 	private final Registrar registrar;
 
 	public ItemHelper(Registrar registrar) {

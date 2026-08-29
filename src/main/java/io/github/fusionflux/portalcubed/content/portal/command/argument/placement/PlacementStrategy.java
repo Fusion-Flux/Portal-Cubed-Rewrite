@@ -93,7 +93,7 @@ public enum PlacementStrategy {
 			return switch (PortalShot.perform(portal, level, source.pos, normal, source.yaw)) {
 				case PortalShot.Failed ignored -> throw PortalCommand.SHOT_FROM_INVALID.create();
 				case PortalShot.Missed ignored -> {
-					int range = level.getGameRules().getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
+					int range = level.getGameRules().get(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT);
 					throw PortalCommand.SHOT_FROM_MISSED.create(range);
 				}
 				case PortalShot.Success success -> {

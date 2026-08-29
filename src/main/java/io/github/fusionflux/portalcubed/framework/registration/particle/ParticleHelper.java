@@ -14,7 +14,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
-public class ParticleHelper {
+public final class ParticleHelper {
 	private final Registrar registrar;
 
 	public ParticleHelper(Registrar registrar) {

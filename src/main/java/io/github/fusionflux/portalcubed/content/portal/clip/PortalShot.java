@@ -34,7 +34,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -190,9 +190,9 @@ public sealed interface PortalShot {
 		}
 
 		GameRules gameRules = level.getGameRules();
-		boolean shootThroughPortals = gameRules.getBoolean(PortalCubedGameRules.ALLOW_SHOOTING_PORTALS_THROUGH_PORTALS);
+		boolean shootThroughPortals = gameRules.get(PortalCubedGameRules.ALLOW_SHOOTING_PORTALS_THROUGH_PORTALS);
 		RaycastOptions options = shootThroughPortals ? RAYCAST_OPTIONS.edit().portals(PortalMode.PASS_THROUGH).build() : RAYCAST_OPTIONS;
-		double range = Math.min(maxRange, gameRules.getInt(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
+		double range = Math.min(maxRange, gameRules.get(PortalCubedGameRules.PORTAL_SHOT_RANGE_LIMIT));
 
 		RaycastResult.VanillaConvertible result = options.raycast(level, source, direction, range).assertNotPortal();
 

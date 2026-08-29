@@ -41,7 +41,7 @@ public abstract class GooFluid extends FlowingFluid {
         if (entity.is(PortalCubedEntityTags.DISINTEGRATES_WHEN_FIZZLED)) {
             FizzleBehaviour.DISINTEGRATION.fizzle(entity);
         } else {
-            entity.hurtServer(world, PortalCubedDamageSources.toxicGoo(world), world.getGameRules().getInt(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
+            entity.hurtServer(world, PortalCubedDamageSources.toxicGoo(world), world.getGameRules().get(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
         }
 	}
 
@@ -65,7 +65,7 @@ public abstract class GooFluid extends FlowingFluid {
 
 	@Override
 	protected boolean canConvertToSource(ServerLevel level) {
-		return level.getGameRules().getBoolean(PortalCubedGameRules.TOXIC_GOO_SOURCE_CONVERSION);
+		return level.getGameRules().get(PortalCubedGameRules.TOXIC_GOO_SOURCE_CONVERSION);
 	}
 
 	@Override
