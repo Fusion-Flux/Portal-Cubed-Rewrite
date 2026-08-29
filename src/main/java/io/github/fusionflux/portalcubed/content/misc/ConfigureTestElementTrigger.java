@@ -9,10 +9,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.misc.ConfigureTestElementTrigger.Instance;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.triggers.SimpleCriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 public class ConfigureTestElementTrigger extends SimpleCriterionTrigger<Instance> {
 	@Override
@@ -44,7 +45,7 @@ public class ConfigureTestElementTrigger extends SimpleCriterionTrigger<Instance
 		}
 
 		@Override
-		public Optional<ContextAwarePredicate> player() {
+		public Optional<Holder<LootItemCondition>> player() {
 			return Optional.empty();
 		}
 	}
