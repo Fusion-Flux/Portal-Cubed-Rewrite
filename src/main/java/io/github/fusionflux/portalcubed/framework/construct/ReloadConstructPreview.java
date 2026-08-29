@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.construct;
 
-import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
@@ -18,7 +17,7 @@ public enum ReloadConstructPreview implements ClientboundPacket {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(Context ctx) {
-		ConstructPreviewRenderer.reload();
+//		ConstructPreviewRenderer.reload();
 	}
 
 	@Override

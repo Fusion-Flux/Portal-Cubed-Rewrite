@@ -14,6 +14,7 @@ import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -71,29 +72,29 @@ public record CannonSettings(
 	}
 
 	@Override
-	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
+	public void addToTooltip(Item.TooltipContext context, Consumer<Component> consumer, TooltipFlag flag, DataComponentGetter components) {
 		MutableBoolean first = new MutableBoolean(true);
 
 		this.material().ifPresent(material -> {
 			if (first.isTrue()) {
-				tooltipAdder.accept(CommonComponents.EMPTY);
+				consumer.accept(CommonComponents.EMPTY);
 				first.setFalse();
 			}
 
-			tooltipAdder.accept(MATERIAL_TOOLTIP);
+			consumer.accept(MATERIAL_TOOLTIP);
 			Component name = TagTranslation.translate(material);
-			tooltipAdder.accept(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
+			consumer.accept(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
 		});
 
 		this.construct().ifPresent(construct -> {
 			if (first.isTrue()) {
-				tooltipAdder.accept(CommonComponents.EMPTY);
+				consumer.accept(CommonComponents.EMPTY);
 				first.setFalse();
 			}
 
-			tooltipAdder.accept(CONSTRUCT_TOOLTIP);
+			consumer.accept(CONSTRUCT_TOOLTIP);
 			Component name = ConstructSet.getName(this.construct().get());
-			tooltipAdder.accept(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
+			consumer.accept(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
 		});
 	}
 

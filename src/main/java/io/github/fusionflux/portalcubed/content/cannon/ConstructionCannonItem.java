@@ -77,9 +77,7 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 
 		// feedback
 		result.sound().ifPresent(sound -> playSound(player, sound, 1, 1));
-		result.feedback(player.getRandom()).ifPresent(
-				feedback -> player.displayClientMessage(feedback, true)
-		);
+		result.feedback(player.getRandom()).ifPresent(player::sendOverlayMessage);
 
 		PortalCubedPackets.sendToClient(player, new ShootCannonPacket(context.getHand(), result));
 
@@ -133,7 +131,7 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 		if (!this.mayBuild(player, bounds))
 			return CannonUseResult.NO_PERMS;
 
-		ServerLevel level = player.serverLevel();
+		ServerLevel level = player.level();
 		if (construct.isObstructed(level, clicked, replaceMode))
 			return CannonUseResult.OBSTRUCTED;
 
@@ -146,7 +144,7 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 
 	protected boolean mayBuild(ServerPlayer player, BoundingBox box) {
 		return BlockPos.betweenClosedStream(box).allMatch(
-				pos -> player.mayInteract(player.serverLevel(), pos)
+				pos -> player.mayInteract(player.level(), pos)
 		);
 	}
 
@@ -159,7 +157,7 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 			PlayerInventoryStorage storage = PlayerInventoryStorage.of(player);
 			for (StorageView<ItemVariant> view : storage.nonEmptyViews()) {
 				ItemVariant variant = view.getResource();
-				if (variant.getRegistryEntry().is(tag)) {
+				if (variant.is(tag)) {
 					// matches
 					long extract = Math.min(count, view.getAmount());
 					long extracted = view.extract(variant, extract, t);
@@ -213,9 +211,10 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	}
 
 	private static void playSound(ServerPlayer player, SoundEvent sound, float volume, float pitch) {
-		if (!player.isSilent()) {
-			player.playSound(sound, volume, pitch); // plays to other players
-			player.playNotifySound(sound, player.getSoundSource(), volume, pitch); // plays to self
-		}
+		// TODO: No idea, playNotifySound is gone - Max
+//		if (!player.isSilent()) {
+//			player.playSound(sound, volume, pitch); // plays to other players
+//			player.playNotifySound(sound, player.getSoundSource(), volume, pitch); // plays to self
+//		}
 	}
 }

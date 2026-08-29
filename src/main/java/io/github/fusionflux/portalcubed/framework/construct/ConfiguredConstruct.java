@@ -4,13 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+
+import com.mojang.logging.LogUtils;
 
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -22,12 +27,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
  * A construct that has been configured with a rotation and offset, ready for placement.
  */
 public class ConfiguredConstruct {
+	private static final Logger logger = LogUtils.getLogger();
+
 	public final Map<BlockPos, Construct.BlockInfo> blocks;
 	public final Rotation rotation;
 	public final BoundingBox bounds;
@@ -61,7 +69,9 @@ public class ConfiguredConstruct {
 			info.maybeNbt().ifPresent(nbt -> {
 				BlockEntity be = level.getBlockEntity(blockPos);
 				if (be != null) {
-					be.loadWithComponents(nbt, level.registryAccess());
+					try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(be.problemPath(), logger)) {
+						be.loadWithComponents(TagValueInput.create(reporter, level.registryAccess(), nbt));
+					}
 				}
 			});
 

@@ -52,11 +52,11 @@ public class ConstructionCannonAnimator {
 	}
 
 	public static void animate(PoseStack matrices, float tickDelta, InteractionHand hand) {
-		matrices.mulPose(Axis.XP.rotationDegrees(Mth.lerp(tickDelta, recoilOld, recoil)));
+		matrices.rotate(Axis.XP.rotationDegrees(Mth.lerp(tickDelta, recoilOld, recoil)));
 
 		float wiggleRotationOffset = hand == InteractionHand.MAIN_HAND ? WIGGLE_ROTATION_OFFSET : -WIGGLE_ROTATION_OFFSET;
 		matrices.translate(wiggleRotationOffset, 0, 0);
-		matrices.mulPose(Axis.ZP.rotationDegrees(Math.sin(Mth.lerp(tickDelta, wiggleOld, wiggle) / WIGGLE_SPEED) * WIGGLE_SPEED));
+		matrices.rotate(Axis.ZP.rotationDegrees(Math.sin(Mth.lerp(tickDelta, wiggleOld, wiggle) / WIGGLE_SPEED) * WIGGLE_SPEED));
 		matrices.translate(-wiggleRotationOffset, 0, 0);
 	}
 }

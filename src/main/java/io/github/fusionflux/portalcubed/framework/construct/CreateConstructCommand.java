@@ -8,38 +8,45 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
+import org.slf4j.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.arguments.ResourceLocationArgument;
+import net.minecraft.commands.arguments.IdentifierArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.permissions.Permissions;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.LevelResource;
+import net.minecraft.world.level.storage.TagValueOutput;
 
 public class CreateConstructCommand {
+	private static final Logger logger = LogUtils.getLogger();
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	public static LiteralArgumentBuilder<CommandSourceStack> build() {
 		return literal("create_construct")
-				.requires(source -> source.hasPermission(2))
+				.requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
 				.then(
 						argument("from", BlockPosArgument.blockPos()).then(
 								argument("to", BlockPosArgument.blockPos()).then(
-										argument("id", ResourceLocationArgument.id()).executes(ctx -> {
+										argument("id", IdentifierArgument.id()).executes(ctx -> {
 											BlockPos from = BlockPosArgument.getLoadedBlockPos(ctx, "from");
 											BlockPos to = BlockPosArgument.getLoadedBlockPos(ctx, "to");
-											Identifier id = ResourceLocationArgument.getId(ctx, "id");
+											Identifier id = IdentifierArgument.getId(ctx, "id");
 
 											BlockPos origin = new BlockPos(
 													Math.min(from.getX(), to.getX()),
@@ -60,7 +67,11 @@ public class CreateConstructCommand {
 													BlockEntity be = level.getBlockEntity(pos);
 													if (be != null) {
 														stats.blockEntities++;
-														nbt = be.saveWithId(level.registryAccess());
+														try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(be.problemPath(), logger)) {
+															TagValueOutput output = TagValueOutput.createWithContext(reporter, level.registryAccess());
+															be.saveWithId(output);
+															nbt = output.buildResult();
+														}
 													}
 
 													BlockPos relative = pos.subtract(origin);

@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.framework.construct;
 
 import java.util.Map;
 
-import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
@@ -24,7 +23,7 @@ public record ConstructSyncPacket(Map<Identifier, ConstructSet> constructs) impl
 	@Environment(EnvType.CLIENT)
 	public void handle(Context ctx) {
 		ConstructManager.INSTANCE.readFromPacket(this);
-		ConstructPreviewRenderer.reload();
+//		ConstructPreviewRenderer.reload();
 	}
 
 	@Override
