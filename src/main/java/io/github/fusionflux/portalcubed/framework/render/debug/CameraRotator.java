@@ -36,6 +36,6 @@ public class CameraRotator {
 
 	public static boolean isActive() {
 		return FabricLoader.getInstance().isDevelopmentEnvironment()
-				&& InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.KEY_J);
+				&& InputConstants.isKeyDown(InputConstants.KEY_J);
 	}
 }

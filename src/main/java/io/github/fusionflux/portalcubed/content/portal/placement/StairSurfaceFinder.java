@@ -13,11 +13,11 @@ import org.joml.Vector3d;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.flat.Line2d;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.gizmos.Gizmos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.StairBlock;
@@ -78,7 +78,7 @@ public final class StairSurfaceFinder {
 				new Vector3d()
 		));
 
-		DebugRendering.addPos(100, nearestOnPlane, Color.ORANGE);
+		Gizmos.point(nearestOnPlane, Color.ORANGE, 0.2f).persistForMillis(5000);
 
 		// discard components of offset that don't offset out of the stairs
 		Vec3 surfaceNormal = Vec3Ext.of(rotation.transform(new Vector3d(0, 1, 0)));

@@ -34,10 +34,8 @@ import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import io.github.fusionflux.portalcubed.framework.extension.PortalTeleportationExt;
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.AabbObbCollider;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
-import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.Maath;
 import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.core.BlockPos;
@@ -242,7 +240,8 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			// collide with collision on the other side
 			AABB area = bounds.expandTowards(motion.x, motion.y, motion.z);
 			PortalCollisionUtils.forEachBoxOnOtherSide(state.entity, portal, area, box -> {
-				DebugRendering.addBox(1, box, Color.YELLOW);
+				// TODO: Custom OBB Gizmo - Max
+//				DebugRendering.addBox(1, box, Color.YELLOW);
 				boxes.add(box);
 				return true;
 			});

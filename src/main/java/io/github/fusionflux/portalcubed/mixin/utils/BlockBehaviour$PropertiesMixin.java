@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 @Mixin(BlockBehaviour.Properties.class)
 public class BlockBehaviour$PropertiesMixin implements BlockBehaviourPropertiesExt {
 	@Shadow
-	boolean requiresCorrectToolForDrops;
+	private boolean requiresCorrectToolForDrops;
 
 	@Override
 	public BlockBehaviour.Properties pc$disableRequiresCorrectToolForDrops() {

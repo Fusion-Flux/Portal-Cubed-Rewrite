@@ -20,11 +20,11 @@ import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.util.Color;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
+import net.minecraft.gizmos.Gizmos;
 import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket;
 import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import net.minecraft.world.entity.Entity;
@@ -63,8 +63,8 @@ public class ClientPacketListenerMixin {
 
 		Vec3 newPos = teleportedCenter.subtract(posToCenter);
 
-		DebugRendering.addPos(20, pos.get(), Color.RED);
-		DebugRendering.addPos(20, newPos, Color.PURPLE);
+		Gizmos.point(pos.get(), Color.RED, 0.2f).persistForMillis(1000);
+		Gizmos.point(newPos, Color.PURPLE, 0.2f).persistForMillis(1000);
 
 		pos.set(newPos);
 
@@ -98,8 +98,8 @@ public class ClientPacketListenerMixin {
 			args.set(1, newTeleportedPos.y);
 			args.set(2, newTeleportedPos.z);
 
-			DebugRendering.addPos(10, newCenter, Color.GREEN);
-			DebugRendering.addPos(10, transformedCenter, Color.BLUE);
+			Gizmos.point(newCenter, Color.GREEN, 0.2f).persistForMillis(500);
+			Gizmos.point(transformedCenter, Color.BLUE, 0.2f).persistForMillis(500);
 		}
 
 		if (packet.hasRotation()) {

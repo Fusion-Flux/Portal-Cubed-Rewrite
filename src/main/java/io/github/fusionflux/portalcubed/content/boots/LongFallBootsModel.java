@@ -1,6 +1,5 @@
 package io.github.fusionflux.portalcubed.content.boots;
 
-import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -10,7 +9,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 
-public class LongFallBootsModel extends HumanoidArmorModel<HumanoidRenderState> {
+public class LongFallBootsModel extends HumanoidModel<HumanoidRenderState> {
 	private static final float DEFORMATION = 1.0f; // Vanilla value for boots not stored in a constant anywhere.
 	private static final float LEG_DEFORMATION = DEFORMATION - 0.1f; // 0.1 is the vanilla offset also not stored in a constant anywhere.
 	private static final float INNER_LEG_DEFORMATION = LEG_DEFORMATION - 0.05f;

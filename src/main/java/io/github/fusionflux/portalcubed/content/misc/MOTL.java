@@ -9,8 +9,8 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.Person;
-import net.minecraft.Util;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 
 /**
  * Message Of The Launch

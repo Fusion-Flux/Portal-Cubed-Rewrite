@@ -1,15 +1,13 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
-public record Color(float r, float g, float b, float a) {
-	public static final Color RED = new Color(1, 0, 0, 1);
-	public static final Color GREEN = new Color(0.5f, 1, 0.5f, 1);
-	public static final Color BLUE = new Color(0, 0, 1, 1);
-	public static final Color ORANGE = new Color(1, 0.5f, 0, 1);
-	public static final Color PURPLE = new Color(0.5f, 0, 1, 1);
-	public static final Color CYAN = new Color(0, 1, 1, 1);
-	public static final Color YELLOW = new Color(1, 0.95f, 0, 1);
+import net.minecraft.util.ARGB;
 
-	public Color withAlpha(float alpha) {
-		return new Color(this.r, this.g, this.b, alpha);
-	}
+public interface Color {
+	int RED = ARGB.colorFromFloat(1, 1, 0, 0);
+	int GREEN = ARGB.colorFromFloat(1, 0.5f, 1, 0.5f);
+	int BLUE = ARGB.colorFromFloat(1, 0, 0, 1);
+	int ORANGE = ARGB.colorFromFloat(1, 1, 0.5f, 0);
+	int PURPLE = ARGB.colorFromFloat(1, 0.5f, 0, 1);
+	int CYAN = ARGB.colorFromFloat(1, 0, 1, 1);
+	int YELLOW = ARGB.colorFromFloat(1, 1, 0.95f, 0);
 }

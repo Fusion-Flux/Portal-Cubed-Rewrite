@@ -1,23 +1,16 @@
 package io.github.fusionflux.portalcubed.framework.util;
 
-import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
-import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
+import net.fabricmc.fabric.api.client.renderer.v1.mesh.MutableQuadView;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.resources.Identifier;
 
 public class ModelUtil {
-	@SuppressWarnings("deprecation")
 	public static TextureAtlasSprite getSprite(Identifier texture) {
-		return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(texture);
-	}
-
-	@SuppressWarnings("deprecation")
-	public static SpriteFinder getSpriteFinder() {
-		ModelManager modelManager = Minecraft.getInstance().getModelManager();
-		return SpriteFinder.get(modelManager.getAtlas(TextureAtlas.LOCATION_BLOCKS));
+		//noinspection deprecation
+		return Minecraft.getInstance().getAtlasManager().get(new SpriteId(TextureAtlas.LOCATION_BLOCKS, texture));
 	}
 
 	public static void normalizeUV(MutableQuadView quad, TextureAtlasSprite sprite) {

@@ -99,6 +99,7 @@
   "client": [
     "client.AbstractClientPlayerMixin",
     "client.AbstractContainerScreenMixin",
+    "client.AvatarRendererMixin",
     "client.BakedQuadMixin",
     "client.BlockElement_DeserializerMixin",
     "client.BlockElementMixin",
@@ -129,7 +130,6 @@
     "client.OrConditionAccessor",
     "client.ParticleAccessor",
     "client.ParticleEngineMixin",
-    "client.PlayerRendererMixin",
     "client.RenderBuffersMixin",
     "client.RenderSectionManagerAccessor",
     "client.RenderSystemAccessor",

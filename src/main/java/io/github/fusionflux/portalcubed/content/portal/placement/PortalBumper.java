@@ -23,7 +23,6 @@ import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
 import io.github.fusionflux.portalcubed.framework.shape.flat.Line2d;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
@@ -31,6 +30,7 @@ import io.github.fusionflux.portalcubed.framework.util.Color;
 import io.github.fusionflux.portalcubed.framework.util.DoubleRange;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.gizmos.Gizmos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
@@ -59,33 +59,33 @@ public class PortalBumper {
 			return null;
 
 		Angle rotation = forcedRotation != null ? forcedRotation : PortalData.normalToFlatRotation(face, yRot);
-		boolean bumpThroughWalls = level.getGameRules().getBoolean(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
+		boolean bumpThroughWalls = level.getGameRules().get(PortalCubedGameRules.PORTALS_BUMP_THROUGH_WALLS);
 
 		for (PortalableSurface surface : surfaceCandidates) {
 			if (EVIL_DEBUG_RENDERING) {
 				for (Line2d wall : surface.walls()) {
 					Line line = wall.to3d(surface);
-					DebugRendering.addLine(100, line, Color.PURPLE);
+					Gizmos.line(line.from(), line.to(), Color.PURPLE).persistForMillis(5000);
 					// DebugRendering.addPos(100, line.from(), Color.PURPLE);
 					// DebugRendering.addPos(100, line.to(), Color.PURPLE);
 
 					Vector2d perpendicularAxis = wall.perpendicularCcwAxis().mul(0.25);
 					Line2d perpendicularLine = new Line2d(wall.midpoint(), wall.midpoint().add(perpendicularAxis));
-					DebugRendering.addLine(100, perpendicularLine.to3d(surface), Color.RED);
+					Gizmos.line(perpendicularLine.to3d(surface).from(), perpendicularLine.to3d(surface).to(), Color.RED).persistForMillis(5000);
 				}
 				Vector3f normal = surface.rotation().transform(new Vector3f(0, 1, 0));
 				Line normalLine = new Line(surface.origin(), surface.origin().add(normal.x, normal.y, normal.z));
-				DebugRendering.addLine(100, normalLine, Color.BLUE);
+				Gizmos.line(normalLine.from(), normalLine.to(), Color.BLUE).persistForMillis(5000);
 				Vector3f up = surface.rotation().transform(new Vector3f(0, 0, 1));
 				Line upLine = new Line(surface.origin(), surface.origin().add(up.x, up.y, up.z));
-				DebugRendering.addLine(100, upLine, Color.CYAN);
+				Gizmos.line(upLine.from(), upLine.to(), Color.CYAN).persistForMillis(5000);
 			}
 
 			List<PortalCandidate> candidates = new ArrayList<>();
 			for (PortalCandidate portal : getInitialCandidates(level, surface, rotation, forcedRotation != null)) {
 				if (EVIL_DEBUG_RENDERING) {
 					for (Line2d portalSide : portal.lines()) {
-						DebugRendering.addLine(100, portalSide.to3d(surface), Color.GREEN);
+						Gizmos.line(portalSide.to3d(surface).from(), portalSide.to3d(surface).to(), Color.GREEN).persistForMillis(5000);
 					}
 				}
 
@@ -104,8 +104,8 @@ public class PortalBumper {
 
 			if (EVIL_DEBUG_RENDERING) {
 				for (Line2d portalSide : finalLocation.lines()) {
-					Color color = portalSide == finalLocation.top() ? Color.PURPLE : Color.YELLOW;
-					DebugRendering.addLine(100,  portalSide.to3d(surface), color);
+					int color = portalSide == finalLocation.top() ? Color.PURPLE : Color.YELLOW;
+					Gizmos.line(portalSide.to3d(surface).from(), portalSide.to3d(surface).to(), color).persistForMillis(5000);
 				}
 			}
 
@@ -123,7 +123,7 @@ public class PortalBumper {
 			return List.of(PortalCandidate.initial(rotation));
 		}
 
-		if (!surface.supportsPortalRotation() && !level.getGameRules().getBoolean(PortalCubedGameRules.ALLOW_ROTATED_WALL_PORTALS)) {
+		if (!surface.supportsPortalRotation() && !level.getGameRules().get(PortalCubedGameRules.ALLOW_ROTATED_WALL_PORTALS)) {
 			return List.of(PortalCandidate.initial(Angle.R0));
 		}
 
@@ -179,7 +179,7 @@ public class PortalBumper {
 
 				if (EVIL_DEBUG_RENDERING) {
 					for (Line2d line : moved.lines()) {
-						DebugRendering.addLine(10, line.to3d(surface), Color.RED);
+						Gizmos.line(line.to3d(surface).from(), line.to3d(surface).to(), Color.RED).persistForMillis(500);
 					}
 				}
 			}
@@ -386,7 +386,7 @@ public class PortalBumper {
 		if (hasLiquid(state))
 			return false;
 
-		if (level.getGameRules().getBoolean(PortalCubedGameRules.RESTRICT_VALID_PORTAL_SURFACES)) {
+		if (level.getGameRules().get(PortalCubedGameRules.RESTRICT_VALID_PORTAL_SURFACES)) {
 			return state.is(PortalCubedBlockTags.UNRESTRICTED_PORTAL_SURFACES);
 		}
 

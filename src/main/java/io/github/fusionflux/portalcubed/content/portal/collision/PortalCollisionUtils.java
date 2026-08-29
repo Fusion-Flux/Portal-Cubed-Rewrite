@@ -4,9 +4,10 @@ import java.util.function.Predicate;
 
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
-import io.github.fusionflux.portalcubed.framework.render.debug.DebugRendering;
 import io.github.fusionflux.portalcubed.framework.shape.OBB;
 import io.github.fusionflux.portalcubed.framework.util.Color;
+import net.minecraft.gizmos.GizmoStyle;
+import net.minecraft.gizmos.Gizmos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -27,7 +28,7 @@ public final class PortalCollisionUtils {
 		SinglePortalTransform transform = new SinglePortalTransform(portal.get(), linked.get());
 		AABB transformedArea = transform.apply(area).encompassingAabb;
 
-		DebugRendering.addBox(1, transformedArea, Color.PURPLE);
+		Gizmos.cuboid(transformedArea, GizmoStyle.stroke(Color.PURPLE)).persistForMillis(50);
 
 		for (VoxelShape shape : entity.level().getCollisions(null, transformedArea)) {
 			for (AABB box : shape.toAabbs()) {
