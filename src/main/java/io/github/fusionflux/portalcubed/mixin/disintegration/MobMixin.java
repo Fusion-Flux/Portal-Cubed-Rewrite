@@ -36,7 +36,7 @@ public abstract class MobMixin extends LivingEntity implements Leashable {
 
 	@Override
 	public boolean pc$disintegrate() {
-		if (!this.level().isClientSide)
+		if (!this.level().isClientSide())
 			this.dropLeash();
 		return super.pc$disintegrate();
 	}

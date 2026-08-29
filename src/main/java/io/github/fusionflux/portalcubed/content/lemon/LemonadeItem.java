@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.lemon;
 
-import net.minecraft.world.phys.Vec3;
-
 import org.jetbrains.annotations.NotNull;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
@@ -19,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class LemonadeItem extends Item {
 	public static final float MIN_THROW_POWER = 0.75f;
@@ -42,7 +41,7 @@ public class LemonadeItem extends Item {
 	}
 
 	public ItemStack finishArming(ItemStack stack, Level world, LivingEntity user, int armTime) {
-		if (!world.isClientSide) {
+		if (!world.isClientSide()) {
 			if (user instanceof Player player && !player.getAbilities().mayBuild) {
 				world.playSound(null, user.getX(), user.getY(), user.getZ(), PortalCubedSounds.SURPRISE, user.getSoundSource(), 1f, 1f);
 			} else {

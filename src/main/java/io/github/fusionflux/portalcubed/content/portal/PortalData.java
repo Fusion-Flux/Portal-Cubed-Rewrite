@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.portal;
 
 import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -28,7 +29,7 @@ public record PortalData(
 		Holder<PortalType> type,
 		PortalValidator validator,
 		Vec3 origin,
-		Quaternionf rotation,
+		Quaternionfc rotation,
 		PortalColor color,
 		boolean render,
 		boolean tracer

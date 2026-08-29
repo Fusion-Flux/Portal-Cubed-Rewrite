@@ -44,7 +44,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Inject(method = "stopUsingItem", at = @At("HEAD"))
 	private void finishLemonadeArmingOnStop(CallbackInfo ci) {
 		Level world = this.level();
-		if (!world.isClientSide && !this.lemonadeArmingFinished) {
+		if (!world.isClientSide() && !this.lemonadeArmingFinished) {
 			ItemStack useItem = this.getUseItem();
 			if (useItem.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(useItem)) {
 				// setting to true here isn't useless in some rare cases (skeletons for example) setItemInHand might cause another invoke of this method

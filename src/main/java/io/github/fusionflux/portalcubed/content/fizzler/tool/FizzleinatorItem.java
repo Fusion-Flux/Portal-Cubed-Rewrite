@@ -59,7 +59,7 @@ public class FizzleinatorItem extends Item implements UsableOnPortals {
 
 	public static void registerEventListeners() {
 		UseEntityCallback.EVENT.register((player, level, hand, entity, hit) -> {
-			if (player.isSecondaryUseActive() || level.isClientSide || !canFizzle(player) || player.isSpectator())
+			if (player.isSecondaryUseActive() || level.isClientSide() || !canFizzle(player) || player.isSpectator())
 				return InteractionResult.PASS;
 
 			if (entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION))

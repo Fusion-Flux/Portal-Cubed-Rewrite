@@ -41,7 +41,7 @@ public class CrowbarItem extends Item implements AttackListeningItem {
 		player.playSound(PortalCubedSounds.CROWBAR_SWING);
 		Level world = player.level();
 		if (!didSwingAnim) {
-			player.swing(InteractionHand.MAIN_HAND, !world.isClientSide);
+			player.swing(InteractionHand.MAIN_HAND, !world.isClientSide());
 		}
 
 		if (player instanceof ServerPlayer serverPlayer) {

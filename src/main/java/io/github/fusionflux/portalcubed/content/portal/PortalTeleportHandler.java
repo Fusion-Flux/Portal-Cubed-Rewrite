@@ -81,7 +81,7 @@ public class PortalTeleportHandler {
 			// players are handled specially. All the logic is client side and the server is notified.
 			// server does some verification and tells the client if the teleport was invalid.
 			PortalCubedPackets.sendToServer(ClientTeleportedPacket.of(path));
-		} else if (!level.isClientSide) {
+		} else if (!level.isClientSide()) {
 			// sync to clients
 			PortalTeleportPacket packet = PortalTeleportPacket.of(entity, path);
 			PortalCubedPackets.sendToClients(PlayerLookup.tracking(entity), packet);

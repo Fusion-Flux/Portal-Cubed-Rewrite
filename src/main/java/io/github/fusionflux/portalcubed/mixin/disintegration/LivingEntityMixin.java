@@ -27,7 +27,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Override
 	public boolean pc$disintegrate() {
-		if (!this.level().isClientSide)
+		if (!this.level().isClientSide())
 			this.releaseUsingItem();
 		return super.pc$disintegrate();
 	}

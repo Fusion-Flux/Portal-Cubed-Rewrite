@@ -57,7 +57,7 @@ public record PortalSettings(Optional<String> pair, ResourceKey<PortalType> type
 	}
 
 	public String pairFor(Player user) {
-		return this.pair.orElse(user.getGameProfile().getName());
+		return this.pair.orElse(user.getGameProfile().name());
 	}
 
 	private static PortalSettings makeDefault(Polarity polarity) {

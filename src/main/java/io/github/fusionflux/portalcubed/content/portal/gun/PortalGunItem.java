@@ -57,7 +57,7 @@ public class PortalGunItem extends Item implements AttackListeningItem {
 
 		this.playerShoot(player, stack, InteractionHand.MAIN_HAND, Polarity.PRIMARY);
 
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			UseCooldown cooldown = stack.get(DataComponents.USE_COOLDOWN);
 			if (cooldown != null) {
 				cooldown.apply(stack, player);
