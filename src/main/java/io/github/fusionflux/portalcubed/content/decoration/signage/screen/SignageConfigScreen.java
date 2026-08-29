@@ -16,12 +16,13 @@ import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import net.minecraft.client.gui.ComponentPath;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
@@ -88,7 +89,7 @@ public abstract class SignageConfigScreen extends Screen {
 		boolean aged = this.signageBlock.aged;
 		List<Holder.Reference<Signage>> signage = this.registryLookup
 				.listElementIds()
-				.sorted(Comparator.comparing(ResourceKey::location))
+				.sorted(Comparator.comparing(ResourceKey::identifier))
 				.map(this.registryLookup::getOrThrow)
 				.filter(image -> aged ? image.value().agedTexture().isPresent() : image.value().cleanTexture().isPresent())
 				.toList();
@@ -130,9 +131,9 @@ public abstract class SignageConfigScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.renderTransparentBackground(graphics);
-		graphics.blit(RenderType::guiTextured, this.background(), this.leftPos, this.topPos + this.yOffset(), 0, 0, WIDTH, HEIGHT, 256, 256);
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.background(), this.leftPos, this.topPos + this.yOffset(), 0, 0, WIDTH, HEIGHT, 256, 256);
 	}
 
 	@Override
@@ -147,17 +148,22 @@ public abstract class SignageConfigScreen extends Screen {
 	}
 
 	@Override
+	public boolean isInGameUi() {
+		return true;
+	}
+
+	@Override
 	public ComponentPath nextFocusPath(FocusNavigationEvent event) {
 		return null;
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+	public boolean keyPressed(KeyEvent event) {
 		// close on E
-		if (this.minecraft != null && this.minecraft.options.keyInventory.matches(keyCode, scanCode)) {
+		if (this.minecraft.options.keyInventory.matches(event)) {
 			this.onClose();
 			return true;
 		}
-		return super.keyPressed(keyCode, scanCode, modifiers);
+		return super.keyPressed(event);
 	}
 }
