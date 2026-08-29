@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_shelf_unconnected",
+  "textures": {
+    "all": "portalcubed:block/lemon_shelf",
+    "particle": "portalcubed:block/stripped_lemon_log"
+  }
+}
