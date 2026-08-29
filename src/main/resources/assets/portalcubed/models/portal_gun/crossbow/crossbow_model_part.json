@@ -1,5 +1,5 @@
 {
-	"format_version": "1.21.6",
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "item/crossbow_pulling_2_grayscale",
@@ -412,8 +412,5 @@
 			"color": 0,
 			"children": [21, 22, 23, 24, 25, 26, 27]
 		}
-	],
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
-	}
+	]
 }

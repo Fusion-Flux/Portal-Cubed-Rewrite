@@ -1,5 +1,5 @@
 {
-	"format_version": "1.9.0",
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
@@ -314,29 +314,30 @@
 		{
 			"name": "frame",
 			"origin": [0, 1, 6],
+			"scope": 0,
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6, 7]
 		},
 		{
 			"name": "shell",
 			"origin": [8, 3.5, 13],
+			"scope": 0,
 			"color": 0,
 			"children": [8, 9, 10, 11, 12]
 		},
 		{
 			"name": "prongs",
 			"origin": [7.9995, 4.54813, -2.2675],
+			"scope": 0,
 			"color": 0,
 			"children": [13, 14, 15, 16, 17, 18, 19]
 		},
 		{
 			"name": "emissive",
 			"origin": [8, 5.975, 10.8],
+			"scope": 0,
 			"color": 0,
 			"children": [20, 21, 22]
 		}
-	],
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
-	}
+	]
 }

@@ -144,8 +144,5 @@
 			"translation": [0, 2.75, 0],
 			"scale": [0.94922, 0.94922, 0.94922]
 		}
-	},
-	"portalcubed:render_types": {
-		"translucent": ["transparent"]
 	}
 }

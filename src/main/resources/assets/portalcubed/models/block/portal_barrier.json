@@ -1,5 +1,5 @@
 {
-	"format_version": "1.9.0",
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"particle": "portalcubed:block/portal_barrier",
@@ -20,8 +20,5 @@
 			}
 		}
 	],
-	"display": {},
-	"portalcubed:render_types": {
-		"translucent": ["translucent"]
-	}
+	"display": {}
 }

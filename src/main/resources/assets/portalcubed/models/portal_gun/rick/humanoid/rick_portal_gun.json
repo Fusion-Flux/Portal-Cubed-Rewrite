@@ -1,5 +1,5 @@
 {
-	"format_version": "1.9.0",
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:portal_gun/rick_portal_gun_emissive",
@@ -218,8 +218,5 @@
 			"color": 0,
 			"children": [7, 8, 9, 10, 11, 12, 13]
 		}
-	],
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
-	}
+	]
 }

@@ -1,5 +1,5 @@
 {
-	"format_version": "1.9.0",
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [64, 32],
 	"textures": {
@@ -95,7 +95,7 @@
 			"name": "emission",
 			"from": [-10, 1, 6],
 			"to": [10, 2, 26],
-			"shade": false,
+			"shade_direction_override": "up",
 			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 2, 16]},
 			"faces": {
@@ -313,8 +313,5 @@
 			"color": 0,
 			"children": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
 		}
-	],
-	"portalcubed:render_types": {
-		"translucent": ["transparent"]
-	}
+	]
 }

@@ -99,8 +99,5 @@
 			"rotation": [0, -180, 45],
 			"translation": [2.5, 2.25, -1.25]
 		}
-	},
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
 	}
 }

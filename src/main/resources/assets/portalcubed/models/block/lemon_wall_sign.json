@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_wall_sign",
+  "textures": {
+    "all": "portalcubed:block/lemon_sign",
+    "particle": "portalcubed:block/lemon_planks"
+  }
+}

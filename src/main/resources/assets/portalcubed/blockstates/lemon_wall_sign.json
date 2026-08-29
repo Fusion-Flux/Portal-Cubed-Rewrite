@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
-      "model": "portalcubed:block/lemon_sign"
+    "facing=east": {
+      "model": "portalcubed:block/lemon_wall_sign",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "portalcubed:block/lemon_wall_sign",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "portalcubed:block/lemon_wall_sign"
+    },
+    "facing=west": {
+      "model": "portalcubed:block/lemon_wall_sign",
+      "y": 90
     }
   }
 }

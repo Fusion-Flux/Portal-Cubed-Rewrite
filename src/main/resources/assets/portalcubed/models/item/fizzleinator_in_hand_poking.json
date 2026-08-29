@@ -1,5 +1,5 @@
 {
-	"format_version": "1.9.0",
+	"format_version": "1.21.11",
         "parent": "portalcubed:item/fizzleinator_in_hand",
 	"credit": "Made by Cart3r using Blockbench.",
 	"display": {

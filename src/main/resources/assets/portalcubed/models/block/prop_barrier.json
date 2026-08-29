@@ -1,5 +1,5 @@
 {
-	"format_version": "1.9.0",
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"1": "portalcubed:block/prop_barrier_block",
@@ -37,7 +37,7 @@
 			"name": "translucent",
 			"from": [3, 3, 3],
 			"to": [13, 13, 13],
-			"shade": false,
+			"shade_direction_override": "up",
 			"light_emission": 15,
 			"faces": {
 				"north": {"uv": [10, 0, 15, 10], "texture": "#2"},
@@ -75,8 +75,5 @@
 				"down": {"uv": [0, 0, 16, 16], "texture": "#1", "cullface": "down"}
 			}
 		}
-	],
-	"portalcubed:render_types": {
-		"translucent": ["translucent"]
-	}
+	]
 }

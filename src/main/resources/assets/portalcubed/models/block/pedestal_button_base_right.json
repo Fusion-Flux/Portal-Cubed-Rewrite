@@ -1,5 +1,5 @@
 {
-	"format_version": "1.9.0",
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
@@ -56,7 +56,7 @@
 			"name": "emission",
 			"from": [9, 3.025, 7.5],
 			"to": [14, 18.525, 8.5],
-			"shade": false,
+			"shade_direction_override": "up",
 			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [11.5, 11.025, 8]},
 			"faces": {
@@ -68,7 +68,7 @@
 			"name": "emission",
 			"from": [11, 3.025, 5.5],
 			"to": [12, 19.025, 10.5],
-			"shade": false,
+			"shade_direction_override": "up",
 			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [11.5, 11.025, 8]},
 			"faces": {

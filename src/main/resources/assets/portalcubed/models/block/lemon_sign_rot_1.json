@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_sign_rot_1",
+  "textures": {
+    "all": "portalcubed:block/lemon_sign",
+    "particle": "portalcubed:block/lemon_planks"
+  }
+}

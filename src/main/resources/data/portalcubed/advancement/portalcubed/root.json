@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancement.portalcubed.root.description"
     },
-    "background": "portalcubed:textures/block/white_half_panel.png",
+    "background": "portalcubed:block/white_half_panel",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,

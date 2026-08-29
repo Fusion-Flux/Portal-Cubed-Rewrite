@@ -1,5 +1,5 @@
 {
-	"format_version": "1.9.0",
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [64, 64],
 	"textures": {
@@ -320,8 +320,5 @@
 			"color": 0,
 			"children": [21, 22, 23, 24]
 		}
-	],
-	"portalcubed:render_types": {
-		"translucent": ["transparent"]
-	}
+	]
 }

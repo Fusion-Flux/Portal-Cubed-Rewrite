@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_attached_hanging_sign_rot_2",
+  "textures": {
+    "all": "portalcubed:block/lemon_hanging_sign",
+    "particle": "portalcubed:block/stripped_lemon_log"
+  }
+}

@@ -306,8 +306,5 @@
 			"color": 0,
 			"children": [17, 18, 19, 20]
 		}
-	],
-	"portalcubed:render_types": {
-		"cutout": ["cutout"]
-	}
+	]
 }
