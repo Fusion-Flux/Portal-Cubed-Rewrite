@@ -124,7 +124,7 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 	public record Sprites(
 			Identifier sprite, Identifier hovered,
 			Identifier pressed, Identifier pressedHovered,
-		    Identifier disabled, Identifier disabledHovered
+			Identifier disabled, Identifier disabledHovered
 	) {
 		public Sprites(Identifier sprite) {
 			this(
