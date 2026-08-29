@@ -19,7 +19,7 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigurePedestalButtonPacket;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.gui.ComponentPath;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.Layout;
@@ -27,8 +27,8 @@ import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -177,20 +177,20 @@ public class PedestalButtonConfigScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.render(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractRenderState(graphics, mouseX, mouseY, a);
 		for (var layoutWithTooltip : layoutsWithTooltip) {
 			var layout = layoutWithTooltip.right();
 			boolean isHovered = mouseX >= layout.getX() && mouseY >= layout.getY() && mouseX < layout.getX() + layout.getWidth() && mouseY < layout.getY() + layout.getHeight();
 			if (isHovered)
-				setTooltipForNextRenderPass(layoutWithTooltip.left(), DefaultTooltipPositioner.INSTANCE, true);
+				graphics.setTooltipForNextFrame(this.font, layoutWithTooltip.left().toCharSequence(this.minecraft), mouseX, mouseY);
 		}
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.renderTransparentBackground(graphics);
-		graphics.blit(RenderType::guiTextured, this.style.background, this.leftPos, this.topPos, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 256, 256);
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.style.background, this.leftPos, this.topPos, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 256, 256);
 	}
 
 	private void konami(Offset offset) {
@@ -218,18 +218,23 @@ public class PedestalButtonConfigScreen extends Screen {
 	}
 
 	@Override
+	public boolean isInGameUi() {
+		return true;
+	}
+
+	@Override
 	public ComponentPath nextFocusPath(FocusNavigationEvent event) {
 		return null;
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+	public boolean keyPressed(KeyEvent event) {
 		// close on E
-		if (this.minecraft != null && this.minecraft.options.keyInventory.matches(keyCode, scanCode)) {
+		if (this.minecraft.options.keyInventory.matches(event)) {
 			this.onClose();
 			return true;
 		}
-		return super.keyPressed(keyCode, scanCode, modifiers);
+		return super.keyPressed(event);
 	}
 
 	@Override
