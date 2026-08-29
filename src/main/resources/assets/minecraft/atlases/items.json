@@ -1,0 +1,52 @@
+{
+    "sources": [
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "minecraft:trims/items/leggings_trim",
+                "minecraft:trims/items/chestplate_trim",
+                "minecraft:trims/items/helmet_trim",
+                "minecraft:trims/items/boots_trim"
+            ],
+            "palette_key": "minecraft:trim_base",
+            "permutations": {
+                "magnesium": "portalcubed:trim/magnesium"
+            }
+        },
+        {
+            "type": "directory",
+            "source": "signage",
+            "prefix": "signage/"
+        },
+        {
+            "type": "directory",
+            "source": "prop",
+            "prefix": "prop/"
+        },
+        {
+            "type": "directory",
+            "source": "portal_gun",
+            "prefix": "portal_gun/"
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "minecraft:entity/fish/salmon"
+            ],
+            "palette_key": "portalcubed:portal_gun/salmon_gun_base",
+            "permutations": {
+                "grayscale": "portalcubed:portal_gun/salmon_gun"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "minecraft:item/crossbow_pulling_2"
+            ],
+            "palette_key": "portalcubed:portal_gun/crossbow_base",
+            "permutations": {
+                "grayscale": "portalcubed:portal_gun/crossbow"
+            }
+        }
+    ]
+}
