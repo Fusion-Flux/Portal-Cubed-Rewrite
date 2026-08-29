@@ -10,6 +10,7 @@ import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSi
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -24,13 +25,13 @@ public record SelectedSmallSignage(SmallSignageBlockEntity.Quadrants quadrants) 
 	public static final Component TOOLTIP_TITLE = Component.translatable("block.portalcubed.small_signage.images").withStyle(ChatFormatting.GRAY);
 
 	@Override
-	public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag) {
-		tooltipAdder.accept(CommonComponents.EMPTY);
-		tooltipAdder.accept(TOOLTIP_TITLE);
+	public void addToTooltip(Item.TooltipContext context, Consumer<Component> consumer, TooltipFlag flag, DataComponentGetter components) {
+		consumer.accept(CommonComponents.EMPTY);
+		consumer.accept(TOOLTIP_TITLE);
 		for (Map.Entry<SmallSignageBlock.Quadrant, Holder<Signage>> entry : this.quadrants.map().entrySet()) {
 			Holder<Signage> image = entry.getValue();
 			Component imageName = image.value().name();
-			tooltipAdder.accept(CommonComponents.space().append(imageName).withStyle(ChatFormatting.BLUE));
+			consumer.accept(CommonComponents.space().append(imageName).withStyle(ChatFormatting.BLUE));
 		}
 	}
 }

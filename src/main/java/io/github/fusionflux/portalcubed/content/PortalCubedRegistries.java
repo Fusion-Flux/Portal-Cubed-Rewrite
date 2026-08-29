@@ -25,7 +25,7 @@ public class PortalCubedRegistries {
 
 	private static <T> Registry<T> simple(String name) {
 		ResourceKey<Registry<T>> key = key(name);
-		return FabricRegistryBuilder.createSimple(key).buildAndRegister();
+		return FabricRegistryBuilder.create(key).buildAndRegister();
 	}
 
 	private static <T> ResourceKey<Registry<T>> key(String name) {

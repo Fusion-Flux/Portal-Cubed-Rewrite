@@ -1,8 +1,6 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
@@ -13,19 +11,14 @@ import io.github.fusionflux.portalcubed.content.decoration.signage.component.Sel
 import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTextureRenderData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.RegistryOps;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class LargeSignageBlockEntity extends SignageBlockEntity {
-	private static final Logger logger = LoggerFactory.getLogger(LargeSignageBlockEntity.class);
-
-	private static final String TAG_KEY = "image";
+	private static final String IMAGE_KEY = "image";
 
 	@Nullable
 	private Holder<Signage> image;
@@ -51,26 +44,21 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		RegistryOps<Tag> registryOps = registries.createSerializationContext(NbtOps.INSTANCE);
-		tag.put(TAG_KEY, Signage.LARGE_CODEC.encodeStart(registryOps, this.getImage()).getOrThrow());
+	protected void saveAdditional(ValueOutput output) {
+		output.store(IMAGE_KEY, Signage.LARGE_CODEC, this.getImage());
 	}
 
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		RegistryOps<Tag> registryOps = registries.createSerializationContext(NbtOps.INSTANCE);
-		Signage.LARGE_CODEC
-				.parse(registryOps, tag.get(TAG_KEY))
-				.resultOrPartial(error -> logger.error("Failed to parse image: '{}'", error))
-				.ifPresent(image -> {
-					this.image = image;
-					this.updateImage();
-				});
+	protected void loadAdditional(ValueInput input) {
+		input.read(IMAGE_KEY, Signage.LARGE_CODEC).ifPresent(image -> {
+			this.image = image;
+			this.updateImage();
+		});
 	}
 
 	@Override
-	protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
-		SelectedLargeSignage component = componentInput.get(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE);
+	protected void applyImplicitComponents(DataComponentGetter components) {
+		SelectedLargeSignage component = components.get(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE);
 		if (component != null)
 			this.image = component.image();
 	}
@@ -82,8 +70,8 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void removeComponentsFromTag(CompoundTag tag) {
-		tag.remove(TAG_KEY);
+	public void removeComponentsFromTag(ValueOutput output) {
+		output.discard(IMAGE_KEY);
 	}
 
 	@Override

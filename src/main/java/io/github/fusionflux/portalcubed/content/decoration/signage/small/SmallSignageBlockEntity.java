@@ -4,8 +4,6 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.mojang.serialization.Codec;
 
@@ -19,21 +17,16 @@ import io.github.fusionflux.portalcubed.framework.model.dynamictexture.DynamicTe
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.RegistryOps;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class SmallSignageBlockEntity extends SignageBlockEntity {
-	private static final Logger logger = LoggerFactory.getLogger(SmallSignageBlockEntity.class);
-
-	private static final String TAG_KEY = "quadrants";
+	private static final String QUADRANTS_KEY = "quadrants";
 
 	private Quadrants quadrants = new Quadrants();
 
@@ -59,26 +52,21 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		RegistryOps<Tag> registryOps = registries.createSerializationContext(NbtOps.INSTANCE);
-		tag.put(TAG_KEY, Quadrants.CODEC.encodeStart(registryOps, this.quadrants).getOrThrow());
+	protected void saveAdditional(ValueOutput output) {
+		output.store(QUADRANTS_KEY, Quadrants.CODEC, this.quadrants);
 	}
 
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		RegistryOps<Tag> registryOps = registries.createSerializationContext(NbtOps.INSTANCE);
-		Quadrants.CODEC
-				.parse(registryOps, tag.get(TAG_KEY))
-				.resultOrPartial(error -> logger.error("Failed to parse image: '{}'", error))
-				.ifPresent(quadrants -> {
-					this.quadrants = quadrants;
-					this.updateImage();
-				});
+	protected void loadAdditional(ValueInput input) {
+		input.read(QUADRANTS_KEY, Quadrants.CODEC).ifPresent(quadrants -> {
+			this.quadrants = quadrants;
+			this.updateImage();
+		});
 	}
 
 	@Override
-	protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
-		SelectedSmallSignage component = componentInput.get(PortalCubedDataComponents.SELECTED_SMALL_SIGNAGE);
+	protected void applyImplicitComponents(DataComponentGetter components) {
+		SelectedSmallSignage component = components.get(PortalCubedDataComponents.SELECTED_SMALL_SIGNAGE);
 		if (component != null)
 			this.quadrants = component.quadrants();
 	}
@@ -90,8 +78,8 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void removeComponentsFromTag(CompoundTag tag) {
-		tag.remove(TAG_KEY);
+	public void removeComponentsFromTag(ValueOutput output) {
+		output.discard(QUADRANTS_KEY);
 	}
 
 	@Override

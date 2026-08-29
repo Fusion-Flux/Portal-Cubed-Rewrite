@@ -18,7 +18,7 @@ public abstract class SignageBlockEntity extends SyncedBlockEntity {
 	protected final void updateImage() {
 		Level level = this.getLevel();
 		if (level != null) {
-			if (level.isClientSide) {
+			if (level.isClientSide()) {
 				BlockState state = this.getBlockState();
 				level.sendBlockUpdated(this.getBlockPos(), state, state, Block.UPDATE_CLIENTS | Block.UPDATE_IMMEDIATE);
 			} else {

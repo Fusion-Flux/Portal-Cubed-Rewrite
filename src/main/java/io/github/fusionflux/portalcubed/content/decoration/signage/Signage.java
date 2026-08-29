@@ -10,13 +10,13 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 
 public record Signage(Optional<Identifier> cleanTexture, Optional<Identifier> agedTexture, Component name) {
@@ -29,10 +29,10 @@ public record Signage(Optional<Identifier> cleanTexture, Optional<Identifier> ag
 			Signage::validate
 	);
 	public static final ResourceKey<Signage> LARGE_BLANK = ResourceKey.create(PortalCubedRegistries.LARGE_SIGNAGE, PortalCubed.id("blank"));
-	public static final Codec<Holder<Signage>> LARGE_CODEC = RegistryFixedCodec.create(PortalCubedRegistries.LARGE_SIGNAGE);
+	public static final Codec<Holder<Signage>> LARGE_CODEC = RegistryCodecs.holder(PortalCubedRegistries.LARGE_SIGNAGE);
 	public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Signage>> LARGE_STREAM_CODEC = ByteBufCodecs.holderRegistry(PortalCubedRegistries.LARGE_SIGNAGE);
 	public static final ResourceKey<Signage> SMALL_BLANK = ResourceKey.create(PortalCubedRegistries.SMALL_SIGNAGE, PortalCubed.id("blank"));
-	public static final Codec<Holder<Signage>> SMALL_CODEC = RegistryFixedCodec.create(PortalCubedRegistries.SMALL_SIGNAGE);
+	public static final Codec<Holder<Signage>> SMALL_CODEC = RegistryCodecs.holder(PortalCubedRegistries.SMALL_SIGNAGE);
 	public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Signage>> SMALL_STREAM_CODEC = ByteBufCodecs.holderRegistry(PortalCubedRegistries.SMALL_SIGNAGE);
 
 	public Optional<Identifier> selectTexture(boolean aged) {
