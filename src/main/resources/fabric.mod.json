@@ -30,24 +30,21 @@
   },
   "custom": {
     "loom:injected_interfaces": {
-      "net/minecraft/class_238": [ "io/github/fusionflux/portalcubed/framework/extension/AABBExt" ],
-      "net/minecraft/class_239": [ "io/github/fusionflux/portalcubed/framework/extension/HitResultExt" ],
-      "net/minecraft/class_243": [ "io/github/fusionflux/portalcubed/framework/extension/Vec3Ext" ],
-      "net/minecraft/class_310": [ "io/github/fusionflux/portalcubed/framework/extension/MinecraftExt" ],
+      "net/minecraft/world/phys/AABB": [ "io/github/fusionflux/portalcubed/framework/extension/AABBExt" ],
+      "net/minecraft/world/phys/HitResult": [ "io/github/fusionflux/portalcubed/framework/extension/HitResultExt" ],
+      "net/minecraft/world/phys/Vec3": [ "io/github/fusionflux/portalcubed/framework/extension/Vec3Ext" ],
+      "net/minecraft/client/Minecraft": [ "io/github/fusionflux/portalcubed/framework/extension/MinecraftExt" ],
       "net/minecraft/world/entity/player/Player": [ "io/github/fusionflux/portalcubed/framework/extension/PlayerExt" ],
-      "net/minecraft/class_1937": [ "io/github/fusionflux/portalcubed/framework/extension/LevelExt" ],
-      "net/minecraft/class_3218": [ "io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt" ],
-      "net/minecraft/class_638": [ "io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt" ],
+      "net/minecraft/world/level/Level": [ "io/github/fusionflux/portalcubed/framework/extension/LevelExt" ],
+      "net/minecraft/server/level/ServerLevel": [ "io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt" ],
+      "net/minecraft/client/multiplayer/ClientLevel": [ "io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt" ],
       "net/minecraft/world/entity/Entity": [ "io/github/fusionflux/portalcubed/framework/extension/PortalTeleportationExt", "io/github/fusionflux/portalcubed/framework/extension/DisintegrationExt" ],
-      "net/minecraft/class_813": [ "io/github/fusionflux/portalcubed/framework/extension/VariantExt" ],
-      "net/minecraft/class_777": [ "io/github/fusionflux/portalcubed/framework/extension/BakedQuadExt" ],
-      "net/minecraft/class_785": [ "io/github/fusionflux/portalcubed/framework/extension/BlockElementExt" ],
-      "net/minecraft/class_742": [ "io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt" ],
+      "net/minecraft/client/playerAbstractClientPlayer": [ "io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt" ],
       "net/minecraft/world/item/Item\u0024Properties": [ "io/github/fusionflux/portalcubed/framework/extension/ItemPropertiesExt" ],
       "net/minecraft/world/level/block/state/BlockBehaviour\u0024Properties": [ "io/github/fusionflux/portalcubed/framework/extension/BlockBehaviourPropertiesExt" ],
-      "net/minecraft/class_3959": [ "io/github/fusionflux/portalcubed/framework/extension/ClipContextExt" ],
-      "net/minecraft/class_1309": [ "io/github/fusionflux/portalcubed/framework/extension/LivingEntityExt" ],
-      "net/minecraft/class_4235\u0024class_4236": [ "io/github/fusionflux/portalcubed/framework/extension/ChannelHandleExt" ]
+      "net/minecraft/world/level/ClipContext": [ "io/github/fusionflux/portalcubed/framework/extension/ClipContextExt" ],
+      "net/minecraft/world/entity/LivingEntity": [ "io/github/fusionflux/portalcubed/framework/extension/LivingEntityExt" ],
+      "net/minecraft/client/sounds/ChannelAccess\u0024ChannelHandle": [ "io/github/fusionflux/portalcubed/framework/extension/ChannelHandleExt" ]
     }
   }
 }
