@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import com.mojang.serialization.MapCodec;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -24,20 +24,20 @@ public class ParticleHelper {
 	public <O extends ParticleOptions, T extends ParticleType<O>> ParticleBuilder<O, T> create(
 			String name,
 			ParticleBuilder.Provider<O, T> provider,
-			Supplier<Supplier<ParticleFactoryRegistry.PendingParticleFactory<O>>> clientFactory
+			Supplier<Supplier<ParticleProviderRegistry.PendingParticleProvider<O>>> clientProvider
 	) {
-		return new ParticleBuilderImpl<>(this.registrar, name, provider, clientFactory);
+		return new ParticleBuilderImpl<>(this.registrar, name, provider, clientProvider);
 	}
 
-	public SimpleParticleType simple(String name, Supplier<Supplier<ParticleFactoryRegistry.PendingParticleFactory<SimpleParticleType>>> clientFactory) {
-		return this.create(name, FabricParticleTypes::simple, clientFactory).build();
+	public SimpleParticleType simple(String name, Supplier<Supplier<ParticleProviderRegistry.PendingParticleProvider<SimpleParticleType>>> clientProvider) {
+		return this.create(name, FabricParticleTypes::simple, clientProvider).build();
 	}
 
 	public <T extends ParticleOptions> ParticleType<T> customOptions(
 			String name,
 			Function<ParticleType<T>, MapCodec<T>> codecGetter,
 			Function<ParticleType<T>, StreamCodec<? super RegistryFriendlyByteBuf, T>> streamCodecGetter,
-			Supplier<Supplier<ParticleFactoryRegistry.PendingParticleFactory<T>>> clientFactory
+			Supplier<Supplier<ParticleProviderRegistry.PendingParticleProvider<T>>> clientProvider
 	) {
 		return this.create(name, () -> new ParticleType<T>(true) {
 			@Override
@@ -49,6 +49,6 @@ public class ParticleHelper {
 			public StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec() {
 				return streamCodecGetter.apply(this);
 			}
-		}, clientFactory).build();
+		}, clientProvider).build();
 	}
 }

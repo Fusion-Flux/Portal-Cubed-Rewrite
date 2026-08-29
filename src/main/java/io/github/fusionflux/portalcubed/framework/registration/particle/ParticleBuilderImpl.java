@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
@@ -16,13 +16,13 @@ public class ParticleBuilderImpl<O extends ParticleOptions, T extends ParticleTy
 	private final Registrar registrar;
 	private final String name;
 	private final Provider<O, T> provider;
-	private final Supplier<Supplier<ParticleFactoryRegistry.PendingParticleFactory<O>>> clientFactorySupplier;
+	private final Supplier<Supplier<ParticleProviderRegistry.PendingParticleProvider<O>>> clientProviderSupplier;
 
-	public ParticleBuilderImpl(Registrar registrar, String name, Provider<O, T> provider, Supplier<Supplier<ParticleFactoryRegistry.PendingParticleFactory<O>>> clientFactory) {
+	public ParticleBuilderImpl(Registrar registrar, String name, Provider<O, T> provider, Supplier<Supplier<ParticleProviderRegistry.PendingParticleProvider<O>>> clientProvider) {
 		this.registrar = registrar;
 		this.name = name;
 		this.provider = provider;
-		this.clientFactorySupplier = clientFactory;
+		this.clientProviderSupplier = clientProvider;
 	}
 
 	@Override
@@ -36,6 +36,6 @@ public class ParticleBuilderImpl<O extends ParticleOptions, T extends ParticleTy
 
 	@Environment(EnvType.CLIENT)
 	private void buildClient(T type) {
-		ParticleFactoryRegistry.getInstance().register(type, this.clientFactorySupplier.get().get());
+		ParticleProviderRegistry.getInstance().register(type, this.clientProviderSupplier.get().get());
 	}
 }

@@ -7,10 +7,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.ParticleRenderType;
 
 public enum ParticleRenderTypes {
-	OPAQUE(() -> () -> ParticleRenderType.PARTICLE_SHEET_OPAQUE),
-	TRANSLUCENT(() -> () -> ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT),
-	MULTIPLY(() -> () -> PortalCubedParticleRenderTypes.MULTIPLY),
-	CUSTOM(() -> () -> ParticleRenderType.CUSTOM),
+	SINGLE_QUADS(() -> () -> ParticleRenderType.SINGLE_QUADS),
+	ITEM_PICKUP(() -> () -> ParticleRenderType.ITEM_PICKUP),
+	ELDER_GUARDIANS(() -> () -> ParticleRenderType.ELDER_GUARDIANS),
 	NO_RENDER(() -> () -> ParticleRenderType.NO_RENDER);
 
 	private final Supplier<Supplier<ParticleRenderType>> supplier;

@@ -22,7 +22,7 @@ import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManag
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.framework.config.PortalCubedClientConfig;
 import io.github.fusionflux.portalcubed.framework.extension.RenderBuffersExt;
-import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderTypes;
+import io.github.fusionflux.portalcubed.framework.render.PortalCubedRenderPipelines;
 import io.github.fusionflux.portalcubed.framework.shape.Plane;
 import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;

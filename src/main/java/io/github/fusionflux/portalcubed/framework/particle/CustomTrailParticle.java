@@ -1,16 +1,16 @@
 package io.github.fusionflux.portalcubed.framework.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class CustomTrailParticle extends TextureSheetParticle {
-	protected CustomTrailParticle(ClientLevel level, double x, double y, double z, Vec3 target, int color, int duration) {
-		super(level, x, y, z);
+public abstract class CustomTrailParticle extends SingleQuadParticle {
+	protected CustomTrailParticle(ClientLevel level, double x, double y, double z, Vec3 target, int color, int duration, TextureAtlasSprite sprite) {
+		super(level, x, y, z, sprite);
 
 		Vec3 vel = target.subtract(x, y, z).scale(1d / duration);
 		this.xd = vel.x;
@@ -40,8 +40,8 @@ public abstract class CustomTrailParticle extends TextureSheetParticle {
 	}
 
 	@Override
-	public void render(VertexConsumer buffer, Camera camera, float tickDelta) {
-		this.setAlpha(Math.min((this.age + tickDelta) * 0.15f, 1));
-		super.render(buffer, camera, tickDelta);
+	public void extract(QuadParticleRenderState particleTypeRenderState, Camera camera, float partialTickTime) {
+		this.setAlpha(Math.min((this.age + partialTickTime) * 0.15f, 1));
+		super.extract(particleTypeRenderState, camera, partialTickTime);
 	}
 }
