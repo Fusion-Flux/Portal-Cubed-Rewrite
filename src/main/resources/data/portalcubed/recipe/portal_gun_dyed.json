@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_dye",
+  "category": "equipment",
+  "dye": "#minecraft:dyes",
+  "result": {
+    "id": "portalcubed:portal_gun"
+  },
+  "target": "portalcubed:portal_gun"
+}

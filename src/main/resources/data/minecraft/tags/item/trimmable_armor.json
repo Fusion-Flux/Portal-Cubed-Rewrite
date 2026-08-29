@@ -2,5 +2,8 @@
   "replace": false,
   "values": [
     "portalcubed:long_fall_boots"
+  ],
+  "fabric:remove": [
+    "portalcubed:advanced_knee_replacements"
   ]
 }

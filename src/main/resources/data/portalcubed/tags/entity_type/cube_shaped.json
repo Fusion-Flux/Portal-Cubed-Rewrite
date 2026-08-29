@@ -4,6 +4,9 @@
     "minecraft:pufferfish",
     "minecraft:slime",
     "minecraft:magma_cube",
+    "minecraft:sulfur_cube",
+    "minecraft:nautilus",
+    "minecraft:zombie_nautilus",
     "minecraft:tnt"
   ]
 }

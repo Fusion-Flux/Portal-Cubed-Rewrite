@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_dye",
+  "category": "equipment",
+  "dye": "#minecraft:dyes",
+  "result": {
+    "id": "portalcubed:long_fall_boots"
+  },
+  "target": "portalcubed:long_fall_boots"
+}

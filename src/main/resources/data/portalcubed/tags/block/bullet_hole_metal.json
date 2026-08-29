@@ -115,8 +115,9 @@
     "minecraft:hopper",
     "#minecraft:cauldrons",
     "minecraft:heavy_core",
-    "minecraft:lantern",
-    "minecraft:soul_lantern",
+    "#minecraft:lanterns",
+    "#minecraft:copper_golem_statues",
+    "#minecraft:copper_chests",
 
     "portalcubed:portal_1_metal_tiles",
     "portalcubed:portal_1_metal_tile_slab",

@@ -13,6 +13,7 @@
     "minecraft:marker",
     "minecraft:painting",
     "minecraft:text_display",
+    "minecraft:cushion",
     "minecraft:ender_dragon"
   ]
 }

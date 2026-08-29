@@ -5,6 +5,9 @@
     "minecraft:item_frame",
     "minecraft:falling_block",
     "minecraft:ghast",
+    "minecraft:happy_ghast",
+    "minecraft:copper_golem",
+    "minecraft:sulfur_cube",
     "#c:boats",
     "#c:minecarts"
   ]

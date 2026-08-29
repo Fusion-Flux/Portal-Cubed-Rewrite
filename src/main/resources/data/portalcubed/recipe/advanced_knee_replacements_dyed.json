@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_dye",
+  "category": "equipment",
+  "dye": "#minecraft:dyes",
+  "result": {
+    "id": "portalcubed:advanced_knee_replacements"
+  },
+  "target": "portalcubed:advanced_knee_replacements"
+}

@@ -4,11 +4,10 @@
     "#portalcubed:all_facades",
     "#minecraft:fences",
     "#minecraft:fence_gates",
-    "minecraft:iron_bars",
-    "minecraft:chain",
+    "#minecraft:bars",
+    "#minecraft:chains",
     "minecraft:moving_piston",
-    "minecraft:lantern",
-    "minecraft:soul_lantern",
+    "#minecraft:lanterns",
     "minecraft:sea_pickle",
     "minecraft:chorus_plant",
     "minecraft:chorus_flower",
@@ -17,7 +16,7 @@
     "minecraft:flowering_azalea",
     "minecraft:cactus",
     "minecraft:big_dripleaf",
-    "minecraft:pointed_dripstone",
+    "#minecraft:speleothems",
     "portalcubed:portal_barrier"
   ]
 }
