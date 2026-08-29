@@ -24,7 +24,7 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 	protected final int max;
 	private final IntSupplier valueGetter;
 	private final IntConsumer valueSetter;
-    private final Runnable onClickingStopped;
+	private final Runnable onClickingStopped;
 
 	public boolean pressed;
 	private int clickCounter;
@@ -122,9 +122,9 @@ public class ValueCounterButton extends AbstractWidget implements TickableWidget
 	}
 
 	public record Sprites(
-            Identifier sprite, Identifier hovered,
-            Identifier pressed, Identifier pressedHovered,
-            Identifier disabled, Identifier disabledHovered
+			Identifier sprite, Identifier hovered,
+			Identifier pressed, Identifier pressedHovered,
+		    Identifier disabled, Identifier disabledHovered
 	) {
 		public Sprites(Identifier sprite) {
 			this(

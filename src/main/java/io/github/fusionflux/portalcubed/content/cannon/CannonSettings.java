@@ -61,7 +61,7 @@ public record CannonSettings(
 				material -> this.construct.map(ConstructManager.INSTANCE::getConstructSet)
 						.map(set -> new Configured(material, set))
 		).orElse(null);
-    }
+	}
 
 	public static CannonSettings.Builder builder(CannonSettings settings) {
 		return new CannonSettings.Builder(settings);

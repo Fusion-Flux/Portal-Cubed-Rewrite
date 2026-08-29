@@ -15,8 +15,8 @@ public enum FizzleBehaviour {
 	DISINTEGRATION {
 		@Override
 		public boolean fizzle(Entity entity) {
-            if (entity.is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION))
-                return false;
+			if (entity.is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION))
+				return false;
 			return entity.pc$disintegrate();
 		}
 	},

@@ -38,11 +38,11 @@ public abstract class GooFluid extends FlowingFluid {
 		if (!entity.isAlive() || entity.is(PortalCubedEntityTags.IMMUNE_TO_TOXIC_GOO) || (entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO)))
 			return;
 
-        if (entity.is(PortalCubedEntityTags.DISINTEGRATES_WHEN_FIZZLED)) {
-            FizzleBehaviour.DISINTEGRATION.fizzle(entity);
-        } else {
-            entity.hurtServer(world, PortalCubedDamageSources.toxicGoo(world), world.getGameRules().get(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
-        }
+		if (entity.is(PortalCubedEntityTags.DISINTEGRATES_WHEN_FIZZLED)) {
+			FizzleBehaviour.DISINTEGRATION.fizzle(entity);
+		} else {
+			entity.hurtServer(world, PortalCubedDamageSources.toxicGoo(world), world.getGameRules().get(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
+		}
 	}
 
 	@NotNull

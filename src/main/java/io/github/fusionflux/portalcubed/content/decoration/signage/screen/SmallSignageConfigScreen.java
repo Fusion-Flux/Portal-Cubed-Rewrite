@@ -40,7 +40,7 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 
 	private Tab tab;
 
-    public SmallSignageConfigScreen(SmallSignageBlockEntity smallSignage, SmallSignageBlock.Quadrant quadrant) {
+	public SmallSignageConfigScreen(SmallSignageBlockEntity smallSignage, SmallSignageBlock.Quadrant quadrant) {
 		super(smallSignage, smallSignage.aged ? AGED_TITLE : TITLE);
 		this.smallSignage = smallSignage;
 		this.tab = Tab.fromQuadrant(quadrant);

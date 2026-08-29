@@ -29,8 +29,8 @@ public abstract class EntityMixin {
 	@SuppressWarnings({"ConstantValue", "UnreachableCode"})
 	@Inject(method = "setRemoved", at = @At("HEAD"))
 	private void dropHeldWhenRemoved(RemovalReason reason, CallbackInfo ci) {
-        if (this.level().isClientSide())
-            return;
+		if (this.level().isClientSide())
+			return;
 
 		if ((Object) this instanceof Player player && player.getHeldEntity() != null) {
 			player.getHeldEntity().drop();

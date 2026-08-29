@@ -35,7 +35,7 @@ public final class Portal {
 
 	public static final double PERIMETER_BOX_DEPTH = 1 / 16d;
 
-    public final PortalData data;
+	public final PortalData data;
 
 	public final Vec3 normal;
 	public final Vec3 up;
@@ -50,8 +50,8 @@ public final class Portal {
 	public final OBB entityCollisionArea;
 	public final List<OBB> perimeterBoxes;
 
-    public Portal(PortalData data) {
-        this.data = data;
+	public Portal(PortalData data) {
+		this.data = data;
 		Vec3 origin = data.origin();
 
 		this.normal = Vec3Ext.of(this.rotation().transform(Quad.BASE_NORMAL, new Vector3d()));
@@ -81,7 +81,7 @@ public final class Portal {
 				new OBB(boxOrigin.add(rightToBox), 1, PERIMETER_BOX_DEPTH, 2, rotationAsMatrix),
 				new OBB(boxOrigin.add(rightToBox.reverse()), 1, PERIMETER_BOX_DEPTH, 2, rotationAsMatrix)
 		);
-    }
+	}
 
 	public PortalType type() {
 		return this.data.type().value();

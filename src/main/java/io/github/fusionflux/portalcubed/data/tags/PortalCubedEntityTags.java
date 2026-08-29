@@ -39,7 +39,7 @@ public class PortalCubedEntityTags {
 	public static final TagKey<EntityType<?>> FIZZLES_WITHOUT_FLASH = create("fizzles_without_flash");
 	public static final TagKey<EntityType<?>> FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES = create("fizzles_with_alternate_bright_particles");
 
-    private static TagKey<EntityType<?>> create(String name) {
+	private static TagKey<EntityType<?>> create(String name) {
 		return TagKey.create(Registries.ENTITY_TYPE, PortalCubed.id(name));
 	}
 }

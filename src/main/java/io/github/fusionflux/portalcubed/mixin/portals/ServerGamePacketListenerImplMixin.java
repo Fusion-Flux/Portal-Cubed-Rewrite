@@ -33,8 +33,8 @@ public class ServerGamePacketListenerImplMixin {
 			)
 	)
 	private void reinterpretMotion(CallbackInfo ci,
-	                               @Local(ordinal = 0) LocalDoubleRef x, @Local(ordinal = 1) LocalDoubleRef y, @Local(ordinal = 2) LocalDoubleRef z,
-	                               @Local(ordinal = 0) LocalFloatRef yRot, @Local(ordinal = 1) LocalFloatRef xRot) {
+								   @Local(ordinal = 0) LocalDoubleRef x, @Local(ordinal = 1) LocalDoubleRef y, @Local(ordinal = 2) LocalDoubleRef z,
+								   @Local(ordinal = 0) LocalFloatRef yRot, @Local(ordinal = 1) LocalFloatRef xRot) {
 		PortalTransform transform = TeleportTracker.getOrThrow(this.player).reverseTransform();
 		if (transform == null)
 			return;
