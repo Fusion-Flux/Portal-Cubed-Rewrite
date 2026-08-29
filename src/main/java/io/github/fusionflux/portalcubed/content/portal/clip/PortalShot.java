@@ -42,7 +42,7 @@ import net.minecraft.world.phys.Vec3;
  */
 public sealed interface PortalShot {
 	Predicate<Entity> BLOCKS_PORTAL_SHOTS = EntitySelector.NO_SPECTATORS.and(
-			entity -> entity.getType().is(PortalCubedEntityTags.BLOCKS_PORTAL_SHOTS)
+			entity -> entity.is(PortalCubedEntityTags.BLOCKS_PORTAL_SHOTS)
 	);
 
 	RaycastOptions RAYCAST_OPTIONS = RaycastOptions.DEFAULT.edit()

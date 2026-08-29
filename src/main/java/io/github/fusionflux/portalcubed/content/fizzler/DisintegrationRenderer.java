@@ -39,7 +39,7 @@ public class DisintegrationRenderer {
 
 	public static void renderFlash(Entity entity, PoseStack matrices, float tickDelta, MultiBufferSource vertexConsumers) {
 		float ticks = entity.pc$disintegrateTicks() + tickDelta;
-		if (entity.getType().is(PortalCubedEntityTags.FIZZLES_WITHOUT_FLASH) || ticks <= DisintegrationExt.TRANSLUCENCY_START_TICKS)
+		if (entity.is(PortalCubedEntityTags.FIZZLES_WITHOUT_FLASH) || ticks <= DisintegrationExt.TRANSLUCENCY_START_TICKS)
 			return;
 
 		matrices.pushPose();

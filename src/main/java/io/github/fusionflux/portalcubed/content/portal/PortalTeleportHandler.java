@@ -129,6 +129,6 @@ public class PortalTeleportHandler {
 	}
 
 	public static boolean ignoresPortalModifiedCollision(@Nullable Entity entity) {
-		return entity == null || entity.isPassenger() || entity.isVehicle() || entity.getType().is(PortalCubedEntityTags.PORTAL_BLACKLIST);
+		return entity == null || entity.isPassenger() || entity.isVehicle() || entity.is(PortalCubedEntityTags.PORTAL_BLACKLIST);
 	}
 }

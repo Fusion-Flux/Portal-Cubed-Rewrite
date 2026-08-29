@@ -62,7 +62,7 @@ public class FizzleinatorItem extends Item implements UsableOnPortals {
 			if (player.isSecondaryUseActive() || level.isClientSide() || !canFizzle(player) || player.isSpectator())
 				return InteractionResult.PASS;
 
-			if (entity.getType().is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION))
+			if (entity.is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION))
 				return InteractionResult.PASS;
 
 			ItemStack held = player.getItemInHand(hand);

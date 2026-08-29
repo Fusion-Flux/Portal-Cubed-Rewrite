@@ -32,7 +32,7 @@ public record DisintegrationSoundType(HolderSet<EntityType<?>> entities, HolderS
 		return registryLookup
 				.listElements()
 				.map(Holder::value)
-				.filter(type -> entity.getType().is(type.entities))
+				.filter(type -> entity.is(type.entities))
 				.findAny()
 				.orElse(registryLookup.getOrThrow(GENERIC).value());
 	}
