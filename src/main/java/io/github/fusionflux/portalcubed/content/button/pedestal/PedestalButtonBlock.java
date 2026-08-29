@@ -1,14 +1,11 @@
 package io.github.fusionflux.portalcubed.content.button.pedestal;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import com.google.common.collect.ImmutableMap;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
@@ -20,7 +17,6 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenPedestalButtonConfigPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -29,9 +25,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -94,7 +88,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 			)
 	);
 
-	private final ImmutableMap<BlockState, VoxelShape> shapesCache;
+	private final Function<BlockState, VoxelShape> shapesCache;
 	private final SoundEvent pressSound;
 	private final SoundEvent releaseSound;
 
@@ -190,12 +184,9 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!moved && !state.is(newState.getBlock())) {
-			if (state.getValue(ACTIVE)) {
-				this.updateNeighbours(state, world, pos);
-			}
-			super.onRemove(state, world, pos, newState, false);
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+		if (!movedByPiston && state.getValue(ACTIVE)) {
+			this.updateNeighbours(state, level, pos);
 		}
 	}
 
@@ -234,7 +225,7 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	@Override
 	@NotNull
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return Objects.requireNonNull(this.shapesCache.get(state));
+		return this.shapesCache.apply(state);
 	}
 
 	@Override
@@ -251,10 +242,11 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		return InteractionResult.SUCCESS;
 	}
 
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-		HammerableBlock.appendTooltip(tooltip);
-	}
+	// TODO: Hover Text everywhere - Max
+//	@Override
+//	public void appendHoverText(ItemStack stack, Item.TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
+//		HammerableBlock.appendTooltip(tooltip);
+//	}
 
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {

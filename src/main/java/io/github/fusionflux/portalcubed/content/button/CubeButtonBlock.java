@@ -11,7 +11,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -40,7 +39,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 	};
 
 	public CubeButtonBlock(Properties properties) {
-		super(properties, SHAPES, BUTTON_SHAPE, entity -> entity.getType().is(PortalCubedEntityTags.PRESSES_CUBE_BUTTONS), PortalCubedSounds.FLOOR_BUTTON_PRESS, PortalCubedSounds.FLOOR_BUTTON_RELEASE);
+		super(properties, SHAPES, BUTTON_SHAPE, entity -> entity.is(PortalCubedEntityTags.PRESSES_CUBE_BUTTONS), PortalCubedSounds.FLOOR_BUTTON_PRESS, PortalCubedSounds.FLOOR_BUTTON_RELEASE);
 	}
 
 	@Override
@@ -62,10 +61,10 @@ public class CubeButtonBlock extends FloorButtonBlock {
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
 		if (isOrigin(state)) {
-			world.getEntities((Entity) null, getButtonBounds(state.getValue(FACE)).move(pos), entityPredicate)
-				.forEach(e -> e.setDeltaMovement(Vec3.ZERO));
+			level.getEntities((Entity) null, getButtonBounds(state.getValue(FACE)).move(pos), entityPredicate)
+					.forEach(e -> e.setDeltaMovement(Vec3.ZERO));
 		}
 	}
 
