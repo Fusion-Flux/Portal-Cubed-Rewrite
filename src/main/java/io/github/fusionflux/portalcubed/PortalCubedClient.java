@@ -6,7 +6,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.lemon.Armed;
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunModel;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunTintSource;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropVariantProperty;
@@ -31,7 +30,8 @@ public class PortalCubedClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		PortalRenderer.init();
+		// TODO: PORTAL RENDIENRFNSDQIZG - Max
+//		PortalRenderer.init();
 		EntityDebugRendering.init();
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
