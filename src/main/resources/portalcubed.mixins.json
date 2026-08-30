@@ -75,7 +75,7 @@
     "portals.interaction.ServerboundInteractPacketAccessor",
     "portals.interaction.ServerPlayerMixin",
     "portals.interaction.UseOnContextMixin",
-    "props.ThrowPotionMixin",
+    "props.AbstractThrownPotionMixin",
     "stat.ServerStatsCounterMixin",
     "utils.AABBMixin",
     "utils.BlockBehaviour$PropertiesMixin",

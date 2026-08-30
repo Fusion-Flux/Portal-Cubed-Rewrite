@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import io.github.fusionflux.portalcubed.content.button.ButtonActivated;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Pufferfish;
+import net.minecraft.world.entity.animal.fish.Pufferfish;
 
 @Mixin(Pufferfish.class)
 public abstract class PufferfishMixin implements ButtonActivated {
