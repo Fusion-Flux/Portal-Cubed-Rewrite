@@ -45,7 +45,7 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 		if (player.isSpectator())
 			return;
 
-		if (!player.serverLevel().getGameRules().getBoolean(PortalCubedGameRules.MANUAL_PORTAL_CLEARING)) {
+		if (!player.level().getGameRules().get(PortalCubedGameRules.MANUAL_PORTAL_CLEARING)) {
 			player.sendSystemMessage(DISABLED, true);
 			return;
 		}
@@ -87,7 +87,7 @@ public enum ClearPortalsPacket implements ServerboundPacket {
 	}
 
 	private static boolean remove(ServerPlayer player, PortalSettings settings, Polarity polarity) {
-		ServerPortalManager manager = player.serverLevel().portalManager();
+		ServerPortalManager manager = player.level().portalManager();
 		String key = settings.pairFor(player);
 		PortalId id = new PortalId(key, polarity);
 		PortalReference portal = manager.getPortal(id);

@@ -5,7 +5,7 @@ import io.github.fusionflux.portalcubed.mixin.utils.accessors.LivingEntityAccess
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.OldMinecartBehaviorAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.level.Level;
 
 // mostly copied from Boat

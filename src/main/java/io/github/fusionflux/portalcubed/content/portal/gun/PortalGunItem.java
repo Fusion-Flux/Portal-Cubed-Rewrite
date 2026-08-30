@@ -114,7 +114,7 @@ public class PortalGunItem extends Item implements AttackListeningItem {
 	}
 
 	private static void shoot(ServerPlayer player, PortalId id, PortalSettings settings) {
-		ServerLevel level = player.serverLevel();
+		ServerLevel level = player.level();
 		Vec3 source = player.getEyePosition();
 		Vec3 direction = player.getLookAngle();
 

@@ -23,7 +23,7 @@ public record PortalGunCauldronInteraction(CauldronInteraction doFirst) implemen
 			PortalCubedCriteriaTriggers.SUBMERGED_THE_OPERATIONAL_END_OF_THE_DEVICE.trigger(serverPlayer);
 			player.pc$setHasSubmergedTheOperationalEndOfTheDevice(true);
 			player.pc$disintegrate();
-			FizzleinatorItem.fizzleBlock(serverPlayer.serverLevel(), pos);
+			FizzleinatorItem.fizzleBlock(serverPlayer.level(), pos);
 		}
 
 		return InteractionResult.SUCCESS;

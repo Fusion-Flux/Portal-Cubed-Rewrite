@@ -6,10 +6,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.triggers.SimpleCriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 public class PortalTrigger extends SimpleCriterionTrigger<PortalTrigger.TriggerInstance> {
 	@Override
@@ -21,9 +21,9 @@ public class PortalTrigger extends SimpleCriterionTrigger<PortalTrigger.TriggerI
 		this.trigger(player, instance -> instance.matches(portal));
 	}
 
-	public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<PortalPredicate> portal) implements SimpleInstance {
+	public record TriggerInstance(Optional<Holder<LootItemCondition>> player, Optional<PortalPredicate> portal) implements SimpleInstance {
 		public static final Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(i -> i.group(
-				EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
+				LootItemCondition.CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
 				PortalPredicate.CODEC.optionalFieldOf("portal").forGetter(TriggerInstance::portal)
 		).apply(i, TriggerInstance::new));
 

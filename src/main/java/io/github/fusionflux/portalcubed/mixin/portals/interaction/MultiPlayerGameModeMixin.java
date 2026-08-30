@@ -30,12 +30,12 @@ public class MultiPlayerGameModeMixin {
 		if (!(original instanceof ServerboundUseItemOnPacket usePacket))
 			return original;
 
-		PortalPathHolder holder = usePacket.getHitResult().portalPath();
+		PortalPathHolder holder = usePacket.hitResult().portalPath();
 		if (!(holder instanceof PortalPathHolder.Present(PortalPath path)))
 			return original;
 
 		PortalAwareUseItemOnPacket payload = new PortalAwareUseItemOnPacket(usePacket, path);
-		return ClientPlayNetworking.createC2SPacket(payload);
+		return ClientPlayNetworking.createServerboundPacket(payload);
 	}
 
 	@ModifyArg(
@@ -60,6 +60,6 @@ public class MultiPlayerGameModeMixin {
 		if (!(hitResult.portalPath() instanceof PortalPathHolder.Present(PortalPath path)))
 			return original;
 
-		return ClientPlayNetworking.createC2SPacket(new PortalAwareInteractPacket(interactPacket, path));
+		return ClientPlayNetworking.createServerboundPacket(new PortalAwareInteractPacket(interactPacket, path));
 	}
 }

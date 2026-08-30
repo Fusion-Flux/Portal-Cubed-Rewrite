@@ -15,7 +15,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -35,22 +36,23 @@ public class BlockMixin {
 			Consumer<ItemStack> consumer,
 			Operation<Void> original,
 			@Local(argsOnly = true) BlockState state,
-			@Local(argsOnly = true) Level world,
+			@Local(argsOnly = true) Level level,
 			@Local(argsOnly = true) BlockPos pos
 	) {
 		if (state.getBlock() instanceof AbstractMultiBlock multiBlock) {
 			BlockPos originPos = multiBlock.getOriginPos(pos, state);
 			Vec3 center = multiBlock.size.rotated(state.getValue(AbstractMultiBlock.FACE))
 					.center(0, 0, 0)
-					.subtract(0, EntityType.ITEM.getHeight() / 2, 0)
+					.subtract(0, EntityTypes.ITEM.getHeight() / 2, 0)
 					.add(originPos.getX(), originPos.getY(), originPos.getZ());
 
 			for (ItemStack stack : drops) {
-				double x = center.x + Mth.nextDouble(world.random, -.25, .25);
-				double y = center.y + Mth.nextDouble(world.random, -.25, .25);
-				double z = center.z + Mth.nextDouble(world.random, -.25, .25);
+				RandomSource random = level.getRandom();
+				double x = center.x + Mth.nextDouble(random, -.25, .25);
+				double y = center.y + Mth.nextDouble(random, -.25, .25);
+				double z = center.z + Mth.nextDouble(random, -.25, .25);
 
-				popResource(world, () -> new ItemEntity(world, x, y, z, stack), stack);
+				popResource(level, () -> new ItemEntity(level, x, y, z, stack), stack);
 			}
 		} else {
 			original.call(drops, consumer);

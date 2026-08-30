@@ -24,6 +24,6 @@ public enum ChamberDoorMaterial {
 	public BlockBehaviour.Properties makeProperties() {
 		return this.settings.get()
 				.noOcclusion()
-				.pushReaction(PushReaction.DESTROY);
+				.pushReaction(PushReaction.POPPED);
 	}
 }

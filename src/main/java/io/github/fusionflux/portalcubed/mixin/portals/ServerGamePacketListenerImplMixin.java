@@ -53,8 +53,8 @@ public class ServerGamePacketListenerImplMixin {
 
 		Rotations rotations = new Rotations(xRot.get(), yRot.get(), 0);
 		Rotations transformedRotations = transform.apply(rotations);
-		yRot.set(transformedRotations.getWrappedY());
-		xRot.set(transformedRotations.getWrappedX());
+		yRot.set(transformedRotations.y());
+		xRot.set(transformedRotations.x());
 	}
 
 	@ModifyExpressionValue(

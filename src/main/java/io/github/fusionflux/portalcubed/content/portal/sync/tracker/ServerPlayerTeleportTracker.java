@@ -34,7 +34,7 @@ public final class ServerPlayerTeleportTracker extends TeleportTracker {
 			return;
 		}
 
-		ServerLevel level = this.player.serverLevel();
+		ServerLevel level = this.player.level();
 		GameEvent.Context context = GameEvent.Context.of(this.player);
 
 		level.gameEvent(PortalCubedGameEvents.PORTAL_TELEPORT_ENTER, entered.get().origin(), context);

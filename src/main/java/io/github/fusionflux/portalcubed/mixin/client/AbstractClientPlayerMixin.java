@@ -11,7 +11,6 @@ import com.mojang.authlib.GameProfile;
 import io.github.fusionflux.portalcubed.content.portal.gun.GrabSoundManager;
 import io.github.fusionflux.portalcubed.framework.extension.AbstractClientPlayerExt;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
@@ -20,8 +19,8 @@ public abstract class AbstractClientPlayerMixin extends Player implements Abstra
 	@Unique
 	private final GrabSoundManager grabSoundManager = new GrabSoundManager(this);
 
-	protected AbstractClientPlayerMixin(Level level, BlockPos pos, float yRot, GameProfile gameProfile) {
-		super(level, pos, yRot, gameProfile);
+	protected AbstractClientPlayerMixin(Level level, GameProfile gameProfile) {
+		super(level, gameProfile);
 	}
 
 	@Override

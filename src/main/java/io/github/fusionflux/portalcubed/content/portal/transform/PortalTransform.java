@@ -71,7 +71,7 @@ public sealed interface PortalTransform permits SinglePortalTransform, MultiPort
 		);
 
 		Rotations transformed = this.apply(rotations);
-		return (float) axis.choose(transformed.getX(), transformed.getY(), transformed.getZ());
+		return (float) axis.choose(transformed.x(), transformed.y(), transformed.z());
 	}
 
 	default Rotations apply(float xRot, float yRot) {

@@ -12,7 +12,7 @@ import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalCh
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
-import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityLevelChangeEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.level.ServerLevel;
@@ -58,7 +58,7 @@ public final class ServerPortalManager extends PortalManager {
 	public void setPair(String key, @Nullable PortalPair newPair) {
 		super.setPair(key, newPair);
 		UpdatePortalPairPacket packet = new UpdatePortalPairPacket(key, newPair);
-		PortalCubedPackets.sendToClients(PlayerLookup.world(this.level), packet);
+		PortalCubedPackets.sendToClients(PlayerLookup.level(this.level), packet);
 	}
 
 	@Override
@@ -84,9 +84,9 @@ public final class ServerPortalManager extends PortalManager {
 
 	public static void registerEventListeners() {
 		ServerPlayConnectionEvents.JOIN.register(
-				(handler, sender, server) -> handler.player.serverLevel().portalManager().syncToPlayer(handler.player)
+				(handler, sender, server) -> handler.player.level().portalManager().syncToPlayer(handler.player)
 		);
-		ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(
+		ServerEntityLevelChangeEvents.AFTER_PLAYER_CHANGE_LEVEL.register(
 				(player, origin, destination) -> destination.portalManager().syncToPlayer(player)
 		);
 	}

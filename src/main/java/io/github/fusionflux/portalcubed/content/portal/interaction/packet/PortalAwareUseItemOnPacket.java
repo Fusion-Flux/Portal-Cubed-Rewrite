@@ -21,7 +21,7 @@ public final class PortalAwareUseItemOnPacket extends ServerboundPortalAwarePack
 
 	@Override
 	protected void wrapHandle(PortalPathHolder path, Runnable handler) {
-		this.wrapped.getHitResult().setPortalPath(path);
+		this.wrapped.hitResult().setPortalPath(path);
 		handler.run();
 	}
 

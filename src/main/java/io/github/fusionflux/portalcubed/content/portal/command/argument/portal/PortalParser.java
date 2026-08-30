@@ -247,7 +247,7 @@ public final class PortalParser {
 		}
 
 		private CompletableFuture<Suggestions> suggestPortalType(SuggestionsBuilder builder) {
-			return SharedSuggestionProvider.suggestResource(PortalParser.this.portalTypes.listElementIds().map(ResourceKey::location), builder);
+			return SharedSuggestionProvider.suggestResource(PortalParser.this.portalTypes.listElementIds().map(ResourceKey::identifier), builder);
 		}
 
 		private CompletableFuture<Suggestions> suggestAttributeAssignment(SuggestionsBuilder builder) {

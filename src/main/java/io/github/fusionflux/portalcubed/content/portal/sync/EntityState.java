@@ -18,9 +18,9 @@ public record EntityState(Vec3 pos, Rotations rotations) {
 		return new EntityState(
 				this.pos.lerp(to.pos, delta),
 				new Rotations(
-						(float) Mth.rotLerp(delta, this.rotations.getX(), to.rotations.getX()),
-						(float) Mth.rotLerp(delta, this.rotations.getY(), to.rotations.getY()),
-						(float) Mth.rotLerp(delta, this.rotations.getZ(), to.rotations.getZ())
+						(float) Mth.rotLerp(delta, this.rotations.x(), to.rotations.x()),
+						(float) Mth.rotLerp(delta, this.rotations.y(), to.rotations.y()),
+						(float) Mth.rotLerp(delta, this.rotations.z(), to.rotations.z())
 				)
 		);
 	}

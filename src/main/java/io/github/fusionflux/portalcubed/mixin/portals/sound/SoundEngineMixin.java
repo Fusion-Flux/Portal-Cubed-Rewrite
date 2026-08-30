@@ -56,7 +56,7 @@ public class SoundEngineMixin {
 		if (!Float.isFinite(range))
 			return false;
 
-		Vec3 cameraPos = mc.gameRenderer.getMainCamera().getPosition();
+		Vec3 cameraPos = mc.gameRenderer.mainCamera().position();
 		Vec3 soundPos = new Vec3(sound.getX(), sound.getY(), sound.getZ());
 		PortalPath path = PortalInteractionUtils.findPath(mc.level, cameraPos, soundPos, range, false);
 		if (path == null)

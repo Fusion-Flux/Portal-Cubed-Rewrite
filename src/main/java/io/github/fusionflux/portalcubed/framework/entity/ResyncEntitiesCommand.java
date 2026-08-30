@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.entity;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
@@ -16,7 +16,7 @@ public final class ResyncEntitiesCommand {
 
 	public static LiteralArgumentBuilder<FabricClientCommandSource> build() {
 		return literal("resync_entities").executes(context -> {
-			ClientLevel level = context.getSource().getWorld();
+			ClientLevel level = context.getSource().getLevel();
 
 			int count = 0;
 			for (Entity entity : level.entitiesForRendering()) {

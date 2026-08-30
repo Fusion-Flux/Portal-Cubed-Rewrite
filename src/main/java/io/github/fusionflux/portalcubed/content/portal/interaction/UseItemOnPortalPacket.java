@@ -43,7 +43,7 @@ public record UseItemOnPortalPacket(PortalId portal, InteractionHand hand) imple
 		if (stack.isEmpty())
 			return;
 
-		ServerLevel level = player.serverLevel();
+		ServerLevel level = player.level();
 		if (!stack.isItemEnabled(level.enabledFeatures()))
 			return;
 

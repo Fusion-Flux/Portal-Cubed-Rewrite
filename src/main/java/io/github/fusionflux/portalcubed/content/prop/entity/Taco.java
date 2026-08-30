@@ -1,14 +1,19 @@
 package io.github.fusionflux.portalcubed.content.prop.entity;
 
+import java.util.Optional;
+
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
-import io.github.fusionflux.portalcubed.framework.util.ColorUtil;
+import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
@@ -79,7 +85,7 @@ public class Taco extends Prop {
 							(this.random.nextDouble() * 2 - 1) * CONFETTI_RADIUS,
 							(this.random.nextDouble() * 2 - 1) * CONFETTI_RADIUS
 					));
-					ColorUtil.randomConfettiBlock(this.random).ifPresent(confettiBlock -> {
+					randomConfettiBlock(this.random).ifPresent(confettiBlock -> {
 						BlockParticleOption particleOption = new BlockParticleOption(ParticleTypes.BLOCK, confettiBlock.defaultBlockState());
 						level.sendParticles(particleOption, randomAreaPos.x, randomAreaPos.y, randomAreaPos.z, 20, 0, 0, 0, 1);
 					});
@@ -133,5 +139,9 @@ public class Taco extends Prop {
 
 	public void ignite() {
 		this.explodeTicks = 5 * 20;
+	}
+
+	private static Optional<Block> randomConfettiBlock(RandomSource random) {
+		return BuiltInRegistries.BLOCK.getRandomElementOf(PortalCubedBlockTags.CONFETTI, random).map(Holder::value);
 	}
 }

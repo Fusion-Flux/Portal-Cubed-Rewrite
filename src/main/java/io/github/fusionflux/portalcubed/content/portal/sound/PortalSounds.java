@@ -9,6 +9,7 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.IntProviders;
 
 public final class PortalSounds {
 	public static final Codec<PortalSounds> CODEC = RecordCodecBuilder.create(i -> i.group(
@@ -69,7 +70,7 @@ public final class PortalSounds {
 
 		public static final Codec<Ambient> FULL_CODEC = RecordCodecBuilder.create(i -> i.group(
 				SoundEvent.CODEC.fieldOf("sound").forGetter(Ambient::sound),
-				IntProvider.POSITIVE_CODEC.optionalFieldOf("delay").forGetter(Ambient::delay)
+				IntProviders.POSITIVE_CODEC.optionalFieldOf("delay").forGetter(Ambient::delay)
 		).apply(i, Ambient::new));
 
 		public static final Codec<Ambient> CODEC = Codec.withAlternative(FULL_CODEC, INLINE_CODEC);

@@ -30,6 +30,11 @@ public enum PortalCollisionContext implements CollisionContext {
 	}
 
 	@Override
+	public boolean alwaysCollideWithFluid() {
+		return false;
+	}
+
+	@Override
 	public boolean canStandOnFluid(FluidState fluid1, FluidState fluid2) {
 		return false;
 	}

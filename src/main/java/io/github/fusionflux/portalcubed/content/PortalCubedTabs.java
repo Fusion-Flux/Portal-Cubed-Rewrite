@@ -17,8 +17,8 @@ import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCr
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.framework.util.Or;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
@@ -36,7 +36,7 @@ import net.minecraft.world.level.block.Blocks;
 public class PortalCubedTabs {
 	public static final ResourceKey<CreativeModeTab> TEST_ELEMENTS = create("test_elements", builder -> {
 		builder.icon(() -> new ItemStack(PortalCubedItems.PORTAL_GUN));
-		builder.displayItems((params, output) -> {
+		builder.displayItems((_, output) -> {
 			output.accept(PortalCubedItems.HAMMER);
 			output.accept(PortalCubedItems.PORTAL_GUN);
 			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
@@ -72,7 +72,7 @@ public class PortalCubedTabs {
 			Block block = blocks.get(PanelPart.HALF);
 			return new ItemStack(block);
 		});
-		builder.displayItems((params, output) -> {
+		builder.displayItems((_, output) -> {
 			output.accept(PortalCubedItems.CONSTRUCTION_CANNON);
 			output.accept(PortalCubedBlocks.PROP_BARRIER);
 			output.accept(PortalCubedBlocks.PORTAL_BARRIER);
@@ -849,7 +849,7 @@ public class PortalCubedTabs {
 
 
 	private static ResourceKey<CreativeModeTab> create(String name, Consumer<CreativeModeTab.Builder> consumer) {
-		CreativeModeTab.Builder builder = FabricItemGroup.builder().title(
+		CreativeModeTab.Builder builder = FabricCreativeModeTab.builder().title(
 				Component.translatable("portalcubed.itemGroup." + name)
 		);
 		consumer.accept(builder);
@@ -861,20 +861,20 @@ public class PortalCubedTabs {
 	}
 
 	public static void init() {
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
-			entries.addAfter(Items.DEEPSLATE_IRON_ORE,
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
+			entries.insertAfter(Items.DEEPSLATE_IRON_ORE,
 					PortalCubedBlocks.MAGNESIUM_ORE,
 					PortalCubedBlocks.DEEPSLATE_MAGNESIUM_ORE
 			);
-			entries.addAfter(Items.RAW_IRON_BLOCK, PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
-			entries.addAfter(Blocks.CHERRY_LOG, PortalCubedBlocks.LEMON_LOG);
-			entries.addAfter(Blocks.CHERRY_LEAVES, PortalCubedBlocks.LEMON_LEAVES);
-			entries.addAfter(Blocks.CHERRY_SAPLING, PortalCubedBlocks.LEMON_SAPLING);
+			entries.insertAfter(Items.RAW_IRON_BLOCK, PortalCubedBlocks.RAW_MAGNESIUM_BLOCK);
+			entries.insertAfter(Blocks.CHERRY_LOG, PortalCubedBlocks.LEMON_LOG);
+			entries.insertAfter(Blocks.CHERRY_LEAVES, PortalCubedBlocks.LEMON_LEAVES);
+			entries.insertAfter(Blocks.CHERRY_SAPLING, PortalCubedBlocks.LEMON_SAPLING);
 		});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
-			entries.addAfter(Items.CHAIN, PortalCubedBlocks.MAGNESIUM_BLOCK);
-			entries.addAfter(Blocks.CHERRY_BUTTON,
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
+			entries.insertAfter(Items.IRON_CHAIN, PortalCubedBlocks.MAGNESIUM_BLOCK);
+			entries.insertAfter(Blocks.CHERRY_BUTTON,
 					PortalCubedBlocks.LEMON_LOG,
 					PortalCubedBlocks.LEMON_WOOD,
 					PortalCubedBlocks.STRIPPED_LEMON_LOG,
@@ -891,51 +891,51 @@ public class PortalCubedTabs {
 			);
 		});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
-			entries.addAfter(Items.RAW_IRON, PortalCubedItems.RAW_MAGNESIUM);
-			entries.addAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
-			entries.addAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
-			entries.addAfter(Items.HEAVY_CORE,
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
+			entries.insertAfter(Items.RAW_IRON, PortalCubedItems.RAW_MAGNESIUM);
+			entries.insertAfter(Items.IRON_NUGGET, PortalCubedItems.MAGNESIUM_NUGGET);
+			entries.insertAfter(Items.IRON_INGOT, PortalCubedItems.MAGNESIUM_INGOT);
+			entries.insertAfter(Items.HEAVY_CORE,
 					PortalCubedItems.SCREEN_ASSEMBLY,
 					PortalCubedItems.KINETIC_ASSEMBLY,
 					PortalCubedItems.EMITTER_ASSEMBLY
 			);
-			entries.addAfter(Items.GUSTER_BANNER_PATTERN, PortalCubedItems.APERTURE_BANNER_PATTERN);
+			entries.insertAfter(Items.GUSTER_BANNER_PATTERN, PortalCubedItems.APERTURE_BANNER_PATTERN);
 		});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {
-			entries.addAfter(Items.ENCHANTED_GOLDEN_APPLE, PortalCubedItems.LEMON);
-			entries.addAfter(Items.CAKE, PortalCubedBlocks.BLACK_FOREST_CAKE.getBase());
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {
+			entries.insertAfter(Items.ENCHANTED_GOLDEN_APPLE, PortalCubedItems.LEMON);
+			entries.insertAfter(Items.CAKE, PortalCubedBlocks.BLACK_FOREST_CAKE.getBase());
 		});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
-			entries.addAfter(Blocks.CHERRY_HANGING_SIGN,
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
+			entries.insertAfter(Blocks.CHERRY_HANGING_SIGN,
 					PortalCubedItems.LEMON_SIGN,
 					PortalCubedItems.LEMON_HANGING_SIGN
 			);
 		});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
-			entries.addAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
-			entries.addAfter(Items.NETHERITE_HOE, PortalCubedItems.HAMMER, PortalCubedItems.CROWBAR);
-			entries.addAfter(Items.MILK_BUCKET, PortalCubedItems.GOO_BUCKET);
-			entries.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, PortalCubedItems.CONSTRUCTION_CANNON);
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
+			entries.insertAfter(Items.CHERRY_CHEST_BOAT, PortalCubedItems.LEMON_BOAT, PortalCubedItems.LEMON_CHEST_BOAT);
+			entries.insertAfter(Items.NETHERITE_HOE, PortalCubedItems.HAMMER, PortalCubedItems.CROWBAR);
+			entries.insertAfter(Items.MILK_BUCKET, PortalCubedItems.GOO_BUCKET);
+			entries.insertAfter(Items.WARPED_FUNGUS_ON_A_STICK, PortalCubedItems.CONSTRUCTION_CANNON);
 		});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
-			entries.addAfter(Items.END_CRYSTAL, PortalCubedItems.LEMONADE);
-			entries.addAfter(Items.TURTLE_HELMET,
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> {
+			entries.insertAfter(Items.END_CRYSTAL, PortalCubedItems.LEMONADE);
+			entries.insertAfter(Items.TURTLE_HELMET,
 					PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS,
 					PortalCubedItems.LONG_FALL_BOOTS
 			);
 		});
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.OP_BLOCKS).register(entries -> {
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.OP_BLOCKS).register(entries -> {
 			if (!entries.shouldShowOpRestrictedItems())
 				return;
 
-			entries.addAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER, PortalCubedBlocks.PORTAL_BARRIER);
-			entries.addAfter(Items.DEBUG_STICK, PortalCubedItems.FIZZLEINATOR);
+			entries.insertAfter(Items.BARRIER, PortalCubedBlocks.PROP_BARRIER, PortalCubedBlocks.PORTAL_BARRIER);
+			entries.insertAfter(Items.DEBUG_STICK, PortalCubedItems.FIZZLEINATOR);
 		});
 	}
 

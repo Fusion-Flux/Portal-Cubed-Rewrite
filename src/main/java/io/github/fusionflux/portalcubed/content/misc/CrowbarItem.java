@@ -61,7 +61,7 @@ public class CrowbarItem extends Item implements AttackListeningItem {
 				world.playSound(null, pos.x, pos.y, pos.z, material.impactSound, player.getSoundSource());
 				Direction dir = blockHit.getDirection();
 				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, pos.x, pos.y, pos.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
-				for (ServerPlayer tracking : PlayerLookup.tracking(serverPlayer.serverLevel(), blockHit.getBlockPos())) {
+				for (ServerPlayer tracking : PlayerLookup.tracking(serverPlayer.level(), blockHit.getBlockPos())) {
 					PortalCubedPackets.sendToClient(tracking, packet);
 				}
 			});
@@ -79,7 +79,6 @@ public class CrowbarItem extends Item implements AttackListeningItem {
 	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
-		return true;
 	}
 
 	@Override

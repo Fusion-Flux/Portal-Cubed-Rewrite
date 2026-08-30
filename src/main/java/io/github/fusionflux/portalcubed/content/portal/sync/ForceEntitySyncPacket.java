@@ -22,7 +22,7 @@ public record ForceEntitySyncPacket(ClientboundEntityPositionSyncPacket wrapped)
 	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayNetworking.Context ctx) {
 		int id = this.wrapped.id();
-		Entity entity = ctx.player().clientLevel.getEntity(id);
+		Entity entity = ctx.player().level().getEntity(id);
 
 		if (entity == null) {
 			PortalCubed.LOGGER.error("Ignoring forced sync for missing entity {}", id);

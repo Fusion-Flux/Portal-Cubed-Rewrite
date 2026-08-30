@@ -112,7 +112,7 @@ public final class SinglePortalTransform implements PortalTransform {
 	public Rotations apply(Rotations rotations) {
 		// TODO: handle Z
 		Quaternionf rot = new Quaternionf()
-				.rotationYXZ((180 - rotations.getY()) * Mth.DEG_TO_RAD, -rotations.getX() * Mth.DEG_TO_RAD, 0)
+				.rotationYXZ((180 - rotations.y()) * Mth.DEG_TO_RAD, -rotations.x() * Mth.DEG_TO_RAD, 0)
 				.premul(this.inRotInverse)
 				.premul(this.outRot180)
 				.conjugate();
@@ -140,13 +140,13 @@ public final class SinglePortalTransform implements PortalTransform {
 			// this needs to be done manually for some reason.
 			// vanilla calls this in places where the player normally moves, instead of just doing it automatically.
 			// this might cause chunk tracking to be incorrect in some cases, but I don't care enough to investigate, not my bug.
-			player.serverLevel().getChunkSource().move(player);
+			player.level().getChunkSource().move(player);
 		}
 
 		// rotate
 		Rotations newRotations = this.apply(entity.getXRot(), entity.getYRot());
-		entity.setXRot(newRotations.getX());
-		entity.setYRot(newRotations.getY());
+		entity.setXRot(newRotations.x());
+		entity.setYRot(newRotations.y());
 
 		if (entity instanceof LivingEntity living) {
 			// we explicitly do not want to call setters here even when they're available, because side effects can ruin our day.
@@ -184,7 +184,7 @@ public final class SinglePortalTransform implements PortalTransform {
 		// set old values. do this last, since setting non-old values above may have set them prematurely
 		Vec3 oldPosTeleported = this.applyAbsolute(oldPos.add(posToCenter)).add(centerToPos);
 		Rotations rotationsO = this.apply(entity.xRotO, entity.yRotO);
-		entity.setOldPosAndRot(oldPosTeleported, rotationsO.getY(), rotationsO.getX());
+		entity.setOldPosAndRot(oldPosTeleported, rotationsO.y(), rotationsO.x());
 
 		// anything more specific can be done by overriding this method
 		entity.applyAdditionalTransforms(this);

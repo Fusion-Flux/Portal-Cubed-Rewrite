@@ -5,8 +5,6 @@ import static io.github.fusionflux.portalcubed.PortalCubed.REGISTRAR;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
-
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.fizzler.tool.FizzleinatorItem;
@@ -34,13 +32,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -67,7 +62,7 @@ public class PortalCubedItems {
 	public static final Item RAW_MAGNESIUM = REGISTRAR.items.create("raw_magnesium", Item::new)
 			.build();
 
-	public static final BannerPatternItem APERTURE_BANNER_PATTERN = REGISTRAR.items.create("aperture_banner_pattern", s -> new BannerPatternItem(PortalCubedBannerPatternTags.APERTURE, s))
+	public static final Item APERTURE_BANNER_PATTERN = REGISTRAR.items.create("aperture_banner_pattern", s -> new BannerPatternItem(PortalCubedBannerPatternTags.APERTURE, s))
 			.properties(s -> s
 					.stacksTo(1)
 					.rarity(Rarity.UNCOMMON)
@@ -123,10 +118,10 @@ public class PortalCubedItems {
 	public static final LemonadeItem LEMONADE = REGISTRAR.items.create("lemonade", LemonadeItem::new)
 			.properties(s -> s.stacksTo(1))
 			.build();
-	public static final SignItem LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new SignItem(PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN, s))
+	public static final Item LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new SignItem(PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN, s))
 			.properties(s -> s.useBlockDescriptionPrefix().stacksTo(16))
 			.build();
-	public static final SignItem LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new SignItem(PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN, s))
+	public static final Item LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new SignItem(PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN, s))
 			.properties(s -> s.useBlockDescriptionPrefix().stacksTo(16))
 			.build();
 	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), false, false);
@@ -136,14 +131,14 @@ public class PortalCubedItems {
 			.properties(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))
 			.build();
 
-	public static final ArmorItem LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new ArmorItem(PortalCubedArmorMaterials.LONG_FALL_BOOTS, ArmorType.BOOTS, s))
+	public static final Item LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new ArmorItem(PortalCubedArmorMaterials.LONG_FALL_BOOTS, ArmorType.BOOTS, s))
 			.properties(s -> s
 					.fireResistant()
 					.component(PortalCubedDataComponents.FALL_SOUND, new FallSound(PortalCubedSounds.LONG_FALL_BOOTS_LAND, 6))
 					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("aperture"))
 			)
 			.build();
-	public static final ArmorItem ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(PortalCubedArmorMaterials.ADVANCED_KNEE_REPLACEMENTS, ArmorType.BOOTS, s))
+	public static final Item ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(PortalCubedArmorMaterials.ADVANCED_KNEE_REPLACEMENTS, ArmorType.BOOTS, s))
 			.properties(s -> s
 					.fireResistant()
 					.component(PortalCubedDataComponents.FALL_SOUND, new FallSound(PortalCubedSounds.ADVANCED_KNEE_REPLACEMENTS_LAND, 5))

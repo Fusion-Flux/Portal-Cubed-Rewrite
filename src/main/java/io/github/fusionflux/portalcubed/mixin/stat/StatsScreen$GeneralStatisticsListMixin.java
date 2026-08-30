@@ -17,7 +17,7 @@ import net.minecraft.util.RandomSource;
 @Mixin(targets = "net.minecraft.client.gui.screens.achievement.StatsScreen$GeneralStatisticsList")
 public class StatsScreen$GeneralStatisticsListMixin {
 	@Unique
-	private static final RandomSource random = RandomSource.createNewThreadLocalInstance();
+	private static final RandomSource random = RandomSource.createThreadLocalInstance();
 
 	@ModifyExpressionValue(
 			method = "<init>",

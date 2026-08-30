@@ -2,6 +2,8 @@ package io.github.fusionflux.portalcubed.content.portal.sound;
 
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
@@ -30,7 +32,7 @@ public final class PortalSoundPlayer implements PortalChangeListener {
 		this.tryPlay(reference.id, portal, PortalSounds.SoundSet::open);
 
 		getSound(reference.id, portal, PortalSounds.SoundSet::ambient).ifPresent(sound -> {
-			RandomSource random = RandomSource.create(this.level.random.nextLong());
+			RandomSource random = RandomSource.create(this.level.getRandom().nextLong());
 			AmbientSoundInstance instance = new AmbientSoundInstance(reference, sound, random);
 			Minecraft.getInstance().getSoundManager().play(instance);
 		});
@@ -98,7 +100,7 @@ public final class PortalSoundPlayer implements PortalChangeListener {
 		}
 
 		@Override
-		public WeighedSoundEvents resolve(SoundManager manager) {
+		public @Nullable WeighedSoundEvents getOrResolve(SoundManager manager) {
 			// this is called each time the sound is played, reroll the delay
 			this.ambient.delay().ifPresent(provider -> {
 				int delay = provider.sample(this.random);
@@ -106,7 +108,7 @@ public final class PortalSoundPlayer implements PortalChangeListener {
 				this.delay = Math.max(delay, 1);
 			});
 
-			return super.resolve(manager);
+			return super.getOrResolve(manager);
 		}
 	}
 }

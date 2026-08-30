@@ -4,7 +4,7 @@
   "portalcubed.itemGroup.props_and_items": "Props and Items",
 
 
-  "key.categories.portalcubed": "Portal Cubed",
+  "key.category.portalcubed.main": "Portal Cubed",
   "key.portalcubed.grab": "Grab",
   "key.portalcubed.clear_portals": "Clear Portals",
   "key.portalcubed.clear_portals.success": "Removed portals of held portal gun",

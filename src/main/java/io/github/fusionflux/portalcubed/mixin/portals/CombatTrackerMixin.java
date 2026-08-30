@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
+import java.net.URI;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,8 +31,8 @@ public class CombatTrackerMixin {
 	private LivingEntity mob;
 	@Unique
 	private static final Style MIRROR_TEST_STYLE = Style.EMPTY
-			.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://en.wikipedia.org/wiki/Mirror_test"))
-			.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("death.attack.portalcubed.self.hover")));
+			.withClickEvent(new ClickEvent.OpenUrl(URI.create("https://en.wikipedia.org/wiki/Mirror_test")))
+			.withHoverEvent(new HoverEvent.ShowText(Component.translatable("death.attack.portalcubed.self.hover")));
 
 	@ModifyExpressionValue(
 			method = "getDeathMessage",

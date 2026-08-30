@@ -6,15 +6,16 @@ import java.util.List;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.clear.ClearPortalsKeyMappingAction;
 import io.github.fusionflux.portalcubed.framework.key.GrabKeyMappingAction;
 import io.github.fusionflux.portalcubed.framework.key.KeyMappingAction;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 
 public class PortalCubedKeyMappings {
-	public static final String CATEGORY = "key.categories.portalcubed";
+	public static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(PortalCubed.id("main"));
 
 	private static final List<Pair<KeyMapping, KeyMappingAction>> actions = new ArrayList<>();
 
@@ -34,7 +35,7 @@ public class PortalCubedKeyMappings {
 	}
 
 	private static void register(String name, int key, KeyMappingAction action) {
-		KeyMapping keyMapping = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+		KeyMapping keyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping(
 				"key.portalcubed." + name, key, CATEGORY
 		));
 		actions.add(Pair.of(keyMapping, action));

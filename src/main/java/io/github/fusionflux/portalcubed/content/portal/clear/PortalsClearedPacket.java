@@ -38,7 +38,7 @@ public record PortalsClearedPacket(Set<ResourceKey<PortalGunSkin>> skins) implem
 			if (skin != null) {
 				skin.sounds().fizzle().ifPresent(sound -> player.playSound(sound.value()));
 			} else {
-				PortalCubed.LOGGER.error("Unknown portal gun skin, can't play fizzle sound: {}", key.location());
+				PortalCubed.LOGGER.error("Unknown portal gun skin, can't play fizzle sound: {}", key.identifier());
 			}
 		}
 	}

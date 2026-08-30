@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.advancements;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -17,19 +17,19 @@ import io.github.fusionflux.portalcubed.content.portal.graphics.color.PortalColo
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedCodecs;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.phys.Vec3;
 
 public record PortalPredicate(
 		Optional<String> pair, Optional<Polarity> polarity, Optional<HolderSet<PortalType>> types,
-		Optional<Vec3> origin, Optional<Quaternionf> rotation, Optional<PortalColor> color
+		Optional<Vec3> origin, Optional<Quaternionfc> rotation, Optional<PortalColor> color
 ) implements Predicate<PortalReference> {
 	public static final Codec<PortalPredicate> CODEC = PortalCubedCodecs.validate(
 			RecordCodecBuilder.create(i -> i.group(
 					Codec.STRING.optionalFieldOf("pair").forGetter(PortalPredicate::pair),
 					Polarity.CODEC.optionalFieldOf("polarity").forGetter(PortalPredicate::polarity),
-					RegistryCodecs.homogeneousList(PortalCubedRegistries.PORTAL_TYPE).optionalFieldOf("types").forGetter(PortalPredicate::types),
+					RegistryCodecs.holderSet(PortalCubedRegistries.PORTAL_TYPE).optionalFieldOf("types").forGetter(PortalPredicate::types),
 					Vec3.CODEC.optionalFieldOf("origin").forGetter(PortalPredicate::origin),
 					ExtraCodecs.QUATERNIONF.optionalFieldOf("rotation").forGetter(PortalPredicate::rotation),
 					PortalColor.CODEC.optionalFieldOf("color").forGetter(PortalPredicate::color)

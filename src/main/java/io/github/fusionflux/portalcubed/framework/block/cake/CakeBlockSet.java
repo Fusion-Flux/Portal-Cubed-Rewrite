@@ -12,7 +12,6 @@ import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockBuilder;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockFactory;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
-import io.github.fusionflux.portalcubed.framework.util.ColorUtil;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -65,7 +64,7 @@ public final class CakeBlockSet {
 					.item(BlockItemProvider::noItem);
 
 			for (DyeColor color : DyeColor.values()) {
-				Block candle = ColorUtil.CANDLES.get(color);
+				Block candle = Blocks.DYED_CANDLE.pick(color);
 				String blockName = color.getName() + "_candle_" + name;
 				BlockBuilder<?> builder = registrar.blocks.create(blockName, this.candledFactory(candle))
 						.item(BlockItemProvider::noItem);

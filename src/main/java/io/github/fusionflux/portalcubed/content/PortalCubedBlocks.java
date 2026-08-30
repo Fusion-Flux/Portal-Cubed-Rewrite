@@ -242,14 +242,14 @@ public class PortalCubedBlocks {
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
 	public static final Identifier LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
-	public static final TerraformSignBlock LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
+	public static final Block LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_SIGN)
 			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 			)
 			.item(BlockItemProvider::noItem)
 			.build();
-	public static final TerraformWallSignBlock LEMON_WALL_SIGN = REGISTRAR.blocks.create("lemon_wall_sign", properties -> new TerraformWallSignBlock(LEMON_SIGN_TEXTURE, properties))
+	public static final Block LEMON_WALL_SIGN = REGISTRAR.blocks.create("lemon_wall_sign", properties -> new TerraformWallSignBlock(LEMON_SIGN_TEXTURE, properties))
 			.copyFrom(Blocks.OAK_WALL_SIGN)
 			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
@@ -481,7 +481,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.renderType(RenderTypes.CUTOUT)
 			.build();

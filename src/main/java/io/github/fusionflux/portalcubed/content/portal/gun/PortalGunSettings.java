@@ -23,6 +23,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -148,7 +149,7 @@ public record PortalGunSettings(
 	}
 
 	@Override
-	public void addToTooltip(Item.TooltipContext context, Consumer<Component> output, TooltipFlag flag) {
+	public void addToTooltip(Item.TooltipContext context, Consumer<Component> output, TooltipFlag flag, DataComponentGetter components) {
 		HolderLookup.Provider registries = context.registries();
 		if (registries == null)
 			return;
@@ -188,7 +189,7 @@ public record PortalGunSettings(
 			return holder.get().value().name().copy();
 		}
 
-		Identifier id = settings.typeId().location();
+		Identifier id = settings.typeId().identifier();
 		return Component.translatableEscape("portal_type.portalcubed.invalid", id);
 	}
 }

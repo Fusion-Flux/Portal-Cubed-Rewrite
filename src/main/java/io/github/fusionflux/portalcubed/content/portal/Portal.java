@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.joml.Matrix3d;
 import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 
 import com.mojang.serialization.Codec;
@@ -95,7 +96,7 @@ public final class Portal {
 		return BlockPos.containing(this.origin());
 	}
 
-	public Quaternionf rotation() {
+	public Quaternionfc rotation() {
 		return this.data.rotation();
 	}
 

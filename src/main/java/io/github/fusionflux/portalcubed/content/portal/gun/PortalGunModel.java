@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.gun;
 import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4fc;
 
 import com.mojang.serialization.MapCodec;
 
@@ -13,7 +14,7 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
@@ -21,15 +22,8 @@ public class PortalGunModel implements ItemModel {
 	public static final ItemModel INSTANCE = new PortalGunModel();
 
 	@Override
-	public void update(
-			ItemStackRenderState renderState,
-			ItemStack stack,
-			ItemModelResolver itemModelResolver,
-			ItemDisplayContext displayContext,
-			@Nullable ClientLevel level,
-			@Nullable LivingEntity entity,
-			int seed
-	) {
+	public void update(ItemStackRenderState output, ItemStack stack, ItemModelResolver resolver, ItemDisplayContext ctx,
+					   @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
 		PortalGunSettings portalGun = PortalGunItem.getGunSettings(stack);
 		Optional<Identifier> skinModel = Optional.ofNullable(portalGun)
 				.map(PortalGunSettings::skin)
@@ -37,7 +31,7 @@ public class PortalGunModel implements ItemModel {
 		if (skinModel.isPresent()) {
 			ModelManager modelManager = Minecraft.getInstance().getModelManager();
 			ItemModel itemModel = modelManager.getItemModel(skinModel.get());
-			itemModel.update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
+			itemModel.update(output, stack, resolver, ctx, level, owner, seed);
 		}
 	}
 
@@ -50,7 +44,7 @@ public class PortalGunModel implements ItemModel {
 		}
 
 		@Override
-		public ItemModel bake(BakingContext context) {
+		public ItemModel bake(BakingContext context, Matrix4fc transformation) {
 			return PortalGunModel.INSTANCE;
 		}
 

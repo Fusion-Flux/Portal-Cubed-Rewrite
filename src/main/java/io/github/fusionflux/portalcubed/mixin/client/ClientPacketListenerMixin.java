@@ -69,8 +69,8 @@ public class ClientPacketListenerMixin {
 		pos.set(newPos);
 
 		Rotations rotations = transform.apply(xRot.get(), yRot.get());
-		xRot.set(rotations.getX());
-		yRot.set(rotations.getY());
+		xRot.set(rotations.x());
+		yRot.set(rotations.y());
 	}
 
 	@ModifyArgs(
@@ -106,8 +106,8 @@ public class ClientPacketListenerMixin {
 			// why is it yx here instead of xy
 			Rotations rotations = new Rotations(args.get(4), args.get(3), 0);
 			Rotations transformedRotations = transform.apply(rotations);
-			args.set(4, transformedRotations.getX());
-			args.set(3, transformedRotations.getY());
+			args.set(4, transformedRotations.x());
+			args.set(3, transformedRotations.y());
 		}
 	}
 

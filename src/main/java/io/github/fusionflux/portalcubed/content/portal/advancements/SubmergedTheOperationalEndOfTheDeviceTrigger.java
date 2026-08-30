@@ -4,10 +4,13 @@ import java.util.Optional;
 
 import com.mojang.serialization.Codec;
 
+import com.mojang.serialization.MapCodec;
+
 import io.github.fusionflux.portalcubed.content.portal.advancements.SubmergedTheOperationalEndOfTheDeviceTrigger.TriggerInstance;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.triggers.SimpleCriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 public class SubmergedTheOperationalEndOfTheDeviceTrigger extends SimpleCriterionTrigger<TriggerInstance> {
 	@Override
@@ -16,16 +19,16 @@ public class SubmergedTheOperationalEndOfTheDeviceTrigger extends SimpleCriterio
 	}
 
 	public void trigger(ServerPlayer player) {
-		super.trigger(player, instance -> true);
+		super.trigger(player, _ -> true);
 	}
 
 	public enum TriggerInstance implements SimpleInstance {
 		INSTANCE;
 
-		public static final Codec<TriggerInstance> CODEC = Codec.unit(INSTANCE);
+		public static final Codec<TriggerInstance> CODEC = MapCodec.unitCodec(INSTANCE);
 
 		@Override
-		public Optional<ContextAwarePredicate> player() {
+		public Optional<Holder<LootItemCondition>> player() {
 			return Optional.empty();
 		}
 	}

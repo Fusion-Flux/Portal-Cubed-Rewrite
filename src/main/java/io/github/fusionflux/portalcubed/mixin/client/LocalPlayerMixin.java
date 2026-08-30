@@ -12,6 +12,7 @@ import com.mojang.authlib.GameProfile;
 import io.github.fusionflux.portalcubed.content.boots.SourcePhysics;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.DeathScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -46,12 +47,13 @@ public abstract class LocalPlayerMixin extends AbstractClientPlayer {
 		super.pc$disintegrateTick();
 
 		// Copied from nether portal handling `handleNetherPortalClient` in `LocalPlayer`
-		if (this.minecraft.screen != null && !this.minecraft.screen.isPauseScreen() && !(this.minecraft.screen instanceof DeathScreen)) {
-			if (this.minecraft.screen instanceof AbstractContainerScreen) {
+		Screen screen = this.minecraft.gui.screen();
+		if (screen != null && !screen.isPauseScreen() && !(screen instanceof DeathScreen)) {
+			if (screen instanceof AbstractContainerScreen) {
 				this.closeContainer();
 			}
 
-			this.minecraft.setScreen(null);
+			this.minecraft.gui.setScreen(null);
 		}
 	}
 }

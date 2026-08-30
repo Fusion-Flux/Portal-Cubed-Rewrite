@@ -19,8 +19,8 @@ import net.minecraft.world.phys.Vec3;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin extends Player {
-	protected ServerPlayerMixin(Level level, BlockPos pos, float yRot, GameProfile gameProfile) {
-		super(level, pos, yRot, gameProfile);
+	protected ServerPlayerMixin(Level level, GameProfile gameProfile) {
+		super(level, gameProfile);
 	}
 
 	@ModifyReturnValue(method = "isReachableBedBlock", at = @At("RETURN"))

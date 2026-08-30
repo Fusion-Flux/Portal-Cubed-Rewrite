@@ -6,7 +6,7 @@ import io.github.fusionflux.portalcubed.content.misc.ConfigureTestElementTrigger
 import io.github.fusionflux.portalcubed.content.portal.advancements.PortalTrigger;
 import io.github.fusionflux.portalcubed.content.portal.advancements.SubmergedTheOperationalEndOfTheDeviceTrigger;
 import io.github.fusionflux.portalcubed.content.portal.advancements.ThrownItemPortalTrigger;
-import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.advancements.triggers.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
