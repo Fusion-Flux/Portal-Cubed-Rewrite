@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.  Tiny Potato is property of Vazkii.",
 	"texture_size": [16, 32],
 	"textures": {
@@ -41,7 +42,7 @@
 			"scale": [0.85547, 0.85547, 0.88086]
 		},
 		"ground": {
-			"rotation": [0, 180, 0],
+			"rotation": [0, -180, 0],
 			"translation": [0, 4, 0],
 			"scale": [0.58984, 0.58984, 0.58984]
 		},
@@ -56,6 +57,10 @@
 		"fixed": {
 			"rotation": [-90, -90, 0],
 			"translation": [-1, 0.25, -7.75]
+		},
+		"on_shelf": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 1.5, 4.5]
 		}
 	}
 }

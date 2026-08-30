@@ -112,6 +112,9 @@
 		"fixed": {
 			"rotation": [0, -180, -51],
 			"translation": [-3.25, 2.25, -1.25]
+		},
+		"on_shelf": {
+			"translation": [0, 0, -3]
 		}
 	}
 }

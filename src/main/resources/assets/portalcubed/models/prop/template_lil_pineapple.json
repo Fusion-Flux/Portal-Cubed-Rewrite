@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
@@ -78,24 +79,27 @@
 			"scale": [1.70898, 1.70898, 1.70898]
 		},
 		"fixed": {
-			"rotation": [180, 180, 180],
+			"rotation": [-180, -180, -180],
 			"translation": [0, 2.5, 0],
 			"scale": [0.73633, 0.73633, 0.73633]
+		},
+		"on_shelf": {
+			"rotation": [0, 180, 0]
 		}
 	},
 	"groups": [
 		{
 			"name": "bb_main",
 			"origin": [0, 0, 0],
+			"scope": 0,
 			"color": 0,
-			"nbt": "{}",
 			"children": [0]
 		},
 		{
 			"name": "bd",
 			"origin": [-4.5, -0.5, 2.5],
+			"scope": 0,
 			"color": 1,
-			"nbt": "{}",
 			"children": [1, 2]
 		}
 	]

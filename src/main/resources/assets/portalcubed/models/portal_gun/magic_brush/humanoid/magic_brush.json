@@ -236,35 +236,44 @@
 			"rotation": [0, 0, 47],
 			"translation": [3.75, -3.25, -0.75],
 			"scale": [0.80078, 0.80078, 0.80078]
+		},
+		"on_shelf": {
+			"rotation": [0, 0, -39],
+			"translation": [-0.75, 0, -1.25]
 		}
 	},
 	"groups": [
 		{
 			"name": "handle",
 			"origin": [8, 15.5, 8],
+			"scope": 0,
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 		},
 		{
 			"name": "brush",
 			"origin": [8, 23, 8],
+			"scope": 0,
 			"color": 0,
 			"children": [
 				{
 					"name": "clean",
 					"origin": [8, 19.5, 8],
+					"scope": 0,
 					"color": 0,
 					"children": [12, 13]
 				},
 				{
 					"name": "primary",
 					"origin": [8, 19.5, 8],
+					"scope": 0,
 					"color": 0,
 					"children": [14, 15]
 				},
 				{
 					"name": "secondary",
 					"origin": [8, 19.5, 8],
+					"scope": 0,
 					"color": 0,
 					"children": [16, 17]
 				}

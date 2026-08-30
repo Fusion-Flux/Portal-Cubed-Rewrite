@@ -70,8 +70,8 @@
 			"name": "emission",
 			"from": [7.5, 2.025, 5.5],
 			"to": [8.5, 18.025, 10.5],
-			"shade_direction_override": "up",
 			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 10.025, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 16], "texture": "#2"},
@@ -82,8 +82,8 @@
 			"name": "emission",
 			"from": [5.5, 2.025, 7.5],
 			"to": [10.5, 17.525, 8.5],
-			"shade_direction_override": "up",
 			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 10.025, 8]},
 			"faces": {
 				"east": {"uv": [2, 0.5, 3, 16], "texture": "#2"},
@@ -128,12 +128,17 @@
 		"fixed": {
 			"rotation": [-180, 88.25, -180],
 			"scale": [0.5, 0.5, 0.5]
+		},
+		"on_shelf": {
+			"translation": [0, 0, -2],
+			"scale": [0.6, 0.6, 0.6]
 		}
 	},
 	"groups": [
 		{
 			"name": "pedestal_button",
 			"origin": [8, 8, 8],
+			"scope": 0,
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6]
 		}

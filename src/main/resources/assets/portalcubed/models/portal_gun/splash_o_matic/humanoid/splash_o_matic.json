@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:portal_gun/splash_o_matic",
@@ -136,6 +137,10 @@
 			"rotation": [-91.32, 52.25, 90.14],
 			"translation": [1, 6, -1.75],
 			"scale": [1.29492, 1.29492, 1.29492]
+		},
+		"on_shelf": {
+			"rotation": [-90, 72.75, 90],
+			"translation": [3, 1.5, -3.75]
 		}
 	}
 }

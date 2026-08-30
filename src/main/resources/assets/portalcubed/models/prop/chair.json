@@ -160,6 +160,10 @@
 		"fixed": {
 			"rotation": [0, 90, 0],
 			"scale": [0.97461, 0.97461, 0.97461]
+		},
+		"on_shelf": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 0, -0.5]
 		}
 	}
 }

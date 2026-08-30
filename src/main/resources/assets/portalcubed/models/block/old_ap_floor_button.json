@@ -11,8 +11,8 @@
 			"name": "translucent",
 			"from": [-10, 3.025, 6],
 			"to": [10, 3.025, 26],
-			"shade_direction_override": "up",
 			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 1.425, 16]},
 			"faces": {
 				"up": {"uv": [13.25, 10, 8.25, 0], "texture": "#7"}
@@ -155,6 +155,11 @@
 			"rotation": [-89.25, 0, 0],
 			"translation": [4.75, -4.75, -5],
 			"scale": [0.59, 0.59, 0.59]
+		},
+		"on_shelf": {
+			"rotation": [90, 0, 0],
+			"translation": [4, 4, 0.25],
+			"scale": [0.5, 0.5, 0.5]
 		}
 	}
 }

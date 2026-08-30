@@ -904,36 +904,45 @@
 		"fixed": {
 			"rotation": [-90, -90, 0],
 			"translation": [-1, 0.25, -7.75]
+		},
+		"on_shelf": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 1.5, 4.5]
 		}
 	},
 	"groups": [
 		{
 			"name": "frame",
 			"origin": [0, 1, 6],
+			"scope": 0,
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6]
 		},
 		{
 			"name": "prongs",
 			"origin": [7.9995, 4.54813, -2.2675],
+			"scope": 0,
 			"color": 0,
 			"children": [7, 8, 9, 10, 11, 12, 13]
 		},
 		{
 			"name": "shell",
 			"origin": [8, 3.5, 13],
+			"scope": 0,
 			"color": 0,
 			"children": [14, 15, 16, 17]
 		},
 		{
 			"name": "tube",
 			"origin": [8.02475, 3.30404, 7.025],
+			"scope": 0,
 			"color": 0,
 			"children": [18]
 		},
 		{
 			"name": "outline",
 			"origin": [6.5, 2.575, 5.5],
+			"scope": 0,
 			"color": 0,
 			"children": [
 				19,

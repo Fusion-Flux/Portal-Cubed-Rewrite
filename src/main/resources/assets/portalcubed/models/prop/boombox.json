@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 16],
 	"textures": {
@@ -92,6 +93,9 @@
 		},
 		"fixed": {
 			"translation": [0, 3.25, 0]
+		},
+		"on_shelf": {
+			"rotation": [0, 180, 0]
 		}
 	}
 }

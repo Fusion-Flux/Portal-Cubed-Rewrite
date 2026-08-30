@@ -1,10 +1,11 @@
 {
+	"format_version": "1.21.11",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
 		"2": "portalcubed:item/potatos",
-		"3": "minecraft:item/potato",
-		"particle": "minecraft:item/potato"
+		"3": "item/potato",
+		"particle": "item/potato"
 	},
 	"elements": [
 		{
@@ -322,12 +323,17 @@
 		"fixed": {
 			"rotation": [-90, -90, 0],
 			"translation": [-1, 0.25, -7.75]
+		},
+		"on_shelf": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 1.5, 4.5]
 		}
 	},
 	"groups": [
 		{
 			"name": "potato",
 			"origin": [8, 8, 8],
+			"scope": 0,
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
 		}

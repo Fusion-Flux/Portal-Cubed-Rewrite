@@ -305,18 +305,25 @@
 			"rotation": [-89.25, 0, 0],
 			"translation": [4.75, -4.75, -5],
 			"scale": [0.59, 0.59, 0.59]
+		},
+		"on_shelf": {
+			"rotation": [90, 0, 0],
+			"translation": [4, 4, 0.25],
+			"scale": [0.5, 0.5, 0.5]
 		}
 	},
 	"groups": [
 		{
 			"name": "button",
 			"origin": [0, 1.95, 16],
+			"scope": 0,
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 		},
 		{
 			"name": "base",
 			"origin": [0, -2.7125, 16],
+			"scope": 0,
 			"color": 0,
 			"children": [21, 22, 23, 24]
 		}

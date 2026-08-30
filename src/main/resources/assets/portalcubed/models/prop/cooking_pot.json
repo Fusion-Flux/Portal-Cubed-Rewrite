@@ -83,6 +83,10 @@
 			"rotation": [0, 87, 0],
 			"translation": [-1.75, 3, 0],
 			"scale": [0.85938, 0.85938, 0.85938]
+		},
+		"on_shelf": {
+			"rotation": [-90, 180, 0],
+			"translation": [0, 0, -7.25]
 		}
 	}
 }

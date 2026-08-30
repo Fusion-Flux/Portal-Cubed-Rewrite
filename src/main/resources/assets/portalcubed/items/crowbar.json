@@ -33,6 +33,7 @@
           "when": [
             "gui",
             "ground",
+            "on_shelf",
             "fixed"
           ]
         }
