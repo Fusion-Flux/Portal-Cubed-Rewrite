@@ -482,7 +482,7 @@ public class PortalCubedBlocks {
 			.properties(settings -> settings
 					.sound(SoundType.COPPER_GRATE)
 					.mapColor(MapColor.COLOR_GRAY)
-					.pushReaction(PushReaction.DESTROY)
+					.pushReaction(PushReaction.POPPED)
 					.noOcclusion()
 			)
 			.build();
@@ -493,7 +493,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final SlabBlock OLD_AP_METAL_GRATE_SLAB = REGISTRAR.blocks.create("old_ap_metal_grate_slab", TransparentSlabBlock::new)
@@ -519,7 +519,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.SAND)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final SlabBlock PORTAL_1_METAL_GRATE_SLAB = REGISTRAR.blocks.create("portal_1_metal_grate_slab", TransparentSlabBlock::new)
@@ -539,23 +539,23 @@ public class PortalCubedBlocks {
 			)
 			.build();
 	public static final WaterloggedTransparentBlock MESH_GRATE = REGISTRAR.blocks.create("mesh_grate", WaterloggedTransparentBlock::new)
-			.copyFrom(Blocks.BLACK_WOOL)
+			.copyFrom(Blocks.WOOL.black())
 			.properties(settings -> settings
 					.sound(SoundType.VINE)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final SlabBlock MESH_GRATE_SLAB = REGISTRAR.blocks.create("mesh_grate_slab", TransparentSlabBlock::new)
-			.copyFrom(Blocks.BLACK_WOOL)
+			.copyFrom(Blocks.WOOL.black())
 			.properties(settings -> settings
 					.sound(SoundType.VINE)
 					.noOcclusion()
 			)
 			.build();
 	public static final FacadeBlock MESH_GRATE_FACADE = REGISTRAR.blocks.create("mesh_grate_facade", FacadeBlock::new)
-			.copyFrom(Blocks.BLACK_WOOL)
+			.copyFrom(Blocks.WOOL.black())
 			.properties(settings -> settings
 					.sound(SoundType.VINE)
 					.noOcclusion()
@@ -569,7 +569,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_top_left", CrossbarBlock::new)
@@ -579,7 +579,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_top_right", CrossbarBlock::new)
@@ -589,7 +589,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_left", CrossbarBlock::new)
@@ -599,7 +599,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_right", CrossbarBlock::new)
@@ -609,7 +609,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("2x2_crossbar_top_left", CrossbarBlock::new)
@@ -619,7 +619,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_top_right", CrossbarBlock::new)
@@ -629,7 +629,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("2x2_crossbar_bottom_left", CrossbarBlock::new)
@@ -639,7 +639,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_bottom_right", CrossbarBlock::new)
@@ -649,7 +649,7 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 					.isSuffocating(Blocks::never)
-					.isViewBlocking(Blocks::never)
+					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
 			.build();
 	// ----- misc blocks - metal plating -----
