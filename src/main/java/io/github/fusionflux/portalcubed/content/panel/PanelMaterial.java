@@ -68,7 +68,7 @@ public enum PanelMaterial {
 	}
 
 	public static BlockBehaviour.Properties p1WhiteSettings() {
-		return BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_CONCRETE).mapColor(MapColor.COLOR_LIGHT_GRAY);
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.CONCRETE.white()).mapColor(MapColor.COLOR_LIGHT_GRAY);
 	}
 
 	public static BlockBehaviour.Properties p1DirtyWhiteSettings() {
@@ -76,7 +76,7 @@ public enum PanelMaterial {
 	}
 
 	public static BlockBehaviour.Properties p1MetalSettings() {
-		return BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(MapColor.TERRACOTTA_BROWN);
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK.weathering().unaffected()).mapColor(MapColor.TERRACOTTA_BROWN);
 	}
 
 	public static BlockBehaviour.Properties p1DirtyMetalSettings() {
@@ -104,7 +104,7 @@ public enum PanelMaterial {
 	}
 
 	public static BlockBehaviour.Properties oldApGreenSettings() {
-		return BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(MapColor.TERRACOTTA_LIGHT_GREEN).sound(SoundType.NETHERITE_BLOCK);
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK.weathering().unaffected()).mapColor(MapColor.TERRACOTTA_LIGHT_GREEN).sound(SoundType.NETHERITE_BLOCK);
 	}
 
 	public static BlockBehaviour.Properties oldApBlueSettings() {
