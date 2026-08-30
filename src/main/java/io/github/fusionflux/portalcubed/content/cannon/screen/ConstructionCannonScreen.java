@@ -16,15 +16,15 @@ import io.github.fusionflux.portalcubed.framework.gui.layout.PanelLayout;
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TabWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
+import io.github.fusionflux.portalcubed.framework.gui.widget.TitleWidget;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageWidget;
-import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -87,8 +87,7 @@ public class ConstructionCannonScreen extends Screen {
 			tabs.addChild(SpacerElement.width(1)); // 1-pixel buffer
 		}
 
-		menu.addChild(TAB_TITLE_X_OFFSET, TAB_TITLE_Y_OFFSET, new StringWidget(this.tab.title, this.font))
-				.setColor(4210752); // magic number from InventoryScreen
+		menu.addChild(TAB_TITLE_X_OFFSET, TAB_TITLE_Y_OFFSET, new TitleWidget(this.tab.title, this.font));
 		menu.addChild(0, BACKGROUND_Y_OFFSET, ImageWidget.texture(WIDTH, HEIGHT, this.tab.background, 256, 256));
 		// add tabs after so they're on top
 		menu.addChild(0, 0, tabs);
@@ -136,13 +135,13 @@ public class ConstructionCannonScreen extends Screen {
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+	public boolean keyPressed(KeyEvent event) {
 		// close on E
-		if (this.minecraft != null && this.minecraft.options.keyInventory.matches(keyCode, scanCode)) {
+		if (this.minecraft.options.keyInventory.matches(event)) {
 			this.onClose();
 			return true;
 		}
-		return super.keyPressed(keyCode, scanCode, modifiers);
+		return super.keyPressed(event);
 	}
 
 	@Override
@@ -151,8 +150,8 @@ public class ConstructionCannonScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		this.renderTransparentBackground(guiGraphics);
+	public boolean isInGameUi() {
+		return true;
 	}
 
 	private void resetScrollBar() {

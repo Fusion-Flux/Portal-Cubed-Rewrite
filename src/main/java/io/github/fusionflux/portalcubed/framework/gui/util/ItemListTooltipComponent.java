@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.framework.gui.util;
 import java.util.List;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.item.ItemStack;
 
@@ -30,12 +30,12 @@ public class ItemListTooltipComponent implements ClientTooltipComponent {
 	}
 
 	@Override
-	public void renderImage(Font textRenderer, int x, int y, int width, int height, GuiGraphics graphics) {
+	public void extractImage(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
 		for (int i = 0; i < this.items.size(); i++) {
 			ItemStack stack = this.items.get(i);
 			int row = i / MAX_ITEMS_WIDE;
 			int col = i % MAX_ITEMS_WIDE;
-			graphics.renderItem(stack, col * ITEM_SIZE + x, row * ITEM_SIZE + y);
+			graphics.item(stack, col * ITEM_SIZE + x, row * ITEM_SIZE + y);
 		}
 	}
 }

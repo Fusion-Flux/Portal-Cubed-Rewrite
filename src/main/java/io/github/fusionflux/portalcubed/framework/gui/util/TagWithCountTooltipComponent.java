@@ -6,7 +6,7 @@ import com.google.common.collect.Streams;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -42,12 +42,12 @@ public class TagWithCountTooltipComponent implements ClientTooltipComponent {
 	}
 
 	@Override
-	public void renderImage(Font textRenderer, int x, int y, int width, int height, GuiGraphics graphics) {
+	public void extractImage(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
 		ItemStack item = this.getItem();
-		graphics.renderItem(item, x, y);
+		graphics.item(item, x, y);
 		// always render count, even if 1
 		String count = String.valueOf(item.getCount());
-		graphics.renderItemDecorations(Minecraft.getInstance().font, item, x, y, count);
+		graphics.itemDecorations(Minecraft.getInstance().font, item, x, y, count);
 	}
 
 	private ItemStack getItem() {

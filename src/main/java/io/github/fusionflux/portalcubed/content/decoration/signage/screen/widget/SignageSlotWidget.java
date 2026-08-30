@@ -5,8 +5,8 @@ import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
 import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -43,7 +43,7 @@ public class SignageSlotWidget extends TexturedStickyButton {
 		this.tooltip = new AdvancedTooltip(builder -> {
 			builder.add(image.value().name());
 			if (builder.advanced) {
-				MutableComponent id = Component.literal(image.key().location().toString());
+				MutableComponent id = Component.literal(image.key().identifier().toString());
 				id.withStyle(ChatFormatting.DARK_GRAY);
 				builder.add(id);
 			}
@@ -51,11 +51,11 @@ public class SignageSlotWidget extends TexturedStickyButton {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.renderWidget(graphics, mouseX, mouseY, delta);
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractWidgetRenderState(graphics, mouseX, mouseY, a);
 		int scale = this.small ? 2 : 1;
-		graphics.blitSprite(RenderType::guiTextured, this.imageTexture, 16 * scale, 16 * scale, 0, 0, this.getX() + OFFSET, this.getY() + OFFSET, 16, 16);
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.imageTexture, 16 * scale, 16 * scale, 0, 0, this.getX() + OFFSET, this.getY() + OFFSET, 16, 16);
 		if (this.isHovered())
-			this.tooltip.render(graphics, mouseX, mouseY);
+			this.tooltip.extractRenderState(graphics, mouseX, mouseY);
 	}
 }

@@ -11,6 +11,7 @@ import io.github.fusionflux.portalcubed.framework.construct.ConfiguredConstruct;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 
@@ -39,7 +40,7 @@ public class ConstructPreviewWidget extends ConstructWidget implements TickableW
 	}
 
 	@Override
-	public void onClick(double mouseX, double mouseY) {
+	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		this.rotationAcceleration += 50;
 	}
 
@@ -55,7 +56,7 @@ public class ConstructPreviewWidget extends ConstructWidget implements TickableW
 		this.rotation += Math.max(0, vel - ((delta * delta) / 2)) + this.rotationAcceleration * delta * delta;
 		this.rotationAcceleration = 0;
 
-		matrices.mulPose(Axis.YP.rotationDegrees(spin + this.rotation));
+		matrices.rotate(Axis.YP.rotationDegrees(spin + this.rotation));
 	}
 
 	@Override

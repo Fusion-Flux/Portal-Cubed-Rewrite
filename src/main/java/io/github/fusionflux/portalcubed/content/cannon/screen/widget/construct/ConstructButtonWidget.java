@@ -9,8 +9,7 @@ import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.util.TagWithCountTooltipComponent;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton.Textures;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
@@ -39,27 +38,28 @@ public class ConstructButtonWidget extends ConstructWidget {
 		});
 	}
 
+	//	@Override
+//	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+//		if (!this.isActive())
+//			return;
+//
+//		super.renderWidget(graphics, mouseX, mouseY, delta);
+//		Identifier texture = this.textures.choose(this.isHovered(), this.selected);
+//		graphics.blitSprite(RenderType::guiTextured, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+//
+//		if (this.isHovered()) {
+//			PoseStack matrices = graphics.pose();
+//			matrices.pushPose();
+//			// extra Z to render on top of the really high side panels
+//			matrices.translate(0, 0, 500);
+//			this.tooltip.render(graphics, mouseX, mouseY);
+//			matrices.popPose();
+//		}
+//	}
+
+
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		if (!this.isActive())
-			return;
-
-		super.renderWidget(graphics, mouseX, mouseY, delta);
-		Identifier texture = this.textures.choose(this.isHovered(), this.selected);
-		graphics.blitSprite(RenderType::guiTextured, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-
-		if (this.isHovered()) {
-			PoseStack matrices = graphics.pose();
-			matrices.pushPose();
-			// extra Z to render on top of the really high side panels
-			matrices.translate(0, 0, 500);
-			this.tooltip.render(graphics, mouseX, mouseY);
-			matrices.popPose();
-		}
-	}
-
-	@Override
-	public void onClick(double mouseX, double mouseY) {
+	public void onClick(MouseButtonEvent event, boolean doubleClick) {
 		if (!this.selected) {
 			this.onSelect.run();
 			this.selected = true;
@@ -76,7 +76,7 @@ public class ConstructButtonWidget extends ConstructWidget {
 
 	@Override
 	protected void applyConstructTransformations(PoseStack matrices, float delta) {
-		matrices.mulPose(Axis.YN.rotationDegrees(45));
+		matrices.rotate(Axis.YN.rotationDegrees(45));
 	}
 
 	@Override

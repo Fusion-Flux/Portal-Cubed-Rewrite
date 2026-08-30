@@ -7,7 +7,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 
 public class TitleWidget extends AbstractWidget {
-	public static final int COLOR = 4210752;
+	public static final int COLOR = -12566464; // magic number from InventoryScreen
 
 	private final Font font;
 
