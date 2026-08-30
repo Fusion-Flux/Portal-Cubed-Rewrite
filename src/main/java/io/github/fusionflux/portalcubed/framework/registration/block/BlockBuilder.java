@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.framework.registration.block;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -25,11 +24,6 @@ public interface BlockBuilder<T extends Block> {
 	 * Modify the current properties of this block.
 	 */
 	BlockBuilder<T> properties(Consumer<BlockBehaviour.Properties> consumer);
-
-	/**
-	 * Set the render type of this block.
-	 */
-	BlockBuilder<T> renderType(RenderTypes type);
 
 	/**
 	 * Set the flammability of this block.

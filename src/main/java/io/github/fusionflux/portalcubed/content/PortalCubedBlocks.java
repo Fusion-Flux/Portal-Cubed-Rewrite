@@ -32,7 +32,6 @@ import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
 import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
-import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
@@ -82,7 +81,6 @@ public class PortalCubedBlocks {
 	public static final Block MAGNESIUM_FIRE = REGISTRAR.blocks.createFrom("magnesium_fire", MagnesiumFireBlock::new, Blocks.SOUL_FIRE)
 			.properties(s -> s.mapColor(MapColor.SNOW))
 			.item(BlockItemProvider::noItem)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- cake -----
 	public static final CakeBlockSet BLACK_FOREST_CAKE = CakeBlockSet.builder("black_forest_cake", REGISTRAR)
@@ -100,7 +98,6 @@ public class PortalCubedBlocks {
 					.pushReaction(PushReaction.IMMOVEABLE)
 					.mapColor(state -> state.getValue(FloorButtonBlock.FACE) == Direction.DOWN ? MapColor.WOOL : MapColor.TERRACOTTA_PINK)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock CUBE_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("cube_button", CubeButtonBlock::new, Blocks.STONE)
 			.item(MultiBlockItem::new)
@@ -108,12 +105,10 @@ public class PortalCubedBlocks {
 					.pushReaction(PushReaction.IMMOVEABLE)
 					.mapColor(state -> state.getValue(FloorButtonBlock.FACE) == Direction.DOWN ? MapColor.WOOL : MapColor.COLOR_RED)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock OLD_AP_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("old_ap_floor_button", FloorButtonBlock::oldAp, Blocks.STONE)
 			.item(MultiBlockItem::new)
 			.properties(s -> s.pushReaction(PushReaction.IMMOVEABLE).mapColor(MapColor.TERRACOTTA_RED))
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FloorButtonBlock PORTAL_1_FLOOR_BUTTON_BLOCK = REGISTRAR.blocks.createFrom("portal_1_floor_button", FloorButtonBlock::p1, Blocks.STONE)
 			.item(P1FloorButtonBlockItem::new)
@@ -121,16 +116,13 @@ public class PortalCubedBlocks {
 					.pushReaction(PushReaction.IMMOVEABLE)
 					.mapColor(state -> state.getValue(FloorButtonBlock.FACE) == Direction.DOWN ? MapColor.COLOR_LIGHT_GRAY : MapColor.NETHER)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- pedestal buttons -----
 	public static final PedestalButtonBlock PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("pedestal_button", PedestalButtonBlock::new, Blocks.STONE)
 			.properties(s -> s.pushReaction(PushReaction.IMMOVEABLE).mapColor(MapColor.TERRACOTTA_RED))
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("old_ap_pedestal_button", PedestalButtonBlock::oldAp, Blocks.STONE)
 			.properties(s -> s.pushReaction(PushReaction.IMMOVEABLE).mapColor(MapColor.TERRACOTTA_RED))
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- chamber doors -----
 	public static final Map<ChamberDoorType, Map<ChamberDoorMaterial, ChamberDoorBlock>> CHAMBER_DOORS = Util.make(
@@ -143,7 +135,6 @@ public class PortalCubedBlocks {
 						String name = material.name + "_" + type.name;
 						ChamberDoorBlock block = REGISTRAR.blocks.create(name, type::createBlock)
 								.properties(material::makeProperties)
-								.renderType(RenderTypes.CUTOUT)
 								.build();
 						blocks.put(material, block);
 					}
@@ -200,13 +191,11 @@ public class PortalCubedBlocks {
 			.build();
 	public static final SaplingBlock LEMON_SAPLING = REGISTRAR.blocks.create("lemon_sapling", settings -> new SaplingBlock(PortalCubedFeatures.LEMON_TREE_GROWER, settings))
 			.copyFrom(Blocks.OAK_SAPLING)
-			.renderType(RenderTypes.CUTOUT)
 			.item((name, block, builder) -> builder.compostChance(0.3))
 			.build();
 	public static final FlowerPotBlock POTTED_LEMON_SAPLING = REGISTRAR.blocks.create("potted_lemon_sapling", settings -> new FlowerPotBlock(LEMON_SAPLING, settings))
 			.copyFrom(Blocks.POTTED_OAK_SAPLING)
 			.item(BlockItemProvider::noItem)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final Block LEMON_PLANKS = REGISTRAR.blocks.create("lemon_planks", Block::new)
 			.copyFrom(Blocks.OAK_PLANKS)
@@ -273,12 +262,10 @@ public class PortalCubedBlocks {
 	public static final DoorBlock LEMON_DOOR = REGISTRAR.blocks.create("lemon_door", properties -> new DoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_DOOR)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final TrapDoorBlock LEMON_TRAPDOOR = REGISTRAR.blocks.create("lemon_trapdoor", properties -> new TrapDoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_TRAPDOOR)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 
 	// ----- signage -----
@@ -466,12 +453,10 @@ public class PortalCubedBlocks {
 	public static final Block ELEVATOR_WALL_MIDDLE = REGISTRAR.blocks.create("elevator_wall_middle", Block::new)
 			.copyFrom(Blocks.CONCRETE.white())
 			.properties(settings -> settings.mapColor(MapColor.CLAY))
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final VerticalConnectiveDirectionalBlock ELEVATOR_WALL_END = REGISTRAR.blocks.create("elevator_wall_end", VerticalConnectiveDirectionalBlock::new)
 			.copyFrom(Blocks.CONCRETE.white())
 			.properties(settings -> settings.mapColor(MapColor.CLAY))
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- misc blocks - grates -----
 	public static final WaterloggedTransparentBlock METAL_GRATE = REGISTRAR.blocks.create("metal_grate", WaterloggedTransparentBlock::new)
@@ -483,7 +468,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks.NEAR_PLANE_INTERSECTS_OUTLINE)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SlabBlock METAL_GRATE_SLAB = REGISTRAR.blocks.create("metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -492,7 +476,6 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.COLOR_GRAY)
 					.noOcclusion()
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FacadeBlock METAL_GRATE_FACADE = REGISTRAR.blocks.create("metal_grate_facade", FacadeBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -502,7 +485,6 @@ public class PortalCubedBlocks {
 					.pushReaction(PushReaction.DESTROY)
 					.noOcclusion()
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final WaterloggedTransparentBlock OLD_AP_METAL_GRATE = REGISTRAR.blocks.create("old_ap_metal_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -513,7 +495,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SlabBlock OLD_AP_METAL_GRATE_SLAB = REGISTRAR.blocks.create("old_ap_metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -522,7 +503,6 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.noOcclusion()
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FacadeBlock OLD_AP_METAL_GRATE_FACADE = REGISTRAR.blocks.create("old_ap_metal_grate_facade", FacadeBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -531,7 +511,6 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 					.noOcclusion()
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final WaterloggedTransparentBlock PORTAL_1_METAL_GRATE = REGISTRAR.blocks.create("portal_1_metal_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -542,7 +521,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SlabBlock PORTAL_1_METAL_GRATE_SLAB = REGISTRAR.blocks.create("portal_1_metal_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -551,7 +529,6 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.SAND)
 					.noOcclusion()
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FacadeBlock PORTAL_1_METAL_GRATE_FACADE = REGISTRAR.blocks.create("portal_1_metal_grate_facade", FacadeBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -560,7 +537,6 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.SAND)
 					.noOcclusion()
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final WaterloggedTransparentBlock MESH_GRATE = REGISTRAR.blocks.create("mesh_grate", WaterloggedTransparentBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
@@ -570,7 +546,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final SlabBlock MESH_GRATE_SLAB = REGISTRAR.blocks.create("mesh_grate_slab", TransparentSlabBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
@@ -578,7 +553,6 @@ public class PortalCubedBlocks {
 					.sound(SoundType.VINE)
 					.noOcclusion()
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final FacadeBlock MESH_GRATE_FACADE = REGISTRAR.blocks.create("mesh_grate_facade", FacadeBlock::new)
 			.copyFrom(Blocks.BLACK_WOOL)
@@ -586,7 +560,6 @@ public class PortalCubedBlocks {
 					.sound(SoundType.VINE)
 					.noOcclusion()
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- misc blocks - crossbars -----
 	public static final CrossbarPillarBlock CROSSBAR_PILLAR = REGISTRAR.blocks.create("crossbar_pillar", CrossbarPillarBlock::new)
@@ -598,7 +571,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_top_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -609,7 +581,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_top_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -620,7 +591,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -631,7 +601,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final CrossbarBlock DOUBLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("double_2x2_crossbar_bottom_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -642,7 +611,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_TOP_LEFT = REGISTRAR.blocks.create("2x2_crossbar_top_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -653,7 +621,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_TOP_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_top_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -664,7 +631,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_BOTTOM_LEFT = REGISTRAR.blocks.create("2x2_crossbar_bottom_left", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -675,7 +641,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	public static final CrossbarBlock SINGLE_2x2_CROSSBAR_BOTTOM_RIGHT = REGISTRAR.blocks.create("2x2_crossbar_bottom_right", CrossbarBlock::new)
 			.copyFrom(Blocks.COPPER_BLOCK.weathering().unaffected())
@@ -686,7 +651,6 @@ public class PortalCubedBlocks {
 					.isSuffocating(Blocks::never)
 					.isViewBlocking(Blocks::never)
 			)
-			.renderType(RenderTypes.CUTOUT)
 			.build();
 	// ----- misc blocks - metal plating -----
 	public static final Block METAL_PLATING = REGISTRAR.blocks.create("metal_plating", Block::new)

@@ -1,16 +1,10 @@
 package io.github.fusionflux.portalcubed.framework.registration.block;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
-import io.github.fusionflux.portalcubed.framework.registration.RenderTypes;
 import net.minecraft.world.level.block.Block;
 
 public final class BlockHelper {
 	private final Registrar registrar;
-
-	final Map<Block, RenderTypes> renderTypes = new HashMap<>();
 
 	public BlockHelper(Registrar registrar) {
 		this.registrar = registrar;
