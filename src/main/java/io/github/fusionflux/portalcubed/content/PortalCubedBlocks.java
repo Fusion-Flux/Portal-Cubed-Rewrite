@@ -33,6 +33,8 @@ import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirect
 import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
 import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -58,9 +60,12 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WallHangingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.WaterloggedTransparentBlock;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -69,6 +74,11 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
 public class PortalCubedBlocks {
+	// ---- lemon type stuff -----
+	public static final Identifier LEMON_TYPE_ID = PortalCubed.id("lemon");
+	public static final BlockSetType LEMON_BLOCK_SET_TYPE = BlockSetTypeBuilder.copyOf(BlockSetType.OAK).register(LEMON_TYPE_ID);
+	public static final WoodType LEMON_WOOD_TYPE = WoodTypeBuilder.copyOf(WoodType.OAK).register(LEMON_TYPE_ID, LEMON_BLOCK_SET_TYPE);
+
 	// ----- magnesium -----
 	public static final Block MAGNESIUM_ORE = REGISTRAR.blocks.simple("magnesium_ore", Blocks.IRON_ORE);
 	public static final Block DEEPSLATE_MAGNESIUM_ORE = REGISTRAR.blocks.simple("deepslate_magnesium_ore", Blocks.DEEPSLATE_IRON_ORE);
@@ -184,7 +194,9 @@ public class PortalCubedBlocks {
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.strippedOf(LEMON_WOOD)
 			.build();
-	public static final LeavesBlock LEMON_LEAVES = REGISTRAR.blocks.create("lemon_leaves", LeavesBlock::new)
+	public static final LeavesBlock LEMON_LEAVES = REGISTRAR.blocks.create("lemon_leaves", settings -> new UntintedParticleLeavesBlock(
+					0.01f, PortalCubedParticles.LEMON_LEAVES, AmbientLeavesBlockSoundPlayer.noAmbientSound(), settings
+			))
 			.copyFrom(Blocks.OAK_LEAVES)
 			.flammability(60, 30)
 			.item((name, block, builder) -> builder.compostChance(0.3))
@@ -230,15 +242,14 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.OAK_PRESSURE_PLATE)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.build();
-	public static final Identifier LEMON_SIGN_TEXTURE = PortalCubed.id("entity/signs/lemon");
-	public static final Block LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new TerraformSignBlock(LEMON_SIGN_TEXTURE, properties))
+	public static final Block LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new WallSignBlock(LEMON_WOOD_TYPE, properties))
 			.copyFrom(Blocks.OAK_SIGN)
 			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
 			)
 			.item(BlockItemProvider::noItem)
 			.build();
-	public static final Block LEMON_WALL_SIGN = REGISTRAR.blocks.create("lemon_wall_sign", properties -> new TerraformWallSignBlock(LEMON_SIGN_TEXTURE, properties))
+	public static final Block LEMON_WALL_SIGN = REGISTRAR.blocks.create("lemon_wall_sign", properties -> new WallSignBlock(LEMON_WOOD_TYPE, properties))
 			.copyFrom(Blocks.OAK_WALL_SIGN)
 			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
@@ -246,12 +257,12 @@ public class PortalCubedBlocks {
 			)
 			.item(BlockItemProvider::noItem)
 			.build();
-	public static final CeilingHangingSignBlock LEMON_HANGING_SIGN = REGISTRAR.blocks.create("lemon_hanging_sign", properties -> new CeilingHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
+	public static final CeilingHangingSignBlock LEMON_HANGING_SIGN = REGISTRAR.blocks.create("lemon_hanging_sign", properties -> new CeilingHangingSignBlock(LEMON_WOOD_TYPE, properties))
 			.copyFrom(Blocks.OAK_HANGING_SIGN)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.item(BlockItemProvider::noItem)
 			.build();
-	public static final WallHangingSignBlock LEMON_WALL_HANGING_SIGN = REGISTRAR.blocks.create("lemon_wall_hanging_sign", properties -> new WallHangingSignBlock(LEMON_HANGING_SIGN_TEXTURE, LEMON_HANGING_SIGN_GUI_TEXTURE, properties))
+	public static final WallHangingSignBlock LEMON_WALL_HANGING_SIGN = REGISTRAR.blocks.create("lemon_wall_hanging_sign", properties -> new WallHangingSignBlock(LEMON_WOOD_TYPE, properties))
 			.copyFrom(Blocks.OAK_WALL_HANGING_SIGN)
 			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
