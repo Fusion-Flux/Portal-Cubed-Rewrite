@@ -5,9 +5,9 @@ import java.util.Map;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
-import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.EntityType;
 
 public class PortalCubedEntityTags {

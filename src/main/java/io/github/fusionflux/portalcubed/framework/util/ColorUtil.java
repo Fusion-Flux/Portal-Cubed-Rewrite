@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
-import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;

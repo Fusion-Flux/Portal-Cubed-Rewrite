@@ -3,11 +3,11 @@ package io.github.fusionflux.portalcubed.content.goo;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;

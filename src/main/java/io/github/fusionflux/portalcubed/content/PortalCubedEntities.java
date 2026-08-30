@@ -10,9 +10,9 @@ import io.github.fusionflux.portalcubed.content.lemon.Lemonade;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropRenderer;
-import net.minecraft.Util;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.EntityType;
 
 public class PortalCubedEntities {

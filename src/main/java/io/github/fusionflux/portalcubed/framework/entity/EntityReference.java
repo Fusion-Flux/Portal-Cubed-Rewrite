@@ -1,15 +1,14 @@
 package io.github.fusionflux.portalcubed.framework.entity;
 
-import net.minecraft.Util;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-
-import net.minecraft.world.level.Level;
+import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Util;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 
 public class EntityReference {
 	public static final EntityReference EMPTY = new EntityReference(Util.NIL_UUID);

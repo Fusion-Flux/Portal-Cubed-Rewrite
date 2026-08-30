@@ -20,12 +20,12 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
-import net.minecraft.Util;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
