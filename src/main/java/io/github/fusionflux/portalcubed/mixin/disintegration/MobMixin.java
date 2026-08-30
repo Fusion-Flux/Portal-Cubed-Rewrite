@@ -42,7 +42,7 @@ public abstract class MobMixin extends LivingEntity implements Leashable {
 	}
 
 	@Override
-	public boolean canHaveALeashAttachedToIt() {
-		return Leashable.super.canHaveALeashAttachedToIt() && !this.pc$disintegrating();
+	public boolean canBeLeashed() {
+		return Leashable.super.canBeLeashed() && !this.pc$disintegrating();
 	}
 }

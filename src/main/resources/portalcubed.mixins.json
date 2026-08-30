@@ -105,7 +105,6 @@
     "client.ClientPacketListenerMixin",
     "client.ClientSuggestionProviderMixin",
     "client.ContainerEventHandlerMixin",
-    "client.EntityRenderDispatcherMixin",
     "client.FirstPersonHandsAndItemsRendererMixin",
     "client.FogRendererMixin",
     "client.GameRendererAccessor",

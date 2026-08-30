@@ -1,16 +1,15 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
-import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
+import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteSet;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
 public class FizzleBrightAlternateParticle extends FadingParticle {
@@ -23,8 +22,8 @@ public class FizzleBrightAlternateParticle extends FadingParticle {
 
 	private final Vec3 direction;
 
-	protected FizzleBrightAlternateParticle(ClientLevel world, double x, double y, double z) {
-		super(world, x, y, z);
+	protected FizzleBrightAlternateParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite) {
+		super(level, x, y, z, sprite);
 		this.direction = new Vec3(
 				Math.random() * 2d - 1d,
 				Math.random() * 2d,
@@ -51,23 +50,20 @@ public class FizzleBrightAlternateParticle extends FadingParticle {
 		this.roll += ROLL_SPEED;
 	}
 
-	@NotNull
 	@Override
-	public ParticleRenderType getRenderType() {
-		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+	protected Layer getLayer() {
+		return Layer.TRANSLUCENT;
 	}
 
 	@Override
-	protected int getLightColor(float tint) {
-		return LightTexture.FULL_BRIGHT;
+	protected int getLightCoords(float a) {
+		return LightCoordsUtil.FULL_BRIGHT;
 	}
 
-	public record Provider(FabricSpriteProvider spriteProvider) implements ParticleProvider<SimpleParticleType> {
-		@NotNull
+	public record Provider(FabricSpriteSet spriteSet) implements ParticleProvider<SimpleParticleType> {
 		@Override
-		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-			FizzleBrightAlternateParticle particle = new FizzleBrightAlternateParticle(world, x, y, z);
-			particle.pickSprite(this.spriteProvider);
+		public Particle createParticle(SimpleParticleType options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random) {
+			FizzleBrightAlternateParticle particle = new FizzleBrightAlternateParticle(level, x, y, z, this.spriteSet.get(random));
 			particle.setLifetime(LIFETIME);
 			return particle;
 		}

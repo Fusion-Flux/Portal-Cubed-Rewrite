@@ -16,12 +16,13 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.Entity;
 
 public class FizzleCommand {
 	public static LiteralArgumentBuilder<CommandSourceStack> build() {
 		return literal("fizzle")
-				.requires(source -> source.hasPermission(2))
+				.requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
 				.then(argument("behaviour", FizzleBehaviourArgumentType.fizzleBehaviour())
 						.executes(ctx -> fizzle(ctx, Collections.singleton(ctx.getSource().getEntityOrException())))
 						.then(

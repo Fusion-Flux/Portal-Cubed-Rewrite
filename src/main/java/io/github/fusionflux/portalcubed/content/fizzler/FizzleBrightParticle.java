@@ -1,16 +1,15 @@
 package io.github.fusionflux.portalcubed.content.fizzler;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.framework.particle.FadingParticle;
-import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
+import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteSet;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
 public class FizzleBrightParticle extends FadingParticle {
@@ -24,8 +23,8 @@ public class FizzleBrightParticle extends FadingParticle {
 
 	private Vec3 direction;
 
-	protected FizzleBrightParticle(ClientLevel world, double x, double y, double z) {
-		super(world, x, y, z);
+	protected FizzleBrightParticle(ClientLevel world, double x, double y, double z, TextureAtlasSprite sprite) {
+		super(world, x, y, z, sprite);
 		this.direction = new Vec3(
 				Math.random() * 2d - 1d,
 				Math.random() * 2d - 1d,
@@ -55,23 +54,20 @@ public class FizzleBrightParticle extends FadingParticle {
 		}
 	}
 
-	@NotNull
 	@Override
-	public ParticleRenderType getRenderType() {
-		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+	protected Layer getLayer() {
+		return Layer.TRANSLUCENT;
 	}
 
 	@Override
-	protected int getLightColor(float tint) {
-		return LightTexture.FULL_BRIGHT;
+	protected int getLightCoords(float a) {
+		return LightCoordsUtil.FULL_BRIGHT;
 	}
 
-	public record Provider(FabricSpriteProvider spriteProvider) implements ParticleProvider<SimpleParticleType> {
-		@NotNull
+	public record Provider(FabricSpriteSet spriteSet) implements ParticleProvider<SimpleParticleType> {
 		@Override
-		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-			FizzleBrightParticle particle = new FizzleBrightParticle(world, x, y, z);
-			particle.pickSprite(this.spriteProvider);
+		public Particle createParticle(SimpleParticleType options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random) {
+			FizzleBrightParticle particle = new FizzleBrightParticle(level, x, y, z, this.spriteSet.get(random));
 			particle.setLifetime(LIFETIME);
 			return particle;
 		}

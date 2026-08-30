@@ -63,6 +63,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -99,7 +100,7 @@ public class PortalCommand {
 
 	public static LiteralArgumentBuilder<CommandSourceStack> build(CommandBuildContext context) {
 		return literal("portal")
-				.requires(source -> source.hasPermission(2))
+				.requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
 				.then(
 						literal("create").then(
 								argument("key", PortalKeyArgumentType.portalKey())
@@ -385,7 +386,7 @@ public class PortalCommand {
 				TriState render = TriStateArgumentType.getTriState(ctx, "render");
 				if (render == TriState.TRUE && !portal.type().value().supportsRendering()) {
 					String typeName = portal.type().unwrapKey()
-							.map(ResourceKey::location)
+							.map(ResourceKey::identifier)
 							.map(Identifier::toString)
 							.orElse("<unregistered>");
 

@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -29,7 +28,7 @@ import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.TypedInstance;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -39,11 +38,13 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements DisintegrationExt {
+public abstract class EntityMixin implements TypedInstance<EntityType<?>>, DisintegrationExt {
 	@Shadow
 	public abstract Level level();
 
@@ -170,14 +171,12 @@ public abstract class EntityMixin implements DisintegrationExt {
 
 	@Unique
 	private void spawnDisintegrationParticles(Level world) {
-		EntityType<?> type = this.getType();
-
 		AABB bb = this.getBoundingBox();
 		double width = bb.getXsize();
 		double height = bb.getYsize();
 		double length = bb.getZsize();
 
-		if (!type.is(PortalCubedEntityTags.FIZZLES_WITHOUT_DARK_PARTICLES)) { // Portal 1 props don't make ash when fizzled
+		if (!this.is(PortalCubedEntityTags.FIZZLES_WITHOUT_DARK_PARTICLES)) { // Portal 1 props don't make ash when fizzled
 			double volume = width * height * length;
 			for (int i = 0; i < Math.min(Math.max(Math.round(volume*15), 1), 100); i++) { // Capped to 100/tick so that fizzling something large doesn't instantly kill performance.  Use the largest of 15*volume/tick OR 1/tick, to prevent entities with small volumes (mug, item) from not making ash
 				double xOffset = this.random.nextGaussian() * (width / 3);
@@ -192,8 +191,8 @@ public abstract class EntityMixin implements DisintegrationExt {
 
 		// Some props don't make the bright particles, and Portal 1 props have an alternate bright particle type
 		Vec3 center = this.getBoundingBox().getCenter();
-		if (!type.is(PortalCubedEntityTags.FIZZLES_WITHOUT_BRIGHT_PARTICLES)) {
-			if (!type.is(PortalCubedEntityTags.FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES)) {
+		if (!this.is(PortalCubedEntityTags.FIZZLES_WITHOUT_BRIGHT_PARTICLES)) {
+			if (!this.is(PortalCubedEntityTags.FIZZLES_WITH_ALTERNATE_BRIGHT_PARTICLES)) {
 				for (int i = 0; i < 3; i++) {
 					world.addParticle(PortalCubedParticles.FIZZLE_BRIGHT, center.x, center.y, center.z, 0, 0, 0);
 				}
@@ -213,16 +212,17 @@ public abstract class EntityMixin implements DisintegrationExt {
 		EntityTickWrapper.handle(instance, original);
 	}
 
-	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))
-	private void loadDisintegrateTicks(CompoundTag tag, CallbackInfo ci) {
-		this.disintegrateTicks = tag.getInt("portalcubed:disintegrate_ticks");
+	// TODO: Make this use fabric attachments - Max
+	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/world/level/storage/ValueInput;)V"))
+	private void loadDisintegrateTicks(ValueInput input, CallbackInfo ci) {
+		this.disintegrateTicks = input.getIntOr("portalcubed:disintegrate_ticks", 0);
 		this.disintegrating = this.disintegrateTicks != 0;
 	}
 
-	@Inject(method = "saveWithoutId", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;addAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V"))
-	private void saveDisintegrateTicks(CompoundTag tag, CallbackInfoReturnable<CompoundTag> cir) {
+	@Inject(method = "saveWithoutId", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;addAdditionalSaveData(Lnet/minecraft/world/level/storage/ValueOutput;)V"))
+	private void saveDisintegrateTicks(ValueOutput output, CallbackInfo ci) {
 		if (this.pc$disintegrating())
-			tag.putInt("portalcubed:disintegrate_ticks", this.disintegrateTicks);
+			output.putInt("portalcubed:disintegrate_ticks", this.disintegrateTicks);
 	}
 
 	@ModifyReturnValue(method = "canCollideWith", at = @At("RETURN"))
