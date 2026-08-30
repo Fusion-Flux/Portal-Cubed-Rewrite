@@ -32,6 +32,6 @@ public record SimpleParticlePacket(ParticleOptions options, double x, double y, 
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void handle(ClientPlayNetworking.Context ctx) {
-		ctx.player().clientLevel.addParticle(this.options, this.x, this.y, this.z, this.velocityX, this.velocityY, this.velocityZ);
+		ctx.player().level().addParticle(this.options, this.x, this.y, this.z, this.velocityX, this.velocityY, this.velocityZ);
 	}
 }

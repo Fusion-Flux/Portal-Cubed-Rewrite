@@ -31,10 +31,10 @@ public record GrabPacket(int grabbed) implements ServerboundPacket {
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		ServerPlayer player = ctx.player();
-		ServerLevel level = player.serverLevel();
+		ServerLevel level = player.level();
 		Entity entity = level.getEntity(this.grabbed);
 		if (entity instanceof HoldableEntity holdable) {
-			if (!player.pc$disintegrating() && player.canInteractWithEntity(entity, Container.DEFAULT_DISTANCE_BUFFER)) {
+			if (!player.pc$disintegrating() && player.isWithinEntityInteractionRange(entity, Container.DEFAULT_DISTANCE_BUFFER)) {
 				holdable.grab(player);
 			}
 		}

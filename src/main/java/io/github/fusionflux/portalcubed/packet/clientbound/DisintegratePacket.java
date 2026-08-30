@@ -32,7 +32,7 @@ public record DisintegratePacket(int entity, int ticks) implements ClientboundPa
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void handle(ClientPlayNetworking.Context ctx) {
-		Entity entity = ctx.player().clientLevel.getEntity(this.entity);
+		Entity entity = ctx.player().level().getEntity(this.entity);
 		if (entity != null) {
 			if (!entity.isSilent() && this.ticks >= DisintegrationExt.DISINTEGRATE_TICKS)
 				DisintegrationSoundType.playAll(entity);

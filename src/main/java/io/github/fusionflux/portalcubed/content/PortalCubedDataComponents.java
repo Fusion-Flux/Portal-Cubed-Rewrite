@@ -8,7 +8,6 @@ import io.github.fusionflux.portalcubed.content.decoration.signage.component.Sel
 import io.github.fusionflux.portalcubed.content.decoration.signage.component.SelectedSmallSignage;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.framework.item.FallSound;
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -28,7 +27,7 @@ public class PortalCubedDataComponents {
 			"cannon_settings", CannonSettings.CODEC, CannonSettings.STREAM_CODEC
 	);
 	public static final DataComponentType<Unit> LEMONADE_ARMED = register(
-			"lemonade_armed", Unit.CODEC, PortalCubedStreamCodecs.UNIT
+			"lemonade_armed", Unit.CODEC, Unit.STREAM_CODEC
 	);
 	public static final DataComponentType<Integer> PROP_VARIANT = register(
 			"prop_variant", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT

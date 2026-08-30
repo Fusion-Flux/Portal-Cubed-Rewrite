@@ -36,7 +36,7 @@ public record ShootPortalGunPacket(UUID player, Polarity polarity) implements Cl
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void handle(ClientPlayNetworking.Context ctx) {
-		Player player = ctx.player().clientLevel.getPlayerByUUID(this.player);
+		Player player = ctx.player().level().getPlayerByUUID(this.player);
 		if (player != null) {
 			ItemStack heldItemStack = player.getMainHandItem();
 			if (heldItemStack.getItem() instanceof PortalGunItem portalGun) {

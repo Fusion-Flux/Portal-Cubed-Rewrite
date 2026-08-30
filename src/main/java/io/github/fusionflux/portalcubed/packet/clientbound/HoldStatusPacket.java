@@ -13,13 +13,13 @@ import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public record HoldStatusPacket(int holder, OptionalInt held) implements ClientboundPacket {
 	public static final StreamCodec<ByteBuf, HoldStatusPacket> CODEC = StreamCodec.composite(
@@ -40,7 +40,7 @@ public record HoldStatusPacket(int holder, OptionalInt held) implements Clientbo
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void handle(ClientPlayNetworking.Context ctx) {
-		ClientLevel level = ctx.player().clientLevel;
+		Level level = ctx.player().level();
 		if (level.getEntity(this.holder) instanceof Player otherPlayer) {
 			if (this.held.isPresent()) {
 				Entity entity = level.getEntity(this.held.getAsInt());

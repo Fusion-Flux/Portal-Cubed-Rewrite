@@ -30,7 +30,7 @@ public record UpdatePortalPairPacket(String key, @Nullable PortalPair pair) impl
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayNetworking.Context ctx) {
-		ClientPortalManager manager = ctx.player().clientLevel.portalManager();
+		ClientPortalManager manager = ctx.client().level.portalManager();
 		manager.setPair(this.key, this.pair);
 	}
 }

@@ -45,8 +45,8 @@ public record ConfigurePedestalButtonPacket(BlockPos pedestalButtonPos, int pres
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		ServerPlayer player = ctx.player();
-		if (!player.canInteractWithBlock(this.pedestalButtonPos, 1)) {
-			logger.warn("Rejecting packet from {}: Can't interact with block {}.", player.getGameProfile().getName(), this.pedestalButtonPos);
+		if (!player.isWithinBlockInteractionRange(this.pedestalButtonPos, 1)) {
+			logger.warn("Rejecting packet from {}: Can't interact with block {}.", player.getGameProfile().name(), this.pedestalButtonPos);
 			return;
 		}
 

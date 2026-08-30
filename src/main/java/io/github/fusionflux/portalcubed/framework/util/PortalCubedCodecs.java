@@ -20,10 +20,10 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 

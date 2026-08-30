@@ -28,7 +28,7 @@ public record OpenPedestalButtonConfigPacket(BlockPos pedestalButtonPos) impleme
 	@Override
 	public void handle(ClientPlayNetworking.Context ctx) {
 		Minecraft client = Minecraft.getInstance();
-		if (client.screen == null && ctx.player().clientLevel.getBlockEntity(pedestalButtonPos) instanceof PedestalButtonBlockEntity pedestalButton)
-			client.setScreen(new PedestalButtonConfigScreen(pedestalButton));
+		if (client.gui.screen() == null && ctx.player().level().getBlockEntity(this.pedestalButtonPos) instanceof PedestalButtonBlockEntity pedestalButton)
+			client.gui.setScreen(new PedestalButtonConfigScreen(pedestalButton));
 	}
 }

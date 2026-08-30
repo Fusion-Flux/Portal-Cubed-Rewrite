@@ -9,7 +9,6 @@ import io.github.fusionflux.portalcubed.content.decoration.signage.screen.LargeS
 import io.github.fusionflux.portalcubed.content.decoration.signage.screen.SmallSignageConfigScreen;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlock;
 import io.github.fusionflux.portalcubed.content.decoration.signage.small.SmallSignageBlockEntity;
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
@@ -38,8 +37,8 @@ public sealed interface OpenSignageConfigPacket extends ClientboundPacket permit
 	default void handle(ClientPlayNetworking.Context ctx) {
 		Minecraft client = ctx.client();
 		Screen screen = this.createScreen(client.player.level().getBlockEntity(this.signagePos()));
-		if (client.screen == null && screen != null)
-			client.setScreen(screen);
+		if (client.gui.screen() == null && screen != null)
+			client.gui.setScreen(screen);
 	}
 
 	record Large(BlockPos signagePos) implements OpenSignageConfigPacket {
@@ -63,7 +62,7 @@ public sealed interface OpenSignageConfigPacket extends ClientboundPacket permit
 
 	record Small(BlockHitResult hit) implements OpenSignageConfigPacket {
 		public static final StreamCodec<ByteBuf, Small> CODEC = StreamCodec.composite(
-				PortalCubedStreamCodecs.BLOCK_HIT_RESULT, Small::hit,
+				BlockHitResult.STREAM_CODEC, Small::hit,
 				Small::new
 		);
 

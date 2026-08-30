@@ -18,8 +18,8 @@ import net.minecraft.world.phys.HitResult;
 
 public record CustomAttackPacket(InteractionHand hand, @Nullable BlockHitResult hit) implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, CustomAttackPacket> CODEC = StreamCodec.composite(
-			PortalCubedStreamCodecs.HAND, CustomAttackPacket::hand,
-			PortalCubedStreamCodecs.nullable(PortalCubedStreamCodecs.BLOCK_HIT_RESULT), CustomAttackPacket::hit,
+			InteractionHand.STREAM_CODEC, CustomAttackPacket::hand,
+			PortalCubedStreamCodecs.nullable(BlockHitResult.STREAM_CODEC), CustomAttackPacket::hit,
 			CustomAttackPacket::new
 	);
 

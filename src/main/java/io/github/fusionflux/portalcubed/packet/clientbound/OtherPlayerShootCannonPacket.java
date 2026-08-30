@@ -31,7 +31,7 @@ public record OtherPlayerShootCannonPacket(UUID player) implements ClientboundPa
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void handle(ClientPlayNetworking.Context ctx) {
-		Player player = ctx.player().clientLevel.getPlayerByUUID(this.player);
+		Player player = ctx.player().level().getPlayerByUUID(this.player);
 		if (player != null) {
 			ShootCannonPacket.spawnParticlesForPlayer(player);
 		}

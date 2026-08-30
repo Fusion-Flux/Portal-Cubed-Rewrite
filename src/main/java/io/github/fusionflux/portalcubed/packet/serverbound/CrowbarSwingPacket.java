@@ -20,7 +20,7 @@ import net.minecraft.world.phys.HitResult;
 
 public record CrowbarSwingPacket(@Nullable BlockHitResult hit, boolean didSwingAnim) implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, CrowbarSwingPacket> CODEC = StreamCodec.composite(
-			PortalCubedStreamCodecs.nullable(PortalCubedStreamCodecs.BLOCK_HIT_RESULT), CrowbarSwingPacket::hit,
+			PortalCubedStreamCodecs.nullable(BlockHitResult.STREAM_CODEC), CrowbarSwingPacket::hit,
 			ByteBufCodecs.BOOL, CrowbarSwingPacket::didSwingAnim,
 			CrowbarSwingPacket::new
 	);
@@ -46,6 +46,6 @@ public record CrowbarSwingPacket(@Nullable BlockHitResult hit, boolean didSwingA
 		if (this.hit == null)
 			return true;
 
-		return player.canInteractWithBlock(this.hit.getBlockPos(), Container.DEFAULT_DISTANCE_BUFFER);
+		return player.isWithinBlockInteractionRange(this.hit.getBlockPos(), Container.DEFAULT_DISTANCE_BUFFER);
 	}
 }

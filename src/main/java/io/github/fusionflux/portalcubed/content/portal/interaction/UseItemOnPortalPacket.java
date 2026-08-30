@@ -6,7 +6,6 @@ import com.mojang.logging.LogUtils;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
 import io.netty.buffer.ByteBuf;
@@ -24,7 +23,7 @@ import net.minecraft.world.item.ItemStack;
 public record UseItemOnPortalPacket(PortalId portal, InteractionHand hand) implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, UseItemOnPortalPacket> CODEC = StreamCodec.composite(
 			PortalId.STREAM_CODEC, UseItemOnPortalPacket::portal,
-			PortalCubedStreamCodecs.HAND, UseItemOnPortalPacket::hand,
+			InteractionHand.STREAM_CODEC, UseItemOnPortalPacket::hand,
 			UseItemOnPortalPacket::new
 	);
 

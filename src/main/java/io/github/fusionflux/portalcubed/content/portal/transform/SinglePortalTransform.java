@@ -13,11 +13,11 @@ import org.joml.Vector3d;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.LivingEntityAccessor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -28,9 +28,9 @@ import net.minecraft.world.phys.Vec3;
 public final class SinglePortalTransform implements PortalTransform {
 	public static final StreamCodec<ByteBuf, SinglePortalTransform> CODEC = StreamCodec.composite(
 			Vec3.STREAM_CODEC, transform -> transform.inOrigin,
-			PortalCubedStreamCodecs.QUATERNIONFC, transform -> transform.inRot,
+			ByteBufCodecs.QUATERNIONF, transform -> transform.inRot,
 			Vec3.STREAM_CODEC, transform -> transform.outOrigin,
-			PortalCubedStreamCodecs.QUATERNIONFC, transform -> transform.outRot,
+			ByteBufCodecs.QUATERNIONF, transform -> transform.outRot,
 			SinglePortalTransform::new
 	);
 

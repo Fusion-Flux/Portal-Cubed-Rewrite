@@ -39,10 +39,10 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 	default void handle(ServerPlayNetworking.Context ctx) {
 		ServerPlayer player = ctx.player();
 		BlockPos signagePos = this.signagePos();
-		if (player.canInteractWithBlock(signagePos, 1)) {
+		if (player.isWithinBlockInteractionRange(signagePos, 1)) {
 			this.configure(player, player.level().getBlockEntity(signagePos));
 		} else {
-			logger.warn("Rejecting packet from {}: Can't interact with block {}.", player.getGameProfile().getName(), signagePos);
+			logger.warn("Rejecting packet from {}: Can't interact with block {}.", player.getGameProfile().name(), signagePos);
 		}
 	}
 

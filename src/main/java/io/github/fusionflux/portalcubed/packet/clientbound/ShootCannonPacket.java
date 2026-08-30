@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 import io.github.fusionflux.portalcubed.content.cannon.CannonUseResult;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
@@ -23,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 public record ShootCannonPacket(InteractionHand hand, CannonUseResult useResult) implements ClientboundPacket {
 	public static final StreamCodec<ByteBuf, ShootCannonPacket> CODEC = StreamCodec.composite(
-			PortalCubedStreamCodecs.HAND, ShootCannonPacket::hand,
+			InteractionHand.STREAM_CODEC, ShootCannonPacket::hand,
 			CannonUseResult.STREAM_CODEC, ShootCannonPacket::useResult,
 			ShootCannonPacket::new
 	);

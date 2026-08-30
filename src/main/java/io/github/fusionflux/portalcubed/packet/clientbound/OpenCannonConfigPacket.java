@@ -4,7 +4,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonItem;
 import io.github.fusionflux.portalcubed.content.cannon.screen.ConstructionCannonScreen;
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
@@ -19,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 
 public record OpenCannonConfigPacket(InteractionHand hand) implements ClientboundPacket {
 	public static final StreamCodec<ByteBuf, OpenCannonConfigPacket> CODEC = StreamCodec.composite(
-			PortalCubedStreamCodecs.HAND, OpenCannonConfigPacket::hand,
+			InteractionHand.STREAM_CODEC, OpenCannonConfigPacket::hand,
 			OpenCannonConfigPacket::new
 	);
 
@@ -36,7 +35,7 @@ public record OpenCannonConfigPacket(InteractionHand hand) implements Clientboun
 			CannonSettings settings = ConstructionCannonItem.getCannonSettings(stack);
 			if (settings == null)
 				settings = CannonSettings.DEFAULT;
-			Minecraft.getInstance().setScreen(new ConstructionCannonScreen(this.hand, settings));
+			Minecraft.getInstance().gui.setScreen(new ConstructionCannonScreen(this.hand, settings));
 		}
 	}
 }

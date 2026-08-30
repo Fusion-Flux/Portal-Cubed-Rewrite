@@ -35,7 +35,7 @@ public record PortalTeleportPacket(int entityId, PortalPath.Serialized path) imp
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayNetworking.Context ctx) {
-		Entity entity = ctx.player().clientLevel.getEntity(this.entityId);
+		Entity entity = ctx.player().level().getEntity(this.entityId);
 		if (entity == null) {
 			logger.warn("Ignoring portal teleport for unknown entity: {}", this.entityId);
 			return;
