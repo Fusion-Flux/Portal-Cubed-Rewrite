@@ -16,25 +16,26 @@ import io.github.fusionflux.portalcubed.framework.extension.ServerLevelExt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraft.world.level.saveddata.SavedDataType;
+import net.minecraft.world.level.storage.SavedDataStorage;
 import net.minecraft.world.phys.AABB;
 
 @Mixin(ServerLevel.class)
 public abstract class ServerLevelMixin implements ServerLevelExt {
 	@Shadow
-	public abstract DimensionDataStorage getDataStorage();
-
-	@Shadow
 	@Final
 	private MinecraftServer server;
+
+	@Shadow
+	public abstract SavedDataStorage getDataStorage();
+
 	@Unique
 	private ServerPortalManager portalManager;
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(CallbackInfo ci) {
-		this.portalManager = this.getDataStorage().computeIfAbsent(
-				PortalSavedData.factory((ServerLevel) (Object) this), PortalSavedData.ID
-		).manager;
+		SavedDataType<PortalSavedData> type = PortalSavedData.createType((ServerLevel) (Object) this);
+		this.portalManager = this.getDataStorage().computeIfAbsent(type).manager;
 	}
 
 	@Inject(method = "onBlockStateChange", at = @At("HEAD"))
