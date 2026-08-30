@@ -18,11 +18,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.IntProviders;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
@@ -32,9 +33,9 @@ public class LemonTrunkPlacer extends TrunkPlacer {
 			instance ->
 					// 32 is the max base height from trunk placer, 4 is the number of horizontal directions, 16 is chunk size
 					instance.group(
-						IntProvider.validateCodec(1, 32, UniformInt.CODEC.codec()).fieldOf("center_height").forGetter(placer -> placer.centerHeight),
-						IntProvider.codec(1, 4).fieldOf("branch_count").forGetter(placer -> placer.branchCount),
-						IntProvider.codec(1, 16).fieldOf("branch_distance").forGetter(placer -> placer.branchDistance)
+						IntProviders.validateCodec(1, 32, UniformInt.MAP_CODEC.codec()).fieldOf("center_height").forGetter(placer -> placer.centerHeight),
+						IntProviders.codec(1, 4).fieldOf("branch_count").forGetter(placer -> placer.branchCount),
+						IntProviders.codec(1, 16).fieldOf("branch_distance").forGetter(placer -> placer.branchDistance)
 					)
 					.apply(instance, LemonTrunkPlacer::new)
 	);
@@ -45,7 +46,7 @@ public class LemonTrunkPlacer extends TrunkPlacer {
 	private final IntProvider branchDistance;
 
 	public LemonTrunkPlacer(UniformInt centerHeight, IntProvider branchCount, IntProvider branchDistance) {
-		super(centerHeight.getMinValue(), centerHeight.getMaxValue() - centerHeight.getMinValue(), 0);
+		super(centerHeight.minInclusive(), centerHeight.maxInclusive() - centerHeight.minInclusive(), 0);
 		this.centerHeight = centerHeight;
 		this.branchCount = branchCount;
 		this.branchDistance = branchDistance;
@@ -57,16 +58,15 @@ public class LemonTrunkPlacer extends TrunkPlacer {
 		return TYPE;
 	}
 
-	@NotNull
 	@Override
-	public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader world, BiConsumer<BlockPos, BlockState> replacer, RandomSource random, int height, BlockPos startPos, TreeConfiguration config) {
-		setDirtAt(world, replacer, random, startPos.below(), config);
+	public List<FoliagePlacer.FoliageAttachment> placeTrunk(WorldGenLevel level, BiConsumer<BlockPos, BlockState> trunkSetter, RandomSource random, int treeHeight, BlockPos origin, TreeFeature tree) {
+		placeBelowTrunkBlock(level, trunkSetter, random, origin.below(), tree);
 
 		// generate trunk
-		for (int i = 0; i < height; i++) {
-			this.placeLog(world, replacer, random, startPos.above(i), config);
+		for (int i = 0; i < treeHeight; i++) {
+			this.placeLog(level, trunkSetter, random, origin.above(i), tree);
 		}
-		BlockPos aboveTrunk = startPos.above(height);
+		BlockPos aboveTrunk = origin.above(treeHeight);
 
 		// generate branches
 		List<FoliagePlacer.FoliageAttachment> foliageAttachments = new ArrayList<>();
@@ -89,7 +89,7 @@ public class LemonTrunkPlacer extends TrunkPlacer {
 			for (int j = 0; j < branchDist; j++) {
 				if (j == branchDist - 1)
 					foliageAttachments.add(new FoliagePlacer.FoliageAttachment(branchPos.above(), 1, false));
-				this.placeLog(world, replacer, random, branchPos, config, (j + 1) % 2 == 0 ? state -> state.trySetValue(RotatedPillarBlock.AXIS, branchDir.getAxis()) : Function.identity());
+				this.placeLog(level, trunkSetter, random, branchPos, tree, (j + 1) % 2 == 0 ? state -> state.trySetValue(RotatedPillarBlock.AXIS, branchDir.getAxis()) : Function.identity());
 				branchPos.move(branchDir).move(Direction.UP);
 			}
 		}
