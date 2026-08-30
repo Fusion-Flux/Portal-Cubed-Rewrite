@@ -3,8 +3,11 @@ package io.github.fusionflux.portalcubed.content.goo;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteraction$DispatcherAccessor;
+import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteractionsAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.cauldron.CauldronInteractions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Util;
@@ -17,15 +20,18 @@ import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GooCauldronBlock extends AbstractCauldronBlock {
-	public static final CauldronInteraction.InteractionMap INTERACTION_MAP = Util.make(
-			CauldronInteraction.newInteractionMap("toxic_goo"),
-			interactionMap -> interactionMap.map().put(Items.BUCKET, (state, world, pos, player, interactionHand, stack) -> CauldronInteraction.fillBucket(
-					state, world, pos, player, interactionHand, stack, PortalCubedItems.GOO_BUCKET.getDefaultInstance(), $ -> true, SoundEvents.BUCKET_FILL
-			))
-	);
+	public static final CauldronInteraction.Dispatcher INTERACTIONS = Util.make(() -> {
+		CauldronInteraction.Dispatcher dispatcher = CauldronInteractionsAccessor.callNewDispatcher("toxic_goo");
+		CauldronInteraction$DispatcherAccessor accessor = (CauldronInteraction$DispatcherAccessor) dispatcher;
+		accessor.callPut(Items.BUCKET, (state, world, pos, player, interactionHand, stack) -> CauldronInteractions.fillBucket(
+				state, world, pos, player, interactionHand, stack, PortalCubedItems.GOO_BUCKET.getDefaultInstance(), _ -> true, SoundEvents.BUCKET_FILL
+		));
+
+		return dispatcher;
+	});
 
 	public GooCauldronBlock(Properties properties) {
-		super(properties, INTERACTION_MAP);
+		super(properties, INTERACTIONS);
 	}
 
 	@NotNull

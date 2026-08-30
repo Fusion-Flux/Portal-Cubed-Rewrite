@@ -22,8 +22,9 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedBannerPatternTags;
 import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
 import io.github.fusionflux.portalcubed.framework.item.FallSound;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
+import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteraction$DispatcherAccessor;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.cauldron.CauldronInteractions;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Util;
@@ -158,21 +159,18 @@ public class PortalCubedItems {
 	});
 
 	public static void init() {
-		CauldronInteraction.EMPTY.map().put(GOO_BUCKET, (state, world, pos, player, hand, stack) -> CauldronInteraction.emptyBucket(
-				world, pos, player, hand, stack, PortalCubedBlocks.GOO_CAULDRON.defaultBlockState(), SoundEvents.BUCKET_EMPTY
-		));
 		DispenserBlock.registerBehavior(GOO_BUCKET, new BucketDispenseBehaviour());
-
-		Map<Item, CauldronInteraction> map = CauldronInteraction.WATER.map();
-		// grab it through leather boots since the method is private
-		CauldronInteraction dyedItem = map.get(Items.LEATHER_BOOTS);
-		map.put(LONG_FALL_BOOTS, dyedItem);
-		map.put(ADVANCED_KNEE_REPLACEMENTS, dyedItem);
-		map.put(PORTAL_GUN, new PortalGunCauldronInteraction(dyedItem));
-
 		DispenserBlock.registerBehavior(LEMONADE, LemonadeDispenseBehavior.INSTANCE);
 
-		LootTableEvents.MODIFY.register((key, builder, source, registries) -> {
+		CauldronInteraction$DispatcherAccessor emptyDispatcher = (CauldronInteraction$DispatcherAccessor) CauldronInteractions.EMPTY;
+		emptyDispatcher.callPut(GOO_BUCKET, (_, level, pos, player, hand, stack) -> CauldronInteractions.emptyBucket(
+				level, pos, player, hand, stack, PortalCubedBlocks.GOO_CAULDRON.defaultBlockState(), SoundEvents.BUCKET_EMPTY
+		));
+
+		CauldronInteraction$DispatcherAccessor waterDispatcher = (CauldronInteraction$DispatcherAccessor) CauldronInteractions.WATER;
+		waterDispatcher.callPut(PORTAL_GUN, PortalGunCauldronInteraction.INSTANCE);
+
+		LootTableEvents.MODIFY.register((key, builder, source, _) -> {
 			if (key == BuiltInLootTables.SNIFFER_DIGGING && source.isBuiltin()) {
 				builder.modifyPools(pool -> pool.add(LootItem.lootTableItem(PortalCubedBlocks.LEMON_SAPLING)));
 			}
