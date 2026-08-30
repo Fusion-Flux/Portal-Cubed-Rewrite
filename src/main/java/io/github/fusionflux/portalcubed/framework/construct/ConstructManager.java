@@ -17,7 +17,6 @@ import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,7 +26,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 
-public final class ConstructManager extends SimpleJsonResourceReloadListener<ConstructSet> implements IdentifiableResourceReloadListener {
+public final class ConstructManager extends SimpleJsonResourceReloadListener<ConstructSet> {
 	public static final Identifier ID = PortalCubed.id("constructs");
 	public static final FileToIdConverter CONVERTER = FileToIdConverter.json("construct_set");
 
@@ -38,11 +37,6 @@ public final class ConstructManager extends SimpleJsonResourceReloadListener<Con
 
 	private ConstructManager() {
 		super(ConstructSet.CODEC, CONVERTER);
-	}
-
-	@Override
-	public Identifier getFabricId() {
-		return ID;
 	}
 
 	@Override

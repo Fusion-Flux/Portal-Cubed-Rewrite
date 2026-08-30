@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -14,7 +13,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-public final class PortalGunCrosshairTypeManager extends SimpleJsonResourceReloadListener<PortalGunCrosshairType> implements IdentifiableResourceReloadListener {
+public final class PortalGunCrosshairTypeManager extends SimpleJsonResourceReloadListener<PortalGunCrosshairType> {
 	public static final Identifier ID = PortalCubed.id("portal_gun_crosshair_types");
 	public static final FileToIdConverter CONVERTER = FileToIdConverter.registry(PortalGunCrosshairType.REGISTRY_KEY);
 
@@ -24,11 +23,6 @@ public final class PortalGunCrosshairTypeManager extends SimpleJsonResourceReloa
 
 	private PortalGunCrosshairTypeManager() {
 		super(PortalGunCrosshairType.CODEC, CONVERTER);
-	}
-
-	@Override
-	public Identifier getFabricId() {
-		return ID;
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.TextureAtlasHolder;
 import net.minecraft.resources.Identifier;
 
-public final class PortalTextureManager extends TextureAtlasHolder implements IdentifiableResourceReloadListener {
+public final class PortalTextureManager extends TextureAtlasHolder {
 	public static final Identifier ID = PortalCubed.id("portals");
 	public static final Identifier ATLAS_LOCATION = PortalCubed.id("textures/atlas/portals.png");
 
@@ -15,11 +15,6 @@ public final class PortalTextureManager extends TextureAtlasHolder implements Id
 
 	private PortalTextureManager() {
 		super(Minecraft.getInstance().getTextureManager(), ATLAS_LOCATION, ID);
-	}
-
-	@Override
-	public Identifier getFabricId() {
-		return ID;
 	}
 
 	@Override

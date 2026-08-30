@@ -6,21 +6,26 @@ import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCr
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkinManager;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropModelCache;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.reloader.ResourceReloaderKeys;
 import net.minecraft.server.packs.PackType;
 
 public class PortalCubedReloadListeners {
 	public static void registerData() {
-		ResourceManagerHelper helper = ResourceManagerHelper.get(PackType.SERVER_DATA);
-		helper.registerReloadListener(ConstructManager.INSTANCE);
+		ResourceLoader loader = ResourceLoader.get(PackType.SERVER_DATA);
+		loader.registerReloadListener(ConstructManager.ID, ConstructManager.INSTANCE);
 	}
 
 	public static void registerAssets() {
-		ResourceManagerHelper helper = ResourceManagerHelper.get(PackType.CLIENT_RESOURCES);
-		helper.registerReloadListener(PropModelCache.INSTANCE);
-		helper.registerReloadListener(PortalGunCrosshairTypeManager.INSTANCE);
-		helper.registerReloadListener(PortalGunSkinManager.INSTANCE);
-		helper.registerReloadListener(PortalTextureManager.INSTANCE);
-		helper.registerReloadListener(PortalStencilRenderer.INSTANCE);
+		ResourceLoader loader = ResourceLoader.get(PackType.CLIENT_RESOURCES);
+
+		loader.registerReloadListener(PropModelCache.ID, PropModelCache.INSTANCE);
+		loader.registerReloadListener(PortalGunCrosshairTypeManager.ID, PortalGunCrosshairTypeManager.INSTANCE);
+		loader.registerReloadListener(PortalGunSkinManager.ID, PortalGunSkinManager.INSTANCE);
+		loader.registerReloadListener(PortalTextureManager.ID, PortalTextureManager.INSTANCE);
+		loader.registerReloadListener(PortalStencilRenderer.ID, PortalStencilRenderer.INSTANCE);
+
+		loader.addListenerOrdering(ResourceReloaderKeys.Client.MODELS, PropModelCache.ID);
+		loader.addListenerOrdering(PortalTextureManager.ID, PortalStencilRenderer.ID);
 	}
 }
