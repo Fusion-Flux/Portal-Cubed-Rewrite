@@ -1368,6 +1368,8 @@
   "death.attack.portalcubed.self.link": "Mirror Test",
   "death.attack.portalcubed.self.hover": "Click!",
   "death.attack.portalcubed.self.message": "%1$s didn't pass the %2$s",
+  "death.attack.portalcubed.crowbar": "%1$s was whacked by %2$s",
+  "death.attack.portalcubed.crowbar.item": "%1$s was whacked by %2$s using %3$s",
 
 
   "entity.portalcubed.beans": "Bean Can",
