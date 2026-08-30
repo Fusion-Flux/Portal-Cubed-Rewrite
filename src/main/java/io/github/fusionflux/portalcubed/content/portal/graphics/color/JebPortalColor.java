@@ -10,13 +10,16 @@ import net.minecraft.client.color.ColorLerper;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-public record JebPortalColor(int colorOffset) implements PortalColor {
-	public static final MapCodec<JebPortalColor> CODEC = Codec.INT.optionalFieldOf("color_offset", 0).xmap(JebPortalColor::new, JebPortalColor::colorOffset);
-	public static final StreamCodec<ByteBuf, JebPortalColor> STREAM_CODEC = ByteBufCodecs.VAR_INT.map(JebPortalColor::new, JebPortalColor::colorOffset);
+/// @param cycleOffset the offset into the color cycle, in seconds
+public record JebPortalColor(float cycleOffset) implements PortalColor {
+	public static final MapCodec<JebPortalColor> CODEC = Codec.FLOAT.optionalFieldOf("cycle_offset", 0f).xmap(JebPortalColor::new, JebPortalColor::cycleOffset);
+	public static final StreamCodec<ByteBuf, JebPortalColor> STREAM_CODEC = ByteBufCodecs.FLOAT.map(JebPortalColor::new, JebPortalColor::cycleOffset);
 
 	@Override
 	public int get(float ticks) {
-		return ColorLerper.getLerpedColor(ColorLerper.Type.SHEEP, ticks);
+		// seconds -> ticks
+		float offset = this.cycleOffset * 20;
+		return ColorLerper.getLerpedColor(ColorLerper.Type.SHEEP, ticks + offset);
 	}
 
 	@Override
