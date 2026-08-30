@@ -55,6 +55,11 @@ public class PanelLayout implements Layout {
 	}
 
 	@Override
+	public void removeChildren() {
+		this.elements.clear();
+	}
+
+	@Override
 	public void setX(int x) {
 		this.x = x;
 		this.arrangeElements();
