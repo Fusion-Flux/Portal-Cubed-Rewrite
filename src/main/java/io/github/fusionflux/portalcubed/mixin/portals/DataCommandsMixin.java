@@ -1,14 +1,16 @@
 package io.github.fusionflux.portalcubed.mixin.portals;
 
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-import com.google.common.collect.ImmutableList;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import io.github.fusionflux.portalcubed.content.portal.command.PortalDataAccessor;
+import net.minecraft.server.commands.ArgProvider;
+import net.minecraft.server.commands.data.DataAccessor;
 import net.minecraft.server.commands.data.DataCommands;
 
 @Mixin(DataCommands.class)
@@ -17,13 +19,12 @@ public class DataCommandsMixin {
 			method = "<clinit>",
 			at = @At(
 					value = "INVOKE",
-					target = "Lcom/google/common/collect/ImmutableList;of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Lcom/google/common/collect/ImmutableList;"
+					target = "Ljava/util/List;of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;"
 			)
 	)
-	private static ImmutableList<Function<String, DataCommands.DataProvider>> registerPortalAccessor(ImmutableList<Function<String, DataCommands.DataProvider>> original) {
-		ImmutableList.Builder<Function<String, DataCommands.DataProvider>> builder = ImmutableList.builder();
-		builder.addAll(original);
-		builder.add(PortalDataAccessor.Provider::new);
-		return builder.build();
+	private static List<ArgProvider.Factory<DataAccessor>> registerPortalAccessor(List<ArgProvider.Factory<DataAccessor>> original) {
+		List<ArgProvider.Factory<DataAccessor>> mutable = new ArrayList<>(original);
+		mutable.add(PortalDataAccessor.PROVIDER);
+		return List.copyOf(mutable);
 	}
 }

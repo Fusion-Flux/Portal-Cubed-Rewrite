@@ -1,26 +1,27 @@
 package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Decoder;
+import com.mojang.serialization.DynamicOps;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.listener.PortalChangeListener;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
 public final class PortalSavedData extends SavedData implements PortalChangeListener {
-	public static final String ID = PortalCubed.ID + "_portals";
+	public static final Identifier ID = PortalCubed.id("portals");
 	public static final Codec<Map<String, PortalPair>> PAIR_MAP_CODEC = Codec.unboundedMap(Codec.STRING, PortalPair.CODEC);
 
 	private static final Logger logger = LogUtils.getLogger();
@@ -34,25 +35,9 @@ public final class PortalSavedData extends SavedData implements PortalChangeList
 	}
 
 	// loaded from data
-	public PortalSavedData(ServerLevel level, CompoundTag nbt, HolderLookup.Provider registries) {
+	public PortalSavedData(ServerLevel level, Map<String, PortalPair> pairs) {
 		this(level);
-
-		RegistryOps<Tag> ops = registries.createSerializationContext(NbtOps.INSTANCE);
-
-		PAIR_MAP_CODEC.decode(ops, nbt)
-				.ifSuccess(pair -> pair.getFirst().forEach(this.manager::setPair))
-				.ifError(error -> logger.error("Failed to read portals: {}", error.message()));
-	}
-
-	@Override
-	public CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
-		RegistryOps<Tag> ops = registries.createSerializationContext(NbtOps.INSTANCE);
-
-		PAIR_MAP_CODEC.encodeStart(ops, this.manager.pairs()).flatMap(
-				tag -> tag instanceof CompoundTag compound ? DataResult.success(compound) : DataResult.error(() -> "Not a map")
-		).ifSuccess(nbt::merge).ifError(error -> logger.error("Failed to save portals: {}", error.message()));
-
-		return nbt;
+		pairs.forEach(this.manager::setPair);
 	}
 
 	@Override
@@ -60,11 +45,31 @@ public final class PortalSavedData extends SavedData implements PortalChangeList
 		this.setDirty();
 	}
 
-	public static Factory<PortalSavedData> factory(ServerLevel level) {
-		return new Factory<>(
-				() -> new PortalSavedData(level),
-				(nbt, registries) -> new PortalSavedData(level, nbt, registries),
-				null // FAPI makes this fine
+	// serialization - this setup is pretty jank because we need the level. FAPI does basically the same thing for attachments.
+
+	private <T> DataResult<T> encode(DynamicOps<T> ops, T prefix) {
+		return PAIR_MAP_CODEC.encodeStart(ops, this.manager.pairs());
+	}
+
+	public static SavedDataType<PortalSavedData> createType(ServerLevel level) {
+		return createType(ID, () -> new PortalSavedData(level), createCodec(level));
+	}
+
+	private static Codec<PortalSavedData> createCodec(ServerLevel level) {
+		return Codec.of(PortalSavedData::encode, new Decoder<>() {
+					@Override
+					public <T> DataResult<Pair<PortalSavedData, T>> decode(DynamicOps<T> ops, T input) {
+						return PAIR_MAP_CODEC.decode(ops, input).map(pair -> pair.mapFirst(
+								portalPairs -> new PortalSavedData(level, portalPairs)
+						));
+					}
+				}
 		);
+	}
+
+	@SuppressWarnings({"DataFlowIssue", "SameParameterValue"})
+	private static <T extends SavedData> SavedDataType<T> createType(Identifier id, Supplier<T> constructor, Codec<T> codec) {
+		// FAPI makes it so passing null here is fine
+		return new SavedDataType<>(id, constructor, codec, null);
 	}
 }
