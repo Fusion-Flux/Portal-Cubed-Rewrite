@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:early_rise",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.early_rise.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.early_rise.author"
+  },
+  "height": 1,
+  "width": 1
+}
