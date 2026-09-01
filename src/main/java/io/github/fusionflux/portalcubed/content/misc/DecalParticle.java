@@ -1,15 +1,20 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
+import org.jspecify.annotations.Nullable;
 
+import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteSet;
 import net.minecraft.Optionull;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -29,7 +34,7 @@ public class DecalParticle extends SingleQuadParticle {
 	@Nullable
 	private BlockState lastBaseState;
 
-	protected DecalParticle(ClientLevel world, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, boolean randomRotation, SingleQuadParticle.Layer layer, TextureAtlasSprite sprite) {
+	protected DecalParticle(ClientLevel world, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, boolean randomRotation, Layer layer, TextureAtlasSprite sprite) {
 		super(world, 0, 0, 0, sprite);
 
 		if (dz > 0) {
@@ -128,10 +133,9 @@ public class DecalParticle extends SingleQuadParticle {
 //
 
 	@Override
-	public SingleQuadParticle.Layer getLayer() {
+	public Layer getLayer() {
 		return this.layer;
 	}
-
 
 	public static BlockPos getBasePos(double x, double y, double z, double dx, double dy, double dz) {
 		return new BlockPos(Mth.floor(x - dx * SURFACE_OFFSET), Mth.floor(y - dy * SURFACE_OFFSET), Mth.floor(z - dz * SURFACE_OFFSET));
@@ -140,31 +144,27 @@ public class DecalParticle extends SingleQuadParticle {
 	public static double snap(double d) {
 		return Math.floor(d * 16) / 16d;
 	}
-//
-//	public record BulletHoleProvider(FabricSpriteProvider spriteProvider) implements ParticleProvider<SimpleParticleType> {
-//		@Nullable
-//		@Override
-//		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-//			BlockPos pos = getBasePos(x, y, z, dx, dy, dz);
-//			// Get texture and whether to multiply.
-//			BlockState state = world.getBlockState(pos);
-//			return BulletHoleMaterial.forState(state).map(material -> {
-//				DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, pos, material.randomParticleRotation, material.particleRenderType.vanilla());
-//				particle.setLifetime(LIFETIME);
-//				particle.setSprite(this.spriteProvider.getSprites().get(material.ordinal()));
-//				return particle;
-//			}).orElse(null);
-//		}
-//	}
-//
-//	public record ScorchProvider(FabricSpriteProvider spriteProvider) implements ParticleProvider<SimpleParticleType> {
-//		@NotNull
-//		@Override
-//		public Particle createParticle(SimpleParticleType particleOptions, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-//			DecalParticle particle = new DecalParticle(world, x, y, z, dx, dy, dz, getBasePos(x, y, z, dx, dy, dz), true, ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT);
-//			particle.pickSprite(this.spriteProvider);
-//			particle.setLifetime(LIFETIME);
-//			return particle;
-//		}
-//	}
+
+	public record BulletHoleProvider(FabricSpriteSet spriteSet) implements ParticleProvider<SimpleParticleType> {
+		@Override
+		@Nullable
+		public Particle createParticle(SimpleParticleType options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random) {
+			BlockPos pos = getBasePos(x, y, z, xAux, yAux, zAux);
+			BlockState state = level.getBlockState(pos);
+			return BulletHoleMaterial.forState(state).map(material -> {
+				DecalParticle particle = new DecalParticle(level, x, y, z, xAux, yAux, zAux, pos, material.randomParticleRotation, material.particleLayerSupplier.get().get(), this.spriteSet.get(random));
+				particle.setLifetime(LIFETIME);
+				return particle;
+			}).orElse(null);
+		}
+	}
+
+	public record ScorchProvider(FabricSpriteSet spriteSet) implements ParticleProvider<SimpleParticleType> {
+		@Override
+		public Particle createParticle(SimpleParticleType options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random) {
+			DecalParticle particle = new DecalParticle(level, x, y, z, xAux, yAux, zAux, getBasePos(x, y, z, xAux, yAux, zAux), true, Layer.TRANSLUCENT, this.spriteSet.get(random));
+			particle.setLifetime(LIFETIME);
+			return particle;
+		}
+	}
 }
