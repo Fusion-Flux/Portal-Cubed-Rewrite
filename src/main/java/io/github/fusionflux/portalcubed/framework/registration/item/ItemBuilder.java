@@ -25,11 +25,6 @@ public interface ItemBuilder<T extends Item> {
 	ItemBuilder<T> group(ResourceKey<CreativeModeTab> key);
 
 	/**
-	 * Set the compost chance of this item when used on a composter.
-	 */
-	ItemBuilder<T> compostChance(double chance);
-
-	/**
 	 * Build this builder into an item.
 	 */
 	T build();

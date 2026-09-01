@@ -5,8 +5,11 @@ import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.TicketType;
+import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 
@@ -15,6 +18,8 @@ public final class PortalCubedMisc {
 	public static final TicketType PORTAL_CHUNK_TICKET_TYPE = register(
 			BuiltInRegistries.TICKET_TYPE, "portal", new TicketType(0, TicketType.FLAG_LOADING | TicketType.FLAG_PERSIST)
 	);
+
+	public static final ResourceKey<TrimMaterial> MAGNESIUM_TRIM_MATERIAL = ResourceKey.create(Registries.TRIM_MATERIAL, PortalCubed.id("magnesium"));
 
 	// lemon block set stuff
 	private static final Identifier lemonTypeId = PortalCubed.id("lemon");

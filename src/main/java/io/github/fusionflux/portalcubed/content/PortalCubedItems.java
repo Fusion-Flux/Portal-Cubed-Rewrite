@@ -24,6 +24,7 @@ import io.github.fusionflux.portalcubed.framework.item.FallSound;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteraction$DispatcherAccessor;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.minecraft.core.Direction;
 import net.minecraft.core.cauldron.CauldronInteractions;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
@@ -34,14 +35,17 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
@@ -55,6 +59,7 @@ public class PortalCubedItems {
 			.build();
 
 	public static final Item MAGNESIUM_INGOT = REGISTRAR.items.create("magnesium_ingot", Item::new)
+			.properties(s -> s.trimMaterial(PortalCubedMisc.MAGNESIUM_TRIM_MATERIAL))
 			.build();
 
 	public static final Item MAGNESIUM_NUGGET = REGISTRAR.items.create("magnesium_nugget", Item::new)
@@ -63,10 +68,11 @@ public class PortalCubedItems {
 	public static final Item RAW_MAGNESIUM = REGISTRAR.items.create("raw_magnesium", Item::new)
 			.build();
 
-	public static final Item APERTURE_BANNER_PATTERN = REGISTRAR.items.create("aperture_banner_pattern", s -> new BannerPatternItem(PortalCubedBannerPatternTags.APERTURE, s))
+	public static final Item APERTURE_BANNER_PATTERN = REGISTRAR.items.create("aperture_banner_pattern")
 			.properties(s -> s
 					.stacksTo(1)
 					.rarity(Rarity.UNCOMMON)
+					.delayedComponent(DataComponents.PROVIDES_BANNER_PATTERNS, context -> context.getOrThrow(PortalCubedBannerPatternTags.APERTURE))
 			)
 			.build();
 
@@ -113,35 +119,47 @@ public class PortalCubedItems {
 			.build();
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
-			.properties(s -> s.food(Foods.APPLE))
-			.compostChance(0.65)
+			.properties(s -> s.food(Foods.APPLE).compostable(NumberProviders.COMPOSTABLE_MEDIUM))
 			.build();
 	public static final LemonadeItem LEMONADE = REGISTRAR.items.create("lemonade", LemonadeItem::new)
 			.properties(s -> s.stacksTo(1))
 			.build();
-	public static final Item LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new SignItem(PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN, s))
-			.properties(s -> s.useBlockDescriptionPrefix().stacksTo(16))
+	public static final Item LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new StandingAndWallBlockItem(PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN, Direction.DOWN, s))
+			.properties(s -> s
+					.useBlockDescriptionPrefix()
+					.cookingFuel(NumberProviders.COOKING_TIME_WOOD_ITEMS_LARGE)
+					.stacksTo(16)
+					.signText()
+			)
 			.build();
-	public static final Item LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new SignItem(PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN, s))
-			.properties(s -> s.useBlockDescriptionPrefix().stacksTo(16))
+	public static final Item LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new HangingSignItem(PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN, s))
+			.properties(s -> s
+					.useBlockDescriptionPrefix()
+					.cookingFuel(NumberProviders.COOKING_TIME_HANGING_SIGNS)
+					.stacksTo(16)
+					.signText()
+			)
 			.build();
-	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), false, false);
-	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), true, false);
+	// TODO: Lemon Boats - Max
+//	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), false, false);
+//	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), true, false);
 
 	public static final Item GOO_BUCKET = REGISTRAR.items.create("toxic_goo_bucket", s -> new BucketItem(PortalCubedFluids.GOO, s))
 			.properties(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))
 			.build();
 
-	public static final Item LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots", s -> new ArmorItem(PortalCubedArmorMaterials.LONG_FALL_BOOTS, ArmorType.BOOTS, s))
+	public static final Item LONG_FALL_BOOTS = REGISTRAR.items.create("long_fall_boots")
 			.properties(s -> s
 					.fireResistant()
+					.humanoidArmor(PortalCubedArmorMaterials.LONG_FALL_BOOTS, ArmorType.BOOTS)
 					.component(PortalCubedDataComponents.FALL_SOUND, new FallSound(PortalCubedSounds.LONG_FALL_BOOTS_LAND, 6))
 					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("aperture"))
 			)
 			.build();
-	public static final Item ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements", s -> new ArmorItem(PortalCubedArmorMaterials.ADVANCED_KNEE_REPLACEMENTS, ArmorType.BOOTS, s))
+	public static final Item ADVANCED_KNEE_REPLACEMENTS = REGISTRAR.items.create("advanced_knee_replacements")
 			.properties(s -> s
 					.fireResistant()
+					.humanoidArmor(PortalCubedArmorMaterials.ADVANCED_KNEE_REPLACEMENTS, ArmorType.BOOTS)
 					.component(PortalCubedDataComponents.FALL_SOUND, new FallSound(PortalCubedSounds.ADVANCED_KNEE_REPLACEMENTS_LAND, 5))
 					.component(DataComponents.TOOLTIP_STYLE, PortalCubed.id("aperture"))
 			)

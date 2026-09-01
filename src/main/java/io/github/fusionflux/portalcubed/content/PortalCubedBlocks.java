@@ -68,6 +68,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 
 public class PortalCubedBlocks {
 	// ----- magnesium -----
@@ -88,8 +89,7 @@ public class PortalCubedBlocks {
 			.all(builder -> builder.copyFrom(Blocks.CAKE))
 			.base(builder ->
 					builder.item((name, block, item) -> item
-							.properties(s -> s.stacksTo(1))
-							.compostChance(1)
+							.properties(s -> s.stacksTo(1).compostable(NumberProviders.COMPOSTABLE_ALWAYS_ADD_ONE))
 					))
 			.build();
 	// ----- floor buttons -----
@@ -170,31 +170,35 @@ public class PortalCubedBlocks {
 	public static final RotatedPillarBlock LEMON_LOG = REGISTRAR.blocks.create("lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.OAK_LOG)
 			.properties(settings -> settings.mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.TERRACOTTA_GRAY : MapColor.SAND))
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final RotatedPillarBlock STRIPPED_LEMON_LOG = REGISTRAR.blocks.create("stripped_lemon_log", RotatedPillarBlock::new)
 			.copyFrom(Blocks.STRIPPED_OAK_LOG)
 			.properties(settings -> settings.mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.TERRACOTTA_YELLOW : MapColor.SAND))
 			.strippedOf(LEMON_LOG)
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final RotatedPillarBlock LEMON_WOOD = REGISTRAR.blocks.create("lemon_wood", RotatedPillarBlock::new)
-			.copyFrom(Blocks.STRIPPED_OAK_WOOD)
+			.copyFrom(Blocks.OAK_WOOD)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_GRAY))
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final RotatedPillarBlock STRIPPED_LEMON_WOOD = REGISTRAR.blocks.create("stripped_lemon_wood", RotatedPillarBlock::new)
-			.copyFrom(Blocks.OAK_WOOD)
+			.copyFrom(Blocks.STRIPPED_OAK_WOOD)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.strippedOf(LEMON_WOOD)
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final LeavesBlock LEMON_LEAVES = REGISTRAR.blocks.create("lemon_leaves", settings -> new UntintedParticleLeavesBlock(
 					0.01f, PortalCubedParticles.LEMON_LEAVES, AmbientLeavesBlockSoundPlayer.noAmbientSound(), settings
 			))
 			.copyFrom(Blocks.OAK_LEAVES)
 			.flammability(60, 30)
-			.item((name, block, builder) -> builder.compostChance(0.3))
+			.item((name, block, builder) -> builder.properties(s -> s.compostable(NumberProviders.COMPOSTABLE_LOW)))
 			.build();
 	public static final SaplingBlock LEMON_SAPLING = REGISTRAR.blocks.create("lemon_sapling", settings -> new SaplingBlock(PortalCubedFeatures.LEMON_TREE_GROWER, settings))
 			.copyFrom(Blocks.OAK_SAPLING)
-			.item((name, block, builder) -> builder.compostChance(0.3))
+			.item((name, block, builder) -> builder.properties(s -> s.compostable(NumberProviders.COMPOSTABLE_LOW).cookingFuel(NumberProviders.COOKING_TIME_DRY_PLANTS)))
 			.build();
 	public static final FlowerPotBlock POTTED_LEMON_SAPLING = REGISTRAR.blocks.create("potted_lemon_sapling", settings -> new FlowerPotBlock(LEMON_SAPLING, settings))
 			.copyFrom(Blocks.POTTED_OAK_SAPLING)
@@ -204,34 +208,41 @@ public class PortalCubedBlocks {
 			.copyFrom(Blocks.OAK_PLANKS)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.flammability(20, 5)
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final SlabBlock LEMON_SLAB = REGISTRAR.blocks.create("lemon_slab", SlabBlock::new)
 			.copyFrom(Blocks.OAK_SLAB)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.flammability(20, 5)
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_SLABS)))
 			.build();
 	public static final SaneStairBlock LEMON_STAIRS = REGISTRAR.blocks.create("lemon_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.OAK_STAIRS)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.flammability(20, 5)
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final FenceBlock LEMON_FENCE = REGISTRAR.blocks.create("lemon_fence", FenceBlock::new)
 			.copyFrom(Blocks.OAK_FENCE)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.flammability(20, 5)
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final FenceGateBlock LEMON_FENCE_GATE = REGISTRAR.blocks.create("lemon_fence_gate", properties -> new FenceGateBlock(WoodType.OAK, properties))
 			.copyFrom(Blocks.OAK_FENCE_GATE)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.flammability(20, 5)
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final ButtonBlock LEMON_BUTTON = REGISTRAR.blocks.create("lemon_button", properties -> new ButtonBlock(BlockSetType.OAK, 30, properties))
 			.copyFrom(Blocks.OAK_BUTTON)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_ITEMS_EXTRA_SMALL)))
 			.build();
 	public static final PressurePlateBlock LEMON_PRESSURE_PLATE = REGISTRAR.blocks.create("lemon_pressure_plate", properties -> new PressurePlateBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_PRESSURE_PLATE)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final Block LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new WallSignBlock(PortalCubedMisc.LEMON_WOOD_TYPE, properties))
 			.copyFrom(Blocks.OAK_SIGN)
@@ -264,10 +275,12 @@ public class PortalCubedBlocks {
 	public static final DoorBlock LEMON_DOOR = REGISTRAR.blocks.create("lemon_door", properties -> new DoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_DOOR)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_ITEMS_LARGE)))
 			.build();
 	public static final TrapDoorBlock LEMON_TRAPDOOR = REGISTRAR.blocks.create("lemon_trapdoor", properties -> new TrapDoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_TRAPDOOR)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(NumberProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 
 	// ----- signage -----

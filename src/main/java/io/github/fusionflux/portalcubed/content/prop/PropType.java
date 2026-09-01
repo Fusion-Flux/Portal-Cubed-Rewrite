@@ -30,6 +30,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 
 public enum PropType {
 	BEANS                  (3, true, .25f, .375f),
@@ -50,10 +51,7 @@ public enum PropType {
 	// REDIRECTION_CUBE(4, false, .625f, .6875f), P2CubeProp::new
 	// SCHRODINGER_CUBE(4, false, .625f, .6875f), P2CubeProp::new
 	STORAGE_CUBE           (4, false, .625f, .6875f, ButtonActivatedProp::new),
-	THE_TACO               (2, false, .69375f, .38125f, Taco::new, false, builder -> builder
-			.compostChance(1)
-			.properties(p -> p.rarity(Rarity.EPIC))
-	),
+	THE_TACO               (2, false, .69375f, .38125f, Taco::new, false, builder -> builder.properties(p -> p.rarity(Rarity.EPIC).compostable(NumberProviders.COMPOSTABLE_ALWAYS_ADD_ONE))),
 	ERROR                  (1, false, 1f, 1f, Prop::new, false, builder -> builder.properties(p -> p.rarity(Rarity.EPIC)));
 
 	public final String name;

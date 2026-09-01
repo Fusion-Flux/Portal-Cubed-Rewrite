@@ -7,8 +7,8 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
+import net.fabricmc.fabric.api.item.v1.BlockTransformerHelper;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -98,7 +98,7 @@ public class BlockBuilderImpl<T extends Block> implements BlockBuilder<T> {
 		}
 
 		if (this.unstripped != null) {
-			StrippableBlockRegistry.register(this.unstripped, block);
+			BlockTransformerHelper.registerStripping(this.unstripped, block);
 		}
 
 		if (this.itemProvider != null) {
