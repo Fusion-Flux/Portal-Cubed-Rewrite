@@ -4,7 +4,7 @@
     "dye": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:armor_dye",
+        "recipes": "portalcubed:portal_gun_dyed",
         "ingredients": [
           {
             "items": "portalcubed:portal_gun"

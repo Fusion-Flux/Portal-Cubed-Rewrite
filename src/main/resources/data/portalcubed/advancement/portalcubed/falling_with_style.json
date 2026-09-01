@@ -25,7 +25,7 @@
     "armor_trimmed_minecraft:coast_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:coast_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:coast_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -38,7 +38,7 @@
     "armor_trimmed_minecraft:dune_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:dune_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:dune_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -51,7 +51,7 @@
     "armor_trimmed_minecraft:eye_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:eye_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:eye_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -64,7 +64,7 @@
     "armor_trimmed_minecraft:host_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:host_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:host_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -77,7 +77,7 @@
     "armor_trimmed_minecraft:raiser_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:raiser_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:raiser_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -90,7 +90,7 @@
     "armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:rib_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:rib_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -103,7 +103,7 @@
     "armor_trimmed_minecraft:sentry_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:sentry_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:sentry_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -116,7 +116,7 @@
     "armor_trimmed_minecraft:shaper_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:shaper_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:shaper_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -129,7 +129,7 @@
     "armor_trimmed_minecraft:silence_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:silence_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:silence_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -142,7 +142,7 @@
     "armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:snout_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:snout_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -155,7 +155,7 @@
     "armor_trimmed_minecraft:spire_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:spire_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:spire_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -168,7 +168,7 @@
     "armor_trimmed_minecraft:tide_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:tide_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:tide_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -181,7 +181,7 @@
     "armor_trimmed_minecraft:vex_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:vex_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:vex_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -194,7 +194,7 @@
     "armor_trimmed_minecraft:ward_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:ward_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:ward_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -207,7 +207,7 @@
     "armor_trimmed_minecraft:wayfinder_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:wayfinder_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:wayfinder_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -220,7 +220,7 @@
     "armor_trimmed_minecraft:flow_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:flow_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:flow_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -233,7 +233,7 @@
     "armor_trimmed_minecraft:bolt_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:bolt_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:bolt_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
@@ -246,7 +246,7 @@
     "armor_trimmed_minecraft:wild_armor_trim_smithing_template_smithing_trim": {
       "trigger": "minecraft:recipe_crafted",
       "conditions": {
-        "recipe_id": "minecraft:wild_armor_trim_smithing_template_smithing_trim",
+        "recipes": "minecraft:wild_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
             "items": [
