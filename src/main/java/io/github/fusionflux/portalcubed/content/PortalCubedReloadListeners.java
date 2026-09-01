@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content;
 
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalTextureManager;
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.stencil.PortalStencilRenderer;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshairTypeManager;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkinManager;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropModelCache;
@@ -22,10 +20,10 @@ public class PortalCubedReloadListeners {
 		loader.registerReloadListener(PropModelCache.ID, PropModelCache.INSTANCE);
 		loader.registerReloadListener(PortalGunCrosshairTypeManager.ID, PortalGunCrosshairTypeManager.INSTANCE);
 		loader.registerReloadListener(PortalGunSkinManager.ID, PortalGunSkinManager.INSTANCE);
-		loader.registerReloadListener(PortalTextureManager.ID, PortalTextureManager.INSTANCE);
-		loader.registerReloadListener(PortalStencilRenderer.ID, PortalStencilRenderer.INSTANCE);
+//		loader.registerReloadListener(PortalTextureManager.ID, PortalTextureManager.INSTANCE);
+//		loader.registerReloadListener(PortalStencilRenderer.ID, PortalStencilRenderer.INSTANCE);
 
 		loader.addListenerOrdering(ResourceReloaderKeys.Client.MODELS, PropModelCache.ID);
-		loader.addListenerOrdering(PortalTextureManager.ID, PortalStencilRenderer.ID);
+//		loader.addListenerOrdering(PortalTextureManager.ID, PortalStencilRenderer.ID);
 	}
 }

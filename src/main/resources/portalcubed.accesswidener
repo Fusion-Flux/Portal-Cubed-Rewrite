@@ -11,5 +11,6 @@ accessWidener v2 official
 accessible method net/minecraft/world/damagesource/DamageSource <init> (Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;)V
 accessible field net/minecraft/world/level/block/Blocks NEAR_PLANE_INTERSECTS_OUTLINE Lnet/minecraft/world/level/block/state/BlockBehaviour$StateArgumentPredicate;
 
+accessible method net/minecraft/server/packs/resources/SimpleJsonResourceReloadListener <init> (Lcom/mojang/serialization/DynamicOps;Lcom/mojang/serialization/Codec;Lnet/minecraft/resources/FileToIdConverter;)V
 #mutable field com/mojang/blaze3d/systems/RenderSystem modelViewStack Lorg/joml/Matrix4fStack;
 #mutable field net/minecraft/client/renderer/LevelRenderer renderBuffers Lnet/minecraft/client/renderer/RenderBuffers;

@@ -15,14 +15,14 @@ import net.minecraft.util.profiling.ProfilerFiller;
 
 public final class PortalGunCrosshairTypeManager extends SimpleJsonResourceReloadListener<PortalGunCrosshairType> {
 	public static final Identifier ID = PortalCubed.id("portal_gun_crosshair_types");
-	public static final FileToIdConverter CONVERTER = FileToIdConverter.registry(PortalGunCrosshairType.REGISTRY_KEY);
+	public static final FileToIdConverter ASSET_LISTER = FileToIdConverter.registry(PortalGunCrosshairType.REGISTRY_KEY);
 
 	public static final PortalGunCrosshairTypeManager INSTANCE = new PortalGunCrosshairTypeManager();
 
 	private Map<ResourceKey<PortalGunCrosshairType>, PortalGunCrosshairType> types = Map.of();
 
 	private PortalGunCrosshairTypeManager() {
-		super(PortalGunCrosshairType.CODEC, CONVERTER);
+		super(PortalGunCrosshairType.CODEC, ASSET_LISTER);
 	}
 
 	@Override

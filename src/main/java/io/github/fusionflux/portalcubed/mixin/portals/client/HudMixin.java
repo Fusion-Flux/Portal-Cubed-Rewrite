@@ -12,26 +12,26 @@ import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
 import io.github.fusionflux.portalcubed.content.portal.gun.crosshair.PortalGunCrosshairRenderer;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.player.LocalPlayer;
 
-@Mixin(Gui.class)
-public class GuiMixin {
+@Mixin(Hud.class)
+public class HudMixin {
 	@Shadow
 	@Final
 	private Minecraft minecraft;
 
 	@Inject(
-			method = "renderCrosshair",
+			method = "extractCrosshair",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
+					target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
 					ordinal = 0
 			),
 			cancellable = true
 	)
-	private void renderPortalGunCrossHair(GuiGraphics graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+	private void extractPortalGunCrossHair(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
 		LocalPlayer player = this.minecraft.player;
 		if (player == null || player.isSpectator())
 			return;
@@ -40,7 +40,7 @@ public class GuiMixin {
 		if (settings == null)
 			return;
 
-		if (PortalGunCrosshairRenderer.render(graphics, player, settings, settings.crosshair())) {
+		if (PortalGunCrosshairRenderer.extractRenderState(graphics, player, settings, settings.crosshair())) {
 			ci.cancel();
 		}
 	}

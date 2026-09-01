@@ -131,7 +131,7 @@
     "portals.CameraMixin",
     "portals.client.CameraMixin",
     "portals.client.EntityRendererMixin",
-    "portals.client.GuiMixin",
+    "portals.client.HudMixin",
     "portals.client.ItemInHandRendererMixin",
     "portals.client.KeyboardHandlerMixin",
     "portals.client.LocalPlayerMixin",

@@ -4,8 +4,6 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
@@ -15,47 +13,41 @@ import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
 import io.github.fusionflux.portalcubed.framework.util.Or;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Player;
 
 @Environment(EnvType.CLIENT)
 public final class PortalGunCrosshairRenderer {
 	private static final int SPRITE_SIZE = 31;
 
-	private static void blit(GuiGraphics graphics, Identifier sprite) {
-		graphics.blitSprite(RenderType::guiTextured, sprite, (graphics.guiWidth() - SPRITE_SIZE) / 2, (graphics.guiHeight() - SPRITE_SIZE) / 2, SPRITE_SIZE, SPRITE_SIZE);
+	private PortalGunCrosshairRenderer() {}
+
+	private static void blit(GuiGraphicsExtractor graphics, Identifier sprite, int color) {
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, (graphics.guiWidth() - SPRITE_SIZE) / 2, (graphics.guiHeight() - SPRITE_SIZE) / 2, SPRITE_SIZE, SPRITE_SIZE, color);
 	}
 
-	private static void renderIndicator(GuiGraphics graphics, PortalGunCrosshairType.Indicator indicator, boolean placed, boolean lastPlaced, int color) {
+	private static void extractIndicator(GuiGraphicsExtractor graphics, PortalGunCrosshairType.Indicator indicator, boolean placed, boolean lastPlaced, int color) {
 		if (placed) {
-			blit(graphics, indicator.placed());
+			blit(graphics, indicator.placed(), color);
 			if (lastPlaced && indicator.lastPlaced().isPresent())
-				blit(graphics, indicator.lastPlaced().get());
+				blit(graphics, indicator.lastPlaced().get(), color);
 		} else {
-			blit(graphics, indicator.empty());
+			blit(graphics, indicator.empty(), color);
 		}
-
-		RenderSystem.setShaderColor(ARGB.redFloat(color), ARGB.greenFloat(color), ARGB.blueFloat(color), 1f);
-		graphics.flush();
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 	}
 
 	/**
 	 * @return true to cancel vanilla crosshair rendering
 	 */
-	public static boolean render(GuiGraphics graphics, LocalPlayer player, PortalGunSettings settings, PortalGunCrosshair crosshair) {
+	public static boolean extractRenderState(GuiGraphicsExtractor graphics, LocalPlayer player, PortalGunSettings settings, PortalGunCrosshair crosshair) {
 		PortalGunCrosshairType type = PortalGunCrosshairTypeManager.INSTANCE.get(crosshair.typeId());
 		if (type == null)
 			return false;
 
-		type.base().ifPresent(base -> {
-			blit(graphics, base);
-			graphics.flush();
-		});
+		type.base().ifPresent(base -> blit(graphics, base, 0xFFFFFFFF));
 
 		Polarity shotPolarity = settings.lastShot().orElse(null);
 		boolean hasBoth = settings.portals() instanceof Or.Both;
@@ -67,7 +59,7 @@ public final class PortalGunCrosshairRenderer {
 			int color = settings.portalSettingsPreferring(polarity).color().getOpaque(ticks);
 			boolean placed = active.contains(polarity);
 			boolean lastPlaced = enableLastPlaced && (shotPolarity == polarity);
-			renderIndicator(graphics, type.indicatorOf(polarity), placed, lastPlaced, color);
+			extractIndicator(graphics, type.indicatorOf(polarity), placed, lastPlaced, color);
 		}
 
 		return type.removeVanillaCrosshair();

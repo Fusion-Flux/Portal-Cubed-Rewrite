@@ -5,17 +5,22 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.serialization.JsonOps;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.client.multiplayer.ClientRegistryLayer;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.PlaceholderLookupProvider;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-public final class PortalGunSkinManager extends SimpleJsonResourceReloadListener<PortalGunSkin> implements IdentifiableResourceReloadListener {
+public final class PortalGunSkinManager extends SimpleJsonResourceReloadListener<PortalGunSkin> {
 	public static final Identifier ID = PortalCubed.id("portal_gun_skins");
+	public static final FileToIdConverter ASSET_LISTER = FileToIdConverter.registry(PortalGunSkin.REGISTRY_KEY);
 
 	public static final PortalGunSkinManager INSTANCE = new PortalGunSkinManager();
 
@@ -23,12 +28,9 @@ public final class PortalGunSkinManager extends SimpleJsonResourceReloadListener
 
 	private PortalGunSkinManager() {
 		// Registry access for sound events, ClientItemInfoLoader uses this too
-		super(ClientRegistryLayer.createRegistryAccess().compositeAccess(), PortalGunSkin.CODEC, PortalGunSkin.REGISTRY_KEY);
-	}
-
-	@Override
-	public Identifier getFabricId() {
-		return ID;
+		RegistryAccess.Frozen staticRegistries = ClientRegistryLayer.createRegistryAccess().compositeAccess();
+		PlaceholderLookupProvider lookup = new PlaceholderLookupProvider(staticRegistries);
+		super(lookup.createSerializationContext(JsonOps.INSTANCE), PortalGunSkin.CODEC, ASSET_LISTER);
 	}
 
 	@Override
