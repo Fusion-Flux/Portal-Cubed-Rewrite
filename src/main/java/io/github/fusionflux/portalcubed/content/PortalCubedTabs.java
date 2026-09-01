@@ -666,6 +666,15 @@ public class PortalCubedTabs {
 					9925201
 			);
 			helper.addSkin(
+					"creaking_portal_gun",
+					"creaking",
+					"none",
+					"round",
+					-37095,
+					"round",
+					-7056607
+			);
+			helper.addSkin(
 					"block_built_portal_gun",
 					"block_built",
 					"none",
@@ -673,6 +682,15 @@ public class PortalCubedTabs {
 					6724056,
 					"stained_glass_window",
 					14188339
+			);
+			helper.addSkin(
+					"baby_portal_gun",
+					"baby",
+					"round",
+					"round",
+					2396924,
+					"round",
+					16748062
 			);
 			helper.addSkin(
 					"smithers_portal_gun",

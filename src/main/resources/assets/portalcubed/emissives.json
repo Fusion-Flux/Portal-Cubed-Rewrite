@@ -8,6 +8,9 @@
   "portalcubed:portal_gun/default/humanoid/portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
   "portalcubed:portal_gun/default/fox/portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
 
+  "portalcubed:portal_gun/baby/humanoid/baby_portal_gun": "portalcubed:portal_gun/baby_portal_gun_emissive",
+  "portalcubed:portal_gun/baby/fox/baby_portal_gun": "portalcubed:portal_gun/baby_portal_gun_emissive",
+
   "portalcubed:portal_gun/default_special/humanoid/damaged_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
   "portalcubed:portal_gun/default_special/fox/damaged_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
   "portalcubed:portal_gun/default_special/humanoid/painted_portal_gun": "portalcubed:portal_gun/default_portal_gun_emissive",
@@ -62,20 +65,22 @@
   "portalcubed:portal_gun/rick/humanoid/rick_portal_gun": "portalcubed:portal_gun/rick_portal_gun_emissive",
   "portalcubed:portal_gun/rick/fox/rick_portal_gun": "portalcubed:portal_gun/rick_portal_gun_emissive",
 
-  "portalcubed:portal_gun/blocks/humanoid/frame": [
+  "portalcubed:portal_gun/block_built/humanoid/frame": [
     "minecraft:block/birch_planks",
     "minecraft:block/glow_item_frame"
   ],
   "portalcubed:portal_gun/block_built/humanoid/pane": "minecraft:block/white_stained_glass",
 
   "portalcubed:portal_gun/blocks/humanoid/copper_portal_gun": "portalcubed:portal_gun/copper_portal_gun_emissive",
-  "portalcubed:portal_gun/blocks/humanoid/prismarine_portal_gun": "portalcubed:portal_gun/prismarine_portal_gun_emissive",
-  "portalcubed:portal_gun/blocks/humanoid/sculk_portal_gun": "portalcubed:portal_gun/sculk_portal_gun_emissive",
-  "portalcubed:portal_gun/blocks/humanoid/glass_portal_gun": "portalcubed:portal_gun/mini_black_hole",
   "portalcubed:portal_gun/blocks/fox/copper_portal_gun": "portalcubed:portal_gun/copper_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/humanoid/prismarine_portal_gun": "portalcubed:portal_gun/prismarine_portal_gun_emissive",
   "portalcubed:portal_gun/blocks/fox/prismarine_portal_gun": "portalcubed:portal_gun/prismarine_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/humanoid/sculk_portal_gun": "portalcubed:portal_gun/sculk_portal_gun_emissive",
   "portalcubed:portal_gun/blocks/fox/sculk_portal_gun": "portalcubed:portal_gun/sculk_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/humanoid/glass_portal_gun": "portalcubed:portal_gun/mini_black_hole",
   "portalcubed:portal_gun/blocks/fox/glass_portal_gun": "portalcubed:portal_gun/mini_black_hole",
+  "portalcubed:portal_gun/blocks/humanoid/creaking_portal_gun": "portalcubed:portal_gun/creaking_portal_gun_emissive",
+  "portalcubed:portal_gun/blocks/fox/creaking_portal_gun": "portalcubed:portal_gun/creaking_portal_gun_emissive",
 
 
   "portalcubed:prop/storage_cube": "portalcubed:prop/storage_cube_ring",
