@@ -40,7 +40,6 @@
       "net/minecraft/client/multiplayer/ClientLevel": [ "io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt" ],
       "net/minecraft/world/entity/Entity": [ "io/github/fusionflux/portalcubed/framework/extension/PortalTeleportationExt", "io/github/fusionflux/portalcubed/framework/extension/DisintegrationExt" ],
       "net/minecraft/client/player/AbstractClientPlayer": [ "io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt" ],
-      "net/minecraft/world/item/Item\u0024Properties": [ "io/github/fusionflux/portalcubed/framework/extension/ItemPropertiesExt" ],
       "net/minecraft/world/level/block/state/BlockBehaviour\u0024Properties": [ "io/github/fusionflux/portalcubed/framework/extension/BlockBehaviourPropertiesExt" ],
       "net/minecraft/world/level/ClipContext": [ "io/github/fusionflux/portalcubed/framework/extension/ClipContextExt" ],
       "net/minecraft/world/entity/LivingEntity": [ "io/github/fusionflux/portalcubed/framework/extension/LivingEntityExt" ],
