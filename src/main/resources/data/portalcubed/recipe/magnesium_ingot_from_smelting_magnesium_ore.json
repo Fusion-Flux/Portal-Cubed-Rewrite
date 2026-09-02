@@ -3,6 +3,7 @@
   "category": "misc",
   "group": "magnesium_ingot",
   "experience": 0.7,
+  "cookingtime": 200,
   "ingredient": "portalcubed:magnesium_ore",
   "result": {
     "id": "portalcubed:magnesium_ingot"
