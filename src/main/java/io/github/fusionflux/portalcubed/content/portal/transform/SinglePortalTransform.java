@@ -12,7 +12,6 @@ import org.joml.Vector3d;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
-import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.LivingEntityAccessor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Direction;
@@ -22,6 +21,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InterpolationHandler;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
@@ -155,31 +155,9 @@ public final class SinglePortalTransform implements PortalTransform {
 			living.yBodyRot = this.apply(living.yBodyRot, Direction.Axis.Y);
 			living.yHeadRotO = this.apply(living.yHeadRotO, Direction.Axis.Y);
 			living.yBodyRotO = this.apply(living.yBodyRotO, Direction.Axis.Y);
-
-			LivingEntityAccessor accessor = (LivingEntityAccessor) living;
-			int headLerpSteps = accessor.getLerpHeadSteps();
-			if (headLerpSteps > 0) {
-				// why is this a double??
-				float target = (float) accessor.getLerpYHeadRot();
-				float newTarget = this.apply(target, Direction.Axis.Y);
-				living.lerpHeadTo(newTarget, headLerpSteps);
-			}
 		}
 
-		// teleport the current lerp targets if needed
-		int lerpSteps = LerpableEntity.getLerpSteps(entity);
-		if (lerpSteps > 0) {
-			Vec3 currentPosTarget = new Vec3(entity.lerpTargetX(), entity.lerpTargetY(), entity.lerpTargetZ());
-			Rotations currentRotTarget = new Rotations(entity.lerpTargetXRot(), entity.lerpTargetYRot(), 0);
-
-			// only set each one if there's actually a difference, otherwise we might double-transform something
-			Vec3 newPosTarget = currentPosTarget.equals(newPos) ? newPos : this.applyAbsolute(currentPosTarget.add(posToCenter)).add(centerToPos);
-			Rotations newRotTarget = currentRotTarget.equals(newRotations) ? newRotations : this.apply(currentRotTarget);
-
-			entity.lerpTo(newPosTarget.x, newPosTarget.y, newPosTarget.z, newRotTarget.getY(), newRotTarget.getX(), lerpSteps);
-			// some entities will modify the lerpSteps, try setting it manually
-			LerpableEntity.setLerpSteps(entity, lerpSteps);
-		}
+		this.teleportInterpolation(entity);
 
 		// set old values. do this last, since setting non-old values above may have set them prematurely
 		Vec3 oldPosTeleported = this.applyAbsolute(oldPos.add(posToCenter)).add(centerToPos);
@@ -214,6 +192,24 @@ public final class SinglePortalTransform implements PortalTransform {
 		}
 
 		return reoriented;
+	}
+
+	private void teleportInterpolation(Entity entity) {
+		InterpolationHandler interpolation = entity.getInterpolation();
+		if (interpolation.hasActiveInterpolation()) {
+			// TODO
+		}
+
+		if (entity instanceof LivingEntity living) {
+			LivingEntityAccessor accessor = (LivingEntityAccessor) living;
+			int headLerpSteps = accessor.getLerpHeadSteps();
+			if (headLerpSteps > 0) {
+				// why is this a double??
+				float target = (float) accessor.getLerpYHeadRot();
+				float newTarget = this.apply(target, Direction.Axis.Y);
+				living.lerpHeadTo(newTarget, headLerpSteps);
+			}
+		}
 	}
 
 	public static Quaternionf rotate180(Quaternionfc rotation) {

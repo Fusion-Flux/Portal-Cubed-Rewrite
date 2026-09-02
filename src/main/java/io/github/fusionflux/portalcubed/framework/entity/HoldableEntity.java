@@ -38,7 +38,7 @@ import net.minecraft.world.phys.Vec3;
 // - field is set, tracked data updated
 // - HoldStatusPackets sent, clients update
 // - For existing holds, additional HoldStatusPackets are sent in AFTER_START_TRACKING.
-public abstract class HoldableEntity extends LerpableEntity {
+public abstract class HoldableEntity extends Entity {
 	public static final double HOLD_DISTANCE = 2;
 	public static final EntityDataAccessor<OptionalInt> HOLDER = SynchedEntityData.defineId(HoldableEntity.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 

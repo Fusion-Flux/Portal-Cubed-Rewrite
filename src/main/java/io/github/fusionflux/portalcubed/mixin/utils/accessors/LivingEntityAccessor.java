@@ -12,12 +12,6 @@ public interface LivingEntityAccessor {
 	int callGetCurrentSwingDuration();
 
 	@Accessor
-	int getLerpSteps();
-
-	@Accessor
-	void setLerpSteps(int steps);
-
-	@Accessor
 	int getLerpHeadSteps();
 
 	@Accessor

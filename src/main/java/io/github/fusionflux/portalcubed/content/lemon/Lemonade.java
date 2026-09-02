@@ -1,36 +1,33 @@
 package io.github.fusionflux.portalcubed.content.lemon;
 
-import io.github.fusionflux.portalcubed.framework.entity.EntityReference;
-import io.github.fusionflux.portalcubed.framework.entity.LerpableEntity;
+import org.jetbrains.annotations.Nullable;
+
+import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
+import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
+import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-
+import net.minecraft.world.entity.EntityReference;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.projectile.ItemSupplier;
-
-import net.minecraft.world.phys.Vec3;
-
-import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
-import io.github.fusionflux.portalcubed.content.PortalCubedEntities;
-import io.github.fusionflux.portalcubed.content.PortalCubedItems;
-import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.Vec3;
 
-import org.jetbrains.annotations.Nullable;
-
-public class Lemonade extends LerpableEntity implements ItemSupplier, TraceableEntity {
+public class Lemonade extends Entity implements ItemSupplier, TraceableEntity {
 	public static final EntityDataAccessor<ItemStack> STACK = SynchedEntityData.defineId(Lemonade.class, EntityDataSerializers.ITEM_STACK);
 	public static final int TICKS_PER_TIMER_TICK = 20;
 	public static final int DING_TICK = 10;
@@ -38,7 +35,7 @@ public class Lemonade extends LerpableEntity implements ItemSupplier, TraceableE
 	private static final float MIN_EXPLOSION_POWER = 1.5f;
 	private static final float MAX_EXPLOSION_POWER = 2.5f;
 
-	private EntityReference thrower = EntityReference.EMPTY;
+	private @Nullable EntityReference<Entity> thrower;
 	private int explodeTicks = MAX_ARM_TIME;
 
 	public Lemonade(Level level, ItemStack stack, @Nullable Entity thrower, int explodeTicks) {
@@ -61,9 +58,9 @@ public class Lemonade extends LerpableEntity implements ItemSupplier, TraceableE
 	}
 
 	public void doThrow(Vec3 pos, Vec3 normalizedDirection, float power) {
-		if (this.level() instanceof ServerLevel serverLevel) {
+		if (this.level() instanceof ServerLevel) {
 			this.setPos(pos);
-			Entity thrower = this.thrower.get(serverLevel);
+			Entity thrower = this.getOwner();
 			Vec3 sourceVel = getEffectiveSourceVelocity(thrower);
 			Vec3 vel = normalizedDirection.scale(power).add(sourceVel);
 			this.setDeltaMovement(vel);
@@ -88,7 +85,7 @@ public class Lemonade extends LerpableEntity implements ItemSupplier, TraceableE
 	@Override
 	@Nullable
 	public Entity getOwner() {
-		return this.thrower.tryGet(this.level());
+		return EntityReference.getEntity(this.thrower, this.level());
 	}
 
 	@Override
@@ -159,17 +156,17 @@ public class Lemonade extends LerpableEntity implements ItemSupplier, TraceableE
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
-		ItemStack.parse(this.registryAccess(), tag.getCompound("stack")).ifPresent(this::setItem);
-		this.thrower = EntityReference.parse(tag, "thrower");
-		this.explodeTicks = tag.getInt("explode_ticks");
+	protected void readAdditionalSaveData(ValueInput input) {
+		this.setItem(input.read("stack", ItemStack.CODEC).orElse(ItemStack.EMPTY));
+		this.thrower = EntityReference.read(input, "thrower");
+		this.explodeTicks = input.getIntOr("explode_ticks", 0);
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
-		tag.put("stack", this.getItem().save(this.registryAccess()));
-		this.thrower.save(tag, "thrower");
-		tag.putInt("explode_ticks", this.explodeTicks);
+	protected void addAdditionalSaveData(ValueOutput output) {
+		output.store("stack", ItemStack.CODEC, this.getItem());
+		EntityReference.store(this.thrower, output, "thrower");
+		output.putInt("explode_ticks", this.explodeTicks);
 	}
 
 	private static Vec3 getEffectiveSourceVelocity(@Nullable Entity thrower) {
