@@ -45,7 +45,7 @@ import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 public class PortalCubedItems {
 	public static final PortalGunItem PORTAL_GUN = REGISTRAR.items.create("portal_gun", PortalGunItem::new)
@@ -119,7 +119,7 @@ public class PortalCubedItems {
 			.build();
 
 	public static final Item LEMON = REGISTRAR.items.create("lemon", Item::new)
-			.properties(s -> s.food(Foods.APPLE).compostable(NumberProviders.COMPOSTABLE_MEDIUM))
+			.properties(s -> s.food(Foods.APPLE).compostable(ContextIntProviders.COMPOSTABLE_MEDIUM))
 			.build();
 	public static final LemonadeItem LEMONADE = REGISTRAR.items.create("lemonade", LemonadeItem::new)
 			.properties(s -> s.stacksTo(1))
@@ -127,7 +127,7 @@ public class PortalCubedItems {
 	public static final Item LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new StandingAndWallBlockItem(PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN, Direction.DOWN, s))
 			.properties(s -> s
 					.useBlockDescriptionPrefix()
-					.cookingFuel(NumberProviders.COOKING_TIME_WOOD_ITEMS_LARGE)
+					.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_ITEMS_LARGE)
 					.stacksTo(16)
 					.signText()
 			)
@@ -135,7 +135,7 @@ public class PortalCubedItems {
 	public static final Item LEMON_HANGING_SIGN = REGISTRAR.items.create("lemon_hanging_sign", s -> new HangingSignItem(PortalCubedBlocks.LEMON_HANGING_SIGN, PortalCubedBlocks.LEMON_WALL_HANGING_SIGN, s))
 			.properties(s -> s
 					.useBlockDescriptionPrefix()
-					.cookingFuel(NumberProviders.COOKING_TIME_HANGING_SIGNS)
+					.cookingFuel(ContextIntProviders.COOKING_TIME_HANGING_SIGNS)
 					.stacksTo(16)
 					.signText()
 			)
