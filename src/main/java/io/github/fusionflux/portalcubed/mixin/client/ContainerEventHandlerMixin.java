@@ -26,8 +26,10 @@ public interface ContainerEventHandlerMixin {
 						scrolled.setValue(true);
 				}
 			}
-			if (scrolled.getValue())
+
+			if (scrolled.get()) {
 				cir.setReturnValue(true);
+			}
 		}
 	}
 }

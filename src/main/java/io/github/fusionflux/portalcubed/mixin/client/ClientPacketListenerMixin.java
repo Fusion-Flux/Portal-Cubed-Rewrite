@@ -137,7 +137,7 @@ public class ClientPacketListenerMixin {
 					target = "Lnet/minecraft/world/entity/Entity;lerpHeadTo(FI)V"
 			)
 	)
-	private float reinterpretHeadRot(float original, @Local Entity entity) {
+	private float reinterpretHeadRot(float original, @Local(name = "entity") Entity entity) {
 		PortalTransform transform = getTransform(entity);
 		if (transform == null)
 			return original;

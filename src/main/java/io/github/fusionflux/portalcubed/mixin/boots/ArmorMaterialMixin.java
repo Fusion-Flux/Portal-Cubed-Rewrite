@@ -29,19 +29,19 @@ public class ArmorMaterialMixin {
 	private void addFallDamageAbsorptionAttribute(
 			ArmorType type,
 			CallbackInfoReturnable<ItemAttributeModifiers> cir,
-			@Local ItemAttributeModifiers.Builder builder,
-			@Local EquipmentSlotGroup equipmentSlotGroup
+			@Local(name = "modifiers") ItemAttributeModifiers.Builder modifiers,
+			@Local(name = "slotGroup") EquipmentSlotGroup slotGroup
 	) {
 		ArmorMaterial self = (ArmorMaterial) (Object) this;
 		if (self.equals(PortalCubedArmorMaterials.LONG_FALL_BOOTS) || self.equals(PortalCubedArmorMaterials.ADVANCED_KNEE_REPLACEMENTS)) {
-			builder.add(
+			modifiers.add(
 					PortalCubedAttributes.FALL_DAMAGE_ABSORPTION,
 					new AttributeModifier(
 							PortalCubed.id("armor." + type.getName()),
 							1,
 							AttributeModifier.Operation.ADD_VALUE
 					),
-					equipmentSlotGroup
+					slotGroup
 			);
 		}
 	}

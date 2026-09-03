@@ -27,7 +27,8 @@ import net.minecraft.world.phys.Vec3;
 @Mixin(Block.class)
 public class BlockMixin {
 	@Shadow
-	private static void popResource(Level level, Supplier<ItemEntity> itemEntitySupplier, ItemStack stack) {
+	private static void popResource(Level level, Supplier<ItemEntity> entityFactory, ItemStack itemStack) {
+		throw new AbstractMethodError();
 	}
 
 	@WrapOperation(method = "dropResources*", at = @At(value = "INVOKE", target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V"))
@@ -35,9 +36,9 @@ public class BlockMixin {
 			List<ItemStack> drops,
 			Consumer<ItemStack> consumer,
 			Operation<Void> original,
-			@Local(argsOnly = true) BlockState state,
-			@Local(argsOnly = true) Level level,
-			@Local(argsOnly = true) BlockPos pos
+			@Local(argsOnly = true, name = "state") BlockState state,
+			@Local(argsOnly = true, name = "level") Level level,
+			@Local(argsOnly = true, name = "pos") BlockPos pos
 	) {
 		if (state.getBlock() instanceof AbstractMultiBlock multiBlock) {
 			BlockPos originPos = multiBlock.getOriginPos(pos, state);

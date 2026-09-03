@@ -20,13 +20,15 @@ import net.minecraft.world.phys.Vec3;
 @Mixin(SoundEngine.class)
 public class SoundEngineMixin {
 	@ModifyExpressionValue(
-			method = "tickNonPaused",
+			method = "tickInGameSound",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/client/sounds/ChannelAccess$ChannelHandle;isStopped()Z"
 			)
 	)
-	private boolean teleportSound(boolean stopped, @Local SoundInstance sound, @Local ChannelAccess.ChannelHandle handle) {
+	private boolean teleportSound(boolean stopped,
+								  @Local(name = "instance") SoundInstance sound,
+								  @Local(name = "handle") ChannelAccess.ChannelHandle handle) {
 		if (stopped) {
 			return true;
 		}

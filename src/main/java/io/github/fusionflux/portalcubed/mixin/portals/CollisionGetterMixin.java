@@ -31,7 +31,9 @@ public interface CollisionGetterMixin {
 
 	// this basically mirrors the logic in EntityMixin
 	@ModifyReturnValue(method = "noCollision(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Z)Z", at = @At("RETURN"))
-	default boolean checkPortalCollision(boolean original, @Local(argsOnly = true) @Nullable Entity entity, @Local(argsOnly = true) AABB bounds) {
+	default boolean checkPortalCollision(boolean original,
+										 @Local(argsOnly = true, name = "entity") @Nullable Entity entity,
+										 @Local(argsOnly = true, name = "aabb") AABB bounds) {
 		if (entity == null) {
 			// don't know where to look
 			return original;

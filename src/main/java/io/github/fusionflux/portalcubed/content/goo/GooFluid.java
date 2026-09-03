@@ -34,14 +34,14 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 
 public abstract class GooFluid extends FlowingFluid {
-	public static void hurt(ServerLevel world, Entity entity) {
+	public static void hurt(ServerLevel level, Entity entity) {
 		if (!entity.isAlive() || entity.is(PortalCubedEntityTags.IMMUNE_TO_TOXIC_GOO) || (entity instanceof ItemEntity itemEntity && itemEntity.getItem().is(PortalCubedItemTags.IMMUNE_TO_TOXIC_GOO)))
 			return;
 
 		if (entity.is(PortalCubedEntityTags.DISINTEGRATES_WHEN_FIZZLED)) {
 			FizzleBehaviour.DISINTEGRATION.fizzle(entity);
 		} else {
-			entity.hurtServer(world, PortalCubedDamageSources.toxicGoo(world), world.getGameRules().get(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
+			entity.hurtServer(level, PortalCubedDamageSources.toxicGoo(level), level.getGameRules().get(PortalCubedGameRules.TOXIC_GOO_DAMAGE));
 		}
 	}
 

@@ -17,7 +17,7 @@ public abstract class PufferfishMixin implements ButtonActivated {
 	public abstract int getPuffState();
 
 	@Shadow
-	public abstract void setPuffState(int puffState);
+	public abstract void setPuffState(int state);
 
 	@Override
 	public void pc$onButtonActivated() {

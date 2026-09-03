@@ -38,8 +38,8 @@ public abstract class ServerLevelMixin implements ServerLevelExt {
 		this.portalManager = this.getDataStorage().computeIfAbsent(type).manager;
 	}
 
-	@Inject(method = "onBlockStateChange", at = @At("HEAD"))
-	private void updatePortals(CallbackInfo ci, @Local(argsOnly = true) BlockPos pos) {
+	@Inject(method = "updatePOIOnBlockStateChange", at = @At("HEAD"))
+	private void updatePortals(CallbackInfo ci, @Local(argsOnly = true, name = "pos") BlockPos pos) {
 		// this method is also called from worldgen
 		if (!this.server.isSameThread())
 			return;

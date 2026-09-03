@@ -19,12 +19,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 @Mixin(EntityRenderer.class)
-public class EntityRendererMixin {
+public class EntityRendererMixin<T extends Entity> {
 	/**
 	 * If you look at this code wrong, culling during teleportation will break.
 	 */
 	@WrapMethod(method = "getBoundingBoxForCulling")
-	private AABB interpolateCullingBoundingBox(Entity entity, Operation<AABB> original) {
+	private AABB interpolateCullingBoundingBox(T entity, float partialTicks, Operation<AABB> original) {
 		if (entity.level() instanceof ClientLevel level) {
 			TickRateManager tickRateManager = level.tickRateManager();
 			float tickDelta = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(!tickRateManager.isEntityFrozen(entity));
@@ -41,12 +41,11 @@ public class EntityRendererMixin {
 					.move(interpolatedPosition);
 		}
 
-		return original.call(entity);
+		return original.call(entity, partialTicks);
 	}
 
 	/**
 	 * This is pretty much only handling shadows.
-	 * @see LevelRendererMixin
 	 */
 	@ModifyReturnValue(
 			method = "createRenderState(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/client/renderer/entity/state/EntityRenderState;",

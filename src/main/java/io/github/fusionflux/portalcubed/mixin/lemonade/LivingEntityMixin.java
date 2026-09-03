@@ -25,7 +25,7 @@ public abstract class LivingEntityMixin extends Entity {
 	public abstract ItemStack getUseItem();
 
 	@Shadow
-	public abstract void setItemInHand(InteractionHand hand, ItemStack stack);
+	public abstract void setItemInHand(InteractionHand hand, ItemStack itemStack);
 
 	@Shadow
 	public abstract InteractionHand getUsedItemHand();

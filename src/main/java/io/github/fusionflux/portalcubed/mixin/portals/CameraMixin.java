@@ -36,9 +36,6 @@ public abstract class CameraMixin {
 	private BlockGetter level;
 
 	@Shadow
-	public abstract Vec3 getPosition();
-
-	@Shadow
 	@Final
 	private Quaternionf rotation;
 
@@ -48,8 +45,11 @@ public abstract class CameraMixin {
 	@Shadow
 	private float eyeHeightOld;
 
+	@Shadow
+	public abstract Vec3 position();
+
 	@WrapOperation(
-			method = "setup",
+			method = "alignWithEntity",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/phys/Vec3;add(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"
@@ -61,13 +61,14 @@ public abstract class CameraMixin {
 	}
 
 	@WrapOperation(
-			method = "setup",
+			method = "alignWithEntity",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/client/Camera;setPosition(DDD)V"
 			)
 	)
-	private void teleportWhenPositioningNormally(Camera self, double x, double y, double z, Operation<Void> original, @Local(argsOnly = true) float partialTick) {
+	private void teleportWhenPositioningNormally(Camera self, double x, double y, double z, Operation<Void> original,
+												 @Local(argsOnly = true, name = "partialTicks") float partialTick) {
 		Vec3 target = new Vec3(x, y, z);
 		// I don't like recalculating this, but I think it's the best way
 		Vec3 base = target.subtract(0, Mth.lerp(partialTick, this.eyeHeightOld, this.eyeHeight), 0);
@@ -79,14 +80,11 @@ public abstract class CameraMixin {
 			method = "getMaxZoom",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/level/BlockGetter;clip(Lnet/minecraft/world/level/ClipContext;)Lnet/minecraft/world/phys/BlockHitResult;"
+					target = "Lnet/minecraft/world/level/Level;clip(Lnet/minecraft/world/level/ClipContext;)Lnet/minecraft/world/phys/BlockHitResult;"
 			)
 	)
-	private BlockHitResult raycastThroughPortals(BlockGetter blockGetter, ClipContext context, Operation<BlockHitResult> original) {
-		BlockHitResult originalResult = original.call(blockGetter, context);
-
-		if (!(blockGetter instanceof Level level))
-			return originalResult;
+	private BlockHitResult raycastThroughPortals(Level level, ClipContext context, Operation<BlockHitResult> original) {
+		BlockHitResult originalResult = original.call(level, context);
 
 		// Minecraft determines the maximum zoom level by effectively moving a small box surrounding the camera as far back
 		// as possible without hitting any blocks. this is done by performing 8 raycasts, one for each corner of the box.
@@ -99,7 +97,7 @@ public abstract class CameraMixin {
 		Vec3 originalEnd = context.getTo();
 
 		Optional<PortalTransform> transform = level.portalManager().lookup()
-				.clip(this.getPosition(), originalStart).path()
+				.clip(this.position(), originalStart).path()
 				.map(PortalPath::transform);
 
 		Vec3 start = transform.isEmpty() ? originalStart : transform.get().applyAbsolute(originalStart);
@@ -137,7 +135,7 @@ public abstract class CameraMixin {
 			)
 	)
 	private void moveThroughPortals(Camera self, Vec3 target, Operation<Void> original) {
-		original.call(self, this.teleportAndRotate(this.getPosition(), target));
+		original.call(self, this.teleportAndRotate(this.position(), target));
 	}
 
 	@Unique

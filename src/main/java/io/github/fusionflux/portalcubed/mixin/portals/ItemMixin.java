@@ -25,7 +25,7 @@ public class ItemMixin {
 			)
 	)
 	private static BlockHitResult raycastThroughPortals(Level level, ClipContext context, Operation<BlockHitResult> original,
-														@Local(argsOnly = true) Player player) {
+														@Local(argsOnly = true, name = "player") Player player) {
 		BlockHitResult originalResult = original.call(level, context);
 
 		RaycastOptions options = RaycastOptions.of(context).forPlayer(player).build();

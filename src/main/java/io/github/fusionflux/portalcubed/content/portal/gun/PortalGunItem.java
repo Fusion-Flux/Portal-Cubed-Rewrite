@@ -28,6 +28,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -43,8 +44,12 @@ public class PortalGunItem extends Item implements AttackListeningItem {
 	}
 
 	@Override
-	public boolean canAttackBlock(BlockState state, Level world, BlockPos pos, Player miner) {
-		return !miner.isCreative();
+	public boolean canDestroyBlock(ItemStack stack, BlockState state, Level level, BlockPos pos, LivingEntity user) {
+		if (user instanceof Player player) {
+			return !player.getAbilities().instabuild;
+		}
+
+		return super.canDestroyBlock(stack, state, level, pos, user);
 	}
 
 	@Override

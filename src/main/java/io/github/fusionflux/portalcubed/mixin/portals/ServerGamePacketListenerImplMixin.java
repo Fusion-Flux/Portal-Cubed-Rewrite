@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
@@ -18,12 +20,21 @@ import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform
 import net.minecraft.core.Rotations;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerGamePacketListenerImplMixin {
 	@Shadow
 	public ServerPlayer player;
+
+	@Definition(id = "player", field = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;player:Lnet/minecraft/server/level/ServerPlayer;")
+	@Definition(id = "target", local = @Local(type = Entity.class, name = "target"))
+	@Expression("target == player")
+	@ModifyExpressionValue(method = "handleAttack", at = @At("MIXINEXTRAS:EXPRESSION"))
+	private boolean allowAttackingSelf(boolean original) {
+		return true;
+	}
 
 	@Inject(
 			method = "handleMovePlayer",

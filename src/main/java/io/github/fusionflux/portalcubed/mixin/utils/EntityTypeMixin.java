@@ -16,7 +16,7 @@ public abstract class EntityTypeMixin {
 	public abstract boolean is(TagKey<EntityType<?>> tag);
 
 	@ModifyExpressionValue(
-			method = "create(Lnet/minecraft/server/level/ServerLevel;Ljava/util/function/Consumer;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/EntitySpawnReason;ZZ)Lnet/minecraft/world/entity/Entity;",
+			method = "create(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/PostSpawnProcessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/EntitySpawnReason;ZZ)Lnet/minecraft/world/entity/Entity;",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/util/RandomSource;nextFloat()F"

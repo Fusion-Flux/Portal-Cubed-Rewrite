@@ -21,7 +21,7 @@ public class ServerGamePacketListenerImplMixin {
 					args = "doubleValue=1.0000001"
 			)
 	)
-	private double increaseAllowedUseRange(double original, @Local ServerLevel level, @Local BlockPos pos) {
+	private double increaseAllowedUseRange(double original, @Local(name = "level") ServerLevel level, @Local(name = "pos") BlockPos pos) {
 		// vanilla normally prevents using items on blocks when the hit result landed over a block away from the center.
 		// we need to expand this safe area for big blocks to not cause errors when items are used on the far parts of shapes.
 		BlockState state = level.getBlockState(pos);

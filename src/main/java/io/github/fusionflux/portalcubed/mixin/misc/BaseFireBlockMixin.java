@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 @Mixin(BaseFireBlock.class)
 public class BaseFireBlockMixin {
 	@ModifyReturnValue(method = "getState", at = @At("RETURN"))
-	private static BlockState fireTheMagnesium(BlockState original, @Local BlockState supportingBlock) {
-		return MagnesiumFireBlock.canSurviveOnBlock(supportingBlock) ? PortalCubedBlocks.MAGNESIUM_FIRE.defaultBlockState() : original;
+	private static BlockState fireTheMagnesium(BlockState original, @Local(name = "belowState") BlockState belowState) {
+		return MagnesiumFireBlock.canSurviveOnBlock(belowState) ? PortalCubedBlocks.MAGNESIUM_FIRE.defaultBlockState() : original;
 	}
 }

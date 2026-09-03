@@ -103,7 +103,7 @@ public final class RePortaler implements PortalChangeListener {
 		Vec3 velocity = portal.normal.scale(SPEED);
 		for (Entity entity : entities) {
 			entity.addDeltaMovement(velocity);
-			entity.hasImpulse = true;
+			entity.needsSync = true;
 		}
 	}
 

@@ -252,8 +252,8 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.BLACK_FOREST_CAKE.getBase());
 			output.accept(PortalCubedItems.LEMON);
 			output.accept(PortalCubedItems.LEMONADE);
-			output.accept(PortalCubedItems.LEMON_BOAT);
-			output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
+			// output.accept(PortalCubedItems.LEMON_BOAT);
+			// output.accept(PortalCubedItems.LEMON_CHEST_BOAT);
 			output.accept(PortalCubedItems.APERTURE_BANNER_PATTERN);
 			output.accept(PortalCubedItems.GOO_BUCKET);
 			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);

@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.mixin.boots;
 
-import java.util.Optional;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,8 +15,8 @@ public class SmithingTrimRecipeMixin {
 	@Unique
 	private static final Ingredient NON_TRIMMABLE_ARMOR = Ingredient.of(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
 
-	@ModifyVariable(method = "<init>", at = @At("CTOR_HEAD"), argsOnly = true, ordinal = 1)
-	private Optional<Ingredient> dontTrimKneeReplacements(Optional<Ingredient> base) {
-		return base.map(ingredient -> DefaultCustomIngredients.difference(ingredient, NON_TRIMMABLE_ARMOR));
+	@ModifyVariable(method = "<init>", at = @At("CTOR_HEAD"), argsOnly = true, name = "base")
+	private Ingredient dontTrimKneeReplacements(Ingredient base) {
+		return DefaultCustomIngredients.difference(base, NON_TRIMMABLE_ARMOR);
 	}
 }

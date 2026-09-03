@@ -3,8 +3,10 @@ package io.github.fusionflux.portalcubed.framework.registration.item;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -24,7 +26,7 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 	// track the original settings for safety checking
 	private final Item.Properties originalProperties = this.properties;
 
-	private ResourceKey<CreativeModeTab> itemGroup;
+	private @Nullable ResourceKey<CreativeModeTab> creativeTab;
 
 	public ItemBuilderImpl(Registrar registrar, String name, ItemFactory<T> factory) {
 		this.registrar = registrar;
@@ -50,7 +52,7 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 
 	@Override
 	public ItemBuilder<T> group(ResourceKey<CreativeModeTab> key) {
-		this.itemGroup = key;
+		this.creativeTab = key;
 		return this;
 	}
 
@@ -63,9 +65,10 @@ public class ItemBuilderImpl<T extends Item> implements ItemBuilder<T> {
 
 		Registry.register(BuiltInRegistries.ITEM, id, item);
 
-		if (this.itemGroup != null) {
-			ItemStack stack = new ItemStack(item);
-			ItemGroupEvents.modifyEntriesEvent(this.itemGroup).register(entries -> entries.accept(stack));
+		if (this.creativeTab != null) {
+			CreativeModeTabEvents.modifyOutputEvent(this.creativeTab).register(
+					output -> output.accept(new ItemStack(item))
+			);
 		}
 
 		return item;

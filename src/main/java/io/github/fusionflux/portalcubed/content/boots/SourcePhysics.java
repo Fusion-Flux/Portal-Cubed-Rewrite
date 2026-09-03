@@ -1,13 +1,13 @@
 package io.github.fusionflux.portalcubed.content.boots;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
-import io.github.fusionflux.portalcubed.mixin.utils.accessors.EntityAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 /*
@@ -42,31 +42,27 @@ public class SourcePhysics {
 	}
 
 	@Environment(EnvType.CLIENT)
-	public static void applyInput(LocalPlayer player) {
+	public static Vec2 applyInput(LocalPlayer player, Vec2 input) {
 		if (!appliesTo(player) || player.onGround())
-			return;
+			return input;
 
 		Vec3 vel = player.getDeltaMovement();
-		Vec3 accel = getAcceleration(player);
+		Vec3 input3d = new Vec3(input.x, 0, input.y);
 
 		// do nothing when input is pointing backwards or perpendicular
-		double dot = vel.normalize().dot(accel.normalize());
-		if (dot < 0.1)
-			return;
+		double dot = vel.normalize().dot(input3d.normalize());
+		if (dot < 0.1) {
+			return input;
+		}
 
-		Vec3 projection = vel.projectedOn(accel);
+		Vec3 projection = vel.projectedOn(input3d);
 		if (projection.length() > SPEED_LIMIT) {
 			// too fast, discard
 			// don't use 0, will stop sprinting
-			player.input.leftImpulse = 1E-4f;
-			player.input.forwardImpulse = 1E-4f;
+			return new Vec2(1e-4f, 1e-4f);
 		}
-	}
 
-	@Environment(EnvType.CLIENT)
-	public static Vec3 getAcceleration(LocalPlayer player) {
-		Vec3 inputVec = new Vec3(player.input.leftImpulse, 0, player.input.forwardImpulse);
-		return EntityAccessor.callGetInputVector(inputVec, 0.02f, player.getYRot());
+		return input;
 	}
 
 	// TODO: Hell, Michigan - Max

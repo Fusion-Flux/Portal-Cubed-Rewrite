@@ -20,7 +20,7 @@ public final class ShulkerBoxBlockEntityMixin {
 					target = "Lnet/minecraft/world/entity/monster/Shulker;getProgressDeltaAabb(FLnet/minecraft/core/Direction;FFLnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/AABB;"
 			)
 	)
-	private AABB validatePortals(AABB area, @Local(argsOnly = true) Level level) {
+	private AABB validatePortals(AABB area, @Local(argsOnly = true, name = "level") Level level) {
 		if (level instanceof ServerLevel serverLevel) {
 			serverLevel.portalManager().validatePortals(area);
 		}

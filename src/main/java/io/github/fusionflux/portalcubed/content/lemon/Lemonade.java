@@ -64,7 +64,7 @@ public class Lemonade extends Entity implements ItemSupplier, TraceableEntity {
 			Vec3 sourceVel = getEffectiveSourceVelocity(thrower);
 			Vec3 vel = normalizedDirection.scale(power).add(sourceVel);
 			this.setDeltaMovement(vel);
-			this.hasImpulse = true;
+			this.needsSync = true;
 		}
 	}
 

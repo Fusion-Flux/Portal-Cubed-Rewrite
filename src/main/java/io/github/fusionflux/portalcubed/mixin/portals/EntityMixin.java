@@ -62,7 +62,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	public abstract Vec3 getDeltaMovement();
 
 	@Shadow
-	protected abstract Vec3 collide(Vec3 vec);
+	protected abstract Vec3 collide(Vec3 movement);
 
 	@Shadow
 	public abstract Vec3 position();
@@ -102,7 +102,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			)
 	)
 	private void moveThroughPortalsNoPhysics(Entity self, double x, double y, double z, Operation<Void> original,
-											 @Local(argsOnly = true) LocalRef<Vec3> movement) {
+											 @Local(argsOnly = true, name = "delta") LocalRef<Vec3> movement) {
 		if (PortalTeleportHandler.handle(self, () -> original.call(self, x, y, z))) {
 			// need to update the values that were used to move to this new pos
 			Vec3 newVel = this.getDeltaMovement();
@@ -114,17 +114,16 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 			method = "move",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V",
-					ordinal = 1
+					target = "Lnet/minecraft/world/entity/Entity;setPos(Lnet/minecraft/world/phys/Vec3;)V"
 			)
 	)
-	private void moveThroughPortalsNormally(Entity self, double x, double y, double z, Operation<Void> original,
-											@Local(argsOnly = true) LocalRef<Vec3> movement,
-											@Local(ordinal = 1) LocalRef<Vec3> collide) {
-		if (PortalTeleportHandler.handle(self, () -> original.call(self, x, y, z))) {
+	private void moveThroughPortalsNormally(Entity self, Vec3 pos, Operation<Void> original,
+											@Local(argsOnly = true, name = "delta") LocalRef<Vec3> delta,
+											@Local(name = "movement") LocalRef<Vec3> collide) {
+		if (PortalTeleportHandler.handle(self, () -> original.call(self, pos))) {
 			// need to update the values that were used to move to this new pos
 			Vec3 newVel = this.getDeltaMovement();
-			movement.set(newVel);
+			delta.set(newVel);
 			collide.set(this.collide(newVel));
 		}
 	}
@@ -146,7 +145,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	}
 
 	@Redirect(
-			method = "method_30022", // betweenClosedStream lambda in isInWall
+			method = "lambda$isInWall$0",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/level/block/state/BlockState;getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"
@@ -215,7 +214,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	@Inject(method = "collideWithShapes", at = @At("HEAD"))
 	private static void captureOriginalBounds(CallbackInfoReturnable<Vec3> cir,
-											  @Local(argsOnly = true) AABB bounds,
+											  @Local(argsOnly = true, name = "boundingBox") AABB bounds,
 											  @Share("bounds") LocalRef<AABB> boundsRef) {
 		boundsRef.set(bounds);
 	}
@@ -274,20 +273,22 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 					target = "Lit/unimi/dsi/fastutil/floats/FloatSet;toFloatArray()[F",
 					remap = false
 			)
-	) // ordinal on maxUpStep is not wrong, the params have flipped names
-	private static FloatSet stepUpObbs(FloatSet heights, @Local(argsOnly = true) AABB bounds, @Local(argsOnly = true, ordinal = 0) float maxUpStep) {
+	)
+	private static FloatSet stepUpObbs(FloatSet heights,
+									   @Local(argsOnly = true, name = "boundingBox") AABB bounds,
+									   @Local(argsOnly = true, name = "maxStepHeight") float maxStepHeight) {
 		EntityCollisionState state = collisionState.get();
 		if (state != null && state.hasColliders()) {
 			AABB targetBounds = bounds.move(state.idealMotion.x, 0, state.idealMotion.z);
-			AABB collisionStart = targetBounds.move(0, maxUpStep, 0);
+			AABB collisionStart = targetBounds.move(0, maxStepHeight, 0);
 			Vector3d motion = new Vector3d();
 
-			double target = -maxUpStep;
+			double target = -maxStepHeight;
 			state.forEachCollider(box -> {
 				motion.set(0, target, 0);
 				double allowed = box.collide(collisionStart, Direction.Axis.Y, target);
 				if (allowed != target) {
-					double step = maxUpStep + allowed;
+					double step = maxStepHeight + allowed;
 					heights.add((float) step);
 				}
 			});

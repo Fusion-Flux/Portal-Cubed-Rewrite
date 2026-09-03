@@ -20,10 +20,10 @@ public class CakeBlockMixin {
 					target = "Lnet/minecraft/world/level/block/CandleCakeBlock;byCandle(Lnet/minecraft/world/level/block/CandleBlock;)Lnet/minecraft/world/level/block/state/BlockState;"
 			)
 	)
-	private BlockState modifyCandled(CandleBlock candle, Operation<BlockState> original) {
+	private BlockState modifyCandled(CandleBlock block, Operation<BlockState> original) {
 		if ((Object) this instanceof CustomCakeBlock custom) {
-			return custom.getWithCandle(candle).defaultBlockState();
+			return custom.getWithCandle(block).defaultBlockState();
 		}
-		return original.call(candle);
+		return original.call(block);
 	}
 }

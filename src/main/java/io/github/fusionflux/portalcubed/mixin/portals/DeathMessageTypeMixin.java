@@ -14,6 +14,7 @@ import net.minecraft.world.damagesource.DeathMessageType;
 @Mixin(DeathMessageType.class)
 public class DeathMessageTypeMixin {
 	@Invoker("<init>")
+	@SuppressWarnings("SameParameterValue")
 	private static DeathMessageType pc$create(String name, int ordinal, String serializedName) {
 		throw new AbstractMethodError();
 	}

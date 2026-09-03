@@ -5,19 +5,24 @@ import org.jetbrains.annotations.NotNull;
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteraction$DispatcherAccessor;
 import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteractionsAccessor;
+import io.github.fusionflux.portalcubed.mixin.goo.LavaCauldronBlockAccessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.core.cauldron.CauldronInteractions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GooCauldronBlock extends AbstractCauldronBlock {
 	public static final CauldronInteraction.Dispatcher INTERACTIONS = Util.make(() -> {
@@ -42,7 +47,8 @@ public class GooCauldronBlock extends AbstractCauldronBlock {
 
 	@Override
 	protected double getContentHeight(BlockState state) {
-		return 0.9375d;
+		// same as lava cauldrons
+		return 0.9375;
 	}
 
 	@Override
@@ -51,13 +57,19 @@ public class GooCauldronBlock extends AbstractCauldronBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		if (world instanceof ServerLevel serverWorld && this.isEntityInsideContent(state, pos, entity))
-			GooFluid.hurt(serverWorld, entity);
+	protected VoxelShape getEntityInsideCollisionShape(BlockState state, BlockGetter level, BlockPos pos, Entity entity) {
+		return LavaCauldronBlockAccessor.getFILLED_SHAPE();
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+		if (level instanceof ServerLevel serverLevel) {
+			GooFluid.hurt(serverLevel, entity);
+		}
+	}
+
+	@Override
+	protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
 		return 3;
 	}
 }

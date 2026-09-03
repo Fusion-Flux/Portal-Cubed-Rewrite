@@ -41,7 +41,9 @@ public class CombatTrackerMixin {
 					target = "Lnet/minecraft/world/damagesource/DamageType;deathMessageType()Lnet/minecraft/world/damagesource/DeathMessageType;"
 			)
 	)
-	private DeathMessageType handleMirrorTestType(DeathMessageType type, @Local DamageSource source, @Cancellable CallbackInfoReturnable<Component> cir) {
+	private DeathMessageType handleMirrorTestType(DeathMessageType type,
+												  @Local(name = "killingSource") DamageSource source,
+												  @Cancellable CallbackInfoReturnable<Component> cir) {
 		if (type == MirrorTestDeathMessageType.get()) {
 			String keyPrefix = "death.attack." + source.getMsgId();
 			Component link = ComponentUtils.wrapInSquareBrackets(Component.translatable(keyPrefix + ".link")).withStyle(MIRROR_TEST_STYLE);

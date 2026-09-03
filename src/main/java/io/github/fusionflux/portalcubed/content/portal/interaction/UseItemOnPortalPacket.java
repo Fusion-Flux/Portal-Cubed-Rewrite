@@ -35,7 +35,7 @@ public record UseItemOnPortalPacket(PortalId portal, InteractionHand hand) imple
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		ServerPlayer player = ctx.player();
-		if (!player.hasClientLoaded())
+		if (!player.connection.hasClientLoaded())
 			return;
 
 		player.resetLastActionTime();

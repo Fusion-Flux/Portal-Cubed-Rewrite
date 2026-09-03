@@ -15,7 +15,7 @@ public abstract class LivingEntityMixin implements LivingEntityExt {
 	private boolean skipWakeUpMovement;
 
 	@WrapWithCondition(
-			method = { "stopSleeping", "method_18404" },
+			method = { "stopSleeping", "lambda$stopSleeping$0" },
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/entity/LivingEntity;setPos(DDD)V"
@@ -26,7 +26,7 @@ public abstract class LivingEntityMixin implements LivingEntityExt {
 	}
 
 	@WrapWithCondition(
-			method = "method_18404",
+			method = "lambda$stopSleeping$0",
 			at = {
 					@At(
 							value = "INVOKE",

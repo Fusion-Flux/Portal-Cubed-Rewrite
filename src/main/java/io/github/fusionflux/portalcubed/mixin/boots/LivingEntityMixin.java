@@ -9,14 +9,12 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedAttributes;
 import io.github.fusionflux.portalcubed.content.boots.LongFallBoots;
 import io.github.fusionflux.portalcubed.content.boots.SourcePhysics;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedDamageTypeTags;
 import io.github.fusionflux.portalcubed.framework.extension.ItemStackExt;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,7 +27,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -55,17 +52,18 @@ public abstract class LivingEntityMixin extends Entity {
 			method = "causeFallDamage",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/LivingEntity;calculateFallDamage(FF)I"
+					target = "Lnet/minecraft/world/entity/LivingEntity;calculateFallDamage(DF)I"
 			)
 	)
-	private int absorbFallDamageIntoBoots(LivingEntity instance, float fallDistance, float damageMultiplier, Operation<Integer> original, @Local(argsOnly = true) DamageSource source) {
-		int fallDamage = original.call(instance, fallDistance, damageMultiplier);
+	private int absorbFallDamageIntoBoots(LivingEntity self, double fallDistance, float damageModifier, Operation<Integer> original,
+										  @Local(argsOnly = true, name = "damageSource") DamageSource damageSource) {
+		int fallDamage = original.call(self, fallDistance, damageModifier);
 
 		double absorption = this.getAttributeValue(PortalCubedAttributes.FALL_DAMAGE_ABSORPTION);
 		ItemStack boots = this.getItemBySlot(EquipmentSlot.FEET);
-		if (!source.is(PortalCubedDamageTypeTags.BYPASSES_FALL_DAMAGE_ABSORPTION) && absorption > 0 && !boots.isEmpty()) {
+		if (!damageSource.is(PortalCubedDamageTypeTags.BYPASSES_FALL_DAMAGE_ABSORPTION) && absorption > 0 && !boots.isEmpty()) {
 			int bootDamage = LongFallBoots.calculateDamage(this.registryAccess(), boots, absorption, fallDamage);
-			((ItemStackExt) (Object) boots).pc$hurtEquipmentNoUnbreaking(bootDamage, instance, EquipmentSlot.FEET);
+			((ItemStackExt) (Object) boots).pc$hurtEquipmentNoUnbreaking(bootDamage, self, EquipmentSlot.FEET);
 
 			if (!boots.isEmpty())
 				return Mth.floor(fallDamage * (1 - absorption));
@@ -91,36 +89,19 @@ public abstract class LivingEntityMixin extends Entity {
 	}
 
 	@SuppressWarnings("ConstantValue")
-	@WrapOperation(
+	@ModifyExpressionValue(
 			method = "travelInAir",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/LivingEntity;handleRelativeFrictionAndCalculateMovement(Lnet/minecraft/world/phys/Vec3;F)Lnet/minecraft/world/phys/Vec3;"
+					target = "Lnet/minecraft/world/entity/LivingEntity;shouldDiscardFriction()Z"
 			)
 	)
-	private Vec3 sourcePhysicsFriction(LivingEntity self, Vec3 movementInput, float slipperiness, Operation<Vec3> original,
-									   @Local(ordinal = 0) float blockFriction,
-									   @Local(ordinal = 1) LocalFloatRef friction) {
-		if ((Object) this instanceof Player player && SourcePhysics.appliesTo(player)) {
-			boolean wasGrounded = self.onGround();
-			Vec3 newVel = original.call(self, movementInput, slipperiness);
-			boolean isGrounded = self.onGround();
-			if (!isGrounded) {
-				// when airborne, discard all friction to maintain speed.
-				friction.set(1);
-			}
-			if (!wasGrounded && isGrounded) {
-				// when landing, re-calculate friction.
-				// Otherwise, air friction is used for an extra tick, building infinite speed.
-				BlockPos movementEffectingPos = this.getBlockPosBelowThatAffectsMyMovement();
-				float newBlockFriction = this.level().getBlockState(movementEffectingPos).getBlock().getFriction();
-				float newFriction = newBlockFriction * 0.91f;
-				friction.set(newFriction);
-			}
-			return newVel;
+	private boolean sourcePhysicsFriction(boolean original) {
+		// source physics fully disables air drag
+		if ((Object) this instanceof Player player && SourcePhysics.appliesTo(player) && !player.onGround()) {
+			return true;
 		}
 
-		// no source physics, change nothing
-		return original.call(self, movementInput, slipperiness);
+		return original;
 	}
 }

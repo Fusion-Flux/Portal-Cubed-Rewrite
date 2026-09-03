@@ -49,7 +49,7 @@ public abstract class EntityMixin implements TypedInstance<EntityType<?>>, Disin
 	public abstract Level level();
 
 	@Shadow
-	public abstract void gameEvent(Holder<GameEvent> gameEvent);
+	public abstract void gameEvent(Holder<GameEvent> event);
 
 	@Shadow
 	public abstract BlockState getBlockStateOn();
@@ -67,7 +67,7 @@ public abstract class EntityMixin implements TypedInstance<EntityType<?>>, Disin
 	public abstract Vec3 getDeltaMovement();
 
 	@Shadow
-	public abstract void move(MoverType type, Vec3 movement);
+	public abstract void move(MoverType moverType, Vec3 delta);
 
 	@Shadow
 	public abstract EntityType<?> getType();
@@ -226,8 +226,8 @@ public abstract class EntityMixin implements TypedInstance<EntityType<?>>, Disin
 	}
 
 	@ModifyReturnValue(method = "canCollideWith", at = @At("RETURN"))
-	private boolean dontCollideIfDisintegrating(boolean original, @Local(argsOnly = true) Entity other) {
-		return original && !(this.pc$disintegrating() || other.pc$disintegrating());
+	private boolean dontCollideIfDisintegrating(boolean original, @Local(argsOnly = true, name = "entity") Entity entity) {
+		return original && !(this.pc$disintegrating() || entity.pc$disintegrating());
 	}
 
 	@ModifyReturnValue(method = "isIgnoringBlockTriggers", at = @At("RETURN"))

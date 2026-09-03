@@ -4,8 +4,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -37,7 +35,7 @@ public abstract class CameraMixin {
 	private float eyeHeight;
 
 	@WrapOperation(
-			method = "setup",
+			method = "alignWithEntity",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/client/Camera;setPosition(DDD)V"
@@ -58,9 +56,13 @@ public abstract class CameraMixin {
 		return original || PortalViewRenderer.isPortalView();
 	}
 
-	@Definition(id = "detached", local = @Local(type = boolean.class, ordinal = 0, argsOnly = true))
-	@Expression("detached")
-	@ModifyExpressionValue(method = "setup", at = @At(value = "MIXINEXTRAS:EXPRESSION", ordinal = 1))
+	@ModifyExpressionValue(
+			method = "alignWithEntity",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/CameraType;isFirstPerson()Z"
+			)
+	)
 	private boolean rotat_e(boolean original) {
 		if (CameraRotator.isActive()) {
 			this.setRotation((float) (this.yRot + CameraRotator.yRot()), (float) (this.xRot + CameraRotator.xRot()));

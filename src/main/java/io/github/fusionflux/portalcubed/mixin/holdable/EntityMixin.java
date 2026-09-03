@@ -22,8 +22,8 @@ public abstract class EntityMixin {
 
 	@SuppressWarnings("ConstantValue")
 	@ModifyReturnValue(method = "canCollideWith", at = @At("RETURN"))
-	private boolean dontCollideWithHeldProp(boolean original, @Local(ordinal = 1, argsOnly = true) Entity other) {
-		return original && !((Object) this instanceof Player self && self.getHeldEntity() == other);
+	private boolean dontCollideWithHeldProp(boolean original, @Local(argsOnly = true, name = "entity") Entity entity) {
+		return original && !((Object) this instanceof Player self && self.getHeldEntity() == entity);
 	}
 
 	@SuppressWarnings({"ConstantValue", "UnreachableCode"})
