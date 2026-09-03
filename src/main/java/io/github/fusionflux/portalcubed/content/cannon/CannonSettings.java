@@ -11,7 +11,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
 import io.github.fusionflux.portalcubed.framework.construct.set.ConstructSet;
-import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentGetter;
@@ -82,8 +81,7 @@ public record CannonSettings(
 			}
 
 			consumer.accept(MATERIAL_TOOLTIP);
-			Component name = TagTranslation.translate(material);
-			consumer.accept(CommonComponents.space().append(name).withStyle(ChatFormatting.BLUE));
+			consumer.accept(CommonComponents.space().append(material.getName()).withStyle(ChatFormatting.BLUE));
 		});
 
 		this.construct().ifPresent(construct -> {

@@ -9,7 +9,6 @@ import io.github.fusionflux.portalcubed.framework.gui.util.AdvancedTooltip;
 import io.github.fusionflux.portalcubed.framework.gui.util.ItemListTooltipComponent;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TexturedStickyButton;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;
-import io.github.fusionflux.portalcubed.framework.item.TagTranslation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.Holder;
@@ -44,7 +43,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 	}
 
 	public MaterialSlotWidget(TagKey<Item> tag, int x, int y, Runnable onSelect) {
-		super(x, y, SIZE, SIZE, TagTranslation.translate(tag), TEXTURES, onSelect);
+		super(x, y, SIZE, SIZE, tag.getName(), TEXTURES, onSelect);
 
 		List<ItemStack> items = BuiltInRegistries.ITEM.get(tag)
 				.map(ListBacked::stream)
@@ -55,7 +54,7 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 		this.items = items.isEmpty() ? emptyPlaceholder : items;
 
 		this.tooltip = new AdvancedTooltip(builder -> {
-			builder.add(TagTranslation.translate(tag));
+			builder.add(tag.getName());
 
 			if (builder.advanced) {
 				builder.add(Component.literal('#' + tag.location().toString()).withStyle(ChatFormatting.DARK_GRAY));
