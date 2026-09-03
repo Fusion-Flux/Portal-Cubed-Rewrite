@@ -1,5 +1,6 @@
 {
-  "values": [
+  "replace": false,
+  "fabric:remove": [
     "#portalcubed:hazardous_water"
   ]
 }
