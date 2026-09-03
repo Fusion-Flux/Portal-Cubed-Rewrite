@@ -10,9 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 
-/**
- * Collides an AABB moving along a motion vector with multiple OBBs.
- */
+/// Collides an AABB moving along a motion vector with multiple OBBs.
 public final class AabbObbCollider {
 	private static final Direction.Axis[] xFirst = { Direction.Axis.Y, Direction.Axis.X, Direction.Axis.Z };
 	public static final Direction.Axis[] zFirst = { Direction.Axis.Y, Direction.Axis.X, Direction.Axis.Z };
@@ -23,11 +21,9 @@ public final class AabbObbCollider {
 		this.boxes = boxes;
 	}
 
-	/**
-	 * Collide the given bounds moving along the given motion vector with all boxes.
-	 * @param motionVector the motion vector, which will be modified if a collision occurs
-	 * @return true if a collision occurred, otherwise false
-	 */
+	/// Collide the given bounds moving along the given motion vector with all boxes.
+	/// @param motionVector the motion vector, which will be modified if a collision occurs
+	/// @return true if a collision occurred, otherwise false
 	public boolean collide(AABB bounds, Vector3d motionVector) {
 		Direction.Axis[] axes = orderedAxes(motionVector);
 
@@ -72,10 +68,8 @@ public final class AabbObbCollider {
 		return collisionOccurred;
 	}
 
-	/**
-	 * Vanilla always collides with Y first, but chooses X or Z based on which axis has the most motion.
-	 * @see Entity#collideWithShapes
-	 */
+	/// Vanilla always collides with Y first, but chooses X or Z based on which axis has the most motion.
+	/// @see Entity#collideWithShapes
 	@SuppressWarnings("JavadocReference")
 	private static Direction.Axis[] orderedAxes(Vector3dc motion) {
 		return Math.abs(motion.x()) < Math.abs(motion.z()) ? zFirst : xFirst;

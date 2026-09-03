@@ -24,9 +24,7 @@ import net.minecraft.server.commands.ArgProvider;
 import net.minecraft.server.commands.data.DataAccessor;
 import net.minecraft.server.level.ServerLevel;
 
-/**
- * Provides data from portals to {@code /data}.
- */
+/// Provides data from portals to `/data`.
 public record PortalDataAccessor(ServerPortalManager manager, DynamicOps<Tag> ops, PortalId id) implements DataAccessor {
 	public static final DynamicCommandExceptionType FAILED_TO_DECODE = new DynamicCommandExceptionType(
 			message -> Component.translatable("commands.data.portalcubed.portal.error.decode", message)

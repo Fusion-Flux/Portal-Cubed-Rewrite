@@ -20,9 +20,7 @@ import net.minecraft.world.phys.Vec3;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin<T extends Entity> {
-	/**
-	 * If you look at this code wrong, culling during teleportation will break.
-	 */
+	/// If you look at this code wrong, culling during teleportation will break.
 	@WrapMethod(method = "getBoundingBoxForCulling")
 	private AABB interpolateCullingBoundingBox(T entity, float partialTicks, Operation<AABB> original) {
 		if (entity.level() instanceof ClientLevel level) {
@@ -44,9 +42,7 @@ public class EntityRendererMixin<T extends Entity> {
 		return original.call(entity, partialTicks);
 	}
 
-	/**
-	 * This is pretty much only handling shadows.
-	 */
+	/// This is pretty much only handling shadows.
 	@ModifyReturnValue(
 			method = "createRenderState(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/client/renderer/entity/state/EntityRenderState;",
 			at = @At("RETURN")

@@ -11,10 +11,8 @@ import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.shape.flat.Line2d;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * @param origin the point in 3d space corresponding to the 2d origin of this surface
- * @param supportsPortalRotation true if portals on this surface may be rotated around this surface's normal axis
- */
+/// @param origin the point in 3d space corresponding to the 2d origin of this surface
+/// @param supportsPortalRotation true if portals on this surface may be rotated around this surface's normal axis
 public record PortalableSurface(Quaternionfc rotation, Vec3 origin, List<Line2d> walls, boolean supportsPortalRotation) {
 	public boolean intersectsCollision(Line2d path) {
 		return this.countIntersections(path) != 0;

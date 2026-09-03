@@ -8,23 +8,15 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
 public interface EntityBuilder<T extends Entity> {
-	/**
-	 * Arbitrarily configure the entity type builder.
-	 */
+	/// Arbitrarily configure the entity type builder.
 	EntityBuilder<T> configure(Consumer<EntityType.Builder<T>> consumer);
 
-	/**
-	 * Set the dimensions of this entity type.
-	 */
+	/// Set the dimensions of this entity type.
 	EntityBuilder<T> size(float width, float height);
 
-	/**
-	 * Set the renderer for this entity type.
-	 */
+	/// Set the renderer for this entity type.
 	EntityBuilder<T> renderer(Supplier<Supplier<EntityRendererProvider<T>>> supplier);
 
-	/**
-	 * Build this builder into an entity type.
-	 */
+	/// Build this builder into an entity type.
 	EntityType<T> build();
 }

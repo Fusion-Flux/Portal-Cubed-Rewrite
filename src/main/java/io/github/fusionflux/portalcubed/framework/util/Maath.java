@@ -9,9 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * Mojang removed the A, we're adding an extra one
- */
+/// Mojang removed the A, we're adding an extra one
 public final class Maath {
 	public static double get(Vector3dc vec, Direction.Axis axis) {
 		return switch (axis) {

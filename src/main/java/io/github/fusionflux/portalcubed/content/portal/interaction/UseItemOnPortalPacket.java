@@ -29,9 +29,7 @@ public record UseItemOnPortalPacket(PortalId portal, InteractionHand hand) imple
 
 	private static final Logger logger = LogUtils.getLogger();
 
-	/**
-	 * @see ServerGamePacketListenerImpl#handleUseItem(ServerboundUseItemPacket)
-	 */
+	/// @see ServerGamePacketListenerImpl#handleUseItem(ServerboundUseItemPacket)
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		ServerPlayer player = ctx.player();

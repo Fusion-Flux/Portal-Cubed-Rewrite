@@ -5,30 +5,22 @@ import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 
 public interface PortalChangeListener {
-	/**
-	 * Invoked when any change is made to a pair of portals, before the other callbacks.
-	 */
+	/// Invoked when any change is made to a pair of portals, before the other callbacks.
 	default void portalPairChanged(PortalPair oldPair, PortalPair newPair) {
 	}
 
-	/**
-	 * Invoked after the given portal has been created.
-	 */
+	/// Invoked after the given portal has been created.
 	default void portalCreated(PortalReference reference) {
 	}
 
-	/**
-	 * Invoked after the portal has been modified.
-	 * @param reference the reference, which now holds the updated portal
-	 */
+	/// Invoked after the portal has been modified.
+	/// @param reference the reference, which now holds the updated portal
 	default void portalModified(Portal oldPortal, PortalReference reference) {
 	}
 
-	/**
-	 * Invoked after the given portal has been removed.
-	 * @param reference the now-removed reference
-	 * @param portal the portal that was removed
-	 */
+	/// Invoked after the given portal has been removed.
+	/// @param reference the now-removed reference
+	/// @param portal the portal that was removed
 	default void portalRemoved(PortalReference reference, Portal portal) {
 	}
 }

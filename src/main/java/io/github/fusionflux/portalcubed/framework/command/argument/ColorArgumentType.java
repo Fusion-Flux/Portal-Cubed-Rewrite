@@ -12,12 +12,10 @@ import com.mojang.serialization.DataResult;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 
-/**
- * Formats:
- * - ChatFormatting name (red, dark_green)
- * - 6-digit hex code (#FFFFFF)
- * - integer (1234567)
- */
+/// Formats:
+/// - ChatFormatting name (`red`, `dark_green`)
+/// - 6-digit hex code (`#FFFFFF`)
+/// - integer (`1234567`)
 public class ColorArgumentType implements ArgumentType<Integer> {
 	public static final SimpleCommandExceptionType INVALID = new SimpleCommandExceptionType(
 			Component.translatable("parsing.portalcubed.color.invalid")

@@ -35,10 +35,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 
-/**
- * Heavily modified copy of vanilla's {@link ItemParser} that works with {@link PortalType}s
- * and {@link PortalAttribute}s instead of {@link Item}s and {@link DataComponentType}s.
- */
+/// Heavily modified copy of vanilla's [ItemParser] that works with [PortalType]s
+/// and [PortalAttribute]s instead of [Item]s and [DataComponentType]s.
 public final class PortalParser {
 	static final DynamicCommandExceptionType ERROR_UNKNOWN_PORTAL_TYPE = new DynamicCommandExceptionType(
 			object -> Component.translatableEscape("argument.portalcubed.portal.type.invalid", object)

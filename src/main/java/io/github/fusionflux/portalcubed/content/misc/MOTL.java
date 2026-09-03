@@ -12,9 +12,7 @@ import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 
-/**
- * Message Of The Launch
- */
+/// Message Of The Launch
 public class MOTL {
 	private static final List<Supplier<String>> providers = new ArrayList<>();
 

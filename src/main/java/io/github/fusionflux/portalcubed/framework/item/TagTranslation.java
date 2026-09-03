@@ -6,10 +6,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-/**
- * Tag translation, based on EMI.
- * For a given tag example:folder/tag_name, the key will be tag.item.example.folder.tag_name
- */
+/// Tag translation, based on EMI.
+/// For a given tag `example:folder/tag_name`, the key will be `tag.item.example.folder.tag_name`
 public class TagTranslation {
 	public static MutableComponent translate(TagKey<Item> tag) {
 		String id = tag.location().toString();

@@ -11,9 +11,7 @@ public interface AABBExt {
 		throw new AbstractMethodError();
 	}
 
-	/**
-	 * The vertices of an {@link AABB}. The returned vector is reused internally and should not be retained.
-	 */
+	/// The vertices of an [AABB]. The returned vector is reused internally and should not be retained.
 	interface Vertices extends Iterable<Vector3dc> {
 	}
 }

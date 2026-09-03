@@ -25,9 +25,7 @@ public record Plane(Vec3 normal, Vec3 origin) {
 		this(Vec3Ext.of(normal), Vec3Ext.of(origin));
 	}
 
-	/**
-	 * @return true if the given pos is not on or in front of this plane
-	 */
+	/// @return true if the given pos is not on or in front of this plane
 	public boolean isBehind(Vector3dc pos) {
 		// inlined pos.sub(this.origin)
 		double dx = pos.x() - this.origin.x;
@@ -37,9 +35,7 @@ public record Plane(Vec3 normal, Vec3 origin) {
 		return (dx * this.normal.x) + (dy * this.normal.y) + (dz * this.normal.z) < 0;
 	}
 
-	/**
-	 * @return true if the given pos is behind or on this plane
-	 */
+	/// @return true if the given pos is behind or on this plane
 	public boolean isBehindOrOn(Vector3dc pos) {
 		// inlined pos.sub(this.origin)
 		double dx = pos.x() - this.origin.x;
@@ -48,16 +44,12 @@ public record Plane(Vec3 normal, Vec3 origin) {
 		// inlined dot product
 		return (dx * this.normal.x) + (dy * this.normal.y) + (dz * this.normal.z) <= 0;
 	}
-	/**
-	 * @see #isBehind(Vector3dc)
-	 */
+	/// @see #isBehind(Vector3dc)
 	public boolean isBehind(Vec3 pos) {
 		return this.isBehind(pos.asJoml());
 	}
 
-	/**
-	 * @return true if any vertex of the box is {@link #isBehind(Vector3dc) behind} this plane
-	 */
+	/// @return true if any vertex of the box is [`behind`][#isBehind(Vector3dc)] this plane
 	public boolean isPartiallyBehind(AABB box) {
 		for (Vector3dc vertex : box.vertices()) {
 			if (this.isBehind(vertex)) {
@@ -68,9 +60,7 @@ public record Plane(Vec3 normal, Vec3 origin) {
 		return false;
 	}
 
-	/**
-	 * @return true if all vertices of the box are {@link #isBehindOrOn(Vector3dc) behind or on} this plane
-	 */
+	/// @return true if all vertices of the box are [`behind or on`][#isBehindOrOn(Vector3dc)] this plane
 	public boolean isFullyBehindOrOn(AABB box) {
 		for (Vector3dc vertex : box.vertices()) {
 			if (!this.isBehindOrOn(vertex)) {

@@ -30,9 +30,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Rotation;
 
-/**
- * A construct set that places one of two constructs based on the chosen axis.
- */
+/// A construct set that places one of two constructs based on the chosen axis.
 public class PillarConstructSet extends ConstructSet {
 	public static final MapCodec<PillarConstructSet> CODEC = PortalCubedCodecs.validate(
 			RecordCodecBuilder.mapCodec(instance -> instance.group(

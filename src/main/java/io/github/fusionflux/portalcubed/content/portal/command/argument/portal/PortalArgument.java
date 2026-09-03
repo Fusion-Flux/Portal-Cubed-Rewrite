@@ -12,9 +12,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.arguments.item.ItemArgument;
 
-/**
- * This whole group of classes is based on {@link ItemArgument}.
- */
+/// This whole group of classes is based on [ItemArgument].
 public final class PortalArgument implements ArgumentType<PortalInput> {
 	private final PortalParser parser;
 

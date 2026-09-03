@@ -8,9 +8,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/**
- * Collision context used when shapes are queried by portals, either for portal shots or finding surfaces.
- */
+/// Collision context used when shapes are queried by portals, either for portal shots or finding surfaces.
 public enum PortalCollisionContext implements CollisionContext {
 	INSTANCE;
 

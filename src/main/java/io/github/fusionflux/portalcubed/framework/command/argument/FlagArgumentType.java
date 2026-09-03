@@ -38,17 +38,13 @@ public class FlagArgumentType implements ArgumentType<Unit> {
 		return Component.translatable("parsing.portalcubed.flag." + this.name + '.' + key, args);
 	}
 
-	/**
-	 * Shouldn't be used directly, use {@link PortalCubedCommands#flag(String)}
-	 */
+	/// Shouldn't be used directly, use [PortalCubedCommands#flag(String)]
 	@ApiStatus.Internal
 	public static FlagArgumentType flag(String name) {
 		return new FlagArgumentType(name);
 	}
 
-	/**
-	 * Shouldn't be used directly, use {@link PortalCubedCommands#getFlag(CommandContext, String)}
-	 */
+	/// Shouldn't be used directly, use [PortalCubedCommands#getFlag(CommandContext, String)]
 	@ApiStatus.Internal
 	public static boolean getFlag(CommandContext<?> ctx, String name) {
 		return PortalCubedCommands.hasArgument(ctx, name);

@@ -14,19 +14,15 @@ public final class ListenerManager implements PortalChangeListener {
 	private final List<PortalChangeListener> persistent = new ArrayList<>();
 	private final WeakCollection<PortalChangeListener> temporary = new WeakCollection<>();
 
-	/**
-	 * Register a new persistent listener. Will never be removed.
-	 */
+	/// Register a new persistent listener. Will never be removed.
 	public void registerPersistent(PortalChangeListener listener) {
 		this.persistent.add(listener);
 	}
 
-	/**
-	 * Register a new temporary listener.
-	 * <p>
-	 * Temporary listeners are wrapped in a {@link WeakReference},
-	 * so they will be removed once they're garbage-collected.
-	 */
+	/// Register a new temporary listener.
+	///
+	/// Temporary listeners are wrapped in a [WeakReference],
+	/// so they will be removed once they're garbage-collected.
 	public void registerTemporary(PortalChangeListener listener) {
 		this.temporary.add(listener);
 	}

@@ -146,9 +146,7 @@ final class RayCaster {
 		return this.options.portalMode() == PortalMode.PASS_THROUGH;
 	}
 
-	/**
-	 * Performs a simple (non-portal-crossing) raycast through the level, hitting blocks, fluids, and the world border.
-	 */
+	/// Performs a simple (non-portal-crossing) raycast through the level, hitting blocks, fluids, and the world border.
 	@Nullable
 	private RaycastResult.BlockLike performSimpleLevelClip() {
 		if (!this.options.shouldClipLevel())

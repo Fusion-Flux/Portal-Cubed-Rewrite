@@ -16,9 +16,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.Item;
 
-/**
- * A construct that always places the same structure.
- */
+/// A construct that always places the same structure.
 public class SingleConstructSet extends ConstructSet {
 	public static final MapCodec<SingleConstructSet> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 			TagKey.hashedCodec(Registries.ITEM).fieldOf("material").forGetter(c -> c.material),

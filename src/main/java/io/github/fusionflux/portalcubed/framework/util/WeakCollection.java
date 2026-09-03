@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/**
- * A minimal collection where each entry is wrapped in a {@link WeakReference}.
- * This means that values will be removed automatically as they are garbage collected.
- */
+/// A minimal collection where each entry is wrapped in a [WeakReference].
+/// This means that values will be removed automatically as they are garbage collected.
 public final class WeakCollection<T> {
 	private final List<WeakReference<T>> references = new ArrayList<>();
 

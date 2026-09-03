@@ -7,12 +7,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-/**
- * Interface that may be implemented on {@link Item}s to allow them to be used on portals.
- */
+/// Interface that may be implemented on [Item]s to allow them to be used on portals.
 public interface UsableOnPortals {
-	/**
-	 * Use this item on a portal.
-	 */
+	/// Use this item on a portal.
 	InteractionResult useOnPortal(Player user, PortalReference portal, ItemStack stack, InteractionHand hand);
 }

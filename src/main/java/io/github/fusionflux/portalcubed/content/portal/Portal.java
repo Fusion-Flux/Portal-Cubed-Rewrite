@@ -22,10 +22,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * A portal in the world, with all expensive data computed.
- * There will only ever be one instance per data.
- */
+/// A portal in the world, with all expensive data computed.
+/// There will only ever be one instance per data.
 public final class Portal {
 	public static final Codec<Portal> CODEC = PortalData.CODEC.xmap(Portal::new, instance -> instance.data);
 	public static final StreamCodec<RegistryFriendlyByteBuf, Portal> STREAM_CODEC = PortalData.STREAM_CODEC.map(Portal::new, instance -> instance.data);
@@ -104,9 +102,7 @@ public final class Portal {
 		return this.entityCollisionArea.intersects(entity.getBoundingBox());
 	}
 
-	/**
-	 * @return true if this portal hides the given box from collision checks
-	 */
+	/// @return true if this portal hides the given box from collision checks
 	public boolean hides(AABB box) {
 		return this.plane.isPartiallyBehind(box);
 	}

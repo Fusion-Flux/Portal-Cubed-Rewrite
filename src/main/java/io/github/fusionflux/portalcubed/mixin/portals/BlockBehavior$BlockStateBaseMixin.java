@@ -59,10 +59,8 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 		return shape;
 	}
 
-	/**
-	 * Removes any boxes from {@code boxes} that are behind any of the given portals.
-	 * @return true if any boxes were filtered out
-	 */
+	/// Removes any boxes from `boxes` that are behind any of the given portals.
+	/// @return true if any boxes were filtered out
 	@Unique
 	private static boolean filter(List<AABB> boxes, Set<PortalReference> portals, BlockPos pos) {
 		int initialSize = boxes.size();

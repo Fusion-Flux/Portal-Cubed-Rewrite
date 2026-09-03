@@ -7,11 +7,9 @@ import org.joml.Vector3dc;
 import io.github.fusionflux.portalcubed.framework.util.DoubleRange;
 import io.github.fusionflux.portalcubed.framework.util.Maath;
 
-/**
- * Variant of the Separating Axis Theorem that can handle one of the shapes moving. Can handle arbitrary axes.
- * <p>
- * Based on Real Time Collision Detection by Christer Ericson, section 5.5.8.
- */
+/// Variant of the Separating Axis Theorem that can handle one of the shapes moving. Can handle arbitrary axes.
+///
+/// Based on Real Time Collision Detection by Christer Ericson, section 5.5.8.
 public final class DynamicSat3d {
 	public static final double COLLIDING = -1;
 
@@ -21,13 +19,11 @@ public final class DynamicSat3d {
 
 	private DynamicSat3d() {}
 
-	/**
-	 * @param staticShape the set of vertices defining the first shape
-	 * @param motion the motion of {@code shapeA} relative to {@code shapeB}
-	 * @param movingShape the set of vertices defining the second shape
-	 * @param axes the set of axes to test for separation along. Axes with length {@code 0} are allowed, but ignored.
-	 * @return a normalized scalar to multiply {@code motion} by to find the maximum allowed motion before colliding, or -1 if a collision is already occurring
-	 */
+	/// @param staticShape the set of vertices defining the first shape
+	/// @param motion the motion of `shapeA` relative to `shapeB`
+	/// @param movingShape the set of vertices defining the second shape
+	/// @param axes the set of axes to test for separation along. Axes with length `0` are allowed, but ignored.
+	/// @return a normalized scalar to multiply `motion` by to find the maximum allowed motion before colliding, or -1 if a collision is already occurring
 	public static double run(Iterable<Vector3dc> staticShape, Iterable<Vector3dc> movingShape, Vector3dc motion, Iterator<Vector3dc> axes) {
 		// earliest and latest times when the shapes are overlapping
 		double tFirst = 0;

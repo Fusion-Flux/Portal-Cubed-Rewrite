@@ -28,9 +28,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface PortalCubedCodecs {
-	/**
-	 * serializes positions as "x,y,z", allows use as map keys
-	 */
+	/// serializes positions as "x,y,z", allows use as map keys
 	Codec<BlockPos> BLOCKPOS_STRING = Codec.STRING.comapFlatMap(
 			string -> {
 				String[] components = string.split(",");
@@ -43,9 +41,7 @@ public interface PortalCubedCodecs {
 			pos -> pos.getX() + "," + pos.getY() + "," + pos.getZ()
 	);
 
-	/**
-	 * BlockState by name of block.
-	 */
+	/// BlockState by name of block.
 	Codec<BlockState> defaultBlockState = BuiltInRegistries.BLOCK.byNameCodec().flatComapMap(
 			Block::defaultBlockState, state -> {
 				if (state.getBlock().defaultBlockState() != state) {
@@ -55,9 +51,7 @@ public interface PortalCubedCodecs {
 			}
 	);
 
-	/**
-	 * Extended BlockState codec able to handle an additional format.
-	 */
+	/// Extended BlockState codec able to handle an additional format.
 	Codec<BlockState> BLOCKSTATE = multiFormat(
 			BlockState.CODEC, defaultBlockState, state -> state.getBlock().defaultBlockState() == state
 	);
@@ -74,10 +68,8 @@ public interface PortalCubedCodecs {
 			ExtraCodecs.AXISANGLE4F.xmap(Quaternionf::new, AxisAngle4f::new)
 	);
 
-	/**
-	 * Create a codec from two others, able to handle two different formats.
-	 * The predicate determines when the alternative format should be encoded instead of the standard one.
-	 */
+	/// Create a codec from two others, able to handle two different formats.
+	/// The predicate determines when the alternative format should be encoded instead of the standard one.
 	static <T> Codec<T> multiFormat(Codec<T> standard, Codec<T> alternate, Predicate<T> useAlt) {
 		return Codec.either(standard, alternate).comapFlatMap(
 				either -> {
@@ -115,10 +107,8 @@ public interface PortalCubedCodecs {
 		);
 	}
 
-	/**
-	 * Codec that can read/write either a single T or a set of them. The set is strict and will fail to decode
-	 * when duplicates are present.
-	 */
+	/// Codec that can read/write either a single T or a set of them. The set is strict and will fail to decode
+	/// when duplicates are present.
 	static <T> Codec<Set<T>> singleOrStrictSetOf(Codec<T> codec) {
 		return Codec.xor(
 				strictSetOf(codec),
@@ -135,9 +125,7 @@ public interface PortalCubedCodecs {
 		);
 	}
 
-	/**
-	 * Create a codec for a set of T which fails to decode when duplicates are present
-	 */
+	/// Create a codec for a set of T which fails to decode when duplicates are present
 	static <T> Codec<Set<T>> strictSetOf(Codec<T> codec) {
 		return codec.listOf().comapFlatMap(
 				list -> {

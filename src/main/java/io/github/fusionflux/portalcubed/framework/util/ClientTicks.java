@@ -19,9 +19,7 @@ public class ClientTicks {
 		return ticks + Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
 	}
 
-	/**
-	 * Returns {@link #get()} on client and 0 on server, only use this if there is really no better solution.
-	 */
+	/// Returns [#get()] on client and 0 on server, only use this if there is really no better solution.
 	public static float tryGet() {
 		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			return get();

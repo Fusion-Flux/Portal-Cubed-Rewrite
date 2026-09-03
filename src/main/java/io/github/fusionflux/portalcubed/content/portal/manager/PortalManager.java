@@ -157,9 +157,7 @@ public abstract sealed class PortalManager permits ServerPortalManager, ClientPo
 		return this.lookup;
 	}
 
-	/**
-	 * @return the {@link ListenerManager}, which allows for registering {@link PortalChangeListener}s
-	 */
+	/// @return the [ListenerManager], which allows for registering [PortalChangeListener]s
 	public ListenerManager listeners() {
 		return this.listeners;
 	}

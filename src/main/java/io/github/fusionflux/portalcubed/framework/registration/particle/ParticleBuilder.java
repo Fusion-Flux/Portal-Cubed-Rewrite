@@ -4,9 +4,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 
 public interface ParticleBuilder<O extends ParticleOptions, T extends ParticleType<O>> {
-	/**
-	 * Build this builder into a particle type.
-	 */
+	/// Build this builder into a particle type.
 	T build();
 
 	@FunctionalInterface

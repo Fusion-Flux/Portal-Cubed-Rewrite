@@ -25,9 +25,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Rotation;
 
-/**
- * A ConstructSet is a set of one or more Constructs placeable by the Construction Cannon.
- */
+/// A ConstructSet is a set of one or more Constructs placeable by the Construction Cannon.
 public abstract class ConstructSet {
 	public static final Codec<ConstructSet> CODEC = Type.CODEC.dispatch(
 			construct -> construct.type, Type::codec

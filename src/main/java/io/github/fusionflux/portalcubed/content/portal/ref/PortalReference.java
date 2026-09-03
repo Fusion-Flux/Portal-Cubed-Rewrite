@@ -12,14 +12,12 @@ import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.manager.PortalManager;
 import io.github.fusionflux.portalcubed.content.portal.transform.SinglePortalTransform;
 
-/**
- * A live reference to a {@link Portal}.
- * <p>
- * If the portal is modified, this reference will be updated. If a portal is removed, then this
- * reference is no longer valid. Attempting to continue using it will throw an exception.
- * <p>
- * Once a reference has been removed, it will never be un-removed.
- */
+/// A live reference to a [Portal].
+///
+/// If the portal is modified, this reference will be updated. If a portal is removed, then this
+/// reference is no longer valid. Attempting to continue using it will throw an exception.
+///
+/// Once a reference has been removed, it will never be un-removed.
 public final class PortalReference {
 	public static final boolean TRACK_REMOVAL = true;
 
@@ -38,10 +36,8 @@ public final class PortalReference {
 		this.portal = Objects.requireNonNull(initialPortal);
 	}
 
-	/**
-	 * @return the referenced portal
-	 * @throws IllegalStateException if the referenced portal has been removed
-	 */
+	/// @return the referenced portal
+	/// @throws IllegalStateException if the referenced portal has been removed
 	public Portal get() throws IllegalStateException {
 		if (this.portal == null) {
 			throw new IllegalStateException("Portal " + this.id + " has been removed", this.removalStacktrace);
@@ -50,24 +46,18 @@ public final class PortalReference {
 		return this.portal;
 	}
 
-	/**
-	 * @return a reference to the opposite linked portal, if it exists
-	 */
+	/// @return a reference to the opposite linked portal, if it exists
 	public Optional<PortalReference> opposite() {
 		return Optional.ofNullable(this.manager.getPortal(this.id.opposite()));
 	}
 
-	/**
-	 * @return a reference to the opposite linked portal
-	 * @throws NoSuchElementException if this portal is not linked
-	 */
+	/// @return a reference to the opposite linked portal
+	/// @throws NoSuchElementException if this portal is not linked
 	public PortalReference oppositeOrThrow() throws NoSuchElementException {
 		return this.opposite().orElseThrow(() -> new NoSuchElementException("Portal is not linked: " + this.id));
 	}
 
-	/**
-	 * @return a {@link SinglePortalTransform} from this portal to its opposite, if it exists
-	 */
+	/// @return a [SinglePortalTransform] from this portal to its opposite, if it exists
 	public Optional<SinglePortalTransform> transform() {
 		return this.opposite().map(opposite -> new SinglePortalTransform(this.get(), opposite.get()));
 	}
@@ -76,9 +66,7 @@ public final class PortalReference {
 		return this.opposite().isPresent();
 	}
 
-	/**
-	 * @return true if the referenced portal has been removed
-	 */
+	/// @return true if the referenced portal has been removed
 	public boolean isRemoved() {
 		return this.portal == null;
 	}

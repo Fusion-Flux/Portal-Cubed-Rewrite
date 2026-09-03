@@ -15,26 +15,18 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * Defines a transformation that teleports objects between one or more pairs of portals.
- */
+/// Defines a transformation that teleports objects between one or more pairs of portals.
 public sealed interface PortalTransform permits SinglePortalTransform, MultiPortalTransform {
-	/**
-	 * @return a PortalTransform that reverses transformations made by this one
-	 */
+	/// @return a PortalTransform that reverses transformations made by this one
 	PortalTransform inverse();
 
-	/**
-	 * Create a new PortalTransform that applies the given transform after this one.
-	 */
+	/// Create a new PortalTransform that applies the given transform after this one.
 	MultiPortalTransform andThen(PortalTransform next);
 
-	/**
-	 * Invoke the given consumer on each step of this transform.
-	 * <p>
-	 * For a {@link SinglePortalTransform}, that only includes itself.
-	 * For a {@link MultiPortalTransform}, that includes each step it contains.
-	 */
+	/// Invoke the given consumer on each step of this transform.
+	///
+	/// For a [SinglePortalTransform], that only includes itself.
+	/// For a [MultiPortalTransform], that includes each step it contains.
 	void forEachStep(Consumer<SinglePortalTransform> consumer);
 
 	@Contract(value = "_->param1", mutates = "param1")

@@ -12,9 +12,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/**
- * A {@link ClipContext.Block} mode that hits nothing. Useful when raycasting for fluids only.
- */
+/// A [ClipContext.Block] mode that hits nothing. Useful when raycasting for fluids only.
 public final class NoneClipContextMode {
 	public static final String NAME = "PORTALCUBED$NONE";
 

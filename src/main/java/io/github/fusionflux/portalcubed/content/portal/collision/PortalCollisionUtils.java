@@ -12,17 +12,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/**
- * Common code used in multiple portal-collision-related places.
- */
+/// Common code used in multiple portal-collision-related places.
 public final class PortalCollisionUtils {
 	private PortalCollisionUtils() {}
 
-	/**
-	 * Invoke a callback with each collision box found on the other side of a linked portal.
-	 * The callback may return {@code false} to cancel iteration.
-	 * @throws IllegalArgumentException if the given portal is not linked
-	 */
+	/// Invoke a callback with each collision box found on the other side of a linked portal.
+	/// The callback may return `false` to cancel iteration.
+	/// @throws IllegalArgumentException if the given portal is not linked
 	public static void forEachBoxOnOtherSide(Entity entity, PortalReference portal, AABB area, Predicate<OBB> consumer) {
 		PortalReference linked = portal.oppositeOrThrow();
 		SinglePortalTransform transform = new SinglePortalTransform(portal.get(), linked.get());

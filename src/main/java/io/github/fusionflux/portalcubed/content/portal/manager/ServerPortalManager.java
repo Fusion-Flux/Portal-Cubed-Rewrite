@@ -35,9 +35,7 @@ public final class ServerPortalManager extends PortalManager {
 		});
 	}
 
-	/**
-	 * Create a new portal. If a portal with the given ID already exists, it will be replaced.
-	 */
+	/// Create a new portal. If a portal with the given ID already exists, it will be replaced.
 	public void createPortal(PortalId id, PortalData data) {
 		this.modifyPair(id.key(), pair -> pair.with(id.polarity(), new Portal(data)));
 	}

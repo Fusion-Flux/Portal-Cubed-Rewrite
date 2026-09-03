@@ -37,9 +37,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * An attempt to place a portal in the world by shooting it. May or may not have succeeded.
- */
+/// An attempt to place a portal in the world by shooting it. May or may not have succeeded.
 public sealed interface PortalShot {
 	Predicate<Entity> BLOCKS_PORTAL_SHOTS = EntitySelector.NO_SPECTATORS.and(
 			entity -> entity.is(PortalCubedEntityTags.BLOCKS_PORTAL_SHOTS)
@@ -54,9 +52,7 @@ public sealed interface PortalShot {
 			.ignoreInteractionOverride(true)
 			.build();
 
-	/**
-	 * @return the {@link RaycastResult} of the raycast this shot performed
-	 */
+	/// @return the [RaycastResult] of the raycast this shot performed
 	RaycastResult result();
 
 	/// Create the effects made by this portal shot. This includes the particle trail and any sounds.
@@ -94,15 +90,11 @@ public sealed interface PortalShot {
 		}
 	}
 
-	/**
-	 * A portal shot that completely missed, hitting no blocks.
-	 */
+	/// A portal shot that completely missed, hitting no blocks.
 	record Missed(RaycastResult.Missed result) implements PortalShot {}
 
-	/**
-	 * A portal shot that hit something, but failed to find a valid placement.
-	 * @param result either a {@link RaycastResult.Block}, a {@link RaycastResult.Entity}, or a {@link RaycastResult.WorldBorder}
-	 */
+	/// A portal shot that hit something, but failed to find a valid placement.
+	/// @param result either a [RaycastResult.Block], a [RaycastResult.Entity], or a [RaycastResult.WorldBorder]
 	record Failed(PortalId id, RaycastResult result) implements PortalShot {
 		public Failed {
 			if (!(result instanceof RaycastResult.Block || result instanceof RaycastResult.Entity || result instanceof RaycastResult.WorldBorder)) {
@@ -125,9 +117,7 @@ public sealed interface PortalShot {
 		}
 	}
 
-	/**
-	 * A portal shot that found a valid placement.
-	 */
+	/// A portal shot that found a valid placement.
 	final class Success implements PortalShot {
 		public final PortalPlacement placement;
 
@@ -151,9 +141,7 @@ public sealed interface PortalShot {
 			return this.result;
 		}
 
-		/**
-		 * Place a portal with the given settings at the location of this shot.
-		 */
+		/// Place a portal with the given settings at the location of this shot.
 		public void place(PortalSettings settings) {
 			PortalValidator validator = settings.validate() ? this.createValidator() : NonePortalValidator.INSTANCE;
 			PortalData data = PortalData.createWithSettings(this.level, this.placement.pos(), this.placement.rotation(), validator, settings);
@@ -165,21 +153,17 @@ public sealed interface PortalShot {
 		}
 	}
 
-	/**
-	 * Perform a portal shot with no range limit, besides the gamerule.
-	 * @see #perform(PortalId, ServerLevel, Vec3, Vec3, float, double)
-	 */
+	/// Perform a portal shot with no range limit, besides the gamerule.
+	/// @see #perform(PortalId, ServerLevel, Vec3, Vec3, float, double)
 	static PortalShot perform(PortalId shooting, ServerLevel level, Vec3 source, Vec3 direction, float yRot) {
 		return perform(shooting, level, source, direction, yRot, Double.MAX_VALUE);
 	}
 
-	/**
-	 * Perform a portal shot by raycasting from {@code source} along {@code direction}.
-	 * @param shooting the ID of the portal that is being shot
-	 * @param direction a normalized vector pointing in the direction of travel
-	 * @param yRot the Y rotation of the shooter, used for rotating the portal
-	 * @param maxRange the maximum distance the shot can travel before giving up
-	 */
+	/// Perform a portal shot by raycasting from `source` along `direction`.
+	/// @param shooting the ID of the portal that is being shot
+	/// @param direction a normalized vector pointing in the direction of travel
+	/// @param yRot the Y rotation of the shooter, used for rotating the portal
+	/// @param maxRange the maximum distance the shot can travel before giving up
 	static PortalShot perform(PortalId shooting, ServerLevel level, Vec3 source, Vec3 direction, float yRot, double maxRange) {
 		if (maxRange <= 0) {
 			throw new IllegalArgumentException("Maximum range must be >0");

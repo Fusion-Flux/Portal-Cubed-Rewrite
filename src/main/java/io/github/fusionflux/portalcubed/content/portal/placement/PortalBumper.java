@@ -521,9 +521,7 @@ public class PortalBumper {
 		}
 	}
 
-	/**
-	 * @return the necessary offset to separate the portal and line, if present
-	 */
+	/// @return the necessary offset to separate the portal and line, if present
 	@Nullable
 	private static Vector2d collide(PortalCandidate portal, Line2d line) {
 		// use SAT to first determine if the portal and line are aligned using the portal's two normal axes

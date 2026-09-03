@@ -39,9 +39,7 @@ public final class PortalGunCrosshairRenderer {
 		}
 	}
 
-	/**
-	 * @return true to cancel vanilla crosshair rendering
-	 */
+	/// @return true to cancel vanilla crosshair rendering
 	public static boolean extractRenderState(GuiGraphicsExtractor graphics, LocalPlayer player, PortalGunSettings settings, PortalGunCrosshair crosshair) {
 		PortalGunCrosshairType type = PortalGunCrosshairTypeManager.INSTANCE.get(crosshair.typeId());
 		if (type == null)

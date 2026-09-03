@@ -21,9 +21,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * Serializable data for a portal.
- */
+/// Serializable data for a portal.
 public record PortalData(
 		long creationTick,
 		Holder<PortalType> type,

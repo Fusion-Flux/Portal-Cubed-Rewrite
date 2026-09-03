@@ -8,10 +8,8 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-/**
- * Marker interface that indicates that provided suggestions should only be added,
- * instead of replacing all suggestions provided by default by the argument type.
- */
+/// Marker interface that indicates that provided suggestions should only be added,
+/// instead of replacing all suggestions provided by default by the argument type.
 public interface SuggestionAdder<S> extends SuggestionProvider<S> {
 	static <S> SuggestionAdder<S> wrap(SuggestionProvider<S> provider) {
 		return new Wrapper<>(provider);

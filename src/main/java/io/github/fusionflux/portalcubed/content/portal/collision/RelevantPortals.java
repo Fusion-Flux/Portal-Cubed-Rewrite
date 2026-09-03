@@ -11,15 +11,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * Tracks the portals that are considered "relevant" to an entity.
- * A portal is relevant if all the following are true:
- * <ul>
- *     <li>the portal intersects the entity's velocity-expanded bounding box</li>
- *     <li>the portal is linked</li>
- *     <li>the entity's bounds intersect the region in front of the portal</li>
- * </ul>
- */
+/// Tracks the portals that are considered "relevant" to an entity.
+/// A portal is relevant if all the following are true:
+///   - the portal intersects the entity's velocity-expanded bounding box
+///   - the portal is linked
+///   - the entity's bounds intersect the region in front of the portal
 public final class RelevantPortals implements PortalChangeListener {
 	private final Entity entity;
 

@@ -16,100 +16,66 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
-/**
- * Similar to an {@link Either}, but allows for both the left and right value to be present at once.
- */
+/// Similar to an [Either], but allows for both the left and right value to be present at once.
 public sealed interface Or<L, R> {
-	/**
-	 * @return true if this Or has a value on the left.
-	 */
+	/// @return true if this Or has a value on the left.
 	boolean hasLeft();
 
-	/**
-	 * @return true if this Or has a value on the right.
-	 */
+	/// @return true if this Or has a value on the right.
 	boolean hasRight();
 
-	/**
-	 * @return an {@link Optional} holding the left value, if present.
-	 */
+	/// @return an [Optional] holding the left value, if present.
 	Optional<L> maybeLeft();
 
-	/**
-	 * @return an {@link Optional} holding the right value, if present.
-	 */
+	/// @return an [Optional] holding the right value, if present.
 	Optional<R> maybeRight();
 
-	/**
-	 * @return the left value, if present
-	 * @throws NoSuchElementException if no left value is present
-	 */
+	/// @return the left value, if present
+	/// @throws NoSuchElementException if no left value is present
 	L leftOrThrow() throws NoSuchElementException;
 
-	/**
-	 * @return the right value, if present
-	 * @throws NoSuchElementException if no right value is present
-	 */
+	/// @return the right value, if present
+	/// @throws NoSuchElementException if no right value is present
 	R rightOrThrow() throws NoSuchElementException;
 
-	/**
-	 * Apply a pair of functions to the possible values of this Or.
-	 */
+	/// Apply a pair of functions to the possible values of this Or.
 	<L2, R2> Or<L2, R2> map(Function<? super L, ? extends L2> left, Function<? super R, ? extends R2> right);
 
-	/**
-	 * Apply a function to the left value if present.
-	 */
+	/// Apply a function to the left value if present.
 	<L2> Or<L2, R> mapLeft(Function<? super L, ? extends L2> function);
 
-	/**
-	 * Apply a function to the right value if present.
-	 */
+	/// Apply a function to the right value if present.
 	<R2> Or<L, R2> mapRight(Function<? super R, ? extends R2> function);
 
-	/**
-	 * Invoke the given consumers with each held value.
-	 */
+	/// Invoke the given consumers with each held value.
 	void forEach(Consumer<? super L> left, Consumer<? super R> right);
 
-	/**
-	 * Unwrap this Or by applying one or more functions to the contained value(s).
-	 * @param left function to convert a possible left value to {@code T}
-	 * @param right function to convert a possible right value to {@code T}
-	 * @param merger function taking a joined {@code left} and {@code right}, merging them into a single value
-	 */
+	/// Unwrap this Or by applying one or more functions to the contained value(s).
+	/// @param left function to convert a possible left value to `T`
+	/// @param right function to convert a possible right value to `T`
+	/// @param merger function taking a joined `left` and `right`, merging them into a single value
 	<T> T join(Function<L, T> left, Function<R, T> right, BinaryOperator<T> merger);
 
-	/**
-	 * Create a new Or with the sides swapped.
-	 */
+	/// Create a new Or with the sides swapped.
 	Or<R, L> swap();
 
-	/**
-	 * @return a new Or holding the given value on the left.
-	 */
+	/// @return a new Or holding the given value on the left.
 	static <L, R> Left<L, R> left(L value) {
 		return new Left<>(value);
 	}
 
-	/**
-	 * @return a new Or holding the given value on the right.
-	 */
+	/// @return a new Or holding the given value on the right.
 	static <L, R> Right<L, R> right(R value) {
 		return new Right<>(value);
 	}
 
-	/**
-	 * @return a new Or holding both of the given values.
-	 */
+	/// @return a new Or holding both of the given values.
 	static <L, R> Both<L, R> both(L left, R right) {
 		return new Both<>(left, right);
 	}
 
-	/**
-	 * Helper for iterating over the values of an Or when both sides have the same type.
-	 * The returned Iterator will always have a size of either 1 or 2.
-	 */
+	/// Helper for iterating over the values of an Or when both sides have the same type.
+	/// The returned Iterator will always have a size of either 1 or 2.
 	static <T> Iterable<T> iterate(Or<T, T> or) {
 		return switch (or) {
 			case Left(T value) -> () -> Iterators.singletonIterator(value);

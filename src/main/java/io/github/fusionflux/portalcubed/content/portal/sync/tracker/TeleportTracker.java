@@ -153,9 +153,7 @@ public abstract sealed class TeleportTracker permits ClientTeleportTracker, Serv
 		return this.currentTeleport() != null;
 	}
 
-	/**
-	 * Transform encompassing transforms of all teleports, inverted, in reverse order.
-	 */
+	/// Transform encompassing transforms of all teleports, inverted, in reverse order.
 	@Nullable
 	public PortalTransform reverseTransform() {
 		return this.reverseTransforms.isEmpty() ? null : new MultiPortalTransform(this.reverseTransforms);

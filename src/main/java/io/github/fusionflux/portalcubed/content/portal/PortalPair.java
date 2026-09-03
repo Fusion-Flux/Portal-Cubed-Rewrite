@@ -16,9 +16,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-/**
- * A PortalPair is a pair of linked portal instances.
- */
+/// A PortalPair is a pair of linked portal instances.
 public record PortalPair(Optional<Portal> primary, Optional<Portal> secondary) implements Iterable<Portal> {
 	public static final Codec<PortalPair> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Portal.CODEC.optionalFieldOf("primary").forGetter(PortalPair::primary),

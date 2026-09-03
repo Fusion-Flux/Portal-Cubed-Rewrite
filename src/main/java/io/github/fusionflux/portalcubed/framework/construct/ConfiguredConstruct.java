@@ -30,9 +30,7 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/**
- * A construct that has been configured with a rotation and offset, ready for placement.
- */
+/// A construct that has been configured with a rotation and offset, ready for placement.
 public class ConfiguredConstruct {
 	private static final Logger logger = LogUtils.getLogger();
 

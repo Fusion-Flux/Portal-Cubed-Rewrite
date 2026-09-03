@@ -12,9 +12,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * The result of a raycast performed with {@link RaycastOptions}.
- */
+/// The result of a raycast performed with [RaycastOptions].
 public sealed abstract class RaycastResult {
 	/// The [PortalPath] the raycast passed through, if it passed through any portals.
 	///

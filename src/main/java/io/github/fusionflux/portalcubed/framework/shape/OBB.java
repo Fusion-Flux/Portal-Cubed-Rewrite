@@ -19,10 +19,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * Oriented Bounding Box.
- * Identity rotation represents a normal towards east (+X), where relative right is south (+Z) and relative up is... up (+Y).
- */
+/// Oriented Bounding Box.
+/// Identity rotation represents a normal towards east (+X), where relative right is south (+Z) and relative up is... up (+Y).
 public final class OBB {
 	public static final Vector3dc XP = new Vector3d(1, 0, 0);
 	public static final Vector3dc YP = new Vector3d(0, 1, 0);
@@ -162,9 +160,7 @@ public final class OBB {
 		);
 	}
 
-	/**
-	 * Calculate how far the given box can move along the given axis before a collision occurs, up to and including {@code motion}.
-	 */
+	/// Calculate how far the given box can move along the given axis before a collision occurs, up to and including `motion`.
 	public double collide(AABB bounds, Direction.Axis axis, double motion) {
 		Vector3dc axisVector = switch (axis) {
 			case X -> XP;

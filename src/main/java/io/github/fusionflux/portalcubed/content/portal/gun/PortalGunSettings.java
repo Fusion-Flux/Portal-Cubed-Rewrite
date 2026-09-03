@@ -79,9 +79,7 @@ public record PortalGunSettings(
 		return this.portals.maybeRight();
 	}
 
-	/**
-	 * @return the primary portal settings if present, otherwise the secondary settings
-	 */
+	/// @return the primary portal settings if present, otherwise the secondary settings
 	public PortalSettings primaryOrSecondary() {
 		return switch (this.portals) {
 			case Or.Left(PortalSettings primary) -> primary;
@@ -90,9 +88,7 @@ public record PortalGunSettings(
 		};
 	}
 
-	/**
-	 * @return the secondary portal settings if present, otherwise the primary settings
-	 */
+	/// @return the secondary portal settings if present, otherwise the primary settings
 	public PortalSettings secondaryOrPrimary() {
 		return switch (this.portals) {
 			case Or.Left(PortalSettings primary) -> primary;
@@ -101,9 +97,7 @@ public record PortalGunSettings(
 		};
 	}
 
-	/**
-	 * Get the settings of the given polarity if present. Otherwise, gets the settings of the opposite polarity.
-	 */
+	/// Get the settings of the given polarity if present. Otherwise, gets the settings of the opposite polarity.
 	public PortalSettings portalSettingsPreferring(Polarity polarity) {
 		return switch (polarity) {
 			case PRIMARY -> this.primaryOrSecondary();
@@ -118,9 +112,7 @@ public record PortalGunSettings(
 		};
 	}
 
-	/**
-	 * If this settings object only has one portal, returns its polarity. Otherwise, returns empty.
-	 */
+	/// If this settings object only has one portal, returns its polarity. Otherwise, returns empty.
 	public Optional<Polarity> polarityOfSinglePortal() {
 		return switch (this.portals) {
 			case Or.Left(PortalSettings ignored) -> Optional.of(Polarity.PRIMARY);
@@ -129,9 +121,7 @@ public record PortalGunSettings(
 		};
 	}
 
-	/**
-	 * Create a copy of these settings, but update the polarity of the last shot portal.
-	 */
+	/// Create a copy of these settings, but update the polarity of the last shot portal.
 	public PortalGunSettings shoot(Polarity polarity) {
 		return new PortalGunSettings(this.portals, Optional.of(polarity), this.crosshair, this.skinId);
 	}

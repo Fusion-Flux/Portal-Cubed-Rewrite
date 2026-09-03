@@ -26,10 +26,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
-/**
- * Similar to a {@link StructureTemplate}, stores a map of relative block positions to block states.
- * Always contains at least one block.
- */
+/// Similar to a [StructureTemplate], stores a map of relative block positions to block states.
+/// Always contains at least one block.
 public final class Construct {
 	public static final Codec<Construct> CODEC = Codec.unboundedMap(
 			PortalCubedCodecs.BLOCKPOS_STRING,

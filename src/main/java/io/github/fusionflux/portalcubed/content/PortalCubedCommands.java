@@ -81,16 +81,12 @@ public class PortalCubedCommands {
 		return FlagArgumentType.getFlag(ctx, name);
 	}
 
-	/**
-	 * Suggest a set of strings. Each one will be wrapped in quotes if not doing so will cause the command to fail to parse.
-	 */
+	/// Suggest a set of strings. Each one will be wrapped in quotes if not doing so will cause the command to fail to parse.
 	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message tooltip) {
 		return SharedSuggestionProvider.suggest(iterable, builder, PortalCubedCommands::quoteIfNeeded, $ -> tooltip);
 	}
 
-	/**
-	 * Copy of {@link SharedSuggestionProvider#filterResources(Iterable, String, Function, Consumer)} that operates on Strings instead of IDs
-	 */
+	/// Copy of [SharedSuggestionProvider#filterResources(Iterable, String, Function, Consumer)] that operates on Strings instead of IDs
 	public static <T> void filterResources(Iterable<T> resources, String input, Function<T, String> nameFunction, Consumer<T> consumer) {
 		for (T object : resources) {
 			String name = nameFunction.apply(object);

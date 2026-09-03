@@ -14,9 +14,7 @@ public final class ClientPortalManager extends PortalManager {
 		this.listeners().registerPersistent(new PortalSoundPlayer(level));
 	}
 
-	/**
-	 * Only intended to be called from {@link UpdatePortalPairPacket}
-	 */
+	/// Only intended to be called from [UpdatePortalPairPacket]
 	@Override
 	@ApiStatus.Internal
 	public void setPair(String key, @Nullable PortalPair newPair) {

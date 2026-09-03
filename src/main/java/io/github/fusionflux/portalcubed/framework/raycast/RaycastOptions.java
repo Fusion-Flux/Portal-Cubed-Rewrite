@@ -18,9 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 
-/**
- * Centralized raycasting logic. Allows for performing any kind of raycast with just one method call.
- */
+/// Centralized raycasting logic. Allows for performing any kind of raycast with just one method call.
 public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid fluidMode, Optional<Predicate<Entity>> entityPredicate,
 							 PortalMode portalMode, CollisionContext collisionContext, double blockRange, double entityRange,
 							 boolean hitWorldBorder, boolean ignoreInteractionOverride, float entityExpansion) {

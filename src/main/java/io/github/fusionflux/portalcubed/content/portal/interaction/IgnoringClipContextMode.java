@@ -8,11 +8,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.shapes.Shapes;
 
-/**
- * A {@link ClipContext.Block} mode that wraps another mode, excluding a specific block pos.
- * <p>
- * Constructing enum instances dynamically at runtime. Surely no problems will arise from this :clueless:
- */
+/// A [ClipContext.Block] mode that wraps another mode, excluding a specific block pos.
+///
+/// Constructing enum instances dynamically at runtime. Surely no problems will arise from this :clueless:
 public final class IgnoringClipContextMode {
 	public static final String NAME = "PORTALCUBED$GENERATED$IGNORING";
 	// if this value shows up in a crash report hopefully someone will realize Shenanigans are afoot
