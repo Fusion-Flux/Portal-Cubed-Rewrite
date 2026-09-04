@@ -4,7 +4,7 @@
   "group": "hanging_sign",
   "key": {
     "#": "portalcubed:stripped_lemon_log",
-    "X": "minecraft:chain"
+    "X": "minecraft:iron_chain"
   },
   "pattern": [
     "X X",
