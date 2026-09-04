@@ -173,7 +173,7 @@ public final class SinglePortalTransform implements PortalTransform {
 		entity.setDeltaMovement(newVel);
 
 		// force a sync
-		entity.hasImpulse = true;
+		entity.needsSync = true;
 	}
 
 	private Vec3 reorientVelocity(Vec3 velocity, boolean wasGrounded) {
