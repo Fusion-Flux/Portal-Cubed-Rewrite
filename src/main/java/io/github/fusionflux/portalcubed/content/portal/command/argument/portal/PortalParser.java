@@ -64,10 +64,12 @@ public final class PortalParser {
 
 	private final HolderLookup.RegistryLookup<PortalType> portalTypes;
 	private final DynamicOps<Tag> registryOps;
+	private final TagParser<Tag> tagParser;
 
 	public PortalParser(HolderLookup.Provider registries) {
 		this.portalTypes = registries.lookupOrThrow(PortalCubedRegistries.PORTAL_TYPE);
 		this.registryOps = registries.createSerializationContext(NbtOps.INSTANCE);
+		this.tagParser = TagParser.create(this.registryOps);
 	}
 
 
@@ -211,7 +213,7 @@ public final class PortalParser {
 
 		private <T> void readAttributeValue(PortalAttribute<T> attribute) throws CommandSyntaxException {
 			int cursor = this.reader.getCursor();
-			Tag tag = new TagParser(this.reader).readValue();
+			Tag tag = PortalParser.this.tagParser.parseAsArgument(this.reader);
 			DataResult<T> dataResult = attribute.codec.parse(PortalParser.this.registryOps, tag);
 			this.visitor.visitAttribute(attribute, dataResult.getOrThrow(error -> {
 				this.reader.setCursor(cursor);

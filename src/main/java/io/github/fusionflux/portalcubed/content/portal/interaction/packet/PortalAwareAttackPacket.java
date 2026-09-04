@@ -9,18 +9,18 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+import net.minecraft.network.protocol.game.ServerboundAttackPacket;
 
-public final class PortalAwareInteractPacket extends ServerboundPortalAwarePacket<ServerboundInteractPacket> {
-	public static final StreamCodec<FriendlyByteBuf, PortalAwareInteractPacket> CODEC = codec(ServerboundInteractPacket.STREAM_CODEC, PortalAwareInteractPacket::new);
+public final class PortalAwareAttackPacket extends ServerboundPortalAwarePacket<ServerboundAttackPacket> {
+	public static final StreamCodec<FriendlyByteBuf, PortalAwareAttackPacket> CODEC = codec(ServerboundAttackPacket.STREAM_CODEC, PortalAwareAttackPacket::new);
 
 	private static final ScopedValueAtHome<PortalPath> portalPath = ScopedValueAtHome.newInstance();
 
-	public PortalAwareInteractPacket(ServerboundInteractPacket wrapped, PortalPath.Serialized path) {
+	public PortalAwareAttackPacket(ServerboundAttackPacket wrapped, PortalPath.Serialized path) {
 		super(wrapped, path);
 	}
 
-	public PortalAwareInteractPacket(ServerboundInteractPacket wrapped, PortalPath path) {
+	public PortalAwareAttackPacket(ServerboundAttackPacket wrapped, PortalPath path) {
 		this(wrapped, path.serialize());
 	}
 

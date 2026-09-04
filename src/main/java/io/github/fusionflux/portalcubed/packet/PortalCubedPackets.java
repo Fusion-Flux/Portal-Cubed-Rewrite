@@ -8,7 +8,7 @@ import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.clear.ClearPortalsPacket;
 import io.github.fusionflux.portalcubed.content.portal.clear.PortalsClearedPacket;
 import io.github.fusionflux.portalcubed.content.portal.interaction.UseItemOnPortalPacket;
-import io.github.fusionflux.portalcubed.content.portal.interaction.packet.PortalAwareInteractPacket;
+import io.github.fusionflux.portalcubed.content.portal.interaction.packet.PortalAwareAttackPacket;
 import io.github.fusionflux.portalcubed.content.portal.interaction.packet.PortalAwareUseItemOnPacket;
 import io.github.fusionflux.portalcubed.content.portal.sync.ForceEntitySyncPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
@@ -78,7 +78,7 @@ public class PortalCubedPackets {
 			CLEAR_PORTALS = serverbound("clear_portals", ClearPortalsPacket.CODEC),
 			USE_ITEM_ON_PORTAL = serverbound("use_item_on_portal", UseItemOnPortalPacket.CODEC),
 			PORTAL_AWARE_USE_ITEM_ON = serverbound("portal_aware_use_item_on", PortalAwareUseItemOnPacket.CODEC),
-			PORTAL_AWARE_INTERACT = serverbound("portal_aware_interact", PortalAwareInteractPacket.CODEC);
+			PORTAL_AWARE_INTERACT = serverbound("portal_aware_interact", PortalAwareAttackPacket.CODEC);
 
 	public static void init() {
 	}

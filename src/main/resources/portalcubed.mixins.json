@@ -70,7 +70,6 @@
     "portals.interaction.ParrotMixin",
     "portals.interaction.PlayerListMixin",
     "portals.interaction.PlayerMixin",
-    "portals.interaction.ServerboundInteractPacketAccessor",
     "portals.interaction.ServerPlayerMixin",
     "portals.interaction.UseOnContextMixin",
     "props.AbstractThrownPotionMixin",

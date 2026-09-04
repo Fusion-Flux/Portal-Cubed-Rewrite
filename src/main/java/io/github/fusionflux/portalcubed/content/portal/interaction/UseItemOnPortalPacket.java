@@ -57,8 +57,8 @@ public record UseItemOnPortalPacket(PortalId portal, InteractionHand hand) imple
 		}
 
 		InteractionResult result = item.useOnPortal(player, portal, stack, this.hand);
-		if (result instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.SERVER) {
-			player.swing(this.hand, true);
+		if (result instanceof InteractionResult.Success success) {
+			player.swingAndResetAttackStrength(this.hand, stack.getInteractAnimation(), success.swingSource() != InteractionResult.SwingSource.PREDICTED);
 		}
 	}
 

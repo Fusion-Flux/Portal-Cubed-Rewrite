@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.interaction.packet.PortalAwareInteractPacket;
+import io.github.fusionflux.portalcubed.content.portal.interaction.packet.PortalAwareAttackPacket;
 import io.github.fusionflux.portalcubed.content.portal.interaction.packet.PortalAwareUseItemOnPacket;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPathHolder;
@@ -16,7 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerGamePacketListener;
-import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+import net.minecraft.network.protocol.game.ServerboundAttackPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.EntityHitResult;
@@ -25,7 +25,7 @@ import net.minecraft.world.phys.HitResult;
 @Mixin(MultiPlayerGameMode.class)
 public class MultiPlayerGameModeMixin {
 	// the generics here are safe I pinky promise
-	@ModifyReturnValue(method = "method_41933", at = @At("RETURN"))
+	@ModifyReturnValue(method = "lambda$useItemOn$0", at = @At("RETURN"))
 	private Packet<?> providePortalContextToUse(Packet<ServerGamePacketListener> original) {
 		if (!(original instanceof ServerboundUseItemOnPacket usePacket))
 			return original;
@@ -45,12 +45,8 @@ public class MultiPlayerGameModeMixin {
 					target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;send(Lnet/minecraft/network/protocol/Packet;)V"
 			)
 	)
-	private Packet<?> providePortalContextToAttack(Packet<?> original, @Local(argsOnly = true) Entity target) {
-		if (!(original instanceof ServerboundInteractPacket interactPacket))
-			return original;
-
-		ServerboundInteractPacket.Action action = ((ServerboundInteractPacketAccessor) interactPacket).getAction();
-		if (action.getType() != ServerboundInteractPacket.ActionType.ATTACK)
+	private Packet<?> providePortalContextToAttack(Packet<?> original, @Local(argsOnly = true, name = "entity") Entity target) {
+		if (!(original instanceof ServerboundAttackPacket attackPacket))
 			return original;
 
 		HitResult hitResult = Minecraft.getInstance().hitResult;
@@ -60,6 +56,6 @@ public class MultiPlayerGameModeMixin {
 		if (!(hitResult.portalPath() instanceof PortalPathHolder.Present(PortalPath path)))
 			return original;
 
-		return ClientPlayNetworking.createServerboundPacket(new PortalAwareInteractPacket(interactPacket, path));
+		return ClientPlayNetworking.createServerboundPacket(new PortalAwareAttackPacket(attackPacket, path));
 	}
 }
