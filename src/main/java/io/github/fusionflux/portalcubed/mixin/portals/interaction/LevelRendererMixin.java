@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.portals.interaction;
 
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -8,64 +9,78 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
-import io.github.fusionflux.portalcubed.framework.shape.Quad;
-import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
-import net.minecraft.client.Camera;
+import io.github.fusionflux.portalcubed.framework.shape.Line;
+import net.fabricmc.fabric.api.client.rendering.v1.SubmitRenderPhases;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.ARGB;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.feature.CustomFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
+import net.minecraft.client.renderer.state.level.LevelRenderState;
 import net.minecraft.world.phys.Vec3;
 
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
 	@Shadow
 	@Final
-	private Minecraft minecraft;
+	private GameRenderer gameRenderer;
 
-	@Inject(method = "renderBlockOutline", at = @At("RETURN"))
-	private void renderPortalOutline(Camera camera, MultiBufferSource.BufferSource buffers, PoseStack transforms, boolean sort, CallbackInfo ci) {
-		if (sort) {
-			// this method is called twice, once with sort = false and once with sort = true
-			return;
-		}
-
-		RaycastResult.Portal selectedPortal = this.minecraft.selectedPortal();
+	@Inject(method = "submitBlockOutline", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose()V", shift = At.Shift.AFTER))
+	private void submitBlockOutline(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci,
+	                                @Local(name = "state") BlockOutlineRenderState state, @Local(name = "outlineColor") int outlineColor, @Local(name = "blockOutlineRenderType") RenderType blockOutlineRenderType) {
+		RaycastResult.Portal selectedPortal = Minecraft.getInstance().selectedPortal();
 		if (selectedPortal == null)
 			return;
 
 		Portal portal = selectedPortal.portal.get();
-		boolean highContrast = this.minecraft.options.highContrastBlockOutline().get();
 
-		Vec3 cameraPos = camera.getPosition();
-		transforms.pushPose();
-		transforms.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
+		Vec3 cameraPos = levelRenderState.cameraRenderState.pos;
+		poseStack.pushPose();
+		poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-		if (highContrast) {
-			VertexConsumer secondaryBuffer = buffers.getBuffer(RenderType.secondaryBlockOutline());
-			renderOutline(transforms, secondaryBuffer, portal, -16777216);
+		if (state.highContrast()) {
+			submitOutline(poseStack, submitNodeCollector, RenderTypes.secondaryBlockOutline(), portal, -16777216, 7.0F, state.isTranslucent());
 		}
 
-		VertexConsumer buffer = buffers.getBuffer(RenderType.lines());
-		int color = highContrast ? -11010079 : ARGB.color(102, -16777216);
-		renderOutline(transforms, buffer, portal, color);
+		submitOutline(
+				poseStack,
+				submitNodeCollector,
+				blockOutlineRenderType,
+				portal,
+				outlineColor,
+				this.gameRenderer.gameRenderState().windowRenderState.appropriateLineWidth,
+				state.isTranslucent()
+		);
 
-		buffers.endLastBatch();
-		transforms.popPose();
+		poseStack.popPose();
 	}
 
 	@Unique
-	private static void renderOutline(PoseStack transforms, VertexConsumer buffer, Portal portal, int color) {
-		Quad quad = portal.quad;
-		RenderingUtils.renderLine(transforms, buffer, quad.topLeft(), quad.bottomLeft(), color);
-		RenderingUtils.renderLine(transforms, buffer, quad.bottomLeft(), quad.bottomRight(), color);
-		RenderingUtils.renderLine(transforms, buffer, quad.bottomRight(), quad.topRight(), color);
-		RenderingUtils.renderLine(transforms, buffer, quad.topRight(), quad.topLeft(), color);
+	private static void submitOutline(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, RenderType renderType, Portal portal, int color, float width, boolean afterTerrain) {
+		CustomFeatureRenderer.Submit submit = new CustomFeatureRenderer.Submit(poseStack.last().copy(), renderType, (pose, buffer) -> {
+			Vector3f normal = new Vector3f();
+			for (Line line : portal.quad.lines()) {
+				double x1 = line.from().x;
+				double y1 = line.from().y;
+				double z1 = line.from().z;
+				double x2 = line.to().x;
+				double y2 = line.to().y;
+				double z2 = line.to().z;
+
+				// Taken from ShapeOutlineFeatureRenderer
+				normal.set((float)(x2 - x1), (float)(y2 - y1), (float)(z2 - z1)).normalize();
+				buffer.addVertex(pose, (float)x1, (float)y1, (float)z1).setColor(color).setNormal(pose, normal).setLineWidth(width);
+				buffer.addVertex(pose, (float)x2, (float)y2, (float)z2).setColor(color).setNormal(pose, normal).setLineWidth(width);
+			}
+		});
+		submitNodeCollector.submitCustom(afterTerrain ? SubmitRenderPhases.AFTER_TERRAIN : SubmitRenderPhases.SHAPE_OUTLINES, submit);
 	}
 }

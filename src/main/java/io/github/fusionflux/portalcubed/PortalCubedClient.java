@@ -9,7 +9,6 @@ import io.github.fusionflux.portalcubed.content.lemon.Armed;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunModel;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunTintSource;
 import io.github.fusionflux.portalcubed.content.prop.renderer.PropVariantProperty;
-import io.github.fusionflux.portalcubed.framework.entity.EntityDebugRendering;
 import io.github.fusionflux.portalcubed.framework.model.PortalCubedModelLoadingPlugin;
 import io.github.fusionflux.portalcubed.framework.render.debug.CameraRotator;
 import io.github.fusionflux.portalcubed.framework.util.ClientTicks;
@@ -32,7 +31,7 @@ public class PortalCubedClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// TODO: PORTAL RENDIENRFNSDQIZG - Max
 //		PortalRenderer.init();
-		EntityDebugRendering.init();
+//		EntityDebugRendering.init();
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
 		PortalCubedClientCommands.init();

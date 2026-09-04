@@ -23,13 +23,13 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.ExtraCodecs;
 
 public record PortalCubedClientConfig(int portalRenderingLevels) {
+	// TODO: Portal Rendering - Max, just directly use 8 for now
 	public static final Codec<PortalCubedClientConfig> CODEC = RecordCodecBuilder.create(i -> i.group(
-			ExtraCodecs.intRange(0, PortalRenderer.MAX_LEVELS).fieldOf("portal_rendering_levels").forGetter(PortalCubedClientConfig::portalRenderingLevels)
+			ExtraCodecs.intRange(0, 8).fieldOf("portal_rendering_levels").forGetter(PortalCubedClientConfig::portalRenderingLevels)
 	).apply(i, PortalCubedClientConfig::new));
 
 	public static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("portalcubed.json");

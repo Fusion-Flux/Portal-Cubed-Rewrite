@@ -2,12 +2,8 @@ package io.github.fusionflux.portalcubed.framework.shape;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
-import org.joml.Matrix4fc;
 import org.joml.Vector3dc;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
 
-import io.github.fusionflux.portalcubed.content.portal.graphics.render.PortalRenderer;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -85,11 +81,12 @@ public record Plane(Vec3 normal, Vec3 origin) {
 		return distance == -1 ? null : from.add(direction.scale(distance));
 	}
 
-	public void getClipping(Matrix4fc view, Vec3 camPos, Vector4f dest) {
-		Vec3 camRelativeOrigin = this.origin.subtract(camPos);
-		Vector3f normal = view.transformDirection(this.normal.toVector3f());
-		float distance = -view.transformPosition(camRelativeOrigin.toVector3f()).dot(normal);
-		// this is server-safe since javac inlines primitive constants
-		dest.set(normal, distance + (float) PortalRenderer.OFFSET_FROM_WALL);
-	}
+	// TODO: Portal rendering - Max
+//	public void getClipping(Matrix4fc view, Vec3 camPos, Vector4f dest) {
+//		Vec3 camRelativeOrigin = this.origin.subtract(camPos);
+//		Vector3f normal = view.transformDirection(this.normal.toVector3f());
+//		float distance = -view.transformPosition(camRelativeOrigin.toVector3f()).dot(normal);
+//		// this is server-safe since javac inlines primitive constants
+//		dest.set(normal, distance + (float) PortalRenderer.OFFSET_FROM_WALL);
+//	}
 }
