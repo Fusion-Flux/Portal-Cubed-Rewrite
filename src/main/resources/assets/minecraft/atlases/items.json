@@ -15,11 +15,6 @@
         },
         {
             "type": "directory",
-            "source": "signage",
-            "prefix": "signage/"
-        },
-        {
-            "type": "directory",
             "source": "prop",
             "prefix": "prop/"
         },
