@@ -1,7 +1,10 @@
 [versions]
-minecraft = "26.3-pre-1"
+# remember to keep this in sync with minecraft_dependency in gradle.properties
+minecraft = "26.3-pre-2"
+
+# https://fabricmc.net/develop/
 fabric-loader = "0.19.3"
-fabric-api = "0.159.1+26.3"
+fabric-api = "0.159.4+26.3"
 fabric-loom = "1.17.+"
 
 [libraries]
@@ -11,7 +14,6 @@ fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fab
 
 [bundles]
 fabric = [ "fabric-loader", "fabric-api" ]
-dev-mods = []
 
 [plugins]
 loom = { id = "net.fabricmc.fabric-loom", version.ref = "fabric-loom" }

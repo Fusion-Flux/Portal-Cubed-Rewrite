@@ -12,7 +12,10 @@ val buildNumber: Provider<String> = providers.environmentVariable("GITHUB_RUN_NU
 	.orElse("-local")
 	.filter { !isRelease.get() }
 
-version = "3.0.0-alpha.2+mc${libs.versions.minecraft.get()}${buildNumber.get()}"
+val modVersion: Provider<String> = providers.gradleProperty("mod_version")
+val minecraftDependency: Provider<String> = providers.gradleProperty("minecraft_dependency")
+
+version = "${modVersion.get()}+mc${libs.versions.minecraft.get()}${buildNumber.get()}"
 group = "io.github.fusionflux"
 
 java {
@@ -30,7 +33,7 @@ tasks.processResources {
 		"version" to project.version,
 		"loader_version" to libs.versions.fabric.loader.get(),
 		"fapi_version" to libs.versions.fabric.api.get(),
-		"minecraft_version" to libs.versions.minecraft.get()
+		"minecraft_dependency" to minecraftDependency.get()
 	)
 
 	filesMatching("fabric.mod.json") {
