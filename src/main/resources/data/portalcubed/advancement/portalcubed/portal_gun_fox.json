@@ -23,9 +23,7 @@
           "type": "minecraft:fox"
         },
         "item": {
-          "items": [
-            "portalcubed:portal_gun"
-          ]
+          "items": "portalcubed:portal_gun"
         }
       }
     }

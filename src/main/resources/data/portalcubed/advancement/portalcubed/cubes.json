@@ -21,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:portal_1_storage_cube"
-            ]
+            "items": "portalcubed:portal_1_storage_cube"
           }
         ]
       }
@@ -33,9 +31,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:portal_1_companion_cube"
-            ]
+            "items": "portalcubed:portal_1_companion_cube"
           }
         ]
       }
@@ -45,9 +41,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:storage_cube"
-            ]
+            "items": "portalcubed:storage_cube"
           }
         ]
       }
@@ -57,9 +51,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:companion_cube"
-            ]
+            "items": "portalcubed:companion_cube"
           }
         ]
       }
@@ -69,9 +61,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:old_ap_cube"
-            ]
+            "items": "portalcubed:old_ap_cube"
           }
         ]
       }

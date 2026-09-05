@@ -28,9 +28,7 @@
         "recipes": "minecraft:coast_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -41,9 +39,7 @@
         "recipes": "minecraft:dune_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -54,9 +50,7 @@
         "recipes": "minecraft:eye_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -67,9 +61,7 @@
         "recipes": "minecraft:host_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -80,9 +72,7 @@
         "recipes": "minecraft:raiser_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -93,9 +83,7 @@
         "recipes": "minecraft:rib_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -106,9 +94,7 @@
         "recipes": "minecraft:sentry_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -119,9 +105,7 @@
         "recipes": "minecraft:shaper_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -132,9 +116,7 @@
         "recipes": "minecraft:silence_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -145,9 +127,7 @@
         "recipes": "minecraft:snout_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -158,9 +138,7 @@
         "recipes": "minecraft:spire_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -171,9 +149,7 @@
         "recipes": "minecraft:tide_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -184,9 +160,7 @@
         "recipes": "minecraft:vex_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -197,9 +171,7 @@
         "recipes": "minecraft:ward_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -210,9 +182,7 @@
         "recipes": "minecraft:wayfinder_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -223,9 +193,7 @@
         "recipes": "minecraft:flow_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -236,9 +204,7 @@
         "recipes": "minecraft:bolt_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }
@@ -249,9 +215,7 @@
         "recipes": "minecraft:wild_armor_trim_smithing_template_smithing_trim",
         "ingredients": [
           {
-            "items": [
-              "portalcubed:long_fall_boots"
-            ]
+            "items": "portalcubed:long_fall_boots"
           }
         ]
       }

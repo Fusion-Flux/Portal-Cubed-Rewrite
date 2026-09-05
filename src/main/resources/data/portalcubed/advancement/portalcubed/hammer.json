@@ -6,9 +6,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:hammer"
-            ]
+            "items": "portalcubed:hammer"
           }
         ]
       }
@@ -20,7 +18,6 @@
     },
     "frame": "goal",
     "icon": {
-      "count": 1,
       "id": "portalcubed:hammer"
     },
     "title": {

@@ -28,9 +28,7 @@
           },
           "equipment": {
             "mainhand": {
-              "items": [
-                "portalcubed:construction_cannon"
-              ]
+              "items": "portalcubed:construction_cannon"
             }
           }
         }
@@ -48,9 +46,7 @@
           },
           "equipment": {
             "offhand": {
-              "items": [
-                "portalcubed:construction_cannon"
-              ]
+              "items": "portalcubed:construction_cannon"
             }
           }
         }

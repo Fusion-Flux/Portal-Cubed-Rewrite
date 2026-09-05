@@ -21,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:magnesium_ingot"
-            ]
+            "items": "portalcubed:magnesium_ingot"
           }
         ]
       }

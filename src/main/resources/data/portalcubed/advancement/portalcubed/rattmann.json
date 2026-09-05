@@ -21,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:hoopy"
-            ]
+            "items": "portalcubed:hoopy"
           }
         ]
       }
@@ -33,9 +31,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:radio"
-            ]
+            "items": "portalcubed:radio"
           }
         ]
       }
@@ -45,9 +41,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:beans"
-            ]
+            "items": "portalcubed:beans"
           }
         ]
       }
@@ -57,9 +51,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:jug"
-            ]
+            "items": "portalcubed:jug"
           }
         ]
       }
@@ -69,9 +61,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:clipboard"
-            ]
+            "items": "portalcubed:clipboard"
           }
         ]
       }
@@ -81,9 +71,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:chair"
-            ]
+            "items": "portalcubed:chair"
           }
         ]
       }
@@ -93,9 +81,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:oil_drum"
-            ]
+            "items": "portalcubed:oil_drum"
           }
         ]
       }
@@ -105,9 +91,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:computer"
-            ]
+            "items": "portalcubed:computer"
           }
         ]
       }
@@ -117,9 +101,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:cooking_pot"
-            ]
+            "items": "portalcubed:cooking_pot"
           }
         ]
       }
@@ -129,9 +111,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:mug"
-            ]
+            "items": "portalcubed:mug"
           }
         ]
       }

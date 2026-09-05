@@ -21,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "portalcubed:radio"
-            ]
+            "items": "portalcubed:radio"
           }
         ]
       }

@@ -20,9 +20,7 @@
       "trigger": "minecraft:using_item",
       "conditions": {
         "item": {
-          "items": [
-            "portalcubed:lemonade"
-          ]
+          "items": "portalcubed:lemonade"
         }
       }
     }
