@@ -77,7 +77,7 @@ public class PortalCubedItems {
 			.build();
 
 	public static final CrowbarItem CROWBAR = REGISTRAR.items.create("crowbar", CrowbarItem::new)
-			.properties(s -> s.stacksTo(1))
+			.properties(s -> s.stacksTo(1).delayedHolderComponent(DataComponents.DAMAGE_TYPE, PortalCubedDamageSources.CROWBAR))
 			.build();
 
 	public static final HammerItem HAMMER = REGISTRAR.items.create("hammer", HammerItem::new)

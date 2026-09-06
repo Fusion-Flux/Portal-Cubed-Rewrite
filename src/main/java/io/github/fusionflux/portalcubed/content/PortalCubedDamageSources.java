@@ -30,6 +30,7 @@ public class PortalCubedDamageSources {
 	public static final ResourceKey<DamageType> DISINTEGRATION = key("disintegration");
 	public static final ResourceKey<DamageType> SUBMERGED_THE_OPERATIONAL_END_OF_THE_DEVICE = key("submerged_the_operational_end_of_the_device");
 	public static final ResourceKey<DamageType> ATTACKED_SELF = key("attacked_self");
+	public static final ResourceKey<DamageType> CROWBAR = key("crowbar");
 
 	private final Holder.Reference<DamageType> landingDamageType;
 	private final Holder.Reference<DamageType> lemonadeDamageType;
