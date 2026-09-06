@@ -41,6 +41,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -77,7 +78,7 @@ public class PortalCubedItems {
 			.build();
 
 	public static final CrowbarItem CROWBAR = REGISTRAR.items.create("crowbar", CrowbarItem::new)
-			.properties(s -> s.stacksTo(1))
+			.properties(s -> s.stacksTo(1).component(DataComponents.WEAPON, new Weapon(1)))
 			.build();
 
 	public static final HammerItem HAMMER = REGISTRAR.items.create("hammer", HammerItem::new)

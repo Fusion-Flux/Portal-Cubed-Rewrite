@@ -13,12 +13,12 @@ import io.github.fusionflux.portalcubed.content.portal.PortalSettings;
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalShot;
 import io.github.fusionflux.portalcubed.content.portal.gun.skin.PortalGunSkin;
 import io.github.fusionflux.portalcubed.framework.item.AttackListeningItem;
+import io.github.fusionflux.portalcubed.framework.item.CreativeNonBlockBreakingItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootPortalGunPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -28,28 +28,16 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.UseCooldown;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class PortalGunItem extends Item implements AttackListeningItem {
+public class PortalGunItem extends CreativeNonBlockBreakingItem implements AttackListeningItem {
 	public PortalGunItem(Properties settings) {
 		super(settings);
-	}
-
-	@Override
-	public boolean canDestroyBlock(ItemStack stack, BlockState state, Level level, BlockPos pos, LivingEntity user) {
-		if (user instanceof Player player) {
-			return !player.getAbilities().instabuild;
-		}
-
-		return super.canDestroyBlock(stack, state, level, pos, user);
 	}
 
 	@Override

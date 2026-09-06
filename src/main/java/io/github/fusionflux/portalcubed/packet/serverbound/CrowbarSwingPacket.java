@@ -37,9 +37,10 @@ public record CrowbarSwingPacket(@Nullable BlockHitResult hit, boolean didSwingA
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		Player player = ctx.player();
-		ItemStack hand = player.getItemInHand(InteractionHand.MAIN_HAND);
-		if (hand.getItem() instanceof CrowbarItem crowbar && this.isHitValid(player))
-			crowbar.onSwing(player, this.hit, this.didSwingAnim);
+		ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+		if (stack.getItem() instanceof CrowbarItem crowbar && this.isHitValid(player)) {
+			crowbar.onSwing(player, stack, this.hit, this.didSwingAnim);
+		}
 	}
 
 	private boolean isHitValid(Player player) {

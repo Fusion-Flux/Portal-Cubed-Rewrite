@@ -7,6 +7,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.item.AttackListeningItem;
+import io.github.fusionflux.portalcubed.framework.item.CreativeNonBlockBreakingItem;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
@@ -20,7 +21,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,19 +29,19 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class CrowbarItem extends Item implements AttackListeningItem {
+public class CrowbarItem extends CreativeNonBlockBreakingItem implements AttackListeningItem {
 	public CrowbarItem(Properties settings) {
 		super(settings);
 	}
 
-	public void onSwing(Player player, @Nullable HitResult hit, boolean didSwingAnim) {
+	public void onSwing(Player player, ItemStack stack, @Nullable HitResult hit, boolean didSwingAnim) {
 		if (player.isSpectator())
 			return;
 
 		player.playSound(PortalCubedSounds.CROWBAR_SWING);
-		Level world = player.level();
+		Level level = player.level();
 		if (!didSwingAnim) {
-			player.swing(InteractionHand.MAIN_HAND, !world.isClientSide());
+			player.swing(InteractionHand.MAIN_HAND, stack.getAttackAnimation(), !level.isClientSide());
 		}
 
 		if (player instanceof ServerPlayer serverPlayer) {
@@ -50,15 +50,15 @@ public class CrowbarItem extends Item implements AttackListeningItem {
 			if (!(hit instanceof BlockHitResult blockHit))
 				return;
 
-			BlockState state = world.getBlockState(blockHit.getBlockPos());
+			BlockState state = level.getBlockState(blockHit.getBlockPos());
 			Vec3 pos = hit.getLocation();
-			world.gameEvent(PortalCubedGameEvents.CROWBAR_HIT, pos, new Context(player, state));
+			level.gameEvent(PortalCubedGameEvents.CROWBAR_HIT, pos, new Context(player, state));
 
 			if (!state.is(PortalCubedBlockTags.CROWBAR_MAKES_HOLES))
 				return;
 
 			BulletHoleMaterial.forState(state).ifPresent(material -> {
-				world.playSound(null, pos.x, pos.y, pos.z, material.impactSound, player.getSoundSource());
+				level.playSound(null, pos.x, pos.y, pos.z, material.impactSound, player.getSoundSource());
 				Direction dir = blockHit.getDirection();
 				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, pos.x, pos.y, pos.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
 				for (ServerPlayer tracking : PlayerLookup.tracking(serverPlayer.level(), blockHit.getBlockPos())) {
@@ -72,13 +72,8 @@ public class CrowbarItem extends Item implements AttackListeningItem {
 
 	@Override
 	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hitResult) {
-		this.onSwing(player, hitResult, false);
+		this.onSwing(player, stack, hitResult, false);
 		return TriState.DEFAULT;
-	}
-
-	@Override
-	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
 	}
 
 	@Override
@@ -87,10 +82,5 @@ public class CrowbarItem extends Item implements AttackListeningItem {
 			stack.hurtAndBreak(2, miner, EquipmentSlot.MAINHAND);
 		}
 		return true;
-	}
-
-	@Override
-	public boolean canAttackBlock(BlockState state, Level world, BlockPos pos, Player miner) {
-		return !miner.isCreative();
 	}
 }
