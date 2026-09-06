@@ -1,0 +1,7 @@
+{
+  "clean_texture": "portalcubed:signage/large_signage_shoot_portal_here",
+  "aged_texture": "portalcubed:signage/aged_large_signage_shoot_portal_here",
+  "name": {
+    "translate": "signage.portalcubed.large_signage.shoot_portal_here"
+  }
+}
