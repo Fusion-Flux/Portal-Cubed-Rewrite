@@ -93,7 +93,7 @@ public interface EntityGetterMixin {
 			OBB transformedArea = transform.apply(area);
 
 			// find all entities intersecting the portal
-			List<Entity> entities = PortalInteractionUtils.getEntitiesIntersectingPortal((EntityGetter) this, except, transformedArea, linked.get(), filter);
+			List<Entity> entities = PortalInteractionUtils.getEntitiesIntersectingPortal((EntityGetter) this, source, transformedArea, linked.get(), filter);
 			if (entities.isEmpty())
 				continue;
 
