@@ -24,12 +24,12 @@ public abstract class ServerPlayerMixin extends Player {
 	}
 
 	@ModifyReturnValue(method = "isReachableBedBlock", at = @At("RETURN"))
-	private boolean sleepThroughPortals(boolean original, @Local(argsOnly = true) BlockPos blockPos) {
+	private boolean sleepThroughPortals(boolean original, @Local(argsOnly = true, name = "bedBlockPos") BlockPos bedBlockPos) {
 		if (original) {
 			return true;
 		}
 
-		Vec3 bedPos = Vec3.atBottomCenterOf(blockPos);
+		Vec3 bedPos = Vec3.atBottomCenterOf(bedBlockPos);
 		Vec3 center = PortalTeleportHandler.centerOf(this);
 		OptionalDouble distanceSqr = PortalInteractionUtils.findPathLengthSqr(this.level(), bedPos, center, 3);
 		if (distanceSqr.isEmpty())

@@ -25,7 +25,7 @@ public abstract class ClientLevelMixin {
 			)
 	)
 	private double findDistanceThroughPortals(Vec3 cameraPos, double x, double y, double z, Operation<Double> original,
-											  @Local(argsOnly = true) SoundEvent sound, @Local(argsOnly = true, ordinal = 0) float volume) {
+	                                          @Local(argsOnly = true, name = "sound") SoundEvent sound, @Local(argsOnly = true, name = "volume") float volume) {
 		double originalDistanceSqr = original.call(cameraPos, x, y, z);
 		Vec3 soundPos = new Vec3(x, y, z);
 		float range = sound.getRange(volume);

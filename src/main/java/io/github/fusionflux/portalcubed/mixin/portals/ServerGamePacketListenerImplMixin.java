@@ -30,7 +30,7 @@ public class ServerGamePacketListenerImplMixin {
 
 	@Definition(id = "player", field = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;player:Lnet/minecraft/server/level/ServerPlayer;")
 	@Definition(id = "target", local = @Local(type = Entity.class, name = "target"))
-	@Expression("target == player")
+	@Expression("target == this.player")
 	@ModifyExpressionValue(method = "handleAttack", at = @At("MIXINEXTRAS:EXPRESSION"))
 	private boolean allowAttackingSelf(boolean original) {
 		return true;
@@ -69,7 +69,7 @@ public class ServerGamePacketListenerImplMixin {
 	}
 
 	@ModifyExpressionValue(
-			method = "handleMovePlayer",
+			method = "handlePlayerPositionChange",
 			at = @At(
 					value = "FIELD",
 					target = "Lnet/minecraft/server/level/ServerPlayer;noPhysics:Z",

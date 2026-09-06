@@ -32,7 +32,7 @@ public class GameRendererMixin {
 			at = @At("RETURN"), require = 2 // ternary generates 2 separate returns
 	)
 	private HitResult raycastThroughPortals(HitResult original, Entity entity, double blockReach, double entityReach,
-											float partialTicks, @Local(ordinal = 0) Vec3 eyePos) {
+											float partialTicks, @Local(ordinal = 0, argsOnly = true) Vec3 eyePos) {
 		double maxRange = Math.max(blockReach, entityReach);
 		PortalMode portalMode = shouldSelectPortals(entity) ? PortalMode.HIT : PortalMode.PASS_THROUGH;
 

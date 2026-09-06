@@ -11,7 +11,7 @@ import net.minecraft.world.entity.animal.fish.Pufferfish;
 @Mixin(Pufferfish.class)
 public abstract class PufferfishMixin implements ButtonActivated {
 	@Shadow
-	int deflateTimer;
+	private int deflateTimer;
 
 	@Shadow
 	public abstract int getPuffState();

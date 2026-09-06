@@ -42,10 +42,10 @@ public class CombatTrackerMixin {
 			)
 	)
 	private DeathMessageType handleMirrorTestType(DeathMessageType type,
-												  @Local(name = "killingSource") DamageSource source,
+												  @Local(name = "killingSource") DamageSource killingSource,
 												  @Cancellable CallbackInfoReturnable<Component> cir) {
 		if (type == MirrorTestDeathMessageType.get()) {
-			String keyPrefix = "death.attack." + source.getMsgId();
+			String keyPrefix = "death.attack." + killingSource.getMsgId();
 			Component link = ComponentUtils.wrapInSquareBrackets(Component.translatable(keyPrefix + ".link")).withStyle(MIRROR_TEST_STYLE);
 			Component message = Component.translatable(keyPrefix + ".message", this.mob.getDisplayName(), link);
 			cir.setReturnValue(message);

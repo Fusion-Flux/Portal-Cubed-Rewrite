@@ -35,7 +35,7 @@ public abstract class PlayerMixin extends LivingEntity {
 			)
 	)
 	private double interactThroughPortals(AABB box, Vec3 pos, Operation<Double> original,
-										  @Local(ordinal = 1) double range) {
+										  @Local(name = "maxRange") double range) {
 		double originalDistSqr = original.call(box, pos);
 		ToDoubleFunction<Vec3> distanceFunction = p -> original.call(box, p);
 		OptionalDouble distanceSqr = PortalInteractionUtils.findPathLengthSqr(this.level(), pos, distanceFunction, range);

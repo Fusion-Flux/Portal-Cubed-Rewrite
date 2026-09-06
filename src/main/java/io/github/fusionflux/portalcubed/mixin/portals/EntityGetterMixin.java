@@ -36,12 +36,12 @@ public interface EntityGetterMixin {
 					target = "Lnet/minecraft/world/level/EntityGetter;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"
 			)
 	)
-	private Predicate<Entity> carveEntities(Predicate<Entity> predicate, @Local(argsOnly = true, name = "source") @Nullable Entity entity) {
-		if (entity == null) {
+	private Predicate<Entity> carveEntities(Predicate<Entity> predicate, @Local(argsOnly = true, name = "source") @Nullable Entity source) {
+		if (source == null) {
 			return predicate;
 		}
 
-		Set<PortalReference> portals = entity.relevantPortals().get();
+		Set<PortalReference> portals = source.relevantPortals().get();
 		if (portals.isEmpty())
 			return predicate;
 
@@ -67,7 +67,7 @@ public interface EntityGetterMixin {
 					target = "Lnet/minecraft/world/level/EntityGetter;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"
 			))
 	)
-	private List<VoxelShape> addProxyHitboxes(List<VoxelShape> original, @Nullable Entity except, AABB area, @Local(name = "canCollide") Predicate<Entity> filter) {
+	private List<VoxelShape> addProxyHitboxes(List<VoxelShape> original, @Nullable Entity source, AABB area, @Local(name = "canCollide") Predicate<Entity> filter) {
 		if (!(this instanceof LevelExt level))
 			return original;
 

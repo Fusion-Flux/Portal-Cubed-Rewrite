@@ -49,8 +49,8 @@ public class ClientPacketListenerMixin {
 			)
 	)
 	private void reinterpretSync(ClientboundEntityPositionSyncPacket packet, CallbackInfo ci,
-								 @Local Entity entity, @Local LocalRef<Vec3> pos,
-								 @Local(ordinal = 0) LocalFloatRef xRot, @Local(ordinal = 1) LocalFloatRef yRot) {
+	                             @Local(name = "entity") Entity entity, @Local(name = "pos") LocalRef<Vec3> pos,
+	                             @Local(name = "yRot") LocalFloatRef xRot, @Local(name = "xRot") LocalFloatRef yRot) {
 		PortalTransform transform = getTransform(entity);
 		if (transform == null)
 			return;

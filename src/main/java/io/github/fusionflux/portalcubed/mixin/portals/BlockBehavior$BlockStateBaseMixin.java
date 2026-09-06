@@ -28,7 +28,7 @@ public abstract class BlockBehavior$BlockStateBaseMixin {
 			method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
 			at = @At("RETURN")
 	)
-	private VoxelShape quantumSpaceHole(VoxelShape shape, BlockGetter world, BlockPos pos, CollisionContext context) {
+	private VoxelShape quantumSpaceHole(VoxelShape shape, BlockGetter level, BlockPos pos, CollisionContext context) {
 		if (shape.isEmpty() || !(context instanceof EntityCollisionContext entityCtx))
 			return shape;
 

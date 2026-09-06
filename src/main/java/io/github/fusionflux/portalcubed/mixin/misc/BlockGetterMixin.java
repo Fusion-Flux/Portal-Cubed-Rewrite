@@ -34,10 +34,10 @@ public interface BlockGetterMixin {
 					target = "Lnet/minecraft/world/level/BlockGetter;traverseBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Ljava/lang/Object;Ljava/util/function/BiFunction;Ljava/util/function/Function;)Ljava/lang/Object;"
 			)
 	)
-	private <T, C> T checkBigBlocks(Vec3 from, Vec3 to, C context, BiFunction<C, BlockPos, T> originalTester, Function<C, T> onFail, Operation<T> original) {
+	private <T, C> T checkBigBlocks(Vec3 from, Vec3 to, C context, BiFunction<C, BlockPos, T> originalTester, Function<C, T> missFactory, Operation<T> original) {
 		LongSet bigBlocks = new LongOpenHashSet();
 		BiFunction<C, BlockPos, T> testerWrapper = this.wrapTester(originalTester, bigBlocks);
-		T result = original.call(from, to, context, testerWrapper, onFail);
+		T result = original.call(from, to, context, testerWrapper, missFactory);
 
 		if (bigBlocks.isEmpty())
 			return result;

@@ -21,7 +21,7 @@ public abstract class BlockPlaceContextMixin extends UseOnContextMixin {
 					target = "Lnet/minecraft/world/item/context/BlockPlaceContext;<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/phys/BlockHitResult;)V"
 			)
 	)
-	private static BlockHitResult preservePortalContext(BlockHitResult newResult, @Local(argsOnly = true) BlockPlaceContext originalContext) {
+	private static BlockHitResult preservePortalContext(BlockHitResult newResult, @Local(argsOnly = true, name = "context") BlockPlaceContext originalContext) {
 		BlockHitResult originalResult = ((UseOnContextAccessor) originalContext).invokeGetHitResult();
 		newResult.setPortalPath(originalResult.portalPath());
 		return newResult;

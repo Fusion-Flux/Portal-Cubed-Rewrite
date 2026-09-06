@@ -23,11 +23,11 @@ public class PlayerListMixin {
 	@Definition(id = "radius", local = @Local(type = double.class, ordinal = 3, argsOnly = true))
 	@Expression("? < radius * radius")
 	@ModifyExpressionValue(method = "broadcast", at = @At("MIXINEXTRAS:EXPRESSION"))
-	private boolean checkRangeThroughPortals(boolean original, @Local ServerPlayer player,
-											 @Local(argsOnly = true, ordinal = 0) double x,
-											 @Local(argsOnly = true, ordinal = 1) double y,
-											 @Local(argsOnly = true, ordinal = 2) double z,
-											 @Local(argsOnly = true, ordinal = 3) double radius) {
+	private boolean checkRangeThroughPortals(boolean original, @Local(name = "player") ServerPlayer player,
+											 @Local(argsOnly = true, name = "x") double x,
+											 @Local(argsOnly = true, name = "y") double y,
+											 @Local(argsOnly = true, name = "z") double z,
+											 @Local(argsOnly = true, name = "range") double radius) {
 		if (original) {
 			return true;
 		}

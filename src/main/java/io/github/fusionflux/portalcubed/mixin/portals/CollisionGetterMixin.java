@@ -23,8 +23,8 @@ import net.minecraft.world.phys.AABB;
 @Mixin(CollisionGetter.class)
 public interface CollisionGetterMixin {
 	@Inject(method = "collidesWithSuffocatingBlock", at = @At("HEAD"), cancellable = true)
-	default void dontSuffocateInPortals(@Nullable Entity entity, AABB box, CallbackInfoReturnable<Boolean> cir) {
-		if (this instanceof Level level && !level.portalManager().containsActivePortals(box)) {
+	default void dontSuffocateInPortals(@Nullable Entity source, AABB aabb, CallbackInfoReturnable<Boolean> cir) {
+		if (this instanceof Level level && !level.portalManager().containsActivePortals(aabb)) {
 			cir.setReturnValue(false);
 		}
 	}

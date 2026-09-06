@@ -6,21 +6,19 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity {
-	protected LivingEntityMixin(EntityType<?> entityType, Level level) {
-		super(entityType, level);
-	}
-
+public abstract class LivingEntityMixin {
 	@Shadow
 	public abstract ItemStack getUseItem();
 
@@ -33,6 +31,15 @@ public abstract class LivingEntityMixin extends Entity {
 	@Shadow
 	public abstract int getTicksUsingItem();
 
+	@Shadow
+	public abstract boolean isUsingItem();
+
+	@Shadow
+	public abstract void stopUsingItem();
+
+	@Shadow
+	public abstract int getUseItemRemainingTicks();
+
 	@Unique
 	private boolean lemonadeArmingFinished;
 
@@ -43,7 +50,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "stopUsingItem", at = @At("HEAD"))
 	private void finishLemonadeArmingOnStop(CallbackInfo ci) {
-		Level world = this.level();
+		Level world = ((ItemOwner) this).level();
 		if (!world.isClientSide() && !this.lemonadeArmingFinished) {
 			ItemStack useItem = this.getUseItem();
 			if (useItem.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(useItem)) {
@@ -54,5 +61,21 @@ public abstract class LivingEntityMixin extends Entity {
 			}
 		}
 		this.lemonadeArmingFinished = false;
+	}
+
+	@Inject(method = "drop", at = @At("HEAD"), cancellable = true)
+	private void drop(ItemStack stack, boolean thrownFromHand, Prediction prediction, CallbackInfoReturnable<ItemEntity> cir) {
+		LivingEntity self = (LivingEntity) (Object) this;
+		if (stack.getItem() instanceof LemonadeItem lemonade && LemonadeItem.isArmed(stack)) {
+			Level level = self.level();
+			int useDuration = stack.getUseDuration(self);
+			if (!this.isUsingItem()) {
+				lemonade.finishArming(stack, level, self, useDuration);
+			} else {
+				lemonade.finishArming(stack, level, self, useDuration - this.getUseItemRemainingTicks());
+				this.stopUsingItem();
+			}
+			cir.setReturnValue(null);
+		}
 	}
 }
