@@ -12,14 +12,11 @@ import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -74,13 +71,5 @@ public class CrowbarItem extends CreativeNonBlockBreakingItem implements AttackL
 	public TriState onAttack(Level level, Player player, ItemStack stack, @Nullable HitResult hitResult) {
 		this.onSwing(player, stack, hitResult, false);
 		return TriState.DEFAULT;
-	}
-
-	@Override
-	public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
-		if (state.getDestroySpeed(world, pos) != 0) {
-			stack.hurtAndBreak(2, miner, EquipmentSlot.MAINHAND);
-		}
-		return true;
 	}
 }
