@@ -1,21 +1,17 @@
 package io.github.fusionflux.portalcubed.framework.model.dynamictexture;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.jspecify.annotations.Nullable;
 
-import io.github.fusionflux.portalcubed.framework.util.ModelUtil;
 import io.github.fusionflux.portalcubed.framework.util.WrapperQuadEmitter;
 import net.fabricmc.fabric.api.client.model.loading.v1.wrapper.WrapperBlockStateModel;
-import net.fabricmc.fabric.api.client.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
-import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
@@ -59,13 +55,14 @@ public class DynamicTextureBakedModel extends WrapperBlockStateModel {
 			super.fromBakedQuad(quad);
 
 			BakedQuad.MaterialInfo materialInfo = quad.materialInfo();
-			Optional.ofNullable(materialInfo.pc$textureReference())
-					.map(this.mapper)
-					.ifPresent(replacementTexture -> {
-						ModelUtil.normalizeUV(this, quad.materialInfo().sprite());
-						Material.Baked replacementMaterial = new Material.Baked(ModelUtil.getSprite(replacementTexture), false);
-						this.materialBake(replacementMaterial, MutableQuadView.BAKE_NORMALIZED);
-					});
+			// TODO: Dynamic Textures - Max
+//			Optional.ofNullable(materialInfo.pc$textureReference())
+//					.map(this.mapper)
+//					.ifPresent(replacementTexture -> {
+//						ModelUtil.normalizeUV(this, quad.materialInfo().sprite());
+//						Material.Baked replacementMaterial = new Material.Baked(ModelUtil.getSprite(replacementTexture), false);
+//						this.materialBake(replacementMaterial, MutableQuadView.BAKE_NORMALIZED);
+//					});
 
 			return this;
 		}

@@ -41,29 +41,29 @@ tasks.processResources {
 	}
 }
 
-val gametests: Provider<SourceSet> = sourceSets.register("gametests") {
-	val main: SourceSet = sourceSets.main.get()
-	compileClasspath += main.compileClasspath
-	compileClasspath += main.output
-	runtimeClasspath += main.runtimeClasspath
-	runtimeClasspath += main.output
-}
+//val gametests: Provider<SourceSet> = sourceSets.register("gametests") {
+//	val main: SourceSet = sourceSets.main.get()
+//	compileClasspath += main.compileClasspath
+//	compileClasspath += main.output
+//	runtimeClasspath += main.runtimeClasspath
+//	runtimeClasspath += main.output
+//}
 
 loom {
 	accessWidenerPath = file("src/main/resources/portalcubed.accesswidener")
 
 	runs {
-		register("gametest") {
-			server()
-			sourceSet = gametests.map(SourceSet::getName)
-			generateRunConfig = false // this is meant for CI
-			systemProperties.put("fabric-api.gametest", "true")
-			systemProperties.put("fabric-api.gametest.report-file", "${layout.buildDirectory}/junit.xml")
-			runDirectory = file("run/gametest_server")
-		}
+//		register("gametest") {
+//			server()
+//			sourceSet = gametests.map(SourceSet::getName)
+//			generateRunConfig = false // this is meant for CI
+//			systemProperties.put("fabric-api.gametest", "true")
+//			systemProperties.put("fabric-api.gametest.report-file", "${layout.buildDirectory}/junit.xml")
+//			runDirectory = file("run/gametest_server")
+//		}
 
 		named("client").configure {
-			sourceSet = gametests.map(SourceSet::getName)
+//			sourceSet = gametests.map(SourceSet::getName)
 			displayName = "Client"
 		}
 
