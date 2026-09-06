@@ -1,8 +1,10 @@
 package io.github.fusionflux.portalcubed;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedClientCommands;
+import io.github.fusionflux.portalcubed.content.PortalCubedEntityRenderers;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
 import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
+import io.github.fusionflux.portalcubed.content.PortalCubedModelLayers;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
 import io.github.fusionflux.portalcubed.content.lemon.Armed;
@@ -35,6 +37,8 @@ public class PortalCubedClient implements ClientModInitializer {
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
 		PortalCubedClientCommands.init();
+		PortalCubedModelLayers.init();
+		PortalCubedEntityRenderers.init();
 
 		FluidRenderingRegistry.register(
 				PortalCubedFluids.GOO,

@@ -34,6 +34,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.Foods;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
@@ -140,9 +141,13 @@ public class PortalCubedItems {
 					.signText()
 			)
 			.build();
-	// TODO: Lemon Boats - Max
-//	public static final Item LEMON_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), false, false);
-//	public static final Item LEMON_CHEST_BOAT = TerraformBoatItemHelper.registerBoatItem(PortalCubed.id("lemon"), true, false);
+
+	public static final Item LEMON_BOAT = REGISTRAR.items.create("lemon_boat", p -> new BoatItem(PortalCubedEntities.LEMON_BOAT, p))
+			.properties(p -> p.stacksTo(1).cookingFuel(ContextIntProviders.COOKING_TIME_BOATS))
+			.build();
+	public static final Item LEMON_CHEST_BOAT = REGISTRAR.items.create("lemon_chest_boat", p -> new BoatItem(PortalCubedEntities.LEMON_CHEST_BOAT, p))
+			.properties(p -> p.stacksTo(1).cookingFuel(ContextIntProviders.COOKING_TIME_BOATS))
+			.build();
 
 	public static final Item GOO_BUCKET = REGISTRAR.items.create("toxic_goo_bucket", s -> new BucketItem(PortalCubedFluids.GOO, s))
 			.properties(s -> s.craftRemainder(Items.BUCKET).stacksTo(1))

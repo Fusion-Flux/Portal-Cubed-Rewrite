@@ -15,6 +15,7 @@ public interface EntityBuilder<T extends Entity> {
 	EntityBuilder<T> size(float width, float height);
 
 	/// Set the renderer for this entity type.
+	@Deprecated
 	EntityBuilder<T> renderer(Supplier<Supplier<EntityRendererProvider<T>>> supplier);
 
 	/// Build this builder into an entity type.
