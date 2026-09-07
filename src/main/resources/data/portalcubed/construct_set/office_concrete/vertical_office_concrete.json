@@ -5,16 +5,16 @@
   "type": "single",
   "construct": {
     "0,0,0": {
-      "Properties": {
+      "state": {
         "vertical_direction": "up"
       },
-      "Name": "portalcubed:vertical_office_concrete"
+      "id": "portalcubed:vertical_office_concrete"
     },
     "0,1,0": {
-      "Properties": {
+      "state": {
         "vertical_direction": "down"
       },
-      "Name": "portalcubed:vertical_office_concrete"
+      "id": "portalcubed:vertical_office_concrete"
     }
   }
 }

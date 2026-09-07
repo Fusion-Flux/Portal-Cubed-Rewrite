@@ -4,18 +4,18 @@
   "chooser": "clicked_face",
   "vertical": {
     "0,0,0": {
-      "Properties": {
+      "state": {
         "axis": "y"
       },
-      "Name": "portalcubed:crossbar_pillar"
+      "id": "portalcubed:crossbar_pillar"
     }
   },
   "horizontal": {
     "0,0,0": {
-      "Properties": {
+      "state": {
         "axis": "x"
       },
-      "Name": "portalcubed:crossbar_pillar"
+      "id": "portalcubed:crossbar_pillar"
     }
   }
 }

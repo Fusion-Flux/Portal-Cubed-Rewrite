@@ -5,54 +5,54 @@
   "preview": "horizontal",
   "vertical": {
     "0,0,0": {
-      "Properties": {
+      "state": {
         "facing": "west"
       },
-      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_left"
+      "id": "portalcubed:gray_2x2_chamber_exterior_b_bottom_left"
     },
     "0,1,1": {
-      "Properties": {
+      "state": {
         "facing": "west"
       },
-      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_right"
+      "id": "portalcubed:gray_2x2_chamber_exterior_b_top_right"
     },
     "0,0,1": {
-      "Properties": {
+      "state": {
         "facing": "west"
       },
-      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
+      "id": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
     },
     "0,1,0": {
-      "Properties": {
+      "state": {
         "facing": "west"
       },
-      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_left"
+      "id": "portalcubed:gray_2x2_chamber_exterior_b_top_left"
     }
   },
   "horizontal": {
     "0,0,0": {
-      "Properties": {
+      "state": {
         "facing": "west"
       },
-      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_left"
+      "id": "portalcubed:gray_2x2_chamber_exterior_b_bottom_left"
     },
     "0,1,1": {
-      "Properties": {
+      "state": {
         "facing": "west"
       },
-      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_right"
+      "id": "portalcubed:gray_2x2_chamber_exterior_b_top_right"
     },
     "0,0,1": {
-      "Properties": {
+      "state": {
         "facing": "west"
       },
-      "Name": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
+      "id": "portalcubed:gray_2x2_chamber_exterior_b_bottom_right"
     },
     "0,1,0": {
-      "Properties": {
+      "state": {
         "facing": "west"
       },
-      "Name": "portalcubed:gray_2x2_chamber_exterior_b_top_left"
+      "id": "portalcubed:gray_2x2_chamber_exterior_b_top_left"
     }
   }
 }
