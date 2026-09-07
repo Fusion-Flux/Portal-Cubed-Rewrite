@@ -79,7 +79,6 @@ public class MaterialSlotWidget extends TexturedStickyButton implements Tickable
 		if (this.isActive()) {
 			graphics.item(this.getRenderedItem(), this.getX() + OFFSET, this.getY() + OFFSET);
 			if (this.isHovered()) {
-				graphics.nextStratum();
 				this.tooltip.extractRenderState(graphics, mouseX, mouseY);
 			}
 		}

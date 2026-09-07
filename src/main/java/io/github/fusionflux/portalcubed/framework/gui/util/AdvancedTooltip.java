@@ -3,6 +3,7 @@ package io.github.fusionflux.portalcubed.framework.gui.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.fusionflux.portalcubed.mixin.client.GuiGraphicsExtractorAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -36,7 +37,8 @@ public class AdvancedTooltip {
 	}
 
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
-		graphics.tooltip(Minecraft.getInstance().font, this.get(), mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null, false);
+		((GuiGraphicsExtractorAccessor) graphics).callSetTooltipForNextFrameInternal(
+				Minecraft.getInstance().font, this.get(), mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null, true);
 	}
 
 	public interface Factory {
