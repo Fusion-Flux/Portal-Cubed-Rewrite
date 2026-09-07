@@ -14,6 +14,7 @@ import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.sound.PortalSounds;
 import io.github.fusionflux.portalcubed.framework.util.EasingFunction;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.ClientAsset;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.codec.RegistryFixedCodec;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -103,19 +104,14 @@ public record PortalType(
 		}
 	}
 
-	// TODO: this should use ClientAsset when it exists
-	public record Stencil(Identifier front, Identifier frontTexturePath, Identifier back, Identifier backTexturePath) {
+	public record Stencil(ClientAsset.ResourceTexture front, ClientAsset.ResourceTexture back) {
 		public static final Codec<Stencil> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-				Identifier.CODEC.fieldOf("front").forGetter(Stencil::front),
-				Identifier.CODEC.fieldOf("back").forGetter(Stencil::back)
+				ClientAsset.ResourceTexture.CODEC.fieldOf("front").forGetter(Stencil::front),
+				ClientAsset.ResourceTexture.CODEC.fieldOf("back").forGetter(Stencil::back)
 		).apply(instance, Stencil::new));
-		public static final Codec<Stencil> CODEC = Codec.withAlternative(DIRECT_CODEC, Identifier.CODEC.xmap(Stencil::new, Stencil::front));
+		public static final Codec<Stencil> CODEC = Codec.withAlternative(DIRECT_CODEC, ClientAsset.ResourceTexture.CODEC.xmap(Stencil::new, Stencil::front));
 
-		public Stencil(Identifier front, Identifier back) {
-			this(front, front.withPath(path -> "textures/" + path + ".png"), back, back.withPath(path -> "textures/" + path + ".png"));
-		}
-
-		public Stencil(Identifier front) {
+		public Stencil(ClientAsset.ResourceTexture front) {
 			this(front, front);
 		}
 	}
