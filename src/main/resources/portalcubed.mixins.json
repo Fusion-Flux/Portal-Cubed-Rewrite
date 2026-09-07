@@ -1,9 +1,8 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "minMixinExtrasVersion": "0.5.0-beta.3",
   "package": "io.github.fusionflux.portalcubed.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "boots.ArmorMaterialMixin",
     "boots.LivingEntityMixin",
