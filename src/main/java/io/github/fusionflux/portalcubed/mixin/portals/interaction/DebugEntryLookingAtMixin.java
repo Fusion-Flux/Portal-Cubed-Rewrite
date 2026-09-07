@@ -10,16 +10,21 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
-import net.minecraft.client.gui.components.DebugScreenOverlay;
+import net.minecraft.client.gui.components.debug.DebugEntryLookingAt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-@Mixin(DebugScreenOverlay.class)
-public class DebugScreenOverlayMixin {
+@Mixin({
+		DebugEntryLookingAt.BlockStateInfo.class,
+		DebugEntryLookingAt.BlockTagInfo.class,
+		DebugEntryLookingAt.FluidStateInfo.class,
+		DebugEntryLookingAt.FluidTagInfo.class
+})
+public class DebugEntryLookingAtMixin {
 	@WrapOperation(
-			method = "render",
+			method = "getHitResult",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/entity/Entity;pick(DFZ)Lnet/minecraft/world/phys/HitResult;"

@@ -144,6 +144,36 @@ public final class PortalInteractionUtils {
 		}
 	}
 
+	/// Portal-aware variant of [getEntities][Level#getEntities(Entity, AABB, Predicate)].
+	/// Does not find entities that **aren't** through portals; both methods must be used.
+	/// @return a new, mutable Set of found entities
+	public static Set<Entity> getEntities(Level level, @Nullable Entity except, AABB area, Predicate<? super Entity> predicate) {
+		Set<Entity> found = new HashSet<>();
+		getEntitiesRecursive(level, except, area, predicate, found::add, new HashSet<>());
+		return found;
+	}
+
+	private static void getEntitiesRecursive(Level level,  @Nullable Entity except, AABB area, Predicate<? super Entity> predicate, Consumer<Entity> output, Set<PortalReference> entered) {
+		for (PortalReference portal : level.portalManager().lookup().getPortals(area)) {
+			// empty when not linked
+			portal.transform().ifPresent(transform -> {
+				if (!entered.add(portal))
+					return;
+
+				OBB transformedArea = transform.apply(area);
+				for (Entity found : level.getEntities(except, transformedArea.encompassingAabb, predicate)) {
+					// more precise bounds check
+					if (transformedArea.intersects(found.getBoundingBox())) {
+						output.accept(found);
+					}
+				}
+
+				getEntitiesRecursive(level, except, transformedArea.encompassingAabb, predicate, output, entered);
+				entered.remove(portal);
+			});
+		}
+	}
+
 	/// Portal-aware variant of [getNearestPlayer][Level#getNearestPlayer(double, double, double, double, boolean)].
 	/// Does not find players that **aren't** through portals; both methods must be used.
 	@Nullable

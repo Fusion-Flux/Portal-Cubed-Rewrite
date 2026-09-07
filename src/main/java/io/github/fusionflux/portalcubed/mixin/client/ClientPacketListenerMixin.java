@@ -26,7 +26,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
 import net.minecraft.gizmos.Gizmos;
 import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket;
-import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
@@ -73,6 +72,7 @@ public class ClientPacketListenerMixin {
 		yRot.set(rotations.y());
 	}
 
+	/* TODO
 	@ModifyArgs(
 			method = "handleMoveEntity",
 			at = @At(
@@ -109,16 +109,16 @@ public class ClientPacketListenerMixin {
 			args.set(4, transformedRotations.x());
 			args.set(3, transformedRotations.y());
 		}
-	}
+	}*/
 
 	@ModifyArgs(
 			method = "handleSetEntityMotion",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/Entity;lerpMotion(DDD)V"
+					target = "Lnet/minecraft/world/entity/Entity;lerpMotion(Lnet/minecraft/world/phys/Vec3;)V"
 			)
 	)
-	private void reinterpretVelocity(Args args, @Local Entity entity) {
+	private void reinterpretVelocity(Args args, @Local(name = "entity") Entity entity) {
 		PortalTransform transform = getTransform(entity);
 		if (transform == null)
 			return;
