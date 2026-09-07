@@ -3,6 +3,9 @@
   "minVersion": "0.8",
   "package": "io.github.fusionflux.portalcubed.mixin",
   "compatibilityLevel": "JAVA_25",
+  "mixinextras": {
+    "minVersion": "0.5.4"
+  },
   "mixins": [
     "boots.ArmorMaterialMixin",
     "boots.LivingEntityMixin",
@@ -25,6 +28,7 @@
     "disintegration.ServerLevelMixin",
     "goo.CauldronInteraction$DispatcherAccessor",
     "goo.CauldronInteractionsAccessor",
+    "goo.HazardousEnvironments",
     "goo.LavaCauldronBlockAccessor",
     "holdable.EntityMixin",
     "lemonade.AbstractSkeletonMixin",
