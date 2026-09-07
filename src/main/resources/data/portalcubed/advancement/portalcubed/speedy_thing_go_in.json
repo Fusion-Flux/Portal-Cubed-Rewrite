@@ -10,7 +10,7 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "portalcubed:portalcubed/root",
+  "parent": "portalcubed:portalcubed/portal_gun",
   "criteria": {
     "crafting_table": {
       "trigger": "minecraft:inventory_changed",
