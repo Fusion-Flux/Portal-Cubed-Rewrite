@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "portalcubed:block/old_ap_pedestal_button"
+    "model": "portalcubed:block/old_ap_pedestal_button_center"
   }
 }

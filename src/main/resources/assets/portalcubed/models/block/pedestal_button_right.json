@@ -1,0 +1,146 @@
+{
+	"format_version": "26.3",
+	"credit": "Made by Cart3r using Blockbench.",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "portalcubed:block/pedestal_button",
+		"2": "portalcubed:block/pedestal_button_emissive",
+		"particle": "portalcubed:block/smooth_gray_panel"
+	},
+	"elements": [
+		{
+			"from": [8, 0.025, 4],
+			"to": [16, 1.025, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 7.925, 8]},
+			"faces": {
+				"north": {"uv": [5, 15, 9, 16], "texture": "#0"},
+				"east": {"uv": [5, 15, 9, 16], "texture": "#0"},
+				"south": {"uv": [5, 15, 9, 16], "texture": "#0"},
+				"west": {"uv": [5, 15, 9, 16], "texture": "#0"},
+				"up": {"uv": [5, 6, 9, 14], "texture": "#0"},
+				"down": {"uv": [5, 6, 9, 14], "texture": "#0", "cullface": "down"}
+			}
+		},
+		{
+			"from": [9.5, 1.025, 5.5],
+			"to": [14.5, 17.025, 10.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [20, 7.925, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 2.5, 16], "texture": "#0"},
+				"east": {"uv": [0, 0, 2.5, 16], "texture": "#0"},
+				"south": {"uv": [2.5, 0, 5, 16], "texture": "#0"},
+				"west": {"uv": [0, 0, 2.5, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [9.5, 17.025, 5.5],
+			"to": [14.5, 18, 7.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [20, 7.925, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 2.5, 1], "texture": "#0"},
+				"east": {"uv": [1.5, 0, 2.5, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [9.475, 15.25, 1.74],
+			"to": [14.525, 16.275, 6.74],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [11.975, 7.175, 10.49712]},
+			"faces": {
+				"north": {"uv": [8, 0, 8.5, 5], "rotation": 90, "texture": "#0"},
+				"east": {"uv": [8, 0, 8.5, 5], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [8, 0, 8.5, 5], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [5, 0, 7.5, 5], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"from": [9.975, 16.28484, 2.22],
+			"to": [13.975, 17.28484, 6.22],
+			"light_emission": 8,
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [11.975, 7.175, 10.49712]},
+			"faces": {
+				"north": {"uv": [8.5, 5, 10.5, 6], "texture": "#0"},
+				"east": {"uv": [10.5, 5, 8.5, 6], "texture": "#0"},
+				"south": {"uv": [8.5, 5, 10.5, 6], "texture": "#0"},
+				"west": {"uv": [10.5, 5, 8.5, 6], "texture": "#0"},
+				"up": {"uv": [8.5, 0, 10.5, 4], "texture": "#0"}
+			}
+		},
+		{
+			"name": "emission",
+			"from": [11.5, 2.025, 5.5],
+			"to": [12.5, 18.025, 10.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 10.025, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 16], "texture": "#2"},
+				"south": {"uv": [4, 0, 5, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "emission",
+			"from": [9.5, 2.025, 7.5],
+			"to": [14.5, 17.525, 8.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 10.025, 8]},
+			"faces": {
+				"east": {"uv": [2, 0.5, 3, 16], "texture": "#2"},
+				"west": {"uv": [2, 0.5, 3, 16], "texture": "#2"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [24.5, 45, 0],
+			"translation": [0, 1.5, 0.5],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [24.5, 45, 0],
+			"translation": [0, 1.5, 0.5],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -80.5, 0],
+			"translation": [0, 2, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -80.5, 0],
+			"translation": [0, 2, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 45, 0],
+			"translation": [0, -0.75, 0],
+			"scale": [0.68164, 0.68164, 0.68164]
+		},
+		"head": {
+			"rotation": [-180, 0, -180],
+			"translation": [0, 14.25, 0]
+		},
+		"fixed": {
+			"rotation": [-180, 88.25, -180],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"on_shelf": {
+			"translation": [0, 0, -2],
+			"scale": [0.6, 0.6, 0.6]
+		}
+	},
+	"groups": [
+		{
+			"name": "pedestal_button",
+			"origin": [8, 8, 8],
+			"scope": 0,
+			"color": 0,
+			"children": [0, 1, 2, 3, 4, 5, 6]
+		}
+	]
+}
