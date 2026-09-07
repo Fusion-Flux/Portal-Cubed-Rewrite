@@ -3,7 +3,7 @@
     {
       "type": "directory",
       "source": "signage",
-      "prefix": "signage/"
+      "prefix": "gui/signage/"
     }
   ]
 }

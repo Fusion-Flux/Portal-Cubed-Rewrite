@@ -2,7 +2,7 @@
 	"format_version": "26.3",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
-		"particle": "portalcubed:block/portal_barrier",
+		"particle": "portalcubed:block/portal_barrier_block",
 		"facade": "portalcubed:block/portal_barrier_block"
 	},
 	"elements": [

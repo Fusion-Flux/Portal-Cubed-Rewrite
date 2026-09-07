@@ -55,6 +55,7 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
 import net.minecraft.world.level.block.WallBlock;
@@ -244,7 +245,7 @@ public class PortalCubedBlocks {
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
 			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
-	public static final Block LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new WallSignBlock(PortalCubedMisc.LEMON_WOOD_TYPE, properties))
+	public static final Block LEMON_SIGN = REGISTRAR.blocks.create("lemon_sign", properties -> new StandingSignBlock(PortalCubedMisc.LEMON_WOOD_TYPE, properties))
 			.copyFrom(Blocks.OAK_SIGN)
 			.properties(settings -> settings
 					.mapColor(MapColor.TERRACOTTA_YELLOW)
