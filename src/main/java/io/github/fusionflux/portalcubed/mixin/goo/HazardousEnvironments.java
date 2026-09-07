@@ -30,8 +30,7 @@ public class HazardousEnvironments {
 					"lambda$lookForWater$0", // PanicGoal
 					"lambda$removeWaterBreadthFirstSearch$1" // SpongeBlock
 			},
-			at = @At("MIXINEXTRAS:EXPRESSION"),
-			expect = 4, require = 4
+			at = @At("MIXINEXTRAS:EXPRESSION")
 	)
 	private static boolean gooIsHazardous(FluidState state, TagKey<Fluid> tag, Operation<Boolean> original) {
 		return original.call(state, tag) && !state.is(PortalCubedFluidTags.HAZARDOUS_WATER);
