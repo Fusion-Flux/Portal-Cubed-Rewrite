@@ -1801,31 +1801,31 @@
       "y": 90
     },
     "active=true,base=false,face=up,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_down"
+      "model": "portalcubed:block/old_ap_pedestal_button_down_active"
     },
     "active=true,base=false,face=up,facing=south,offset=down_left": {
-      "model": "portalcubed:block/old_ap_pedestal_button_down_left"
+      "model": "portalcubed:block/old_ap_pedestal_button_down_left_active"
     },
     "active=true,base=false,face=up,facing=south,offset=down_right": {
-      "model": "portalcubed:block/old_ap_pedestal_button_down_right"
+      "model": "portalcubed:block/old_ap_pedestal_button_down_right_active"
     },
     "active=true,base=false,face=up,facing=south,offset=left": {
-      "model": "portalcubed:block/old_ap_pedestal_button_left"
+      "model": "portalcubed:block/old_ap_pedestal_button_left_active"
     },
     "active=true,base=false,face=up,facing=south,offset=none": {
-      "model": "portalcubed:block/old_ap_pedestal_button_center"
+      "model": "portalcubed:block/old_ap_pedestal_button_center_active"
     },
     "active=true,base=false,face=up,facing=south,offset=right": {
-      "model": "portalcubed:block/old_ap_pedestal_button_right"
+      "model": "portalcubed:block/old_ap_pedestal_button_right_active"
     },
     "active=true,base=false,face=up,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_up"
+      "model": "portalcubed:block/old_ap_pedestal_button_up_active"
     },
     "active=true,base=false,face=up,facing=south,offset=up_left": {
-      "model": "portalcubed:block/old_ap_pedestal_button_up_left"
+      "model": "portalcubed:block/old_ap_pedestal_button_up_left_active"
     },
     "active=true,base=false,face=up,facing=south,offset=up_right": {
-      "model": "portalcubed:block/old_ap_pedestal_button_up_right"
+      "model": "portalcubed:block/old_ap_pedestal_button_up_right_active"
     },
     "active=true,base=false,face=up,facing=north,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button_down_active",
@@ -3889,31 +3889,31 @@
       "y": 90
     },
     "active=true,base=true,face=up,facing=south,offset=down": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_down"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_down_active"
     },
     "active=true,base=true,face=up,facing=south,offset=down_left": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_down_left"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_down_left_active"
     },
     "active=true,base=true,face=up,facing=south,offset=down_right": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_down_right"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_down_right_active"
     },
     "active=true,base=true,face=up,facing=south,offset=left": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_left"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_left_active"
     },
     "active=true,base=true,face=up,facing=south,offset=none": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_center"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_center_active"
     },
     "active=true,base=true,face=up,facing=south,offset=right": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_right"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_right_active"
     },
     "active=true,base=true,face=up,facing=south,offset=up": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_up"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_up_active"
     },
     "active=true,base=true,face=up,facing=south,offset=up_left": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_up_left"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_up_left_active"
     },
     "active=true,base=true,face=up,facing=south,offset=up_right": {
-      "model": "portalcubed:block/old_ap_pedestal_button_base_up_right"
+      "model": "portalcubed:block/old_ap_pedestal_button_base_up_right_active"
     },
     "active=true,base=true,face=up,facing=north,offset=down": {
       "model": "portalcubed:block/old_ap_pedestal_button_base_down_active",

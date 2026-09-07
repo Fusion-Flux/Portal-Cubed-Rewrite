@@ -1,0 +1,34 @@
+{
+  "replace": false,
+  "values": [
+    "#portalcubed:white_panels",
+    "#portalcubed:aged_white_panels",
+    "#portalcubed:portal_1_white_panels",
+    "#portalcubed:dirty_portal_1_white_panels",
+    "#portalcubed:smooth_gray_panels",
+    "#portalcubed:aged_smooth_gray_panels",
+    "#portalcubed:padded_gray_panels",
+    "#portalcubed:aged_padded_gray_panels",
+    "#portalcubed:old_ap_white_panels",
+    "#portalcubed:old_ap_blue_panels",
+    "#portalcubed:old_ap_green_panels",
+    "#portalcubed:crossbars",
+    "#portalcubed:yellow_chamber_exteriors",
+    "#portalcubed:gray_chamber_exteriors",
+    "#portalcubed:transparent_facades",
+    "#portalcubed:metal_plating",
+    "#portalcubed:office_concretes",
+    "#portalcubed:dirty_metal_plating",
+    "#portalcubed:construction_cannon_replaceable",
+    "#portalcubed:magnesium_fire_base_blocks",
+    "portalcubed:insulation",
+    "#portalcubed:test_elements",
+    "portalcubed:elevator_wall_middle",
+    "portalcubed:elevator_wall_end"
+
+  ],
+  "fabric:remove": [
+    "#portalcubed:portalable_facades",
+    "#portalcubed:nonportalable_facades"
+  ]
+}
