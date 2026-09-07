@@ -1,5 +1,5 @@
 {
-  "asset_name": "magnesium",
+  "palette_id": "portalcubed:trim/magnesium",
   "description": {
     "color": "#A9B5BA",
     "translate": "trim_material.portalcubed.magnesium"

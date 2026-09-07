@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "portalcubed:aperture_banner_pattern"
+        "recipes": "portalcubed:aperture_banner_pattern"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

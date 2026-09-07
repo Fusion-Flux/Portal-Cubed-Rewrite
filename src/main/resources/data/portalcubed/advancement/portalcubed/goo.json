@@ -23,7 +23,7 @@
           "type": {
             "tags": [
               {
-                "id": "portalcubed:is_toxic_goo",
+                "id": "#portalcubed:is_toxic_goo",
                 "expected": true
               }
             ]

@@ -1,45 +1,25 @@
 {
   "display": {
     "icon": {
-      "id": "portalcubed:long_fall_boots"
+      "id": "portalcubed:hoopy"
     },
-    "title": {
-      "translate": "advancement.portalcubed.boots.title"
-    },
-    "description": {
-      "translate": "advancement.portalcubed.boots.description"
-    },
-    "frame": "goal",
+    "title": "placeholder",
+    "description": "placeholder",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
   "parent": "portalcubed:portalcubed/root",
   "criteria": {
-    "boots": {
-      "trigger": "minecraft:fall_from_height",
+    "crafting_table": {
+      "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "player": [
+        "items": [
           {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "equipment": {
-                "feet": {
-                  "items": [
-                    "portalcubed:long_fall_boots",
-                    "portalcubed:advanced_knee_replacements"
-                  ]
-                }
-              }
-            }
+            "items": "portalcubed:hoopy"
           }
-        ],
-        "distance": {
-          "y": {
-            "min": 6
-          }
-        }
+        ]
       }
     }
   }

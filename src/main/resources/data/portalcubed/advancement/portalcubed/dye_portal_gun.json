@@ -20,10 +20,7 @@
     "frame": "task",
     "icon": {
       "components": {
-        "minecraft:dyed_color": {
-          "rgb": 14317805,
-          "show_in_tooltip": false
-        }
+        "minecraft:dyed_color": 14317805
       },
       "id": "portalcubed:portal_gun"
     },

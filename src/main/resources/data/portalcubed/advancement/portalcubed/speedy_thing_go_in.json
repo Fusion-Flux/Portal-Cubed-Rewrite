@@ -1,32 +1,26 @@
 {
-  "parent": "portalcubed:portalcubed/portal_gun",
-  "criteria": {
-    "portal_entry": {
-      "trigger": "portalcubed:entered_portal",
-      "conditions": {
-        "player": {
-          "movement": {
-            "speed": {
-              "min": 25
-            }
-          }
-        }
-      }
-    }
-  },
   "display": {
-    "description": {
-      "translate": "advancement.portalcubed.speedy_thing_go_in.description"
-    },
     "icon": {
-      "id": "portalcubed:advanced_knee_replacements"
+      "id": "portalcubed:hoopy"
     },
-    "title": {
-      "translate": "advancement.portalcubed.speedy_thing_go_in.title"
-    },
-    "frame": "goal",
+    "title": "placeholder",
+    "description": "placeholder",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": true
+    "hidden": false
+  },
+  "parent": "portalcubed:portalcubed/root",
+  "criteria": {
+    "crafting_table": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "portalcubed:hoopy"
+          }
+        ]
+      }
+    }
   }
 }
