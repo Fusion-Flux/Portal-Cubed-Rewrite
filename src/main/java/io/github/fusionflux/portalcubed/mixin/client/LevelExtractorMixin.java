@@ -32,7 +32,7 @@ public class LevelExtractorMixin {
 			BlockPos pos = renderState.blockPos();
 			int progress = renderState.progress();
 			for (BlockPos quadrantPos : multiBlock.quadrants(multiBlock.getOriginPos(pos, state), state)) {
-				original.call(instance, new BlockBreakingRenderState(quadrantPos, this.level.getBlockState(quadrantPos), progress));
+				original.call(instance, new BlockBreakingRenderState(quadrantPos.immutable(), this.level.getBlockState(quadrantPos), progress));
 			}
 			return true;
 		}
