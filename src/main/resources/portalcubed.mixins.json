@@ -7,7 +7,6 @@
   "mixins": [
     "boots.ArmorMaterialMixin",
     "boots.LivingEntityMixin",
-    "boots.SmithingTrimRecipeMixin",
     "cake.CakeBlockMixin",
     "cake.CandleCakeBlockMixin",
     "chamber_door.DoorBlockMixin",
