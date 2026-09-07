@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "portalcubed:crossbar_pillar"
+    "portalcubed:crossbar_pillar",
+    "#portalcubed:signage",
+    "#portalcubed:all_facades"
   ]
 }

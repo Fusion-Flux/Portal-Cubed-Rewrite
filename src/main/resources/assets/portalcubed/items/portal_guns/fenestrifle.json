@@ -1,4 +1,5 @@
 {
+  "oversized_in_gui": true,
   "model": {
     "type": "minecraft:condition",
     "property": "minecraft:carried",

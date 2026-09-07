@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#portalcubed:office_concrete_materials",
+    "#portalcubed:portal_1_white_panel_materials",
+    "#portalcubed:dirty_portal_1_white_panel_materials",
+    "portalcubed:large_blue_office_tiles",
+    "portalcubed:small_blue_office_tiles",
+    "portalcubed:black_office_tiles",
+    "portalcubed:brown_office_tiles",
+    "portalcubed:orange_office_tiles",
+    "portalcubed:gray_office_tiles"
+  ]
+}

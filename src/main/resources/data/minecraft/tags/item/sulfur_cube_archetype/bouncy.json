@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#portalcubed:old_ap_white_panel_materials",
+    "portalcubed:plywood"
+  ]
+}

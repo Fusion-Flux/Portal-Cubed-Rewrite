@@ -4,7 +4,7 @@
 	"textures": {
 		"1": "portalcubed:block/prop_barrier_block",
 		"2": "portalcubed:block/prop_barrier_cube",
-		"particle": "portalcubed:block/prop_barrier_block"
+		"particle": "portalcubed:block/prop_barrier"
 	},
 	"elements": [
 		{

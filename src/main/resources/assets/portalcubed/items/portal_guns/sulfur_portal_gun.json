@@ -4,14 +4,10 @@
     "property": "minecraft:context_entity_type",
     "cases": [
       {
-        "when": [
-          "minecraft:villager",
-          "minecraft:witch",
-          "minecraft:wandering_trader"
-        ],
+        "when": "minecraft:fox",
         "model": {
  	   "type": "minecraft:model",
- 	   "model": "portalcubed:portal_gun/magic_brush/villager/magic_brush",
+ 	   "model": "portalcubed:portal_gun/blocks/fox/sulfur_portal_gun",
  	   "tints": [
   	    {
   	      "type": "portalcubed:portal_gun",
@@ -19,7 +15,7 @@
   	    },
  	     {
  	       "type": "minecraft:dye",
- 	       "default": -139971
+ 	       "default": -1116735
  	     },
  	     {
  	       "type": "portalcubed:portal_gun",
@@ -35,7 +31,7 @@
     ],
     "fallback": {
       "type": "minecraft:model",
-      "model": "portalcubed:portal_gun/magic_brush/humanoid/magic_brush",
+      "model": "portalcubed:portal_gun/blocks/humanoid/sulfur_portal_gun",
       "tints": [
         {
           "type": "portalcubed:portal_gun",
@@ -43,7 +39,7 @@
         },
         {
           "type": "minecraft:dye",
-          "default": -139971
+          "default": -1116735
         },
         {
           "type": "portalcubed:portal_gun",

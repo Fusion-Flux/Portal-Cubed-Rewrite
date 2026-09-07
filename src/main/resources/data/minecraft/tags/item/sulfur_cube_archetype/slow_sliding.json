@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#portalcubed:padded_gray_panel_materials",
+    "#portalcubed:aged_padded_gray_panel_materials",
+    "#portalcubed:smooth_gray_panel_materials",
+    "#portalcubed:aged_smooth_gray_panel_materials"
+  ]
+}

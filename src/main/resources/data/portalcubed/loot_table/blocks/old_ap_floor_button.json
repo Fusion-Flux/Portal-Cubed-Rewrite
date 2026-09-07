@@ -2,29 +2,24 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
-      "bonus_rolls": 0,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "portalcubed:old_ap_floor_button",
-          "conditions": [
-            {
-              "condition": "minecraft:block_state_property",
-              "block": "portalcubed:old_ap_floor_button",
-              "properties": {
+          "condition": {
+            "type": "minecraft:match_block",
+            "blocks": "portalcubed:old_ap_floor_button",
+            "state": {
                 "x": "0",
                 "y": "0"
-              }
             }
-          ]
+          },
+          "name": "portalcubed:old_ap_floor_button"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "rolls": 1.0
     }
   ]
 }

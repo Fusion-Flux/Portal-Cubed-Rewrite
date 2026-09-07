@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#portalcubed:white_panel_materials",
+    "#portalcubed:aged_white_panel_materials",
+    "portalcubed:gray_chamber_exterior",
+    "portalcubed:yellow_chamber_exterior"
+  ]
+}

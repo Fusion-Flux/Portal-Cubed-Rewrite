@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "#portalcubed:magnesium_fire_base_blocks",
+    "#portalcubed:portal_1_metal_panel_materials",
+    "#portalcubed:dirty_portal_1_metal_panel_materials",
+    "#portalcubed:old_ap_blue_panel_materials",
+    "#portalcubed:old_ap_green_panel_materials",
+    "#portalcubed:metal_plating_materials",
+    "#portalcubed:dirty_metal_plating_materials",
+    "portalcubed:portal_1_metal_tiles"
+  ]
+}

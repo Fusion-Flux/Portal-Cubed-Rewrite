@@ -143,6 +143,16 @@ public class PortalCubedSounds {
 	public static final SoundEvent CREAKING_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.creaking.secondary_shoot");
 	public static final SoundEvent CREAKING_PORTAL_GUN_FIZZLE = register("portal_gun.creaking.fizzle");
 
+	public static final SoundEvent SULFUR_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.sulfur.primary_shoot");
+	public static final SoundEvent SULFUR_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.sulfur.secondary_shoot");
+	public static final SoundEvent SULFUR_PORTAL_GUN_FIZZLE = register("portal_gun.sulfur.fizzle");
+	public static final SoundEvent SULFUR_PORTAL_GUN_GRAB = register("portal_gun.sulfur.grab");
+	public static final SoundEvent SULFUR_PORTAL_GUN_RELEASE = register("portal_gun.sulfur.release");
+
+	public static final SoundEvent WOOL_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.wool.primary_shoot");
+	public static final SoundEvent WOOL_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.wool.secondary_shoot");
+	public static final SoundEvent WOOL_PORTAL_GUN_FIZZLE = register("portal_gun.wool.fizzle");
+
 	public static final SoundEvent BABY_PORTAL_GUN_PRIMARY_SHOOT = register("portal_gun.baby.primary_shoot");
 	public static final SoundEvent BABY_PORTAL_GUN_SECONDARY_SHOOT = register("portal_gun.baby.secondary_shoot");
 	public static final SoundEvent BABY_PORTAL_GUN_FIZZLE = register("portal_gun.baby.fizzle");

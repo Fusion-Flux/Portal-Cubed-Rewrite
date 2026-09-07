@@ -1164,6 +1164,81 @@
     "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
   },
 
+  "portal_gun.sulfur.primary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.small_sulfur_cube.squish",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
+  },
+  "portal_gun.sulfur.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.small_sulfur_cube.jump",
+        "type": "event",
+        "pitch": 2
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
+  },
+  "portal_gun.sulfur.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.small_sulfur_cube.death",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+  "portal_gun.sulfur.grab": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.sulfur_cube.absorb",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.grab"
+  },
+  "portal_gun.sulfur.release": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.sulfur_cube.eject",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.release"
+  },
+
+  "portal_gun.wool.primary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:block.wool.step",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.primary_shoot"
+  },
+  "portal_gun.wool.secondary_shoot": {
+    "sounds": [
+      {
+        "name": "minecraft:item.lead.tied",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.secondary_shoot"
+  },
+  "portal_gun.wool.fizzle": {
+    "sounds": [
+      {
+        "name": "minecraft:item.lead.break",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.portalcubed.portal_gun.default.fizzle"
+  },
+
   "portal_gun.baby.grab": {
     "sounds": [
       {

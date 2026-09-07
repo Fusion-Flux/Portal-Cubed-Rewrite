@@ -675,6 +675,24 @@ public class PortalCubedTabs {
 					-7056607
 			);
 			helper.addSkin(
+					"sulfur_portal_gun",
+					"sulfur",
+					"none",
+					"round",
+					14540402,
+					"round",
+					13059913
+			);
+			helper.addSkin(
+					"wool_portal_gun",
+					"wool",
+					"none",
+					"round",
+					-1,
+					"round",
+					-14342871
+			);
+			helper.addSkin(
 					"block_built_portal_gun",
 					"block_built",
 					"none",
