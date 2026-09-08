@@ -1,19 +1,27 @@
 package io.github.fusionflux.portalcubed.content.portal.command;
 
 import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 import java.util.Locale;
+import java.util.function.Function;
 
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.serialization.DynamicOps;
 
+import io.github.fusionflux.portalcubed.PortalCubed;
+import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;
 import io.github.fusionflux.portalcubed.content.portal.PortalId;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
-import io.github.fusionflux.portalcubed.framework.command.argument.PortalIdArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.PortalKeyArgumentType;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.NbtPathArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -26,6 +34,8 @@ import net.minecraft.server.level.ServerLevel;
 
 /// Provides data from portals to `/data`.
 public record PortalDataAccessor(ServerPortalManager manager, DynamicOps<Tag> ops, PortalId id) implements DataAccessor {
+	public static final String ID = PortalCubed.idString("portal");
+
 	public static final DynamicCommandExceptionType FAILED_TO_DECODE = new DynamicCommandExceptionType(
 			message -> Component.translatable("commands.data.portalcubed.portal.error.decode", message)
 	);
@@ -36,22 +46,37 @@ public record PortalDataAccessor(ServerPortalManager manager, DynamicOps<Tag> op
 			message -> Component.translatable("commands.data.portalcubed.portal.error.encode", message)
 	);
 
-	public static final ArgProvider.Factory<DataAccessor> PROVIDER = arg -> ArgProvider.create(
-			"portalcubed:portal",
-			() -> argument(arg, PortalIdArgumentType.portalId()),
-			context -> {
-				PortalId id = PortalIdArgumentType.getId(context, arg);
-				ServerLevel level = context.getSource().getLevel();
-				ServerPortalManager manager = level.portalManager();
+	// ArgProvider.create requires that only a single command node is wrapped, but we want two arguments
+	public static final ArgProvider.Factory<DataAccessor> PROVIDER = arg -> new ArgProvider<>() {
+		@Override
+		public DataAccessor access(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+			String key = PortalKeyArgumentType.getKey(context, arg + "Key");
+			Polarity polarity = PolarityArgumentType.getPolarity(context, arg + "Polarity");
+			PortalId id = new PortalId(key, polarity);
 
-				if (manager.getPortal(id) == null) {
-					throw NO_PORTAL.create();
-				}
+			ServerLevel level = context.getSource().getLevel();
+			ServerPortalManager manager = level.portalManager();
 
-				DynamicOps<Tag> ops = level.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-				return new PortalDataAccessor(manager, ops, id);
+			if (manager.getPortal(id) == null) {
+				throw NO_PORTAL.create();
 			}
-	);
+
+			DynamicOps<Tag> ops = level.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+			return new PortalDataAccessor(manager, ops, id);
+		}
+
+		@Override
+		public ArgumentBuilder<CommandSourceStack, ?> wrap(
+				ArgumentBuilder<CommandSourceStack, ?> parent,
+				Function<ArgumentBuilder<CommandSourceStack, ?>, ArgumentBuilder<CommandSourceStack, ?>> function
+		) {
+			return parent.then(literal(ID).then(
+					argument(arg + "Key", PortalKeyArgumentType.portalKey()).then(
+							function.apply(argument(arg + "Polarity", PolarityArgumentType.polarity()))
+					)
+			));
+		}
+	};
 
 	@Override
 	public void setData(CompoundTag other) throws CommandSyntaxException {

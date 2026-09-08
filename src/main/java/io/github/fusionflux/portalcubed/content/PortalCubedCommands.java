@@ -35,7 +35,7 @@ import net.minecraft.commands.SharedSuggestionProvider;
 
 public class PortalCubedCommands {
 	public static void init() {
-		CommandRegistrationCallback.EVENT.register((dispatcher, ctx, env) -> dispatcher.register(
+		CommandRegistrationCallback.EVENT.register((dispatcher, ctx, _) -> dispatcher.register(
 				literal(PortalCubed.ID)
 						.then(CreateConstructCommand.build())
 						.then(FizzleCommand.build())
@@ -83,7 +83,7 @@ public class PortalCubedCommands {
 
 	/// Suggest a set of strings. Each one will be wrapped in quotes if not doing so will cause the command to fail to parse.
 	public static CompletableFuture<Suggestions> suggest(Iterable<String> iterable, SuggestionsBuilder builder, Message tooltip) {
-		return SharedSuggestionProvider.suggest(iterable, builder, PortalCubedCommands::quoteIfNeeded, $ -> tooltip);
+		return SharedSuggestionProvider.suggest(iterable, builder, PortalCubedCommands::quoteIfNeeded, _ -> tooltip);
 	}
 
 	/// Copy of [SharedSuggestionProvider#filterResources(Iterable, String, Function, Consumer)] that operates on Strings instead of IDs

@@ -95,6 +95,10 @@ public class PortalCubed implements ModInitializer {
 		return Identifier.fromNamespaceAndPath(ID, path);
 	}
 
+	public static String idString(String path) {
+		return ID + ':' + path;
+	}
+
 	public static <T> ResourceKey<T> key(ResourceKey<? extends Registry<T>> registry, String path) {
 		return ResourceKey.create(registry, id(path));
 	}
