@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.content.boots;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartNames;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -24,25 +25,32 @@ public class LongFallBootsModel extends HumanoidModel<HumanoidRenderState> {
 	public static MeshDefinition createMesh() {
 		MeshDefinition meshDefinition = HumanoidModel.createMesh(new CubeDeformation(DEFORMATION), 0f);
 		PartDefinition partDefinition = meshDefinition.getRoot();
+
 		CubeDeformation legDeformation = new CubeDeformation(LEG_DEFORMATION);
 		CubeDeformation innerLegDeformation = new CubeDeformation(INNER_LEG_DEFORMATION);
 		CubeDeformation prongDeformation = new CubeDeformation(0, LEG_DEFORMATION, LEG_DEFORMATION);
+
+		// Note: Head UVs overlap with our extra geometry.
+		partDefinition.clearChild(PartNames.HEAD).clearRecursively();
+
 		partDefinition.addOrReplaceChild(
-				"right_leg",
+				PartNames.RIGHT_LEG,
 				CubeListBuilder.create()
 						.texOffs(0, 16).addBox(-2f, 0f, -2f, 4f, 12f, 4f, legDeformation)
 						.texOffs(48, 0).addBox(-2f, 0f, -2f, 4f, 12f, 4f, innerLegDeformation)
 						.texOffs(34, -3).addBox(0f, 3f, PRONG_OFFSET, 0f, 9f, 3f, prongDeformation),
 				PartPose.offset(-1.9f, 12f, 0f)
 		);
+
 		partDefinition.addOrReplaceChild(
-				"left_leg",
+				PartNames.LEFT_LEG,
 				CubeListBuilder.create()
 						.texOffs(0, 16).mirror().addBox(-2f, 0f, -2f, 4f, 12f, 4f, legDeformation)
 						.texOffs(48, 0).mirror().addBox(-2f, 0f, -2f, 4f, 12f, 4f, innerLegDeformation)
 						.texOffs(34, -3).mirror().addBox(0f, 3f, PRONG_OFFSET, 0f, 9f, 3f, prongDeformation),
 				PartPose.offset(1.9f, 12f, 0f)
 		);
+
 		return meshDefinition;
 	}
 }
