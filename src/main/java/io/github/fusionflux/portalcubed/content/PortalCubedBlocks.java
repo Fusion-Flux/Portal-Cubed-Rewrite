@@ -63,6 +63,7 @@ import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.WaterloggedTransparentBlock;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -952,5 +953,12 @@ public class PortalCubedBlocks {
 		FlammableBlockRegistry registry = FlammableBlockRegistry.getDefaultInstance();
 		registry.add(PortalCubedBlockTags.MAGNESIUM_FIRE_BASE_BLOCKS, 1, 20);
 		registry.add(PortalCubedBlockTags.LEMON_LOGS, 5, 5);
+
+		// mark our blocks as valid for vanilla block entities we reuse
+		BlockEntityTypes.SIGN.addValidBlock(LEMON_SIGN);
+		BlockEntityTypes.SIGN.addValidBlock(LEMON_WALL_SIGN);
+		BlockEntityTypes.HANGING_SIGN.addValidBlock(LEMON_HANGING_SIGN);
+		BlockEntityTypes.HANGING_SIGN.addValidBlock(LEMON_WALL_HANGING_SIGN);
+		BlockEntityTypes.SHELF.addValidBlock(LEMON_SHELF);
 	}
 }
