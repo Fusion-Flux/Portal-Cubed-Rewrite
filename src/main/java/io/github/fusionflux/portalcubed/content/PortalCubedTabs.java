@@ -95,6 +95,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedBlocks.LEMON_BUTTON);
 			output.accept(PortalCubedBlocks.LEMON_LEAVES);
 			output.accept(PortalCubedBlocks.LEMON_SAPLING);
+			output.accept(PortalCubedBlocks.LEMON_SHELF);
 			output.accept(PortalCubedBlocks.LEMON_SIGN);
 			output.accept(PortalCubedBlocks.LEMON_HANGING_SIGN);
 
@@ -949,6 +950,7 @@ public class PortalCubedTabs {
 					PortalCubedItems.LEMON_SIGN,
 					PortalCubedItems.LEMON_HANGING_SIGN
 			);
+			entries.insertAfter(Blocks.CHERRY_SHELF, PortalCubedBlocks.LEMON_SHELF);
 		});
 
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {

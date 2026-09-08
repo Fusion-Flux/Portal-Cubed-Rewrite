@@ -53,6 +53,7 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.ShelfBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StandingSignBlock;
@@ -281,6 +282,12 @@ public class PortalCubedBlocks {
 	public static final TrapDoorBlock LEMON_TRAPDOOR = REGISTRAR.blocks.create("lemon_trapdoor", properties -> new TrapDoorBlock(BlockSetType.OAK, properties))
 			.copyFrom(Blocks.OAK_TRAPDOOR)
 			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_BLOCKS)))
+			.build();
+	public static final ShelfBlock LEMON_SHELF = REGISTRAR.blocks.create("lemon_shelf", ShelfBlock::new)
+			.copyFrom(Blocks.OAK_SHELF)
+			.properties(settings -> settings.mapColor(MapColor.TERRACOTTA_YELLOW))
+			.flammability(30, 5)
 			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 
