@@ -1,0 +1,16 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+ 	"parent": "portalcubed:portal_gun/default/humanoid/stripes_model_part",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 2, -90],
+			"translation": [4.25, -1.75, -7.25],
+			"scale": [0.80273, 0.80273, 0.80273]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 2, -90],
+			"translation": [4.25, -1.75, -7.25],
+			"scale": [0.80273, 0.80273, 0.80273]
+		}
+	}
+}

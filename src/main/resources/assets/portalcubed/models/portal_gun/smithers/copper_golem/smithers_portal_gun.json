@@ -1,0 +1,17 @@
+{
+	"format_version": "26.3",
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "portalcubed:portal_gun/smithers/humanoid/smithers_portal_gun",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-180, 2, -90],
+			"translation": [4.75, -1.75, -1.75],
+			"scale": [0.80273, 0.80273, 0.80273]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-180, 2, -90],
+			"translation": [4.75, -1.75, -1.75],
+			"scale": [0.80273, 0.80273, 0.80273]
+		}
+	}
+}

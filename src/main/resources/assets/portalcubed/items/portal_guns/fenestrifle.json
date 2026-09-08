@@ -110,26 +110,57 @@
         }
       ],
       "fallback": {
-        "type": "minecraft:model",
-        "model": "portalcubed:portal_gun/fenestrifle/humanoid/fenestrifle",
-        "tints": [
+        "type": "minecraft:select",
+        "property": "minecraft:context_entity_type",
+        "cases": [
           {
-            "type": "portalcubed:portal_gun",
-            "polarity": "last_shot"
-          },
-          {
-            "type": "minecraft:dye",
-            "default": -720896
-          },
-          {
-            "type": "portalcubed:portal_gun",
-            "polarity": "primary"
-          },
-          {
-            "type": "portalcubed:portal_gun",
-            "polarity": "secondary"
+            "when": "minecraft:copper_golem",
+            "model": {
+              "type": "minecraft:model",
+              "model": "portalcubed:portal_gun/fenestrifle/copper_golem/fenestrifle",
+              "tints": [
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "last_shot"
+                },
+                {
+                  "type": "minecraft:dye",
+                  "default": -720896
+                },
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "primary"
+                },
+                {
+                  "type": "portalcubed:portal_gun",
+                  "polarity": "secondary"
+                }
+              ]
+            }
           }
-        ]
+        ],
+        "fallback": {
+          "type": "minecraft:model",
+          "model": "portalcubed:portal_gun/fenestrifle/humanoid/fenestrifle",
+          "tints": [
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "last_shot"
+            },
+            {
+              "type": "minecraft:dye",
+              "default": -720896
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "primary"
+            },
+            {
+              "type": "portalcubed:portal_gun",
+              "polarity": "secondary"
+            }
+          ]
+        }
       }
     }
   }

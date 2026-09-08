@@ -11,6 +11,13 @@
         }
       },
       {
+        "when": "minecraft:copper_golem",
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:item/construction_cannon_copper_golem"
+        }
+      },
+      {
         "when": [
           "minecraft:villager",
           "minecraft:witch",

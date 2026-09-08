@@ -29,6 +29,31 @@
         }
       },
       {
+        "when": "minecraft:copper_golem",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/blowtorch/copper_golem/blowtorch",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "last_shot"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -14831886
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
         "when": [
           "minecraft:villager",
           "minecraft:witch",

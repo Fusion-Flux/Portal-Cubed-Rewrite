@@ -27,6 +27,31 @@
   	    }
   	  ]
         }
+      },
+      {
+        "when": "minecraft:copper_golem",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/aperture_innovations/copper_golem/aperture_innovations_portal_gun",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "last_shot"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
       }
     ],
     "fallback": {

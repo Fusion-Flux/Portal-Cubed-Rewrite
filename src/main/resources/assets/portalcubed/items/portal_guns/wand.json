@@ -29,6 +29,31 @@
         }
       },
       {
+        "when": "minecraft:copper_golem",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/wand/copper_golem/wand",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "last_shot"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -1
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
         "when": "minecraft:allay",
         "model": {
  	   "type": "minecraft:model",

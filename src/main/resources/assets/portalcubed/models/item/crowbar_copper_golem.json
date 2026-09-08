@@ -1,0 +1,17 @@
+{
+	"format_version": "26.3",
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "portalcubed:item/crowbar_in_hand",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-5, 0, 0],
+			"translation": [0.5, 2.5, 2.75],
+			"scale": [1.2793, 1.2793, 1.2793]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-5, 0, 0],
+			"translation": [0.5, 2.5, 2.75],
+			"scale": [1.2793, 1.2793, 1.2793]
+		}
+	}
+}

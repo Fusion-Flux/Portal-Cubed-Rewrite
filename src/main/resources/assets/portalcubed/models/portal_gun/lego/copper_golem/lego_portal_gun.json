@@ -1,0 +1,17 @@
+{
+	"format_version": "26.3",
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "portalcubed:portal_gun/lego/humanoid/lego_portal_gun",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-180, 2, -90],
+			"translation": [5.5, -1.75, -4.5],
+			"scale": [0.80273, 0.80273, 0.80273]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-180, 2, -90],
+			"translation": [5.5, -1.75, -4.5],
+			"scale": [0.80273, 0.80273, 0.80273]
+		}
+	}
+}

@@ -27,6 +27,31 @@
   	    }
   	  ]
         }
+      },
+      {
+        "when": "minecraft:copper_golem",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/blocks/copper_golem/nylium_portal_gun",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "last_shot"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": -8043966
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
       }
     ],
     "fallback": {

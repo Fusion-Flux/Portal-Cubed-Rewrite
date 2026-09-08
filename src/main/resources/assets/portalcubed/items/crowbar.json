@@ -11,6 +11,13 @@
         }
       },
       {
+        "when": "minecraft:copper_golem",
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:item/crowbar_copper_golem"
+        }
+      },
+      {
         "when": [
           "minecraft:villager",
           "minecraft:witch",

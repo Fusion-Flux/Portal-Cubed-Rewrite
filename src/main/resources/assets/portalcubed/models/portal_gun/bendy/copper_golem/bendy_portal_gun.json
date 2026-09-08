@@ -1,0 +1,17 @@
+{
+	"format_version": "26.3",
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "portalcubed:portal_gun/bendy/humanoid/bendy_portal_gun",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, -180, 90],
+			"translation": [3.75, -1.75, -7],
+			"scale": [0.80273, 0.80273, 0.80273]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -180, 90],
+			"translation": [3.75, -1.75, -7],
+			"scale": [0.80273, 0.80273, 0.80273]
+		}
+	}
+}

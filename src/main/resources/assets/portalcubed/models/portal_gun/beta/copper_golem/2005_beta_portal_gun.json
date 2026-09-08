@@ -1,0 +1,17 @@
+{
+	"format_version": "26.3",
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "portalcubed:portal_gun/beta/humanoid/2005_beta_portal_gun",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, -51, -90],
+			"translation": [4.5, -2, -5],
+			"scale": [0.74219, 0.74219, 0.74219]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -51, -90],
+			"translation": [4.5, -2, -5],
+			"scale": [0.74219, 0.74219, 0.74219]
+		}
+	}
+}

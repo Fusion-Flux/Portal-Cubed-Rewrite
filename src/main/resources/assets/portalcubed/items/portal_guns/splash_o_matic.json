@@ -29,6 +29,31 @@
         }
       },
       {
+        "when": "minecraft:copper_golem",
+        "model": {
+ 	   "type": "minecraft:model",
+ 	   "model": "portalcubed:portal_gun/splash_o_matic/copper_golem/splash_o_matic",
+ 	   "tints": [
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "last_shot"
+  	    },
+ 	     {
+ 	       "type": "minecraft:dye",
+ 	       "default": 4292722539
+ 	     },
+ 	     {
+ 	       "type": "portalcubed:portal_gun",
+  	      "polarity": "primary"
+  	    },
+  	    {
+  	      "type": "portalcubed:portal_gun",
+  	      "polarity": "secondary"
+  	    }
+  	  ]
+        }
+      },
+      {
         "when": [
           "minecraft:villager",
           "minecraft:witch",
