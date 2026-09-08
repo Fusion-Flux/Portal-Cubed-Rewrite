@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.Validate;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInteractionUtils;
 import io.github.fusionflux.portalcubed.content.portal.manager.lookup.PortalLookup;
@@ -147,8 +147,7 @@ final class RayCaster {
 	}
 
 	/// Performs a simple (non-portal-crossing) raycast through the level, hitting blocks, fluids, and the world border.
-	@Nullable
-	private RaycastResult.BlockLike performSimpleLevelClip() {
+	private RaycastResult.@Nullable BlockLike performSimpleLevelClip() {
 		if (!this.options.shouldClipLevel())
 			return null;
 
@@ -176,8 +175,7 @@ final class RayCaster {
 		return state.is(PortalCubedBlockTags.PORTAL_INTERACTION_PASSTHROUGH);
 	}
 
-	@Nullable
-	private RaycastResult.BlockLike clipLevel(@Nullable BlockPos ignoredPos) {
+	private RaycastResult.@Nullable BlockLike clipLevel(@Nullable BlockPos ignoredPos) {
 		Vec3 startToEnd = this.currentStart.vectorTo(this.currentLimitedEnd);
 		Vec3 direction = startToEnd.normalize();
 
@@ -206,8 +204,7 @@ final class RayCaster {
 		return null;
 	}
 
-	@Nullable
-	private RaycastResult.Entity performSimpleEntityHit() {
+	private RaycastResult.@Nullable Entity performSimpleEntityHit() {
 		if (this.options.entityPredicate().isEmpty())
 			return null;
 
@@ -245,9 +242,8 @@ final class RayCaster {
 	}
 
 	/// [EntityGetterMixin#addProxyHitboxes]
-	@Nullable
 	@SuppressWarnings("JavadocReference")
-	private RaycastResult.Entity clipEntityProxyHitboxes(AABB area, Predicate<Entity> predicate, float expansion) {
+	private RaycastResult.@Nullable Entity clipEntityProxyHitboxes(AABB area, Predicate<Entity> predicate, float expansion) {
 		AABB portalArea = area.inflate(1);
 		Set<PortalReference> portals = this.level.portalManager().lookup().getPortals(portalArea);
 		if (portals.isEmpty())
@@ -309,8 +305,7 @@ final class RayCaster {
 		return predicate.test(entity);
 	}
 
-	@Nullable
-	private RaycastResult.Portal performSimplePortalHit() {
+	private RaycastResult.@Nullable Portal performSimplePortalHit() {
 		PortalMode mode = this.options.portalMode();
 		if (mode == PortalMode.IGNORE)
 			return null;

@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.framework.extension;
 
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.gui.widget.ScrollbarWidget;
 import io.github.fusionflux.portalcubed.framework.gui.widget.TickableWidget;

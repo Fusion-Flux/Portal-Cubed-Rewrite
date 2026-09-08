@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3d;
 import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
 import org.joml.Vector3d;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;

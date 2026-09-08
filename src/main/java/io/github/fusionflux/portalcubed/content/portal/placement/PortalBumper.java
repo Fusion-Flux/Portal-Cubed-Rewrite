@@ -11,11 +11,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
 import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.portal.Portal;

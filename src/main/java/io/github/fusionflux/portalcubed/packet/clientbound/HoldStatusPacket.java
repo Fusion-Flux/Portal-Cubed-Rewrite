@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.packet.clientbound;
 
 import java.util.OptionalInt;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;

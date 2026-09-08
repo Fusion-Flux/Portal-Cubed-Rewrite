@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.framework.raycast;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.interaction.IgnoringClipContextMode;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.ClipContextAccessor;

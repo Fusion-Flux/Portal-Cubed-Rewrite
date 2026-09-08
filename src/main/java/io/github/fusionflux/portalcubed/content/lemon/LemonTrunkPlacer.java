@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -52,7 +50,6 @@ public class LemonTrunkPlacer extends TrunkPlacer {
 		this.branchDistance = branchDistance;
 	}
 
-	@NotNull
 	@Override
 	protected TrunkPlacerType<?> type() {
 		return TYPE;

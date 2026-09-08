@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.framework.block;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.VERTICAL_DIRECTION;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import net.minecraft.core.BlockPos;

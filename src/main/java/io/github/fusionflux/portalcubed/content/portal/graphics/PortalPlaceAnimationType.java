@@ -2,8 +2,6 @@ package io.github.fusionflux.portalcubed.content.portal.graphics;
 
 import java.util.Locale;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 
@@ -84,7 +82,6 @@ public enum PortalPlaceAnimationType implements StringRepresentable {
 	public abstract void applyPose(float progress, PoseStack matrices);
 
 	@Override
-	@NotNull
 	public String getSerializedName() {
 		return this.name;
 	}

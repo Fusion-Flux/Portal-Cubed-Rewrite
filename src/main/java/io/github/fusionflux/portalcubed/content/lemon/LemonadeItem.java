@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.lemon;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -67,7 +65,6 @@ public class LemonadeItem extends Item {
 		return remainder.isEmpty();
 	}
 
-	@NotNull
  	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
 		return this.finishArming(stack, world, user, stack.getUseDuration(user));
@@ -79,7 +76,6 @@ public class LemonadeItem extends Item {
 		if (remainingUseTicks % Lemonade.TICKS_PER_TIMER_TICK == 0 && remainingUseTicks != 0) user.playSound(PortalCubedSounds.OLD_AP_TIMER);
 	}
 
-	@NotNull
 	@Override
 	public InteractionResult use(Level world, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);

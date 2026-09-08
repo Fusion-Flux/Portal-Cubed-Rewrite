@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.door;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import net.minecraft.core.BlockPos;

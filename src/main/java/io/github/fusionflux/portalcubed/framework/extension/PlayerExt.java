@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 

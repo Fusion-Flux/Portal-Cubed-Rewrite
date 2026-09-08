@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.stream.IntStreams;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;

@@ -2,8 +2,7 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.function.Consumer;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
@@ -33,7 +32,6 @@ public class PropItem extends Item {
 	}
 
 	@Override
-	@NotNull
 	public InteractionResult useOn(UseOnContext context) {
 		if (!(context.getLevel() instanceof ServerLevel level))
 			return InteractionResult.SUCCESS;
@@ -63,7 +61,6 @@ public class PropItem extends Item {
 	}
 
 	@Override
-	@NotNull
 	public Component getName(ItemStack stack) {
 		Integer variant = getVariant(stack);
 		return variant == null ? super.getName(stack) : Component.translatable(this.getDescriptionId() + "." + variant);

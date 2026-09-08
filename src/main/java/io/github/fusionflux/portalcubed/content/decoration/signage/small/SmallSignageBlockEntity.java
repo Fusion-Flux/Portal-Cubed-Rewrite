@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.decoration.signage.small;
 import java.util.EnumMap;
 import java.util.Map;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.Codec;
 

@@ -5,8 +5,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 
@@ -101,7 +99,6 @@ public abstract class ConstructSet {
 		}
 
 		@Override
-		@NotNull
 		public String getSerializedName() {
 			return this.name;
 		}

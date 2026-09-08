@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.gun;
 
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;

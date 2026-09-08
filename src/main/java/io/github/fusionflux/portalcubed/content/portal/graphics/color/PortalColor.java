@@ -3,7 +3,6 @@ package io.github.fusionflux.portalcubed.content.portal.graphics.color;
 import java.util.Locale;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -57,7 +56,6 @@ public interface PortalColor {
 		}
 
 		@Override
-		@NotNull
 		public String getSerializedName() {
 			return this.name;
 		}

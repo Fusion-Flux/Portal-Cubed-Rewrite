@@ -2,8 +2,6 @@ package io.github.fusionflux.portalcubed.framework.block;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.ChatFormatting;
@@ -26,7 +24,6 @@ public interface HammerableBlock {
 			Component.translatable("block.portalcubed.hammerable.desc2").withStyle(ChatFormatting.BLUE)
 	);
 
-	@NotNull
 	InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit);
 
 	static void appendTooltip(List<Component> tooltip) {

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;

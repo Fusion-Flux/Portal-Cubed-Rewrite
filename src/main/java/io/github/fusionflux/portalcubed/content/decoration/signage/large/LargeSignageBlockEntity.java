@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedBlockEntityTypes;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;

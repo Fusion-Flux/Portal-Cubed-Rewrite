@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.framework.registration.block;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;

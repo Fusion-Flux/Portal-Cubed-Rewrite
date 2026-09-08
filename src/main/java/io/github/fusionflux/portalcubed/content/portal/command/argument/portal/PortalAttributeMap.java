@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.google.common.collect.Iterators;
 
@@ -29,7 +28,6 @@ public final class PortalAttributeMap implements Iterable<PortalAttributeMap.Ent
 		return this.map.containsKey(attribute);
 	}
 
-	@NotNull
 	@Override
 	public Iterator<Entry<?>> iterator() {
 		return Iterators.transform(this.map.keySet().iterator(), this::getEntry);

@@ -2,8 +2,6 @@ package io.github.fusionflux.portalcubed.content.goo;
 
 import java.util.Optional;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedFluids;
@@ -45,19 +43,16 @@ public abstract class GooFluid extends FlowingFluid {
 		}
 	}
 
-	@NotNull
 	@Override
 	public Fluid getFlowing() {
 		return PortalCubedFluids.FLOWING_GOO;
 	}
 
-	@NotNull
 	@Override
 	public Fluid getSource() {
 		return PortalCubedFluids.GOO;
 	}
 
-	@NotNull
 	@Override
 	public Item getBucket() {
 		return PortalCubedItems.GOO_BUCKET;
@@ -79,7 +74,6 @@ public abstract class GooFluid extends FlowingFluid {
 		return 4;
 	}
 
-	@NotNull
 	@Override
 	protected BlockState createLegacyBlock(FluidState state) {
 		return PortalCubedBlocks.GOO.defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
@@ -110,7 +104,6 @@ public abstract class GooFluid extends FlowingFluid {
 		return 100f;
 	}
 
-	@NotNull
 	@Override
 	public Optional<SoundEvent> getPickupSound() {
 		return Optional.of(SoundEvents.BUCKET_FILL);

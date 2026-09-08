@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;

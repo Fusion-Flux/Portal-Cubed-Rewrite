@@ -3,9 +3,9 @@ package io.github.fusionflux.portalcubed.content.portal.clip;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.PortalCubedParticles;

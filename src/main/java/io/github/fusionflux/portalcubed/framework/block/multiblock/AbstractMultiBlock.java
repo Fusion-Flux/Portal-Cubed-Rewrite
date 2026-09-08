@@ -3,8 +3,6 @@ package io.github.fusionflux.portalcubed.framework.block.multiblock;
 import java.util.EnumMap;
 import java.util.Optional;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -111,7 +109,6 @@ public abstract class AbstractMultiBlock extends Block implements SimpleWaterlog
 	}
 
 	@Override
-	@NotNull
 	protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
 		if (state.getValue(WATERLOGGED))
 			scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -125,7 +122,6 @@ public abstract class AbstractMultiBlock extends Block implements SimpleWaterlog
 	}
 
 	@Override
-	@NotNull
 	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
 		// prevents drop from origin quadrant if this quadrant wouldn't drop anything
 		if (player.isCreative() || !player.hasCorrectToolForDrops(state)) {
@@ -142,19 +138,16 @@ public abstract class AbstractMultiBlock extends Block implements SimpleWaterlog
 	}
 
 	@Override
-	@NotNull
 	public FluidState getFluidState(BlockState state) {
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Override
-	@NotNull
 	public BlockState rotate(BlockState state, Rotation rotation) {
 		return state.setValue(FACE, rotation.rotate(state.getValue(FACE)));
 	}
 
 	@Override
-	@NotNull
 	public BlockState mirror(BlockState state, Mirror mirror) {
 		return state.rotate(mirror.getRotation(state.getValue(FACE)));
 	}

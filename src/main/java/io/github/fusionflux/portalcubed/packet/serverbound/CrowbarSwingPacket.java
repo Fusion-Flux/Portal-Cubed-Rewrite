@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;

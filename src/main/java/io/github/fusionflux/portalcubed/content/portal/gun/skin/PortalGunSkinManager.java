@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.gun.skin;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.JsonOps;
 

@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
@@ -55,7 +54,6 @@ public abstract class SignageBlock extends FaceAttachedHorizontalDirectionalBloc
 //	}
 
 	@Override
-	@NotNull
 	protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
 		if (state.getValue(WATERLOGGED))
 			scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -63,19 +61,16 @@ public abstract class SignageBlock extends FaceAttachedHorizontalDirectionalBloc
 	}
 
 	@Override
-	@NotNull
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return SHAPE.get(getConnectedDirection(state));
 	}
 
 	@Override
-	@NotNull
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
 	}
 
 	@Override
-	@NotNull
 	public FluidState getFluidState(BlockState state) {
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}

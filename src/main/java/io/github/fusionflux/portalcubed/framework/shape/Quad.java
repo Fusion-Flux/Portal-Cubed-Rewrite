@@ -1,11 +1,11 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
-import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
 import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.github.fusionflux.portalcubed.framework.util.SimpleIterator;

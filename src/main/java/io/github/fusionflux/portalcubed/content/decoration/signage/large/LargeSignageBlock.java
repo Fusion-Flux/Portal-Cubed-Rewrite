@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.large;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.content.decoration.signage.SignageBlock;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
@@ -27,7 +25,6 @@ public class LargeSignageBlock extends SignageBlock {
 	}
 
 	@Override
-	@NotNull
 	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
 		if (player instanceof ServerPlayer serverPlayer)
 			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Large(pos));

@@ -2,8 +2,6 @@ package io.github.fusionflux.portalcubed.content.portal;
 
 import java.util.Locale;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.serialization.Codec;
 
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
@@ -37,7 +35,6 @@ public enum Polarity implements StringRepresentable {
 	}
 
 	@Override
-	@NotNull
 	public String getSerializedName() {
 		return this.name;
 	}

@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.lemon;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedEntities;

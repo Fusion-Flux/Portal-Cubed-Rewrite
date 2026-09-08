@@ -2,8 +2,8 @@ package io.github.fusionflux.portalcubed.content.portal.gun;
 
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4fc;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 

@@ -2,18 +2,13 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import net.minecraft.core.BlockPos;
-
-import net.minecraft.world.entity.EntitySpawnReason;
-
-import net.minecraft.world.level.gameevent.GameEvent;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.gameevent.GameEvent;
 
 public class PropDispenseBehavior extends DefaultDispenseItemBehavior {
 	private final PropItem item;
@@ -23,7 +18,6 @@ public class PropDispenseBehavior extends DefaultDispenseItemBehavior {
 	}
 
 	@Override
-	@NotNull
 	protected ItemStack execute(BlockSource source, ItemStack stack) {
 		if (!stack.is(this.item))
 			return stack;

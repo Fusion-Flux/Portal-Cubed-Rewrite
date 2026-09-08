@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.content.portal.clip;
 import java.util.List;
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.ref.HitPortal;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;

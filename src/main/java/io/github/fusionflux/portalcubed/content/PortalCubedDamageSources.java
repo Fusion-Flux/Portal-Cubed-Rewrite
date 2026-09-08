@@ -2,8 +2,7 @@ package io.github.fusionflux.portalcubed.content;
 
 import java.util.Objects;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.framework.extension.PlayerExt;
@@ -97,7 +96,6 @@ public class PortalCubedDamageSources {
 			super(type, source, attacker);
 		}
 
-		@NotNull
 		@Override
 		public Component getLocalizedDeathMessage(LivingEntity attacked) {
 			String id = "death.attack." + this.type().msgId();

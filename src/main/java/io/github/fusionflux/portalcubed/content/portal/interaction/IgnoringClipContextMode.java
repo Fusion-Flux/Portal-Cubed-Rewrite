@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.interaction;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.raycast.NoneClipContextMode;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.ClipContext$BlockAccessor;

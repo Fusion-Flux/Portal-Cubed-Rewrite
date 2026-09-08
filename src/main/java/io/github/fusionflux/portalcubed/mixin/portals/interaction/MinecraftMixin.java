@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.portals.interaction;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -35,9 +35,8 @@ public class MinecraftMixin implements MinecraftExt {
 	@Unique
 	private RaycastResult.Portal selectedPortal;
 
-	@Nullable
 	@Override
-	public RaycastResult.Portal selectedPortal() {
+	public RaycastResult.@Nullable Portal selectedPortal() {
 		return this.selectedPortal;
 	}
 

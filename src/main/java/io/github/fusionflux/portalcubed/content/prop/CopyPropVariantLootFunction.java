@@ -2,8 +2,6 @@ package io.github.fusionflux.portalcubed.content.prop;
 
 import java.util.Optional;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -46,7 +44,6 @@ public class CopyPropVariantLootFunction extends LootItemConditionalFunction {
 	}
 
 	@Override
-	@NotNull
 	protected ItemStack run(ItemStack stack, LootContext context) {
 		String key = this.fromItem ? Prop.VARIANT_FROM_ITEM_KEY : Prop.VARIANT_KEY;
 		if (this.source.get(context) instanceof CompoundTag tag) {

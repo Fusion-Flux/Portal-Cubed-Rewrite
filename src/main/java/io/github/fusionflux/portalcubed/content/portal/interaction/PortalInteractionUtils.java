@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
@@ -176,13 +176,11 @@ public final class PortalInteractionUtils {
 
 	/// Portal-aware variant of [getNearestPlayer][Level#getNearestPlayer(double, double, double, double, boolean)].
 	/// Does not find players that **aren't** through portals; both methods must be used.
-	@Nullable
-	public static PortalPath.With<Player> getNearestPlayer(Level level, Vec3 start, double radius, boolean creative) {
+	public static PortalPath.@Nullable With<Player> getNearestPlayer(Level level, Vec3 start, double radius, boolean creative) {
 		return getNearestPlayerRecursive(level, start, radius, creative, new HashSet<>(), new HashSet<>());
 	}
 
-	@Nullable
-	private static PortalPath.With<Player> getNearestPlayerRecursive(Level level, Vec3 start, double radius, boolean creative, Set<PortalReference> entered, Set<PortalReference> noPath) {
+	private static PortalPath.@Nullable With<Player> getNearestPlayerRecursive(Level level, Vec3 start, double radius, boolean creative, Set<PortalReference> entered, Set<PortalReference> noPath) {
 		PortalPath.With<Player> nearest = null;
 		double nearestDistance = Double.MAX_VALUE;
 
@@ -212,8 +210,7 @@ public final class PortalInteractionUtils {
 		return nearest;
 	}
 
-	@Nullable
-	private static PortalPath.With<Player> choosePlayerCandidate(PortalReference portal, Level level, Vec3 pos, double radius, boolean creative, Set<PortalReference> entered, Set<PortalReference> noPath) {
+	private static PortalPath.@Nullable With<Player> choosePlayerCandidate(PortalReference portal, Level level, Vec3 pos, double radius, boolean creative, Set<PortalReference> entered, Set<PortalReference> noPath) {
 		Player player = level.getNearestPlayer(pos.x, pos.y, pos.z, radius, creative);
 		if (player != null) {
 			Vec3 center = PortalTeleportHandler.centerOf(player);

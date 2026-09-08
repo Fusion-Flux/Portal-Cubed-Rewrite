@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.item.AttackListeningItem;
 import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;

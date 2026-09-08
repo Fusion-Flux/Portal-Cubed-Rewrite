@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2d;
 import org.joml.Vector2dc;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.Codec;
 
@@ -125,7 +124,6 @@ public class SmallSignageBlock extends SignageBlock {
 	}
 
 	@Override
-	@NotNull
 	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
 		if (player instanceof ServerPlayer serverPlayer)
 			PortalCubedPackets.sendToClient(serverPlayer, new OpenSignageConfigPacket.Small(hit));
@@ -168,7 +166,6 @@ public class SmallSignageBlock extends SignageBlock {
 		}
 
 		@Override
-		@NotNull
 		public String getSerializedName() {
 			return this.name;
 		}

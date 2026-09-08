@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -37,7 +35,6 @@ public abstract class SyncedBlockEntity extends BlockEntity {
 		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
-	@NotNull
 	@Override
 	public final CompoundTag getUpdateTag(HolderLookup.Provider registries) {
 		return this.saveWithoutMetadata(registries);

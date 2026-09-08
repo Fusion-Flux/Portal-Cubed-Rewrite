@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.sync;
 
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import net.fabricmc.api.EnvType;

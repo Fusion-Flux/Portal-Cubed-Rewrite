@@ -3,8 +3,6 @@ package io.github.fusionflux.portalcubed.framework.construct.set;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
@@ -143,7 +141,6 @@ public class PillarConstructSet extends ConstructSet {
 		).withStyle(ChatFormatting.GOLD);
 
 		@Override
-		@NotNull
 		public String getSerializedName() {
 			return this.name;
 		}
@@ -162,7 +159,6 @@ public class PillarConstructSet extends ConstructSet {
 		}
 
 		@Override
-		@NotNull
 		public String getSerializedName() {
 			return this.name;
 		}

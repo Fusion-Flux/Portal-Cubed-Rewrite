@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.goo;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
 import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteraction$DispatcherAccessor;
 import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteractionsAccessor;
@@ -39,7 +37,6 @@ public class GooCauldronBlock extends AbstractCauldronBlock {
 		super(properties, INTERACTIONS);
 	}
 
-	@NotNull
 	@Override
 	protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
 		return Items.CAULDRON.getDefaultInstance();

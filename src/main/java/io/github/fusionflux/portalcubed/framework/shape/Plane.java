@@ -1,8 +1,8 @@
 package io.github.fusionflux.portalcubed.framework.shape;
 
-import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
 import org.joml.Vector3dc;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
 import io.netty.buffer.ByteBuf;

@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.gun;
 
 import java.util.Locale;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

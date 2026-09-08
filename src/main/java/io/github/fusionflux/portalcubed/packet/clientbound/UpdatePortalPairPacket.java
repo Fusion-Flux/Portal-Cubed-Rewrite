@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.content.portal.manager.ClientPortalManager;

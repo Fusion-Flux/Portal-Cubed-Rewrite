@@ -125,7 +125,6 @@ public record PortalStencilShape(int width, int height, List<Segment> segments) 
 	 * @return an Iterator.
 	 */
 	@Override
-	@NotNull
 	public Iterator<Segment> iterator() {
 		return this.segments.iterator();
 	}

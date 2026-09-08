@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.Validate;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.clip.PortalHitResult;

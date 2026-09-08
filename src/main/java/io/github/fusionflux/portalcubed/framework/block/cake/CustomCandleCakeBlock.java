@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.block.cake;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelReader;
@@ -18,7 +16,6 @@ public class CustomCandleCakeBlock extends CandleCakeBlock {
 	}
 
 	@Override
-	@NotNull
 	protected ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData) {
 		return new ItemStack(this.cake);
 	}

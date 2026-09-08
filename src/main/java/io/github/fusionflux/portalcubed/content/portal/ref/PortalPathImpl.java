@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.ToDoubleFunction;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.transform.MultiPortalTransform;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;

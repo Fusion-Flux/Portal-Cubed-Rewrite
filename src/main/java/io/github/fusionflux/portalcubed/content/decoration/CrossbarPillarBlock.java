@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.decoration;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.framework.shape.voxel.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -58,7 +56,6 @@ public class CrossbarPillarBlock extends RotatedPillarBlock implements SimpleWat
 	}
 
 	@Override
-	@NotNull
 	public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
 	}
@@ -74,14 +71,12 @@ public class CrossbarPillarBlock extends RotatedPillarBlock implements SimpleWat
 	}
 
 	@Override
-	@NotNull
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
 		FluidState fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
 		return super.getStateForPlacement(ctx).setValue(WATERLOGGED, fluidState.is(Fluids.WATER));
 	}
 
 	@Override
-	@NotNull
 	protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
 		if (state.getValue(WATERLOGGED))
 			scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -89,7 +84,6 @@ public class CrossbarPillarBlock extends RotatedPillarBlock implements SimpleWat
 	}
 
 	@Override
-	@NotNull
 	public FluidState getFluidState(BlockState state) {
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(true) : super.getFluidState(state);
 	}

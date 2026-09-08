@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.framework.extension;
 
 import java.util.Collection;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public interface ClientSuggestionProviderExt {
 	@Nullable

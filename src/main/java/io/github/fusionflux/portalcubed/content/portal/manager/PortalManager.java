@@ -10,8 +10,8 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.UnaryOperator;
 
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;

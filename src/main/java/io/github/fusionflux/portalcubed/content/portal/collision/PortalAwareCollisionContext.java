@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.portal.collision;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;

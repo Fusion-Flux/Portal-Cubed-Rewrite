@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.gui.widget;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

@@ -2,7 +2,7 @@ package io.github.fusionflux.portalcubed.content.portal.manager;
 
 import java.util.function.UnaryOperator;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalData;

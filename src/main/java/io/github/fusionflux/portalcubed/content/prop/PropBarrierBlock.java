@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.prop;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.fusionflux.portalcubed.content.prop.entity.Prop;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -17,7 +15,6 @@ public class PropBarrierBlock extends BarrierBlock {
 		super(properties);
 	}
 
-	@NotNull
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		if (context instanceof EntityCollisionContext entityCollisionContext && entityCollisionContext.getEntity() instanceof Prop)
@@ -25,7 +22,6 @@ public class PropBarrierBlock extends BarrierBlock {
 		return Shapes.empty();
 	}
 
-	@NotNull
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return context.isHoldingItem(this.asItem()) ? super.getShape(state, world, pos, context) : Shapes.empty();

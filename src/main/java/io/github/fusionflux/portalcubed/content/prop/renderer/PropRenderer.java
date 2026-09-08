@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.content.prop.renderer;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
@@ -48,7 +46,6 @@ public class PropRenderer extends EntityRenderer<Prop, PropRenderState> {
 	}
 
 	@Override
-	@NotNull
 	public PropRenderState createRenderState() {
 		return new PropRenderState();
 	}

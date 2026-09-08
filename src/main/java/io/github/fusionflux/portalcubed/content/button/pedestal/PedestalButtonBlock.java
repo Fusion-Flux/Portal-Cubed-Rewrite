@@ -4,8 +4,7 @@ import java.util.Locale;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
@@ -223,19 +222,16 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 	}
 
 	@Override
-	@NotNull
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return this.shapesCache.apply(state);
 	}
 
 	@Override
-	@NotNull
 	public FluidState getFluidState(BlockState state) {
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Override
-	@NotNull
 	public InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
 		if (player instanceof ServerPlayer serverPlayer)
 			PortalCubedPackets.sendToClient(serverPlayer, new OpenPedestalButtonConfigPacket(pos));
@@ -325,7 +321,6 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		}
 
 		@Override
-		@NotNull
 		public String getSerializedName() {
 			return this.name;
 		}

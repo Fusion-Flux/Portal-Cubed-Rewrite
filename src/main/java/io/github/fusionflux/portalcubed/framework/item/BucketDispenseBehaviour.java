@@ -1,7 +1,5 @@
 package io.github.fusionflux.portalcubed.framework.item;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
@@ -14,7 +12,6 @@ import net.minecraft.world.level.block.DispenserBlock;
 public class BucketDispenseBehaviour extends DefaultDispenseItemBehavior {
 	// Copied from vanilla with different formatting because it's stuck in the static initializer of DispenseItemBehaviour
 	@Override
-	@NotNull
 	protected ItemStack execute(BlockSource source, ItemStack stack) {
 		BlockPos pos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
 		Level world = source.level();

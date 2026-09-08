@@ -1,16 +1,15 @@
 package io.github.fusionflux.portalcubed.framework.extension;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 
 public interface MinecraftExt {
-	@Nullable
-	default RaycastResult.Portal selectedPortal() {
+	default RaycastResult.@Nullable Portal selectedPortal() {
 		throw new AbstractMethodError();
 	}
 
-	default void setSelectedPortal(@Nullable RaycastResult.Portal result) {
+	default void setSelectedPortal(RaycastResult.@Nullable Portal result) {
 		throw new AbstractMethodError();
 	}
 }

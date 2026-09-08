@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.content.cannon;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedDataComponents;
@@ -52,7 +51,6 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	}
 
 	@Override
-	@NotNull
 	public InteractionResult use(Level world, Player user, InteractionHand hand) {
 		if (user.isSecondaryUseActive()) {
 			tryOpenConfig(user, hand);
@@ -65,7 +63,6 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	}
 
 	@Override
-	@NotNull
 	public InteractionResult useOn(UseOnContext context) {
 		if (context.isSecondaryUseActive())
 			return InteractionResult.PASS; // fall back to use

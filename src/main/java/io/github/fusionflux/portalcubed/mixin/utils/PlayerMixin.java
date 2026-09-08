@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.mixin.utils;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 

@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.framework.util;
 import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /// To be replaced once we update to 26.1
 public final class ScopedValueAtHome<T> {

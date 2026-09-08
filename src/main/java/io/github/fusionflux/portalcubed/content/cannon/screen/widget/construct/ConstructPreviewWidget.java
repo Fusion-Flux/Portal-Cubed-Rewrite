@@ -1,6 +1,6 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.widget.construct;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;

@@ -24,7 +24,7 @@ public record RecursionAttachedResource<T>(Supplier<T> factory, ObjectArrayList<
 		return this.recursions.get(recursionIndex);
 	}
 
-	public void set(@NotNull T value) {
+	public void set(T value) {
 		int recursionIndex = PortalViewRenderer.recursion() - 1;
 		this.ensure(recursionIndex);
 		this.recursions.set(recursionIndex, value);

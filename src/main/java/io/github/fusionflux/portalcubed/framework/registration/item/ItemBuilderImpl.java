@@ -3,7 +3,7 @@ package io.github.fusionflux.portalcubed.framework.registration.item;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;

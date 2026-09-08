@@ -4,7 +4,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
