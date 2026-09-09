@@ -1,5 +1,5 @@
 {
-	"format_version": "1.12.11",
+	"format_version": "26.3",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "portalcubed:portal_gun/creaking_portal_gun",
@@ -99,6 +99,8 @@
 			"name": "cutout",
 			"from": [5.5, 0.5, 9],
 			"to": [10.5, 5.5, 16],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 1, -1]},
 			"faces": {
 				"north": {"uv": [8, 0, 13, 5], "texture": "#1", "tintindex": 0},
@@ -111,6 +113,8 @@
 			"name": "cutout",
 			"from": [5, 0.5, 8.5],
 			"to": [11, 5.5, 16.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.5, 1, -1.5]},
 			"faces": {
 				"up": {"uv": [0, 5, 8, 11], "rotation": 90, "texture": "#1", "tintindex": 0},
@@ -121,6 +125,8 @@
 			"name": "cutout",
 			"from": [6, 3.225, 5],
 			"to": [10, 3.225, 9],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [-1.5, -1.275, -5]},
 			"faces": {
 				"up": {"uv": [8, 6, 12, 10], "rotation": 90, "texture": "#1", "tintindex": 0}

@@ -416,6 +416,8 @@
 			"name": "emissive",
 			"from": [6.5, 11.93722, -5.55963],
 			"to": [9.5, 14.93722, 4.44037],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": -45, "axis": "x", "origin": [8, 9.5, 14]},
 			"faces": {
 				"north": {"uv": [14.5, 9.5, 16, 11], "texture": "#0"},

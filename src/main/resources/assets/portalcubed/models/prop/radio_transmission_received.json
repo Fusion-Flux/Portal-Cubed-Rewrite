@@ -35,6 +35,8 @@
 		{
 			"from": [7.5, 2, 6.5],
 			"to": [8.5, 3, 6.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2.5, 6.5]},
 			"faces": {
 				"north": {"uv": [12, 6, 13, 7], "texture": "#1"}
@@ -99,7 +101,7 @@
 			"scale": [1.30664, 1.30664, 1.30664]
 		},
 		"on_shelf": {
-			"rotation": [0, 180, 0],
+			"rotation": [0, -180, 0],
 			"translation": [0, 0, -1]
 		}
 	}

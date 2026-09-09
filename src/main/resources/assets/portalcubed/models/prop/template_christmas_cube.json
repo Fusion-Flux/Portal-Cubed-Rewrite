@@ -1,4 +1,5 @@
 {
+	"format_version": "26.3",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 32],
 	"textures": {
@@ -22,6 +23,8 @@
 		{
 			"from": [3, 0.25, 3],
 			"to": [13, 10.25, 13],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.25, 8]},
 			"faces": {
 				"north": {"uv": [5, 0, 10, 5], "texture": "#bow"},
@@ -46,6 +49,8 @@
 		{
 			"from": [2.5, 7.5, 2.5],
 			"to": [13.5, 10.75, 13.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 5.25, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 5, 1.5], "texture": "#bow"},

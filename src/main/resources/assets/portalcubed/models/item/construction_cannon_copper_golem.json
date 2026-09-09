@@ -4,7 +4,7 @@
 	"parent": "portalcubed:item/template_construction_cannon",
 	"textures": {
 		"cannon": "portalcubed:item/construction_cannon",
-		"screen": "portalcubed:item/construction_cannon_screen_fox"
+		"screen": "portalcubed:item/construction_cannon_screen_idle"
 	},
 	"display": {
 		"thirdperson_righthand": {

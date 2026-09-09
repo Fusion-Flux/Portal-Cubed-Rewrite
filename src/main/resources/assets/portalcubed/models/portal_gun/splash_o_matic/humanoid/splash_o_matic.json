@@ -93,6 +93,8 @@
 		{
 			"from": [6.5, 3.825, -2.5],
 			"to": [8.5, 5.825, 7.5],
+			"light_emission": 5,
+			"shade_direction_override": "up",
 			"rotation": {"angle": -45, "axis": "z", "origin": [7.5, 4.825, 3]},
 			"faces": {
 				"east": {"uv": [10, 16, 0, 14], "texture": "#0", "tintindex": 0},

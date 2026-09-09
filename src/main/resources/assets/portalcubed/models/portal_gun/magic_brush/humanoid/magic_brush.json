@@ -164,6 +164,8 @@
 			"name": "cutout",
 			"from": [8, 19.5, 4],
 			"to": [8, 27.5, 12],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "z", "origin": [8, 19.5, 8]},
 			"faces": {
 				"east": {"uv": [8, 0, 0, 8], "texture": "#1", "tintindex": 2},
@@ -174,6 +176,8 @@
 			"name": "cutout",
 			"from": [2.5, 19.5, 8],
 			"to": [10.5, 27.5, 8],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [6.5, 23.5, 8]},
 			"faces": {
 				"north": {"uv": [0, 8, 8, 16], "texture": "#1", "tintindex": 2},
@@ -184,6 +188,8 @@
 			"name": "cutout",
 			"from": [8, 19.5, 4],
 			"to": [8, 27.5, 12],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "z", "origin": [8, 19.5, 8]},
 			"faces": {
 				"east": {"uv": [16, 0, 8, 8], "texture": "#1", "tintindex": 3},
@@ -194,6 +200,8 @@
 			"name": "cutout",
 			"from": [2.5, 19.5, 8],
 			"to": [10.5, 27.5, 8],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [6.5, 23.5, 8]},
 			"faces": {
 				"north": {"uv": [8, 8, 16, 16], "texture": "#1", "tintindex": 3},

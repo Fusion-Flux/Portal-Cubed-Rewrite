@@ -35,6 +35,8 @@
 		{
 			"from": [7.5, 2, 6.5],
 			"to": [8.5, 3, 6.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2.5, 6.5]},
 			"faces": {
 				"north": {"uv": [11, 10, 12, 11], "texture": "#1"}

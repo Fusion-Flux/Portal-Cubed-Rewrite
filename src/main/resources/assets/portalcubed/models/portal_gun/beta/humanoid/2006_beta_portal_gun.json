@@ -426,6 +426,8 @@
 			"name": "emissive",
 			"from": [9.5, 8, 13],
 			"to": [6.5, 5, 2.925],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "z", "origin": [7.94194, 6.47595, 8]},
 			"faces": {
 				"east": {"uv": [10, 0, 0, 3], "rotation": 180, "texture": "#1", "tintindex": 0},
@@ -438,6 +440,8 @@
 			"name": "emissive",
 			"from": [6.49, 4.99, 2.99],
 			"to": [9.51, 8.01, 13.01],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "z", "origin": [7.94194, 6.47595, 8]},
 			"faces": {
 				"east": {"uv": [0, 0, 10, 3], "rotation": 180, "texture": "#1", "tintindex": 0},

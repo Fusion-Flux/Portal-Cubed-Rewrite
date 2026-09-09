@@ -195,6 +195,8 @@
 			"name": "cutout",
 			"from": [6, 1, 1],
 			"to": [10, 5, 1],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [6, 1, 0]},
 			"faces": {
 				"north": {"uv": [0, 0, 4, 4], "texture": "#1", "tintindex": 0}

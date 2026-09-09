@@ -27,6 +27,16 @@
           "type": "minecraft:model",
           "model": "portalcubed:item/construction_cannon_villager"
         }
+      },
+      {
+        "when": [
+          "minecraft:allay",
+          "minecraft:vex"
+        ],
+        "model": {
+          "type": "minecraft:model",
+          "model": "portalcubed:item/construction_cannon_allay"
+        }
       }
     ],
     "fallback": {
@@ -34,29 +44,39 @@
       "property": "minecraft:view_entity",
       "on_true": {
         "type": "minecraft:condition",
-        "property": "minecraft:keybind_down",
-        "keybind": "key.sneak",
+        "property": "minecraft:has_component",
+        "component": "portalcubed:cannon_settings",
+        "ignore_default": true,
         "on_true": {
-          "type": "minecraft:model",
-          "model": "portalcubed:item/construction_cannon_configure"
-        },
-        "on_false": {
           "type": "minecraft:condition",
           "property": "minecraft:keybind_down",
-          "keybind": "key.use",
+          "keybind": "key.sneak",
           "on_true": {
             "type": "minecraft:model",
-            "model": "portalcubed:item/construction_cannon_place"
+            "model": "portalcubed:item/construction_cannon_configure"
           },
           "on_false": {
-            "type": "minecraft:model",
-            "model": "portalcubed:item/construction_cannon_idle"
+            "type": "minecraft:condition",
+            "property": "minecraft:keybind_down",
+            "keybind": "key.use",
+            "on_true": {
+              "type": "minecraft:model",
+              "model": "portalcubed:item/construction_cannon_place"
+            },
+            "on_false": {
+              "type": "minecraft:model",
+              "model": "portalcubed:item/construction_cannon_idle"
+            }
           }
+        },
+        "on_false": {
+          "type": "minecraft:model",
+          "model": "portalcubed:item/construction_cannon_off"
         }
       },
       "on_false": {
         "type": "minecraft:model",
-        "model": "portalcubed:item/construction_cannon_idle"
+        "model": "portalcubed:item/construction_cannon_off"
       }
     }
   }

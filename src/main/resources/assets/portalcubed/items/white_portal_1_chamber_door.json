@@ -1,6 +1,15 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "portalcubed:item/white_portal_1_chamber_door"
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "portalcubed:item/white_portal_1_chamber_door"
+      },
+      {
+        "type": "minecraft:model",
+        "model": "portalcubed:item/portal_1_chamber_door_emissive"
+      }
+    ]
   }
 }

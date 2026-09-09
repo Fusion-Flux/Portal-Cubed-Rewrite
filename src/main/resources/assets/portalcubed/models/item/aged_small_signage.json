@@ -1,9 +1,27 @@
 {
+	"format_version": "26.3",
 	"credit": "Made by Cart3r using Blockbench.",
-	"parent": "minecraft:item/generated",
 	"textures": {
+		"particle": "portalcubed:signage/aged_small_signage_blank",
 		"layer0": "portalcubed:signage/aged_small_signage_blank"
 	},
+	"elements": [
+		{
+			"from": [0, 8, 7.5],
+			"to": [8, 16, 8.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
+			"faces": {
+				"north": {"uv": [8, 0, 0, 8], "texture": "#layer0"},
+				"east": {"uv": [7, 0, 8, 8], "texture": "#layer0"},
+				"south": {"uv": [8, 8, 0, 0], "rotation": 180, "texture": "#layer0"},
+				"west": {"uv": [0, 0, 1, 8], "texture": "#layer0"},
+				"up": {"uv": [0, 0, 8, 1], "texture": "#layer0"},
+				"down": {"uv": [8, 7, 0, 8], "rotation": 180, "texture": "#layer0"}
+			}
+		}
+	],
+	"gui_light": "front",
 	"display": {
 		"thirdperson_righthand": {
 			"translation": [2.25, -0.25, 1],
@@ -31,12 +49,15 @@
 			"translation": [4, -4, 0]
 		},
 		"head": {
-			"rotation": [0, 180, 0],
+			"rotation": [0, -180, 0],
 			"translation": [-4, -4.25, -7.75]
 		},
 		"fixed": {
-			"rotation": [0, 180, 0],
+			"rotation": [0, -180, 0],
 			"translation": [-4, -4, 0]
+		},
+		"on_shelf": {
+			"translation": [4, 0, -3.5]
 		}
 	}
 }

@@ -67,6 +67,8 @@
 			"name": "transparent",
 			"from": [7.5, 7, 7.5],
 			"to": [8.5, 32, 8.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7, 7.5]},
 			"faces": {
 				"north": {"uv": [12.5, 1, 0, 0], "rotation": 90, "texture": "#1", "tintindex": 0},

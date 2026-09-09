@@ -1,4 +1,5 @@
 {
+	"format_version": "26.3",
 	"credit": "Made by Cart3r using Blockbench.",
 	"texture_size": [32, 16],
 	"textures": {
@@ -23,6 +24,8 @@
 		{
 			"from": [3, 0.75, 3],
 			"to": [13, 10.75, 13],
+			"light_emission": 15,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.75, 8]},
 			"faces": {
 				"north": {"uv": [5, 0, 10, 10], "texture": "#ring"},
@@ -87,7 +90,7 @@
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {
-			"rotation": [30, 225, 0],
+			"rotation": [30, -135, 0],
 			"translation": [0, 1.25, 0],
 			"scale": [0.73633, 0.73633, 0.73633]
 		},
