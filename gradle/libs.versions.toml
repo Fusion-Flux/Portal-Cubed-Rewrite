@@ -17,3 +17,4 @@ fabric = [ "fabric-loader", "fabric-api" ]
 
 [plugins]
 loom = { id = "net.fabricmc.fabric-loom", version.ref = "fabric-loom" }
+build-logic = { id = "io.github.fusionflux.portalcubed.build-logic" }

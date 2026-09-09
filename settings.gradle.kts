@@ -9,3 +9,5 @@ pluginManagement {
 		maven("https://maven.fabricmc.net/")
 	}
 }
+
+includeBuild("build-logic")

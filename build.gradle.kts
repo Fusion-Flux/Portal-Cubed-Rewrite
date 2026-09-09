@@ -1,5 +1,6 @@
 plugins {
 	alias(libs.plugins.loom)
+	alias(libs.plugins.build.logic)
 	`maven-publish`
 }
 
@@ -48,6 +49,10 @@ tasks.processResources {
 //	runtimeClasspath += main.runtimeClasspath
 //	runtimeClasspath += main.output
 //}
+
+defaultPackageInfos {
+	sourceSet(sourceSets.main)
+}
 
 loom {
 	accessWidenerPath = file("src/main/resources/portalcubed.accesswidener")
