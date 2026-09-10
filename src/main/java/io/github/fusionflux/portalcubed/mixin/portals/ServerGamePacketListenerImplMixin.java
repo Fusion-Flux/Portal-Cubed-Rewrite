@@ -33,7 +33,7 @@ public class ServerGamePacketListenerImplMixin {
 	@Expression("target == this.player")
 	@ModifyExpressionValue(method = "handleAttack", at = @At("MIXINEXTRAS:EXPRESSION"))
 	private boolean allowAttackingSelf(boolean original) {
-		return true;
+		return false;
 	}
 
 	@Inject(
