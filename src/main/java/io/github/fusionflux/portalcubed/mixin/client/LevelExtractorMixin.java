@@ -41,7 +41,7 @@ public class LevelExtractorMixin {
 	}
 
 	@WrapOperation(
-			method = "lambda$getViewBlockingState$1",
+			method = "getViewBlockingState",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/level/block/state/BlockState;isViewBlocking(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/AABB;)Z"
@@ -53,7 +53,7 @@ public class LevelExtractorMixin {
 			return false;
 
 		if (!(blockGetter instanceof Level level)) {
-			// this comes from player.level(), but the lambda only captures it as a BlockGetter
+			// this comes from player.level(), but isViewBlocking only receives a BlockGetter
 			return true;
 		}
 
