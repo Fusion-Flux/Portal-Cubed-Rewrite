@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.cannon.screen.tab;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
@@ -49,7 +50,7 @@ public class ConstructsTab {
 			scrollBar.scrollRate = 1f / rowCount;
 		for (ConstructSet set : constructs) {
 			if (i >= 0) {
-				Identifier id = ConstructManager.INSTANCE.getId(set);
+				Identifier id = Objects.requireNonNull(ConstructManager.INSTANCE.getId(set));
 				ConstructButtonWidget button = new ConstructButtonWidget(() -> {
 					buttons.visitWidgets(widget -> ((ConstructButtonWidget) widget).deselect());
 					settings.update(b -> b.setConstruct(id));

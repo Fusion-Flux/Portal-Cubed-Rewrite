@@ -25,10 +25,8 @@ public final class PortalReference {
 
 	private final PortalManager manager;
 
-	@Nullable
-	private Portal portal;
-	@Nullable
-	private Throwable removalStacktrace;
+	private @Nullable Portal portal;
+	private @Nullable Throwable removalStacktrace;
 
 	public PortalReference(PortalId id, PortalManager manager, Portal initialPortal) {
 		this.id = id;
@@ -72,7 +70,7 @@ public final class PortalReference {
 	}
 
 	@ApiStatus.Internal
-	public void update(Portal portal) {
+	public void update(@Nullable Portal portal) {
 		if (this.portal == null && portal != null) {
 			throw new IllegalStateException("A PortalReference cannot be un-removed", this.removalStacktrace);
 		}

@@ -18,7 +18,6 @@ import io.github.fusionflux.portalcubed.mixin.utils.accessors.UseOnContextAccess
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenSignageConfigPacket;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.Optionull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.codec.StreamCodec;
@@ -116,11 +115,15 @@ public class SmallSignageBlock extends SignageBlock {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return Optionull.map(super.getStateForPlacement(ctx), state ->
-				getHitQuadrant(state, ((UseOnContextAccessor) ctx).invokeGetHitResult())
-						.map(quadrant -> state.setValue(QUADRANT_PROPERTIES.get(quadrant), true))
-						.orElse(null)
-		);
+		BlockState state = super.getStateForPlacement(ctx);
+		if (state == null)
+			return null;
+
+		BlockHitResult hit = ((UseOnContextAccessor) ctx).invokeGetHitResult();
+
+		return getHitQuadrant(state, hit).map(
+				quadrant -> state.setValue(QUADRANT_PROPERTIES.get(quadrant), true)
+		).orElse(null);
 	}
 
 	@Override

@@ -9,6 +9,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.jspecify.annotations.Nullable;
+
 import com.mojang.brigadier.Message;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -57,12 +59,12 @@ public class PortalCubedCommands {
 		return optionalArg(name, FlagArgumentType.flag(name));
 	}
 
-	public static <S, T> Optional<T> getOptional(CommandContext<S> ctx, String name, ArgumentGetter<S, T> getter) throws CommandSyntaxException {
-		return Optional.ofNullable(getOptional(ctx, name, getter, null));
+	public static <S, T> Optional<T> getOptional(CommandContext<S> ctx, String name, ArgumentGetter<S, @Nullable T> getter) throws CommandSyntaxException {
+		return Optional.ofNullable(PortalCubedCommands.getOptional(ctx, name, getter, null));
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <S, T> T getOptional(CommandContext<S> ctx, String name, ArgumentGetter<S, T> getter, T fallback) throws CommandSyntaxException {
+	public static <S, T extends @Nullable Object> T getOptional(CommandContext<S> ctx, String name, ArgumentGetter<S, T> getter, T fallback) throws CommandSyntaxException {
 		Map<String, ParsedArgument<S, ?>> args = ((CommandContextAccessor<S>) ctx).getArguments();
 		if (args.containsKey(name)) {
 			return getter.get(ctx, name);
@@ -108,7 +110,7 @@ public class PortalCubedCommands {
 	}
 
 	@FunctionalInterface
-	public interface ArgumentGetter<S, T> {
+	public interface ArgumentGetter<S, T extends @Nullable Object> {
 		T get(CommandContext<S> ctx, String name) throws CommandSyntaxException;
 	}
 }

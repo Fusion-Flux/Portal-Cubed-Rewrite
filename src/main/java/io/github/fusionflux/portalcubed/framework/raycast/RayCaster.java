@@ -47,7 +47,7 @@ final class RayCaster {
 
 	private boolean used;
 
-	private RaycastResult closestResult;
+	private @Nullable RaycastResult closestResult;
 	private Vec3 currentStart;
 	private Vec3 currentIdealEnd;
 	private Vec3 currentLimitedEnd;
@@ -227,7 +227,7 @@ final class RayCaster {
 		Entity hitContext = this.isOnFirstStep() ? context : null;
 		float expansion = this.options.entityExpansion();
 
-		EntityHitResult directResult = ProjectileUtil.getEntityHitResult(this.level, hitContext, this.currentStart, this.currentLimitedEnd, area, predicate, expansion);
+		EntityHitResult directResult = this.getDirectResult(hitContext, area, predicate, expansion);
 		RaycastResult.Entity proxyResult = this.clipEntityProxyHitboxes(area, predicate, expansion);
 
 		if (directResult == null) {
@@ -239,6 +239,11 @@ final class RayCaster {
 			double proxyDistance = proxyResult.pos.distanceTo(this.currentStart);
 			return proxyDistance < directDistance ? proxyResult : new RaycastResult.Entity(directResult);
 		}
+	}
+
+	@SuppressWarnings("DataFlowIssue") // getEntityHitResult's entity is not marked as nullable, but all it does is pass it to a method where it *is* nullable.
+	private @Nullable EntityHitResult getDirectResult(@Nullable Entity context, AABB area, Predicate<Entity> predicate, float expansion) {
+		return ProjectileUtil.getEntityHitResult(this.level, context, this.currentStart, this.currentLimitedEnd, area, predicate, expansion);
 	}
 
 	/// [EntityGetterMixin#addProxyHitboxes]

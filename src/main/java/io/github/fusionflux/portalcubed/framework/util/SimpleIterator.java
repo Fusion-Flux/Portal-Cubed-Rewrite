@@ -16,7 +16,7 @@ public final class SimpleIterator<T> extends AbstractIterator<T> {
 	}
 
 	@Override
-	protected T computeNext() {
+	protected @Nullable T computeNext() {
 		T generated = this.generator.generate(this.i);
 		if (generated == null) {
 			return this.endOfData();

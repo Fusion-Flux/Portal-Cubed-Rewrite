@@ -92,7 +92,7 @@ public class PortalCubedDamageSources {
 	}
 
 	public static class LandingDamageSource extends DamageSource {
-		LandingDamageSource(Holder<DamageType> type, Entity source, Entity attacker) {
+		LandingDamageSource(Holder<DamageType> type, @Nullable Entity source, @Nullable Entity attacker) {
 			super(type, source, attacker);
 		}
 

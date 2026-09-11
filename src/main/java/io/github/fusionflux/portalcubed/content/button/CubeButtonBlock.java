@@ -52,7 +52,7 @@ public class CubeButtonBlock extends FloorButtonBlock {
 				VoxelShaper quadrantShape = switch (facing) {
 					case NORTH, EAST -> BOTTOM_NO_WALL_SHAPES[x == 1 ? 0 : 1];
 					case WEST, SOUTH -> BOTTOM_NO_WALL_SHAPES[x];
-					default -> null;
+					default -> throw new IllegalStateException("Expected horizontal direction: " + facing);
 				};
 				return quadrantShape.get(facing);
 			}

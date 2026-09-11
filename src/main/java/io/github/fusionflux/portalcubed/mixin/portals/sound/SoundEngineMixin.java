@@ -12,6 +12,7 @@ import io.github.fusionflux.portalcubed.content.portal.interaction.PortalInterac
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.content.portal.sound.NonTeleportableSoundInstance;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.ChannelAccess;
 import net.minecraft.client.sounds.SoundEngine;
@@ -78,11 +79,16 @@ public class SoundEngineMixin {
 	}
 
 	@Unique
-	private static float determineRange(SoundInstance sound) {
-		if (sound.isRelative() || sound.getAttenuation() == SoundInstance.Attenuation.NONE)
+	private static float determineRange(SoundInstance instance) {
+		if (instance.isRelative() || instance.getAttenuation() == SoundInstance.Attenuation.NONE)
 			return Float.POSITIVE_INFINITY;
 
-		float volume = sound.getVolume();
-		return Math.max(volume, 1) * sound.getSound().getAttenuationDistance();
+		Sound sound = instance.getSound();
+		if (sound == null) {
+			return Float.POSITIVE_INFINITY;
+		}
+
+		float volume = instance.getVolume();
+		return Math.max(volume, 1) * sound.getAttenuationDistance();
 	}
 }

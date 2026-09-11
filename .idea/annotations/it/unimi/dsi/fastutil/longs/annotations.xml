@@ -1,0 +1,5 @@
+<root>
+    <item name='it.unimi.dsi.fastutil.longs.Long2ObjectFunction V get(long)'>
+        <annotation name='org.jspecify.annotations.Nullable'/>
+    </item>
+</root>

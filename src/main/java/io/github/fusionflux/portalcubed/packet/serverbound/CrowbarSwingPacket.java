@@ -1,9 +1,10 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
+import java.util.Optional;
+
 import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.misc.CrowbarItem;
-import io.github.fusionflux.portalcubed.framework.util.PortalCubedStreamCodecs;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.ServerboundPacket;
 import io.netty.buffer.ByteBuf;
@@ -18,15 +19,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-public record CrowbarSwingPacket(@Nullable BlockHitResult hit, boolean didSwingAnim) implements ServerboundPacket {
+public record CrowbarSwingPacket(Optional<BlockHitResult> hit, boolean didSwingAnim) implements ServerboundPacket {
 	public static final StreamCodec<ByteBuf, CrowbarSwingPacket> CODEC = StreamCodec.composite(
-			PortalCubedStreamCodecs.nullable(BlockHitResult.STREAM_CODEC), CrowbarSwingPacket::hit,
+			ByteBufCodecs.optional(BlockHitResult.STREAM_CODEC), CrowbarSwingPacket::hit,
 			ByteBufCodecs.BOOL, CrowbarSwingPacket::didSwingAnim,
 			CrowbarSwingPacket::new
 	);
 
 	public CrowbarSwingPacket(@Nullable HitResult hit, boolean didSwingAnim) {
-		this(hit instanceof BlockHitResult blockHit ? blockHit : null, didSwingAnim);
+		this(hit instanceof BlockHitResult blockHit ? Optional.of(blockHit) : Optional.empty(), didSwingAnim);
 	}
 
 	@Override
@@ -39,14 +40,14 @@ public record CrowbarSwingPacket(@Nullable BlockHitResult hit, boolean didSwingA
 		Player player = ctx.player();
 		ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 		if (stack.getItem() instanceof CrowbarItem crowbar && this.isHitValid(player)) {
-			crowbar.onSwing(player, stack, this.hit, this.didSwingAnim);
+			crowbar.onSwing(player, stack, this.hit.orElse(null), this.didSwingAnim);
 		}
 	}
 
 	private boolean isHitValid(Player player) {
-		if (this.hit == null)
+		if (this.hit.isEmpty())
 			return true;
 
-		return player.isWithinBlockInteractionRange(this.hit.getBlockPos(), Container.DEFAULT_DISTANCE_BUFFER);
+		return player.isWithinBlockInteractionRange(this.hit.get().getBlockPos(), Container.DEFAULT_DISTANCE_BUFFER);
 	}
 }

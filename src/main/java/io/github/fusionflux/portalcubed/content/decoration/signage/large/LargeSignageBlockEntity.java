@@ -20,24 +20,28 @@ import net.minecraft.world.level.storage.ValueOutput;
 public class LargeSignageBlockEntity extends SignageBlockEntity {
 	private static final String IMAGE_KEY = "image";
 
-	@Nullable
-	private Holder<Signage> image;
+	private @Nullable Holder<Signage> image;
 
 	public LargeSignageBlockEntity(BlockPos pos, BlockState state) {
 		super(PortalCubedBlockEntityTypes.LARGE_SIGNAGE, pos, state, PortalCubedBlocks.AGED_LARGE_SIGNAGE);
 	}
 
 	public Holder<Signage> getImage() {
-		if (this.image == null && this.level != null) {
-			return this.level.registryAccess()
-					.get(Signage.LARGE_BLANK)
-					.orElse(null);
+		if (this.image == null) {
+			if (this.level == null) {
+				throw new IllegalStateException("Cannot lookup " + Signage.LARGE_BLANK + " without level context");
+			}
+
+			return this.level.registryAccess().get(Signage.LARGE_BLANK).orElseThrow(
+					() -> new IllegalStateException(Signage.LARGE_BLANK + " is missing!")
+			);
 		}
+
 		return this.image;
 	}
 
 	public void setImage(Holder<Signage> image) {
-		if (image != null && image != this.getImage()) {
+		if (image != this.getImage()) {
 			this.image = image;
 			this.updateImage();
 		}
@@ -59,8 +63,9 @@ public class LargeSignageBlockEntity extends SignageBlockEntity {
 	@Override
 	protected void applyImplicitComponents(DataComponentGetter components) {
 		SelectedLargeSignage component = components.get(PortalCubedDataComponents.SELECTED_LARGE_SIGNAGE);
-		if (component != null)
+		if (component != null) {
 			this.image = component.image();
+		}
 	}
 
 	@Override

@@ -1,26 +1,20 @@
 # Gradle
 .gradle/
 build/
-out/
-classes/
-
-# Quilt Loom
-run/
-
-# Eclipse
-*.launch
 
 # IntelliJ Idea
 .idea/*
 !.idea/inspectionProfiles
+!.idea/annotations
 # for some reason, entrypoints are stored here, not in the inspection profile
 # https://youtrack.jetbrains.com/issue/IDEA-84055
 !.idea/misc.xml
 .idea/inspectionProfiles/*
 !.idea/inspectionProfiles/Portal_Cubed.xml
-*.iml
-*.ipr
-*.iws
+
+# Eclipse
+*.launch
+workspace/
 
 # Visual Studio Code
 .settings/
@@ -29,13 +23,12 @@ bin/
 .classpath
 .project
 
-# Eclipse JDT LS
-workspace/
-
 # macOS
 *.DS_Store
 
-# Other
-/resources_template/
-# I've added .ini to this list at least 3 times now, how does it keep escaping
+# Minecraft
+run/
+
+# Misc
+resources_template/
 *.ini

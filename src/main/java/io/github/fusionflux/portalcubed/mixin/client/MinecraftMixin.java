@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
+import java.util.Objects;
+
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -56,7 +58,8 @@ public class MinecraftMixin {
 	)
 	private void directAttack(CallbackInfoReturnable<Boolean> cir, @Local(name = "heldItem") ItemStack stack) {
 		if (stack.getItem() instanceof AttackListeningItem direct) {
-			TriState result = direct.onAttack(this.level, this.player, stack, this.hitResult);
+			ClientLevel level = Objects.requireNonNull(this.level);
+			TriState result = direct.onAttack(level, this.player, stack, this.hitResult);
 			if (result != TriState.DEFAULT) {
 				if (result == TriState.TRUE) {
 					PortalCubedPackets.sendToServer(new CustomAttackPacket(InteractionHand.MAIN_HAND, this.hitResult));

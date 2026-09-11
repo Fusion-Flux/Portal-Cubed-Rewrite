@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.jspecify.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -14,7 +16,7 @@ import net.minecraft.util.Util;
 
 /// Message Of The Launch
 public class MOTL {
-	private static final List<Supplier<String>> providers = new ArrayList<>();
+	private static final List<Supplier<@Nullable String>> providers = new ArrayList<>();
 
 	static {
 		register(() -> {
@@ -31,13 +33,13 @@ public class MOTL {
 		providers.add(() -> string);
 	}
 
-	private static void register(Supplier<String> provider) {
+	private static void register(Supplier<@Nullable String> provider) {
 		providers.add(provider);
 	}
 
 	public static String get() {
 		Collections.shuffle(providers);
-		for (Supplier<String> provider : providers) {
+		for (Supplier<@Nullable String> provider : providers) {
 			String message = provider.get();
 			if (message != null) {
 				return message;

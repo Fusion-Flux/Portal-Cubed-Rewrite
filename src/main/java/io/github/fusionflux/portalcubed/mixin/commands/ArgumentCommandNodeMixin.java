@@ -2,6 +2,7 @@ package io.github.fusionflux.portalcubed.mixin.commands;
 
 import java.util.concurrent.CompletableFuture;
 
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -22,7 +23,7 @@ public class ArgumentCommandNodeMixin<S, T> {
 	@Shadow
 	@Final
 	@Mutable
-	private SuggestionProvider<S> customSuggestions;
+	private @Nullable SuggestionProvider<S> customSuggestions;
 
 	@WrapMethod(method = "listSuggestions")
 	private CompletableFuture<Suggestions> handleSuggestionAdders(CommandContext<S> context, SuggestionsBuilder builder, Operation<CompletableFuture<Suggestions>> original) {

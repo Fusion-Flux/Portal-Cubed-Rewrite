@@ -2,9 +2,11 @@ package io.github.fusionflux.portalcubed.mixin.portals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.joml.Vector3d;
+import org.jspecify.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -53,7 +55,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements PortalTeleportationExt {
 	@Unique
-	private static final ThreadLocal<EntityCollisionState> collisionState = new ThreadLocal<>();
+	private static final ThreadLocal<@Nullable EntityCollisionState> collisionState = new ThreadLocal<>();
 
 	@Shadow
 	public abstract int getId();
@@ -81,7 +83,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	// unfortunately cannot be final, we need to set this after setting this.level.
 	@Unique
-	private Optional<TeleportTracker> teleportTracker;
+	private @Nullable Optional<TeleportTracker> teleportTracker;
 
 	@Unique
 	private int portalCollisionRecursionDepth;
@@ -179,7 +181,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 
 	@Override
 	public Optional<TeleportTracker> pc$teleportTracker() {
-		return this.teleportTracker;
+		return Objects.requireNonNull(this.teleportTracker, "TeleportTracker hasn't been set yet!");
 	}
 
 	@Override
@@ -220,7 +222,7 @@ public abstract class EntityMixin implements PortalTeleportationExt {
 	}
 
 	@ModifyReturnValue(method = "collideWithShapes", at = @At("RETURN"))
-	private static Vec3 portalCollision(Vec3 motionMc, @Share("bounds") LocalRef<AABB> boundsRef) {
+	private static Vec3 portalCollision(Vec3 motionMc, @Share("bounds") LocalRef<@Nullable AABB> boundsRef) {
 		EntityCollisionState state = collisionState.get();
 		if (state == null) {
 			return motionMc;

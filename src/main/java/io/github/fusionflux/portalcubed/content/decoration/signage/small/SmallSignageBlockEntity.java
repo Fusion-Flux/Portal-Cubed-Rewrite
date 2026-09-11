@@ -44,7 +44,7 @@ public class SmallSignageBlockEntity extends SignageBlockEntity {
 		return holder;
 	}
 
-	public void setQuadrantImage(SmallSignageBlock.Quadrant quadrant, Holder<Signage> image) {
+	public void setQuadrantImage(SmallSignageBlock.Quadrant quadrant, @Nullable Holder<Signage> image) {
 		if (image != null && image != this.getQuadrantImage(quadrant)) {
 			this.quadrants.put(quadrant, image);
 			this.updateImage();

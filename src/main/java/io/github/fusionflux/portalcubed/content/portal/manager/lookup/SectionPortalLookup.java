@@ -154,7 +154,7 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 	private void addPortal(PortalReference reference) {
 		forEachSectionContainingPortal(
 				reference.get(),
-				section -> this.sectionsToPortals.computeIfAbsent(section, $ -> new ArrayList<>()).add(reference)
+				section -> this.sectionsToPortals.computeIfAbsent(section, _ -> new ArrayList<>()).add(reference)
 		);
 	}
 
@@ -205,8 +205,8 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 	}
 
 	private static final class ClosestPortal {
-		private PortalReference portal;
-		private Vec3 hit;
+		private @Nullable PortalReference portal;
+		private @Nullable Vec3 hit;
 		private double distSqr;
 
 		private ClosestPortal() {

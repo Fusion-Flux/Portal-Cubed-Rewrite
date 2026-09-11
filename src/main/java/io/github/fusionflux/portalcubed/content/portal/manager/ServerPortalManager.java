@@ -82,10 +82,10 @@ public final class ServerPortalManager extends PortalManager {
 
 	public static void registerEventListeners() {
 		ServerPlayConnectionEvents.JOIN.register(
-				(handler, sender, server) -> handler.player.level().portalManager().syncToPlayer(handler.player)
+				(handler, _, _) -> handler.player.level().portalManager().syncToPlayer(handler.player)
 		);
 		ServerEntityLevelChangeEvents.AFTER_PLAYER_CHANGE_LEVEL.register(
-				(player, origin, destination) -> destination.portalManager().syncToPlayer(player)
+				(player, _, destination) -> destination.portalManager().syncToPlayer(player)
 		);
 	}
 }

@@ -3,6 +3,8 @@ package io.github.fusionflux.portalcubed.framework.gui.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.mixin.client.GuiGraphicsExtractorAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -13,7 +15,7 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
 public class AdvancedTooltip {
 	private final Factory factory;
-	private List<ClientTooltipComponent> components;
+	private @Nullable List<ClientTooltipComponent> components;
 	private boolean lastAdvancedTooltips;
 
 	public AdvancedTooltip(Factory factory) {

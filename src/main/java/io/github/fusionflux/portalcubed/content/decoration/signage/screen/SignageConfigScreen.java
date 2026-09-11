@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.function.TriConsumer;
+import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.decoration.signage.Signage;
@@ -153,7 +154,7 @@ public abstract class SignageConfigScreen extends Screen {
 	}
 
 	@Override
-	public ComponentPath nextFocusPath(FocusNavigationEvent event) {
+	public @Nullable ComponentPath nextFocusPath(FocusNavigationEvent event) {
 		return null;
 	}
 

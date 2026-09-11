@@ -6,6 +6,8 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.PortalCubedBlocks;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
@@ -223,7 +225,7 @@ public class PedestalButtonConfigScreen extends Screen {
 	}
 
 	@Override
-	public ComponentPath nextFocusPath(FocusNavigationEvent event) {
+	public @Nullable ComponentPath nextFocusPath(FocusNavigationEvent event) {
 		return null;
 	}
 

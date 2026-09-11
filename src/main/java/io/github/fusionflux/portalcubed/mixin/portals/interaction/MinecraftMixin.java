@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.mixin.portals.interaction;
 
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -17,7 +16,6 @@ import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -26,14 +24,8 @@ import net.minecraft.world.level.GameType;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin implements MinecraftExt {
-	@Shadow
-	@Nullable
-	public MultiPlayerGameMode gameMode;
-	@Shadow
-	@Nullable
-	public LocalPlayer player;
 	@Unique
-	private RaycastResult.Portal selectedPortal;
+	private RaycastResult.@Nullable Portal selectedPortal;
 
 	@Override
 	public RaycastResult.@Nullable Portal selectedPortal() {
@@ -41,7 +33,7 @@ public class MinecraftMixin implements MinecraftExt {
 	}
 
 	@Override
-	public void setSelectedPortal(RaycastResult.Portal result) {
+	public void setSelectedPortal(RaycastResult.@Nullable Portal result) {
 		this.selectedPortal = result;
 	}
 
@@ -53,12 +45,12 @@ public class MinecraftMixin implements MinecraftExt {
 			)
 	)
 	private InteractionResult useItemsOnPortals(MultiPlayerGameMode gameMode, Player player, InteractionHand hand, Operation<InteractionResult> original) {
-		if (this.selectedPortal != null && this.gameMode != null && this.gameMode.getPlayerMode() != GameType.SPECTATOR) {
+		if (this.selectedPortal != null && gameMode.getPlayerMode() != GameType.SPECTATOR) {
 			ItemStack stack = player.getItemInHand(hand);
 			if (stack.getItem() instanceof UsableOnPortals item) {
 				PortalReference portal = this.selectedPortal.portal;
 				PortalCubedPackets.sendToServer(new UseItemOnPortalPacket(portal.id, hand));
-				return item.useOnPortal(this.player, portal, stack, hand);
+				return item.useOnPortal(player, portal, stack, hand);
 			}
 		}
 

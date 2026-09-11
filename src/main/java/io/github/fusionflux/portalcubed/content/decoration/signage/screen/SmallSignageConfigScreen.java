@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.decoration.signage.screen;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import org.apache.commons.lang3.function.TriConsumer;
 
@@ -87,7 +88,7 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 					this.smallSignage.getBlockPos(),
 					this.tab.quadrant(),
 					this.slotsEnabled ? TriState.TRUE : TriState.FALSE,
-					null
+					Optional.empty()
 			));
 		}));
 		quadrantToggle.addChild(
@@ -115,7 +116,7 @@ public class SmallSignageConfigScreen extends SignageConfigScreen {
 				this.smallSignage.getBlockPos(),
 				this.tab.quadrant(),
 				TriState.DEFAULT,
-				image
+				Optional.of(image)
 		));
 	}
 

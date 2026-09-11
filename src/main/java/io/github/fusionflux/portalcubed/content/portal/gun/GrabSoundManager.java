@@ -17,12 +17,12 @@ public class GrabSoundManager {
 	private final Player player;
 
 	@Environment(EnvType.CLIENT)
-	private FollowingSoundInstance grabSoundPlaying;
+	private @Nullable FollowingSoundInstance grabSoundPlaying;
 	@Environment(EnvType.CLIENT)
-	private FollowingSoundInstance holdSoundPlaying;
+	private @Nullable FollowingSoundInstance holdSoundPlaying;
 
 	private int grabTimer;
-	private PortalGunSettings portalGun;
+	private @Nullable PortalGunSettings portalGun;
 
 	public GrabSoundManager(Player player) {
 		this.player = player;

@@ -6,7 +6,7 @@ import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 
 public interface PlayerExt {
 	// note: no prefixes needed, descriptors guaranteed unique by HoldableEntity
-	default void setHeldEntity(HoldableEntity heldEntity) {
+	default void setHeldEntity(@Nullable HoldableEntity heldEntity) {
 		throw new AbstractMethodError();
 	}
 

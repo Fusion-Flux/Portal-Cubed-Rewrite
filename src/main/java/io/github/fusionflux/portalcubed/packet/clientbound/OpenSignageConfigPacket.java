@@ -36,7 +36,7 @@ public sealed interface OpenSignageConfigPacket extends ClientboundPacket permit
 	@Override
 	default void handle(ClientPlayNetworking.Context ctx) {
 		Minecraft client = ctx.client();
-		Screen screen = this.createScreen(client.player.level().getBlockEntity(this.signagePos()));
+		Screen screen = this.createScreen(ctx.player().level().getBlockEntity(this.signagePos()));
 		if (client.gui.screen() == null && screen != null)
 			client.gui.setScreen(screen);
 	}

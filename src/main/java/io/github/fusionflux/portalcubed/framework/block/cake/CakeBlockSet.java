@@ -53,7 +53,7 @@ public final class CakeBlockSet {
 		private final Map<Block, Block> candleToCake;
 
 		// field used to smuggle the base cake into candled variant factories
-		private Block builtBase = null;
+		private @Nullable Block builtBase = null;
 
 		private Builder(String name, Registrar registrar) {
 			this.candled = new IdentityHashMap<>();

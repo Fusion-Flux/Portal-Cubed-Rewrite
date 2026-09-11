@@ -1,5 +1,7 @@
 package io.github.fusionflux.portalcubed.mixin.portals.client;
 
+import java.util.Objects;
+
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -45,7 +47,8 @@ public abstract class CameraMixin {
 			)
 	)
 	private void applyMidTeleportSubTickMotion(Camera instance, double x, double y, double z, Operation<Void> original, @Local(argsOnly = true, name = "partialTicks") float partialTicks) {
-		EntityState override = EntityState.getOverride(this.entity, partialTicks);
+		Entity entity = Objects.requireNonNull(this.entity);
+		EntityState override = EntityState.getOverride(entity, partialTicks);
 		if (override != null) {
 			x = override.pos().x;
 			y = override.pos().y + Mth.lerp(partialTicks, this.eyeHeightOld, this.eyeHeight);

@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.packet.serverbound;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.jspecify.annotations.Nullable;
@@ -20,6 +21,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
@@ -70,12 +72,12 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 		}
 	}
 
-	record Small(BlockPos signagePos, SmallSignageBlock.Quadrant quadrant, TriState enabled, @Nullable Holder<Signage> image) implements ConfigureSignageConfigPacket {
+	record Small(BlockPos signagePos, SmallSignageBlock.Quadrant quadrant, TriState enabled, Optional<Holder<Signage>> image) implements ConfigureSignageConfigPacket {
 		public static final StreamCodec<RegistryFriendlyByteBuf, Small> CODEC = StreamCodec.composite(
 				BlockPos.STREAM_CODEC, Small::signagePos,
 				SmallSignageBlock.Quadrant.STREAM_CODEC, Small::quadrant,
 				PortalCubedStreamCodecs.ofEnum(TriState.class), Small::enabled,
-				PortalCubedStreamCodecs.nullable(Signage.SMALL_STREAM_CODEC), Small::image,
+				ByteBufCodecs.optional(Signage.SMALL_STREAM_CODEC), Small::image,
 				Small::new
 		);
 
@@ -95,8 +97,8 @@ public sealed interface ConfigureSignageConfigPacket extends ServerboundPacket p
 					changedSettings.add(PortalCubedTestElementSettings.SMALL_SIGNAGE_QUADRANT_TOGGLE);
 				}
 
-				if (this.image != null) {
-					signageBlock.setQuadrantImage(this.quadrant, this.image);
+				if (this.image.isPresent()) {
+					signageBlock.setQuadrantImage(this.quadrant, this.image.orElse(null));
 					changedSettings.add(PortalCubedTestElementSettings.SMALL_SIGNAGE_IMAGE);
 				}
 

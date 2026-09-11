@@ -36,7 +36,7 @@ public final class ScopedValueAtHome<T> {
 		this.set(null);
 	}
 
-	private void set(T value) {
+	private void set(@Nullable T value) {
 		this.threadLocal.set(value);
 	}
 
