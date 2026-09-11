@@ -30,6 +30,7 @@ import io.github.fusionflux.portalcubed.framework.block.SaneStairBlock;
 import io.github.fusionflux.portalcubed.framework.block.TransparentSlabBlock;
 import io.github.fusionflux.portalcubed.framework.block.VerticalConnectiveDirectionalBlock;
 import io.github.fusionflux.portalcubed.framework.block.cake.CakeBlockSet;
+import io.github.fusionflux.portalcubed.framework.item.ConfigurableTestElement;
 import io.github.fusionflux.portalcubed.framework.item.MultiBlockItem;
 import io.github.fusionflux.portalcubed.framework.registration.block.BlockItemProvider;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
@@ -124,9 +125,11 @@ public class PortalCubedBlocks {
 	// ----- pedestal buttons -----
 	public static final PedestalButtonBlock PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("pedestal_button", PedestalButtonBlock::new, Blocks.STONE)
 			.properties(s -> s.pushReaction(PushReaction.IMMOVEABLE).mapColor(MapColor.TERRACOTTA_RED))
+			.item(ConfigurableTestElement::addComponent)
 			.build();
 	public static final PedestalButtonBlock OLD_AP_PEDESTAL_BUTTON = REGISTRAR.blocks.createFrom("old_ap_pedestal_button", PedestalButtonBlock::oldAp, Blocks.STONE)
 			.properties(s -> s.pushReaction(PushReaction.IMMOVEABLE).mapColor(MapColor.TERRACOTTA_RED))
+			.item(ConfigurableTestElement::addComponent)
 			.build();
 	// ----- chamber doors -----
 	public static final Map<ChamberDoorType, Map<ChamberDoorMaterial, ChamberDoorBlock>> CHAMBER_DOORS = Util.make(
@@ -300,15 +303,19 @@ public class PortalCubedBlocks {
 					.mapColor(MapColor.QUARTZ)
 					.sound(SoundType.COPPER_BULB)
 			)
+			.item(ConfigurableTestElement::addComponent)
 			.build();
 	public static final LargeSignageBlock AGED_LARGE_SIGNAGE = REGISTRAR.blocks.createFrom("aged_large_signage", LargeSignageBlock::new, LARGE_SIGNAGE)
 			.properties(settings -> settings.mapColor(MapColor.SAND))
+			.item(ConfigurableTestElement::addComponent)
 			.build();
 	public static final SmallSignageBlock SMALL_SIGNAGE = REGISTRAR.blocks.createFrom("small_signage", SmallSignageBlock::new, LARGE_SIGNAGE)
 			.properties(BlockBehaviour.Properties::noOcclusion)
+			.item(ConfigurableTestElement::addComponent)
 			.build();
 	public static final SmallSignageBlock AGED_SMALL_SIGNAGE = REGISTRAR.blocks.createFrom("aged_small_signage", SmallSignageBlock::new, SMALL_SIGNAGE)
 			.properties(settings -> settings.mapColor(MapColor.SAND))
+			.item(ConfigurableTestElement::addComponent)
 			.build();
 
 	// ----- misc blocks - tiles -----

@@ -1,14 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
-import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -19,11 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public interface HammerableBlock {
-	Component TOOLTIP_TITLE = Component.translatable("block.portalcubed.hammerable.desc1").withStyle(ChatFormatting.GRAY);
-	Component TOOLTIP_DESC = CommonComponents.space().append(
-			Component.translatable("block.portalcubed.hammerable.desc2").withStyle(ChatFormatting.BLUE)
-	);
-
 	InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit);
 
 	static void registerEventListeners() {
@@ -46,14 +36,6 @@ public interface HammerableBlock {
 				}
 			}
 			return result;
-		});
-
-		ItemTooltipCallback.EVENT.register((stack, _, _, lines) -> {
-			if (stack.is(PortalCubedItemTags.CONFIGURABLE_TEST_ELEMENTS)) {
-				lines.add(CommonComponents.EMPTY);
-				lines.add(TOOLTIP_TITLE);
-				lines.add(TOOLTIP_DESC);
-			}
 		});
 	}
 }

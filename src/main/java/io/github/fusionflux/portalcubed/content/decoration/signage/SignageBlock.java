@@ -47,12 +47,6 @@ public abstract class SignageBlock extends FaceAttachedHorizontalDirectionalBloc
 		return Optionull.map(super.getStateForPlacement(ctx), state -> state.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER));
 	}
 
-	// TODO: Hover Text - Max
-//	@Override
-//	public void appendHoverText(ItemStack stack, Item.TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-//		HammerableBlock.appendTooltip(tooltip);
-//	}
-
 	@Override
 	protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
 		if (state.getValue(WATERLOGGED))

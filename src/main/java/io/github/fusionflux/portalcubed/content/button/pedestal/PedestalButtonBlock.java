@@ -238,12 +238,6 @@ public class PedestalButtonBlock extends HorizontalDirectionalBlock implements S
 		return InteractionResult.SUCCESS;
 	}
 
-	// TODO: Hover Text everywhere - Max
-//	@Override
-//	public void appendHoverText(ItemStack stack, Item.TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-//		HammerableBlock.appendTooltip(tooltip);
-//	}
-
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (state.getValue(ACTIVE)) {

@@ -7,7 +7,9 @@ import io.github.fusionflux.portalcubed.content.cannon.CannonSettings;
 import io.github.fusionflux.portalcubed.content.decoration.signage.component.SelectedLargeSignage;
 import io.github.fusionflux.portalcubed.content.decoration.signage.component.SelectedSmallSignage;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunSettings;
+import io.github.fusionflux.portalcubed.framework.item.ConfigurableTestElement;
 import io.github.fusionflux.portalcubed.framework.item.FallSound;
+import net.fabricmc.fabric.api.item.v1.ItemComponentTooltipProviderRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -18,12 +20,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.Unit;
+import net.minecraft.world.item.component.TooltipProvider;
 
 public class PortalCubedDataComponents {
-	public static final DataComponentType<PortalGunSettings> PORTAL_GUN_SETTINGS = register(
+	public static final DataComponentType<PortalGunSettings> PORTAL_GUN_SETTINGS = registerWithTooltip(
 			"portal_gun_settings", PortalGunSettings.CODEC, PortalGunSettings.STREAM_CODEC
 	);
-	public static final DataComponentType<CannonSettings> CANNON_SETTINGS = register(
+	public static final DataComponentType<CannonSettings> CANNON_SETTINGS = registerWithTooltip(
 			"cannon_settings", CannonSettings.CODEC, CannonSettings.STREAM_CODEC
 	);
 	public static final DataComponentType<Unit> LEMONADE_ARMED = register(
@@ -35,20 +38,29 @@ public class PortalCubedDataComponents {
 	public static final DataComponentType<Holder<SoundEvent>> RADIO_TRACK = register(
 			"radio_track", SoundEvent.CODEC, SoundEvent.STREAM_CODEC
 	);
-	public static final DataComponentType<SelectedLargeSignage> SELECTED_LARGE_SIGNAGE = register(
+	public static final DataComponentType<SelectedLargeSignage> SELECTED_LARGE_SIGNAGE = registerWithTooltip(
 			"selected_large_signage", SelectedLargeSignage.CODEC, SelectedLargeSignage.STREAM_CODEC
 	);
-	public static final DataComponentType<SelectedSmallSignage> SELECTED_SMALL_SIGNAGE = register(
+	public static final DataComponentType<SelectedSmallSignage> SELECTED_SMALL_SIGNAGE = registerWithTooltip(
 			"selected_small_signage", SelectedSmallSignage.CODEC, SelectedSmallSignage.STREAM_CODEC
 	);
 	public static final DataComponentType<FallSound> FALL_SOUND = register(
 			"fall_sound", FallSound.CODEC, FallSound.STREAM_CODEC
+	);
+	public static final DataComponentType<ConfigurableTestElement> CONFIGURABLE_TEST_ELEMENT = registerWithTooltip(
+			"configurable_test_element", ConfigurableTestElement.CODEC, ConfigurableTestElement.STREAM_CODEC
 	);
 
 	private static <T> DataComponentType<T> register(String name, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
 		DataComponentType.Builder<T> builder = DataComponentType.builder();
 		builder.persistent(codec).networkSynchronized(streamCodec);
 		return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, PortalCubed.id(name), builder.build());
+	}
+
+	private static <T extends TooltipProvider> DataComponentType<T> registerWithTooltip(String name, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
+		DataComponentType<T> type = register(name, codec, streamCodec);
+		ItemComponentTooltipProviderRegistry.addLast(type);
+		return type;
 	}
 
 	public static void init() {
