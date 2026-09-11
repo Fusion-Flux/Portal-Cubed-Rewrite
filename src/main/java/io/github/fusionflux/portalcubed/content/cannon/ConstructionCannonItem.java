@@ -30,6 +30,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -42,6 +43,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.Vec3;
 
 public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	public static final Identifier REACH_BOOST = PortalCubed.id("construction_cannon_reach_boost");
@@ -208,10 +210,10 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 	}
 
 	private static void playSound(ServerPlayer player, SoundEvent sound, float volume, float pitch) {
-		// TODO: No idea, playNotifySound is gone - Max
-//		if (!player.isSilent()) {
-//			player.playSound(sound, volume, pitch); // plays to other players
-//			player.playNotifySound(sound, player.getSoundSource(), volume, pitch); // plays to self
-//		}
+		if (player.isSilent())
+			return;
+
+		Vec3 soundPos = player.getEyePosition();
+		player.level().playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, SoundSource.PLAYERS, volume, pitch);
 	}
 }
