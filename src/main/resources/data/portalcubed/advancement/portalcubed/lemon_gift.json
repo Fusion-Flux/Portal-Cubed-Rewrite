@@ -1,0 +1,70 @@
+{
+  "parent": "portalcubed:portalcubed/lemon",
+  "display": {
+    "icon": {
+      "id": "portalcubed:lemon"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.lemon_gift.title"
+    },
+    "description": {
+      "translate": "advancement.portalcubed.lemon_gift.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "zombie": {
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "minecraft:zombie"
+          }
+        },
+        "item": {
+          "items": "portalcubed:lemon"
+        }
+      },
+      "trigger": "minecraft:thrown_item_picked_up_by_entity"
+    },
+    "player": {
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "minecraft:player",
+            "minecraft:distance": {
+              "x": {
+                "min": 1
+              },
+              "y": {
+                "min": 1
+              },
+              "z": {
+                "min": 1
+              }
+            }
+          }
+        },
+        "item": {
+          "items": "portalcubed:lemon"
+        }
+      },
+      "trigger": "minecraft:thrown_item_picked_up_by_entity"
+    }
+  },
+  "rewards": {
+    "experience": 25
+  },
+  "requirements": [
+    [
+      "player",
+      "zombie"
+    ]
+  ]
+}

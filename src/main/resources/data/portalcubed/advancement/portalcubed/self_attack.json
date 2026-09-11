@@ -1,0 +1,46 @@
+{
+  "parent": "portalcubed:portalcubed/portal_gun",
+  "criteria": {
+    "why_are_you_hitting_yourself": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "player": {
+            "type": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {}
+        },
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "#portalcubed:self_attack",
+                "expected": true
+              }
+            ]
+          }
+        },
+        "entity": {
+            "type": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {}
+        }
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.self_attack.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "minecraft:glass_pane"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.self_attack.title"
+    },
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

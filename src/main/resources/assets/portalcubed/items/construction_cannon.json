@@ -70,8 +70,17 @@
           }
         },
         "on_false": {
-          "type": "minecraft:model",
-          "model": "portalcubed:item/construction_cannon_off"
+          "type": "minecraft:condition",
+          "property": "minecraft:keybind_down",
+          "keybind": "key.sneak",
+          "on_true": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/construction_cannon_startup"
+          },
+          "on_false": {
+            "type": "minecraft:model",
+            "model": "portalcubed:item/construction_cannon_off"
+          }
         }
       },
       "on_false": {
