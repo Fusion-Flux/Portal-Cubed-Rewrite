@@ -1,16 +1,10 @@
 accessWidener v2 official
 
-# TODO: Pretty sure all of these aren't needed anymore, but I want to decompile now - Max
-#accessible field net/minecraft/client/renderer/RenderStateShard name Ljava/lang/String;
-#accessible class net/minecraft/client/renderer/FogRenderer$FogData
-#accessible class net/minecraft/client/renderer/block/model/TextureSlots$Reference
+# every entry here needs an explanation comment. accessor mixins should typically be preferred
 
-#accessible class net/minecraft/network/protocol/game/ServerboundInteractPacket$Action
-#accessible class net/minecraft/network/protocol/game/ServerboundInteractPacket$ActionType
-
+# used to create a copy of a DamageSource when teleporting
 accessible method net/minecraft/world/damagesource/DamageSource <init> (Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;)V
+# common default isViewBlocking function in block registration
 accessible field net/minecraft/world/level/block/Blocks NEAR_PLANE_INTERSECTS_OUTLINE Lnet/minecraft/world/level/block/state/BlockBehaviour$StateArgumentPredicate;
-
+# PortalGunSkinManager needs to call this constructor to add registry context to the ops
 accessible method net/minecraft/server/packs/resources/SimpleJsonResourceReloadListener <init> (Lcom/mojang/serialization/DynamicOps;Lcom/mojang/serialization/Codec;Lnet/minecraft/resources/FileToIdConverter;)V
-#mutable field com/mojang/blaze3d/systems/RenderSystem modelViewStack Lorg/joml/Matrix4fStack;
-#mutable field net/minecraft/client/renderer/LevelRenderer renderBuffers Lnet/minecraft/client/renderer/RenderBuffers;
