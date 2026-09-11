@@ -20,7 +20,7 @@ import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.sync.tracker.TeleportTracker;
 import io.github.fusionflux.portalcubed.content.portal.transform.PortalTransform;
 import io.github.fusionflux.portalcubed.framework.extension.AmbientSoundEmitter;
-import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.framework.util.Colors;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Rotations;
@@ -62,8 +62,8 @@ public class ClientPacketListenerMixin {
 
 		Vec3 newPos = teleportedCenter.subtract(posToCenter);
 
-		Gizmos.point(pos.get(), Color.RED, 0.2f).persistForMillis(1000);
-		Gizmos.point(newPos, Color.PURPLE, 0.2f).persistForMillis(1000);
+		Gizmos.point(pos.get(), Colors.RED, 0.2f).persistForMillis(1000);
+		Gizmos.point(newPos, Colors.PURPLE, 0.2f).persistForMillis(1000);
 
 		pos.set(newPos);
 

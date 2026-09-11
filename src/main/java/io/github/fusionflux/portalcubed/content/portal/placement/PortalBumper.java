@@ -26,7 +26,7 @@ import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.shape.Line;
 import io.github.fusionflux.portalcubed.framework.shape.flat.Line2d;
 import io.github.fusionflux.portalcubed.framework.util.Angle;
-import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.framework.util.Colors;
 import io.github.fusionflux.portalcubed.framework.util.DoubleRange;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -65,27 +65,27 @@ public class PortalBumper {
 			if (EVIL_DEBUG_RENDERING) {
 				for (Line2d wall : surface.walls()) {
 					Line line = wall.to3d(surface);
-					Gizmos.line(line.from(), line.to(), Color.PURPLE).persistForMillis(5000);
+					Gizmos.line(line.from(), line.to(), Colors.PURPLE).persistForMillis(5000);
 					// DebugRendering.addPos(100, line.from(), Color.PURPLE);
 					// DebugRendering.addPos(100, line.to(), Color.PURPLE);
 
 					Vector2d perpendicularAxis = wall.perpendicularCcwAxis().mul(0.25);
 					Line2d perpendicularLine = new Line2d(wall.midpoint(), wall.midpoint().add(perpendicularAxis));
-					Gizmos.line(perpendicularLine.to3d(surface).from(), perpendicularLine.to3d(surface).to(), Color.RED).persistForMillis(5000);
+					Gizmos.line(perpendicularLine.to3d(surface).from(), perpendicularLine.to3d(surface).to(), Colors.RED).persistForMillis(5000);
 				}
 				Vector3f normal = surface.rotation().transform(new Vector3f(0, 1, 0));
 				Line normalLine = new Line(surface.origin(), surface.origin().add(normal.x, normal.y, normal.z));
-				Gizmos.line(normalLine.from(), normalLine.to(), Color.BLUE).persistForMillis(5000);
+				Gizmos.line(normalLine.from(), normalLine.to(), Colors.BLUE).persistForMillis(5000);
 				Vector3f up = surface.rotation().transform(new Vector3f(0, 0, 1));
 				Line upLine = new Line(surface.origin(), surface.origin().add(up.x, up.y, up.z));
-				Gizmos.line(upLine.from(), upLine.to(), Color.CYAN).persistForMillis(5000);
+				Gizmos.line(upLine.from(), upLine.to(), Colors.CYAN).persistForMillis(5000);
 			}
 
 			List<PortalCandidate> candidates = new ArrayList<>();
 			for (PortalCandidate portal : getInitialCandidates(level, surface, rotation, forcedRotation != null)) {
 				if (EVIL_DEBUG_RENDERING) {
 					for (Line2d portalSide : portal.lines()) {
-						Gizmos.line(portalSide.to3d(surface).from(), portalSide.to3d(surface).to(), Color.GREEN).persistForMillis(5000);
+						Gizmos.line(portalSide.to3d(surface).from(), portalSide.to3d(surface).to(), Colors.GREEN).persistForMillis(5000);
 					}
 				}
 
@@ -104,7 +104,7 @@ public class PortalBumper {
 
 			if (EVIL_DEBUG_RENDERING) {
 				for (Line2d portalSide : finalLocation.lines()) {
-					int color = portalSide == finalLocation.top() ? Color.PURPLE : Color.YELLOW;
+					int color = portalSide == finalLocation.top() ? Colors.PURPLE : Colors.YELLOW;
 					Gizmos.line(portalSide.to3d(surface).from(), portalSide.to3d(surface).to(), color).persistForMillis(5000);
 				}
 			}
@@ -179,7 +179,7 @@ public class PortalBumper {
 
 				if (EVIL_DEBUG_RENDERING) {
 					for (Line2d line : moved.lines()) {
-						Gizmos.line(line.to3d(surface).from(), line.to3d(surface).to(), Color.RED).persistForMillis(500);
+						Gizmos.line(line.to3d(surface).from(), line.to3d(surface).to(), Colors.RED).persistForMillis(500);
 					}
 				}
 			}

@@ -7,7 +7,7 @@ import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.PortalPair;
 import io.github.fusionflux.portalcubed.framework.extension.Vec3Ext;
-import io.github.fusionflux.portalcubed.framework.util.Color;
+import io.github.fusionflux.portalcubed.framework.util.Colors;
 import io.github.fusionflux.portalcubed.framework.util.RenderingUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.Camera;

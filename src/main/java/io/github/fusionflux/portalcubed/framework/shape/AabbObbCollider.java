@@ -5,6 +5,8 @@ import java.util.List;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
+import io.github.fusionflux.portalcubed.framework.render.debug.ObbGizmo;
+import io.github.fusionflux.portalcubed.framework.util.Colors;
 import io.github.fusionflux.portalcubed.framework.util.Maath;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -38,8 +40,7 @@ public final class AabbObbCollider {
 			for (OBB box : this.boxes) {
 				double allowed = box.collide(bounds, axis, motion);
 				if (allowed != motion) {
-					// TODO: Custom OBB Gizmo - Max
-//					DebugRendering.addBox(1, box, Color.YELLOW);
+					ObbGizmo.add(box, Colors.YELLOW);
 					collided = true;
 
 					// only change the target if this collision results in a closer hit
