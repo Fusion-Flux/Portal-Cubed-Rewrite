@@ -1,9 +1,9 @@
 package io.github.fusionflux.portalcubed.framework.block;
 
-import java.util.List;
-
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedItemTags;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -26,12 +26,6 @@ public interface HammerableBlock {
 
 	InteractionResult onHammered(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit);
 
-	static void appendTooltip(List<Component> tooltip) {
-		tooltip.add(CommonComponents.EMPTY);
-		tooltip.add(TOOLTIP_TITLE);
-		tooltip.add(TOOLTIP_DESC);
-	}
-
 	static void registerEventListeners() {
 		UseBlockCallback.EVENT.register((player, world, hand, hit) -> {
 			ItemStack stack = player.getItemInHand(hand);
@@ -52,6 +46,14 @@ public interface HammerableBlock {
 				}
 			}
 			return result;
+		});
+
+		ItemTooltipCallback.EVENT.register((stack, _, _, lines) -> {
+			if (stack.is(PortalCubedItemTags.CONFIGURABLE_TEST_ELEMENTS)) {
+				lines.add(CommonComponents.EMPTY);
+				lines.add(TOOLTIP_TITLE);
+				lines.add(TOOLTIP_DESC);
+			}
 		});
 	}
 }
