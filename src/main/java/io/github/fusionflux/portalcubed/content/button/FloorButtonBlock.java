@@ -232,7 +232,7 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 			AABB area = new AABB(pos).inflate(16);
 			List<ServerPlayer> players = level.getEntitiesOfClass(ServerPlayer.class, area);
 			for (ServerPlayer player : players) {
-				PortalCubedCriteriaTriggers.ENTITY_ON_BUTTON.trigger(player, pos, entity);
+				PortalCubedCriteriaTriggers.ENTITY_ON_BUTTON.trigger(player, entity);
 			}
 		}
 

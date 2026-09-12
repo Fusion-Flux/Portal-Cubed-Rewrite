@@ -1,0 +1,33 @@
+{
+  "parent": "portalcubed:portalcubed/cubes",
+  "criteria": {
+    "cube_shaped": {
+      "trigger": "portalcubed:entity_on_button",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "#portalcubed:cube_shaped"
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.portalcubed.cube_shaped.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "minecraft:slime_block"
+    },
+    "title": {
+      "translate": "advancement.portalcubed.cube_shaped.title"
+    },
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  }
+}
