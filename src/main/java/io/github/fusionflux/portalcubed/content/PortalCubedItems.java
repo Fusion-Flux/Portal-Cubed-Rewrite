@@ -41,7 +41,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.SwingAnimationType;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.SwingAnimation;
+import net.minecraft.world.item.component.UseEffects;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -116,6 +119,8 @@ public class PortalCubedItems {
 					.stacksTo(1)
 					.rarity(Rarity.EPIC)
 					.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+					.component(DataComponents.ATTACK_ANIMATION, new SwingAnimation(SwingAnimationType.STAB, 8))
+					.component(DataComponents.INTERACT_ANIMATION, new SwingAnimation(SwingAnimationType.STAB, 8))
 			)
 			.build();
 
@@ -123,7 +128,7 @@ public class PortalCubedItems {
 			.properties(s -> s.food(Foods.APPLE).compostable(ContextIntProviders.COMPOSTABLE_MEDIUM))
 			.build();
 	public static final LemonadeItem LEMONADE = REGISTRAR.items.create("lemonade", LemonadeItem::new)
-			.properties(s -> s.stacksTo(1))
+			.properties(s -> s.stacksTo(1).component(DataComponents.USE_EFFECTS, new UseEffects(true, true, 1)))
 			.build();
 	public static final Item LEMON_SIGN = REGISTRAR.items.create("lemon_sign", s -> new StandingAndWallBlockItem(PortalCubedBlocks.LEMON_SIGN, PortalCubedBlocks.LEMON_WALL_SIGN, Direction.DOWN, s))
 			.properties(s -> s
