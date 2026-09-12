@@ -27,8 +27,8 @@
 			"to": [0, 16, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 16]},
 			"faces": {
-				"east": {"uv": [7.99, 7.99, 16, 16], "texture": "#4"},
-				"west": {"uv": [0, 7.99, 8.01, 16], "texture": "#5", "cullface": "west"}
+				"east": {"uv": [8, 8, 16, 16], "texture": "#4"},
+				"west": {"uv": [0, 8, 8, 16], "texture": "#5", "cullface": "west"}
 			}
 		},
 		{
