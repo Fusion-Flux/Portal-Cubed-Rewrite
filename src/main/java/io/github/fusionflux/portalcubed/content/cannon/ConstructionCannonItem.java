@@ -213,7 +213,7 @@ public class ConstructionCannonItem extends Item implements CustomHoldPoseItem {
 		if (player.isSilent())
 			return;
 
-		Vec3 soundPos = player.getEyePosition();
+		Vec3 soundPos = player.position();
 		player.level().playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, SoundSource.PLAYERS, volume, pitch);
 	}
 }
