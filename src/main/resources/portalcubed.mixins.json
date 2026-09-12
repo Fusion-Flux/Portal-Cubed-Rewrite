@@ -129,6 +129,7 @@
     "portals.interaction.MultiPlayerGameModeMixin",
     "portals.sound.ChannelAccess$ChannelHandleMixin",
     "portals.sound.SoundEngineMixin",
+    "props.ClientPacketListenerMixin",
     "stat.StatsScreen$GeneralStatisticsListMixin"
   ],
   "injectors": {
