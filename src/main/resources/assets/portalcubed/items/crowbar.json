@@ -1,4 +1,5 @@
 {
+  "swap_animation_scale": 1.95,
   "model": {
     "type": "minecraft:select",
     "property": "minecraft:context_entity_type",

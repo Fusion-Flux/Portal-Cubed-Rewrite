@@ -1,0 +1,13 @@
+{
+  "asset_id": "portalcubed:wilted",
+  "title": {
+    "color": "yellow",
+    "translate": "painting.portalcubed.wilted.title"
+  },
+  "author": {
+    "color": "gray",
+    "translate": "painting.portalcubed.wilted.author"
+  },
+  "height": 2,
+  "width": 2
+}
