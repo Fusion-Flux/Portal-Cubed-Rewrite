@@ -10,6 +10,8 @@ transitive-extend-enum net/minecraft/world/level/ClipContext$Block PORTALCUBED_G
 # portals.ClipContext$BlockMixin
 transitive-extend-enum net/minecraft/world/level/ClipContext$Block PORTALCUBED_PORTAL_SHOT
 transitive-extend-enum net/minecraft/world/level/ClipContext$Block PORTALCUBED_NONE
+# goo.FogTypeMixin
+transitive-extend-enum net/minecraft/world/level/material/FogType PORTALCUBED_GOO
 
 # ----- interface injections -----
 # each of these need a corresponding mixin actually implementing it
