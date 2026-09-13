@@ -1,0 +1,12 @@
+{
+	"schemaVersion": 1,
+  "id": "portalcubed_dev",
+  "version": "1.0.0",
+  "name": "Portal Cubed Dev",
+  "description": "Dev-only code for Portal Cubed",
+  "icon": "assets/portalcubed_dev/icon.png",
+  "environment": "*",
+  "mixins": [
+    "portalcubed_dev.mixins.json"
+  ]
+}

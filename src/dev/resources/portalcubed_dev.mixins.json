@@ -5,11 +5,11 @@
     "minVersion": "0.5.4"
   },
   "compatibilityLevel": "JAVA_25",
-  "package": "io.github.fusionflux.portalcubed_gametests.mixin",
+  "package": "io.github.fusionflux.portalcubed.dev.mixin",
   "mixins": [
+    "BootstrapMixin",
     "CrabInTheOutputMessage",
-    "StructureUtilsMixin",
-    "TestCommandMixin"
+    "SharedConstantsMixin"
   ],
   "client": [
     "WorldOpenFlowsMixin"

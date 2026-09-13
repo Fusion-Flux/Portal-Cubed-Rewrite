@@ -50,6 +50,15 @@ tasks.processResources {
 //	runtimeClasspath += main.output
 //}
 
+val dev: Provider<SourceSet> = sourceSets.register("dev") {
+	// TODO: change this to gametests when re-enabling them
+	val main: SourceSet = sourceSets.main.get()
+	compileClasspath += main.compileClasspath
+	compileClasspath += main.output
+	runtimeClasspath += main.runtimeClasspath
+	runtimeClasspath += main.output
+}
+
 defaultPackageInfos {
 	sourceSet(sourceSets.main)
 }
@@ -68,11 +77,12 @@ loom {
 //		}
 
 		named("client").configure {
-//			sourceSet = gametests.map(SourceSet::getName)
+			sourceSet = dev.map(SourceSet::getName)
 			displayName = "Client"
 		}
 
 		named("server").configure {
+			sourceSet = dev.map(SourceSet::getName)
 			displayName = "Server"
 		}
 
