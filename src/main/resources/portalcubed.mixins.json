@@ -73,6 +73,7 @@
     "portals.interaction.ServerPlayerMixin",
     "portals.interaction.UseOnContextMixin",
     "props.AbstractThrownPotionMixin",
+    "props.ClipContext$BlockMixin",
     "stat.ServerStatsCounterMixin",
     "utils.AABBMixin",
     "utils.BlockBehaviour$PropertiesMixin",

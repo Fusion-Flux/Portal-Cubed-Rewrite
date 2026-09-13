@@ -1,0 +1,40 @@
+classTweaker v2 official
+
+# ----- enum extensions -----
+# each of these need a corresponding mixin actually creating it
+
+# portals.DeathMessageTypeMixin
+transitive-extend-enum net/minecraft/world/damagesource/DeathMessageType PORTALCUBED_MIRROR_TEST
+# props.ClipContext$BlockMixin
+transitive-extend-enum net/minecraft/world/level/ClipContext$Block PORTALCUBED_GRAB
+# portals.ClipContext$BlockMixin
+transitive-extend-enum net/minecraft/world/level/ClipContext$Block PORTALCUBED_PORTAL_SHOT
+transitive-extend-enum net/minecraft/world/level/ClipContext$Block PORTALCUBED_NONE
+
+# ----- interface injections -----
+# each of these need a corresponding mixin actually implementing it
+transitive-inject-interface net/minecraft/world/phys/AABB io/github/fusionflux/portalcubed/framework/extension/AABBExt
+transitive-inject-interface net/minecraft/world/phys/HitResult io/github/fusionflux/portalcubed/framework/extension/HitResultExt
+transitive-inject-interface net/minecraft/world/phys/Vec3 io/github/fusionflux/portalcubed/framework/extension/Vec3Ext
+transitive-inject-interface net/minecraft/client/Minecraft io/github/fusionflux/portalcubed/framework/extension/MinecraftExt
+transitive-inject-interface net/minecraft/world/entity/player/Player io/github/fusionflux/portalcubed/framework/extension/PlayerExt
+transitive-inject-interface net/minecraft/world/level/Level io/github/fusionflux/portalcubed/framework/extension/LevelExt
+transitive-inject-interface net/minecraft/server/level/ServerLevel io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt
+transitive-inject-interface net/minecraft/client/multiplayer/ClientLevel io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt
+transitive-inject-interface net/minecraft/world/entity/Entity io/github/fusionflux/portalcubed/framework/extension/PortalTeleportationExt
+transitive-inject-interface net/minecraft/world/entity/Entity io/github/fusionflux/portalcubed/framework/extension/DisintegrationExt
+transitive-inject-interface net/minecraft/client/player/AbstractClientPlayer io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt
+transitive-inject-interface net/minecraft/world/level/block/state/BlockBehaviour$Properties io/github/fusionflux/portalcubed/framework/extension/BlockBehaviourPropertiesExt
+transitive-inject-interface net/minecraft/world/level/ClipContext io/github/fusionflux/portalcubed/framework/extension/ClipContextExt
+transitive-inject-interface net/minecraft/world/entity/LivingEntity io/github/fusionflux/portalcubed/framework/extension/LivingEntityExt
+transitive-inject-interface net/minecraft/client/sounds/ChannelAccess$ChannelHandle io/github/fusionflux/portalcubed/framework/extension/ChannelHandleExt
+
+# ----- access widening -----
+# every entry here needs an explanation comment. accessor mixins should typically be preferred
+
+# used to create a copy of a DamageSource when teleporting
+accessible method net/minecraft/world/damagesource/DamageSource <init> (Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;)V
+# common default isViewBlocking function in block registration
+accessible field net/minecraft/world/level/block/Blocks NEAR_PLANE_INTERSECTS_OUTLINE Lnet/minecraft/world/level/block/state/BlockBehaviour$StateArgumentPredicate;
+# PortalGunSkinManager needs to call this constructor to add registry context to the ops
+accessible method net/minecraft/server/packs/resources/SimpleJsonResourceReloadListener <init> (Lcom/mojang/serialization/DynamicOps;Lcom/mojang/serialization/Codec;Lnet/minecraft/resources/FileToIdConverter;)V

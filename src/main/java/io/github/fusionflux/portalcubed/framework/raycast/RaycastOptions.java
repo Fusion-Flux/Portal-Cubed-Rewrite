@@ -53,7 +53,7 @@ public record RaycastOptions(ClipContext.Block blockMode, ClipContext.Fluid flui
 	}
 
 	public boolean shouldClipLevel() {
-		return this.blockMode != NoneClipContextMode.get() || this.fluidMode != ClipContext.Fluid.NONE;
+		return this.blockMode != ClipContext.Block.PORTALCUBED_NONE || this.fluidMode != ClipContext.Fluid.NONE;
 	}
 
 	public ClipContext createClipContext(Vec3 start, Vec3 end, @Nullable BlockPos ignoredBlock) {

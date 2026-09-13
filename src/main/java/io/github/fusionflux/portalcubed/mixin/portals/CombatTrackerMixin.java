@@ -13,7 +13,6 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Cancellable;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import io.github.fusionflux.portalcubed.content.portal.MirrorTestDeathMessageType;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
@@ -44,7 +43,7 @@ public class CombatTrackerMixin {
 	private DeathMessageType handleMirrorTestType(DeathMessageType type,
 												  @Local(name = "killingSource") DamageSource killingSource,
 												  @Cancellable CallbackInfoReturnable<Component> cir) {
-		if (type == MirrorTestDeathMessageType.get()) {
+		if (type == DeathMessageType.PORTALCUBED_MIRROR_TEST) {
 			String keyPrefix = "death.attack." + killingSource.getMsgId();
 			Component link = ComponentUtils.wrapInSquareBrackets(Component.translatable(keyPrefix + ".link")).withStyle(MIRROR_TEST_STYLE);
 			Component message = Component.translatable(keyPrefix + ".message", this.mob.getDisplayName(), link);

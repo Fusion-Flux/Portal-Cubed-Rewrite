@@ -2,7 +2,6 @@ package io.github.fusionflux.portalcubed.content.portal.interaction;
 
 import org.jspecify.annotations.Nullable;
 
-import io.github.fusionflux.portalcubed.framework.raycast.NoneClipContextMode;
 import io.github.fusionflux.portalcubed.mixin.utils.accessors.ClipContext$BlockAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ClipContext;
@@ -17,8 +16,8 @@ public final class IgnoringClipContextMode {
 	public static final int ORDINAL = -123_456_789;
 
 	public static ClipContext.Block create(ClipContext.Block wrapped, BlockPos posToIgnore) {
-		if (wrapped == NoneClipContextMode.get())
-			return wrapped;
+		if (wrapped == ClipContext.Block.PORTALCUBED_NONE)
+			return ClipContext.Block.PORTALCUBED_NONE;
 
 		return ClipContext$BlockAccessor.pc$create(NAME, ORDINAL, (state, level, pos, context) -> {
 			if (pos.equals(posToIgnore))

@@ -9,7 +9,6 @@ import org.jspecify.annotations.Nullable;
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
-import io.github.fusionflux.portalcubed.content.prop.GrabClipContextMode;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
@@ -25,6 +24,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -120,7 +120,7 @@ public abstract class HoldableEntity extends Entity {
 		Vec3 target = eyePos.add(lookVec.scale(HOLD_DISTANCE));
 
 		RaycastOptions options = RaycastOptions.DEFAULT.edit()
-				.blocks(GrabClipContextMode.get())
+				.blocks(ClipContext.Block.PORTALCUBED_GRAB)
 				.entities(EntitySelector.NO_SPECTATORS.and(this::canCollideWith))
 				.collisionContext(this)
 				.build();

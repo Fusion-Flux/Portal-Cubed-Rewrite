@@ -55,7 +55,7 @@ defaultPackageInfos {
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/portalcubed.accesswidener")
+	accessWidenerPath = file("src/main/resources/portalcubed.classtweaker")
 
 	runs {
 //		register("gametest") {

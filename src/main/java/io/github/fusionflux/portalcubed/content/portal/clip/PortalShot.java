@@ -16,7 +16,6 @@ import io.github.fusionflux.portalcubed.content.portal.graphics.PortalType;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalBumper;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalCollisionContext;
 import io.github.fusionflux.portalcubed.content.portal.placement.PortalPlacement;
-import io.github.fusionflux.portalcubed.content.portal.placement.PortalShotClipContextMode;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.NonePortalValidator;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.PortalValidator;
 import io.github.fusionflux.portalcubed.content.portal.placement.validator.StandardPortalValidator;
@@ -34,6 +33,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.phys.Vec3;
 
@@ -44,7 +44,7 @@ public sealed interface PortalShot {
 	);
 
 	RaycastOptions RAYCAST_OPTIONS = RaycastOptions.DEFAULT.edit()
-			.blocks(PortalShotClipContextMode.get())
+			.blocks(ClipContext.Block.PORTALCUBED_PORTAL_SHOT)
 			.entities(BLOCKS_PORTAL_SHOTS)
 			.portals(PortalMode.IGNORE)
 			.collisionContext(PortalCollisionContext.INSTANCE)
