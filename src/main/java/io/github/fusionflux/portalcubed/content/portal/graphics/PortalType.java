@@ -12,7 +12,6 @@ import io.github.fusionflux.portalcubed.content.PortalCubedRegistries;
 import io.github.fusionflux.portalcubed.content.portal.Polarity;
 import io.github.fusionflux.portalcubed.content.portal.Portal;
 import io.github.fusionflux.portalcubed.content.portal.sound.PortalSounds;
-import io.github.fusionflux.portalcubed.framework.util.EasingFunction;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.ClientAsset;
 import net.minecraft.core.Holder;
@@ -24,6 +23,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.EasingType;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.Level;
 
@@ -82,25 +82,25 @@ public record PortalType(
 		}
 	}
 
-	public record PlaceAnimation(PortalPlaceAnimationType type, EasingFunction easing, int duration) {
+	public record PlaceAnimation(PortalPlaceAnimationType type, EasingType easing, int duration) {
 		public static final int DEFAULT_DURATION = 3;
 		public static final PlaceAnimation DEFAULT = new PlaceAnimation(PortalPlaceAnimationType.EXPAND_ALL_CENTER);
 
 		public static final Codec<PlaceAnimation> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
 				PortalPlaceAnimationType.CODEC.fieldOf("type").forGetter(PlaceAnimation::type),
-				EasingFunction.CODEC.fieldOf("easing").forGetter(PlaceAnimation::easing),
+				EasingType.CODEC.fieldOf("easing").forGetter(PlaceAnimation::easing),
 				ExtraCodecs.POSITIVE_INT.optionalFieldOf("duration", DEFAULT_DURATION).forGetter(PlaceAnimation::duration)
 		).apply(instance, PlaceAnimation::new));
 		public static final Codec<PlaceAnimation> CODEC = Codec.withAlternative(DIRECT_CODEC, PortalPlaceAnimationType.CODEC.xmap(PlaceAnimation::new, PlaceAnimation::type));
 
 		public PlaceAnimation(PortalPlaceAnimationType type) {
-			this(type, EasingFunction.LINEAR, DEFAULT_DURATION);
+			this(type, EasingType.LINEAR, DEFAULT_DURATION);
 		}
 
 		public float getProgress(Level level, Portal portal, float tickDelta) {
 			int ageInTicks = (int) (level.getGameTime() - portal.data.creationTick());
-			double progress = Math.min((ageInTicks + tickDelta) / this.duration, 1);
-			return (float) this.easing.apply(progress);
+			float progress = Math.min((ageInTicks + tickDelta) / this.duration, 1);
+			return this.easing.apply(progress);
 		}
 	}
 
