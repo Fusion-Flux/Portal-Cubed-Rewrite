@@ -4,7 +4,6 @@ import com.mojang.brigadier.arguments.ArgumentType;
 
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.command.argument.portal.PortalArgument;
-import io.github.fusionflux.portalcubed.framework.command.argument.ColorArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.FizzleBehaviourArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
@@ -22,7 +21,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 
 public class PortalCubedArgumentTypes {
 	public static void init() {
-		register("color", ColorArgumentType.class, SingletonArgumentInfo.contextFree(ColorArgumentType::color));
 		register("direction", DirectionArgumentType.class, SingletonArgumentInfo.contextFree(DirectionArgumentType::direction));
 		register("polarity", PolarityArgumentType.class, SingletonArgumentInfo.contextFree(PolarityArgumentType::polarity));
 		register("quaternion", QuaternionArgumentType.class, SingletonArgumentInfo.contextFree(QuaternionArgumentType::quaternion));

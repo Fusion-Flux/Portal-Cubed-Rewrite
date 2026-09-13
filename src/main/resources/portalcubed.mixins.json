@@ -63,6 +63,7 @@
     "portals.ServerLevelMixin",
     "portals.ShulkerBoxBlockEntityMixin",
     "portals.StructureUtilsMixin",
+    "portals.TextColorAccessor",
     "portals.interaction.BlockPlaceContextMixin",
     "portals.interaction.BrushItemMixin",
     "portals.interaction.ContainerOpenersCounterMixin",
