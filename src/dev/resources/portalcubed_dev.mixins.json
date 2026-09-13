@@ -9,9 +9,11 @@
   "mixins": [
     "BootstrapMixin",
     "CrabInTheOutputMessage",
+    "MinecraftServerMixin",
     "SharedConstantsMixin"
   ],
   "client": [
+    "IntegratedServerAccessor",
     "WorldOpenFlowsMixin"
   ],
   "injectors": {
