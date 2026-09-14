@@ -7,6 +7,7 @@
           {
             "items": [
               "portalcubed:raw_magnesium",
+              "portalcubed:magnesium_ingot",
               "portalcubed:magnesium_ore",
               "portalcubed:deepslate_magnesium_ore"
             ]
@@ -46,6 +47,7 @@
       "portalcubed:screen_assembly_crafting",
       "portalcubed:kinetic_assembly_crafting",
       "portalcubed:emitter_assembly_crafting",
+      "portalcubed:black_hole_container_crafting",
       "portalcubed:long_fall_boots_crafting",
       "portalcubed:long_fall_boots_dyed",
       "portalcubed:advanced_knee_replacements_crafting",

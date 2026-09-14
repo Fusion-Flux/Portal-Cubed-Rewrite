@@ -786,6 +786,8 @@
   "item.portalcubed.screen_assembly": "Screen Assembly",
   "item.portalcubed.kinetic_assembly": "Kinetic Assembly",
   "item.portalcubed.emitter_assembly": "Emitter Assembly",
+  "item.portalcubed.black_hole_container": "Black Hole Container",
+  "item.portalcubed.filled_black_hole_container": "Filled Black Hole Container",
 
   "item.portalcubed.construction_cannon": "Construction Cannon",
   "item.portalcubed.construction_cannon.material": "Material:",

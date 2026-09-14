@@ -1,0 +1,43 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "portalcubed:item/black_hole_container"
+      },
+      {
+        "type": "minecraft:special",
+        "model": {
+          "type": "minecraft:end_cube",
+          "effect": "gateway"
+        },
+        "base": "portalcubed:item/black_hole_container",
+        "transformation": {
+          "translation": [
+            0.4375,
+            0.4375,
+            0.46875
+          ],
+          "left_rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "right_rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.125,
+            0.125,
+            0.0625
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        "XZX",
+        "XAX",
+        "XZX"
+    ],
+    "key": {
+        "A": "#c:glass_panes",
+        "X": "portalcubed:magnesium_ingot",
+        "Z": "minecraft:netherite_ingot"
+    },
+    "result": {
+        "id": "portalcubed:black_hole_container",
+        "count": 4
+    }
+}

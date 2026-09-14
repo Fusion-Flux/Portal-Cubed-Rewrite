@@ -7,6 +7,8 @@
     "portalcubed:screen_assembly",
     "portalcubed:kinetic_assembly",
     "portalcubed:emitter_assembly",
+    "portalcubed:black_hole_container",
+    "portalcubed:filled_black_hole_container",
     "portalcubed:radio",
     "portalcubed:the_taco",
     "portalcubed:error",

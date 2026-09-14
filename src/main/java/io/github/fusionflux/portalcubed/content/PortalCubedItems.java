@@ -97,6 +97,12 @@ public class PortalCubedItems {
 	public static final Item EMITTER_ASSEMBLY = REGISTRAR.items.create("emitter_assembly", Item::new)
 			.properties(Item.Properties::fireResistant)
 			.build();
+	public static final Item BLACK_HOLE_CONTAINER = REGISTRAR.items.create("black_hole_container", Item::new)
+			.properties(Item.Properties::fireResistant)
+			.build();
+	public static final Item FILLED_BLACK_HOLE_CONTAINER = REGISTRAR.items.create("filled_black_hole_container", Item::new)
+			.properties(Item.Properties::fireResistant)
+			.build();
 
 	public static final ConstructionCannonItem CONSTRUCTION_CANNON = REGISTRAR.items.create("construction_cannon", ConstructionCannonItem::new)
 			.properties(s -> s
