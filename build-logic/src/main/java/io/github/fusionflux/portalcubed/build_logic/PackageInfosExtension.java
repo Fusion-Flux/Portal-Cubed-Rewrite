@@ -15,8 +15,11 @@ public abstract class PackageInfosExtension {
 	@Inject
 	protected abstract Project getProject();
 
-	public void sourceSets(Iterable<Provider<SourceSet>> sourceSetProviders) {
-		sourceSetProviders.forEach(this::sourceSet);
+	@SafeVarargs
+	public final void sourceSets(Provider<SourceSet>... sourceSetProviders) {
+		for (Provider<SourceSet> provider : sourceSetProviders) {
+			this.sourceSet(provider);
+		}
 	}
 
 	public void sourceSet(Provider<SourceSet> sourceSetProvider) {

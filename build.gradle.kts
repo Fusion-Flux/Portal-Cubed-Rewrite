@@ -60,7 +60,7 @@ val dev: Provider<SourceSet> = sourceSets.register("dev") {
 }
 
 defaultPackageInfos {
-	sourceSet(sourceSets.main)
+	sourceSets(sourceSets.main, dev)
 }
 
 loom {
