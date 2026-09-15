@@ -3,13 +3,13 @@ package io.github.fusionflux.portalcubed.content.misc;
 import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameEvents;
-import io.github.fusionflux.portalcubed.content.PortalCubedParticles;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBlockTags;
 import io.github.fusionflux.portalcubed.framework.item.AttackListeningItem;
 import io.github.fusionflux.portalcubed.framework.item.CreativeNonBlockBreakingItem;
+import io.github.fusionflux.portalcubed.framework.particle.DecalPos;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
-import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
+import io.github.fusionflux.portalcubed.packet.clientbound.CreateDecalPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.CrowbarSwingPacket;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.Direction;
@@ -41,30 +41,32 @@ public class CrowbarItem extends CreativeNonBlockBreakingItem implements AttackL
 			player.swing(InteractionHand.MAIN_HAND, stack.getAttackAnimation(), !level.isClientSide());
 		}
 
-		if (player instanceof ServerPlayer serverPlayer) {
-			player.awardStat(Stats.ITEM_USED.get(this));
-
-			if (!(hit instanceof BlockHitResult blockHit))
-				return;
-
-			BlockState state = level.getBlockState(blockHit.getBlockPos());
-			Vec3 pos = hit.getLocation();
-			level.gameEvent(PortalCubedGameEvents.CROWBAR_HIT, pos, new Context(player, state));
-
-			if (!state.is(PortalCubedBlockTags.CROWBAR_MAKES_HOLES))
-				return;
-
-			BulletHoleMaterial.forState(state).ifPresent(material -> {
-				level.playSound(null, pos.x, pos.y, pos.z, material.impactSound, player.getSoundSource());
-				Direction dir = blockHit.getDirection();
-				SimpleParticlePacket packet = new SimpleParticlePacket(PortalCubedParticles.BULLET_HOLE, pos.x, pos.y, pos.z, dir.getStepX(), dir.getStepY(), dir.getStepZ());
-				for (ServerPlayer tracking : PlayerLookup.tracking(serverPlayer.level(), blockHit.getBlockPos())) {
-					PortalCubedPackets.sendToClient(tracking, packet);
-				}
-			});
-		} else if (player.isLocalPlayer()) {
+		if (!(player instanceof ServerPlayer serverPlayer)) {
 			PortalCubedPackets.sendToServer(new CrowbarSwingPacket(hit, didSwingAnim));
+			return;
 		}
+
+		player.awardStat(Stats.ITEM_USED.get(this));
+
+		if (!(hit instanceof BlockHitResult blockHit))
+			return;
+
+		BlockState state = level.getBlockState(blockHit.getBlockPos());
+		Vec3 pos = hit.getLocation();
+		level.gameEvent(PortalCubedGameEvents.CROWBAR_HIT, pos, new Context(player, state));
+
+		if (!state.is(PortalCubedBlockTags.CROWBAR_MAKES_HOLES))
+			return;
+
+		BulletHoleMaterial.forState(state).ifPresent(material -> {
+			level.playSound(null, pos.x, pos.y, pos.z, material.impactSound, player.getSoundSource());
+			Direction face = blockHit.getDirection();
+			DecalPos particlePos = DecalPos.of(pos, face);
+			CreateDecalPacket packet = new CreateDecalPacket(material.particleType, particlePos);
+			for (ServerPlayer tracking : PlayerLookup.tracking(serverPlayer.level(), blockHit.getBlockPos())) {
+				PortalCubedPackets.sendToClient(tracking, packet);
+			}
+		});
 	}
 
 	@Override

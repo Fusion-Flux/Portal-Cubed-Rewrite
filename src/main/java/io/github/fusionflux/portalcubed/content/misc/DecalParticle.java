@@ -1,14 +1,16 @@
 package io.github.fusionflux.portalcubed.content.misc;
 
-import org.joml.Matrix4f;
 import org.jspecify.annotations.Nullable;
 
+import io.github.fusionflux.portalcubed.content.portal.PortalData;
+import io.github.fusionflux.portalcubed.framework.particle.DecalPos;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteSet;
-import net.minecraft.Optionull;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry.PendingParticleProvider;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,150 +23,117 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DecalParticle extends SingleQuadParticle {
-	public static final float ONE_PIXEL = 1/16f;
 	public static final double SURFACE_OFFSET = 0.01f;
-	public static final int VERTEX_COUNT = 4;
 	public static final int LIFETIME = 1200;
 
-	private final BlockPos basePos;
-	private final Direction direction;
-	private final Matrix4f matrix;
-	private final SingleQuadParticle.Layer layer;
+	private final BlockPos supportingPos;
+	private final Direction facing;
+	private final Layer layer;
 
 	@Nullable
-	private BlockState lastBaseState;
+	private BlockState lastSupportingState;
 
-	protected DecalParticle(ClientLevel world, double x, double y, double z, double dx, double dy, double dz, BlockPos basePos, boolean randomRotation, Layer layer, TextureAtlasSprite sprite) {
-		super(world, 0, 0, 0, sprite);
+	protected DecalParticle(ClientLevel level, Vec3 pos, Direction facing, float roll, Layer layer, TextureAtlasSprite sprite) {
+		super(level, pos.x, pos.y, pos.z, sprite);
+		this.setLifetime(LIFETIME);
 
-		if (dz > 0) {
-			x += ONE_PIXEL;
-		} if (dx < 0) {
-			z += ONE_PIXEL;
-		} else if (dy > 0) {
-			x += ONE_PIXEL;
-			z += ONE_PIXEL;
-		} else if (dy < 0) {
-			x += ONE_PIXEL;
-		}
-
-		this.quadSize = .5f;
-
-		this.basePos = basePos;
-		this.direction = Direction.getApproximateNearest(dx, dy, dz);
-		this.matrix = new Matrix4f()
-				.rotate(this.direction.getRotation())
-				.translate(-ONE_PIXEL, 0, -ONE_PIXEL)
-				.rotateY(randomRotation ? (Math.round(this.random.nextFloat() * 4f) / 4f) * Mth.TWO_PI : 0)
-				.translate(-ONE_PIXEL, 0, -ONE_PIXEL);
+		this.supportingPos = getSupportingPos(pos, facing);
+		this.facing = facing;
 		this.layer = layer;
+		this.roll = roll;
+		this.oRoll = roll;
 
-		this.setPos(x, y, z, dx, dy, dz);
+		this.recomputeSize();
 	}
 
-	public void setPos(double x, double y, double z, double dx, double dy, double dz) {
-		// slight variance to get rid of most z fighting
-		double offset = 0.01 + (random.nextDouble() * 0.001);
-		this.x = snap(x) + dx * offset;
-		this.y = snap(y) + dy * offset;
-		this.z = snap(z) + dz * offset;
-		this.xo = x;
-		this.yo = y;
-		this.zo = z;
+	private void recomputeSize() {
+		SpriteContents contents = this.sprite.contents();
+		int width = contents.width();
+		int height = contents.height();
+		this.setSize(width / 16f, height / 16f);
+//		Gizmos.cuboid(this.getBoundingBox(), GizmoStyle.stroke(Colors.RED)).persistForMillis(5000);
+//		Gizmos.point(new Vec3(this.x, this.y, this.z), Colors.GREEN, 10f).persistForMillis(5000);
+
+		this.quadSize = Math.max(this.bbWidth, this.bbHeight) / 2;
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 
-		BlockState currentBaseState = this.level.getBlockState(this.basePos);
-		if (currentBaseState.isAir()) {
+		BlockState supportingState = this.level.getBlockState(this.supportingPos);
+		if (supportingState.isAir()) {
 			this.remove();
 			return;
 		}
 
-		if (this.lastBaseState != null && this.lastBaseState != currentBaseState) {
-			VoxelShape baseShape = currentBaseState.getCollisionShape(this.level, this.basePos);
+		if (this.lastSupportingState != null && this.lastSupportingState != supportingState) {
+			VoxelShape baseShape = supportingState.getCollisionShape(this.level, this.supportingPos);
 			Vec3 rayStart = new Vec3(this.x, this.y, this.z);
-			Vec3 rayEnd = rayStart.subtract(this.direction.getUnitVec3().scale(ONE_PIXEL));
-			BlockHitResult hit = baseShape.clip(rayStart, rayEnd, this.basePos);
-			if (Optionull.mapOrDefault(hit, BlockHitResult::isInside, true))
+			Vec3 rayEnd = rayStart.subtract(this.facing.getUnitVec3().scale(DecalPos.ONE_PIXEL));
+			BlockHitResult hit = baseShape.clip(rayStart, rayEnd, this.supportingPos);
+			if (hit == null || hit.isInside()) {
 				this.remove();
+			}
 		}
-		this.lastBaseState = currentBaseState;
+
+		this.lastSupportingState = supportingState;
 	}
 
-	// TODO: Rewrite to not use sodium - Max
-//	@Override
-//	public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-//		Vec3 camPos = camera.getPosition();
-//		float x = (float) (this.x - camPos.x());
-//		float y = (float) (this.y - camPos.y());
-//		float z = (float) (this.z - camPos.z());
-//
-//		int light = this.getLightColor(tickDelta);
-//		float u0 = this.getU0();
-//		float u1 = this.getU1();
-//		float v0 = this.getV0();
-//		float v1 = this.getV1();
-//		float size = this.getQuadSize(tickDelta);
-//
-//		VertexBufferWriter writer = VertexBufferWriter.of(vertexConsumer);
-//		try (MemoryStack stack = MemoryStack.stackPush()) {
-//			long buffer = stack.nmalloc(ParticleVertex.STRIDE * VERTEX_COUNT), vertex = buffer;
-//
-//			vertex = writeVertex(vertex, this.matrix, -1, -1, u1, v1, light, x, y, z, size);
-//			vertex = writeVertex(vertex, this.matrix, -1, 1, u1, v0, light, x, y, z, size);
-//			vertex = writeVertex(vertex, this.matrix, 1, 1, u0, v0, light, x, y, z, size);
-//			vertex = writeVertex(vertex, this.matrix, 1, -1, u0, v1, light, x, y, z, size);
-//
-//			writer.push(stack, buffer, VERTEX_COUNT, ParticleVertex.FORMAT);
-//		}
-//	}
-//
-//	private static long writeVertex(long ptr, Matrix4f matrix, float localX, float localZ, float u, float v, int light, float x, float y, float z, float size) {
-//		float vertX = (MatrixHelper.transformPositionX(matrix, localX, 0, localZ) * size) + x;
-//		float vertY = (MatrixHelper.transformPositionY(matrix, localX, 0, localZ) * size) + y;
-//		float vertZ = (MatrixHelper.transformPositionZ(matrix, localX, 0, localZ) * size) + z;
-//
-//		ParticleVertex.put(ptr, vertX, vertY, vertZ, u, v, 0xFFFFFFFF, light);
-//		return ptr + ParticleVertex.STRIDE;
-//	}
-//
+	@Override
+	public FacingCameraMode getFacingCameraMode() {
+		return (target, _, _) -> target.set(PortalData.normalToRotation(this.facing, 0)).rotateX(Mth.DEG_TO_RAD * -90);
+	}
+
+	@Override
+	protected void setSprite(TextureAtlasSprite sprite) {
+		super.setSprite(sprite);
+		this.recomputeSize();
+	}
 
 	@Override
 	public Layer getLayer() {
 		return this.layer;
 	}
 
-	public static BlockPos getBasePos(double x, double y, double z, double dx, double dy, double dz) {
-		return new BlockPos(Mth.floor(x - dx * SURFACE_OFFSET), Mth.floor(y - dy * SURFACE_OFFSET), Mth.floor(z - dz * SURFACE_OFFSET));
+	private static BlockPos getSupportingPos(Vec3 pos, Direction facing) {
+		Vec3 offset = facing.getUnitVec3().scale(-DecalPos.ONE_PIXEL);
+		return BlockPos.containing(pos.add(offset));
 	}
 
-	public static double snap(double d) {
-		return Math.floor(d * 16) / 16d;
+	private static Direction decodeFacing(double xAux, double yAux, double zAux) {
+		return Direction.getApproximateNearest(xAux, yAux, zAux);
 	}
 
-	public record BulletHoleProvider(FabricSpriteSet spriteSet) implements ParticleProvider<SimpleParticleType> {
-		@Override
-		@Nullable
-		public Particle createParticle(SimpleParticleType options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random) {
-			BlockPos pos = getBasePos(x, y, z, xAux, yAux, zAux);
-			BlockState state = level.getBlockState(pos);
-			return BulletHoleMaterial.forState(state).map(material -> {
-				DecalParticle particle = new DecalParticle(level, x, y, z, xAux, yAux, zAux, pos, material.randomParticleRotation, material.particleLayerSupplier.get().get(), this.spriteSet.get(random));
-				particle.setLifetime(LIFETIME);
-				return particle;
-			}).orElse(null);
-		}
+	private static float getRoll(boolean rotateRandomly, RandomSource random) {
+		return rotateRandomly ? Mth.HALF_PI * random.nextIntBetweenInclusive(0, 3) : 0;
+	}
+
+	/// Slightly offsets the given position to avoid z-fighting, and also ensure the particle renders on top of its supporting block.
+	private static Vec3 nudge(double x, double y, double z, Direction facing, RandomSource random) {
+		Vec3 surfaceOffset = facing.getUnitVec3().scale(SURFACE_OFFSET);
+		double nudge = random.nextDouble() * 0.0001;
+		return surfaceOffset.add(x + nudge, y + nudge, z + nudge);
+	}
+
+	public static PendingParticleProvider<SimpleParticleType> bulletHoleProvider(SingleQuadParticle.Layer layer, boolean randomRotation) {
+		return sprites -> (_, level, x, y, z, xAux, yAux, zAux, random) -> {
+			Direction facing = decodeFacing(xAux, yAux, zAux);
+			Vec3 pos = nudge(x, y, z, facing, random);
+			float roll = getRoll(randomRotation, random);
+			TextureAtlasSprite sprite = sprites.get(random);
+			return new DecalParticle(level, pos, facing, roll, layer, sprite);
+		};
 	}
 
 	public record ScorchProvider(FabricSpriteSet spriteSet) implements ParticleProvider<SimpleParticleType> {
 		@Override
 		public Particle createParticle(SimpleParticleType options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random) {
-			DecalParticle particle = new DecalParticle(level, x, y, z, xAux, yAux, zAux, getBasePos(x, y, z, xAux, yAux, zAux), true, Layer.TRANSLUCENT, this.spriteSet.get(random));
-			particle.setLifetime(LIFETIME);
-			return particle;
+			Direction facing = decodeFacing(xAux, yAux, zAux);
+			Vec3 pos = nudge(x, y, z, facing, random);
+			float roll = getRoll(true, random);
+			TextureAtlasSprite sprite = this.spriteSet.get(random);
+			return new DecalParticle(level, pos, facing, roll, Layer.TRANSLUCENT, sprite);
 		}
 	}
 }

@@ -13,6 +13,7 @@ import io.github.fusionflux.portalcubed.content.portal.interaction.packet.Portal
 import io.github.fusionflux.portalcubed.content.portal.sync.ForceEntitySyncPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructSyncPacket;
 import io.github.fusionflux.portalcubed.framework.construct.ReloadConstructPreview;
+import io.github.fusionflux.portalcubed.packet.clientbound.CreateDecalPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.HoldStatusPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.OpenCannonConfigPacket;
@@ -22,7 +23,6 @@ import io.github.fusionflux.portalcubed.packet.clientbound.OtherPlayerShootCanno
 import io.github.fusionflux.portalcubed.packet.clientbound.PortalTeleportPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootCannonPacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.ShootPortalGunPacket;
-import io.github.fusionflux.portalcubed.packet.clientbound.SimpleParticlePacket;
 import io.github.fusionflux.portalcubed.packet.clientbound.UpdatePortalPairPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ClientTeleportedPacket;
 import io.github.fusionflux.portalcubed.packet.serverbound.ConfigureCannonPacket;
@@ -59,7 +59,7 @@ public class PortalCubedPackets {
 			OPEN_CANNON_CONFIG = clientbound("open_cannon_config", OpenCannonConfigPacket.CODEC),
 			HOLD_STATUS = clientbound("hold_status", HoldStatusPacket.CODEC),
 			DISINTEGRATE = clientbound("disintegrate", DisintegratePacket.CODEC),
-			SIMPLE_PARTICLE = clientbound("simple_particle", SimpleParticlePacket.CODEC),
+			CREATE_DECAL = clientbound("create_decal", CreateDecalPacket.CODEC),
 			OPEN_LARGE_SIGNAGE_CONFIG = clientbound("open_large_signage_config", OpenSignageConfigPacket.Large.CODEC),
 			OPEN_SMALL_SIGNAGE_CONFIG = clientbound("open_small_signage_config", OpenSignageConfigPacket.Small.CODEC),
 			PORTALS_CLEARED = clientbound("portals_cleared", PortalsClearedPacket.CODEC),
