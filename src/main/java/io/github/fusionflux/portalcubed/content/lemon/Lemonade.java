@@ -17,6 +17,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityReference;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.InterpolationHandler;
+import net.minecraft.world.entity.LinearInterpolationHandler;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
@@ -91,8 +93,12 @@ public class Lemonade extends Entity implements ItemSupplier, TraceableEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.level() instanceof ServerLevel serverLevel) {
+
+		if (this.canSimulateMovement() && this.isEffectiveAi()) {
 			this.tickMotion();
+		}
+
+		if (this.level() instanceof ServerLevel serverLevel) {
 			this.tickExplosion(serverLevel);
 		}
 	}
@@ -153,6 +159,11 @@ public class Lemonade extends Entity implements ItemSupplier, TraceableEntity {
 	@Override
 	public boolean shouldRender(double x, double y, double z) {
 		return this.tickCount > 2 && super.shouldRender(x, y, z);
+	}
+
+	@Override
+	protected InterpolationHandler createInterpolationHandler() {
+		return LinearInterpolationHandler.create(this);
 	}
 
 	@Override
