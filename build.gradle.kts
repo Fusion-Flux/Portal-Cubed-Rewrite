@@ -102,7 +102,6 @@ loom {
 			systemProperties.put("MC_DEBUG_SHUFFLE_UI_RENDERING_ORDER", "true")
 			systemProperties.put("MC_DEBUG_SHUFFLE_MODELS", "true")
 			systemProperties.put("MC_DEBUG_SHOW_LOCAL_SERVER_ENTITY_HIT_BOXES", "true")
-			systemProperties.put("MC_DEBUG_SUBTITLES", "true")
 			systemProperties.put("MC_DEBUG_COMMAND_STACK_TRACES", "true")
 			systemProperties.put("MC_DEBUG_SHOW_SERVER_DEBUG_VALUES", "true")
 		}
