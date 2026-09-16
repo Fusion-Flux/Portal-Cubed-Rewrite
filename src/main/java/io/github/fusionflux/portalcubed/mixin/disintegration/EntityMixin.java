@@ -88,6 +88,9 @@ public abstract class EntityMixin implements TypedInstance<EntityType<?>>, Disin
 	@Shadow
 	public abstract double getZ();
 
+	@Shadow
+	public abstract boolean canSimulateMovement();
+
 	@Unique
 	private boolean disintegrating;
 	@Unique
@@ -154,18 +157,22 @@ public abstract class EntityMixin implements TypedInstance<EntityType<?>>, Disin
 
 	@Override
 	public void pc$disintegrateTick() {
-		Vec3 velocity = this.getDeltaMovement().scale(.91);
-		this.move(MoverType.SELF, velocity);
-		this.setDeltaMovement(velocity);
+		if (this.canSimulateMovement()) {
+			Vec3 velocity = this.getDeltaMovement().scale(.91);
+			this.move(MoverType.SELF, velocity);
+			this.setDeltaMovement(velocity);
+		}
 
-		Level world = this.level();
+		Level level = this.level();
 		--this.disintegrateTicks;
-		if (world instanceof ServerLevel serverWorld) {
-			if (this.disintegrateTicks <= 0)
-				DisintegrateEffect.applyAll(serverWorld, (Entity) (Object) this);
+		if (level instanceof ServerLevel serverLevel) {
+			if (this.disintegrateTicks <= 0) {
+				DisintegrateEffect.applyAll(serverLevel, (Entity) (Object) this);
+			}
 		} else {
-			if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS)
-				this.spawnDisintegrationParticles(world);
+			if (this.disintegrateTicks > TRANSLUCENCY_START_TICKS) {
+				this.spawnDisintegrationParticles(level);
+			}
 		}
 	}
 
