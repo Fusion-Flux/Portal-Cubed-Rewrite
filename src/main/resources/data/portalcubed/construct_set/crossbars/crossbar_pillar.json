@@ -4,7 +4,7 @@
   "chooser": "clicked_face",
   "vertical": {
     "0,0,0": {
-      "state": {
+      "properties": {
         "axis": "y"
       },
       "id": "portalcubed:crossbar_pillar"
@@ -12,7 +12,7 @@
   },
   "horizontal": {
     "0,0,0": {
-      "state": {
+      "properties": {
         "axis": "x"
       },
       "id": "portalcubed:crossbar_pillar"

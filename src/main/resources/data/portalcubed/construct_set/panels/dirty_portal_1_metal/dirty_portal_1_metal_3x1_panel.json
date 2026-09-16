@@ -4,19 +4,19 @@
   "chooser": "clicked_face",
   "vertical": {
     "0,0,0": {
-      "state": {
+      "properties": {
         "facing": "up"
       },
       "id": "portalcubed:dirty_portal_1_metal_2x1_panel"
     },
     "0,1,0": {
-      "state": {
+      "properties": {
         "axis": "y"
       },
       "id": "portalcubed:dirty_portal_1_metal_2x1_panel_joiner"
     },
     "0,2,0": {
-      "state": {
+      "properties": {
         "facing": "down"
       },
       "id": "portalcubed:dirty_portal_1_metal_2x1_panel"
@@ -24,19 +24,19 @@
   },
   "horizontal": {
     "-2,0,0": {
-      "state": {
+      "properties": {
         "facing": "east"
       },
       "id": "portalcubed:dirty_portal_1_metal_2x1_panel"
     },
     "-1,0,0": {
-      "state": {
+      "properties": {
         "axis": "x"
       },
       "id": "portalcubed:dirty_portal_1_metal_2x1_panel_joiner"
     },
     "0,0,0": {
-      "state": {
+      "properties": {
         "facing": "west"
       },
       "id": "portalcubed:dirty_portal_1_metal_2x1_panel"

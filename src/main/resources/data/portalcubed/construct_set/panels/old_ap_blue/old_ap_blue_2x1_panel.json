@@ -4,13 +4,13 @@
   "chooser": "clicked_face",
   "vertical": {
     "0,0,0": {
-      "state": {
+      "properties": {
         "facing": "up"
       },
       "id": "portalcubed:old_ap_blue_2x1_panel"
     },
     "0,1,0": {
-      "state": {
+      "properties": {
         "facing": "down"
       },
       "id": "portalcubed:old_ap_blue_2x1_panel"
@@ -18,13 +18,13 @@
   },
   "horizontal": {
     "-1,0,0": {
-      "state": {
+      "properties": {
         "facing": "east"
       },
       "id": "portalcubed:old_ap_blue_2x1_panel"
     },
     "0,0,0": {
-      "state": {
+      "properties": {
         "facing": "west"
       },
       "id": "portalcubed:old_ap_blue_2x1_panel"

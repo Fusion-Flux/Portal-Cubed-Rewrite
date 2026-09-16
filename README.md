@@ -13,7 +13,7 @@ As of Alpha 2, the list of features includes:
 - Floor Buttons and Pedestal Buttons, including the Old Aperture and Portal 1 versions
 - A large variety of test chamber building materials from all visual styles/time periods seen in the Portal series
 - Various other decoration items and building blocks from across Aperture
-- Construction Cannon, a new tool to assist in the building of test chambers
+- The Construction Cannon, a new tool to assist in the building of test chambers
 - The totally legitimate test completion reward, the Black Forest Cake
 
 ...And a lot more on the way!
