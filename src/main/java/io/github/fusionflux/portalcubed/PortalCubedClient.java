@@ -33,7 +33,6 @@ public class PortalCubedClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// TODO: PORTAL RENDIENRFNSDQIZG - Max
 //		PortalRenderer.init();
-//		EntityDebugRendering.init();
 		ConstructPreviewRenderer.init();
 		PortalCubedKeyMappings.init();
 		PortalCubedClientCommands.init();

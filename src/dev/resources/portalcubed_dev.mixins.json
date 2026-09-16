@@ -13,6 +13,7 @@
     "SharedConstantsMixin"
   ],
   "client": [
+    "EntityHitboxDebugRendererMixin",
     "IntegratedServerAccessor",
     "WorldOpenFlowsMixin"
   ],

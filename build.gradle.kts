@@ -96,6 +96,15 @@ loom {
 			systemProperties.put("fabric.game_test.command", "true")
 			systemProperties.put("fabric-tag-conventions-v2.missingTagTranslationWarning", "SILENCED")
 			systemProperties.put("fabric-tag-conventions-v1.legacyTagWarning", "VERBOSE")
+
+			// enable several useful debug flags
+			systemProperties.put("MC_DEBUG_ENABLED", "true")
+			systemProperties.put("MC_DEBUG_SHUFFLE_UI_RENDERING_ORDER", "true")
+			systemProperties.put("MC_DEBUG_SHUFFLE_MODELS", "true")
+			systemProperties.put("MC_DEBUG_SHOW_LOCAL_SERVER_ENTITY_HIT_BOXES", "true")
+			systemProperties.put("MC_DEBUG_SUBTITLES", "true")
+			systemProperties.put("MC_DEBUG_COMMAND_STACK_TRACES", "true")
+			systemProperties.put("MC_DEBUG_SHOW_SERVER_DEBUG_VALUES", "true")
 		}
 	}
 }
