@@ -30,8 +30,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 /// Always contains at least one block.
 public final class Construct {
 	public static final Codec<Construct> CODEC = Codec.unboundedMap(
-			PortalCubedCodecs.BLOCKPOS_STRING,
-			BlockInfo.CODEC
+			PortalCubedCodecs.BLOCKPOS_STRING, BlockInfo.CODEC
 	).xmap(Construct::new, construct -> construct.blocks).validate(Construct::validate);
 
 	public static final StreamCodec<ByteBuf, Construct> STREAM_CODEC = PortalCubedStreamCodecs.map(
@@ -51,7 +50,7 @@ public final class Construct {
 	}
 
 	public Map<BlockPos, BlockInfo> getBlocks(Rotation rotation) {
-		return this.rotatedBlockCache.computeIfAbsent(rotation, $ -> {
+		return this.rotatedBlockCache.computeIfAbsent(rotation, _ -> {
 			Map<BlockPos, BlockInfo> map = new HashMap<>();
 			this.blocks.forEach((pos, info) -> {
 				BlockPos rotatedPos = StructureTemplate.transform(pos, Mirror.NONE, rotation, BlockPos.ZERO);
@@ -63,7 +62,7 @@ public final class Construct {
 	}
 
 	public BoundingBox getBounds(Rotation rotation) {
-		return this.boundsCache.computeIfAbsent(rotation, $ -> {
+		return this.boundsCache.computeIfAbsent(rotation, _ -> {
 			Map<BlockPos, BlockInfo> blocks = this.getBlocks(rotation);
 			return BoundingBox.encapsulatingPositions(blocks.keySet()).orElseThrow();
 		});
@@ -111,11 +110,11 @@ public final class Construct {
 
 	public record BlockInfo(BlockState state, Optional<CompoundTag> maybeNbt) {
 		private static final Codec<BlockInfo> fullCodec = RecordCodecBuilder.create(instance -> instance.group(
-				PortalCubedCodecs.BLOCKSTATE.fieldOf("state").forGetter(BlockInfo::state),
+				BlockState.CODEC.fieldOf("state").forGetter(BlockInfo::state),
 				CompoundTag.CODEC.optionalFieldOf("nbt").forGetter(BlockInfo::maybeNbt)
 		).apply(instance, BlockInfo::new));
 
-		private static final Codec<BlockInfo> byState = PortalCubedCodecs.BLOCKSTATE.flatComapMap(
+		private static final Codec<BlockInfo> byState = BlockState.CODEC.flatComapMap(
 				BlockInfo::new, info -> {
 					if (info.maybeNbt.isPresent()) {
 						return DataResult.error(() -> "NBT is present");
