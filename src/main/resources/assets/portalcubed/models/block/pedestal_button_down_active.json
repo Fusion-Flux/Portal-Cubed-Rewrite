@@ -9,6 +9,7 @@
 	},
 	"elements": [
 		{
+			"name": "stand",
 			"from": [4, 0.025, 8],
 			"to": [12, 1.025, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 7.925, 12]},
@@ -22,17 +23,44 @@
 			}
 		},
 		{
+			"name": "bottom",
 			"from": [5.5, 1.025, 9.5],
-			"to": [10.5, 17.025, 14.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [16, 7.925, 4]},
+			"to": [10.5, 2.025, 14.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [16, 6.925, 4]},
 			"faces": {
-				"north": {"uv": [0, 0, 2.5, 16], "texture": "#0"},
-				"east": {"uv": [0, 0, 2.5, 16], "texture": "#0"},
-				"south": {"uv": [2.5, 0, 5, 16], "texture": "#0"},
-				"west": {"uv": [0, 0, 2.5, 16], "texture": "#0"}
+				"north": {"uv": [5, 5, 7.5, 6], "texture": "#0"},
+				"east": {"uv": [5, 5, 7.5, 6], "texture": "#0"},
+				"south": {"uv": [5, 5, 7.5, 6], "texture": "#0"},
+				"west": {"uv": [5, 5, 7.5, 6], "texture": "#0"}
 			}
 		},
 		{
+			"name": "shaft",
+			"from": [5.5, 2.025, 9.5],
+			"to": [10.5, 17.025, 14.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [16, 7.925, 4]},
+			"faces": {
+				"north": {"uv": [0, 0, 2.5, 15], "texture": "#0"},
+				"east": {"uv": [2.5, 1, 5, 16], "texture": "#0"},
+				"south": {"uv": [2.5, 0, 5, 15], "texture": "#0"},
+				"west": {"uv": [2.5, 1, 5, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "emission",
+			"from": [5.5, 2.025, 11.5],
+			"to": [10.5, 17.525, 14.5],
+			"light_emission": 15,
+			"shade_direction_override": "up",
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 10.025, 12]},
+			"faces": {
+				"east": {"uv": [11, 0.5, 8, 16], "texture": "#2"},
+				"south": {"uv": [15, 0.5, 10, 16], "texture": "#2"},
+				"west": {"uv": [8, 0.5, 11, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "back",
 			"from": [5.5, 17.025, 9.5],
 			"to": [10.5, 18, 11.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [16, 7.925, 4]},
@@ -43,6 +71,7 @@
 			}
 		},
 		{
+			"name": "slant",
 			"from": [5.475, 15.25, 5.74],
 			"to": [10.525, 16.275, 10.74],
 			"rotation": {"angle": 22.5, "axis": "x", "origin": [7.975, 7.175, 14.49712]},
@@ -54,6 +83,7 @@
 			}
 		},
 		{
+			"name": "button",
 			"from": [5.975, 15.78484, 6.22],
 			"to": [9.975, 16.78484, 10.22],
 			"light_emission": 8,
@@ -64,30 +94,6 @@
 				"south": {"uv": [8.5, 5, 10.5, 6], "texture": "#0"},
 				"west": {"uv": [10.5, 5, 8.5, 6], "texture": "#0"},
 				"up": {"uv": [8.5, 0, 10.5, 4], "texture": "#0"}
-			}
-		},
-		{
-			"name": "emission",
-			"from": [7.5, 2.025, 9.5],
-			"to": [8.5, 18.025, 14.5],
-			"light_emission": 15,
-			"shade_direction_override": "up",
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 10.025, 12]},
-			"faces": {
-				"north": {"uv": [6, 0, 7, 16], "texture": "#2"},
-				"south": {"uv": [10, 0, 11, 16], "texture": "#2"}
-			}
-		},
-		{
-			"name": "emission",
-			"from": [5.5, 2.025, 11.5],
-			"to": [10.5, 17.525, 12.5],
-			"light_emission": 15,
-			"shade_direction_override": "up",
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 10.025, 12]},
-			"faces": {
-				"east": {"uv": [8, 0.5, 9, 16], "texture": "#2"},
-				"west": {"uv": [8, 0.5, 9, 16], "texture": "#2"}
 			}
 		}
 	],
