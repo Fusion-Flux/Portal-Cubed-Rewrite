@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 @Mixin(ServerLevel.class)
 public class ServerLevelMixin {
 	@WrapOperation(method = "tickNonPassenger", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))
-	private void disintegrationTick(Entity instance, Operation<Void> original) {
+	private void wrapEntityTick(Entity instance, Operation<Void> original) {
 		EntityTickWrapper.handle(instance, original);
 	}
 }

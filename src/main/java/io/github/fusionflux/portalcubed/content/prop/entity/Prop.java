@@ -7,6 +7,7 @@ import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedDamageSources;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.content.prop.HammerItem;
 import io.github.fusionflux.portalcubed.content.prop.ImpactSoundType;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
@@ -285,7 +286,7 @@ public class Prop extends HoldableEntity {
 	public void move(MoverType type, Vec3 movement) {
 		super.move(type, movement);
 
-		if (!this.level().isClientSide() && !this.pc$disintegrating()) {
+		if (!this.level().isClientSide() && !Disintegration.isDisintegrating(this)) {
 			if (this.horizontalCollision) {
 				if (!this.sideColliding)
 					this.onCollision();
@@ -319,7 +320,7 @@ public class Prop extends HoldableEntity {
 
 	@Override
 	protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
-		if (this.level() instanceof ServerLevel level && !this.pc$disintegrating() && this.is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE)) {
+		if (this.level() instanceof ServerLevel level && !Disintegration.isDisintegrating(this) && this.is(PortalCubedEntityTags.DEALS_LANDING_DAMAGE)) {
 			int blocksFallen = Mth.ceil(this.fallDistance);
 			if (blocksFallen > 0) {
 				float damage = Math.min(FALL_DAMAGE_PER_BLOCK * blocksFallen, MAX_FALL_DAMAGE);

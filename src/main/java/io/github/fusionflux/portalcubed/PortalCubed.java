@@ -25,14 +25,17 @@ import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
 import io.github.fusionflux.portalcubed.content.PortalCubedStats;
 import io.github.fusionflux.portalcubed.content.PortalCubedTabs;
 import io.github.fusionflux.portalcubed.content.PortalCubedTestElementSettings;
+import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.content.fizzler.tool.FizzleinatorItem;
 import io.github.fusionflux.portalcubed.content.lemon.LemonadeItem;
 import io.github.fusionflux.portalcubed.content.misc.MOTL;
 import io.github.fusionflux.portalcubed.content.portal.manager.ServerPortalManager;
+import io.github.fusionflux.portalcubed.content.prop.entity.ButtonActivatedProp;
 import io.github.fusionflux.portalcubed.data.loot.PortalCubedLootFunctions;
 import io.github.fusionflux.portalcubed.framework.block.HammerableBlock;
 import io.github.fusionflux.portalcubed.framework.construct.ConstructManager;
-import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
+import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.registration.Registrar;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import net.fabricmc.api.ModInitializer;
@@ -81,10 +84,13 @@ public class PortalCubed implements ModInitializer {
 
 		ConstructManager.registerEventListeners();
 		ServerPortalManager.registerEventListeners();
-		DisintegrationExt.registerEventListeners();
+		Disintegration.registerEventListeners();
 		HammerableBlock.registerEventListeners();
 		LemonadeItem.registerEventListeners();
 		FizzleinatorItem.registerEventListeners();
+		FloorButtonBlock.registerEventListeners();
+		ButtonActivatedProp.registerEventListeners();
+		HoldableEntity.registerEventListeners();
 
 		PortalCubedReloadListeners.registerData();
 

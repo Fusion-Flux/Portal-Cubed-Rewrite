@@ -8,6 +8,7 @@ import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedCriteriaTriggers;
 import io.github.fusionflux.portalcubed.content.PortalCubedSounds;
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import io.github.fusionflux.portalcubed.framework.block.PortalCubedStateProperties;
 import io.github.fusionflux.portalcubed.framework.block.multiblock.AbstractMultiBlock;
@@ -239,5 +240,20 @@ public class FloorButtonBlock extends AbstractMultiBlock {
 		if (entity instanceof ButtonActivated buttonActivated) {
 			buttonActivated.pc$onButtonActivated();
 		}
+	}
+
+	public static void registerEventListeners() {
+		// in portal, buttons push back on the objects that are on them.
+		// disintegration makes objects lose all their mass, so they get ejected.
+		// we can't really do that in minecraft, so simulate it by adding some velocity.
+		Disintegration.START_EVENT.register((entity, _) -> {
+			if (entity.level() instanceof ServerLevel) {
+				BlockState floorState = entity.getBlockStateOn();
+				if (floorState.getBlock() instanceof FloorButtonBlock button && button.isEntityPressing(floorState, entity.getOnPos(), entity)) {
+					Vec3 normal = floorState.getValue(FACE).getUnitVec3();
+					entity.addDeltaMovement(normal.scale(DISINTEGRATION_EJECTION_FORCE));
+				}
+			}
+		});
 	}
 }

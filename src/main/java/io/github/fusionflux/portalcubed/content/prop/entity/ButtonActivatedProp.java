@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import io.github.fusionflux.portalcubed.content.button.ButtonActivated;
 import io.github.fusionflux.portalcubed.content.button.FloorButtonBlock;
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -68,14 +69,16 @@ public class ButtonActivatedProp extends Prop implements ButtonActivated {
 	}
 
 	@Override
-	public boolean pc$disintegrate() {
-		this.setActivated(false);
-		return super.pc$disintegrate();
-	}
-
-	@Override
 	protected void dropLoot(ServerLevel level, DamageSource source) {
 		this.setActivated(false);
 		super.dropLoot(level, source);
+	}
+
+	public static void registerEventListeners() {
+		Disintegration.START_EVENT.register((entity, _) -> {
+			if (entity instanceof ButtonActivatedProp prop && entity.level() instanceof ServerLevel) {
+				prop.setActivated(false);
+			}
+		});
 	}
 }

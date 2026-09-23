@@ -44,6 +44,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 
 public class PortalCubedPackets {
 	public static final CustomPacketPayload.Type<? extends CustomPacketPayload>
@@ -106,6 +107,10 @@ public class PortalCubedPackets {
 		List<ServerPlayer> list = new ArrayList<>(tracking);
 		list.add(player);
 		return list;
+	}
+
+	public static Collection<ServerPlayer> trackingAndMaybeSelf(Entity entity) {
+		return entity instanceof ServerPlayer player ? trackingAndSelf(player) : PlayerLookup.tracking(entity);
 	}
 
 	public static <T extends ClientboundPacket> void sendToClient(ServerPlayer player, T packet) {

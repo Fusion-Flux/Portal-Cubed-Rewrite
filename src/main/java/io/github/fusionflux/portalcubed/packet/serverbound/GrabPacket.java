@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -31,10 +30,9 @@ public record GrabPacket(int grabbed) implements ServerboundPacket {
 	@Override
 	public void handle(ServerPlayNetworking.Context ctx) {
 		ServerPlayer player = ctx.player();
-		ServerLevel level = player.level();
-		Entity entity = level.getEntity(this.grabbed);
+		Entity entity = player.level().getEntity(this.grabbed);
 		if (entity instanceof HoldableEntity holdable) {
-			if (!player.pc$disintegrating() && player.isWithinEntityInteractionRange(entity, Container.DEFAULT_DISTANCE_BUFFER)) {
+			if (player.isWithinEntityInteractionRange(entity, Container.DEFAULT_DISTANCE_BUFFER)) {
 				holdable.grab(player);
 			}
 		}

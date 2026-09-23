@@ -24,7 +24,6 @@ transitive-inject-interface net/minecraft/world/level/Level io/github/fusionflux
 transitive-inject-interface net/minecraft/server/level/ServerLevel io/github/fusionflux/portalcubed/framework/extension/ServerLevelExt
 transitive-inject-interface net/minecraft/client/multiplayer/ClientLevel io/github/fusionflux/portalcubed/framework/extension/ClientLevelExt
 transitive-inject-interface net/minecraft/world/entity/Entity io/github/fusionflux/portalcubed/framework/extension/PortalTeleportationExt
-transitive-inject-interface net/minecraft/world/entity/Entity io/github/fusionflux/portalcubed/framework/extension/DisintegrationExt
 transitive-inject-interface net/minecraft/client/player/AbstractClientPlayer io/github/fusionflux/portalcubed/framework/extension/AbstractClientPlayerExt
 transitive-inject-interface net/minecraft/world/level/block/state/BlockBehaviour$Properties io/github/fusionflux/portalcubed/framework/extension/BlockBehaviourPropertiesExt
 transitive-inject-interface net/minecraft/world/level/ClipContext io/github/fusionflux/portalcubed/framework/extension/ClipContextExt

@@ -1,6 +1,7 @@
 package io.github.fusionflux.portalcubed.content.fizzler.tool;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedItems;
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.content.portal.interaction.UsableOnPortals;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalReference;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
@@ -49,7 +50,8 @@ public class FizzleinatorItem extends Item implements UsableOnPortals {
 	public static void fizzleBlock(ServerLevel level, BlockPos pos) {
 		BlockState state = level.getBlockState(pos);
 		if (!state.isAir()) {
-			FallingBlockEntity.fall(level, pos, state).pc$disintegrate();
+			FallingBlockEntity entity = FallingBlockEntity.fall(level, pos, state);
+			Disintegration.disintegrate(entity);
 		}
 	}
 
@@ -67,7 +69,7 @@ public class FizzleinatorItem extends Item implements UsableOnPortals {
 
 			ItemStack held = player.getItemInHand(hand);
 			if (held.is(PortalCubedItems.FIZZLEINATOR)) {
-				entity.pc$disintegrate();
+				Disintegration.disintegrate(entity);
 				return InteractionResult.SUCCESS;
 			}
 

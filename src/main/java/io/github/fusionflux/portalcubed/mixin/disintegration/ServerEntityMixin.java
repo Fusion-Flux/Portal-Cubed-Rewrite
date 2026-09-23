@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.github.fusionflux.portalcubed.packet.clientbound.DisintegratePacket;
 import net.minecraft.server.level.ServerEntity;
@@ -21,13 +22,15 @@ public class ServerEntityMixin {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void syncDisintegrationStateOnJoin(CallbackInfo ci) {
-		if (this.entity instanceof ServerPlayer player && player.pc$disintegrating())
+		if (this.entity instanceof ServerPlayer player && Disintegration.isDisintegrating(player)) {
 			PortalCubedPackets.sendToClient(player, new DisintegratePacket(player));
+		}
 	}
 
 	@Inject(method = "addPairing", at = @At("TAIL"))
-	private void pairDisintegrationState(ServerPlayer player, CallbackInfo ci) {
-		if (this.entity.pc$disintegrating())
+	private void syncDisintegrationOnTrackingStart(ServerPlayer player, CallbackInfo ci) {
+		if (Disintegration.isDisintegrating(this.entity)) {
 			PortalCubedPackets.sendToClient(player, new DisintegratePacket(this.entity));
+		}
 	}
 }

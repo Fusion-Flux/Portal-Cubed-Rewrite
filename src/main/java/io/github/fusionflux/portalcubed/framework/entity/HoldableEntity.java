@@ -7,6 +7,7 @@ import java.util.OptionalInt;
 import org.jspecify.annotations.Nullable;
 
 import io.github.fusionflux.portalcubed.content.PortalCubedGameRules;
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.content.portal.PortalTeleportHandler;
 import io.github.fusionflux.portalcubed.content.portal.ref.PortalPath;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
@@ -18,6 +19,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
@@ -167,13 +169,6 @@ public abstract class HoldableEntity extends Entity {
 		return super.canCollideWith(other);
 	}
 
-	@Override
-	public boolean pc$disintegrate() {
-		if (!this.level().isClientSide())
-			this.drop();
-		return super.pc$disintegrate();
-	}
-
 	protected boolean facesHolder() {
 		return true;
 	}
@@ -196,8 +191,8 @@ public abstract class HoldableEntity extends Entity {
 	}
 
 	public boolean canHold(Player player) {
-		return (!this.pc$disintegrating() && !this.isPassenger() && !this.hasPassenger(player)) // Self checks
-				&& (!player.isSpectator() && player.isWithinEntityInteractionRange(this, 0)); // Holder checks
+		return (!Disintegration.isDisintegrating(this) && !this.isPassenger() && !this.hasPassenger(player)) // Self checks
+				&& (!player.isSpectator() && !Disintegration.isDisintegrating(player) && player.isWithinEntityInteractionRange(this, 0)); // Holder checks
 	}
 
 	public void grab(ServerPlayer player) {
@@ -239,6 +234,14 @@ public abstract class HoldableEntity extends Entity {
 		if (this.holder instanceof ServerPlayer holder) {
 			PortalCubedPackets.sendToClient(player, new HoldStatusPacket(holder, this));
 		}
+	}
+
+	public static void registerEventListeners() {
+		Disintegration.START_EVENT.register((entity, _) -> {
+			if (entity instanceof HoldableEntity holdable && entity.level() instanceof ServerLevel) {
+				holdable.drop();
+			}
+		});
 	}
 
 	private record HoldState(Vec3 target, Optional<Float> yRot) {}

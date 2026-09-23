@@ -1,5 +1,6 @@
 package io.github.fusionflux.portalcubed.framework.key;
 
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.framework.entity.HoldableEntity;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastOptions;
 import io.github.fusionflux.portalcubed.framework.raycast.RaycastResult;
@@ -14,7 +15,7 @@ public class GrabKeyMappingAction implements KeyMappingAction {
 	@Override
 	public void onPressed(Minecraft mc) {
 		LocalPlayer player = mc.player;
-		if (player == null || player.isSpectator() || player.pc$disintegrating())
+		if (player == null || player.isSpectator() || Disintegration.isDisintegrating(player))
 			return;
 
 		HoldableEntity held = player.getHeldEntity();

@@ -1,7 +1,6 @@
 package io.github.fusionflux.portalcubed.packet.clientbound;
 
-import io.github.fusionflux.portalcubed.content.fizzler.DisintegrationSoundType;
-import io.github.fusionflux.portalcubed.framework.extension.DisintegrationExt;
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.packet.ClientboundPacket;
 import io.github.fusionflux.portalcubed.packet.PortalCubedPackets;
 import io.netty.buffer.ByteBuf;
@@ -21,7 +20,12 @@ public record DisintegratePacket(int entity, int ticks) implements ClientboundPa
 	);
 
 	public DisintegratePacket(Entity entity) {
-		this(entity.getId(), entity.pc$disintegrateTicks());
+		int ticks = Disintegration.remainingDisintegrationTicks(entity);
+		if (ticks <= 0) {
+			throw new IllegalArgumentException("Entity is not disintegrating: " + entity);
+		}
+
+		this(entity.getId(), ticks);
 	}
 
 	@Override
@@ -29,14 +33,12 @@ public record DisintegratePacket(int entity, int ticks) implements ClientboundPa
 		return PortalCubedPackets.DISINTEGRATE;
 	}
 
-	@Environment(EnvType.CLIENT)
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayNetworking.Context ctx) {
 		Entity entity = ctx.player().level().getEntity(this.entity);
 		if (entity != null) {
-			if (!entity.isSilent() && this.ticks >= DisintegrationExt.DISINTEGRATE_TICKS)
-				DisintegrationSoundType.playAll(entity);
-			entity.pc$disintegrate(this.ticks);
+			Disintegration.handleSync(entity, this.ticks);
 		}
 	}
 }

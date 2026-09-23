@@ -9,9 +9,8 @@ import java.util.Collections;
 import com.google.common.collect.Iterables;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import io.github.fusionflux.portalcubed.framework.command.argument.FizzleBehaviourArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.FizzleActionArgumentType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -23,7 +22,7 @@ public class FizzleCommand {
 	public static LiteralArgumentBuilder<CommandSourceStack> build() {
 		return literal("fizzle")
 				.requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
-				.then(argument("behaviour", FizzleBehaviourArgumentType.fizzleBehaviour())
+				.then(argument("action", FizzleActionArgumentType.fizzleAction())
 						.executes(ctx -> fizzle(ctx, Collections.singleton(ctx.getSource().getEntityOrException())))
 						.then(
 								argument("targets", EntityArgument.entities())
@@ -32,12 +31,12 @@ public class FizzleCommand {
 				);
 	}
 
-	private static int fizzle(CommandContext<CommandSourceStack> ctx, Collection<? extends Entity> targets) throws CommandSyntaxException {
+	private static int fizzle(CommandContext<CommandSourceStack> ctx, Collection<? extends Entity> targets) {
 		CommandSourceStack source = ctx.getSource();
-		FizzleBehaviour behaviour = FizzleBehaviourArgumentType.getFizzleBehaviour(ctx, "behaviour");
-		String behaviourTranslationKey = "commands.portalcubed.fizzle." + behaviour.name + ".";
+		FizzleAction action = FizzleActionArgumentType.getFizzleAction(ctx, "action");
+		String behaviourTranslationKey = "commands.portalcubed.fizzle." + action.name + ".";
 
-		int successes = Iterables.size(Iterables.filter(targets, behaviour::fizzle));
+		int successes = Iterables.size(Iterables.filter(targets, action::apply));
 		int failures = targets.size() - successes;
 
 		if (successes > 0 && failures > 0) {

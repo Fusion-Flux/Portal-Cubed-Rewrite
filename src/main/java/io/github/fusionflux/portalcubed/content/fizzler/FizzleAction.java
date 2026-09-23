@@ -5,29 +5,32 @@ import java.util.Locale;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedEntityTags;
 import net.minecraft.world.entity.Entity;
 
-public enum FizzleBehaviour {
-	PORTAL_CLEARING {
+/// An action that can be performed by fizzlers.
+public enum FizzleAction {
+	CLEAR_PORTALS {
 		@Override
-		public boolean fizzle(Entity entity) {
+		public boolean apply(Entity entity) {
 			return false;
 		}
 	},
-	DISINTEGRATION {
+	DISINTEGRATE {
 		@Override
-		public boolean fizzle(Entity entity) {
+		public boolean apply(Entity entity) {
 			if (entity.is(PortalCubedEntityTags.IMMUNE_TO_DISINTEGRATION))
 				return false;
-			return entity.pc$disintegrate();
+
+			return Disintegration.disintegrate(entity);
 		}
 	},
-	PAINT_CLEARING {
+	CLEAR_PAINT {
 		@Override
-		public boolean fizzle(Entity entity) {
+		public boolean apply(Entity entity) {
 			return false;
 		}
 	};
 
 	public final String name = this.name().toLowerCase(Locale.ROOT);
 
-	public abstract boolean fizzle(Entity entity);
+	/// Apply this action to the given entity. Only called on the server-side.
+	public abstract boolean apply(Entity entity);
 }

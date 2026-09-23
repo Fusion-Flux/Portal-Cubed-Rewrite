@@ -1,18 +1,17 @@
 package io.github.fusionflux.portalcubed.mixin.client;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
@@ -29,17 +28,16 @@ public abstract class ClientLevelMixin implements ClientLevelExt {
 	@Unique
 	private ClientPortalManager portalManager;
 
-	@Shadow
-	@Final
-	@Mutable
-	private static Set<Item> MARKER_PARTICLE_ITEMS;
-
-	@Inject(method = "<clinit>", at = @At("TAIL"))
-	private static void givePortalCubedBarrierMarkerParticles(CallbackInfo ci) {
-		Set<Item> newMarkerParticleItems = new HashSet<>(MARKER_PARTICLE_ITEMS);
+	@Definition(id = "of", method = "Ljava/util/Set;of(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;")
+	@Definition(id = "BARRIER", field = "Lnet/minecraft/world/item/Items;BARRIER:Lnet/minecraft/world/item/Item;")
+	@Definition(id = "LIGHT", field = "Lnet/minecraft/world/item/Items;LIGHT:Lnet/minecraft/world/item/Item;")
+	@Expression("of(BARRIER, LIGHT)")
+	@ModifyExpressionValue(method = "<clinit>", at = @At("MIXINEXTRAS:EXPRESSION"))
+	private static Set<Item> givePortalCubedBarrierMarkerParticles(Set<Item> original) {
+		Set<Item> newMarkerParticleItems = new HashSet<>(original);
 		newMarkerParticleItems.add(PortalCubedBlocks.PROP_BARRIER.asItem());
 		newMarkerParticleItems.add(PortalCubedBlocks.PORTAL_BARRIER.asItem());
-		MARKER_PARTICLE_ITEMS = Collections.unmodifiableSet(newMarkerParticleItems);
+		return Set.copyOf(newMarkerParticleItems);
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
@@ -48,7 +46,7 @@ public abstract class ClientLevelMixin implements ClientLevelExt {
 	}
 
 	@WrapOperation(method = "tickNonPassenger", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))
-	private void disintegrationTick(Entity instance, Operation<Void> original) {
+	private void wrapEntityTick(Entity instance, Operation<Void> original) {
 		EntityTickWrapper.handle(instance, original);
 	}
 

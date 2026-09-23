@@ -9,7 +9,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 
-public class BucketDispenseBehaviour extends DefaultDispenseItemBehavior {
+public class BucketDispenseBehavior extends DefaultDispenseItemBehavior {
 	// Copied from vanilla with different formatting because it's stuck in the static initializer of DispenseItemBehaviour
 	@Override
 	protected ItemStack execute(BlockSource source, ItemStack stack) {

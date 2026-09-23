@@ -5,7 +5,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import io.github.fusionflux.portalcubed.PortalCubed;
 import io.github.fusionflux.portalcubed.content.portal.command.argument.portal.PortalArgument;
 import io.github.fusionflux.portalcubed.framework.command.argument.DirectionArgumentType;
-import io.github.fusionflux.portalcubed.framework.command.argument.FizzleBehaviourArgumentType;
+import io.github.fusionflux.portalcubed.framework.command.argument.FizzleActionArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.FlagArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PolarityArgumentType;
 import io.github.fusionflux.portalcubed.framework.command.argument.PortalColorArgumentType;
@@ -27,7 +27,7 @@ public class PortalCubedArgumentTypes {
 		register("tri_state", TriStateArgumentType.class, SingletonArgumentInfo.contextFree(TriStateArgumentType::triState));
 		register("portal_key", PortalKeyArgumentType.class, SingletonArgumentInfo.contextFree(PortalKeyArgumentType::portalKey));
 		register("flag", FlagArgumentType.class, FlagArgumentType.Serializer.INSTANCE);
-		register("fizzle_behaviour", FizzleBehaviourArgumentType.class, SingletonArgumentInfo.contextFree(FizzleBehaviourArgumentType::fizzleBehaviour));
+		register("fizzle_behaviour", FizzleActionArgumentType.class, SingletonArgumentInfo.contextFree(FizzleActionArgumentType::fizzleAction));
 		register("portal_validator", PortalValidatorArgumentType.class, SingletonArgumentInfo.contextFree(PortalValidatorArgumentType::portalValidator));
 		register("portal_color", PortalColorArgumentType.class, SingletonArgumentInfo.contextFree(PortalColorArgumentType::portalColor));
 		register("portal", PortalArgument.class, SingletonArgumentInfo.contextAware(PortalArgument::portal));

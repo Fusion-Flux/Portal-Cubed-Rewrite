@@ -7,6 +7,7 @@ import io.github.fusionflux.portalcubed.content.PortalCubedKeyMappings;
 import io.github.fusionflux.portalcubed.content.PortalCubedModelLayers;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructPreviewRenderer;
 import io.github.fusionflux.portalcubed.content.cannon.ConstructionCannonAnimator;
+import io.github.fusionflux.portalcubed.content.fizzler.Disintegration;
 import io.github.fusionflux.portalcubed.content.lemon.Armed;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunModel;
 import io.github.fusionflux.portalcubed.content.portal.gun.PortalGunTintSource;
@@ -38,6 +39,7 @@ public class PortalCubedClient implements ClientModInitializer {
 		PortalCubedClientCommands.init();
 		PortalCubedModelLayers.init();
 		PortalCubedEntityRenderers.init();
+		Disintegration.registerClientEventListeners();
 
 		FluidRenderingRegistry.register(
 				PortalCubedFluids.GOO,

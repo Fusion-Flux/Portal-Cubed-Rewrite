@@ -19,7 +19,7 @@ import io.github.fusionflux.portalcubed.content.prop.PropDispenseBehavior;
 import io.github.fusionflux.portalcubed.content.prop.PropItem;
 import io.github.fusionflux.portalcubed.content.prop.PropType;
 import io.github.fusionflux.portalcubed.data.tags.PortalCubedBannerPatternTags;
-import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehaviour;
+import io.github.fusionflux.portalcubed.framework.item.BucketDispenseBehavior;
 import io.github.fusionflux.portalcubed.framework.item.FallSound;
 import io.github.fusionflux.portalcubed.framework.registration.item.ItemBuilder;
 import io.github.fusionflux.portalcubed.mixin.goo.CauldronInteraction$DispatcherAccessor;
@@ -193,7 +193,7 @@ public class PortalCubedItems {
 	});
 
 	public static void init() {
-		DispenserBlock.registerBehavior(GOO_BUCKET, new BucketDispenseBehaviour());
+		DispenserBlock.registerBehavior(GOO_BUCKET, new BucketDispenseBehavior());
 		DispenserBlock.registerBehavior(LEMONADE, LemonadeDispenseBehavior.INSTANCE);
 
 		CauldronInteraction$DispatcherAccessor emptyDispatcher = (CauldronInteraction$DispatcherAccessor) CauldronInteractions.EMPTY;
