@@ -89,6 +89,9 @@ public class SoundEngineMixin {
 		}
 
 		float volume = instance.getVolume();
-		return Math.max(volume, 1) * sound.getAttenuationDistance();
+		float range = Math.max(volume, 1) * sound.getAttenuationDistance();
+		// fun fact: did you know that lightning creates a sound with a volume of *10,000*?
+		// this will iterate over a 300,000x300,000 block square if we don't cap it.
+		return Math.min(range, 64);
 	}
 }

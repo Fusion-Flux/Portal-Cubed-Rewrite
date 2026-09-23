@@ -73,6 +73,8 @@ public class SectionPortalLookup implements PortalLookup, PortalChangeListener {
 	@Override
 	public Set<PortalReference> getPortals(AABB bounds) {
 		Set<PortalReference> portals = new HashSet<>();
+		if (this.isEmpty())
+			return portals;
 
 		forEachSectionInBox(bounds, sectionPos -> {
 			List<PortalReference> section = this.sectionsToPortals.get(sectionPos);
