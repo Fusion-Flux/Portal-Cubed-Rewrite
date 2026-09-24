@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=east,part=foot,occupied=true": {
+      "model": "portalcubed:block/relaxation_vault_bed_foot",
+      "y": 90
+    },
+    "facing=east,part=head,occupied=true": {
+      "model": "portalcubed:block/relaxation_vault_bed_head",
+      "y": 90
+    },
+    "facing=north,part=foot,occupied=true": {
+      "model": "portalcubed:block/relaxation_vault_bed_foot"
+    },
+    "facing=north,part=head,occupied=true": {
+      "model": "portalcubed:block/relaxation_vault_bed_head"
+    },
+    "facing=south,part=foot,occupied=true": {
+      "model": "portalcubed:block/relaxation_vault_bed_foot",
+      "y": 180
+    },
+    "facing=south,part=head,occupied=true": {
+      "model": "portalcubed:block/relaxation_vault_bed_head",
+      "y": 180
+    },
+    "facing=west,part=foot,occupied=true": {
+      "model": "portalcubed:block/relaxation_vault_bed_foot",
+      "y": 270
+    },
+    "facing=west,part=head,occupied=true": {
+      "model": "portalcubed:block/relaxation_vault_bed_head",
+      "y": 270
+    },
+    "facing=east,part=foot,occupied=false": {
+      "model": "portalcubed:block/relaxation_vault_bed_foot_open",
+      "y": 90
+    },
+    "facing=east,part=head,occupied=false": {
+      "model": "portalcubed:block/relaxation_vault_bed_head_open",
+      "y": 90
+    },
+    "facing=north,part=foot,occupied=false": {
+      "model": "portalcubed:block/relaxation_vault_bed_foot_open"
+    },
+    "facing=north,part=head,occupied=false": {
+      "model": "portalcubed:block/relaxation_vault_bed_head_open"
+    },
+    "facing=south,part=foot,occupied=false": {
+      "model": "portalcubed:block/relaxation_vault_bed_foot_open",
+      "y": 180
+    },
+    "facing=south,part=head,occupied=false": {
+      "model": "portalcubed:block/relaxation_vault_bed_head_open",
+      "y": 180
+    },
+    "facing=west,part=foot,occupied=false": {
+      "model": "portalcubed:block/relaxation_vault_bed_foot_open",
+      "y": 270
+    },
+    "facing=west,part=head,occupied=false": {
+      "model": "portalcubed:block/relaxation_vault_bed_head_open",
+      "y": 270
+    }
+  }
+}

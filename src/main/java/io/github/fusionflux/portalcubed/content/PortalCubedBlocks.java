@@ -40,7 +40,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Util;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
@@ -958,6 +960,11 @@ public class PortalCubedBlocks {
 
 	public static final Block GOO_CAULDRON = REGISTRAR.blocks.createFrom("toxic_goo_cauldron", GooCauldronBlock::new, Blocks.CAULDRON)
 			.item(BlockItemProvider::noItem)
+			.build();
+
+	public static final BedBlock RELAXATION_VAULT_BED = REGISTRAR.blocks.create("relaxation_vault_bed", properties -> new BedBlock(DyeColor.WHITE, properties))
+			.copyFrom(Blocks.IRON_BLOCK)
+			.item((name, block, builder) -> builder.properties(s -> s.stacksTo(1)))
 			.build();
 
 	public static void init() {

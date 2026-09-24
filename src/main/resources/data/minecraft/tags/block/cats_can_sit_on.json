@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [],
+  "fabric:remove": [
+    "portalcubed:relaxation_vault_bed"
+  ]
+}

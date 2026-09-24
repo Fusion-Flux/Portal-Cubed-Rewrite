@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        "YAY",
+        "XBX",
+        "XZX"
+    ],
+    "key": {
+        "A": "#c:glass_panes",
+        "B": "#minecraft:beds",
+        "X": "portalcubed:magnesium_ingot",
+        "Y": "portalcubed:kinetic_assembly",
+        "Z": "portalcubed:screen_assembly"
+    },
+    "result": {
+        "id": "portalcubed:relaxation_vault_bed",
+        "count": 1
+    }
+}

@@ -41,6 +41,7 @@ public class PortalCubedTabs {
 			output.accept(PortalCubedItems.PORTAL_GUN);
 			output.accept(PortalCubedItems.ADVANCED_KNEE_REPLACEMENTS);
 			output.accept(PortalCubedItems.LONG_FALL_BOOTS);
+			output.accept(PortalCubedBlocks.RELAXATION_VAULT_BED);
 			output.accept(PortalCubedBlocks.PORTAL_1_FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.FLOOR_BUTTON_BLOCK);
 			output.accept(PortalCubedBlocks.CUBE_BUTTON_BLOCK);
@@ -955,6 +956,7 @@ public class PortalCubedTabs {
 					PortalCubedItems.LEMON_HANGING_SIGN
 			);
 			entries.insertAfter(Blocks.CHERRY_SHELF, PortalCubedBlocks.LEMON_SHELF);
+			entries.insertAfter(Blocks.STRAW_BED, PortalCubedBlocks.RELAXATION_VAULT_BED);
 		});
 
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "condition": {
+            "type": "minecraft:match_block",
+            "blocks": "portalcubed:relaxation_vault_bed",
+            "state": {
+              "part": "head"
+            }
+          },
+          "name": "portalcubed:relaxation_vault_bed"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}
