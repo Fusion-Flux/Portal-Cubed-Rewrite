@@ -910,22 +910,27 @@ public class PortalCubedBlocks {
 			.build();
 	public static final Block PLYWOOD = REGISTRAR.blocks.create("plywood", Block::new)
 			.copyFrom(Blocks.OAK_PLANKS)
+			.flammability(10, 5)
 			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final SlabBlock PLYWOOD_SLAB = REGISTRAR.blocks.create("plywood_slab", SlabBlock::new)
 			.copyFrom(Blocks.OAK_PLANKS)
+			.flammability(10, 5)
 			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_SLABS)))
 			.build();
 	public static final SaneStairBlock PLYWOOD_STAIRS = REGISTRAR.blocks.create("plywood_stairs", SaneStairBlock::new)
 			.copyFrom(Blocks.OAK_PLANKS)
+			.flammability(10, 5)
 			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final WallBlock PLYWOOD_WALL = REGISTRAR.blocks.create("plywood_wall", WallBlock::new)
 			.copyFrom(Blocks.OAK_PLANKS)
+			.flammability(10, 5)
 			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_BLOCKS)))
 			.build();
 	public static final CollisionlessFacadeBlock PLYWOOD_FACADE = REGISTRAR.blocks.create("plywood_facade", CollisionlessFacadeBlock::new)
 			.copyFrom(Blocks.OAK_PLANKS)
+			.flammability(20, 5)
 			.item((name, block, builder) -> builder.properties(s -> s.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_ITEMS_EXTRA_SMALL)))
 			.build();
 
