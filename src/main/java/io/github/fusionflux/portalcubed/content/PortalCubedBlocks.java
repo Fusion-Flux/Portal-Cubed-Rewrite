@@ -969,7 +969,10 @@ public class PortalCubedBlocks {
 
 	public static final BedBlock RELAXATION_VAULT_BED = REGISTRAR.blocks.create("relaxation_vault_bed", properties -> new BedBlock(DyeColor.WHITE, properties))
 			.copyFrom(Blocks.IRON_BLOCK)
-			.item((name, block, builder) -> builder.properties(s -> s.stacksTo(1)))
+			.item((name, block, builder) -> builder.properties(s -> s
+					.stacksTo(1)
+					.fireResistant()
+			))
 			.build();
 
 	public static void init() {
